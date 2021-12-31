@@ -21,7 +21,7 @@ namespace Krypton.Navigator
         private class DockCluster : IDisposable
         {
             #region Type Definitons
-            private class HintToTarget : Dictionary<DragTargetHint, DragTarget> { };
+            private class HintToTarget : Dictionary<DragTargetHint, DragTarget> { }
             #endregion
 
             #region Instance Fields
@@ -82,7 +82,7 @@ namespace Krypton.Navigator
             public Rectangle DrawRect { get; private set; }
 
             /// <summary>
-            /// Gets a value indicating if the cluster is exlusive to the current contents.
+            /// Gets a value indicating if the cluster is exclusive to the current contents.
             /// </summary>
             public bool ExcludeCluster { get; }
 
@@ -115,24 +115,21 @@ namespace Krypton.Navigator
                 if (ScreenRect.Contains(screenPt))
                 {
                     // Create the docking indicators the first time needed
-                    if (_indicators == null)
-                    {
-                        _indicators = dragFeedback switch
-                        {
-                            PaletteDragFeedback.Rounded => new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
-                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.Transfer)),
-                            _ => new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
-_hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-_hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-_hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-_hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-_hintToTarget.ContainsKey(DragTargetHint.Transfer))
-                        };
-                    }
+                    _indicators ??= dragFeedback switch
+                                    {
+                                        PaletteDragFeedback.Rounded => new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+                                            _hintToTarget.ContainsKey(DragTargetHint.Transfer)),
+                                        _ => new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+                                            _hintToTarget.ContainsKey(DragTargetHint.Transfer))
+                                    };
 
                     // Ensure window is displayed in correct location
                     _indicators.ShowRelative(ScreenRect);
@@ -165,7 +162,7 @@ _hintToTarget.ContainsKey(DragTargetHint.Transfer))
         #endregion
 
         #region Type Definitons
-        private class DockClusterList : List<DockCluster> { };
+        private class DockClusterList : List<DockCluster> { }
         #endregion
 
         #region Instance Fields
@@ -265,21 +262,18 @@ _hintToTarget.ContainsKey(DragTargetHint.Transfer))
             DragTarget matchTarget = null;
             
             // Update each cluster so it shows/hides docking indicators based on mouse position
-            foreach (DockCluster cluster in _clusters)
+            foreach (DragTarget clusterTarget in _clusters
+                         .Select(cluster => cluster.Feedback(screenPt, _dragFeedback))
+                         .Where(clusterTarget => (clusterTarget != null) && (matchTarget == null))
+                     )
             {
-                DragTarget clusterTarget = cluster.Feedback(screenPt, _dragFeedback);
-
-                // We use the first matching target found in a cluster
-                if ((clusterTarget != null) && (matchTarget == null))
-                {
-                    matchTarget = clusterTarget;
-                }
+                matchTarget = clusterTarget;
             }
 
             // Update the solid feedback rectangle with area of the specific target
             if (_solid != null)
             {
-                _solid.SolidRect = (matchTarget != null) ? matchTarget.DrawRect : Rectangle.Empty;
+                _solid.SolidRect = matchTarget?.DrawRect ?? Rectangle.Empty;
             }
 
             return matchTarget;
@@ -316,15 +310,7 @@ _hintToTarget.ContainsKey(DragTargetHint.Transfer))
 
         private DockCluster FindTargetCluster(DragTarget target)
         {
-            foreach (DockCluster cluster in _clusters)
-            {
-                if (!cluster.ExcludeCluster && cluster.ScreenRect.Equals(target.ScreenRect))
-                {
-                    return cluster;
-                }
-            }
-
-            return null;
+            return _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster.ScreenRect.Equals(target.ScreenRect));
         }
 
         private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData) =>

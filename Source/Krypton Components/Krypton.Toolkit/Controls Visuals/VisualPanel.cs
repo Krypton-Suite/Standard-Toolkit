@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Base class used for implementation of panel controls.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public abstract class VisualPanel : Panel,
                                         ISupportInitializeNotification,
                                         IKryptonDebug
@@ -47,22 +47,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the control is initialized.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the control has been fully initialized.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the control has been fully initialized.")]
         public event EventHandler Initialized;
 
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Palette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Palette property is changed.")]
         public event EventHandler PaletteChanged;
 
         /// <summary>
         /// Occurs when the Global palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the GlobalPalette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
         public event EventHandler GlobalPaletteChanged;
         #endregion
 
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.Selectable, false);
 
             // Yes, we want to be drawn double buffered by default
-            DoubleBuffered = true;
+            base.DoubleBuffered = true;
 
             // Setup the invoke used to refresh display
             _refreshCall = OnPerformRefresh;
@@ -232,8 +232,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
         /// <returns>The <see cref="T:System.Windows.Forms.ContextMenuStrip" /> for this control, or <see langword="null" /> if there is no <see cref="T:System.Windows.Forms.ContextMenuStrip" />. The default is <see langword="null" />.</returns>
-        [Category("Behavior")]
-        [Description("Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
+        [Category(@"Behavior")]
+        [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
         public override ContextMenuStrip ContextMenuStrip
         {
@@ -264,8 +264,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The KryptonContextMenu to show when the user right-clicks the Control.")]
+        [Category(@"Behavior")]
+        [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
         public virtual KryptonContextMenu KryptonContextMenu
         {
@@ -301,8 +301,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -351,8 +351,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
                         _paletteMode = PaletteMode.Custom;
                     }
 
-                    // If real change has occured
+                    // If real change has occurred
                     if (old != _localPalette)
                     {
                         // Raise the change event
@@ -1103,7 +1103,7 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new Type[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
                                                        null);
                 }
 

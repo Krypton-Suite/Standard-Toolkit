@@ -96,8 +96,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common tab appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common tab appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common tab appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTripleRedirect StateCommon { get; }
 
@@ -110,8 +110,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTriple StateDisabled { get; }
 
@@ -124,8 +124,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTriple StateNormal { get; }
 
@@ -138,8 +138,8 @@ namespace Krypton.Toolkit
         /// Gets access to the hot tracking tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTriple StateTracking { get; }
 
@@ -152,8 +152,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTriple StatePressed { get; }
 
@@ -166,8 +166,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTriple StateSelected { get; }
 
@@ -180,8 +180,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tab appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tab appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tab appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTripleRedirect OverrideFocus { get; }
 

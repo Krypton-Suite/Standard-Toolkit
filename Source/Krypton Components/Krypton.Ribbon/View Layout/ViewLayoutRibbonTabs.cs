@@ -21,9 +21,9 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonTabs : ViewComposite
     {
         #region Type Definitions
-        private class ViewDrawRibbonTabList : List<ViewDrawRibbonTab> { };
-        private class ViewDrawRibbonTabSepList : List<ViewDrawRibbonTabSep> { };
-        private class ContextNameList : List<string> { };
+        private class ViewDrawRibbonTabList : List<ViewDrawRibbonTab> { }
+        private class ViewDrawRibbonTabSepList : List<ViewDrawRibbonTabSep> { }
+        private class ContextNameList : List<string> { }
         #endregion
 
         #region Static Fields

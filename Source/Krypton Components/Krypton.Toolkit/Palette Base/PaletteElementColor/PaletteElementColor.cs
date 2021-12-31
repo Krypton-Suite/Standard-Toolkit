@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the first element color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("First element color.")]
+        [Category(@"Visuals")]
+        [Description(@"First element color.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the second element color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Second element color.")]
+        [Category(@"Visuals")]
+        [Description(@"Second element color.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color2
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the third element color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Third element color.")]
+        [Category(@"Visuals")]
+        [Description(@"Third element color.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color3
@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the fourth element color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Fourth element color.")]
+        [Category(@"Visuals")]
+        [Description(@"Fourth element color.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color4
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the fifth element color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Fifth element color.")]
+        [Category(@"Visuals")]
+        [Description(@"Fifth element color.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color5

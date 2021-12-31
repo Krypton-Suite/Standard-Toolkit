@@ -98,8 +98,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used when the button is checked.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used when the button is checked.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used when the button is checked.")]
         [KryptonDefaultColor()]
         public Color ButtonCheckedGradientBegin
         {
@@ -126,8 +126,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used when the button is checked.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used when the button is checked.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used when the button is checked.")]
         [KryptonDefaultColor()]
         public Color ButtonCheckedGradientEnd
         {
@@ -154,8 +154,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the middle color of the gradient used when the button is checked.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Middle color of the gradient used when the button is checked.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Middle color of the gradient used when the button is checked.")]
         [KryptonDefaultColor()]
         public Color ButtonCheckedGradientMiddle
         {
@@ -182,8 +182,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the highlight color used when the button is checked.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Highlight color used when the button is checked.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Highlight color used when the button is checked.")]
         [KryptonDefaultColor()]
         public Color ButtonCheckedHighlight
         {
@@ -210,8 +210,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color to use with ButtonCheckedHighlight.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Border color to use with ButtonCheckedHighlight.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Border color to use with ButtonCheckedHighlight.")]
         [KryptonDefaultColor()]
         public Color ButtonCheckedHighlightBorder
         {
@@ -238,8 +238,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color to use with the ButtonPressedGradientBegin, ButtonPressedGradientMiddle, and ButtonPressedGradientEnd colors.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Border color to use with the ButtonPressedGradientBegin, ButtonPressedGradientMiddle, and ButtonPressedGradientEnd colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Border color to use with the ButtonPressedGradientBegin, ButtonPressedGradientMiddle, and ButtonPressedGradientEnd colors.")]
         [KryptonDefaultColor()]
         public Color ButtonPressedBorder
         {
@@ -266,8 +266,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used when the button is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used when the button is pressed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used when the button is pressed.")]
         [KryptonDefaultColor()]
         public Color ButtonPressedGradientBegin
         {
@@ -294,8 +294,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used when the button is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used when the button is pressed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used when the button is pressed.")]
         [KryptonDefaultColor()]
         public Color ButtonPressedGradientEnd
         {
@@ -322,8 +322,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the middle color of the gradient used when the button is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Middle color of the gradient used when the button is pressed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Middle color of the gradient used when the button is pressed.")]
         [KryptonDefaultColor()]
         public Color ButtonPressedGradientMiddle
         {
@@ -350,8 +350,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the solid color used when the button is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Solid color used when the button is pressed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Solid color used when the button is pressed.")]
         [KryptonDefaultColor()]
         public Color ButtonPressedHighlight
         {
@@ -378,8 +378,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color to use with ButtonPressedHighlight.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Border color to use with ButtonPressedHighlight.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Border color to use with ButtonPressedHighlight.")]
         [KryptonDefaultColor()]
         public Color ButtonPressedHighlightBorder
         {
@@ -406,8 +406,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color to use with the ButtonSelectedGradientBegin, ButtonSelectedGradientMiddle, and ButtonSelectedGradientEnd colors.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Border color to use with the ButtonSelectedGradientBegin, ButtonSelectedGradientMiddle, and ButtonSelectedGradientEnd colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Border color to use with the ButtonSelectedGradientBegin, ButtonSelectedGradientMiddle, and ButtonSelectedGradientEnd colors.")]
         [KryptonDefaultColor()]
         public Color ButtonSelectedBorder
         {
@@ -434,8 +434,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used when the button is selected.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used when the button is selected.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used when the button is selected.")]
         [KryptonDefaultColor()]
         public Color ButtonSelectedGradientBegin
         {
@@ -462,8 +462,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used when the button is selected.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used when the button is selected.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used when the button is selected.")]
         [KryptonDefaultColor()]
         public Color ButtonSelectedGradientEnd
         {
@@ -490,8 +490,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the middle color of the gradient used when the button is selected.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Middle color of the gradient used when the button is selected.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Middle color of the gradient used when the button is selected.")]
         [KryptonDefaultColor()]
         public Color ButtonSelectedGradientMiddle
         {
@@ -518,8 +518,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the solid color used when the button is selected.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Solid color used when the button is selected.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Solid color used when the button is selected.")]
         [KryptonDefaultColor()]
         public Color ButtonSelectedHighlight
         {
@@ -546,8 +546,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color to use with ButtonSelectedHighlight.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Border color to use with ButtonSelectedHighlight.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Border color to use with ButtonSelectedHighlight.")]
         [KryptonDefaultColor()]
         public Color ButtonSelectedHighlightBorder
         {
@@ -574,8 +574,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the solid color to use when the button is checked and gradients are being used.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Solid color to use when the button is checked and gradients are being used.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Solid color to use when the button is checked and gradients are being used.")]
         [KryptonDefaultColor()]
         public Color CheckBackground
         {
@@ -602,8 +602,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the solid color to use when the button is checked and selected and gradients are being used.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Solid color to use when the button is checked and selected and gradients are being used.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Solid color to use when the button is checked and selected and gradients are being used.")]
         [KryptonDefaultColor()]
         public Color CheckPressedBackground
         {
@@ -630,8 +630,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the solid color to use when the button is checked and selected and gradients are being used.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Solid color to use when the button is checked and selected and gradients are being used.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Solid color to use when the button is checked and selected and gradients are being used.")]
         [KryptonDefaultColor()]
         public Color CheckSelectedBackground
         {
@@ -658,8 +658,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used in the ToolStripOverflowButton.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used in the ToolStripOverflowButton.")]
         [KryptonDefaultColor()]
         public Color OverflowButtonGradientBegin
         {
@@ -686,8 +686,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the ToolStripOverflowButton.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the ToolStripOverflowButton.")]
         [KryptonDefaultColor()]
         public Color OverflowButtonGradientEnd
         {
@@ -714,8 +714,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the middle color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Middle color of the gradient used in the ToolStripOverflowButton.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Middle color of the gradient used in the ToolStripOverflowButton.")]
         [KryptonDefaultColor()]
         public Color OverflowButtonGradientMiddle
         {

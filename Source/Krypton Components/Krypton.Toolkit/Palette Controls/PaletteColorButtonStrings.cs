@@ -65,8 +65,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the menu string for a 'more colors' entry.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Menu string for a 'more colors' entry.")]
+        [Category(@"Visuals")]
+        [Description(@"Menu string for a 'more colors' entry.")]
         [DefaultValue("&More Colors...")]
         [RefreshProperties(RefreshProperties.All)]
         public string MoreColors { get; set; }
@@ -78,8 +78,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the menu string for a 'no color' entry.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Menu string for a 'no color' entry.")]
+        [Category(@"Visuals")]
+        [Description(@"Menu string for a 'no color' entry.")]
         [DefaultValue("&No Color")]
         [RefreshProperties(RefreshProperties.All)]
         public string NoColor { get; set; }
@@ -91,8 +91,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the title for the recent colors section of the color button menu.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Title for recent colors section of the color button menu.")]
+        [Category(@"Visuals")]
+        [Description(@"Title for recent colors section of the color button menu.")]
         [DefaultValue("Recent Colors")]
         [RefreshProperties(RefreshProperties.All)]
         public string RecentColors { get; set; }
@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the title for the standard colors section of the application menu.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Title for standard colors section of the color button menu.")]
+        [Category(@"Visuals")]
+        [Description(@"Title for standard colors section of the color button menu.")]
         [DefaultValue("Standard Colors")]
         [RefreshProperties(RefreshProperties.All)]
         public string StandardColors { get; set; }
@@ -117,8 +117,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the title for the theme colors section of the application menu.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Title for theme colors section of the color button menu.")]
+        [Category(@"Visuals")]
+        [Description(@"Title for theme colors section of the color button menu.")]
         [DefaultValue("Theme Colors")]
         [RefreshProperties(RefreshProperties.All)]
         public string ThemeColors { get; set; }

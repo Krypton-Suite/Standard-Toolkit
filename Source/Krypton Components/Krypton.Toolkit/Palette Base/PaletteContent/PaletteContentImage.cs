@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
         /// Gets the horizontal relative alignment of the image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative horizontal alignment of content image.")]
+        [Category(@"Visuals")]
+        [Description(@"Relative horizontal alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageH
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageH != value)
                     {
                         _storage.ContentImageH = value;
-                        OnPropertyChanged("ImageH");
+                        OnPropertyChanged(nameof(ImageH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageH = value
                         };
-                        OnPropertyChanged("ImageH");
+                        OnPropertyChanged(nameof(ImageH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// Gets the vertical relative alignment of the image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative vertical alignment of content image.")]
+        [Category(@"Visuals")]
+        [Description(@"Relative vertical alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageV
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageV != value)
                     {
                         _storage.ContentImageV = value;
-                        OnPropertyChanged("ImageV");
+                        OnPropertyChanged(nameof(ImageV));
                         PerformNeedPaint(true);
                     }
                 }
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageV = value
                         };
-                        OnPropertyChanged("ImageV");
+                        OnPropertyChanged(nameof(ImageV));
                         PerformNeedPaint(true);
                     }
                 }
@@ -169,8 +169,8 @@ namespace Krypton.Toolkit
         /// Gets the effect applied to drawing the image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Effect applied to drawing the image.")]
+        [Category(@"Visuals")]
+        [Description(@"Effect applied to drawing the image.")]
         [DefaultValue(typeof(PaletteImageEffect), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageEffect Effect
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentEffect != value)
                     {
                         _storage.ContentEffect = value;
-                        OnPropertyChanged("Effect");
+                        OnPropertyChanged(nameof(Effect));
                         PerformNeedPaint();
                     }
                 }
@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
                         {
                             ContentEffect = value
                         };
-                        OnPropertyChanged("Effect");
+                        OnPropertyChanged(nameof(Effect));
                         PerformNeedPaint();
                     }
                 }
@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
         /// Gets and set the image color to remap into another color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color to remap in the image.")]
+        [Category(@"Visuals")]
+        [Description(@"Color to remap in the image.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorMap
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageColorMap != value)
                     {
                         _storage.ContentImageColorMap = value;
-                        OnPropertyChanged("ImageColorMap");
+                        OnPropertyChanged(nameof(ImageColorMap));
                         PerformNeedPaint();
                     }
                 }
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageColorMap = value
                         };
-                        OnPropertyChanged("ImageColorMap");
+                        OnPropertyChanged(nameof(ImageColorMap));
                         PerformNeedPaint();
                     }
                 }
@@ -249,8 +249,8 @@ namespace Krypton.Toolkit
         /// Gets and set the color to use in place of the image map color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color to use in place of the image map.")]
+        [Category(@"Visuals")]
+        [Description(@"Color to use in place of the image map.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorTo
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageColorTo != value)
                     {
                         _storage.ContentImageColorTo = value;
-                        OnPropertyChanged("ImageColorTo");
+                        OnPropertyChanged(nameof(ImageColorTo));
                         PerformNeedPaint();
                     }
                 }
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageColorTo = value
                         };
-                        OnPropertyChanged("ImageColorTo");
+                        OnPropertyChanged(nameof(ImageColorTo));
                         PerformNeedPaint();
                     }
                 }

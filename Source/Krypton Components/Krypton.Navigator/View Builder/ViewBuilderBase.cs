@@ -19,8 +19,8 @@ namespace Krypton.Navigator
     internal abstract class ViewBuilderBase
     {
         #region Type Definitons
-        protected class PageToNavCheckItem : Dictionary<KryptonPage, INavCheckItem> { };
-        protected class PageToNavCheckButton : Dictionary<KryptonPage, ViewDrawNavCheckButtonBase> { };
+        protected class PageToNavCheckItem : Dictionary<KryptonPage, INavCheckItem> { }
+        protected class PageToNavCheckButton : Dictionary<KryptonPage, ViewDrawNavCheckButtonBase> { }
         #endregion
 
         #region Instance Fields
@@ -125,7 +125,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Change has occured to the collection of pages.
+        /// Change has occurred to the collection of pages.
         /// </summary>
         public virtual void PageCollectionChanged()
         {
@@ -187,7 +187,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public virtual Point GetContextShowPoint()
@@ -229,7 +229,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the next button action requested.
+        /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -264,7 +264,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the previous button action requested.
+        /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -394,7 +394,7 @@ namespace Krypton.Navigator
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         public virtual bool ProcessMnemonic(char charCode)
         {
             // There must be at least one page and allowed to select a page
@@ -664,7 +664,7 @@ namespace Krypton.Navigator
             [DebuggerStepThrough]
             get =>
                 // Only create the delegate when it is first needed
-                _needPaintDelegate ?? (_needPaintDelegate = OnNeedPaint);
+                _needPaintDelegate ??= OnNeedPaint;
         }
 
         /// <summary>
@@ -716,20 +716,20 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "PanelBackStyle":
+                case @"PanelBackStyle":
                     Navigator.StateCommon.BackStyle = Navigator.Panel.PanelBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "PageBackStyle":
+                case @"PageBackStyle":
                     Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
                     Navigator.PerformNeedPagePaint(true);
                     break;
-                case "GroupBackStyle":
+                case @"GroupBackStyle":
                     Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "GroupBorderStyle":
+                case @"GroupBorderStyle":
                     Navigator.StateCommon.HeaderGroup.BorderStyle = Navigator.Group.GroupBorderStyle;
                     Navigator.PerformNeedPaint(true);
                     break;

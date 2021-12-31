@@ -671,25 +671,25 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _ribbonGroupCollapsedBackContext = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
         private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        
-        private static readonly Color[] _ribbonGroupCollapsedBorderContext = { 
-                                                                               Color.FromArgb(128, 199, 199, 199), 
-                                                                               Color.FromArgb(199, 199, 199), 
-                                                                               Color.FromArgb(48, 255, 255, 255), 
+
+        private static readonly Color[] _ribbonGroupCollapsedBorderContext = {
+                                                                               Color.FromArgb(128, 199, 199, 199),
+                                                                               Color.FromArgb(199, 199, 199),
+                                                                               Color.FromArgb(48, 255, 255, 255),
                                                                                Color.FromArgb(235, 235, 235)
                                                                              };
 
-        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking = { 
-                                                                                       Color.FromArgb(128, 168, 184, 196), 
-                                                                                       Color.FromArgb(168, 184, 196), 
-                                                                                       Color.FromArgb(48, 255, 255, 255), 
+        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking = {
+                                                                                       Color.FromArgb(128, 168, 184, 196),
+                                                                                       Color.FromArgb(168, 184, 196),
+                                                                                       Color.FromArgb(48, 255, 255, 255),
                                                                                        Color.FromArgb(192, 207, 220)
                                                                                      };
         private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
         private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
-        
-        private static readonly Color[] _buttonBorderColors = { 
+
+        private static readonly Color[] _buttonBorderColors = {
                                                                 Color.FromArgb(212, 212, 212), // Button, Disabled, Border
                                                                 Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
                                                                 Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
@@ -699,7 +699,7 @@ namespace Krypton.Toolkit
                                                                 Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
                                                               };
 
-        private static readonly Color[] _buttonBackColors = { 
+        private static readonly Color[] _buttonBackColors = {
                                                               Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
                                                               Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
                                                               Color.FromArgb(255, 213,  77), // Button, Tracking, Back 1
@@ -749,7 +749,7 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">List of images for gallery buttons.</param>
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
-        public PaletteOffice2007BlackDarkModeBase(Color[] schemeColors,
+        protected PaletteOffice2007BlackDarkModeBase(Color[] schemeColors,
                                      ImageList checkBoxList,
                                      ImageList galleryButtonList,
                                      Image[] radioButtonArray,
@@ -842,7 +842,104 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1 or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => PaletteGraphicsHint.None,
+                PaletteBackStyle.TabHighProfile
+                    or PaletteBackStyle.TabStandardProfile
+                    or PaletteBackStyle.TabLowProfile
+                    or PaletteBackStyle.TabOneNote
+                    or PaletteBackStyle.TabDock
+                    or PaletteBackStyle.TabDockAutoHidden
+                    or PaletteBackStyle.TabCustom1
+                    or PaletteBackStyle.TabCustom2
+                    or PaletteBackStyle.TabCustom3
+                    or PaletteBackStyle.PanelClient
+                    or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate
+                    or PaletteBackStyle.PanelCustom1
+                    or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3
+                    or PaletteBackStyle.SeparatorHighInternalProfile
+                    or PaletteBackStyle.SeparatorHighProfile
+                    or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorCustom1
+                    or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3
+                    or PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate
+                    or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlToolTip
+                    or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ControlRibbonAppMenu
+                    or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2
+                    or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.ContextMenuOuter
+                    or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ContextMenuHeading
+                    or PaletteBackStyle.ContextMenuSeparator
+                    or PaletteBackStyle.ContextMenuItemSplit
+                    or PaletteBackStyle.ContextMenuItemImageColumn
+                    or PaletteBackStyle.ContextMenuItemImage
+                    or PaletteBackStyle.ContextMenuItemHighlight
+                    or PaletteBackStyle.InputControlStandalone
+                    or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1
+                    or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.FormMain
+                    or PaletteBackStyle.FormCustom1
+                    or PaletteBackStyle.FormCustom2
+                    or PaletteBackStyle.FormCustom3
+                    or PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive
+                    or PaletteBackStyle.HeaderDockActive
+                    or PaletteBackStyle.HeaderSecondary
+                    or PaletteBackStyle.HeaderForm
+                    or PaletteBackStyle.HeaderCalendar
+                    or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2
+                    or PaletteBackStyle.HeaderCustom3
+                    or PaletteBackStyle.ButtonStandalone
+                    or PaletteBackStyle.ButtonGallery
+                    or PaletteBackStyle.ButtonAlternate
+                    or PaletteBackStyle.ButtonLowProfile
+                    or PaletteBackStyle.ButtonBreadCrumb
+                    or PaletteBackStyle.ButtonListItem
+                    or PaletteBackStyle.ButtonCommand
+                    or PaletteBackStyle.ButtonCalendarDay
+                    or PaletteBackStyle.ButtonButtonSpec
+                    or PaletteBackStyle.ButtonCluster
+                    or PaletteBackStyle.ButtonNavigatorStack
+                    or PaletteBackStyle.ButtonNavigatorOverflow
+                    or PaletteBackStyle.ButtonNavigatorMini
+                    or PaletteBackStyle.ButtonForm
+                    or PaletteBackStyle.ButtonFormClose
+                    or PaletteBackStyle.ButtonCustom1
+                    or PaletteBackStyle.ButtonCustom2
+                    or PaletteBackStyle.ButtonCustom3
+                    or PaletteBackStyle.ButtonInputControl
+                    or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet
+                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+                    or PaletteBackStyle.GridHeaderColumnList
+                    or PaletteBackStyle.GridHeaderColumnSheet
+                    or PaletteBackStyle.GridHeaderColumnCustom1
+                    or PaletteBackStyle.GridHeaderColumnCustom2
+                    or PaletteBackStyle.GridHeaderColumnCustom3
+                    or PaletteBackStyle.GridHeaderRowList
+                    or PaletteBackStyle.GridHeaderRowSheet
+                    or PaletteBackStyle.GridHeaderRowCustom1
+                    or PaletteBackStyle.GridHeaderRowCustom2
+                    or PaletteBackStyle.GridHeaderRowCustom3
+                    or PaletteBackStyle.GridDataCellList
+                    or PaletteBackStyle.GridDataCellSheet
+                    or PaletteBackStyle.GridDataCellCustom1
+                    or PaletteBackStyle.GridDataCellCustom2
+                    or PaletteBackStyle.GridDataCellCustom3 => PaletteGraphicsHint.None,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1000,6 +1097,8 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.GridBackgroundList:
                 case PaletteBackStyle.GridBackgroundSheet:
                 case PaletteBackStyle.GridBackgroundCustom1:
+                case PaletteBackStyle.GridBackgroundCustom2:
+                case PaletteBackStyle.GridBackgroundCustom3:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
@@ -1250,6 +1349,8 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.GridBackgroundList:
                 case PaletteBackStyle.GridBackgroundSheet:
                 case PaletteBackStyle.GridBackgroundCustom1:
+                case PaletteBackStyle.GridBackgroundCustom2:
+                case PaletteBackStyle.GridBackgroundCustom3:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
@@ -1404,13 +1505,53 @@ namespace Krypton.Toolkit
                 },
                 PaletteBackStyle.TabLowProfile => PaletteColorStyle.Solid,
                 PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden => PaletteColorStyle.OneNote,
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1 or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.ButtonCalendarDay => PaletteColorStyle.Solid,
+                PaletteBackStyle.PanelClient
+                    or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate
+                    or PaletteBackStyle.PanelCustom1
+                    or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3
+                    or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorCustom1
+                    or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3
+                    or PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate
+                    or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ContextMenuOuter
+                    or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2
+                    or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.ContextMenuHeading
+                    or PaletteBackStyle.ContextMenuItemImageColumn
+                    or PaletteBackStyle.InputControlStandalone
+                    or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1
+                    or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet
+                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+                    or PaletteBackStyle.HeaderCalendar
+                    or PaletteBackStyle.ButtonCalendarDay => PaletteColorStyle.Solid,
                 PaletteBackStyle.ControlRibbonAppMenu => PaletteColorStyle.Switch90,
                 PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit => state == PaletteState.Tracking ? PaletteColorStyle.GlassTrackingFull : PaletteColorStyle.Solid,
                 PaletteBackStyle.ControlToolTip => PaletteColorStyle.Linear,
                 PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 => PaletteColorStyle.SolidInside,
                 PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile => PaletteColorStyle.RoundedTopLight,
-                PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 => PaletteColorStyle.RoundedTopLeftWhite,
+                PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive
+                    or PaletteBackStyle.HeaderSecondary
+                    or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2
+                    or PaletteBackStyle.HeaderCustom3 => PaletteColorStyle.RoundedTopLeftWhite,
                 PaletteBackStyle.HeaderDockActive => PaletteColorStyle.Rounded,
                 PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
                 {
@@ -1480,8 +1621,104 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1 => PaletteRectangleAlign.Control,
-                PaletteBackStyle.ControlToolTip or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn => PaletteRectangleAlign.Local,
+                PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate
+                    or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ControlRibbonAppMenu
+                    or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2
+                    or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.InputControlStandalone
+                    or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1
+                    or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.FormMain
+                    or PaletteBackStyle.FormCustom1
+                    or PaletteBackStyle.FormCustom2
+                    or PaletteBackStyle.FormCustom3
+                    or PaletteBackStyle.PanelClient
+                    or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate
+                    or PaletteBackStyle.PanelCustom1
+                    or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3
+                    or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet
+                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3 => PaletteRectangleAlign.Control,
+                PaletteBackStyle.ControlToolTip
+                    or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorHighInternalProfile
+                    or PaletteBackStyle.SeparatorHighProfile
+                    or PaletteBackStyle.SeparatorCustom1
+                    or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3
+                    or PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive
+                    or PaletteBackStyle.HeaderDockActive
+                    or PaletteBackStyle.HeaderCalendar
+                    or PaletteBackStyle.HeaderSecondary
+                    or PaletteBackStyle.HeaderForm
+                    or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2
+                    or PaletteBackStyle.HeaderCustom3
+                    or PaletteBackStyle.TabHighProfile
+                    or PaletteBackStyle.TabStandardProfile
+                    or PaletteBackStyle.TabLowProfile
+                    or PaletteBackStyle.TabOneNote
+                    or PaletteBackStyle.TabDock
+                    or PaletteBackStyle.TabDockAutoHidden
+                    or PaletteBackStyle.TabCustom1
+                    or PaletteBackStyle.TabCustom2
+                    or PaletteBackStyle.TabCustom3
+                    or PaletteBackStyle.ButtonStandalone
+                    or PaletteBackStyle.ButtonGallery
+                    or PaletteBackStyle.ButtonAlternate
+                    or PaletteBackStyle.ButtonLowProfile
+                    or PaletteBackStyle.ButtonBreadCrumb
+                    or PaletteBackStyle.ButtonListItem
+                    or PaletteBackStyle.ButtonCommand
+                    or PaletteBackStyle.ButtonButtonSpec
+                    or PaletteBackStyle.ButtonCalendarDay
+                    or PaletteBackStyle.ButtonCluster
+                    or PaletteBackStyle.ButtonNavigatorStack
+                    or PaletteBackStyle.ButtonNavigatorOverflow
+                    or PaletteBackStyle.ButtonNavigatorMini
+                    or PaletteBackStyle.ButtonForm
+                    or PaletteBackStyle.ButtonFormClose
+                    or PaletteBackStyle.ButtonCustom1
+                    or PaletteBackStyle.ButtonCustom2
+                    or PaletteBackStyle.ButtonCustom3
+                    or PaletteBackStyle.ButtonInputControl
+                    or PaletteBackStyle.GridHeaderColumnList
+                    or PaletteBackStyle.GridHeaderColumnSheet
+                    or PaletteBackStyle.GridHeaderColumnCustom1
+                    or PaletteBackStyle.GridHeaderColumnCustom2
+                    or PaletteBackStyle.GridHeaderColumnCustom3
+                    or PaletteBackStyle.GridHeaderRowList
+                    or PaletteBackStyle.GridHeaderRowSheet
+                    or PaletteBackStyle.GridHeaderRowCustom1
+                    or PaletteBackStyle.GridHeaderRowCustom2
+                    or PaletteBackStyle.GridHeaderRowCustom3
+                    or PaletteBackStyle.GridDataCellList
+                    or PaletteBackStyle.GridDataCellSheet
+                    or PaletteBackStyle.GridDataCellCustom1
+                    or PaletteBackStyle.GridDataCellCustom2
+                    or PaletteBackStyle.GridDataCellCustom3
+                    or PaletteBackStyle.ContextMenuItemImage
+                    or PaletteBackStyle.ContextMenuItemHighlight
+                    or PaletteBackStyle.ContextMenuOuter
+                    or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ContextMenuHeading
+                    or PaletteBackStyle.ContextMenuSeparator
+                    or PaletteBackStyle.ContextMenuItemSplit
+                    or PaletteBackStyle.ContextMenuItemImageColumn => PaletteRectangleAlign.Local,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1503,7 +1740,104 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1 or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => 90f,
+                PaletteBackStyle.PanelClient
+                    or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate
+                    or PaletteBackStyle.PanelCustom1
+                    or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3
+                    or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorHighInternalProfile
+                    or PaletteBackStyle.SeparatorHighProfile
+                    or PaletteBackStyle.SeparatorCustom1
+                    or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3
+                    or PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate
+                    or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlToolTip
+                    or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ControlRibbonAppMenu
+                    or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2
+                    or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.ContextMenuOuter
+                    or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ContextMenuHeading
+                    or PaletteBackStyle.ContextMenuSeparator
+                    or PaletteBackStyle.ContextMenuItemSplit
+                    or PaletteBackStyle.ContextMenuItemImageColumn
+                    or PaletteBackStyle.InputControlStandalone
+                    or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1
+                    or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.FormMain
+                    or PaletteBackStyle.FormCustom1
+                    or PaletteBackStyle.FormCustom2
+                    or PaletteBackStyle.FormCustom3
+                    or PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive
+                    or PaletteBackStyle.HeaderDockActive
+                    or PaletteBackStyle.HeaderCalendar
+                    or PaletteBackStyle.HeaderSecondary
+                    or PaletteBackStyle.HeaderForm
+                    or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2
+                    or PaletteBackStyle.HeaderCustom3
+                    or PaletteBackStyle.TabHighProfile
+                    or PaletteBackStyle.TabStandardProfile
+                    or PaletteBackStyle.TabLowProfile
+                    or PaletteBackStyle.TabOneNote
+                    or PaletteBackStyle.TabDock
+                    or PaletteBackStyle.TabDockAutoHidden
+                    or PaletteBackStyle.TabCustom1
+                    or PaletteBackStyle.TabCustom2
+                    or PaletteBackStyle.TabCustom3
+                    or PaletteBackStyle.ButtonStandalone
+                    or PaletteBackStyle.ButtonGallery
+                    or PaletteBackStyle.ButtonAlternate
+                    or PaletteBackStyle.ButtonLowProfile
+                    or PaletteBackStyle.ButtonBreadCrumb
+                    or PaletteBackStyle.ButtonListItem
+                    or PaletteBackStyle.ButtonCommand
+                    or PaletteBackStyle.ButtonButtonSpec
+                    or PaletteBackStyle.ButtonCalendarDay
+                    or PaletteBackStyle.ButtonCluster
+                    or PaletteBackStyle.ButtonNavigatorStack
+                    or PaletteBackStyle.ButtonNavigatorOverflow
+                    or PaletteBackStyle.ButtonNavigatorMini
+                    or PaletteBackStyle.ButtonForm
+                    or PaletteBackStyle.ButtonFormClose
+                    or PaletteBackStyle.ButtonCustom1
+                    or PaletteBackStyle.ButtonCustom2
+                    or PaletteBackStyle.ButtonCustom3
+                    or PaletteBackStyle.ButtonInputControl
+                    or PaletteBackStyle.ContextMenuItemImage
+                    or PaletteBackStyle.ContextMenuItemHighlight
+                    or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet
+                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+                    or PaletteBackStyle.GridHeaderColumnList
+                    or PaletteBackStyle.GridHeaderColumnSheet
+                    or PaletteBackStyle.GridHeaderColumnCustom1
+                    or PaletteBackStyle.GridHeaderColumnCustom2
+                    or PaletteBackStyle.GridHeaderColumnCustom3
+                    or PaletteBackStyle.GridHeaderRowList
+                    or PaletteBackStyle.GridHeaderRowSheet
+                    or PaletteBackStyle.GridHeaderRowCustom1
+                    or PaletteBackStyle.GridHeaderRowCustom2
+                    or PaletteBackStyle.GridHeaderRowCustom3
+                    or PaletteBackStyle.GridDataCellList
+                    or PaletteBackStyle.GridDataCellSheet
+                    or PaletteBackStyle.GridDataCellCustom1
+                    or PaletteBackStyle.GridDataCellCustom2
+                    or PaletteBackStyle.GridDataCellCustom3 => 90f,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1525,7 +1859,104 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1 or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => null,
+                PaletteBackStyle.PanelClient
+                    or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate
+                    or PaletteBackStyle.PanelCustom1
+                    or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3
+                    or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorHighInternalProfile
+                    or PaletteBackStyle.SeparatorHighProfile
+                    or PaletteBackStyle.SeparatorCustom1
+                    or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3
+                    or PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate
+                    or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlToolTip
+                    or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ControlRibbonAppMenu
+                    or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2
+                    or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.ContextMenuOuter
+                    or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ContextMenuHeading
+                    or PaletteBackStyle.ContextMenuSeparator
+                    or PaletteBackStyle.ContextMenuItemSplit
+                    or PaletteBackStyle.ContextMenuItemImageColumn
+                    or PaletteBackStyle.InputControlStandalone
+                    or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1
+                    or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.FormMain
+                    or PaletteBackStyle.FormCustom1
+                    or PaletteBackStyle.FormCustom2
+                    or PaletteBackStyle.FormCustom3
+                    or PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive
+                    or PaletteBackStyle.HeaderDockActive
+                    or PaletteBackStyle.HeaderCalendar
+                    or PaletteBackStyle.HeaderSecondary
+                    or PaletteBackStyle.HeaderForm
+                    or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2
+                    or PaletteBackStyle.HeaderCustom3
+                    or PaletteBackStyle.TabHighProfile
+                    or PaletteBackStyle.TabStandardProfile
+                    or PaletteBackStyle.TabLowProfile
+                    or PaletteBackStyle.TabOneNote
+                    or PaletteBackStyle.TabDock
+                    or PaletteBackStyle.TabDockAutoHidden
+                    or PaletteBackStyle.TabCustom1
+                    or PaletteBackStyle.TabCustom2
+                    or PaletteBackStyle.TabCustom3
+                    or PaletteBackStyle.ButtonStandalone
+                    or PaletteBackStyle.ButtonGallery
+                    or PaletteBackStyle.ButtonAlternate
+                    or PaletteBackStyle.ButtonLowProfile
+                    or PaletteBackStyle.ButtonBreadCrumb
+                    or PaletteBackStyle.ButtonListItem
+                    or PaletteBackStyle.ButtonCommand
+                    or PaletteBackStyle.ButtonButtonSpec
+                    or PaletteBackStyle.ButtonCalendarDay
+                    or PaletteBackStyle.ButtonCluster
+                    or PaletteBackStyle.ButtonNavigatorStack
+                    or PaletteBackStyle.ButtonNavigatorOverflow
+                    or PaletteBackStyle.ButtonNavigatorMini
+                    or PaletteBackStyle.ButtonForm
+                    or PaletteBackStyle.ButtonFormClose
+                    or PaletteBackStyle.ButtonCustom1
+                    or PaletteBackStyle.ButtonCustom2
+                    or PaletteBackStyle.ButtonCustom3
+                    or PaletteBackStyle.ButtonInputControl
+                    or PaletteBackStyle.ContextMenuItemImage
+                    or PaletteBackStyle.ContextMenuItemHighlight
+                    or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet
+                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+                    or PaletteBackStyle.GridHeaderColumnList
+                    or PaletteBackStyle.GridHeaderColumnSheet
+                    or PaletteBackStyle.GridHeaderColumnCustom1
+                    or PaletteBackStyle.GridHeaderColumnCustom2
+                    or PaletteBackStyle.GridHeaderColumnCustom3
+                    or PaletteBackStyle.GridHeaderRowList
+                    or PaletteBackStyle.GridHeaderRowSheet
+                    or PaletteBackStyle.GridHeaderRowCustom1
+                    or PaletteBackStyle.GridHeaderRowCustom2
+                    or PaletteBackStyle.GridHeaderRowCustom3
+                    or PaletteBackStyle.GridDataCellList
+                    or PaletteBackStyle.GridDataCellSheet
+                    or PaletteBackStyle.GridDataCellCustom1
+                    or PaletteBackStyle.GridDataCellCustom2
+                    or PaletteBackStyle.GridDataCellCustom3 => null,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1547,7 +1978,104 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1 or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => PaletteImageStyle.Tile,
+                PaletteBackStyle.PanelClient
+                    or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate
+                    or PaletteBackStyle.PanelCustom1
+                    or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3
+                    or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorHighInternalProfile
+                    or PaletteBackStyle.SeparatorHighProfile
+                    or PaletteBackStyle.SeparatorCustom1
+                    or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3
+                    or PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate
+                    or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlToolTip
+                    or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ControlRibbonAppMenu
+                    or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2
+                    or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.ContextMenuOuter
+                    or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ContextMenuHeading
+                    or PaletteBackStyle.ContextMenuSeparator
+                    or PaletteBackStyle.ContextMenuItemSplit
+                    or PaletteBackStyle.ContextMenuItemImageColumn
+                    or PaletteBackStyle.InputControlStandalone
+                    or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1
+                    or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.FormMain
+                    or PaletteBackStyle.FormCustom1
+                    or PaletteBackStyle.FormCustom2
+                    or PaletteBackStyle.FormCustom3
+                    or PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive
+                    or PaletteBackStyle.HeaderDockActive
+                    or PaletteBackStyle.HeaderCalendar
+                    or PaletteBackStyle.HeaderSecondary
+                    or PaletteBackStyle.HeaderForm
+                    or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2
+                    or PaletteBackStyle.HeaderCustom3
+                    or PaletteBackStyle.TabHighProfile
+                    or PaletteBackStyle.TabStandardProfile
+                    or PaletteBackStyle.TabLowProfile
+                    or PaletteBackStyle.TabOneNote
+                    or PaletteBackStyle.TabDock
+                    or PaletteBackStyle.TabDockAutoHidden
+                    or PaletteBackStyle.TabCustom1
+                    or PaletteBackStyle.TabCustom2
+                    or PaletteBackStyle.TabCustom3
+                    or PaletteBackStyle.ButtonStandalone
+                    or PaletteBackStyle.ButtonGallery
+                    or PaletteBackStyle.ButtonAlternate
+                    or PaletteBackStyle.ButtonLowProfile
+                    or PaletteBackStyle.ButtonBreadCrumb
+                    or PaletteBackStyle.ButtonListItem
+                    or PaletteBackStyle.ButtonCommand
+                    or PaletteBackStyle.ButtonButtonSpec
+                    or PaletteBackStyle.ButtonCalendarDay
+                    or PaletteBackStyle.ButtonCluster
+                    or PaletteBackStyle.ButtonNavigatorStack
+                    or PaletteBackStyle.ButtonNavigatorOverflow
+                    or PaletteBackStyle.ButtonNavigatorMini
+                    or PaletteBackStyle.ButtonForm
+                    or PaletteBackStyle.ButtonFormClose
+                    or PaletteBackStyle.ButtonCustom1
+                    or PaletteBackStyle.ButtonCustom2
+                    or PaletteBackStyle.ButtonCustom3
+                    or PaletteBackStyle.ButtonInputControl
+                    or PaletteBackStyle.ContextMenuItemImage
+                    or PaletteBackStyle.ContextMenuItemHighlight
+                    or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet
+                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+                    or PaletteBackStyle.GridHeaderColumnList
+                    or PaletteBackStyle.GridHeaderColumnSheet
+                    or PaletteBackStyle.GridHeaderColumnCustom1
+                    or PaletteBackStyle.GridHeaderColumnCustom2
+                    or PaletteBackStyle.GridHeaderColumnCustom3
+                    or PaletteBackStyle.GridHeaderRowList
+                    or PaletteBackStyle.GridHeaderRowSheet
+                    or PaletteBackStyle.GridHeaderRowCustom1
+                    or PaletteBackStyle.GridHeaderRowCustom2
+                    or PaletteBackStyle.GridHeaderRowCustom3
+                    or PaletteBackStyle.GridDataCellList
+                    or PaletteBackStyle.GridDataCellSheet
+                    or PaletteBackStyle.GridDataCellCustom1
+                    or PaletteBackStyle.GridDataCellCustom2
+                    or PaletteBackStyle.GridDataCellCustom3 => PaletteImageStyle.Tile,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1569,7 +2097,101 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1 or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => PaletteRectangleAlign.Local,
+                PaletteBackStyle.PanelClient
+                    or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate
+                    or PaletteBackStyle.PanelCustom1
+                    or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3
+                    or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorHighInternalProfile
+                    or PaletteBackStyle.SeparatorHighProfile
+                    or PaletteBackStyle.SeparatorCustom1
+                    or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3
+                    or PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate
+                    or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlToolTip
+                    or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ControlRibbonAppMenu
+                    or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2
+                    or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.ContextMenuOuter
+                    or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ContextMenuHeading
+                    or PaletteBackStyle.ContextMenuSeparator
+                    or PaletteBackStyle.ContextMenuItemSplit
+                    or PaletteBackStyle.ContextMenuItemImageColumn
+                    or PaletteBackStyle.InputControlStandalone
+                    or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1
+                    or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.FormMain
+                    or PaletteBackStyle.FormCustom1
+                    or PaletteBackStyle.FormCustom2
+                    or PaletteBackStyle.FormCustom3
+                    or PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive
+                    or PaletteBackStyle.HeaderDockActive
+                    or PaletteBackStyle.HeaderCalendar
+                    or PaletteBackStyle.HeaderSecondary
+                    or PaletteBackStyle.HeaderForm
+                    or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2
+                    or PaletteBackStyle.HeaderCustom3
+                    or PaletteBackStyle.TabHighProfile
+                    or PaletteBackStyle.TabStandardProfile
+                    or PaletteBackStyle.TabLowProfile
+                    or PaletteBackStyle.TabOneNote
+                    or PaletteBackStyle.TabDock
+                    or PaletteBackStyle.TabDockAutoHidden
+                    or PaletteBackStyle.TabCustom1
+                    or PaletteBackStyle.TabCustom2
+                    or PaletteBackStyle.TabCustom3
+                    or PaletteBackStyle.ButtonStandalone
+                    or PaletteBackStyle.ButtonGallery
+                    or PaletteBackStyle.ButtonAlternate
+                    or PaletteBackStyle.ButtonLowProfile
+                    or PaletteBackStyle.ButtonBreadCrumb
+                    or PaletteBackStyle.ButtonListItem
+                    or PaletteBackStyle.ButtonCommand
+                    or PaletteBackStyle.ButtonButtonSpec
+                    or PaletteBackStyle.ButtonCalendarDay
+                    or PaletteBackStyle.ButtonCluster
+                    or PaletteBackStyle.ButtonNavigatorStack
+                    or PaletteBackStyle.ButtonNavigatorOverflow
+                    or PaletteBackStyle.ButtonNavigatorMini
+                    or PaletteBackStyle.ButtonForm
+                    or PaletteBackStyle.ButtonFormClose
+                    or PaletteBackStyle.ButtonCustom1
+                    or PaletteBackStyle.ButtonCustom2
+                    or PaletteBackStyle.ButtonCustom3
+                    or PaletteBackStyle.ButtonInputControl
+                    or PaletteBackStyle.ContextMenuItemImage
+                    or PaletteBackStyle.ContextMenuItemHighlight
+                    or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet
+                    or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom2
+                    or PaletteBackStyle.GridBackgroundCustom3
+                    or PaletteBackStyle.GridHeaderColumnList
+                    or PaletteBackStyle.GridHeaderColumnSheet
+                    or PaletteBackStyle.GridHeaderColumnCustom1
+                    or PaletteBackStyle.GridHeaderColumnCustom2
+                    or PaletteBackStyle.GridHeaderColumnCustom3
+                    or PaletteBackStyle.GridHeaderRowList
+                    or PaletteBackStyle.GridHeaderRowSheet
+                    or PaletteBackStyle.GridHeaderRowCustom1
+                    or PaletteBackStyle.GridHeaderRowCustom2
+                    or PaletteBackStyle.GridHeaderRowCustom3
+                    or PaletteBackStyle.GridDataCellList
+                    or PaletteBackStyle.GridDataCellSheet
+                    or PaletteBackStyle.GridDataCellCustom1
+                    or PaletteBackStyle.GridDataCellCustom2
+                    or PaletteBackStyle.GridDataCellCustom3 => PaletteRectangleAlign.Local,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -5261,7 +5883,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the color table instance.
         /// </summary>
-        public override KryptonColorTable ColorTable => _table ?? (_table = new KryptonColorTable2007(_ribbonColors, InheritBool.True, this));
+        public override KryptonColorTable ColorTable => _table ??= new KryptonColorTable2007(_ribbonColors, InheritBool.True, this);
 
         #endregion
 

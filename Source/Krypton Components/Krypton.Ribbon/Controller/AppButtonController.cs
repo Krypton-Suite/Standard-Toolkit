@@ -456,6 +456,7 @@ namespace Krypton.Ribbon
 
             if (needPaint)
             {
+#pragma warning disable IDE0170 // Property pattern can be simplified - Does not work in VS2019 !
                 if (Target1 is { ClientRectangle: { IsEmpty: false } })
                 {
                     OnNeedPaint(false, Target1.ClientRectangle);
@@ -470,6 +471,7 @@ namespace Krypton.Ribbon
                 {
                     OnNeedPaint(false, Target3.ClientRectangle);
                 }
+#pragma warning restore IDE0170 // Property pattern can be simplified
 
                 // Get the repaint to happen immediately
                 Application.DoEvents();

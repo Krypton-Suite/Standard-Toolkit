@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
 
                 if (Contains(checkButton))
                 {
-                    throw new ArgumentException(@"Reference already exists in the collection");
+                    throw new ArgumentException(@"Reference already exists in the collection", nameof(checkButton));
                 }
 
                 // ReSharper disable RedundantBaseQualifier
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
 
                 if (Contains(checkButton))
                 {
-                    throw new ArgumentException(@"Reference already in collection");
+                    throw new ArgumentException(@"Reference already in collection", nameof(checkButton));
                 }
 
                 // ReSharper disable RedundantBaseQualifier
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
 
                 if (!Contains(checkButton))
                 {
-                    throw new ArgumentException(@"No matching reference to remove");
+                    throw new ArgumentException(@"No matching reference to remove", nameof(checkButton));
                 }
 
                 // ReSharper disable RedundantBaseQualifier

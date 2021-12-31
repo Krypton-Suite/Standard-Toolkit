@@ -106,8 +106,8 @@ namespace Krypton.Toolkit
         /// Gets access to the background palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBack Back => _back;
 
@@ -128,8 +128,8 @@ namespace Krypton.Toolkit
         /// Gets access to the border palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBorder Border => _border;
 

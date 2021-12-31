@@ -87,8 +87,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common track bar appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common track bar appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common track bar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarRedirect StateCommon { get; }
 
@@ -101,8 +101,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled track bar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled track bar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled track bar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarStates StateDisabled { get; }
 
@@ -115,8 +115,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal track bar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal track bar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal track bar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarStates StateNormal { get; }
 
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking track bar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking track bar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking track bar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarPositionStates StateTracking { get; }
 
@@ -143,8 +143,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed track bar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed track bar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed track bar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarPositionStates StatePressed { get; }
 
@@ -157,8 +157,8 @@ namespace Krypton.Toolkit
         /// Gets access to the track bar appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining track bar appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining track bar appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarRedirect OverrideFocus { get; }
 

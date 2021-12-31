@@ -52,8 +52,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Palette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Palette property is changed.")]
         public event EventHandler PaletteChanged;
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the Global palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the GlobalPalette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
         public event EventHandler GlobalPaletteChanged;
         #endregion
 
@@ -127,6 +127,10 @@ namespace Krypton.Toolkit
             ShadowValues = new ShadowValues();
             BlurValues = new BlurValues();
 
+            // Note: Will not handle movement between monitors
+            using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
+            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
         }
 
         /// <summary>
@@ -166,6 +170,31 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>
+        /// Gets the DpiX of the view.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public float FactorDpiX
+        {
+            [DebuggerStepThrough]
+            get;
+        }
+
+        /// <summary>
+        /// Gets the DpiY of the view.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public float FactorDpiY
+        {
+            [DebuggerStepThrough]
+            get;
+        }
+
         /// <summary>
         /// Gets and sets a value indicating if palette chrome should be applied.
         /// </summary>
@@ -308,8 +337,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -358,8 +387,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Form Shadowing")]
+        [Category(@"Visuals")]
+        [Description(@"Form Shadowing")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ShadowValues ShadowValues
         {
@@ -382,8 +411,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Form Blurring")]
+        [Category(@"Visuals")]
+        [Description(@"Form Blurring")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BlurValues BlurValues
         {
@@ -406,8 +435,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -556,7 +585,7 @@ namespace Krypton.Toolkit
         /// Please use a ButtonSpec, as this gives greater flexibility!
         /// </summary>
         [Browsable(false)]
-        [Category("Window Style")]
+        [Category(@"Window Style")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool HelpButton
@@ -909,7 +938,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1013,7 +1042,6 @@ namespace Krypton.Toolkit
                         OnWM_GETMINMAXINFO(ref m);
                         /* Setting handled to false enables the application to process it's own Min/Max requirements,
                 * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
-                        processed = false;
                         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
                         // Still got to call - base - to allow the "application to process it's own Min/Max requirements" !!
                         base.WndProc(ref m);

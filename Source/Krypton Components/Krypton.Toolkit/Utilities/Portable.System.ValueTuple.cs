@@ -124,7 +124,7 @@ namespace System
             {
                 null => 1,
                 ValueTuple => 0,
-                _ => throw new ArgumentException()
+                _ => throw new ArgumentException(@"Incorrect type", nameof(other))
             };
         }
 
@@ -154,7 +154,7 @@ namespace System
             {
                 null => 1,
                 ValueTuple => 0,
-                _ => throw new ArgumentException()
+                _ => throw new ArgumentException(@"Incorrect type", nameof(other))
             };
         }
 
@@ -276,7 +276,7 @@ namespace System
             return other switch
             {
                 null => 1,
-                not ValueTuple<T1, T2> => throw new ArgumentException(),
+                not ValueTuple<T1, T2> => throw new ArgumentException(@"Incorrect type", nameof(other)),
                 _ => CompareTo((ValueTuple<T1, T2>)other)
             };
         }
@@ -319,7 +319,7 @@ namespace System
                     return c != 0 ? c : comparer.Compare(Item2, item2);
                 }
                 default:
-                    throw new ArgumentException();
+                    throw new ArgumentException(@"Incorrect type", nameof(other));
             }
         }
 

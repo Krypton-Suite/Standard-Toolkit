@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
                         {
                             insideLighten.CenterPoint = ellipseCenter;
                             insideLighten.CenterColor = Color.White;
-                            insideLighten.SurroundColors = new Color[] { Color.Transparent };
+                            insideLighten.SurroundColors = new[] { Color.Transparent };
                             g.FillPath(insideLighten, ellipsePath);
                         }
                     }
@@ -246,7 +246,6 @@ namespace Krypton.Toolkit
             public override void DrawBack(Graphics g, Rectangle rect)
             {
                 Rectangle inset = new(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
-                Rectangle insetB = new(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
 
                 using LinearGradientBrush insideBrush = new(rect, Back2, Back1, 90f);
                 insideBrush.SetSigmaBellShape(0.5f);
@@ -261,7 +260,7 @@ namespace Krypton.Toolkit
                 using PathGradientBrush insideLighten = new(ellipsePath);
                 insideLighten.CenterPoint = ellipseCenter;
                 insideLighten.CenterColor = Color.FromArgb(96, Color.White);
-                insideLighten.SurroundColors = new Color[] { Color.Transparent };
+                insideLighten.SurroundColors = new[] { Color.Transparent };
                 g.FillPath(insideLighten, ellipsePath);
             }
         }
@@ -324,20 +323,20 @@ namespace Krypton.Toolkit
         {
             _stripBlend = new Blend
             {
-                Positions = new float[] { 0.0f, 0.33f, 0.66f, 1.0f },
-                Factors = new float[] { 0.0f, 0.5f, 0.8f, 1.0f }
+                Positions = new[] { 0.0f, 0.33f, 0.66f, 1.0f },
+                Factors = new[] { 0.0f, 0.5f, 0.8f, 1.0f }
             };
 
             _separatorDarkBlend = new Blend
             {
-                Positions = new float[] { 0.0f, 0.5f, 1.0f },
-                Factors = new float[] { 0.2f, 1f, 0.2f }
+                Positions = new[] { 0.0f, 0.5f, 1.0f },
+                Factors = new[] { 0.2f, 1f, 0.2f }
             };
 
             _separatorLightBlend = new Blend
             {
-                Positions = new float[] { 0.0f, 0.5f, 1.0f },
-                Factors = new float[] { 0.1f, 0.6f, 0.1f }
+                Positions = new[] { 0.0f, 0.5f, 1.0f },
+                Factors = new[] { 0.1f, 0.6f, 0.1f }
             };
         }
 

@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupSeparator), "ToolboxBitmaps.KryptonRibbonGroupSeparator.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupSeparatorDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
     public class KryptonRibbonGroupSeparator : KryptonRibbonGroupContainer
@@ -33,15 +33,15 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
-        [Category("Design Time")]
-        [Description("Occurs when the design time context menu is requested.")]
+        [Category(@"Design Time")]
+        [Description(@"Occurs when the design time context menu is requested.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event MouseEventHandler DesignTimeContextMenu;
@@ -62,8 +62,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the group separator.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group separator is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group separator is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]

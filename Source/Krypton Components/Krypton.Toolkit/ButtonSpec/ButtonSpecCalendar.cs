@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class ButtonSpecCalendar : ButtonSpec
     {
         #region Instance Fields
-        private ViewDrawMonth _month;
+
         private readonly RelativeEdgeAlign _edge;
 
         #endregion
@@ -35,10 +35,7 @@ namespace Krypton.Toolkit
                                   PaletteButtonSpecStyle fixedStyle,
                                   RelativeEdgeAlign edge)
         {
-            Debug.Assert(month != null);
-
             // Remember back reference to owning navigator.
-            _month = month;
             _edge = edge;
             Enabled = true;
             Visible = true;

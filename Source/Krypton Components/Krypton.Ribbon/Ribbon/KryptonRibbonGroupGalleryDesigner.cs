@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            var attributes = new Attribute[0];
+            var attributes = Array.Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
@@ -202,13 +202,13 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move Gallery First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move Gallery Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move Gallery Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move Gallery Last", OnMoveLast);
-                _deleteGalleryVerb = new DesignerVerb("Delete Gallery", OnDeleteGallery);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move Gallery First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move Gallery Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move Gallery Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move Gallery Last", OnMoveLast);
+                _deleteGalleryVerb = new DesignerVerb(@"Delete Gallery", OnDeleteGallery);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteGalleryVerb });
             }
 
@@ -245,12 +245,12 @@ namespace Krypton.Ribbon
             if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupGallery MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -275,12 +275,12 @@ namespace Krypton.Ribbon
             if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupGallery MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -307,12 +307,12 @@ namespace Krypton.Ribbon
             if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupGallery MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -339,12 +339,12 @@ namespace Krypton.Ribbon
             if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupGallery MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -369,12 +369,12 @@ namespace Krypton.Ribbon
             if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupGallery DeleteGallery");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery DeleteGallery");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonGallery.RibbonGroup)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
@@ -401,7 +401,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonGallery?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)["Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)[@"Enabled"];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonGallery);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);
@@ -413,7 +413,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonGallery?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)["Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)[@"Visible"];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonGallery);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);

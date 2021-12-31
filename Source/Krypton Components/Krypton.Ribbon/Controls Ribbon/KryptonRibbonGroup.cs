@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupDesigner, Krypton.Ribbon")]
     [DefaultEvent("DialogBoxLauncherClick")]
     [DefaultProperty("TextLine1")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonGroup : Component
     {
@@ -50,15 +50,15 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the dialog box launcher button is clicked.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the dialog box launcher button is clicked.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the dialog box launcher button is clicked.")]
         public event EventHandler DialogBoxLauncherClick;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace Krypton.Ribbon
         {
             // Default fields
             _image = _defaultGroupImage;
-            _textLine1 = "Group";
+            _textLine1 = @"Group";
             _textLine2 = string.Empty;
-            _keyTipGroup = "G";
-            _keyTipDialogLauncher = "D";
+            _keyTipGroup = @"G";
+            _keyTipDialogLauncher = @"D";
             _visible = true;
             _allowCollapsed = true;
             _dialogBoxLauncher = true;
@@ -195,8 +195,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group display text line 1.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Group")]
         public string TextLine1
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Group";
+                    value = @"Group";
                 }
 
                 if (value != _textLine1)
@@ -224,8 +224,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group display text line 2.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group display text line 2.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
@@ -247,8 +247,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group key tip used when collapsed.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group key tip used when collapsed.")]
         [DefaultValue("G")]
         public string KeyTipGroup
         {
@@ -258,7 +258,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "G";
+                    value = @"G";
                 }
 
                 _keyTipGroup = value.ToUpper();
@@ -270,9 +270,9 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group key tip used for dialog box launcher.")]
-        [DefaultValue("D")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group key tip used for dialog box launcher.")]
+        [DefaultValue(@"D")]
         public string KeyTipDialogLauncher
         {
             get => _keyTipDialogLauncher;
@@ -281,7 +281,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "D";
+                    value = @"D";
                 }
 
                 _keyTipDialogLauncher = value.ToUpper();
@@ -293,8 +293,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Group image when collapsed.")]
+        [Category(@"Appearance")]
+        [Description(@"Group image when collapsed.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
@@ -316,8 +316,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the ribbon group.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the ribbon group is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the ribbon group is visible or hidden.")]
         [DefaultValue(true)]
         public bool Visible
         {
@@ -353,8 +353,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the display of a dialog box launcher button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the ribbon group has a dialog box launcher button.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the ribbon group has a dialog box launcher button.")]
         [DefaultValue(true)]
         public bool DialogBoxLauncher
         {
@@ -374,8 +374,8 @@ namespace Krypton.Ribbon
         /// Gets and sets a value indicating if the ribbon group is allowed to be collapsed.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the ribbon group is allowed to be collapsed.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the ribbon group is allowed to be collapsed.")]
         [DefaultValue(true)]
         public bool AllowCollapsed
         {
@@ -395,8 +395,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the minimum width allowed, with -1 removing this limitation
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Ribbon group minimum width, with -1 removing this limitation.")]
+        [Category(@"Behavior")]
+        [Description(@"Ribbon group minimum width, with -1 removing this limitation.")]
         [DefaultValue(-1)]
         public int MinimumWidth
         {
@@ -416,8 +416,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the maximum width allowed, with -1 removing this limitation
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Ribbon group maximum width, with -1 removing this limitation.")]
+        [Category(@"Behavior")]
+        [Description(@"Ribbon group maximum width, with -1 removing this limitation.")]
         [DefaultValue(-1)]
         public int MaximumWidth
         {
@@ -436,8 +436,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of ribbon group items.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of ribbon group items.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of ribbon group items.")]
         [MergableProperty(false)]
         [Editor(@"Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -446,8 +446,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag
@@ -486,11 +486,11 @@ namespace Krypton.Ribbon
         /// Raises the DialogBoxLauncherClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        internal protected virtual void OnDialogBoxLauncherClick(EventArgs e)
+        protected internal virtual void OnDialogBoxLauncherClick(EventArgs e)
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.ActionOccured();
+            Ribbon?.Actionoccurred();
 
             DialogBoxLauncherClick?.Invoke(this, e);
         }
@@ -499,10 +499,8 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         #endregion
 
         #region Internal
@@ -510,30 +508,15 @@ namespace Krypton.Ribbon
 
         internal bool ShowingAsPopup { get; set; }
 
-        internal void OnDesignTimeAddTriple()
-        {
-            DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddTriple() => DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddLines()
-        {
-            DesignTimeAddLines?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddLines() => DesignTimeAddLines?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddSeparator()
-        {
-            DesignTimeAddSeparator?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddSeparator() => DesignTimeAddSeparator?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddGallery()
-        {
-            DesignTimeAddGallery?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddGallery() => DesignTimeAddGallery?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -565,7 +548,10 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsCleared(object sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
-            if ((_ribbon != null) && (_ribbonTab != null) && (_ribbon.SelectedTab == _ribbonTab))
+            if ((_ribbon != null) 
+                && (_ribbonTab != null) 
+                && (_ribbon.SelectedTab == _ribbonTab)
+                )
             {
                 _ribbon.PerformNeedPaint(true);
             }
@@ -579,7 +565,10 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = this;
 
             // Only need to update display if this tab is selected and the group is visible
-            if ((_ribbon != null) && (_ribbonTab != null) && (_ribbon.SelectedTab == _ribbonTab))
+            if ((_ribbon != null) 
+                && (_ribbonTab != null) 
+                && (_ribbon.SelectedTab == _ribbonTab)
+                )
             {
                 _ribbon.PerformNeedPaint(true);
             }
@@ -593,7 +582,10 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = null;
 
             // Only need to update display if this tab is selected and the group was visible
-            if ((_ribbon != null) && (_ribbonTab != null) && (_ribbon.SelectedTab == _ribbonTab))
+            if ((_ribbon != null) 
+                && (_ribbonTab != null) 
+                && (_ribbon.SelectedTab == _ribbonTab)
+                )
             {
                 _ribbon.PerformNeedPaint(true);
             }

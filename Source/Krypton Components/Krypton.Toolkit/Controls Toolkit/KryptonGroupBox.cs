@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("Paint")]
     [DefaultProperty("ValuesPrimary")]
     [Designer("Krypton.Toolkit.KryptonGroupBoxDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Display frame around a group of related controls with an optional caption.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Display frame around a group of related controls with an optional caption.")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonGroupBox : VisualControlContainment
     {
@@ -176,8 +176,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
         [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public AutoSizeMode AutoSizeMode
         {
@@ -227,16 +227,16 @@ namespace Krypton.Toolkit
         /// Gets access to the internal panel that contains group content.
         /// </summary>
         [Localizable(false)]
-        [Category("Appearance")]
-        [Description("The internal panel that contains group content.")]
+        [Category(@"Appearance")]
+        [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonGroupBoxPanel Panel { get; }
 
         /// <summary>
         /// Gets and the sets the percentage of overlap for the caption and group area.
         /// </summary>
-        [Category("Visuals")]
-        [Description("The percentage the caption should overlap the group area.")]
+        [Category(@"Visuals")]
+        [Description(@"The percentage the caption should overlap the group area.")]
         [TypeConverter(typeof(OpacityConverter))]
         [DefaultValue(0.5)]
         public double CaptionOverlap
@@ -259,8 +259,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Border style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border style.")]
         [DefaultValue(typeof(PaletteBorderStyle), "ControlGroupBox")]
         public PaletteBorderStyle GroupBorderStyle
         {
@@ -286,8 +286,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background style.")]
         [DefaultValue(typeof(PaletteBackStyle), "ControlGroupBox")]
         public PaletteBackStyle GroupBackStyle
         {
@@ -311,8 +311,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the caption style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Caption style.")]
+        [Category(@"Visuals")]
+        [Description(@"Caption style.")]
         [DefaultValue(typeof(LabelStyle), "GroupBoxCaption")]
         public LabelStyle CaptionStyle
         {
@@ -336,8 +336,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the position of the caption.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Edge position of the caption.")]
+        [Category(@"Visuals")]
+        [Description(@"Edge position of the caption.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation CaptionEdge
         {
@@ -392,8 +392,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the orientation of the caption.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Orientation of the caption.")]
+        [Category(@"Visuals")]
+        [Description(@"Orientation of the caption.")]
         [DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation CaptionOrientation
         {
@@ -443,8 +443,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the caption visibility.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Caption visibility.")]
+        [Category(@"Visuals")]
+        [Description(@"Caption visibility.")]
         [DefaultValue(true)]
         public bool CaptionVisible
         {
@@ -464,8 +464,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common header group appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common header group appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBoxRedirect StateCommon { get; }
 
@@ -474,8 +474,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled header group appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled header group appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBox StateDisabled { get; }
 
@@ -484,8 +484,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal header group appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal header group appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBox StateNormal { get; }
 
@@ -494,12 +494,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the caption content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Caption values")]
+        [Category(@"Visuals")]
+        [Description(@"Caption values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CaptionValues Values { get; }
 
-        private bool ShouldSerializeValuesPrimary() => !Values.IsDefault;
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.

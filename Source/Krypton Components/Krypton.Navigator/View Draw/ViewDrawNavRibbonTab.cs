@@ -133,11 +133,11 @@ namespace Krypton.Navigator
 
             // Create button specification collection manager
             ButtonSpecManager = new ButtonSpecNavManagerLayoutBar(Navigator, Navigator.InternalRedirector, Page.ButtonSpecs, null,
-                                                               new ViewLayoutDocker[] { _layoutDocker },
+                                                               new[] { _layoutDocker },
                                                                new IPaletteMetric[] { Navigator.StateCommon },
-                                                               new PaletteMetricInt[] { PaletteMetricInt.PageButtonInset },
-                                                               new PaletteMetricInt[] { PaletteMetricInt.PageButtonInset },
-                                                               new PaletteMetricPadding[] { PaletteMetricPadding.PageButtonPadding },
+                                                               new[] { PaletteMetricInt.PageButtonInset },
+                                                               new[] { PaletteMetricInt.PageButtonInset },
+                                                               new[] { PaletteMetricPadding.PageButtonPadding },
                                                                Navigator.CreateToolStripRenderer,
                                                                OnNeedPaint)
             {
@@ -163,7 +163,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawNavRibbonTab:" + Id;
+            $@"ViewDrawNavRibbonTab:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -309,7 +309,7 @@ namespace Krypton.Navigator
             CheckPaletteState(context);
             
             // Cache the ribbon shape
-            _lastRibbonShape = (Navigator.Palette == null ? PaletteRibbonShape.Office2007 : Navigator.Palette.GetRibbonShape());
+            _lastRibbonShape = Navigator.Palette?.GetRibbonShape() ?? PaletteRibbonShape.Office2007;
             
             // We take on all the provided size
             ClientRectangle = context.DisplayRectangle;

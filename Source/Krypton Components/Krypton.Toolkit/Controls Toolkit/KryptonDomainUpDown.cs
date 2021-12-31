@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Items")]
     [DefaultBindingProperty("SelectedItem")]
     [Designer("Krypton.Toolkit.KryptonDomainUpDownDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Represents a Windows spin box (also known as an up-down control) that displays string values.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Represents a Windows spin box (also known as an up-down control) that displays string values.")]
     public class KryptonDomainUpDown : VisualControlBase,
                                        IContainedInputControl
     {
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets or sets a value indicating whether a value has been entered by the user.
             /// </summary>
-            internal protected bool InternalUserEdit
+            protected internal bool InternalUserEdit
             {
                 get => UserEdit;
                 set => UserEdit = value;
@@ -763,30 +763,30 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the SelectedItem property changes.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the value of the SelectedItem property changes.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the value of the SelectedItem property changes.")]
         public event EventHandler SelectedItemChanged;
 
         /// <summary>
         /// Occurs when the user scrolls the scroll box.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the user scrolls the scroll box.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the user scrolls the scroll box.")]
         public event ScrollEventHandler Scroll;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
 
@@ -897,10 +897,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new ViewLayoutDocker[] { _drawDockerInner },
+                                                         new[] { _drawDockerInner },
                                                          new IPaletteMetric[] { StateCommon },
-                                                         new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
+                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -1048,8 +1048,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of allowable items of the domain up down.
         /// </summary>
-        [Category("Data")]
-        [Description("The allowable items of the domain up down.")]
+        [Category(@"Data")]
+        [Description(@"The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [Localizable(true)]
@@ -1080,8 +1080,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the item collection is sorted.   
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether items in the domain list are sorted.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether items in the domain list are sorted.")]
         [DefaultValue(false)]
         public bool Sorted
         {
@@ -1092,8 +1092,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets how the text should be aligned for edit controls.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the text should be aligned for edit controls.\rDo not use this property, it is provided for backwards compatability only.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the text should be aligned for edit controls.\rDo not use this property, it is provided for backwards compatability only.")]
         [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -1126,8 +1126,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets how the up-down control will position the up down buttons relative to its text box.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the up-down control will position the up down buttons relative to its text box.")]
         [DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
@@ -1139,8 +1139,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.")]
         [DefaultValue(true)]
         public bool InterceptArrowKeys
         {
@@ -1151,8 +1151,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the text in the edit control can be changed or not.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the text in the edit control can be changed or not.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the text in the edit control can be changed or not.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool ReadOnly
@@ -1164,8 +1164,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -1184,8 +1184,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Input control style.")]
+        [Category(@"Visuals")]
+        [Description(@"Input control style.")]
         public InputControlStyle InputControlStyle
         {
             get => _inputControlStyle;
@@ -1208,8 +1208,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the up and down buttons style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Up and down buttons style.")]
+        [Category(@"Visuals")]
+        [Description(@"Up and down buttons style.")]
         public ButtonStyle UpDownButtonStyle
         {
             get => _upDownButtonStyle;
@@ -1231,32 +1231,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DomainUpDownButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common textbox appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common textbox appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
@@ -1265,8 +1265,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
@@ -1275,8 +1275,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
@@ -1285,8 +1285,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 
@@ -1328,12 +1328,10 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsActive =>
-            _fixedActive != null
-                ? _fixedActive.Value
-                : DesignMode || AlwaysActive ||
-                  ContainsFocus || _mouseOver || _domainUpDown.MouseOver ||
-                  _subclassEdit is { MouseOver: true } ||
-                  _subclassButtons is { MouseOver: true };
+            _fixedActive ?? DesignMode || AlwaysActive ||
+            ContainsFocus || _mouseOver || _domainUpDown.MouseOver ||
+            _subclassEdit is { MouseOver: true } ||
+            _subclassButtons is { MouseOver: true };
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1356,7 +1354,7 @@ namespace Krypton.Toolkit
             // Do we have a manager to ask for a preferred size?
             if (ViewManager != null)
             {
-                // Ask the view to peform a layout
+                // Ask the view to Perform a layout
                 Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
 
                 // Apply the maximum sizing

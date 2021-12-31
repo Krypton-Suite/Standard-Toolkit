@@ -61,8 +61,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to draw text on the menu strip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to draw text on the MenuStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to draw text on the MenuStrip.")]
         [KryptonDefaultColor()]
         public Color MenuStripText
         {
@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the font to draw text on the menu strip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Font to draw text on the MenuStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Font to draw text on the MenuStrip.")]
         [DefaultValue(null)]
         public Font MenuStripFont
         {
@@ -117,8 +117,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used in the MenuStrip..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used in the MenuStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used in the MenuStrip.")]
         [KryptonDefaultColor()]
         public Color MenuStripGradientBegin
         {
@@ -145,8 +145,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the MenuStrip..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the MenuStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the MenuStrip.")]
         [KryptonDefaultColor()]
         public Color MenuStripGradientEnd
         {

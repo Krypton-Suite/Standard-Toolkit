@@ -88,7 +88,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            ShowPages(new string[] { page.UniqueName });
+            ShowPages(new[] { page.UniqueName });
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(uniqueName));
             }
 
-            ShowPages(new string[] { uniqueName });
+            ShowPages(new[] { uniqueName });
         }
 
         /// <summary>
@@ -120,8 +120,8 @@ namespace Krypton.Docking
 
             if (pages.Length > 0)
             {
-                string[] uniqueNames = new string[pages.Length];
-                for (int i = 0; i < uniqueNames.Length; i++)
+                var uniqueNames = new string[pages.Length];
+                for (var i = 0; i < uniqueNames.Length; i++)
                 {
                     // Cannot show a null page reference
                     if (pages[i] == null)
@@ -151,7 +151,7 @@ namespace Krypton.Docking
             if (uniqueNames.Length > 0)
             {
                 // Cannot show a null or zero length unique name
-                foreach (string uniqueName in uniqueNames)
+                foreach (var uniqueName in uniqueNames)
                 {
                     if (uniqueName == null)
                     {
@@ -190,7 +190,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            HidePages(new string[] { page.UniqueName });
+            HidePages(new[] { page.UniqueName });
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Krypton.Docking
 
             if (uniqueName.Length > 0)
             {
-                HidePages(new string[] { uniqueName });
+                HidePages(new[] { uniqueName });
             }
         }
 
@@ -226,8 +226,8 @@ namespace Krypton.Docking
             if (pages.Length > 0)
             {
                 // Cannot hide a null page reference
-                string[] uniqueNames = new string[pages.Length];
-                for (int i = 0; i < uniqueNames.Length; i++)
+                var uniqueNames = new string[pages.Length];
+                for (var i = 0; i < uniqueNames.Length; i++)
                 {
                     // Cannot show a null page reference
                     if (pages[i] == null)
@@ -257,7 +257,7 @@ namespace Krypton.Docking
             if (uniqueNames.Length > 0)
             {
                 // Cannot hide a null or zero length unique name
-                foreach (string uniqueName in uniqueNames)
+                foreach (var uniqueName in uniqueNames)
                 {
                     if (uniqueName == null)
                     {
@@ -303,7 +303,7 @@ namespace Krypton.Docking
                 throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
             }
 
-            RemovePages(new string[] { uniqueName }, disposePage);
+            RemovePages(new[] { uniqueName }, disposePage);
         }
 
         /// <summary>
@@ -322,8 +322,8 @@ namespace Krypton.Docking
             if (pages.Length > 0)
             {
                 // Cannot remove a null page reference
-                string[] uniqueNames = new string[pages.Length];
-                for (int i = 0; i < uniqueNames.Length; i++)
+                var uniqueNames = new string[pages.Length];
+                for (var i = 0; i < uniqueNames.Length; i++)
                 {
                     // Cannot show a null page reference
                     if (pages[i] == null)
@@ -354,7 +354,7 @@ namespace Krypton.Docking
             if (uniqueNames.Length > 0)
             {
                 // Cannot remove a null or zero length unique name
-                foreach (string uniqueName in uniqueNames)
+                foreach (var uniqueName in uniqueNames)
                 {
                     if (uniqueName == null)
                     {
@@ -578,7 +578,7 @@ namespace Krypton.Docking
         private void OnDockableWorkspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the dockspace
-            List<KryptonPage> pages = new List<KryptonPage>();
+            var pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
                 if (page is not KryptonStorePage && (DockableWorkspaceControl.CellForPage(page) != null))

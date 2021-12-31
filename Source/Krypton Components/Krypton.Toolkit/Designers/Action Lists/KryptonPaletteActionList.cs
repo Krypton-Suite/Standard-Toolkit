@@ -50,10 +50,10 @@ namespace Krypton.Toolkit
             if (_palette != null)
             {
                 // Add the list of panel specific actions
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb("Reset to Defaults", OnResetClick), "Actions"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb("Populate from Base", OnPopulateClick), "Actions"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb("Import from Xml file...", OnImportClick), "Actions"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb("Export to Xml file...", OnExportClick), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset to Defaults", OnResetClick), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Populate from Base", OnPopulateClick), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import from Xml file...", OnImportClick), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export to Xml file...", OnExportClick), "Actions"));
             }
 
             return actions;

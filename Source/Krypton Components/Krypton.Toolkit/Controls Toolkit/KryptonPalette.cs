@@ -20,9 +20,9 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonPalette), "ToolboxBitmaps.KryptonPalette.bmp")]
     [DefaultEvent("PalettePaint")]
     [DefaultProperty("BasePaletteMode")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit")]
-    [Description("A customisable palette component.")]
+    [Description(@"A customisable palette component.")]
     public class KryptonPalette : Component, IPalette
     {
         #region Type Definitions
@@ -50,36 +50,36 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a palette change requires a repaint.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when a change requires a repaint to reflect the update.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when a change requires a repaint to reflect the update.")]
         public event EventHandler<PaletteLayoutEventArgs> PalettePaint;
 
         /// <summary>
         /// Occurs when the AllowFormChrome setting changes.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the AllowFormChrome setting changes.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the AllowFormChrome setting changes.")]
         public event EventHandler AllowFormChromeChanged;
 
         /// <summary>
         /// Occurs when the BasePalette/BasePaletteMode setting changes.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when a base palette setting change occurs.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when a base palette setting change occurs.")]
         public event EventHandler BasePaletteChanged;
 
         /// <summary>
         /// Occurs when the BaseRenderer/BaseRendererMode setting changes.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when a base renderer setting change occurs.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when a base renderer setting change occurs.")]
         public event EventHandler BaseRendererChanged;
 
         /// <summary>
         /// Occurs when a button spec change occurs.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when a button spec change occurs.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when a button spec change occurs.")]
         public event EventHandler ButtonSpecChanged;
         #endregion
 
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating if KryptonForm instances should show custom chrome.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Should KryptonForm instances show custom chrome.")]
+        [Category(@"Visuals")]
+        [Description(@"Should KryptonForm instances show custom chrome.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         public InheritBool AllowFormChrome
         {
@@ -219,8 +219,8 @@ namespace Krypton.Toolkit
         /// Gets access to the button specifications.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecs ButtonSpecs
         {
@@ -237,8 +237,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for button styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of button styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of button styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButtons ButtonStyles
         {
@@ -255,8 +255,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance of the calendar day.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of the calendar day.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of the calendar day.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCalendarDay CalendarDay { get; set; }
 
@@ -269,8 +269,8 @@ namespace Krypton.Toolkit
         /// Gets access to the set of user supplied values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Set of user supplied values.")]
+        [Category(@"Visuals")]
+        [Description(@"Set of user supplied values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCargo Cargo { get; set; }
 
@@ -283,8 +283,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCommon Common { get; set; }
 
@@ -297,8 +297,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for control styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of control styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of control styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControls ControlStyles { get; set; }
 
@@ -311,8 +311,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for context menus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of context menus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of context menus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteContextMenu ContextMenu { get; set; }
 
@@ -325,8 +325,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance of drag and drop.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of drag and drop.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of drag and drop.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDragDrop DragDrop { get; set; }
 
@@ -339,8 +339,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for form styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of form styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of form styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForms FormStyles { get; set; }
 
@@ -353,8 +353,8 @@ namespace Krypton.Toolkit
         /// Gets access to the HeaderGroup appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining HeaderGroup appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining HeaderGroup appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeaderGroup HeaderGroup { get; set; }
 
@@ -367,8 +367,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for header styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of header styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of header styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeaders HeaderStyles { get; set; }
 
@@ -381,8 +381,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for grid styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of grid styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of grid styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrids GridStyles { get; set; }
 
@@ -395,8 +395,8 @@ namespace Krypton.Toolkit
         /// Gets access to the images.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining images.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImages Images { get; set; }
 
@@ -409,8 +409,8 @@ namespace Krypton.Toolkit
         /// Gets access to the input controls styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining input controls.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining input controls.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControls InputControlStyles { get; set; }
 
@@ -423,8 +423,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for label styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of label styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of label styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabels LabelStyles { get; set; }
 
@@ -437,8 +437,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Navigator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteNavigator Navigator { get; set; }
 
@@ -451,8 +451,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for panel styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of panel styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of panel styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanels PanelStyles { get; set; }
 
@@ -465,8 +465,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance settings for ribbon.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of ribbon.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of ribbon.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbon Ribbon { get; set; }
 
@@ -479,8 +479,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for separator styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of separator styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of separator styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparators SeparatorStyles { get; set; }
 
@@ -493,8 +493,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for tab styles.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance of tab styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance of tab styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButtons TabStyles { get; set; }
 
@@ -507,8 +507,8 @@ namespace Krypton.Toolkit
         /// Gets access to the appearance for the track bar.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining appearance for the track bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining appearance for the track bar.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTrackBar TrackBar { get; set; }
 
@@ -521,8 +521,8 @@ namespace Krypton.Toolkit
         /// Gets access to the set of color table settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Colors associated with tool, menu and status strips.")]
+        [Category(@"Visuals")]
+        [Description(@"Colors associated with tool, menu and status strips.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMS ToolMenuStatus { get; set; }
 
@@ -2532,8 +2532,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the customised Krypton palette file path.</summary>
         [KryptonPersist(false, false)]
-        [Category("Miscellaneous")]
-        [Description("Gets the customised Krypton palette file path.")]
+        [Category(@"Miscellaneous")]
+        [Description(@"Gets the customised Krypton palette file path.")]
         [DefaultValue("")]
         [Browsable(false)]
         public string CustomisedKryptonPaletteFilePath { get; private set; }
@@ -2543,8 +2543,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the palette name.</summary>
         [KryptonPersist(false, false),
-         Category("Miscellaneous"),
-         Description("Gets the palette name."),
+         Category(@"Miscellaneous"),
+         Description(@"Gets the palette name."),
          DefaultValue("")]
         public string PaletteName { get; private set; }
 
@@ -2555,8 +2555,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the base palette used to inherit from.
         /// </summary>
         [KryptonPersist(false, false)]
-        [Category("Visuals")]
-        [Description("Base palette used to inherit from.")]
+        [Category(@"Visuals")]
+        [Description(@"Base palette used to inherit from.")]
         [DefaultValue(typeof(PaletteMode), "Office365Blue")]
         public PaletteMode BasePaletteMode
         {
@@ -2620,8 +2620,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonPalette used to inherit from.
         /// </summary>
-        [Category("Visuals")]
-        [Description("KryptonPalette used to inherit from.")]
+        [Category(@"Visuals")]
+        [Description(@"KryptonPalette used to inherit from.")]
         [DefaultValue(null)]
         public IPalette BasePalette
         {
@@ -2683,8 +2683,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the renderer used for drawing the palette.
         /// </summary>
         [KryptonPersist(false, false)]
-        [Category("Visuals")]
-        [Description("Renderer used to inherit from.")]
+        [Category(@"Visuals")]
+        [Description(@"Renderer used to inherit from.")]
         [DefaultValue(typeof(RendererMode), "Inherit")]
         public RendererMode BaseRenderMode
         {
@@ -2732,8 +2732,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom renderer to be used with this palette.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom renderer to be used with this palette.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom renderer to be used with this palette.")]
         [DefaultValue(null)]
         public IRenderer BaseRenderer
         {
@@ -2939,7 +2939,7 @@ namespace Krypton.Toolkit
             // Check the target file actually exists
             if (!File.Exists(filename))
             {
-                throw new ArgumentException("Provided file does not exist.");
+                throw new ArgumentException(@"Provided file does not exist.", nameof(parameter));
             }
 
             // Create a new xml document for storing the palette settings

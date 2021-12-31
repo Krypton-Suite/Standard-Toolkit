@@ -80,8 +80,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common ribbon application button appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon application button appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon application button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCommon { get; }
 
@@ -94,8 +94,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked ribbon group area appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked ribbon group area appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked ribbon group area appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCheckedNormal { get; }
 
@@ -108,8 +108,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context checked ribbon group area appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context checked ribbon group area appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context checked ribbon group area appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateContextCheckedNormal { get; }
 
@@ -122,12 +122,12 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking ribbon group area appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking ribbon group area appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking ribbon group area appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateTracking { get; }
 
-        public bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         #endregion
     }

@@ -28,8 +28,11 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        [Category("Visuals")]
-        [Description("Set a watermark/prompt message for the user.")]
+        /// <summary>
+        /// Set a watermark/prompt message for the user.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Set a watermark/prompt message for the user.")]
         [RefreshProperties(RefreshProperties.All)]
         public string CueHintText { get; set; }
 
@@ -137,8 +140,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the horizontal Content text alignment for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative Vertical Content text alignment")]
+        [Category(@"Visuals")]
+        [Description(@"Relative Vertical Content text alignment")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(PaletteRelativeAlign.Center)]
         public PaletteRelativeAlign TextV
@@ -163,8 +166,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the horizontal Content text alignment for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative horizontal Content text alignment")]
+        [Category(@"Visuals")]
+        [Description(@"Relative horizontal Content text alignment")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(PaletteRelativeAlign.Near)]
         public override PaletteRelativeAlign TextH
@@ -198,8 +201,8 @@ namespace Krypton.Toolkit
         /// Gets the padding between the border and content drawing.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Padding between the border and content drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "0")]
         public new Padding Padding
         {

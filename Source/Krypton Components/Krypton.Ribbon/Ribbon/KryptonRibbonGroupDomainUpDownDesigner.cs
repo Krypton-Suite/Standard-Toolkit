@@ -193,13 +193,13 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move DomainUpDown First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move DomainUpDown Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move DomainUpDown Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move DomainUpDown Last", OnMoveLast);
-                _deleteDomainUpDownVerb = new DesignerVerb("Delete DomainUpDown", OnDeleteDomainUpDown);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move DomainUpDown First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move DomainUpDown Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move DomainUpDown Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move DomainUpDown Last", OnMoveLast);
+                _deleteDomainUpDownVerb = new DesignerVerb(@"Delete DomainUpDown", OnDeleteDomainUpDown);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteDomainUpDownVerb });
             }
 
@@ -240,12 +240,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDomainUpDown MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -272,12 +272,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDomainUpDown MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -306,12 +306,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDomainUpDown MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -340,12 +340,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDomainUpDown MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -372,12 +372,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDomainUpDown DeleteDomainUpDown");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown DeleteDomainUpDown");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDomainUpDown.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(null);
                     RaiseComponentChanging(propertyItems);
@@ -403,7 +403,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonDomainUpDown?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonDomainUpDown)["Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonDomainUpDown)[@"Enabled"];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonDomainUpDown);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDomainUpDown, null, oldValue, newValue);
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonDomainUpDown?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonDomainUpDown)["Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonDomainUpDown)[@"Visible"];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonDomainUpDown);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDomainUpDown, null, oldValue, newValue);

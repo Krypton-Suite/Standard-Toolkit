@@ -175,7 +175,7 @@ namespace Krypton.Navigator
 
             } while (relayout);
 
-            // Now all layouts have occured we can actually move child controls
+            // Now all layouts have occurred we can actually move child controls
             context.ViewManager.DoNotLayoutControls = false;
 
             // Perform actual layout of child controls

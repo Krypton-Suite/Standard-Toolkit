@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
             // Default the initial state
             _elementState = PaletteState.Normal;
 
-            //seb Dpi aware
+            // This does mean that the app will not change it's dpi awareness until restarted !
             using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
             FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
             FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
         public abstract void CopyTo(ViewBase[] array, int arrayIndex);
 
         /// <summary>
-        /// Removes first occurance of specified view.
+        /// Removes first occurrence of specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Bubble event up to the parent
-                return Parent != null ? Parent.MouseDown(pt, button) : false;
+                return Parent?.MouseDown(pt, button) ?? false;
             }
         }
 
@@ -614,7 +614,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Bubble event up to the parent
-                return Parent != null ? Parent.KeyUp(e) : false;
+                return Parent?.KeyUp(e) ?? false;
             }
         }
         #endregion

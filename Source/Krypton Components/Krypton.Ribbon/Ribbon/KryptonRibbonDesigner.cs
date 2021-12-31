@@ -118,7 +118,6 @@ namespace Krypton.Ribbon
                 // Create a collection of action lists
                 DesignerActionListCollection actionLists = new()
                 {
-
                     // Add the ribbon specific list
                     new KryptonRibbonActionList(this)
                 };
@@ -138,10 +137,10 @@ namespace Krypton.Ribbon
                 if (_verbs == null)
                 {
                     _verbs = new DesignerVerbCollection();
-                    _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                    _addTabVerb = new DesignerVerb("Add Tab", OnAddTab);
-                    _clearTabsVerb = new DesignerVerb("Clear Tabs", OnClearTabs);
-                    _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb });
+                    _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                    _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
+                    _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
+                    _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb });
                 }
 
                 UpdateVerbStatus();
@@ -243,7 +242,7 @@ namespace Krypton.Ribbon
         private void OnSelectedTabChanged(object sender, EventArgs e)
         {
             // Notify a change in the selected tab value, marks the form as dirty
-            MemberDescriptor propertyTab = TypeDescriptor.GetProperties(_ribbon)["SelectedTab"];
+            MemberDescriptor propertyTab = TypeDescriptor.GetProperties(_ribbon)[@"SelectedTab"];
             RaiseComponentChanging(propertyTab);
             RaiseComponentChanged(propertyTab, null, null);
         }
@@ -265,12 +264,12 @@ namespace Krypton.Ribbon
         private void OnAddTab(object sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
-            DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbon AddTab");
+            DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbon AddTab");
 
             try
             {
                 // Get access to the tabs property
-                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(_ribbon)["RibbonTabs"];
+                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(_ribbon)[@"RibbonTabs"];
 
                 RaiseComponentChanging(propertyPages);
 
@@ -292,12 +291,12 @@ namespace Krypton.Ribbon
         private void OnClearTabs(object sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
-            DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbon ClearTabs");
+            DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbon ClearTabs");
 
             try
             {
                 // Get access to the tabs property
-                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(_ribbon)["RibbonTabs"];
+                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(_ribbon)[@"RibbonTabs"];
 
                 RaiseComponentChanging(propertyPages);
 

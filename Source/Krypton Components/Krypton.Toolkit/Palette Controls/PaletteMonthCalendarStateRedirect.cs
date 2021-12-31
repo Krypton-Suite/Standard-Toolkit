@@ -74,12 +74,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the day appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining day appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining day appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Day { get; }
 
-        private bool ShouldSerializeContent() => !Day.IsDefault;
+        private bool ShouldSerializeDay() => !Day.IsDefault;
 
         #endregion
     }

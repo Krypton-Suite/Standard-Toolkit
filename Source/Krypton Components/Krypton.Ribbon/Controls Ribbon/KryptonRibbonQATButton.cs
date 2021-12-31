@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonRibbonQATButton), "ToolboxBitmaps.KryptonRibbonQATButton.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Image")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonQATButton : Component,
                                           IQuickAccessToolbarButton
@@ -84,8 +84,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Values")]
-        [Description("Application button image.")]
+        [Category(@"Values")]
+        [Description(@"Application button image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
@@ -101,7 +101,7 @@ namespace Krypton.Ribbon
                         // quick access toolbar. So we reject anything bigger than 16x16.
                         if ((value.Width > 16) || (value.Height > 16))
                         {
-                            throw new ArgumentOutOfRangeException("Image must be 16x16 or smaller.");
+                            throw new ArgumentOutOfRangeException(nameof(Image), @"Image must be 16x16 or smaller.");
                         }
                     }
 
@@ -123,8 +123,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the ribbon quick access toolbar entry.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the ribbon quick access toolbar entry is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the ribbon quick access toolbar entry is visible or hidden.")]
         [DefaultValue(true)]
         public bool Visible
         {
@@ -167,8 +167,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the ribbon quick access toolbar entry.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the ribbon quick access toolbar entry is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the ribbon quick access toolbar entry is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -195,8 +195,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("QAT button text.")]
+        [Category(@"Appearance")]
+        [Description(@"QAT button text.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("QAT Button")]
         public string Text
@@ -223,8 +223,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to fire click event of the quick access toolbar button.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to fire click event of the quick access toolbar button.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -240,8 +240,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the tooltip label style for the quick access button.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Tooltip style for the quick access toolbar button.")]
+        [Category(@"Appearance")]
+        [Description(@"Tooltip style for the quick access toolbar button.")]
         [DefaultValue(typeof(LabelStyle), "ToolTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
@@ -249,8 +249,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the image for the item ToolTip.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Display image associated ToolTip.")]
+        [Category(@"Appearance")]
+        [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public Image ToolTipImage { get; set; }
@@ -259,8 +259,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the color to draw as transparent in the ToolTipImage.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Color to draw as transparent in the ToolTipImage.")]
+        [Category(@"Appearance")]
+        [Description(@"Color to draw as transparent in the ToolTipImage.")]
         [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
@@ -269,8 +269,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the title text for the item ToolTip.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Title text for use in associated ToolTip.")]
+        [Category(@"Appearance")]
+        [Description(@"Title text for use in associated ToolTip.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
@@ -280,8 +280,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the body text for the item ToolTip.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Body text for use in associated ToolTip.")]
+        [Category(@"Appearance")]
+        [Description(@"Body text for use in associated ToolTip.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
@@ -290,8 +290,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the quick access toolbar button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the quick access toolbar button.")]
         [DefaultValue(null)]
         public KryptonCommand KryptonCommand
         {
@@ -326,8 +326,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag
@@ -491,7 +491,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.ActionOccured();
+            Ribbon?.Actionoccurred();
 
             Click?.Invoke(this, e);
 

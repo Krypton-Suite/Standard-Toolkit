@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
     public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
@@ -48,36 +48,36 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the value of the ImageList property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the ImageList property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the ImageList property changes.")]
         public event EventHandler ImageListChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the SelectedIndex property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         public event EventHandler SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when user is tracking over an image.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when user is tracking over an image.")]
         public event EventHandler<ImageSelectEventArgs> TrackingImage;
 
         /// <summary>
         /// Occurs when the user invokes the drop down menu.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when user invokes the drop down menu.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when user invokes the drop down menu.")]
         public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Access to the actual embedded KryptonGallery instance.
         /// </summary>
-        [Description("Access to the actual embedded KryptonGallery instance.")]
+        [Description(@"Access to the actual embedded KryptonGallery instance.")]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -159,8 +159,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of drop down ranges.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of drop down ranges")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of drop down ranges")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonGalleryRangeCollection DropButtonRanges => Gallery.DropButtonRanges;
@@ -168,8 +168,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if scrolling is animated or a jump straight to target..
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if scrolling is animated or a jump straight to target.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if scrolling is animated or a jump straight to target.")]
         [DefaultValue(true)]
         public bool SmoothScrolling
         {
@@ -185,8 +185,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the collection of images for display and selection.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of images for display and selection.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of images for display and selection.")]
         public ImageList ImageList
         {
             get => Gallery.ImageList;
@@ -204,8 +204,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the collection of images for display and selection.
         /// </summary>
-        [Category("Visuals")]
-        [Description("The index of the selected image.")]
+        [Category(@"Visuals")]
+        [Description(@"The index of the selected image.")]
         [DefaultValue(-1)]
         public int SelectedIndex
         {
@@ -224,8 +224,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the number of horizontal items when in large setting.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Number of horizontal displayed items when in large setting.")]
+        [Category(@"Visuals")]
+        [Description(@"Number of horizontal displayed items when in large setting.")]
         [DefaultValue(9)]
         public int LargeItemCount
         {
@@ -251,8 +251,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the number of horizontal items when in medium setting.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Number of horizontal displayed items when in medium setting.")]
+        [Category(@"Visuals")]
+        [Description(@"Number of horizontal displayed items when in medium setting.")]
         [DefaultValue(3)]
         public int MediumItemCount
         {
@@ -278,8 +278,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the number of horizontal displayed items when showing drop menu from the large button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Number of horizontal displayed items when showing drop menu from the large button.")]
+        [Category(@"Visuals")]
+        [Description(@"Number of horizontal displayed items when showing drop menu from the large button.")]
         [DefaultValue(9)]
         public int DropButtonItemWidth
         {
@@ -299,8 +299,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum number of lines items for the drop down menu.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Maximum number of line items for the drop down menu.")]
+        [Category(@"Visuals")]
+        [Description(@"Maximum number of line items for the drop down menu.")]
         [DefaultValue(128)]
         public int DropMaxItemWidth
         {
@@ -319,8 +319,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the minimum number of lines items for the drop down menu.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Minimum number of line items for the drop down menu.")]
+        [Category(@"Visuals")]
+        [Description(@"Minimum number of line items for the drop down menu.")]
         [DefaultValue(3)]
         public int DropMinItemWidth
         {
@@ -339,8 +339,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut to display when the user right-clicks the control.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip
         {
@@ -351,8 +351,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the KryptonContextMenu for showing when the gallery is right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("KryptonContextMenu to be shown when the gallery is right clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"KryptonContextMenu to be shown when the gallery is right clicked.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -365,8 +365,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group gallery key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group gallery key tip.")]
         [DefaultValue("X")]
         public string KeyTip
         {
@@ -388,8 +388,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Large gallery button image.")]
+        [Category(@"Appearance")]
+        [Description(@"Large gallery button image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
@@ -412,8 +412,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Gallery button display text line 1.")]
+        [Category(@"Appearance")]
+        [Description(@"Gallery button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Gallery")]
         public string TextLine1
@@ -441,8 +441,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Gallery button display text line 2.")]
+        [Category(@"Appearance")]
+        [Description(@"Gallery button display text line 2.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
@@ -468,8 +468,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the group gallery.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group gallery is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group gallery is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -508,8 +508,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group gallery.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group gallery is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group gallery is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -528,8 +528,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum allowed size of the gallery.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Maximum size of the gallery.")]
+        [Category(@"Visuals")]
+        [Description(@"Maximum size of the gallery.")]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -544,8 +544,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the minimum allowed size of the gallery.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Minimum size of the gallery.")]
+        [Category(@"Visuals")]
+        [Description(@"Minimum size of the gallery.")]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]

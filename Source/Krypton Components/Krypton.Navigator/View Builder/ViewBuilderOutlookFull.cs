@@ -258,7 +258,7 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "OrientationOutlook":
+                case @"OrientationOutlook":
                     _viewOutlook.VerticalViewport = (Navigator.Outlook.Orientation == Orientation.Vertical);
                     break;
             }

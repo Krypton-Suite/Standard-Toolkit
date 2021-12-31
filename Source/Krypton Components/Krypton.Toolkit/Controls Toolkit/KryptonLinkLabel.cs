@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonLinkLabelDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Displays descriptive information as a hyperlink.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays descriptive information as a hyperlink.")]
     public class KryptonLinkLabel : KryptonLabel
     {
         #region Instance Fields
@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the link is clicked.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the link is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the link is clicked.")]
         public event EventHandler LinkClicked;
         #endregion
 
@@ -98,8 +98,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value that determines the underline behavior of the link label.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines the underline behavior of the link label.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines the underline behavior of the link label.")]
         public KryptonLinkBehavior LinkBehavior
         {
             get => _inheritBehavior.LinkBehavior;
@@ -124,8 +124,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if the label has been visited.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Indicates if the hyperlink has been visited already.")]
+        [Category(@"Visuals")]
+        [Description(@"Indicates if the hyperlink has been visited already.")]
         [DefaultValue(false)]
         public bool LinkVisited
         {
@@ -145,8 +145,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed label appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverridePressed { get; }
 
@@ -155,8 +155,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the label appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining label appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining label appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
@@ -165,8 +165,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to normal state modifications when label has been visited.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for modifying normal state when label has been visited.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for modifying normal state when label has been visited.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideVisited { get; }
 
@@ -175,8 +175,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to normal state modifications when label has not been visited.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for modifying normal state when label has not been visited.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for modifying normal state when label has not been visited.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideNotVisited { get; }
 

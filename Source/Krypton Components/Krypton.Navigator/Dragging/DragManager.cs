@@ -16,7 +16,7 @@ namespace Krypton.Navigator
     /// <summary>
     /// Specialise the generic collection with type specific rules for item accessor.
     /// </summary>
-    public class DragTargetProviderCollection : TypedCollection<IDragTargetProvider> {};
+    public class DragTargetProviderCollection : TypedCollection<IDragTargetProvider> {}
 
     /// <summary>
     /// Manage a dragging operation.

@@ -100,12 +100,12 @@ namespace Krypton.Toolkit
         /// <remarks>
         /// Only create the single instance when first requested
         /// </remarks>
-        internal static AccurateTextMemento Empty => _empty ?? (_empty = new AccurateTextMemento(string.Empty,
-                                                         null,
-                                                         Size.Empty,
-                                                         StringFormat.GenericDefault,
-                                                         TextRenderingHint.SystemDefault,
-                                                         false));
+        internal static AccurateTextMemento Empty => _empty ??= new AccurateTextMemento(string.Empty,
+            null,
+            Size.Empty,
+            StringFormat.GenericDefault,
+            TextRenderingHint.SystemDefault,
+            false);
 
         #endregion
     }

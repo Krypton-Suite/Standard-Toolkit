@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -108,7 +108,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
             else
             {
@@ -117,7 +117,7 @@ namespace Krypton.Ribbon
                     (state == PaletteState.ContextPressed))
                 {
                     // For context drawing we merge the incoming color and the context color
-                    Color contextColor = CheckForContextColor(state);
+                    Color contextColor = CheckForContextColor();
                     return CommonHelper.MergeColors(retColor, 0.5f, contextColor, 0.5f);
                 }
             }
@@ -139,7 +139,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private Color CheckForContextColor(PaletteState state)
+        private Color CheckForContextColor()
         {
             // We need an associated ribbon tab
             // Does the ribbon tab have a context setting?

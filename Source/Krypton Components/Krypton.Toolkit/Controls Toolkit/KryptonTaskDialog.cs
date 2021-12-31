@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTaskDialog), "ToolboxBitmaps.KryptonTaskDialog.bmp")]
     [DefaultEvent("PropertyChanged")]
-    [DesignerCategory("code")]
-    [Description("Displays a task dialog for presenting different options to the user.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays a task dialog for presenting different options to the user.")]
     public class KryptonTaskDialog : Component, INotifyPropertyChanged
     {
         #region Instance Fields
@@ -48,15 +48,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the users clicks the footer hyperlink.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the users clicks the footer hyperlink.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the users clicks the footer hyperlink.")]
         public event EventHandler FooterHyperlinkClicked;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the caption of the window.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Caption of the window.")]
+        [Category(@"Appearance")]
+        [Description(@"Caption of the window.")]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]
@@ -117,8 +117,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the principal text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Principal text.")]
+        [Category(@"Appearance")]
+        [Description(@"Principal text.")]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]
@@ -139,8 +139,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the extra text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Extra text.")]
+        [Category(@"Appearance")]
+        [Description(@"Extra text.")]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]
@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the predefined icon.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Predefined icon.")]
+        [Category(@"Appearance")]
+        [Description(@"Predefined icon.")]
         [DefaultValue(typeof(MessageBoxIcon), "None")]
         public MessageBoxIcon Icon
         {
@@ -181,8 +181,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom icon.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Custom icon.")]
+        [Category(@"Appearance")]
+        [Description(@"Custom icon.")]
         [DefaultValue(null)]
         public Image CustomIcon
         {
@@ -201,8 +201,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the collection of radio button definitions.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Collection of radio button definitions.")]
+        [Category(@"Appearance")]
+        [Description(@"Collection of radio button definitions.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [RefreshProperties(RefreshProperties.All)]
@@ -212,8 +212,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the collection of command button definitions.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Collection of command button definitions.")]
+        [Category(@"Appearance")]
+        [Description(@"Collection of command button definitions.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [RefreshProperties(RefreshProperties.All)]
@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the common dialog buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Common dialog buttons.")]
+        [Category(@"Appearance")]
+        [Description(@"Common dialog buttons.")]
         [DefaultValue(typeof(TaskDialogButtons), "OK")]
         public TaskDialogButtons CommonButtons
         {
@@ -243,8 +243,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the default radio button.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Default radio button.")]
+        [Category(@"Appearance")]
+        [Description(@"Default radio button.")]
         [DefaultValue(typeof(TaskDialogButtons), "None")]
         public KryptonTaskDialogCommand DefaultRadioButton
         {
@@ -263,8 +263,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the default common button.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Default Common button.")]
+        [Category(@"Appearance")]
+        [Description(@"Default Common button.")]
         [DefaultValue(typeof(TaskDialogButtons), "None")]
         public TaskDialogButtons DefaultButton
         {
@@ -283,8 +283,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the predefined footer icon.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Predefined footer icon.")]
+        [Category(@"Appearance")]
+        [Description(@"Predefined footer icon.")]
         [DefaultValue(typeof(MessageBoxIcon), "None")]
         public MessageBoxIcon FooterIcon
         {
@@ -303,8 +303,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom footer icon.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Custom footer icon.")]
+        [Category(@"Appearance")]
+        [Description(@"Custom footer icon.")]
         [DefaultValue(null)]
         public Image CustomFooterIcon
         {
@@ -323,8 +323,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the footer text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Footer text.")]
+        [Category(@"Appearance")]
+        [Description(@"Footer text.")]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]
@@ -345,8 +345,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the footer hyperlink.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Footer hyperlink.")]
+        [Category(@"Appearance")]
+        [Description(@"Footer hyperlink.")]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]
@@ -367,8 +367,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the Checkbox text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Checkbox text.")]
+        [Category(@"Appearance")]
+        [Description(@"Checkbox text.")]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]
@@ -389,8 +389,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the Checkbox text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Checkbox state.")]
+        [Category(@"Appearance")]
+        [Description(@"Checkbox state.")]
         [DefaultValue(false)]
         [Localizable(true)]
         [Bindable(true)]
@@ -411,8 +411,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the window can be closed.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Can the user close the window.")]
+        [Category(@"Appearance")]
+        [Description(@"Can the user close the window.")]
         [DefaultValue(false)]
         public bool AllowDialogClose
         {
@@ -431,8 +431,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag { get; set; }
@@ -440,8 +440,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Allows user to override the default "Ctrl+c to copy" in window caption
         /// </summary>
-        [Category("Appearance")]
-        [Description("'ExtraText' in Caption of the window.")]
+        [Category(@"Appearance")]
+        [Description(@"'ExtraText' in Caption of the window.")]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]

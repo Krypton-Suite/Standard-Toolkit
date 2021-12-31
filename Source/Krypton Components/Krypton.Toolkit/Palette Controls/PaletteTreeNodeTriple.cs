@@ -72,12 +72,12 @@ namespace Krypton.Toolkit
         /// Gets access to the node palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining node appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining node appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteTriple Node => _paletteNode;
 
-        private bool ShouldSerializeItem() => !_paletteNode.IsDefault;
+        private bool ShouldSerializeNode() => !_paletteNode.IsDefault;
 
         #endregion
     }

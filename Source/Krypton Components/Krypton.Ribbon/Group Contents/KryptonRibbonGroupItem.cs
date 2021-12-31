@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// Represents the base class for all ribbon group items.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public abstract class KryptonRibbonGroupItem : Component,
                                                    IRibbonGroupItem,
@@ -39,11 +39,10 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupItem class.
         /// </summary>
-        protected KryptonRibbonGroupItem()
-        {
+        protected KryptonRibbonGroupItem() =>
             // Do the Tooltip Magic
             _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/); // Must be replaced by appropriate call
-        }
+
         #endregion Identity
 
         #region Public
@@ -125,8 +124,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag
@@ -152,8 +151,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        [Category("ToolTip")]
-        [Description("Control ToolTip Text")]
+        [Category(@"ToolTip")]
+        [Description(@"Control ToolTip Text")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public abstract ToolTipValues ToolTipValues 
         { 
@@ -213,7 +212,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         public BindingContext BindingContext
         {
-            get => bindingContext ?? (bindingContext = new BindingContext());
+            get => bindingContext ??= new BindingContext();
             set => bindingContext = value;
         }
 
@@ -225,7 +224,7 @@ namespace Krypton.Ribbon
         [Description(@"ControlBindings")]
         [RefreshProperties(RefreshProperties.All)]
         [ParenthesizePropertyName(true)]
-        public ControlBindingsCollection DataBindings => dataBindings ?? (dataBindings = new ControlBindingsCollection(this));
+        public ControlBindingsCollection DataBindings => dataBindings ??= new ControlBindingsCollection(this);
 
         #endregion
     }

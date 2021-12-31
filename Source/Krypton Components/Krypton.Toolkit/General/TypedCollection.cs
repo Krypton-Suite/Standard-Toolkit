@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
         public bool IsFixedSize => false;
 
         /// <summary>
-        /// Removes first occurence of specified item.
+        /// Removes first occurrence of specified item.
         /// </summary>
         /// <param name="value">Object reference.</param>
         public void Remove(object value) =>
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the item with the provided unique name.
         /// </summary>
-        /// <param name=(@"Name")>Name of the ribbon tab instance.</param>
+        /// <param name="name">Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
         public virtual T this[string name] => null;
 
@@ -353,7 +353,7 @@ namespace Krypton.Toolkit
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// Removes first occurence of specified item.
+        /// Removes first occurrence of specified item.
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if removed; otherwise false.</returns>

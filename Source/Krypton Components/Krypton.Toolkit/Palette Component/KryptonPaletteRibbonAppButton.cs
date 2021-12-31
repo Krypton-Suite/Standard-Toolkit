@@ -80,8 +80,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common ribbon application button appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon application button appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon application button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCommon { get; }
 
@@ -94,8 +94,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal ribbon application button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal ribbon application button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal ribbon application button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateNormal { get; }
 
@@ -108,8 +108,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking ribbon application button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking ribbon application button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking ribbon application button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateTracking { get; }
 
@@ -122,8 +122,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed ribbon application button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed ribbon application button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed ribbon application button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StatePressed { get; }
 

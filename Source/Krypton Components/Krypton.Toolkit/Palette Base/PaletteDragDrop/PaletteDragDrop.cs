@@ -106,8 +106,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the feedback drawing method used.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Feedback drawing method used.")]
+        [Category(@"Visuals")]
+        [Description(@"Feedback drawing method used.")]
         [DefaultValue(typeof(PaletteDragFeedback), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteDragFeedback Feedback
@@ -146,8 +146,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the background color for a solid drag drop area.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background color for a solid drag drop area.")]
+        [Category(@"Visuals")]
+        [Description(@"Background color for a solid drag drop area.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public Color SolidBack
@@ -182,8 +182,8 @@ namespace Krypton.Toolkit
         ///  Gets and sets the border color for a solid drag drop area.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border color for a solid drag drop area.")]
+        [Category(@"Visuals")]
+        [Description(@"Border color for a solid drag drop area.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public Color SolidBorder
@@ -219,8 +219,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the opacity of the solid area.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Opacity for the solid drag drop area.")]
+        [Category(@"Visuals")]
+        [Description(@"Opacity for the solid drag drop area.")]
         [DefaultValue(-1.0f)]
         [RefreshProperties(RefreshProperties.All)]
         public float SolidOpacity
@@ -255,8 +255,8 @@ namespace Krypton.Toolkit
         ///  Gets and sets the background color for the docking indicators area.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background color for the docking indicators area.")]
+        [Category(@"Visuals")]
+        [Description(@"Background color for the docking indicators area.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockBack
@@ -293,8 +293,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color for the docking indicators area.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border color for the docking indicators area.")]
+        [Category(@"Visuals")]
+        [Description(@"Border color for the docking indicators area.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockBorder
@@ -330,8 +330,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the active color for docking indicators.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Sctive color for docking indicators..")]
+        [Category(@"Visuals")]
+        [Description(@"Sctive color for docking indicators..")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockActive
@@ -367,8 +367,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the inactive color for docking indicators.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Inactive color for docking indicators.")]
+        [Category(@"Visuals")]
+        [Description(@"Inactive color for docking indicators.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockInactive

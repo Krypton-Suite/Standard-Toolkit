@@ -198,28 +198,28 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move Triple First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move Triple Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move Triple Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move Triple Last", OnMoveLast);
-                _addButtonVerb = new DesignerVerb("Add Button", OnAddButton);
-                _addColorButtonVerb = new DesignerVerb("Add Color Button", OnAddColorButton);
-                _addCheckBoxVerb = new DesignerVerb("Add CheckBox", OnAddCheckBox);
-                _addRadioButtonVerb = new DesignerVerb("Add RadioButton", OnAddRadioButton);
-                _addLabelVerb = new DesignerVerb("Add Label", OnAddLabel);
-                _addCustomControlVerb = new DesignerVerb("Add Custom Control", OnAddCustomControl);
-                _addTextBoxVerb = new DesignerVerb("Add TextBox", OnAddTextBox);
-                _addMaskedTextBoxVerb = new DesignerVerb("Add MaskedTextBox", OnAddMaskedTextBox);
-                _addRichTextBoxVerb = new DesignerVerb("Add RichTextBox", OnAddRichTextBox);
-                _addComboBoxVerb = new DesignerVerb("Add ComboBox", OnAddComboBox);
-                _addNumericUpDownVerb = new DesignerVerb("Add NumericUpDown", OnAddNumericUpDown);
-                _addDomainUpDownVerb = new DesignerVerb("Add DomainUpDown", OnAddDomainUpDown);
-                _addDateTimePickerVerb = new DesignerVerb("Add DateTimePicker", OnAddDateTimePicker);
-                _addTrackBarVerb = new DesignerVerb("Add TrackBar", OnAddTrackBar);
-                _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
-                _deleteTripleVerb = new DesignerVerb("Delete Triple", OnDeleteTriple);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move Triple First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move Triple Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move Triple Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move Triple Last", OnMoveLast);
+                _addButtonVerb = new DesignerVerb(@"Add Button", OnAddButton);
+                _addColorButtonVerb = new DesignerVerb(@"Add Color Button", OnAddColorButton);
+                _addCheckBoxVerb = new DesignerVerb(@"Add CheckBox", OnAddCheckBox);
+                _addRadioButtonVerb = new DesignerVerb(@"Add RadioButton", OnAddRadioButton);
+                _addLabelVerb = new DesignerVerb(@"Add Label", OnAddLabel);
+                _addCustomControlVerb = new DesignerVerb(@"Add Custom Control", OnAddCustomControl);
+                _addTextBoxVerb = new DesignerVerb(@"Add TextBox", OnAddTextBox);
+                _addMaskedTextBoxVerb = new DesignerVerb(@"Add MaskedTextBox", OnAddMaskedTextBox);
+                _addRichTextBoxVerb = new DesignerVerb(@"Add RichTextBox", OnAddRichTextBox);
+                _addComboBoxVerb = new DesignerVerb(@"Add ComboBox", OnAddComboBox);
+                _addNumericUpDownVerb = new DesignerVerb(@"Add NumericUpDown", OnAddNumericUpDown);
+                _addDomainUpDownVerb = new DesignerVerb(@"Add DomainUpDown", OnAddDomainUpDown);
+                _addDateTimePickerVerb = new DesignerVerb(@"Add DateTimePicker", OnAddDateTimePicker);
+                _addTrackBarVerb = new DesignerVerb(@"Add TrackBar", OnAddTrackBar);
+                _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
+                _deleteTripleVerb = new DesignerVerb(@"Delete Triple", OnDeleteTriple);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, 
                                                      _addCheckBoxVerb,
                                                      _addColorButtonVerb, 
@@ -289,12 +289,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -319,12 +319,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -351,12 +351,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -383,12 +383,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -413,12 +413,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddButton");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddButton");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -441,12 +441,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddColorButton");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddColorButton");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -469,12 +469,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddCheckBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddCheckBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -497,12 +497,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddRadioButton");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddRadioButton");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -525,12 +525,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddLabel");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddLabel");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -553,12 +553,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddCustomControl");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddCustomControl");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -581,12 +581,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddTextBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddTextBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -609,12 +609,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddTrackBar");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddTrackBar");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -637,12 +637,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddMaskedTextBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddMaskedTextBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -665,12 +665,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddRichTextBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddRichTextBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -693,12 +693,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddComboBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddComboBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -721,12 +721,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddNumericUpDown");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddNumericUpDown");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -749,12 +749,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddDomainUpDown");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddDomainUpDown");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -777,12 +777,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple AddDateTimePicker");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddDateTimePicker");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -805,12 +805,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple ClearItems");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple ClearItems");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -840,12 +840,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple DeleteTriple");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple DeleteTriple");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
@@ -1120,13 +1120,13 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroup destination = (KryptonRibbonGroup)groupMenuItem.Tag;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTriple MoveTripleToGroup");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveTripleToGroup");
 
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor oldItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)["Items"];
-                    MemberDescriptor newItems = TypeDescriptor.GetProperties(destination)["Items"];
+                    MemberDescriptor oldItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
+                    MemberDescriptor newItems = TypeDescriptor.GetProperties(destination)[@"Items"];
 
                     // Remove the ribbon tab from the ribbon
                     RaiseComponentChanging(null);

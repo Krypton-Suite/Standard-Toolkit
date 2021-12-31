@@ -329,7 +329,8 @@ namespace Krypton.Toolkit
             // adjust alpha channel of grip image
             using ImageAttributes attr = new();
             attr.SetColorMatrix(
-                new ColorMatrix(new float[][] {
+                new ColorMatrix(new[]
+                {
                     new[] { 1F, 0, 0, 0, 0 },
                     new[] { 0, 1F, 0, 0, 0 },
                     new[] { 0, 0, 1F, 0, 0 },
@@ -352,7 +353,6 @@ namespace Krypton.Toolkit
             Bitmap btm = new(8, 8);
             btm.SetResolution(72, 72);
             Graphics g = Graphics.FromImage(btm);
-            Rectangle rect = new(0, 0, 8, 8);
 
             g.DrawLine(new Pen(gripColours[1]), new Point(0, 0), new Point(8, 0));//dark
             g.DrawLine(new Pen(gripColours[0]), new Point(1, 1), new Point(7, 1));//light

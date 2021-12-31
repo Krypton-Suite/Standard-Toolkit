@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common calendar day appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common calendar day appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common calendar day appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
@@ -118,8 +118,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled calendar day appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled calendar day appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled calendar day appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
@@ -132,8 +132,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal calendar day appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal calendar day appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal calendar day appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal { get; }
 
@@ -146,8 +146,8 @@ namespace Krypton.Toolkit
         /// Gets access to the hot tracking calendar day appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking calendar day appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking calendar day appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateTracking { get; }
 
@@ -160,8 +160,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed calendar day appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed calendar day appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed calendar day appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StatePressed { get; }
 
@@ -174,8 +174,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal checked calendar day appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal checked calendar day appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal checked calendar day appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedNormal { get; }
 
@@ -188,8 +188,8 @@ namespace Krypton.Toolkit
         /// Gets access to the hot tracking checked calendar day appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking checked calendar day appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking checked calendar day appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedTracking { get; }
 
@@ -202,8 +202,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed checked calendar day appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed checked calendar day appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed checked calendar day appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedPressed { get; }
 
@@ -216,8 +216,8 @@ namespace Krypton.Toolkit
         /// Gets access to the calendar day appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining calendar day appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining calendar day appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideFocus { get; }
 
@@ -230,8 +230,8 @@ namespace Krypton.Toolkit
         /// Gets access to the calendar day appearance when it has bolded days.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining calendar day appearance when it has bolded days.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining calendar day appearance when it has bolded days.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideBolded { get; }
 
@@ -244,8 +244,8 @@ namespace Krypton.Toolkit
         /// Gets access to the calendar day appearance when it is today.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining calendar day appearance when it is today.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining calendar day appearance when it is today.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideToday { get; }
 

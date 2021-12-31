@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
             // Restrict contents to three items max
             if (Count == 3)
             {
-                throw new ArgumentException("Collection can only contain 3 entries.");
+                throw new ArgumentException(@"Collection can only contain 3 entries.");
             }
 
             return base.Add(value);
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
             // Restrict contents to three items max
             if (Count == 3)
             {
-                throw new ArgumentException("Collection can only contain 3 entries.");
+                throw new ArgumentException(@"Collection can only contain 3 entries.");
             }
 
             base.Insert(index, value);
@@ -89,7 +89,7 @@ namespace Krypton.Ribbon
             // Restrict contents to three items max
             if (Count == 3)
             {
-                throw new ArgumentException("Collection can only contain 3 entries.");
+                throw new ArgumentException(@"Collection can only contain 3 entries.");
             }
 
             base.Insert(index, item);
@@ -106,7 +106,7 @@ namespace Krypton.Ribbon
             // Restrict contents to three items max
             if (Count == 3)
             {
-                throw new ArgumentException("Collection can only contain 3 entries.");
+                throw new ArgumentException(@"Collection can only contain 3 entries.");
             }
 
             base.Add(item);

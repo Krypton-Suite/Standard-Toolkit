@@ -29,9 +29,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the HeaderGroupMappingBase class.
         /// </summary>
-        /// <param name="navigator">Reference to owning navogator instance.</param>
+        /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public HeaderGroupMappingBase(KryptonNavigator navigator,
+        protected HeaderGroupMappingBase(KryptonNavigator navigator,
                                       NeedPaintHandler needPaint)
             : base(needPaint)
         {
@@ -149,8 +149,8 @@ namespace Krypton.Navigator
         /// Gets and sets the mapping used for the Image property.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Mapping used for the image.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the image.")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual MapKryptonPageImage MapImage
         {
@@ -181,8 +181,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the Heading property.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the heading.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the heading.")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual MapKryptonPageText MapHeading
         {
@@ -213,8 +213,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the Description property.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the description.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the description.")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual MapKryptonPageText MapDescription
         {

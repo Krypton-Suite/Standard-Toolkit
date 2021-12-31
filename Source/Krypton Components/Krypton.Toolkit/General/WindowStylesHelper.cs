@@ -41,77 +41,77 @@ namespace Krypton.Toolkit
             }
 
             str1.Append("Styles: ");
-            if ((WinStyle & 8388608) != 0)
+            if (Border)
             {
                 str1.Append("WS_BORDER");
             }
 
-            if ((WinStyle & 4194304) != 0)
+            if (DlgFrame)
             {
                 str1.Append("+WS_DLGFRAME ");
             }
 
-            if ((WinStyle & 262144) != 0)
+            if (ThickFrame)
             {
                 str1.Append("+WS_THICKFRAME ");
             }
 
-            if ((WinStyle & 134217728) != 0)
+            if (Disabled)
             {
                 str1.Append("+WS_DISABLED ");
             }
 
-            if ((WinStyle & 1048576) != 0)
+            if (HScrollBar)
             {
                 str1.Append("+WS_HSCROLL ");
             }
 
-            if ((WinStyle & 2097152) != 0)
+            if (VScrollBar)
             {
                 str1.Append("+WS_VSCROLL ");
             }
 
-            if ((WinStyle & 131072) != 0)
+            if (MinimizeBox)
             {
                 str1.Append("+WS_MINIMIZEBOX ");
             }
 
-            if ((WinStyle & 65536) != 0)
+            if (MaximizeBox)
             {
                 str1.Append("+WS_MAXIMIZEBOX ");
             }
 
-            if ((WinStyle & 2147483648L) != 0L)
+            if (Popup)
             {
                 str1.Append("+WS_POPUP ");
             }
 
-            if ((WinStyle & 524288) != 0)
+            if (SysMenu)
             {
                 str1.Append("+WS_SYSMENU ");
             }
 
-            if ((WinStyle & 536870912) != 0)
+            if (Minimized)
             {
-                str1.Append("+WS_MINIMIZE ");
+                str1.Append("+WS_MINIMIZED ");
             }
 
-            if ((WinStyle & 16777216) != 0)
+            if (Maximized)
             {
-                str1.Append("+WS_MAXIMIZE ");
+                str1.Append("+WS_MAXIMIZED ");
             }
 
-            if ((WinExStyle & 1) != 0)
+            if (DialogModalFrame)
             {
                 str1.Append("+WS_EX_DLGMODALFRAME ");
             }
 
-            if ((WinExStyle & 512) != 0)
+            if (ClientEdge)
             {
                 str1.Append("+WS_EX_CLIENTEDGE ");
             }
 
-            if ((WinExStyle & 128) != 0)
+            if (ToolWindow)
             {
                 str1.Append("+WS_EX_TOOLWINDOW ");
             }
@@ -123,114 +123,66 @@ namespace Krypton.Toolkit
 
         public uint WinExStyle { get; set; }
 
-        public bool IsEmpty => WinStyle == 0 ? WinExStyle == 0 : false;
+        public bool IsEmpty => WinStyle == 0 && WinExStyle == 0;
 
-        public bool Border
-        {
-            get => (WinStyle & 8388608) != 0;
-            set => WinStyle |= 8388608;
-        }
+        public bool Border => (WinStyle & 8388608) != 0;
 
-        public bool Caption
-        {
-            get => (WinStyle & 12582912) == 12582912;
-            set => WinStyle |= 12582912;
-        }
+        //set => WinStyle |= 8388608;
+        public bool Caption => (WinStyle & 12582912) == 12582912;
 
+        //set => WinStyle |= 12582912;
         public bool Child => (WinStyle & 1073741824) != 0;
 
-        public bool ClipChildren
-        {
-            get => (WinStyle & 33554432) != 0;
-            set => WinStyle |= 33554432;
-        }
+        public bool ClipChildren => (WinStyle & 33554432) != 0;
 
-        public bool ClipSiblings
-        {
-            get => (WinStyle & 67108864) != 0;
-            set => WinStyle |= 67108864;
-        }
+        //set => WinStyle |= 33554432;
+        public bool ClipSiblings => (WinStyle & 67108864) != 0;
 
-        public bool Disabled
-        {
-            get => (WinStyle & 134217728) != 0;
-            set => WinStyle |= 134217728;
-        }
+        //set => WinStyle |= 67108864;
+        public bool Disabled => (WinStyle & 134217728) != 0;
 
-        public bool DlgFrame
-        {
-            get => (WinStyle & 4194304) != 0;
-            set => WinStyle |= 4194304;
-        }
+        //set => WinStyle |= 134217728;
+        public bool DlgFrame => (WinStyle & 4194304) != 0;
 
-        public bool Group
-        {
-            get => (WinStyle & 131072) != 0;
-            set => WinStyle |= 131072;
-        }
+        //set => WinStyle |= 4194304;
+        public bool Group => (WinStyle & 131072) != 0;
 
-        public bool HScrollBar
-        {
-            get => (WinStyle & 1048576) != 0;
-            set => WinStyle |= 1048576;
-        }
+        //set => WinStyle |= 131072;
+        public bool HScrollBar => (WinStyle & 1048576) != 0;
 
-        public bool VScrollBar
-        {
-            get => (WinStyle & 2097152) != 0;
-            set => WinStyle |= 2097152;
-        }
+        //set => WinStyle |= 1048576;
+        public bool VScrollBar => (WinStyle & 2097152) != 0;
 
+        //set => WinStyle |= 2097152;
         public bool ScrollBars => (WinStyle & 3145728) != 0;
 
-        public bool MaximizeBox
-        {
-            get => (WinStyle & 65536) != 0;
-            set => WinStyle |= 65536;
-        }
+        public bool MaximizeBox => (WinStyle & 65536) != 0;
 
-        public bool MinimizeBox
-        {
-            get => (WinStyle & 131072) != 0;
-            set => WinStyle |= 131072;
-        }
+        //set => WinStyle |= 65536;
+        public bool MinimizeBox => (WinStyle & 131072) != 0;
 
-        public bool SysMenu
-        {
-            get => (WinStyle & 524288) != 0;
-            set => WinStyle |= 524288;
-        }
+        //set => WinStyle |= 131072;
+        public bool SysMenu => (WinStyle & 524288) != 0;
 
+        //set => WinStyle |= 524288;
         public bool Minimized => (WinStyle & 536870912) != 0;
 
         public bool Maximized => (WinStyle & 16777216) != 0;
 
-        public bool OverlappedWindow
-        {
-            get => (WinStyle & 13565952) == 13565952;
-            set => WinStyle |= 13565952;
-        }
+        public bool OverlappedWindow => (WinStyle & 13565952) == 13565952;
 
-        public bool Popup
-        {
-            get => (WinStyle & 2147483648L) != 0L;
-            set => WinStyle |= 2147483648U;
-        }
+        //set => WinStyle |= 13565952;
+        public bool Popup => (WinStyle & 2147483648L) != 0L;
 
-        public bool ThickFrame
-        {
-            get => (WinStyle & 262144) != 0;
-            set => WinStyle |= 262144;
-        }
+        //set => WinStyle |= 2147483648U;
+        public bool ThickFrame => (WinStyle & 262144) != 0;
 
+        //set => WinStyle |= 262144;
         public bool Sizable => (WinStyle & 262144) != 0;
 
-        public bool Visible
-        {
-            get => (WinStyle & 268435456) != 0;
-            set => WinStyle |= 268435456;
-        }
+        public bool Visible => (WinStyle & 268435456) != 0;
 
+        //set => WinStyle |= 268435456;
         public bool ModalDialog => (WinStyle & 12583040) == 12583040;
 
         public bool Restored => (WinStyle & 553648128) == 0;
@@ -252,40 +204,28 @@ namespace Krypton.Toolkit
                     return false;
                 }
 
-                return (WinStyle & 4194304) == 0 ? (WinExStyle & 1) != 0 : true;
+                return (WinStyle & 4194304) != 0 || (WinExStyle & 1) != 0;
             }
         }
 
         public bool DialogModalFrame => (WinExStyle & 1) != 0;
 
-        public bool ToolWindow
-        {
-            get => (WinExStyle & 128) != 0;
-            set => WinExStyle |= 128;
-        }
+        public bool ToolWindow => (WinExStyle & 128) != 0;
 
+        //set => WinExStyle |= 128;
         public bool TopMost => (WinExStyle & 8) != 0;
 
         public bool MdiChild => (WinExStyle & 64) != 0;
 
-        public bool Layered
-        {
-            get => (WinExStyle & 524288) != 0;
-            set => WinExStyle |= 524288;
-        }
+        public bool Layered => (WinExStyle & 524288) != 0;
 
-        public bool Transparent
-        {
-            get => (WinExStyle & 32) != 0;
-            set => WinExStyle |= 32;
-        }
+        //set => WinExStyle |= 524288;
+        public bool Transparent => (WinExStyle & 32) != 0;
 
-        public bool Composited
-        {
-            get => (WinExStyle & 33554432) != 0;
-            set => WinExStyle |= 33554432;
-        }
+        //set => WinExStyle |= 32;
+        public bool Composited => (WinExStyle & 33554432) != 0;
 
-        public bool Framed => (WinStyle & 12845056) == 0 ? (WinExStyle & 513) != 0 : true;
+        //set => WinExStyle |= 33554432;
+        public bool Framed => (WinStyle & 12845056) != 0 || (WinExStyle & 513) != 0;
     }
 }

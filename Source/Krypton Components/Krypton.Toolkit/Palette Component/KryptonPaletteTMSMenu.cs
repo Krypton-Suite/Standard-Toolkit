@@ -83,8 +83,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Staring color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Staring color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
         [KryptonDefaultColor()]
         public Color ImageMarginGradientBegin
         {
@@ -111,8 +111,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
         [KryptonDefaultColor()]
         public Color ImageMarginGradientEnd
         {
@@ -139,8 +139,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the middle color color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Middle color color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Middle color color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
         [KryptonDefaultColor()]
         public Color ImageMarginGradientMiddle
         {
@@ -167,8 +167,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
         [KryptonDefaultColor()]
         public Color ImageMarginRevealedGradientBegin
         {
@@ -195,8 +195,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
         [KryptonDefaultColor()]
         public Color ImageMarginRevealedGradientEnd
         {
@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the middle color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Middle color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Middle color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
         [KryptonDefaultColor()]
         public Color ImageMarginRevealedGradientMiddle
         {
@@ -251,8 +251,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color that is the border color to use on a MenuStrip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color that is the border color to use on a MenuStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color that is the border color to use on a MenuStrip.")]
         [KryptonDefaultColor()]
         public Color MenuBorder
         {
@@ -279,8 +279,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to draw text for individual menu items.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to draw text for individual a ToolStripMenuItem.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to draw text for individual a ToolStripMenuItem.")]
         [KryptonDefaultColor()]
         public Color MenuItemText
         {
@@ -307,8 +307,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color to use with a ToolStripMenuItem.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Border color to use with a ToolStripMenuItem.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Border color to use with a ToolStripMenuItem.")]
         [KryptonDefaultColor()]
         public Color MenuItemBorder
         {
@@ -335,8 +335,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
         [KryptonDefaultColor()]
         public Color MenuItemPressedGradientBegin
         {
@@ -363,8 +363,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
         [KryptonDefaultColor()]
         public Color MenuItemPressedGradientEnd
         {
@@ -391,8 +391,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the middle color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Middle color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Middle color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
         [KryptonDefaultColor()]
         public Color MenuItemPressedGradientMiddle
         {
@@ -419,8 +419,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the solid color to use when a ToolStripMenuItem other than the top-level ToolStripMenuItem is selected.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Solid color to use when a ToolStripMenuItem other than the top-level ToolStripMenuItem is selected.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Solid color to use when a ToolStripMenuItem other than the top-level ToolStripMenuItem is selected.")]
         [KryptonDefaultColor()]
         public Color MenuItemSelected
         {
@@ -447,8 +447,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used when the ToolStripMenuItem is selected.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used when the ToolStripMenuItem is selected.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used when the ToolStripMenuItem is selected.")]
         [KryptonDefaultColor()]
         public Color MenuItemSelectedGradientBegin
         {
@@ -475,8 +475,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used when the ToolStripMenuItem is selected.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used when the ToolStripMenuItem is selected.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used when the ToolStripMenuItem is selected.")]
         [KryptonDefaultColor()]
         public Color MenuItemSelectedGradientEnd
         {

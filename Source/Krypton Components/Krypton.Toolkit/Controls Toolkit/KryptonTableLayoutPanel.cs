@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
 
         private void State_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             // Handle explicit settings to the controls
-            _backGroundPanel_Refreshed();
+            BackGroundPanel_Refreshed();
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
                 }
 
                 _backGroundPanel.BackColor = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
@@ -121,8 +121,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut menu to show when the user right-clicks the page.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             set
             {
                 _backGroundPanel.PaletteMode = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
@@ -160,8 +160,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -170,22 +170,22 @@ namespace Krypton.Toolkit
             set
             {
                 _backGroundPanel.Palette = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
         /// <summary>
         /// Gets and sets the panel style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Panel style.")]
+        [Category(@"Visuals")]
+        [Description(@"Panel style.")]
         public PaletteBackStyle PanelBackStyle
         {
             get => _backGroundPanel.PanelBackStyle;
             set
             {
                 _backGroundPanel.PanelBackStyle = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
@@ -199,8 +199,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common panel appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common panel appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common panel appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateCommon => _backGroundPanel.StateCommon;
 
@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled panel appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateDisabled => _backGroundPanel.StateDisabled;
 
@@ -219,8 +219,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal panel appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateNormal => _backGroundPanel.StateNormal;
 
@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
         {
             base.OnEnabledChanged(e);
             _backGroundPanel.Enabled = Enabled;
-            _backGroundPanel_Refreshed();
+            BackGroundPanel_Refreshed();
         }
 
         /// <inheritdoc />
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         }
 
         private Bitmap _bm;
-        private void _backGroundPanel_Refreshed()
+        private void BackGroundPanel_Refreshed()
         {
             _bm = new Bitmap(_backGroundPanel.Width, _backGroundPanel.Height, PixelFormat.Format32bppRgb);
             _backGroundPanel.DrawToBitmap(_bm,
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
                 var index = Parent.Controls.GetChildIndex(this);
                 Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
             }
-            _backGroundPanel_Refreshed();
+            BackGroundPanel_Refreshed();
         }
 
         /// <inheritdoc />
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
                     {
                         var index = Parent.Controls.GetChildIndex(this);
                         Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
-                        _backGroundPanel_Refreshed();
+                        BackGroundPanel_Refreshed();
                     }
                 }
 

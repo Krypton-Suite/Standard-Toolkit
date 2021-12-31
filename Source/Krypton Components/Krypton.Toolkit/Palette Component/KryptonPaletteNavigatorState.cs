@@ -60,12 +60,12 @@ namespace Krypton.Toolkit
         /// Gets access to the navigator bar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining navigator bar appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining navigator bar appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteNavigatorStateBar Bar { get; }
 
-        private bool ShouldSerializeStateCommon() => !Bar.IsDefault;
+        private bool ShouldSerializeBar() => !Bar.IsDefault;
 
         #endregion
     }

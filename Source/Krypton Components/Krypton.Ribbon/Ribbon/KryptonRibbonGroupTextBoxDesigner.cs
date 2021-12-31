@@ -193,13 +193,13 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move TextBox First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move TextBox Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move TextBox Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move TextBox Last", OnMoveLast);
-                _deleteTextBoxVerb = new DesignerVerb("Delete TextBox", OnDeleteTextBox);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move TextBox First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move TextBox Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move TextBox Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move TextBox Last", OnMoveLast);
+                _deleteTextBoxVerb = new DesignerVerb(@"Delete TextBox", OnDeleteTextBox);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteTextBoxVerb });
             }
 
@@ -240,12 +240,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTextBox MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -272,12 +272,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTextBox MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -306,12 +306,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTextBox MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -340,12 +340,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTextBox MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -372,12 +372,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTextBox DeleteTextBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox DeleteTextBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(null);
                     RaiseComponentChanging(propertyItems);
@@ -403,7 +403,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTextBox?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)["Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)[@"Enabled"];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTextBox?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)["Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)[@"Visible"];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);

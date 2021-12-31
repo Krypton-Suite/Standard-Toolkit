@@ -16,7 +16,7 @@ namespace Krypton.Ribbon
     /// Represents the base class for all ribbon group containers.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public abstract class KryptonRibbonGroupContainer : KryptonRibbonGroupItem,
                                                         IRibbonGroupContainer
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupContainer class.
         /// </summary>
-        public KryptonRibbonGroupContainer()
+        protected KryptonRibbonGroupContainer()
         {
         }
         #endregion

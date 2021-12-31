@@ -19,7 +19,7 @@ namespace Krypton.Navigator
 	public class NavigatorToolTips : Storage
 	{
 		#region Instance Fields
-		private KryptonNavigator _navigator;
+		private readonly KryptonNavigator _navigator;
 		private MapKryptonPageImage _mapImage;
 		#endregion
 
@@ -69,8 +69,8 @@ namespace Krypton.Navigator
 		/// <summary>
 		/// Gets and sets a value indicating if tooltips should be displayed for page headers.
 		/// </summary>
-		[Category("Visuals")]
-		[Description("Should tooltips be displayed for page headers.")]
+		[Category(@"Visuals")]
+		[Description(@"Should tooltips be displayed for page headers.")]
 		[DefaultValue(false)]
 		public bool AllowPageToolTips { get; set; }
 
@@ -80,16 +80,16 @@ namespace Krypton.Navigator
 		/// <summary>
 		/// Gets and sets a value indicating if tooltips should be displayed for button specs.
 		/// </summary>
-		[Category("Visuals")]
-		[Description("Should tooltips be displayed for button specs.")]
+		[Category(@"Visuals")]
+		[Description(@"Should tooltips be displayed for button specs.")]
 		[DefaultValue(false)]
 		public bool AllowButtonSpecToolTips { get; set; }
 		
 		 /// <summary>
 		/// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
 		/// </summary>
-		[Category("Visuals")]
-		[Description("Should button spec tooltips should remove the parent tooltip")]
+		[Category(@"Visuals")]
+		[Description(@"Should button spec tooltips should remove the parent tooltip")]
 		[DefaultValue(false)]
 		public bool AllowButtonSpecToolTipPriority { get; set; }
 		#endregion
@@ -99,8 +99,8 @@ namespace Krypton.Navigator
 		/// Gets and sets the mapping used for the tooltip image.
 		/// </summary>
 		[Localizable(true)]
-		[Category("Visuals")]
-		[Description("Mapping used for the tooltip image.")]
+		[Category(@"Visuals")]
+		[Description(@"Mapping used for the tooltip image.")]
 		[RefreshProperties(RefreshProperties.All)]
 		[DefaultValue(typeof(MapKryptonPageImage), "ToolTip")]
 		public virtual MapKryptonPageImage MapImage
@@ -122,8 +122,8 @@ namespace Krypton.Navigator
 		/// <summary>
 		/// Gets and sets the mapping used for the tooltip text.
 		/// </summary>
-		[Category("Visuals")]
-		[Description("Mapping used for the tooltip text.")]
+		[Category(@"Visuals")]
+		[Description(@"Mapping used for the tooltip text.")]
 		[RefreshProperties(RefreshProperties.All)]
 		[DefaultValue(typeof(MapKryptonPageText), "ToolTipTitle")]
 		public MapKryptonPageText MapText { get; set; }
@@ -141,8 +141,8 @@ namespace Krypton.Navigator
 		/// <summary>
 		/// Gets and sets the mapping used for the tooltip description.
 		/// </summary>
-		[Category("Visuals")]
-		[Description("Mapping used for the tooltip description.")]
+		[Category(@"Visuals")]
+		[Description(@"Mapping used for the tooltip description.")]
 		[RefreshProperties(RefreshProperties.All)]
 		[DefaultValue(typeof(MapKryptonPageText), "ToolTipBody")]
 		public MapKryptonPageText MapExtraText { get; set; }

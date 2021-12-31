@@ -730,7 +730,7 @@ namespace Krypton.Ribbon
             // Remove any popups that result from an action occuring
             if ((_ribbon != null) && fireAction)
             {
-                _ribbon.ActionOccured();
+                _ribbon.Actionoccurred();
             }
 
             // Remove the fixed pressed appearance

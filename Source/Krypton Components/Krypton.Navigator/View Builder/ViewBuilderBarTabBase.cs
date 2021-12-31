@@ -101,7 +101,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the visual orientation of the check butttons content.
+        /// Gets the visual orientation of the check buttons content.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected override VisualOrientation ConvertButtonContentOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
@@ -115,11 +115,11 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "TabStyleBar":
+                case @"TabStyleBar":
                     UpdateTabStyle();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "TabBorderStyleBar":
+                case @"TabBorderStyleBar":
                     UpdateTabBorderStyle();
                     Navigator.PerformNeedPaint(true);
                     break;

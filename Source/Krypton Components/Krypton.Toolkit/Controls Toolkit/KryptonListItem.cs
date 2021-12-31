@@ -33,8 +33,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the short text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Main text.")]
+        [Category(@"Appearance")]
+        [Description(@"Main text.")]
         [Localizable(true)]
         public string ShortText
         {
@@ -134,8 +134,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the long text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Supplementary text.")]
+        [Category(@"Appearance")]
+        [Description(@"Supplementary text.")]
         [Localizable(true)]
         public string LongText
         {
@@ -159,8 +159,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the image.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Image associated with item.")]
+        [Category(@"Appearance")]
+        [Description(@"Image associated with item.")]
         [Localizable(true)]
         public Image Image
         {
@@ -184,8 +184,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the image transparent color.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Color to treat as transparent in the Image.")]
+        [Category(@"Appearance")]
+        [Description(@"Color to treat as transparent in the Image.")]
         [Localizable(true)]
         public Color ImageTransparentColor
         {
@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         public object Tag { get; set; }

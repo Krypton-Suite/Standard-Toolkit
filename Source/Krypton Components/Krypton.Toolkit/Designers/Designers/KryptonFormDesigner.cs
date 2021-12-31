@@ -13,9 +13,9 @@
         //private KryptonPalette _palette;
         #endregion
 
-        public override DesignerVerbCollection Verbs => _verbs ?? (_verbs = new DesignerVerbCollection { new DesignerVerb("Reset to Defaults", OnVerbReset),
-                                                                   new DesignerVerb("Populate from Base", OnVerbPopulate), new DesignerVerb("Import from XML file", OnVerbImport),
-                                                                   new DesignerVerb("Export to XML file", OnVerbExport) });
+        public override DesignerVerbCollection Verbs => _verbs ?? (_verbs = new DesignerVerbCollection { new DesignerVerb(@"Reset to Defaults", OnVerbReset),
+                                                                   new DesignerVerb(@"Populate from Base", OnVerbPopulate), new DesignerVerb(@"Import from XML file", OnVerbImport),
+                                                                   new DesignerVerb(@"Export to XML file", OnVerbExport) });
 
         private void OnVerbReset(object sender, EventArgs e)
         {

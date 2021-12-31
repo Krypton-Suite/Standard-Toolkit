@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
                                           IMouseController
     {
         #region Instance Fields
-        private KryptonRibbon _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private bool _rightButtonDown;
         #endregion
 

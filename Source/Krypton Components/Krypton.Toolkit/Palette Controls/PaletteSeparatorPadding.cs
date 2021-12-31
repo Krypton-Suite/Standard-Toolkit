@@ -88,8 +88,8 @@ namespace Krypton.Toolkit
         /// Gets the padding used to position the separator.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Padding used to position the separator.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding used to position the separator.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding Padding

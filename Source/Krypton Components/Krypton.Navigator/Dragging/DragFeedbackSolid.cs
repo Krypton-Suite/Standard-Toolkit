@@ -85,7 +85,7 @@ namespace Krypton.Navigator
 
             if (_solid != null)
             {
-                _solid.SolidRect = (target != null) ? target.DrawRect : Rectangle.Empty;
+                _solid.SolidRect = target?.DrawRect ?? Rectangle.Empty;
             }
 
             return target;

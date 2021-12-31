@@ -83,8 +83,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the primary header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining primary header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining primary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderPrimary { get; }
 
@@ -96,8 +96,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the secondary header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining secondary header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining secondary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderSecondary { get; }
 
@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if headers should overlay the border.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should headers overlay the border.")]
+        [Category(@"Visuals")]
+        [Description(@"Should headers overlay the border.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders

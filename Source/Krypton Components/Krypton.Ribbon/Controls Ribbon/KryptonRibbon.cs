@@ -11,6 +11,8 @@
 #endregion
 
 
+using System.Linq;
+
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -21,8 +23,8 @@ namespace Krypton.Ribbon
     [DefaultEvent("SelectedTabChanged")]
     [DefaultProperty("RibbonTabs")]
     [Designer("Krypton.Ribbon.KryptonRibbonDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
-    [Description("Ribbon control presents a tabbed set of user options.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Ribbon control presents a tabbed set of user options.")]
     [Docking(DockingBehavior.Never)]
     public class KryptonRibbon : VisualSimple,
                                  IMessageFilter
@@ -109,71 +111,71 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the selected tab changes.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the selected tab changes.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the selected tab changes.")]
         public event EventHandler SelectedTabChanged;
 
         /// <summary>
         /// Occurs when the selected context changes.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the selected context changes.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the selected context changes.")]
         public event EventHandler SelectedContextChanged;
 
         /// <summary>
         /// Occurs when the application button menu is opening.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when application button menu is opening but not displayed as yet.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when application button menu is opening but not displayed as yet.")]
         public event CancelEventHandler AppButtonMenuOpening;
 
         /// <summary>
         /// Occurs when the application button menu is opened.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the application button menu is fully opened for display.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the application button menu is fully opened for display.")]
         public event EventHandler AppButtonMenuOpened;
 
         /// <summary>
         /// Occurs when the application button menu is about to close.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the application button menu is about to close.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the application button menu is about to close.")]
         public event CancelEventHandler AppButtonMenuClosing;
 
         /// <summary>
         /// Occurs when the application button menu has been closed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the application button menu has been closed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the application button menu has been closed.")]
         public event ToolStripDropDownClosedEventHandler AppButtonMenuClosed;
 
         /// <summary>
         /// Occurs when the ribbon context menu is about to be shown.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the ribbon context menu is about to be shown.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the ribbon context menu is about to be shown.")]
         public event EventHandler<ContextMenuArgs> ShowRibbonContextMenu;
 
         /// <summary>
         /// Occurs when the quick access toolbar customize menu is about to be shown.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the quick access toolbar customize menu is about to be shown.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the quick access toolbar customize menu is about to be shown.")]
         public event EventHandler<ContextMenuArgs> ShowQATCustomizeMenu;
 
         /// <summary>
         /// Occurs when the MinimizedMode property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the MinimizedMode property has changed value.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the MinimizedMode property has changed value.")]
         public event EventHandler MinimizedModeChanged;
 
         /// <summary>
         /// Occurs add design time when the user requests a tab be added.
         /// </summary>
-        [Category("Design Time Only")]
-        [Description("Occurs add design time when the user requests a tab be added.")]
+        [Category(@"Design Time Only")]
+        [Description(@"Occurs add design time when the user requests a tab be added.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddTab;
@@ -410,8 +412,8 @@ namespace Krypton.Ribbon
         #region Public Exposed Properties
         /// <summary>
         /// </summary>
-        [Category("Visuals")]
-        [Description("Integrate with operating system chrome instead of Krypton Palette")]
+        [Category(@"Visuals")]
+        [Description(@"Integrate with operating system chrome instead of Krypton Palette")]
         public bool AllowFormIntegrate
         {
             get => _allowFormIntegrate;
@@ -439,32 +441,32 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets if the user is allowed to change the minimized mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the user is allowed to change the minimized mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the user is allowed to change the minimized mode.")]
         [DefaultValue(true)]
         public bool AllowMinimizedChange { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets access to the common ribbon appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonRedirect StateCommon { get; private set; }
 
@@ -473,8 +475,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the disabled ribbon appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDisabled StateDisabled { get; private set; }
 
@@ -483,8 +485,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the normal ribbon appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonNormal StateNormal { get; private set; }
 
@@ -493,8 +495,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the tracking ribbon appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonAppGroupTab StateTracking { get; private set; }
 
@@ -503,8 +505,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the pressed ribbon appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonAppButton StatePressed { get; private set; }
 
@@ -513,8 +515,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the tracking checked normal appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining checked normal ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked normal ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonGroupAreaTab StateCheckedNormal { get; private set; }
 
@@ -523,8 +525,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the tracking checked tracking appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining checked tracking ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked tracking ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonJustTab StateCheckedTracking { get; private set; }
 
@@ -533,8 +535,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the context normal appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining context normal ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context normal ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonJustGroup StateContextNormal { get; private set; }
 
@@ -543,8 +545,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the context tracking appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining context tracking ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context tracking ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonGroupTab StateContextTracking { get; private set; }
 
@@ -553,8 +555,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the checked context normal appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining checked context normal ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked context normal ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonGroupAreaTab StateContextCheckedNormal { get; private set; }
 
@@ -563,8 +565,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the checked context tracking appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining checked context tracking ribbon appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked context tracking ribbon appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonJustTab StateContextCheckedTracking { get; private set; }
 
@@ -573,8 +575,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon appearance when it has focus.
         /// </summary>
-        //[Category("Visuals")]
-        //[Description("Overrides for defining ribbon appearance when it has focus.")]
+        //[Category(@"Visuals")]
+        //[Description(@"Overrides for defining ribbon appearance when it has focus.")]
         //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -586,16 +588,16 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Values")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Values")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RibbonButtonSpecAnyCollection ButtonSpecs { get; private set; }
 
         /// <summary>
         /// Gets the collection of ribbon tabs.
         /// </summary>
-        [Category("Values")]
-        [Description("Collection of ribbon tabs.")]
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon tabs.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonTabCollection RibbonTabs { get; private set; }
@@ -603,8 +605,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the currently selected tab.
         /// </summary>
-        [Category("Values")]
-        [Description("Currently selected ribbon tab.")]
+        [Category(@"Values")]
+        [Description(@"Currently selected ribbon tab.")]
         public KryptonRibbonTab SelectedTab
         {
             get => _selectedTab;
@@ -661,8 +663,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the common separated list of selected context names.
         /// </summary>
-        [Category("Values")]
-        [Description("Common separated list of selected context names.")]
+        [Category(@"Values")]
+        [Description(@"Common separated list of selected context names.")]
         [DefaultValue("")]
         public string SelectedContext
         {
@@ -702,8 +704,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of ribbon context definitions.
         /// </summary>
-        [Category("Values")]
-        [Description("Collection of ribbon context definitions.")]
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon context definitions.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonContextCollection RibbonContexts { get; private set; }
@@ -711,8 +713,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of ribbon quick access toolbar buttons.
         /// </summary>
-        [Category("Values")]
-        [Description("Collection of ribbon quick access toolbar buttons.")]
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon quick access toolbar buttons.")]
         [MergableProperty(false)]
         [Editor(@"Krypton.Ribbon.KryptonRibbonQATButtonCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -721,8 +723,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the set of ribbon shortcuts.
         /// </summary>
-        [Category("Values")]
-        [Description("Collection of ribbon shortcuts.")]
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon shortcuts.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RibbonShortcuts RibbonShortcuts { get; private set; }
@@ -730,8 +732,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the set of ribbon display strings.
         /// </summary>
-        [Category("Values")]
-        [Description("Collection of ribbon strings.")]
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon strings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
@@ -740,8 +742,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the set of ribbon application button display strings.
         /// </summary>
-        [Category("Values")]
-        [Description("Collection of ribbon app button settings.")]
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon app button settings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
@@ -750,8 +752,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the styles for various ribbon elements.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Styles for various ribbon elements.")]
+        [Category(@"Visuals")]
+        [Description(@"Styles for various ribbon elements.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonStyles RibbonStyles { get; private set; }
@@ -761,8 +763,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the vertical and horizontal minimum sizes at which the ribbon hides itself. 
         /// </summary>
-        [Category("Values")]
-        [Description("Vertical and horizontal minimum sizes at which the ribbon hides itself.")]
+        [Category(@"Values")]
+        [Description(@"Vertical and horizontal minimum sizes at which the ribbon hides itself.")]
         [DefaultValue(typeof(Size), "300,250")]
         public Size HideRibbonSize
         {
@@ -790,8 +792,8 @@ namespace Krypton.Ribbon
         /// Gets and sets a value indicating if the ribbon is in minimized mode.
         /// </summary>
         [Localizable(true)]
-        [Category("Values")]
-        [Description("Is the ribbon in minimized mode.")]
+        [Category(@"Values")]
+        [Description(@"Is the ribbon in minimized mode.")]
         [DefaultValue(false)]
         public bool MinimizedMode
         {
@@ -893,8 +895,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the display method for the quick access toolbar.
         /// </summary>
         [Localizable(true)]
-        [Category("Values")]
-        [Description("Determines how the quick access toolbar is displayed.")]
+        [Category(@"Values")]
+        [Description(@"Determines how the quick access toolbar is displayed.")]
         [DefaultValue(typeof(QATLocation), "Above")]
         public QATLocation QATLocation
         {
@@ -935,8 +937,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if user is allowed to change the QAT entries.
         /// </summary>
-        [Category("Values")]
-        [Description("Is the user allowed to change the quick access toolbar entries.")]
+        [Category(@"Values")]
+        [Description(@"Is the user allowed to change the quick access toolbar entries.")]
         [DefaultValue(true)]
         public bool QATUserChange { get; set; }
 
@@ -951,8 +953,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if a minimize/expand button appears on the ribbon tab ara.
         /// </summary>
-        [Category("Values")]
-        [Description("Does a minimize/expand button appear on the ribbon tab ara.")]
+        [Category(@"Values")]
+        [Description(@"Does a minimize/expand button appear on the ribbon tab ara.")]
         [DefaultValue(true)]
         public bool ShowMinimizeButton
         {
@@ -1386,20 +1388,18 @@ namespace Krypton.Ribbon
             else
             {
                 // Not in keyboard mode but user pressing the tab key
-                switch (keyData)
+                if (keyData.HasFlag(Keys.Tab))
                 {
-                    case Keys.Tab | Keys.Shift:
-                    case Keys.Tab:
-                        // If one of our child controls has the focus
-                        if (ContainsFocus)
-                        {
-                            // Move focus forward/background until out of the ribbon
-                            SelectNonRibbonControl(keyData == Keys.Tab);
-                            return true;
-                        }
-                        break;
-                    default:
-                        break;
+                    // If one of our child controls has the focus
+                    if (ContainsFocus)
+                    {
+                        // Move focus forward/background until out of the ribbon
+                        SelectNonRibbonControl(!keyData.HasFlag(Keys.Shift));
+                        return true;
+                    }
+                }
+                else
+                {
                 }
             }
 
@@ -1487,7 +1487,7 @@ namespace Krypton.Ribbon
             // Check if a shortcut is triggered on the application button context menu
             if (RibbonAppButton.AppButtonMenuItems.ProcessShortcut(keyData))
             {
-                ActionOccured();
+                Actionoccurred();
                 return true;
             }
 
@@ -1504,20 +1504,15 @@ namespace Krypton.Ribbon
             }
 
             // Check each quick access toolbar button
-            foreach (IQuickAccessToolbarButton qatButton in QATButtons)
+            foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons 
+                     where qatButton.GetVisible() && qatButton.GetEnabled() 
+                     let shortcut = qatButton.GetShortcutKeys() 
+                     where (shortcut != Keys.None) && (shortcut == keyData) 
+                     select qatButton)
             {
-                // Only interested in visible and enabled buttons
-                if (qatButton.GetVisible() && qatButton.GetEnabled())
-                {
-                    // Does the key combination match the shortcut?
-                    Keys shortcut = qatButton.GetShortcutKeys();
-                    if ((shortcut != Keys.None) && (shortcut == keyData))
-                    {
-                        // Click the button and finish processing
-                        qatButton.PerformClick();
-                        return true;
-                    }
-                }
+                // Click the button and finish processing
+                qatButton.PerformClick();
+                return true;
             }
 
             // If we want to intercept key pressed for use with key tips
@@ -1777,52 +1772,37 @@ namespace Krypton.Ribbon
         /// Raises the SelectedContextChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnSelectedContextChanged(EventArgs e)
-        {
-            SelectedContextChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedContextChanged(EventArgs e) => SelectedContextChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ShowRibbonContextMenu event.
         /// </summary>
         /// <param name="e">A ContextMenuArgs containing event data.</param>
-        protected virtual void OnShowRibbonContextMenu(ContextMenuArgs e)
-        {
-            ShowRibbonContextMenu?.Invoke(this, e);
-        }
+        protected virtual void OnShowRibbonContextMenu(ContextMenuArgs e) => ShowRibbonContextMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ShowQATCustomizeMenu event.
         /// </summary>
         /// <param name="e">A ContextMenuArgs containing event data.</param>
-        protected virtual void OnShowQATCustomizeMenu(ContextMenuArgs e)
-        {
-            ShowQATCustomizeMenu?.Invoke(this, e);
-        }
+        protected virtual void OnShowQATCustomizeMenu(ContextMenuArgs e) => ShowQATCustomizeMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AppButtonMenuOpening event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuOpening(CancelEventArgs e)
-        {
-            AppButtonMenuOpening?.Invoke(this, e);
-        }
+        protected internal virtual void OnAppButtonMenuOpening(CancelEventArgs e) => AppButtonMenuOpening?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AppButtonMenuOpened event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuOpened(EventArgs e)
-        {
-            AppButtonMenuOpened?.Invoke(this, e);
-        }
+        protected internal virtual void OnAppButtonMenuOpened(EventArgs e) => AppButtonMenuOpened?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AppButtonMenuClosing event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuClosing(CancelEventArgs e)
+        protected internal virtual void OnAppButtonMenuClosing(CancelEventArgs e)
         {
             AppButtonMenuClosing?.Invoke(this, e);
         }
@@ -1831,22 +1811,19 @@ namespace Krypton.Ribbon
         /// Raises the AppButtonMenuClosed event.
         /// </summary>
         /// <param name="e">An ToolStripDropDownClosedEventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e)
-        {
-            AppButtonMenuClosed?.Invoke(this, e);
-        }
+        protected internal virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e) => AppButtonMenuClosed?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MinimizedModeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnMinimizedModeChanged(EventArgs e)
-        {
-            MinimizedModeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMinimizedModeChanged(EventArgs e) => MinimizedModeChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal
+        internal bool IgnoreDoubleClickClose { get; set; }
+
         internal void OnDesignTimeAddTab()
         {
             DesignTimeAddTab?.Invoke(this, EventArgs.Empty);
@@ -2444,7 +2421,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal void ActionOccured()
+        internal void Actionoccurred()
         {
             // If showing the popup in minimized mode, then remove it gracefully
             if (_minimizedPopup != null)

@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupNumericUpDown), "ToolboxBitmaps.KryptonRibbonGroupNumericUpDown.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupNumericUpDownDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
@@ -37,8 +37,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the value of the Value property changes.
         /// </summary>
-        [Description("Occurs when the value of the Value property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Value property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ValueChanged;
 
         /// <summary>
@@ -56,36 +56,36 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
-        [Description("Occurs when a key is pressed while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is pressed while the control has focus.")]
+        [Category(@"Key")]
         public event KeyPressEventHandler KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
-        [Description("Occurs when a key is released while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is released while the control has focus.")]
+        [Category(@"Key")]
         public event KeyEventHandler KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
-        [Description("Occurs when a key is pressed while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is pressed while the control has focus.")]
+        [Category(@"Key")]
         public event KeyEventHandler KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
-        [Description("Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
-        [Category("Key")]
+        [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
+        [Category(@"Key")]
         public event PreviewKeyDownEventHandler PreviewKeyDown;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -188,8 +188,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to set focus to the numeric up-down.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to set focus to the numeric up-down.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -205,7 +205,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Access to the actual embedded KryptonNumericUpDown instance.
         /// </summary>
-        [Description("Access to the actual embedded KryptonNumericUpDown instance.")]
+        [Description(@"Access to the actual embedded KryptonNumericUpDown instance.")]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -216,8 +216,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group numeric up-down key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group numeric up-down key tip.")]
         [DefaultValue("X")]
         public string KeyTip
         {
@@ -237,8 +237,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the number of decimal places to display.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the number of decimal places to display.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the number of decimal places to display.")]
         [DefaultValue(0)]
         public int DecimalPlaces
         {
@@ -249,8 +249,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the amount to increment or decrement one each button click.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the amount to increment or decrement one each button click.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the amount to increment or decrement one each button click.")]
         [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
@@ -261,8 +261,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the maximum value for the numeric up-down control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the maximum value for the numeric up-down control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the maximum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
@@ -274,8 +274,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the minimum value for the numeric up-down control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the minimum value for the numeric up-down control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the minimum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
@@ -287,8 +287,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets whether the thousands separator wil be inserted between each three decimal digits.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates whether the thousands separator wil be inserted between each three decimal digits.")]
+        [Category(@"Data")]
+        [Description(@"Indicates whether the thousands separator wil be inserted between each three decimal digits.")]
         [DefaultValue(false)]
         [Localizable(true)]
         public bool ThousandsSeparator
@@ -300,8 +300,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the current value of the numeric up-down control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The current value of the numeric up-down control.")]
+        [Category(@"Appearance")]
+        [Description(@"The current value of the numeric up-down control.")]
         [DefaultValue(typeof(decimal), "0")]
         [Bindable(true)]
         public decimal Value
@@ -313,8 +313,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets how the text should be aligned for edit controls.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the text should be aligned for edit controls.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the text should be aligned for edit controls.")]
         [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
@@ -326,8 +326,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets wheather the numeric up-down should display its value in hexadecimal.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates wheather the numeric up-down should display its value in hexadecimal.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates wheather the numeric up-down should display its value in hexadecimal.")]
         [DefaultValue(false)]
         public bool Hexadecimal
         {
@@ -338,8 +338,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets how the up-down control will position the up down buttons relative to its text box.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the up-down control will position the up down buttons relative to its text box.")]
         [DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
@@ -351,8 +351,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.")]
         [DefaultValue(true)]
         public bool InterceptArrowKeys
         {
@@ -363,8 +363,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating whether the text in the edit control can be changed or not.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the text in the edit control can be changed or not.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the text in the edit control can be changed or not.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool ReadOnly
@@ -376,8 +376,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonNumericUpDown.NumericUpDownButtonSpecCollection ButtonSpecs => NumericUpDown.ButtonSpecs;
 
@@ -385,8 +385,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the numeric up-down.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the numeric up-down is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the numeric up-down is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -425,8 +425,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group numeric up-down.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group numeric up-down is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group numeric up-down is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -445,8 +445,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the minimum size of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the minimum size of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the minimum size of the control.")]
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
@@ -457,8 +457,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the maximum size of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the maximum size of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the maximum size of the control.")]
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
@@ -469,8 +469,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut to display when the user right-clicks the control.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip
         {
@@ -481,8 +481,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the KryptonContextMenu for showing when the numeric up down is right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("KryptonContextMenu to be shown when the numeric up down is right clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"KryptonContextMenu to be shown when the numeric up down is right clicked.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -493,8 +493,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
@@ -505,8 +505,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {

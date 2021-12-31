@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                             
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private readonly PaletteRedirect _redirect;
 
         #endregion
 
@@ -65,8 +65,8 @@ namespace Krypton.Toolkit
         /// Gets the item appearance overrides.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Item { get; }
 

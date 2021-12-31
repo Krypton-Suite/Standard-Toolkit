@@ -295,12 +295,9 @@ namespace Krypton.Ribbon
                 case Keys.Space:
                 case Keys.Enter:
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
-
                     // Get access to the popup for the group
-                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup)
+                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup popupGroup)
                     {
-                        // Cast to correct type
-                        VisualPopupGroup popupGroup = (VisualPopupGroup)VisualPopupManager.Singleton.CurrentPopup;
                         popupGroup.SetFirstFocusItem();
                     }
                     break;
@@ -338,10 +335,8 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup)
+                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup popup)
                     {
-                        // Cast to correct type
-                        VisualPopupGroup popup = (VisualPopupGroup)VisualPopupManager.Singleton.CurrentPopup;
                         popup.SetFirstFocusItem();
                     }
                     break;
@@ -365,10 +360,8 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup)
+                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup popupGroup)
                     {
-                        // Cast to correct type
-                        VisualPopupGroup popupGroup = (VisualPopupGroup)VisualPopupManager.Singleton.CurrentPopup;
                         popupGroup.SetFirstFocusItem();
                     }
                     break;

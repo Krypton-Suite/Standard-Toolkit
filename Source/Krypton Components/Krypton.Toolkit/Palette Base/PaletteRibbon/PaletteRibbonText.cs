@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color for the item text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Color for the text.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public Color TextColor

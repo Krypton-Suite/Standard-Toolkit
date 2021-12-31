@@ -13,6 +13,9 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// Gets the single instance of the ### palette.
+    /// </summary>
     public class PaletteOffice365White : PaletteOffice365Base
     {
         #region Static Fields

@@ -57,14 +57,14 @@ namespace Krypton.Ribbon
         {
             _contextBlend2007 = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.41f, 0.7f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.41f, 0.7f, 1.0f }
             };
 
             _contextBlend2010 = new Blend
             {
-                Factors = new float[] { 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.6f, 1.0f }
+                Factors = new[] { 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.6f, 1.0f }
             };
         }
 
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
                 switch (Ribbon.RibbonShape)
                 {
                     case PaletteRibbonShape.Office2010:
-                        RenderAfter2010ContextTab(context, cts);
+                        RenderAfter2010ContextTab();
                         break;
                 }
             }
@@ -565,7 +565,7 @@ namespace Krypton.Ribbon
             context.Graphics.FillRectangle(fillBrush, fillRect);
         }
 
-        private void RenderAfter2010ContextTab(RenderContext context, ContextTabSet cts)
+        private void RenderAfter2010ContextTab()
         {
             switch (State)
             {

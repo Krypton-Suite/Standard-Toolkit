@@ -87,8 +87,8 @@ namespace Krypton.Toolkit
         /// Get access to the button colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("Button specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Button specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSButton Button { get; }
 
@@ -101,8 +101,8 @@ namespace Krypton.Toolkit
         /// Get access to the grip colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("Grip specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Grip specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSGrip Grip { get; }
 
@@ -115,8 +115,8 @@ namespace Krypton.Toolkit
         /// Get access to the menu colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("Menu specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Menu specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSMenu Menu { get; }
 
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// Get access to the rafting colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("Rafting specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Rafting specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSRafting Rafting { get; }
 
@@ -143,8 +143,8 @@ namespace Krypton.Toolkit
         /// Get access to the menu strip colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("MenuStrip specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"MenuStrip specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSMenuStrip MenuStrip { get; }
 
@@ -157,8 +157,8 @@ namespace Krypton.Toolkit
         /// Get access to the separator colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("Separator specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Separator specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSSeparator Separator { get; }
 
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
         /// Get access to the status strip colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("StatusStrip specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"StatusStrip specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSStatusStrip StatusStrip { get; }
 
@@ -185,8 +185,8 @@ namespace Krypton.Toolkit
         /// Get access to the tool strip colors.
         /// </summary>
         [KryptonPersist]
-        [Category("ToolMenuStatus")]
-        [Description("ToolStrip specific colors.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"ToolStrip specific colors.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSToolStrip ToolStrip { get; }
 
@@ -199,8 +199,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the use of rounded or square edges when rendering.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Should rendering use rounded or square edges.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Should rendering use rounded or square edges.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         public InheritBool UseRoundedEdges
         {

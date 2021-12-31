@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the HeaderGroupMappingPrimary class.
         /// </summary>
-        /// <param name="navigator">Reference to owning navogator instance.</param>
+        /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public HeaderGroupMappingPrimary(KryptonNavigator navigator,
                                          NeedPaintHandler needPaint)

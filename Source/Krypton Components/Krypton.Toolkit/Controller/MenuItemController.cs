@@ -122,7 +122,11 @@ namespace Krypton.Toolkit
             // If the item is enabled and the mouse is over the sub menu area, then return false
             // because we do not want pressed it to cause the context menu to become current. This
             // cause the showing sub menu to be dismissed.
-            _menuItem.ItemEnabled ? !_menuItem.PointInSubMenu(pt) : true;
+            !
+            // If the item is enabled and the mouse is over the sub menu area, then return false
+            // because we do not want pressed it to cause the context menu to become current. This
+            // cause the showing sub menu to be dismissed.
+            _menuItem.ItemEnabled || !_menuItem.PointInSubMenu(pt);
 
         #endregion
 

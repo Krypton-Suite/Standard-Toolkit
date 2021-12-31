@@ -58,8 +58,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the pixel inset of button specs from the edge of the page header.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Pixel inset of button specs from the edge of the page header.")]
+        [Category(@"Visuals")]
+        [Description(@"Pixel inset of button specs from the edge of the page header.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(-1)]
         public int PageButtonSpecInset
@@ -90,8 +90,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the pixel padding around the button specs on a page header.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Pixel padding around the button specs on a page header.")]
+        [Category(@"Visuals")]
+        [Description(@"Pixel padding around the button specs on a page header.")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding PageButtonSpecPadding
         {

@@ -96,23 +96,21 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of the button specifications.
         /// </summary>
-        [Category("Data")]
-        [Description("Set of extra button specs to appear with control.")]
+        [Category(@"Data")]
+        [Description(@"Set of extra button specs to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Replicates the AllowDecimals property of the KryptonDataGridViewNumericUpDownCell cell type.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(true)]
-        [Description("Indicates whether the control can accept decimal values, rather than integer values only.")]
+        [Description(@"Indicates whether the control can accept decimal values, rather than integer values only.")]
         public bool AllowDecimals
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.AllowDecimals;
+                NumericUpDownCellTemplate?.AllowDecimals ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -147,15 +145,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the TrailingZeroes property of the KryptonDataGridViewNumericUpDownCell cell type.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(false)]
-        [Description("Indicates whether the control will display traling zeroes.")]
+        [Description(@"Indicates whether the control will display traling zeroes.")]
         public bool TrailingZeroes
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.TrailingZeroes;
+                NumericUpDownCellTemplate?.TrailingZeroes ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -189,15 +185,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the DecimalPlaces property of the KryptonDataGridViewNumericUpDownCell cell type.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(0)]
-        [Description("Indicates the number of decimal places to display.")]
+        [Description(@"Indicates the number of decimal places to display.")]
         public int DecimalPlaces
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.DecimalPlaces;
+                NumericUpDownCellTemplate?.DecimalPlaces ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -231,15 +225,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets wheather the numeric up-down should display its value in hexadecimal.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(false)]
-        [Description("Indicates wheather the numeric up-down should display its value in hexadecimal.")]
+        [Description(@"Indicates wheather the numeric up-down should display its value in hexadecimal.")]
         public bool Hexadecimal
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Hexadecimal;
+                NumericUpDownCellTemplate?.Hexadecimal ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -273,14 +265,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the Increment property of the DataGridViewNumericUpDownCell cell type.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the amount to increment or decrement on each button click.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the amount to increment or decrement on each button click.")]
         public decimal Increment
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Increment;
+                NumericUpDownCellTemplate?.Increment ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -311,15 +301,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the Maximum property of the KryptonDataGridViewNumericUpDownCell cell type.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the maximum value for the numeric up-down cells.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the maximum value for the numeric up-down cells.")]
         [RefreshProperties(RefreshProperties.All)]
         public decimal Maximum
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Maximum;
+                NumericUpDownCellTemplate?.Maximum ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -352,15 +340,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the Minimum property of the KryptonDataGridViewNumericUpDownCell cell type.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the minimum value for the numeric up-down cells.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the minimum value for the numeric up-down cells.")]
         [RefreshProperties(RefreshProperties.All)]
         public decimal Minimum
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Minimum;
+                NumericUpDownCellTemplate?.Minimum ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -393,15 +379,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the ThousandsSeparator property of the KryptonDataGridViewNumericUpDownCell cell type.
         /// </summary>
-        [Category("Data")]
+        [Category(@"Data")]
         [DefaultValue(false)]
-        [Description("Indicates whether the thousands separator will be inserted between every three decimal digits.")]
+        [Description(@"Indicates whether the thousands separator will be inserted between every three decimal digits.")]
         public bool ThousandsSeparator
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.ThousandsSeparator;
+                NumericUpDownCellTemplate?.ThousandsSeparator ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)

@@ -953,32 +953,32 @@ namespace Krypton.Toolkit
                     // Only certain formats can be edited
                     switch (FragFormat)
                     {
-                        case "f":
-                        case "F":
+                        case @"f":
+                        case @"F":
                             return 1;
-                        case "d":
-                        case "dd":
-                        case "M":
-                        case "MM":
-                        case "MMM":
-                        case "MMMM":
-                        case "ff":
-                        case "FF":
+                        case @"d":
+                        case @"dd":
+                        case @"M":
+                        case @"MM":
+                        case @"MMM":
+                        case @"MMMM":
+                        case @"ff":
+                        case @"FF":
                             return 2;
-                        case "fff":
-                        case "FFF":
+                        case @"fff":
+                        case @"FFF":
                             return 3;
-                        case "ffff":
-                        case "FFFF":
+                        case @"ffff":
+                        case @"FFFF":
                             return 4;
-                        case "fffff":
-                        case "FFFFF":
+                        case @"fffff":
+                        case @"FFFFF":
                             return 5;
-                        case "ffffff":
-                        case "FFFFFF":
+                        case @"ffffff":
+                        case @"FFFFFF":
                             return 6;
-                        case "fffffff":
-                        case "FFFFFFF":
+                        case @"fffffff":
+                        case @"FFFFFFF":
                             return 7;
                     }
 
@@ -1004,8 +1004,8 @@ namespace Krypton.Toolkit
             {
                 switch (FragFormat)
                 {
-                    case "d":
-                    case "dd":
+                    case @"d":
+                    case @"dd":
                         var dayNumber = int.Parse(digits);
                         if ((dayNumber <= LastDayOfMonth(dt).Day) && (dayNumber > 0))
                         {
@@ -1013,8 +1013,8 @@ namespace Krypton.Toolkit
                         }
 
                         break;
-                    case "M":
-                    case "MM":
+                    case @"M":
+                    case @"MM":
                         var monthNumber = int.Parse(digits);
                         if (monthNumber is <= 12 and > 0)
                         {
@@ -1022,20 +1022,20 @@ namespace Krypton.Toolkit
                         }
 
                         break;
-                    case "f":
-                    case "F":
-                    case "ff":
-                    case "FF":
-                    case "fff":
-                    case "FFF":
-                    case "ffff":
-                    case "FFFF":
-                    case "fffff":
-                    case "FFFFF":
-                    case "ffffff":
-                    case "FFFFFF":
-                    case "fffffff":
-                    case "FFFFFFF":
+                    case @"f":
+                    case @"F":
+                    case @"ff":
+                    case @"FF":
+                    case @"fff":
+                    case @"FFF":
+                    case @"ffff":
+                    case @"FFFF":
+                    case @"fffff":
+                    case @"FFFFF":
+                    case @"ffffff":
+                    case @"FFFFFF":
+                    case @"fffffff":
+                    case @"FFFFFFF":
                         dt = dt.AddMilliseconds(int.Parse(digits) - dt.Millisecond);
                         break;
                 }
@@ -1114,8 +1114,8 @@ namespace Krypton.Toolkit
                 // Action depends on the format string
                 switch (FragFormat)
                 {
-                    case "d":
-                    case "dd":
+                    case @"d":
+                    case @"dd":
                         if (forward)
                         {
                             dt = dt.Day == LastDayOfMonth(dt).Day ? dt.AddDays(-(dt.Day - 1)) : dt.AddDays(1);
@@ -1125,10 +1125,10 @@ namespace Krypton.Toolkit
                             dt = dt.Day == 1 ? dt.AddDays(LastDayOfMonth(dt).Day - 1) : dt.AddDays(-1);
                         }
                         break;
-                    case "M":
-                    case "MM":
-                    case "MMM":
-                    case "MMMM":
+                    case @"M":
+                    case @"MM":
+                    case @"MMM":
+                    case @"MMMM":
                         if (forward)
                         {
                             dt = dt.Month == 12 ? dt.AddMonths(-(dt.Month - 1)) : dt.AddMonths(1);
@@ -1260,7 +1260,7 @@ namespace Krypton.Toolkit
             #endregion
         }
 
-        private class FormatFragmentList : List<FormatFragment> { };
+        private class FormatFragmentList : List<FormatFragment> { }
         #endregion
 
         #region Static Fields

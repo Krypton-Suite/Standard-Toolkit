@@ -20,8 +20,8 @@ namespace Krypton.Workspace
     [DefaultEvent("WorkspaceCellAdded")]
     [DefaultProperty("Root")]
     [Designer("Krypton.Workspace.KryptonWorkspaceDesigner, Krypton.Workspace")]
-    [DesignerCategory("code")]
-    [Description("Layout a hierarchy of KryptonNavigator instances.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Layout a hierarchy of KryptonNavigator instances.")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonWorkspace : VisualContainerControl,
                                     IDragTargetProvider
@@ -60,12 +60,12 @@ namespace Krypton.Workspace
         #endregion
 
         #region Type Definintions
-        internal class WorkspaceItemToSeparator : Dictionary<IWorkspaceItem, ViewDrawWorkspaceSeparator> { };
-        internal class SeparatorToWorkspaceItem : Dictionary<ViewDrawWorkspaceSeparator, IWorkspaceItem> { };
-        internal class SeparatorList : List<ViewDrawWorkspaceSeparator> { };
-        internal class CellList : List<KryptonWorkspaceCell> { };
-        internal class PageList : List<KryptonPage> { };
-        internal class ControlList : List<Control> { };
+        internal class WorkspaceItemToSeparator : Dictionary<IWorkspaceItem, ViewDrawWorkspaceSeparator> { }
+        internal class SeparatorToWorkspaceItem : Dictionary<ViewDrawWorkspaceSeparator, IWorkspaceItem> { }
+        internal class SeparatorList : List<ViewDrawWorkspaceSeparator> { }
+        internal class CellList : List<KryptonWorkspaceCell> { }
+        internal class PageList : List<KryptonPage> { }
+        internal class ControlList : List<Control> { }
         #endregion
 
         #region Instance Fields
@@ -113,113 +113,113 @@ namespace Krypton.Workspace
         /// <summary>
         /// Occurs after the number of cells has changed.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs after the number of cells has changed.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs after the number of cells has changed.")]
         public event EventHandler CellCountChanged;
 
         /// <summary>
         /// Occurs after the number of visible cells has changed.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs after the number of visible cells has changed.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs after the number of visible cells has changed.")]
         public event EventHandler CellVisibleCountChanged;
 
         /// <summary>
         /// Occurs when a new KryptonWorkspaceCell instance is about to be added to the workspace.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when a new KryptonWorkspaceCell instance is about to be added to the workspace.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when a new KryptonWorkspaceCell instance is about to be added to the workspace.")]
         public event EventHandler<WorkspaceCellEventArgs> WorkspaceCellAdding;
 
         /// <summary>
         /// Occurs when an existing KryptonWorkspaceCell instance has been removed from the workspace.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when an existing KryptonWorkspaceCell instance has been removed from the workspace.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when an existing KryptonWorkspaceCell instance has been removed from the workspace.")]
         public event EventHandler<WorkspaceCellEventArgs> WorkspaceCellRemoved;
 
         /// <summary>
         /// Occurs when the active cell value has changed.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when the active cell value has changed.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when the active cell value has changed.")]
         public event EventHandler<ActiveCellChangedEventArgs> ActiveCellChanged;
 
         /// <summary>
         /// Occurs when the active page value has changed.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when the active page value has changed.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when the active page value has changed.")]
         public event EventHandler<ActivePageChangedEventArgs> ActivePageChanged;
 
         /// <summary>
         /// Occurs when the maximized cell value has changed.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when the maximized cell value has changed.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when the maximized cell value has changed.")]
         public event EventHandler MaximizedCellChanged;
 
         /// <summary>
         /// Occurs when the workspace information is saving.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when workspace layout information is saving.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when workspace layout information is saving.")]
         public event EventHandler<XmlSavingEventArgs> GlobalSaving;
 
         /// <summary>
         /// Occurs when the workspace information is loading.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when workspace layout information is loading.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when workspace layout information is loading.")]
         public event EventHandler<XmlLoadingEventArgs> GlobalLoading;
 
         /// <summary>
         /// Occurs when the workspace cell page information is saving.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when workspace cell page information is saving.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when workspace cell page information is saving.")]
         public event EventHandler<PageSavingEventArgs> PageSaving;
 
         /// <summary>
         /// Occurs when the workspace cell page information is loading.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when the workspace cell page information is loading.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when the workspace cell page information is loading.")]
         public event EventHandler<PageLoadingEventArgs> PageLoading;
 
         /// <summary>
         /// Occurs when the workspace cell page is loading but there is no existing matching page.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when the workspace cell page is loading but there is no existing matching page.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when the workspace cell page is loading but there is no existing matching page.")]
         public event EventHandler<RecreateLoadingPageEventArgs> RecreateLoadingPage;
 
         /// <summary>
         /// Occurs when the loading process have completed and there are unmatched pages.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when the loading process have completed and there are unmatched pages.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when the loading process have completed and there are unmatched pages.")]
         public event EventHandler<PagesUnmatchedEventArgs> PagesUnmatched;
 
         /// <summary>
         /// Occurs just before a page drag operation is started.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs just before a page drag operation is started.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs just before a page drag operation is started.")]
         public event EventHandler<PageDragCancelEventArgs> BeforePageDrag;
 
         /// <summary>
         /// Occurs after a page drag operation has finished/aborted.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs after a page drag operation has finished/aborted.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs after a page drag operation has finished/aborted.")]
         public event EventHandler<PageDragEndEventArgs> AfterPageDrag;
 
         /// <summary>
         /// Occurs when a page is being dropped.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Occurs when a page is being dropped.")]
+        [Category(@"Workspace")]
+        [Description(@"Occurs when a page is being dropped.")]
         public event EventHandler<PageDropEventArgs> PageDrop;
         #endregion
 
@@ -418,14 +418,14 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the active page.
         /// </summary>
-        [Browsable(true), Description("Gets and sets the active page."), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [Browsable(true), Description(@"Gets and sets the active page."), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public KryptonPage ActivePage { get; set; }
 
         /// <summary>
         /// Gets and sets the compacting options to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines the compacting options to be applied.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines the compacting options to be applied.")]
         //[DefaultValue(typeof(CompactFlags), "All")]
         public CompactFlags CompactFlags
         {
@@ -444,8 +444,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the cell to maximize inside the client area.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines which cell should become maximized and so take up the whole client area.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines which cell should become maximized and so take up the whole client area.")]
         [DefaultValue(null)]
         public KryptonWorkspaceCell MaximizedCell
         {
@@ -465,8 +465,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the thickness of the splitters.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines the thickness of the splitters.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines the thickness of the splitters.")]
         [Localizable(true)]
         //[DefaultValue(typeof(int), "5")]
         public int SplitterWidth
@@ -496,8 +496,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets if the user can use separators to resize workspace items.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the user can use separators to resize workspace items.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the user can use separators to resize workspace items.")]
         [DefaultValue(true)]
         public bool AllowResizing
         {
@@ -516,8 +516,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the container background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Container background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Container background style.")]
         //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
         public PaletteBackStyle ContainerBackStyle
         {
@@ -536,8 +536,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the separator style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Separator style.")]
+        [Category(@"Visuals")]
+        [Description(@"Separator style.")]
         //[DefaultValue(typeof(SeparatorStyle), "Low Profile")]
         public SeparatorStyle SeparatorStyle
         {
@@ -566,8 +566,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets access to the common split container appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common split container appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common split container appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainerRedirect StateCommon { get; }
 
@@ -576,8 +576,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets access to the disabled split container appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled split container appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled split container appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateDisabled { get; }
 
@@ -586,8 +586,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets access to the normal split container appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal split container appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal split container appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateNormal { get; }
 
@@ -596,8 +596,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets access to the hot tracking separator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateTracking { get; }
 
@@ -606,8 +606,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StatePressed { get; }
 
@@ -616,18 +616,18 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets access to the properties for managing the workspace context menus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Properties for managing the workspace context menus.")]
+        [Category(@"Visuals")]
+        [Description(@"Properties for managing the workspace context menus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public WorkspaceMenus ContextMenus { get; }
 
-        private bool ShouldSerializeWorkspaceMenus() => !ContextMenus.IsDefault;
+        private bool ShouldSerializeContextMenus() => !ContextMenus.IsDefault;
 
         /// <summary>
         /// Gets access to the root sequence.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Root sequence.")]
+        [Category(@"Visuals")]
+        [Description(@"Root sequence.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonWorkspaceSequence Root { get; }
@@ -635,16 +635,16 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets or sets the default setting for allowing the dragging of cells.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Defines the default setting for allowing the dragging of cells.")]
+        [Category(@"Visuals")]
+        [Description(@"Defines the default setting for allowing the dragging of cells.")]
         [DefaultValue(true)]
         public bool AllowPageDrag { get; set; }
 
         /// <summary>
         /// Gets or sets if the maximized/restore button is displayed. 
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the maximized/restore button is displayed.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the maximized/restore button is displayed.")]
         [DefaultValue(true)]
         public bool ShowMaximizeButton
         {
@@ -1685,8 +1685,7 @@ namespace Krypton.Workspace
             var visibleCells = 0;
             var numPages = 0;
 
-            if ((MaximizedCell != null)
-                && MaximizedCell.AllowDroppingPages
+            if (MaximizedCell is { AllowDroppingPages: true }
                 )
             {
                 // Generate targets for maximized cell only
@@ -1929,7 +1928,7 @@ namespace Krypton.Workspace
                 }
 
                 // Load the format version number
-                var version = xmlReader.GetAttribute("V");
+                var version = xmlReader.GetAttribute(@"V");
                 var activePageUniqueName = xmlReader.GetAttribute(@"A");
 
                 // Convert format version from string to double
@@ -2356,7 +2355,7 @@ namespace Krypton.Workspace
 
         #region Protected
         /// <summary>
-        /// Change has occured in the hierarchy of children.
+        /// Change has occurred in the hierarchy of children.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Arguments associated with the event.</param>
@@ -2567,7 +2566,7 @@ namespace Krypton.Workspace
                 {
                     if (MaximizedCell != null)
                     {
-                        LayoutSequenceMaximized(Root, ClientRectangle, controls, layoutContext);
+                        LayoutSequenceMaximized(Root, ClientRectangle, controls);
                     }
                     else
                     {
@@ -2595,13 +2594,10 @@ namespace Krypton.Workspace
                         ((KryptonReadOnlyControls)Controls).RemoveInternal(c);
 
                         // If the control has the expected interface
-                        if (c is IWorkspaceItem item)
-                        {
+                        if (c is IWorkspaceItem { DisposeOnRemove: true })
                             // Does the item want to be disposed on removal?
-                            if (item.DisposeOnRemove)
-                            {
-                                c.Dispose();
-                            }
+                        {
+                            c.Dispose();
                         }
 
                         // Generate event so users can reverse actions taken when cell was added
@@ -2646,8 +2642,7 @@ namespace Krypton.Workspace
                 }
 
                 // If we have a maximized cell then ensure it has focus and not some other cell
-                if ((MaximizedCell != null)
-                    && !MaximizedCell.ContainsFocus && ContainsFocus
+                if (MaximizedCell is { ContainsFocus: false } && ContainsFocus
                     )
                 {
                     MaximizedCell.Select();
@@ -2909,7 +2904,7 @@ namespace Krypton.Workspace
                     offset = splitter.Y - separator.ClientLocation.Y;
                 }
 
-                // Only need to process if a change has occured
+                // Only need to process if a change has occurred
                 if (offset != 0)
                 {
                     // Update the sizing value for each item in the sequence
@@ -3050,8 +3045,7 @@ namespace Krypton.Workspace
         #region Implementation
         private void LayoutSequenceMaximized(KryptonWorkspaceSequence seq,
                                              Rectangle client,
-                                             ControlList controls,
-                                             ViewLayoutContext layoutContext)
+                                             ControlList controls)
         {
             // Inform the sequence of the client rectangle it occupies
             seq.WorkspaceActualSize = client.Size;
@@ -3575,7 +3569,7 @@ namespace Krypton.Workspace
             return null;
         }
 
-        private void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
+        private static void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
                                       out IWorkspaceItem after,
                                       out IWorkspaceItem before)
         {
@@ -3589,7 +3583,7 @@ namespace Krypton.Workspace
             before = null;
             for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
             {
-                if ((beforeSequence.Children[i] is IWorkspaceItem item) && item.WorkspaceVisible)
+                if ((beforeSequence.Children[i] is IWorkspaceItem { WorkspaceVisible: true } item))
                 {
                     before = item;
                     break;
@@ -3597,7 +3591,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void SeparatorToMovement(ViewDrawWorkspaceSeparator separator,
+        private static void SeparatorToMovement(ViewDrawWorkspaceSeparator separator,
                                          IWorkspaceItem after,
                                          IWorkspaceItem before,
                                          out int moveBefore,
@@ -3746,7 +3740,7 @@ namespace Krypton.Workspace
             targets.Add(new DragTargetWorkspaceCellTransfer(screenRect, rectsHot[4], screenRect, this, cell, allowFlags));
         }
 
-        private Rectangle[] SubdivideRectangle(Rectangle area,
+        private static Rectangle[] SubdivideRectangle(Rectangle area,
                                                int divisor,
                                                int maxLength)
         {
@@ -3820,7 +3814,7 @@ namespace Krypton.Workspace
         {
             if (!IsActivePageChangedEventSuspended)
             {
-                // If change occured on the active cell
+                // If change occurred on the active cell
                 KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
                 if (cell == ActiveCell)
                 {
@@ -4137,7 +4131,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private UniqueNameToPage BuildUniqueNameDictionary(KryptonPageCollection pages)
+        private static UniqueNameToPage BuildUniqueNameDictionary(KryptonPageCollection pages)
         {
             UniqueNameToPage dict = new();
 
@@ -4154,7 +4148,7 @@ namespace Krypton.Workspace
             return dict;
         }
 
-        private Bitmap ReadOptionalImageElement(XmlReader xmlReader, string name)
+        private static Bitmap ReadOptionalImageElement(XmlReader xmlReader, string name)
         {
             Bitmap retImage = null;
 

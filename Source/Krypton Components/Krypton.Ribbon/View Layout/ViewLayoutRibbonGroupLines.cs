@@ -26,11 +26,11 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { };
-        private class ViewToItem : Dictionary<ViewBase, IRibbonGroupItem> { };
-        private class ViewToGap : Dictionary<ViewBase, int> { };
-        private class SizeList : List<Size> { };
-        private class ViewList : List<ViewBase> { };
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
+        private class ViewToItem : Dictionary<ViewBase, IRibbonGroupItem> { }
+        private class ViewToGap : Dictionary<ViewBase, int> { }
+        private class SizeList : List<Size> { }
+        private class ViewList : List<ViewBase> { }
         #endregion
 
         #region Instance Fields

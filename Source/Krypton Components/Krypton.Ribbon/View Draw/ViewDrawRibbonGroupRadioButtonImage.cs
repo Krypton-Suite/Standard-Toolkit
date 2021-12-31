@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private KryptonRibbonGroupRadioButton _ribbonRadioButton;
+        private readonly KryptonRibbonGroupRadioButton _ribbonRadioButton;
         private readonly ViewDrawRadioButton _drawRadioButton;
         private readonly bool _large;
         #endregion

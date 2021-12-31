@@ -59,10 +59,10 @@ namespace Krypton.Docking
         public event EventHandler<SplitterMoveRectMenuArgs> SplitterMoveRect;
 
         /// <summary>
-        /// Occurs when the separator move finishes and a move has occured.
+        /// Occurs when the separator move finishes and a move has occurred.
         /// </summary>
         [Category("Behavior")]
-        [Description("Occurs when the separator move finishes and a move has occured.")]
+        [Description("Occurs when the separator move finishes and a move has occurred.")]
         public event SplitterEventHandler SplitterMoved;
 
         /// <summary>
@@ -487,16 +487,14 @@ namespace Krypton.Docking
             //    We have an associated auto hidden group control that is not disposed  AND
             //    We are not disposed
             if ((parentForm != null)
-                 && ((parentForm == Form.ActiveForm)
-                      || ((parentMdi != null)
-                           && (parentMdi.ActiveMdiChild == parentForm)
-                      )
-                 )
-                 && parentForm.ContainsFocus
-                 && (_state != DockingAutoHiddenShowState.Hidden)
-                 && (_group != null)
-                 && !_group.IsDisposed
-                 && !IsDisposed
+                && ((parentForm == Form.ActiveForm)
+                    || ((parentMdi != null)
+                        && (parentMdi.ActiveMdiChild == parentForm)
+                    )
+                )
+                && parentForm.ContainsFocus
+                && (_state != DockingAutoHiddenShowState.Hidden)
+                && _group is { IsDisposed: false } && !IsDisposed
                  )
             {
                 switch (msg.Msg)
@@ -717,7 +715,7 @@ namespace Krypton.Docking
         private void ResetChildIndex()
         {
             // Find the child index of our matching panel
-            int panelIndex = _control.Controls.IndexOf(_panel);
+            var panelIndex = _control.Controls.IndexOf(_panel);
 
             // Position ourself just before the matching panel
             _control.Controls.SetChildIndex(this, panelIndex);
@@ -759,7 +757,7 @@ namespace Krypton.Docking
                     break;
                 case DockingAutoHiddenShowState.SlidingOut:
                     {
-                        bool finished = true;
+                        var finished = true;
                         Size newSlideSize = Size;
                         Point newSlideLocation = Location;
                         Point newInnerLocation = _inner.Location;
@@ -805,7 +803,7 @@ namespace Krypton.Docking
                     break;
                 case DockingAutoHiddenShowState.SlidingIn:
                     {
-                        bool finished = true;
+                        var finished = true;
                         Size newSlideSize = Size;
                         Point newSlideLocation = Location;
                         Point newInnerLocation = _inner.Location;

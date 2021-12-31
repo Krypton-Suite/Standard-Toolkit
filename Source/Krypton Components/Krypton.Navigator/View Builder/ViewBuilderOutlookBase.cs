@@ -20,7 +20,7 @@ namespace Krypton.Navigator
                                                      ISeparatorSource
     {
         #region Type Definitons
-        protected class PageToButtonEdge : Dictionary<KryptonPage, ViewDrawBorderEdge> { };
+        protected class PageToButtonEdge : Dictionary<KryptonPage, ViewDrawBorderEdge> { }
 
         /// <summary>
         /// Collection for managing ButtonSpecMdiChildFixed instances.
@@ -376,7 +376,7 @@ namespace Krypton.Navigator
                     // Can only bring page into view if actually visible
                     if (selected.Visible)
                     {
-                        // Make sure the layout is uptodate
+                        // Make sure the layout is upto date
                         Navigator.CheckPerformLayout();
                     }
                 }
@@ -393,7 +393,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Change has occured to the collection of pages.
+        /// Change has occurred to the collection of pages.
         /// </summary>
         public override void PageCollectionChanged()
         {
@@ -476,12 +476,12 @@ namespace Krypton.Navigator
             {
                 switch (property)
                 {
-                    case "Text":
-                    case "TextTitle":
-                    case "TextDescription":
-                    case "ImageSmall":
-                    case "ImageMedium":
-                    case "ImageLarge":
+                    case @"Text":
+                    case @"TextTitle":
+                    case @"TextDescription":
+                    case @"ImageSmall":
+                    case @"ImageMedium":
+                    case @"ImageLarge":
                         // Need to layout and paint to effect change
                         PerformNeedPagePaint(true);
                         break;
@@ -716,7 +716,10 @@ namespace Krypton.Navigator
 
                             if (!ce.Cancel)
                             {
-                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                if (!shift)
+                                    SelectNextPage(Navigator.SelectedPage, true, true);
+                                else
+                                    SelectPreviousPage(Navigator.SelectedPage, true, true);
                             }
                         }
                         return true;
@@ -939,7 +942,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
@@ -978,7 +981,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the next button action requested.
+        /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -1006,7 +1009,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the previous button action requested.
+        /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -1020,7 +1023,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Get a string that represents the visible state of the overflow butttons.
+        /// Get a string that represents the visible state of the overflow buttons.
         /// </summary>
         /// <returns>State string.</returns>
         public string GetOverflowButtonStates()
@@ -1338,30 +1341,30 @@ namespace Krypton.Navigator
 
             switch (e.PropertyName)
             {
-                case "HeaderStyleOverflow":
+                case @"HeaderStyleOverflow":
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "BorderEdgeStyleOutlook":
+                case @"BorderEdgeStyleOutlook":
                     Navigator.StateCommon.BorderEdgeStyle = Navigator.Outlook.BorderEdgeStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "CheckButtonStyleOutlook":
+                case @"CheckButtonStyleOutlook":
                     UpdateCheckButtonStyle();
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "OverflowButtonStyleOutlook":
+                case @"OverflowButtonStyleOutlook":
                     _specDropDown.Style = CommonHelper.ButtonStyleToPalette(Navigator.Outlook.OverflowButtonStyle);
                     UpdateOverflowButtonStyle();
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "MiniButtonStyleOutlook":
+                case @"MiniButtonStyleOutlook":
                     UpdateMiniButtonStyle();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "OrientationOutlook":
+                case @"OrientationOutlook":
                     // We only use minimum values if not calculating based on auto sizing
                     _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
                     _specDropDown.Orientation = (Navigator.Outlook.Orientation == Orientation.Vertical ? PaletteButtonOrientation.FixedTop : PaletteButtonOrientation.FixedLeft);
@@ -1371,16 +1374,16 @@ namespace Krypton.Navigator
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "ItemOrientationOutlook":
+                case @"ItemOrientationOutlook":
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "ShowDropDownButtonOutlook":
+                case @"ShowDropDownButtonOutlook":
                     _specDropDown.Visible = Navigator.Outlook.ShowDropDownButton;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "PageButtonSpecInset":
-                case "PageButtonSpecPadding":
+                case @"PageButtonSpecInset":
+                case @"PageButtonSpecPadding":
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:
@@ -1749,11 +1752,11 @@ namespace Krypton.Navigator
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutBar(Navigator, Redirector, _buttons,
-                                                               new ViewLayoutDocker[] { _viewOverflowLayout },
+                                                               new[] { _viewOverflowLayout },
                                                                new IPaletteMetric[] { Navigator.StateCommon.Bar },
-                                                               new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                               new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                               new PaletteMetricPadding[] { PaletteMetricPadding.None },
+                                                               new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
+                                                               new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
+                                                               new[] { PaletteMetricPadding.None },
                                                                Navigator.CreateToolStripRenderer,
                                                                NeedPaintDelegate);
         }
@@ -2169,7 +2172,7 @@ namespace Krypton.Navigator
                 // Only enable the 'Add/Remove' if it has at least one drop down item
                 addRemoveButtons.Enabled = (visibleAddRemove > 0);
 
-                // Get the display rectange of the drop down button
+                // Get the display rectangle of the drop down button
                 Rectangle rect = _buttonManager.GetButtonRectangle(_specDropDown);
 
                 // Convert to screen coordinates
@@ -2376,9 +2379,7 @@ namespace Krypton.Navigator
 
         private void RecreateView()
         {
-            VisualOrientation checkButtonOrient = ResolveStackButtonOrientation();
             Orientation stackOrient = Navigator.Outlook.Orientation;
-            Orientation buttonEdgeOrient = (stackOrient == Orientation.Vertical ? Orientation.Horizontal : Orientation.Vertical);
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
             // Remove all existing layout items

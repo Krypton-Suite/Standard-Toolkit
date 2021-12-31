@@ -75,8 +75,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the gallery background palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining gallery background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining gallery background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGalleryBack => _ribbonBack;
 
@@ -88,8 +88,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the gallery border palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining gallery border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining gallery border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGalleryBorder => _ribbonBorder;
 

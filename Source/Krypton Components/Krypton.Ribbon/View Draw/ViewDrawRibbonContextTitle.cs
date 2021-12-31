@@ -332,7 +332,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -350,7 +350,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -368,7 +368,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -386,7 +386,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -404,7 +404,7 @@ namespace Krypton.Ribbon
             // If empty then try and recover the context specific color
             if (retColor == Color.Empty)
             {
-                retColor = CheckForContextColor(state);
+                retColor = CheckForContextColor();
             }
 
             return retColor;
@@ -507,7 +507,7 @@ namespace Krypton.Ribbon
 
         private bool DrawOnComposition => _ribbon != null && _ribbon.CaptionArea.DrawCaptionOnComposition;
 
-        private Color CheckForContextColor(PaletteState state) =>
+        private Color CheckForContextColor() =>
             // We need an associated context
             _context?.ContextColor ?? Color.Empty;
 

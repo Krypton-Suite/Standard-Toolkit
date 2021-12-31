@@ -25,7 +25,7 @@ namespace Krypton.Workspace
             /// <summary>
             /// Simple class to reduce the length of declaractions!
             /// </summary>
-            protected class DictItemBase : Dictionary<Component, Component> { };
+            protected class DictItemBase : Dictionary<Component, Component> { }
 
             /// <summary>
             /// Act as proxy for krypton page item to control the exposed properties to the property grid.
@@ -49,49 +49,49 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the common page appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorRedirect StateCommon => _item.StateCommon;
 
                 /// <summary>
                 /// Gets access to the disabled page appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigator StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal page appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigator StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking page appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOtherEx StateTracking => _item.StateTracking;
 
                 /// <summary>
                 /// Gets access to the pressed page appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOtherEx StatePressed => _item.StatePressed;
 
                 /// <summary>
                 /// Gets access to the selected page appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOther StateSelected => _item.StateSelected;
 
                 /// <summary>
                 /// Gets access to the focus page appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOtherRedirect OverrideFocus => _item.OverrideFocus;
 
                 /// <summary>
                 /// Gets and sets the page text.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue("Page")]
                 public string Text
                 {
@@ -102,7 +102,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the title text for the page.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue("Page Title")]
                 public string TextTitle
                 {
@@ -113,7 +113,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the description text for the page.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue("Page Description")]
                 public string TextDescription
                 {
@@ -124,7 +124,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the small image for the page.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(null)]
                 public Bitmap ImageSmall
                 {
@@ -135,7 +135,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the medium image for the page.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(null)]
                 public Bitmap ImageMedium
                 {
@@ -146,7 +146,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the large image for the page.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(null)]
                 public Bitmap ImageLarge
                 {
@@ -157,7 +157,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the page tooltip image.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(null)]
                 public Bitmap ToolTipImage
                 {
@@ -168,8 +168,8 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the tooltip image transparent color.
                 /// </summary>
-                [Category("Appearance")]
-                [Description("Page tooltip image transparent color.")]
+                [Category(@"Appearance")]
+                [Description(@"Page tooltip image transparent color.")]
                 public Color ToolTipImageTransparentColor
                 {
                     get => _item.ToolTipImageTransparentColor;
@@ -179,7 +179,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the page tooltip title text.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipTitle
@@ -191,7 +191,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the page tooltip body text.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipBody
@@ -203,7 +203,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the tooltip label style.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(typeof(LabelStyle), "ToolTip")]
                 public LabelStyle ToolTipStyle
                 {
@@ -214,7 +214,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the unique name of the page.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 public string UniqueName
                 {
                     get => _item.UniqueName;
@@ -224,7 +224,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets if the page should be shown.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(true)]
                 public bool Visible
                 {
@@ -235,7 +235,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets if the page should be enabled.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(true)]
                 public bool Enabled
                 {
@@ -246,7 +246,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the KryptonContextMenu to show when right clicked.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(null)]
                 public KryptonContextMenu KryptonContextMenu
                 {
@@ -257,7 +257,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets the size that is the lower limit that GetPreferredSize can specify.
                 /// </summary>
-                [Category("Layout")]
+                [Category(@"Layout")]
                 [DefaultValue(typeof(Size), "50,50")]
                 public Size MinimumSize
                 {
@@ -268,7 +268,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets the size that is the upper limit that GetPreferredSize can specify.
                 /// </summary>
-                [Category("Layout")]
+                [Category(@"Layout")]
                 [DefaultValue(typeof(Size), "0,0")]
                 public Size MaximumSize
                 {
@@ -279,7 +279,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets the page padding.
                 /// </summary>
-                [Category("Layout")]
+                [Category(@"Layout")]
                 [DefaultValue(typeof(Padding), "0,0,0,0")]
                 public Padding Padding
                 {
@@ -290,7 +290,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets user-defined data associated with the object.
                 /// </summary>
-                [Category("Data")]
+                [Category(@"Data")]
                 [TypeConverter(typeof(StringConverter))]
                 [DefaultValue(null)]
                 public object Tag
@@ -323,7 +323,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets the size that is the lower limit that GetPreferredSize can specify.
                 /// </summary>
-                [Category("Layout")]
+                [Category(@"Layout")]
                 [DefaultValue(typeof(Size), "0,0")]
                 public Size MinimumSize
                 {
@@ -334,7 +334,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets the size that is the upper limit that GetPreferredSize can specify.
                 /// </summary>
-                [Category("Layout")]
+                [Category(@"Layout")]
                 [DefaultValue(typeof(Size), "0,0")]
                 public Size MaximumSize
                 {
@@ -345,7 +345,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets if the user can a separator to resize this workspace cell.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 [DefaultValue(true)]
                 public bool AllowResizing
                 {
@@ -356,7 +356,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Star notation the describes the sizing of the workspace item.
                 /// </summary>
-                [Category("Workspace")]
+                [Category(@"Workspace")]
                 [DefaultValue("50*,50*")]
                 public string StarSize
                 {
@@ -367,7 +367,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Should the item be disposed when it is removed from the workspace.
                 /// </summary>
-                [Category("Workspace")]
+                [Category(@"Workspace")]
                 [DefaultValue(true)]
                 public bool DisposeOnRemove
                 {
@@ -378,103 +378,103 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the bar specific settings.
                 /// </summary>
-                [Category("Visuals (Modes)")]
+                [Category(@"Visuals (Modes)")]
                 public NavigatorBar Bar => _item.Bar;
 
                 /// <summary>
                 /// Gets access to the stack specific settings.
                 /// </summary>
-                [Category("Visuals (Modes)")]
+                [Category(@"Visuals (Modes)")]
                 public NavigatorStack Stack => _item.Stack;
 
                 /// <summary>
                 /// Gets access to the outlook mode specific settings.
                 /// </summary>
-                [Category("Visuals (Modes)")]
+                [Category(@"Visuals (Modes)")]
                 public NavigatorOutlook Outlook => _item.Outlook;
 
                 /// <summary>
                 /// Gets access to button specifications and fixed button logic.
                 /// </summary>
-                [Category("Visuals (Modes)")]
+                [Category(@"Visuals (Modes)")]
                 public NavigatorButton Button => _item.Button;
 
                 /// <summary>
                 /// Gets access to the group specific settings.
                 /// </summary>
-                [Category("Visuals (Modes)")]
+                [Category(@"Visuals (Modes)")]
                 public NavigatorGroup Group => _item.Group;
 
                 /// <summary>
                 /// Gets access to the header specific settings.
                 /// </summary>
-                [Category("Visuals (Modes)")]
+                [Category(@"Visuals (Modes)")]
                 public NavigatorHeader Header => _item.Header;
 
                 /// <summary>
                 /// Gets access to the panels specific settings.
                 /// </summary>
-                [Category("Visuals (Modes)")]
+                [Category(@"Visuals (Modes)")]
                 public NavigatorPanel Panel => _item.Panel;
 
                 /// <summary>
                 /// Gets access to the popup page specific settings.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public NavigatorPopupPages PopupPages => _item.PopupPages;
 
                 /// <summary>
                 /// Gets access to the tooltip specific settings.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public NavigatorToolTips ToolTips => _item.ToolTips;
 
                 /// <summary>
                 /// Gets access to the common navigator appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorRedirect StateCommon => _item.StateCommon;
 
                 /// <summary>
                 /// Gets access to the disabled navigator appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigator StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal navigator appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigator StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking navigator appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOtherEx StateTracking => _item.StateTracking;
 
                 /// <summary>
                 /// Gets access to the pressed navigator appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOtherEx StatePressed => _item.StatePressed;
 
                 /// <summary>
                 /// Gets access to the selected navigator appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOther StateSelected => _item.StateSelected;
 
                 /// <summary>
                 /// Gets access to the focus navigator appearance entries.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 public PaletteNavigatorOtherRedirect OverrideFocus => _item.OverrideFocus;
 
                 /// <summary>
                 /// Gets and sets the display mode.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 [DefaultValue(typeof(NavigatorMode), "BarTabGroup")]
                 public NavigatorMode NavigatorMode
                 {
@@ -485,7 +485,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the page background style.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 [DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
                 public PaletteBackStyle PageBackStyle
                 {
@@ -496,7 +496,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets the default setting for allowing the page dragging from of the navigator.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(true)]
                 public bool AllowPageDrag
                 {
@@ -507,7 +507,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets if the tab headers are allowed to take the focus.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(false)]
                 public bool AllowTabFocus
                 {
@@ -518,7 +518,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets if the cell should be shown.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(true)]
                 public bool Visible
                 {
@@ -529,7 +529,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets if the cell should be enabled.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(true)]
                 public bool Enabled
                 {
@@ -540,7 +540,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets if the cell selected page.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(true)]
                 public KryptonPage SelectedPage
                 {
@@ -559,7 +559,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the KryptonContextMenu to show when right clicked.
                 /// </summary>
-                [Category("Behavior")]
+                [Category(@"Behavior")]
                 [DefaultValue(null)]
                 public KryptonContextMenu KryptonContextMenu
                 {
@@ -570,7 +570,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets a value indicating whether mnemonics select pages and button specs.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(true)]
                 public bool UseMnemonic
                 {
@@ -581,7 +581,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets user-defined data associated with the object.
                 /// </summary>
-                [Category("Data")]
+                [Category(@"Data")]
                 [TypeConverter(typeof(StringConverter))]
                 [DefaultValue(null)]
                 public object Tag
@@ -614,7 +614,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets a value indicating whether the sequence is displayed.
                 /// </summary>
-                [Category("Visuals")]
+                [Category(@"Visuals")]
                 [DefaultValue(true)]
                 public bool Visible
                 {
@@ -625,7 +625,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets and sets the orientation for laying out the child entries.
                 /// </summary>
-                [Category("Workspace")]
+                [Category(@"Workspace")]
                 [DefaultValue(typeof(Orientation), "Horizontal")]
                 public Orientation Orientation
                 {
@@ -636,7 +636,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Star notation the describes the sizing of the workspace item.
                 /// </summary>
-                [Category("Workspace")]
+                [Category(@"Workspace")]
                 [DefaultValue("50*,50*")]
                 public string StarSize
                 {
@@ -1513,7 +1513,7 @@ namespace Krypton.Workspace
                 NodeToType((MenuTreeNode)node, out isPage, out isCell, out isSequence);
             }
 
-            private void NodeToType(MenuTreeNode node, out bool isPage, out bool isCell, out bool isSequence)
+            private static void NodeToType(MenuTreeNode node, out bool isPage, out bool isCell, out bool isSequence)
             {
                 isPage = node?.PageItem != null;
                 isCell = node?.CellItem != null;
@@ -1675,7 +1675,7 @@ namespace Krypton.Workspace
                 return null;
             }
 
-            private void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
+            private static void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
                                           out IWorkspaceItem after,
                                           out IWorkspaceItem before)
             {
@@ -1689,7 +1689,7 @@ namespace Krypton.Workspace
                 before = null;
                 for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
                 {
-                    if ((beforeSequence.Children[i] is IWorkspaceItem item) && item.WorkspaceVisible)
+                    if ((beforeSequence.Children[i] is IWorkspaceItem { WorkspaceVisible: true } item))
                     {
                         before = item;
                         break;

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
-    [Description("Draws the window chrome using a Krypton palette.")]
+    [Description(@"Draws the window chrome using a Krypton palette.")]
     [Designer("Krypton.Toolkit.KryptonFormDesigner, Krypton.Toolkit")]
     public class KryptonForm : VisualForm,
                                IContentValues
@@ -165,10 +165,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
-                                                       new ViewDrawDocker[] { _drawHeading },
+                                                       new[] { _drawHeading },
                                                        new IPaletteMetric[] { StateCommon.Header },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetForm },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingForm },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetForm },
+                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingForm },
                                                        CreateToolStripRenderer,
                                                        OnButtonManagerNeedPaint);
 
@@ -241,8 +241,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the extra text associated with the control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The extra text associated with the control.")]
+        [Category(@"Appearance")]
+        [Description(@"The extra text associated with the control.")]
         [DefaultValue("")]
         public string TextExtra
         {
@@ -258,16 +258,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if custom chrome is allowed.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should custom chrome be allowed for this KryptonForm instance.")]
+        [Category(@"Visuals")]
+        [Description(@"Should custom chrome be allowed for this KryptonForm instance.")]
         [DefaultValue(true)]
         public bool AllowFormChrome
         {
@@ -287,8 +287,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the form status strip be considered for merging into chrome.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should the form status strip be considered for merging into chrome.")]
+        [Category(@"Visuals")]
+        [Description(@"Should the form status strip be considered for merging into chrome.")]
         [DefaultValue(true)]
         public bool AllowStatusStripMerge
         {
@@ -309,8 +309,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header style for a main form.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Header style for a main form.")]
+        [Category(@"Visuals")]
+        [Description(@"Header style for a main form.")]
         [DefaultValue(typeof(HeaderStyle), "Form")]
         public HeaderStyle HeaderStyle
         {
@@ -329,8 +329,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the chrome group border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Chrome group border style.")]
+        [Category(@"Visuals")]
+        [Description(@"Chrome group border style.")]
         [DefaultValue(typeof(PaletteBorderStyle), "FormMain")]
         public PaletteBorderStyle GroupBorderStyle
         {
@@ -349,8 +349,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the chrome group background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Chrome group background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Chrome group background style.")]
         [DefaultValue(typeof(PaletteBackStyle), "FormMain")]
         public PaletteBackStyle GroupBackStyle
         {
@@ -369,8 +369,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Allows the use of drop shadow around the form.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Allows the use of drop shadow around the form.")]
+        [Category(@"Visuals")]
+        [Description(@"Allows the use of drop shadow around the form.")]
         [DefaultValue(true)]
         public bool UseDropShadow
         {
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets a value indicating whether [disable close button].</summary>
         /// <value>
         ///   <c>true</c> if [disable close button]; otherwise, <c>false</c>.</value>
-        [Category("Appearance"), Description("Disables the close button."), DefaultValue(false)]
+        [Category(@"Appearance"), Description(@"Disables the close button."), DefaultValue(false)]
         public bool DisableCloseButton
         {
             get => _disableCloseButton;
@@ -404,14 +404,14 @@ namespace Krypton.Toolkit
         /// <value>
         ///   <c>true</c> if this instance is in administrator mode; otherwise, <c>false</c>.
         /// </value>
-        [Category("Appearance"), Description("Is the user currently an administrator.")]
+        [Category(@"Appearance"), Description(@"Is the user currently an administrator.")]
         public bool IsInAdministratorMode { get => _isInAdministratorMode; private set => _isInAdministratorMode = value; }
 
         /// <summary>
         /// Gets access to the common form appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common form appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common form appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteFormRedirect StateCommon { get; }
 
@@ -420,8 +420,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the inactive form appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining inactive form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining inactive form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteForm StateInactive { get; }
 
@@ -430,8 +430,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active form appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteForm StateActive { get; }
 
@@ -440,8 +440,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public FormButtonSpecCollection ButtonSpecs { get; }
 
@@ -593,7 +593,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
-        [DefaultValue(-1), Description("Defines the corner roundness on the current window (-1 is the default look).")]
+        [DefaultValue(-1), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
         public float CornerRoundingRadius
         {
             get => _cornerRoundingRadius;
@@ -605,7 +605,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
-        [DefaultValue(null), Description("Defines an active control for this window.")]
+        [DefaultValue(null), Description(@"Defines an active control for this window.")]
         public new Control ActiveControl
         {
             get => _activeControl;
@@ -736,18 +736,36 @@ namespace Krypton.Toolkit
                 // Remember the icon used to generate the cached bitmap
                 _cacheIcon = displayIcon;
 
+                // Currently the `FactorDpi#`'s do _NOT_ change whilst the app is running
+                //if ((ViewButton.FactorDpiX != _lastFactorDpiX)
+                // || (ViewButton.FactorDpiY != _lastFactorDpiY)
+                // )
+                //{
+                    // Image needs to be regenerated
+                    var currentWidth = (int)(CAPTION_ICON_SIZE.Width * FactorDpiX);
+                    var currentHeight = (int)(CAPTION_ICON_SIZE.Height * FactorDpiY);
+                //}
                 try
                 {
-                    // Convert to a bitmap for use in drawing (get the 16x16 version if available)
-                    using Icon temp = new(_cacheIcon, new Size(16, 16));
-                    _cacheBitmap = temp.ToBitmap();
+                        using var temp = new Icon(_cacheIcon, currentWidth, currentHeight);
+                        _cacheBitmap = temp.ToBitmap();
                 }
                 catch
                 {
                     try
                     {
                         // Failed so we convert the Icon directly instead of trying to get a sized version first
-                        _cacheBitmap = _cacheIcon.ToBitmap();
+                        Bitmap resizedBitmap = _cacheIcon.ToBitmap();
+                        var newImage = new Bitmap(currentWidth, currentHeight);
+                        using Graphics gr = Graphics.FromImage(newImage);
+                        gr.Clear(Color.Transparent);
+                        gr.SmoothingMode = SmoothingMode.HighQuality;
+                        // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
+                        gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+                        gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        gr.DrawImage(resizedBitmap, new Rectangle(0, 0, currentWidth, currentHeight));
+                        // Cache for future access
+                        _cacheBitmap = newImage;
                     }
                     catch
                     {
@@ -755,22 +773,6 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                // If the ToBitmap() fails then we might still have no bitmap for use
-                if (_cacheBitmap != null)
-                {
-                    // If the image is not the required size, create it
-                    if (_cacheBitmap.Size != CAPTION_ICON_SIZE)
-                    {
-                        // Create a resized version of the bitmap
-                        Bitmap resizedBitmap = new(_cacheBitmap, CAPTION_ICON_SIZE);
-
-                        // Must gracefully remove unused resources!
-                        _cacheBitmap.Dispose();
-
-                        // Cache for future access
-                        _cacheBitmap = resizedBitmap;
-                    }
-                }
             }
 
             return _cacheBitmap;

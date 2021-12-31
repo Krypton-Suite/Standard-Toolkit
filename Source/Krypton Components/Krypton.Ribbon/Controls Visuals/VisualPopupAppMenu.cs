@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private ViewLayoutDocker _viewButtonSpecDocker;
         private ButtonSpecManagerLayout _buttonManager;
         private readonly Rectangle _rectAppButtonBottomHalf;
-        private Rectangle _rectAppButtonTopHalf;
+        private readonly Rectangle _rectAppButtonTopHalf;
         #endregion
 
         #region Identity
@@ -230,10 +230,10 @@ namespace Krypton.Ribbon
         {
             _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager,
                                                                   this, Redirector, appButton.AppButtonSpecs, null,
-                                                                  new ViewLayoutDocker[] { _viewButtonSpecDocker },
+                                                                  new[] { _viewButtonSpecDocker },
                                                                   new IPaletteMetric[] { _ribbon.StateCommon },
-                                                                  new PaletteMetricInt[] { PaletteMetricInt.None },
-                                                                  new PaletteMetricPadding[] { PaletteMetricPadding.RibbonAppButton },
+                                                                  new[] { PaletteMetricInt.None },
+                                                                  new[] { PaletteMetricPadding.RibbonAppButton },
                                                                   CreateToolStripRenderer,
                                                                   OnButtonSpecPaint);
 

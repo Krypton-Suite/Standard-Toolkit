@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class VisualPopupManager : IMessageFilter
     {
         #region Type Declarations
-        private class PopupStack : Stack<VisualPopup> {};
+        private class PopupStack : Stack<VisualPopup> {}
         #endregion
 
         #region Static Fields
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         public static VisualPopupManager Singleton
         {
             [DebuggerStepThrough]
-            get => _singleton ?? (_singleton = new VisualPopupManager());
+            get => _singleton ??= new VisualPopupManager();
         }
         #endregion
 
@@ -708,12 +708,12 @@ namespace Krypton.Toolkit
             // so convert to actual int values for the negative positions
             if (clientPt.x >= 32767)
             {
-                clientPt.x = clientPt.x - 65536;
+                clientPt.x -= 65536;
             }
 
             if (clientPt.y >= 32767)
             {
-                clientPt.y = clientPt.y - 65536;
+                clientPt.y -= 65536;
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
@@ -740,8 +740,7 @@ namespace Krypton.Toolkit
             }
 
             return m.Msg is >= PI.WM_.NCMOUSEMOVE and <= PI.WM_.NCMBUTTONDBLCLK
-                ? true
-                : m.Msg is >= PI.WM_.KEYDOWN and <= PI.WM_.KEYLAST;
+                    || m.Msg is >= PI.WM_.KEYDOWN and <= PI.WM_.KEYLAST;
         }
 
         private void FilterMessages(bool filter)

@@ -119,7 +119,7 @@ namespace Krypton.Navigator
             // If we found a selected page
             if (selected != null)
             {
-                // Make sure the layout is uptodate
+                // Make sure the layout is upto date
                 Navigator.CheckPerformLayout();
 
                 // Get the client rectangle of the check button
@@ -136,7 +136,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Change has occured to the collection of pages.
+        /// Change has occurred to the collection of pages.
         /// </summary>
         public override void PageCollectionChanged()
         {
@@ -198,21 +198,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element)
-        {
-            if (_pageLookup != null)
-            {
-                foreach (var pair in _pageLookup)
-                {
-                    if (pair.Value.View == element)
-                    {
-                        return pair.Key;
-                    }
-                }
-            }
-
-            return null;
-        }
+        public override KryptonPage PageFromView(ViewBase element) => 
+            _pageLookup != null 
+                ? (from pair in _pageLookup where pair.Value.View == element select pair.Key).FirstOrDefault() 
+                : null;
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
@@ -221,7 +210,7 @@ namespace Krypton.Navigator
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
         public override ButtonSpec ButtonSpecFromView(ViewBase element)
         {
-            // Check the set of navgator level button specs
+            // Check the set of navigator level button specs
             ButtonSpec bs = (_buttonManager?.ButtonSpecFromView(element));
 
             // Check each page level button spec
@@ -252,12 +241,12 @@ namespace Krypton.Navigator
 
             switch (property)
             {
-                case "Text":
-                case "TextTitle":
-                case "TextDescription":
-                case "ImageSmall":
-                case "ImageMedium":
-                case "ImageLarge":
+                case @"Text":
+                case @"TextTitle":
+                case @"TextDescription":
+                case @"ImageSmall":
+                case @"ImageMedium":
+                case @"ImageLarge":
                     Navigator.PerformNeedPaint(true);
                     break;
             }
@@ -283,7 +272,9 @@ namespace Krypton.Navigator
                 // Then use the states defined in the navigator itself
                 paletteCommon = Navigator.StateCommon;
 
-                paletteState = Navigator.Enabled ? Navigator.StateNormal : Navigator.StateDisabled;
+                paletteState = Navigator.Enabled 
+                                ? Navigator.StateNormal 
+                                : Navigator.StateDisabled;
             }
             else
             {
@@ -306,8 +297,7 @@ namespace Krypton.Navigator
             // Only update the group if we have one
             if (_drawGroup != null)
             {
-                _drawGroup.SetPalettes(paletteState.HeaderGroup.Back, 
-                                       paletteState.HeaderGroup.Border);
+                _drawGroup.SetPalettes(paletteState.HeaderGroup.Back, paletteState.HeaderGroup.Border);
 
                 _drawGroup.Enabled = enabled;
             }
@@ -330,14 +320,14 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint()
         {
             if (_buttonManager != null)
             {
-                // Get the display rectange of the context button
+                // Get the display rectangle of the context button
                 Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
                 // We want the context menu to show just below the button
@@ -369,13 +359,7 @@ namespace Krypton.Navigator
             if (_layoutBarViewport.ClientRectangle.Contains(pt))
             {
                 // Check if any of the bar items wants the point
-                foreach (ViewBase item in _layoutBar)
-                {
-                    if (item.ClientRectangle.Contains(pt))
-                    {
-                        return true;
-                    }
-                }
+                return _layoutBar.Any(item => item.ClientRectangle.Contains(pt));
             }
 
             return false;
@@ -397,7 +381,7 @@ namespace Krypton.Navigator
         /// <returns>Enabled state of the button.</returns>
         public override ButtonEnabled NextActionEnabled(DirectionButtonAction action)
         {
-            // Our mode appropriate action is always to move the bar positoin
+            // Our mode appropriate action is always to move the bar position
             if (action == DirectionButtonAction.ModeAppropriateAction)
             {
                 action = DirectionButtonAction.MoveBar;
@@ -415,13 +399,13 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the next button action requested.
+        /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
         public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
         {
-            // Our mode appropriate action is always to move the bar positoin
+            // Our mode appropriate action is always to move the bar position
             if (action == DirectionButtonAction.ModeAppropriateAction)
             {
                 action = DirectionButtonAction.MoveBar;
@@ -451,7 +435,7 @@ namespace Krypton.Navigator
         /// <returns>Enabled state of the button.</returns>
         public override ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
         {
-            // Our mode appropriate action is always to move the bar positoin
+            // Our mode appropriate action is always to move the bar position
             if (action == DirectionButtonAction.ModeAppropriateAction)
             {
                 action = DirectionButtonAction.MoveBar;
@@ -469,13 +453,13 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the previous button action requested.
+        /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
         public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
         {
-            // Our mode appropriate action is always to move the bar positoin
+            // Our mode appropriate action is always to move the bar position
             if (action == DirectionButtonAction.ModeAppropriateAction)
             {
                 action = DirectionButtonAction.MoveBar;
@@ -525,7 +509,7 @@ namespace Krypton.Navigator
             // If there is a selected page
             if (Navigator.SelectedPage != null)
             {
-                BringPageIntoView(Navigator.SelectedPage);
+                BringPageIntoView();
             }
         }
 
@@ -586,22 +570,25 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // Check for keys without modifiers
-                switch (keyCode)
+                if (keyCode == Keys.Tab)
                 {
-                    case Keys.Tab:
-                        // Using a CONTROL tab means selecting another page
-                        if (control)
-                        {
-                            // Are we allowed to perform a Ctrl+Tab change in selection
-                            CtrlTabCancelEventArgs ce = new(!shift);
-                            Navigator.OnCtrlTabStart(ce);
+                    // Using a CONTROL tab means selecting another page
+                    if (control)
+                    {
+                        // Are we allowed to perform a Ctrl+Tab change in selection
+                        CtrlTabCancelEventArgs ce = new(!shift);
+                        Navigator.OnCtrlTabStart(ce);
 
-                            if (!ce.Cancel)
-                            {
-                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
-                            }
+                        if (!ce.Cancel)
+                        {
+                            if (!shift)
+                                SelectNextPage(Navigator.SelectedPage, true, true);
+                            else
+                                SelectPreviousPage(Navigator.SelectedPage, true, true);
                         }
-                        return true;
+                    }
+
+                    return true;
                 }
 
                 // Check for keys with modifiers
@@ -713,11 +700,11 @@ namespace Krypton.Navigator
         {
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
-                                                               new ViewLayoutDocker[] { _layoutBarDocker },
+                                                               new[] { _layoutBarDocker },
                                                                new IPaletteMetric[] { Navigator.StateCommon.Bar },
-                                                               new PaletteMetricInt[] { PaletteMetricInt.BarButtonEdgeInside },
-                                                               new PaletteMetricInt[] { PaletteMetricInt.BarButtonEdgeOutside },
-                                                               new PaletteMetricPadding[] { PaletteMetricPadding.BarButtonPadding },
+                                                               new[] { PaletteMetricInt.BarButtonEdgeInside },
+                                                               new[] { PaletteMetricInt.BarButtonEdgeOutside },
+                                                               new[] { PaletteMetricPadding.BarButtonPadding },
                                                                Navigator.CreateToolStripRenderer,
                                                                NeedPaintDelegate)
             {
@@ -800,9 +787,8 @@ namespace Krypton.Navigator
             VisualOrientation orientContent = ConvertButtonContentOrientation();
 
             // Apply to each of the buttons
-            foreach (ViewBase child in _layoutBar)
+            foreach (INavCheckItem checkItem in _layoutBar.Cast<INavCheckItem>())
             {
-                INavCheckItem checkItem = (INavCheckItem)child;
                 checkItem.SetOrientation(orientBackBorder, orientContent);
             }
 
@@ -811,13 +797,13 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the visual orientation of the check butttons border and background.
+        /// Gets the visual orientation of the check buttons border and background.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected virtual VisualOrientation ConvertButtonBorderBackOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
 
         /// <summary>
-        /// Gets the visual orientation of the check butttons content.
+        /// Gets the visual orientation of the check buttons content.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected virtual VisualOrientation ConvertButtonContentOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
@@ -887,55 +873,55 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "BarAnimation":
+                case @"BarAnimation":
                     _layoutBarViewport.AnimateChange = Navigator.Bar.BarAnimation;
                     break;
-                case "BarMinimumHeight":
+                case @"BarMinimumHeight":
                     _layoutBar.BarMinimumHeight = Navigator.Bar.BarMinimumHeight;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "BarMultiline":
+                case @"BarMultiline":
                     _layoutBar.BarMultiline = Navigator.Bar.BarMultiline;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "ItemAlignment":
+                case @"ItemAlignment":
                     _layoutBar.ItemAlignment = Navigator.Bar.ItemAlignment;
                     _layoutBarViewport.Alignment = Navigator.Bar.ItemAlignment;
                     _buttonManager?.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "ItemMinimumSize":
+                case @"ItemMinimumSize":
                     _layoutBar.ItemMinimumSize = Navigator.Bar.ItemMinimumSize;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "ItemMaximumSize":
+                case @"ItemMaximumSize":
                     _layoutBar.ItemMaximumSize = Navigator.Bar.ItemMaximumSize;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "ItemOrientationBar":
+                case @"ItemOrientationBar":
                     UpdateItemOrientation();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "ItemSizing":
+                case @"ItemSizing":
                     _layoutBar.BarItemSizing = Navigator.Bar.ItemSizing;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "PreviousButtonDisplay":
-                case "PreviousButtonAction":
-                case "NextButtonDisplay":
-                case "NextButtonAction":
-                case "ContextButtonDisplay":
-                case "CloseButtonDisplay":
-                case "ButtonDisplayLogic":
+                case @"PreviousButtonDisplay":
+                case @"PreviousButtonAction":
+                case @"NextButtonDisplay":
+                case @"NextButtonAction":
+                case @"ContextButtonDisplay":
+                case @"CloseButtonDisplay":
+                case @"ButtonDisplayLogic":
                     _buttonManager?.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "CheckButtonStyleBar":
+                case @"CheckButtonStyleBar":
                     UpdateCheckItemStyle();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "PageButtonSpecInset":
-                case "PageButtonSpecPadding":
+                case @"PageButtonSpecInset":
+                case @"PageButtonSpecPadding":
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:
@@ -1087,7 +1073,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void BringPageIntoView(KryptonPage page)
+        private void BringPageIntoView()
         {
             // Remember the view for the requested page
             ViewBase viewPage = null;
@@ -1219,10 +1205,8 @@ namespace Krypton.Navigator
             // Scan the collection of children
             var foundReorderView = false;
             VisualOrientation orientation = ConvertButtonBorderBackOrientation();
-            foreach (KryptonPage page in Navigator.Pages)
+            foreach (ViewBase childView in Navigator.Pages.Select(page => (ViewBase)_pageLookup[page]))
             {
-                // If the mouse is over this button
-                ViewBase childView = (ViewBase)_pageLookup[page];
                 if (childView.ClientRectangle.Contains(e.PointOffset))
                 {
                     // Only interested if mouse over a different check button
@@ -1311,9 +1295,8 @@ namespace Krypton.Navigator
             _layoutBar.Clear();
 
             // Reorder the layout bar children to match the pages ordering
-            foreach (KryptonPage page in Navigator.Pages)
+            foreach (INavCheckItem checkItem in Navigator.Pages.Select(page => _pageLookup[page]))
             {
-                INavCheckItem checkItem = _pageLookup[page];
                 _layoutBar.Add(checkItem.View);
             }
         }

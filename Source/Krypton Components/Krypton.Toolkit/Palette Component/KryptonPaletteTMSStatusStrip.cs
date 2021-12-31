@@ -61,8 +61,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to draw text on the status strip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to draw text on the StatusStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to draw text on the StatusStrip.")]
         [KryptonDefaultColor()]
         public Color StatusStripText
         {
@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the font to draw text on the status strip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Font to draw text on the StatusStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Font to draw text on the StatusStrip.")]
         [DefaultValue(null)]
         public Font StatusStripFont
         {
@@ -117,8 +117,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used on the StatusStrip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used on the StatusStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used on the StatusStrip.")]
         [KryptonDefaultColor()]
         public Color StatusStripGradientBegin
         {
@@ -145,8 +145,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used on the StatusStrip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used on the StatusStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used on the StatusStrip.")]
         [KryptonDefaultColor()]
         public Color StatusStripGradientEnd
         {

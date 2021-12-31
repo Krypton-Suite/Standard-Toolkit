@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteRibbon : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private readonly PaletteRedirect _redirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuOuterInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuInnerInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuDocsInherit;
@@ -163,8 +163,8 @@ namespace Krypton.Toolkit
         /// Get access to the application button tab settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon application button specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon application button specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonAppButton RibbonAppButton { get; }
 
@@ -177,8 +177,8 @@ namespace Krypton.Toolkit
         /// Gets access to the application button menu outer palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining application button menu outer appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining application button menu outer appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppMenuOuter => _ribbonAppMenuOuter;
 
@@ -191,8 +191,8 @@ namespace Krypton.Toolkit
         /// Gets access to the application button menu inner palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining application button menu inner appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining application button menu inner appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppMenuInner => _ribbonAppMenuInner;
 
@@ -205,8 +205,8 @@ namespace Krypton.Toolkit
         /// Gets access to the application button menu recent docs palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining application button menu recent docs appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining application button menu recent docs appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppMenuDocs => _ribbonAppMenuDocs;
 
@@ -219,8 +219,8 @@ namespace Krypton.Toolkit
         /// Gets access to the application button menu recent documents title.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining application button menu recent documents title.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining application button menu recent documents title.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonAppMenuDocsTitle => _ribbonAppMenuDocsTitle;
 
@@ -233,8 +233,8 @@ namespace Krypton.Toolkit
         /// Gets access to the application button menu recent documents entry.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining application button menu recent documents entry.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining application button menu recent documents entry.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonAppMenuDocsEntry => _ribbonAppMenuDocsEntry;
 
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
         /// Get access to the general ribbon settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon general settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon general settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonGeneral RibbonGeneral { get; }
 
@@ -261,8 +261,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group area settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group area specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group area specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupArea RibbonGroupArea { get; }
 
@@ -275,8 +275,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group button text settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group button text specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group button text specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupButtonText RibbonGroupButtonText { get; }
 
@@ -289,8 +289,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group check box text settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group check box text specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group check box text specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupCheckBoxText RibbonGroupCheckBoxText { get; }
 
@@ -303,8 +303,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group normal border settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group normal border specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group normal border specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupNormalBorder RibbonGroupNormalBorder { get; }
 
@@ -317,8 +317,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group normal title settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group normal title specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group normal title specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupNormalTitle RibbonGroupNormalTitle { get; }
 
@@ -331,8 +331,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group collapsed border settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group collapsed border specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group collapsed border specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupCollapsedBorder RibbonGroupCollapsedBorder { get; }
 
@@ -345,8 +345,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group collapsed background settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group collapsed background specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group collapsed background specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupCollapsedBack RibbonGroupCollapsedBack { get; }
 
@@ -359,8 +359,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group collapsed frame border settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group collapsed frame border specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group collapsed frame border specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupCollapsedFrameBorder RibbonGroupCollapsedFrameBorder { get; }
 
@@ -373,8 +373,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group collapsed frame background settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group collapsed frame background specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group collapsed frame background specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupCollapsedFrameBack RibbonGroupCollapsedFrameBack { get; }
 
@@ -387,8 +387,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group collapsed text settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group collapsed text specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group collapsed text specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupCollapsedText RibbonGroupCollapsedText { get; }
 
@@ -401,8 +401,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon group label text settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group label text specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group label text specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupLabelText RibbonGroupLabelText { get; }
 
@@ -415,8 +415,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon radio button box text settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon group radio button text specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon group radio button text specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonGroupRadioButtonText RibbonGroupRadioButtonText { get; }
 
@@ -429,8 +429,8 @@ namespace Krypton.Toolkit
         /// Get access to the quick access toolbar full settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon quick access toolbar full settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon quick access toolbar full settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack RibbonQATFullbar { get; }
 
@@ -443,8 +443,8 @@ namespace Krypton.Toolkit
         /// Get access to the quick access toolbar mini settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon quick access toolbar mini settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon quick access toolbar mini settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonQATMinibar RibbonQATMinibar { get; }
 
@@ -457,8 +457,8 @@ namespace Krypton.Toolkit
         /// Get access to the quick access toolbar overflow settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon quick access toolbar overflow settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon quick access toolbar overflow settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack RibbonQATOverflow { get; }
 
@@ -471,8 +471,8 @@ namespace Krypton.Toolkit
         /// Get access to the ribbon tab settings.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Ribbon tab specific settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon tab specific settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbonTab RibbonTab { get; }
 
@@ -485,8 +485,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ribbon gallery background palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon gallery background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon gallery background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGalleryBack => _ribbonGalleryBack;
 
@@ -499,8 +499,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ribbon gallery border palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon gallery border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon gallery border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGalleryBorder => _ribbonGalleryBorder;
 

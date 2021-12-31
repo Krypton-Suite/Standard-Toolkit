@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLines), "ToolboxBitmaps.KryptonRibbonGroupLines.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupLinesDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
     public class KryptonRibbonGroupLines : KryptonRibbonGroupContainer
@@ -37,8 +37,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -245,8 +245,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the lines group container.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the lines group container is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the lines group container is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -284,8 +284,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum allowed size of the container.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Maximum size of items placed in the lines container.")]
+        [Category(@"Visuals")]
+        [Description(@"Maximum size of items placed in the lines container.")]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -300,8 +300,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the minimum allowed size of the container.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Minimum size of items placed in the lines container.")]
+        [Category(@"Visuals")]
+        [Description(@"Minimum size of items placed in the lines container.")]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Update all contained elements to reflect the same sizing
-                    GroupItemSize itemSize = LinesToItemSize(_itemSizeMin);
+                    _ = LinesToItemSize(_itemSizeMin);
                     foreach (IRibbonGroupItem item in Items)
                     {
                         item.ItemSizeMinimum = value;
@@ -445,8 +445,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of ribbon group line items.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of ribbon group line items.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of ribbon group line items.")]
         [MergableProperty(false)]
         [Editor(@"Krypton.Ribbon.KryptonRibbonGroupLinesCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

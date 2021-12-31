@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets the item with the provided unique name.
             /// </summary>
-            /// <param name=(@"Name")>Name of the ribbon tab instance.</param>
+            /// <param name="name">Name of the ribbon tab instance.</param>
             /// <returns>Item at specified index.</returns>
             public override KryptonBreadCrumbItem this[string name]
             {
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
                 _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
             }
             #endregion
-        };
+        }
         #endregion
 
         #region Instance Fields
@@ -217,8 +217,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the colletion of child items.
         /// </summary>
-        [Category("Data")]
-        [Description("Collection of child items.")]
+        [Category(@"Data")]
+        [Description(@"Collection of child items.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [RefreshProperties(RefreshProperties.All)]

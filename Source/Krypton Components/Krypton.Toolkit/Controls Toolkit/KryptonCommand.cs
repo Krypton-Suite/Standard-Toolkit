@@ -20,9 +20,9 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonCommand), "ToolboxBitmaps.KryptonCommand.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonCommandDesigner, Krypton.Toolkit")]
-    [Description("Defines state and events for a single command.")]
+    [Description(@"Defines state and events for a single command.")]
     public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     {
         #region Instance Fields
@@ -43,15 +43,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the command needs executing.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the command needs executing.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the command needs executing.")]
         public event EventHandler Execute;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -92,8 +92,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the enabled state of the command.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Indicates whether the command is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the command is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -113,8 +113,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the checked state of the command.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Indicates whether the command is in the checked state.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the command is in the checked state.")]
         [DefaultValue(false)]
         public bool Checked
         {
@@ -139,8 +139,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the check state of the command.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Indicates the checked state of the command.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates the checked state of the command.")]
         [DefaultValue(typeof(CheckState), "Unchecked")]
         public CheckState CheckState
         {
@@ -172,8 +172,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command text.")]
+        [Category(@"Appearance")]
+        [Description(@"Command text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
@@ -201,8 +201,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command extra text.")]
+        [Category(@"Appearance")]
+        [Description(@"Command extra text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string ExtraText
         {
@@ -230,8 +230,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command text line 1 for use in KryptonRibbon.")]
+        [Category(@"Appearance")]
+        [Description(@"Command text line 1 for use in KryptonRibbon.")]
         public string TextLine1
         {
             get => _textLine1;
@@ -258,8 +258,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command text line 2 for use in KryptonRibbon.")]
+        [Category(@"Appearance")]
+        [Description(@"Command text line 2 for use in KryptonRibbon.")]
         public string TextLine2
         {
             get => _textLine2;
@@ -286,8 +286,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command small image.")]
+        [Category(@"Appearance")]
+        [Description(@"Command small image.")]
         public Image ImageSmall
         {
             get => _imageSmall;
@@ -314,8 +314,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command large image.")]
+        [Category(@"Appearance")]
+        [Description(@"Command large image.")]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -342,8 +342,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command image transparent color.")]
+        [Category(@"Appearance")]
+        [Description(@"Command image transparent color.")]
         [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
@@ -362,8 +362,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         public object Tag { get; set; }
@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the item with the provided name.
         /// </summary>
-        /// <param name=(@"Name")>Name to find.</param>
+        /// <param name="name">Name to find.</param>
         /// <returns>Item with matching name.</returns>
         public override KryptonCommand this[string name]
         {
@@ -428,5 +428,5 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
-    };
+    }
 }

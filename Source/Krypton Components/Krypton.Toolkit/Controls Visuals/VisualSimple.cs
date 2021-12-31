@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Base class used for implementation of simple controls.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public abstract class VisualSimple : VisualControl
     {
         #region Identity
@@ -33,8 +33,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
         [DefaultValue(typeof(AutoSizeMode), "GrowOnly")]
         public virtual AutoSizeMode AutoSizeMode
         {
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
             // Do we have a manager to ask for a preferred size?
             if (ViewManager != null)
             {
-                // Ask the view to peform a layout
+                // Ask the view to Perform a layout
                 Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
 
                 // Apply the maximum sizing

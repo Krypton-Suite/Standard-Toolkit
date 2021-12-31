@@ -44,20 +44,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
         /// </summary>
-        /// <param name="keyData">Key data to check against shorcut definitions.</param>
+        /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
         public bool ProcessShortcut(Keys keyData)
         {
             // Ask each individual item if it has a shortcut to be processed
-            foreach (KryptonContextMenuItemBase item in this)
-            {
-                if (item.ProcessShortcut(keyData))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return this.Any(item => item.ProcessShortcut(keyData));
         }
         #endregion
 
@@ -69,7 +61,7 @@ namespace Krypton.Toolkit
         /// <param name="parent">Parent object.</param>
         /// <param name="columns">Collection of columns to create view inside.</param>
         /// <param name="standardStyle">Should the standard style be applied.</param>
-        /// <param name="imageColumn">Should the imgea column be applied.</param>
+        /// <param name="imageColumn">Should the image column be applied.</param>
         public void GenerateView(IContextMenuProvider provider,
                                  object parent,
                                  ViewLayoutStack columns,
@@ -80,35 +72,32 @@ namespace Krypton.Toolkit
             ViewLayoutStack column = AddColumn(columns);
 
             // Process each item in the collection in turn
-            foreach (KryptonContextMenuItemBase item in this)
+            foreach (KryptonContextMenuItemBase item in this.Where(static item => item.Visible))
             {
-                if (item.Visible)
+                // Special handling of separator items
+                if (item is KryptonContextMenuSeparator separator)
                 {
-                    // Special handling of separator items
-                    if (item is KryptonContextMenuSeparator separator)
+                    // Cast to correct type
+
+                    // If vertical break....
+                    if (!separator.Horizontal)
                     {
-                        // Cast to correct type
+                        // Add separator as next column view element
+                        provider.ProviderViewColumns.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
 
-                        // If vertical break....
-                        if (!separator.Horizontal)
-                        {
-                            // Add separator as next column view element
-                            provider.ProviderViewColumns.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
-
-                            // Start new column for subsequent child items
-                            column = AddColumn(columns);
-                        }
-                        else
-                        {
-                            // Add separator view into the current column
-                            column.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
-                        }
+                        // Start new column for subsequent child items
+                        column = AddColumn(columns);
                     }
                     else
                     {
-                        // All other items we just ask them for the view to add
-                        column.Add(item.GenerateView(provider, this, columns, standardStyle, imageColumn));
+                        // Add separator view into the current column
+                        column.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
                     }
+                }
+                else
+                {
+                    // All other items we just ask them for the view to add
+                    column.Add(item.GenerateView(provider, this, columns, standardStyle, imageColumn));
                 }
             }
         }
@@ -229,20 +218,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
         /// </summary>
-        /// <param name="keyData">Key data to check against shorcut definitions.</param>
+        /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
         public bool ProcessShortcut(Keys keyData)
         {
             // Ask each individual item if it has a shortcut to be processed
-            foreach (KryptonContextMenuItemBase item in this)
-            {
-                if (item.ProcessShortcut(keyData))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return this.Any(item => item.ProcessShortcut(keyData));
         }
         #endregion
 
@@ -258,35 +239,32 @@ namespace Krypton.Toolkit
             ViewBase column = AddColumn(provider, items, columns, standardStyle, imageColumn);
 
             // Process each item in the collection in turn
-            foreach (KryptonContextMenuItemBase item in this)
+            foreach (KryptonContextMenuItemBase item in this.Where(static item => item.Visible))
             {
-                if (item.Visible)
+                // Special handling of separator items
+                if (item is KryptonContextMenuSeparator separator)
                 {
-                    // Special handling of separator items
-                    if (item is KryptonContextMenuSeparator separator)
+                    // Cast to correct type
+
+                    // If vertical break....
+                    if (!separator.Horizontal)
                     {
-                        // Cast to correct type
+                        // Add separator as next column view element
+                        columns.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
 
-                        // If vertical break....
-                        if (!separator.Horizontal)
-                        {
-                            // Add separator as next column view element
-                            columns.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
-
-                            // Start new column for subsequent child items
-                            column = AddColumn(provider, items, columns, standardStyle, imageColumn);
-                        }
-                        else
-                        {
-                            // Add separator view into the current column
-                            column.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
-                        }
+                        // Start new column for subsequent child items
+                        column = AddColumn(provider, items, columns, standardStyle, imageColumn);
                     }
                     else
                     {
-                        // All other items we just ask them for the view to add
-                        column.Add(item.GenerateView(provider, this, columns, standardStyle, imageColumn));
+                        // Add separator view into the current column
+                        column.Add(separator.GenerateView(provider, this, columns, standardStyle, imageColumn));
                     }
+                }
+                else
+                {
+                    // All other items we just ask them for the view to add
+                    column.Add(item.GenerateView(provider, this, columns, standardStyle, imageColumn));
                 }
             }
         }

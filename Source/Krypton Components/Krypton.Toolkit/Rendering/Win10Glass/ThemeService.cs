@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         //public static void UpdateThemeResources(ResourceDictionary dictionary)
         //{
-        //    dictionary["WindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
+        //    dictionary[@"WindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
 
         //    SetBrush(dictionary, "WindowForeground", @"ImmersiveApplicationTextDarkTheme");
         //    ReplaceBrush(dictionary, "CottonSwabSliderThumb", @"ImmersiveSystemAccent");

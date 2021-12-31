@@ -91,8 +91,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common input control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCommon { get; }
 
@@ -105,8 +105,8 @@ namespace Krypton.Toolkit
         /// Gets access to the standalone input control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining standalone input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining standalone input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlStandalone { get; }
 
@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
         /// Gets access to the input control ribbon style appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining input control ribbon style appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining input control ribbon style appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlRibbon { get; }
 
@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
         /// Gets access to the custom input control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the custom input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the custom input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCustom1 { get; }
 
@@ -147,8 +147,8 @@ namespace Krypton.Toolkit
         /// Gets access to the custom input control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the custom input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the custom input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCustom2 { get; }
 
@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
         /// Gets access to the custom input control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the custom input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the custom input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCustom3 { get; }
 

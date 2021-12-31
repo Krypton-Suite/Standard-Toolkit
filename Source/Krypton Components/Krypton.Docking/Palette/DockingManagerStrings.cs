@@ -54,7 +54,6 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="docking">Reference to owning docking manager.</param>
         public DockingManagerStrings(KryptonDockingManager docking)
-            : base()
         {
             // Default values
             _textAutoHide = DEFAULT_TEXT_AUTO_HIDE;

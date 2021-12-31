@@ -20,8 +20,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonCommand), "ToolboxBitmaps.KryptonTaskDialogCommand.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [DesignerCategory("code")]
-    [Description("Defines state and events for a single task dialog command.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Defines state and events for a single task dialog command.")]
     public class KryptonTaskDialogCommand : Component, IKryptonCommand, INotifyPropertyChanged
     {
         #region Instance Fields
@@ -38,15 +38,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the command needs executing.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the command needs executing.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the command needs executing.")]
         public event EventHandler Execute;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -83,8 +83,8 @@ namespace Krypton.Toolkit
         /// Gets and sets DialogResult to use when the command is pressed.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("DialogResult to use when the command is pressed.")]
+        [Category(@"Behavior")]
+        [Description(@"DialogResult to use when the command is pressed.")]
         [DefaultValue(true)]
         public DialogResult DialogResult
         {
@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the enabled state of the command.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Indicates whether the command is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the command is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -126,8 +126,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command text.")]
+        [Category(@"Appearance")]
+        [Description(@"Command text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
@@ -155,8 +155,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command extra text.")]
+        [Category(@"Appearance")]
+        [Description(@"Command extra text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string ExtraText
         {
@@ -184,8 +184,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command small image.")]
+        [Category(@"Appearance")]
+        [Description(@"Command small image.")]
         public Image Image
         {
             get => _image;
@@ -212,8 +212,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Command image transparent color.")]
+        [Category(@"Appearance")]
+        [Description(@"Command image transparent color.")]
         [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
@@ -232,8 +232,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         public object Tag { get; set; }
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the item with the provided name.
         /// </summary>
-        /// <param name=(@"Name")>Name to find.</param>
+        /// <param name="name">Name to find.</param>
         /// <returns>Item with matching name.</returns>
         public override KryptonTaskDialogCommand this[string name]
         {
@@ -354,5 +354,5 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
-    };
+    }
 }

@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonRibbonTab), "ToolboxBitmaps.KryptonRibbonTab.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonTabDesigner, Krypton.Ribbon")]
     [DefaultProperty("Text")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonTab : Component
     {
@@ -38,8 +38,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -126,8 +126,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon tab display text.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon tab display text.")]
         [DefaultValue("Tab")]
         public string Text
         {
@@ -160,8 +160,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon tab key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon tab key tip.")]
         [DefaultValue("T")]
         public string KeyTip
         {
@@ -183,8 +183,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Only display tab when this context is active.")]
+        [Category(@"Appearance")]
+        [Description(@"Only display tab when this context is active.")]
         [DefaultValue("")]
         public string ContextName
         {
@@ -226,8 +226,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the ribbon tab.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the ribbon tab is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the ribbon tab is visible or hidden.")]
         [DefaultValue(true)]
         public bool Visible
         {
@@ -274,8 +274,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of ribbon tab groups.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of ribbon tab groups.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of ribbon tab groups.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupCollection Groups { get; }
@@ -283,8 +283,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag

@@ -123,13 +123,13 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move Cluster Color Button First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move Cluster Color Button Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move Cluster Color Button Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move Cluster Color Button Last", OnMoveLast);
-                _deleteButtonVerb = new DesignerVerb("Delete Cluster Color Button", OnDeleteButton);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move Cluster Color Button First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move Cluster Color Button Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move Cluster Color Button Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move Cluster Color Button Last", OnMoveLast);
+                _deleteButtonVerb = new DesignerVerb(@"Delete Cluster Color Button", OnDeleteButton);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                          _moveNextVerb, _moveLastVerb, _deleteButtonVerb });
             }
 
@@ -172,12 +172,12 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorClusterButton MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -204,12 +204,12 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorClusterButton MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -238,12 +238,12 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorClusterButton MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -272,12 +272,12 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorClusterButton MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -304,12 +304,12 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorClusterButton DeleteButton");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton DeleteButton");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);

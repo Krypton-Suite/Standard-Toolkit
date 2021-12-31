@@ -62,8 +62,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use to expand a tree node.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image used to expand a tree node.")]
+        [Category(@"Visuals")]
+        [Description(@"Image used to expand a tree node.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Plus
@@ -94,8 +94,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use to collapse a tree node.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image used to collapse a tree node.")]
+        [Category(@"Visuals")]
+        [Description(@"Image used to collapse a tree node.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Minus

@@ -123,8 +123,8 @@ namespace Krypton.Toolkit
         /// Gets access to the inner control window appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining inner control window appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining inner control window appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ControlInner { get; }
 
@@ -137,8 +137,8 @@ namespace Krypton.Toolkit
         /// Gets access to the outer control window appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining outer control window appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining outer control window appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ControlOuter { get; }
 
@@ -151,8 +151,8 @@ namespace Krypton.Toolkit
         /// Gets access to the heading entry appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining header entry appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header entry appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Heading { get; }
 
@@ -164,8 +164,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item highlight appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining item highlight appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item highlight appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetricRedirect ItemHighlight { get; }
 
@@ -177,8 +177,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item image appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining item image appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleJustImageRedirect ItemImage { get; }
 
@@ -191,8 +191,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item image column appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item image column appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item image column appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ItemImageColumn { get; }
 
@@ -204,8 +204,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item shortcut text appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining item shortcut text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item shortcut text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustShortText ItemShortcutText { get; }
 
@@ -217,12 +217,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item split appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining item split appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ItemSplit { get; }
 
-        private bool ShouldSerializeItemItemSplit() => !ItemSplit.IsDefault;
+        private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 
         #endregion
 
@@ -230,8 +230,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the alternate item text appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining alternate item text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining alternate item text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextAlternate { get; }
 
@@ -243,8 +243,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the standard item text appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining standard item text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining standard item text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextStandard { get; }
 
@@ -257,8 +257,8 @@ namespace Krypton.Toolkit
         /// Gets access to the separator items appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining separator items appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining separator items appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect Separator { get; }
 

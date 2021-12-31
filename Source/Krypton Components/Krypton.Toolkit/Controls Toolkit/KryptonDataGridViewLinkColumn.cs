@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the default text displayed on the link cell.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(null)]
         public string Text
         {
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the default label style of link cell.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
@@ -168,14 +168,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value that represents the behavior of links within cells in the column.
         /// </summary>
-        [Category("Behavior")]
+        [Category(@"Behavior")]
         [DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
         public LinkBehavior LinkBehavior
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
-                    : ((KryptonDataGridViewLinkCell)CellTemplate).LinkBehavior;
+                ((KryptonDataGridViewLinkCell)CellTemplate)?.LinkBehavior ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
             set
             {
                 if (!LinkBehavior.Equals(value))
@@ -203,14 +201,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the link changes color when it is visited.
         /// </summary>
-        [Category("Behavior")]
+        [Category(@"Behavior")]
         [DefaultValue(true)]
         public bool TrackVisitedState
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
-                    : ((KryptonDataGridViewLinkCell)CellTemplate).TrackVisitedState;
+                ((KryptonDataGridViewLinkCell)CellTemplate)?.TrackVisitedState ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
             set
             {
                 if (TrackVisitedState != value)
@@ -236,14 +232,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the Text property value is displayed as the link text for cells in this column.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(false)]
         public bool UseColumnTextForLinkValue
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
-                    : ((KryptonDataGridViewLinkCell)CellTemplate).UseColumnTextForLinkValue;
+                ((KryptonDataGridViewLinkCell)CellTemplate)?.UseColumnTextForLinkValue ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
 
             set
             {

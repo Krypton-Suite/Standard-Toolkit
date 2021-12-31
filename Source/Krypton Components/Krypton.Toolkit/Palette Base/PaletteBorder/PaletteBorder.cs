@@ -156,8 +156,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if border should be drawn.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Should border be drawn.")]
+        [Category(@"Visuals")]
+        [Description(@"Should border be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderDraw != value)
                     {
                         _storage.BorderDraw = value;
-                        OnPropertyChanged("Draw");
+                        OnPropertyChanged(nameof(Draw));
                         PerformNeedPaint();
                     }
                 }
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
                         {
                             BorderDraw = value
                         };
-                        OnPropertyChanged("Draw");
+                        OnPropertyChanged(nameof(Draw));
                         PerformNeedPaint();
                     }
                 }
@@ -203,8 +203,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating which borders should be drawn.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Specify which borders should be drawn.")]
+        [Category(@"Visuals")]
+        [Description(@"Specify which borders should be drawn.")]
         [DefaultValue(typeof(PaletteDrawBorders), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         [Editor(@"Krypton.Toolkit.PaletteDrawBordersEditor", typeof(UITypeEditor))]
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderDrawBorders != value)
                     {
                         _storage.BorderDrawBorders = value;
-                        OnPropertyChanged("DrawBorders");
+                        OnPropertyChanged(nameof(DrawBorders));
                         PerformNeedPaint(true);
                     }
                 }
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
                         {
                             BorderDrawBorders = value
                         };
-                        OnPropertyChanged("DrawBorders");
+                        OnPropertyChanged(nameof(DrawBorders));
                         PerformNeedPaint(true);
                     }
                 }
@@ -262,8 +262,8 @@ namespace Krypton.Toolkit
         /// Gets the graphics hint for drawing the border.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Hint for drawing graphics.")]
+        [Category(@"Visuals")]
+        [Description(@"Hint for drawing graphics.")]
         [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderGraphicsHint != value)
                     {
                         _storage.BorderGraphicsHint = value;
-                        OnPropertyChanged("GraphicsHint");
+                        OnPropertyChanged(nameof(GraphicsHint));
                         PerformNeedPaint();
                     }
                 }
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
                         {
                             BorderGraphicsHint = value
                         };
-                        OnPropertyChanged("GraphicsHint");
+                        OnPropertyChanged(nameof(GraphicsHint));
                         PerformNeedPaint();
                     }
                 }
@@ -310,8 +310,8 @@ namespace Krypton.Toolkit
         /// Gets the first border color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Main border color.")]
+        [Category(@"Visuals")]
+        [Description(@"Main border color.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1
@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderColor1 != value)
                     {
                         _storage.BorderColor1 = value;
-                        OnPropertyChanged("Color1");
+                        OnPropertyChanged(nameof(Color1));
                         PerformNeedPaint();
                     }
                 }
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
                         {
                             BorderColor1 = value
                         };
-                        OnPropertyChanged("Color1");
+                        OnPropertyChanged(nameof(Color1));
                         PerformNeedPaint();
                     }
                 }
@@ -358,8 +358,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the second border color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Secondary border color.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary border color.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color2
@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderColor2 != value)
                     {
                         _storage.BorderColor2 = value;
-                        OnPropertyChanged("Color2");
+                        OnPropertyChanged(nameof(Color2));
                         PerformNeedPaint();
                     }
                 }
@@ -385,7 +385,7 @@ namespace Krypton.Toolkit
                         {
                             BorderColor2 = value
                         };
-                        OnPropertyChanged("Color2");
+                        OnPropertyChanged(nameof(Color2));
                         PerformNeedPaint();
                     }
                 }
@@ -405,8 +405,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color drawing style.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border color drawing style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border color drawing style.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderColorStyle != value)
                     {
                         _storage.BorderColorStyle = value;
-                        OnPropertyChanged("ColorStyle");
+                        OnPropertyChanged(nameof(ColorStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -432,7 +432,7 @@ namespace Krypton.Toolkit
                         {
                             BorderColorStyle = value
                         };
-                        OnPropertyChanged("ColorStyle");
+                        OnPropertyChanged(nameof(ColorStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -454,8 +454,8 @@ namespace Krypton.Toolkit
         /// Gets the color alignment.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border color alignment style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border color alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
@@ -469,7 +469,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderColorAlign != value)
                     {
                         _storage.BorderColorAlign = value;
-                        OnPropertyChanged("ColorAlign");
+                        OnPropertyChanged(nameof(ColorAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -481,7 +481,7 @@ namespace Krypton.Toolkit
                         {
                             BorderColorAlign = value
                         };
-                        OnPropertyChanged("ColorAlign");
+                        OnPropertyChanged(nameof(ColorAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -502,13 +502,13 @@ namespace Krypton.Toolkit
         /// Gets and sets the color angle.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border color angle.")]
+        [Category(@"Visuals")]
+        [Description(@"Border color angle.")]
         [DefaultValue(-1f)]
         [RefreshProperties(RefreshProperties.All)]
         public float ColorAngle
         {
-            get => _storage == null ? -1 : _storage.BorderColorAngle;
+            get => _storage?.BorderColorAngle ?? -1;
 
             set
             {
@@ -517,7 +517,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderColorAngle != value)
                     {
                         _storage.BorderColorAngle = value;
-                        OnPropertyChanged("ColorAngle");
+                        OnPropertyChanged(nameof(ColorAngle));
                         PerformNeedPaint();
                     }
                 }
@@ -529,7 +529,7 @@ namespace Krypton.Toolkit
                         {
                             BorderColorAngle = value
                         };
-                        OnPropertyChanged("ColorAngle");
+                        OnPropertyChanged(nameof(ColorAngle));
                         PerformNeedPaint();
                     }
                 }
@@ -549,13 +549,13 @@ namespace Krypton.Toolkit
         /// Gets and sets the border width.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border width.")]
+        [Category(@"Visuals")]
+        [Description(@"Border width.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
         public int Width
         {
-            get => _storage == null ? -1 : _storage.BorderWidth;
+            get => _storage?.BorderWidth ?? -1;
 
             set
             {
@@ -564,7 +564,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderWidth != value)
                     {
                         _storage.BorderWidth = value;
-                        OnPropertyChanged("Width");
+                        OnPropertyChanged(nameof(Width));
                         PerformNeedPaint(true);
                     }
                 }
@@ -576,7 +576,7 @@ namespace Krypton.Toolkit
                         {
                             BorderWidth = value
                         };
-                        OnPropertyChanged("Width");
+                        OnPropertyChanged(nameof(Width));
                         PerformNeedPaint(true);
                     }
                 }
@@ -596,13 +596,13 @@ namespace Krypton.Toolkit
         /// Gets and sets the border rounding.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("How much to round the border corners.")]
+        [Category(@"Visuals")]
+        [Description(@"How much to round the border corners.")]
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         [RefreshProperties(RefreshProperties.All)]
         public float Rounding
         {
-            get => _storage == null ? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE : _storage.BorderRounding;
+            get => _storage?.BorderRounding ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             set
             {
@@ -611,7 +611,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderRounding != value)
                     {
                         _storage.BorderRounding = value;
-                        OnPropertyChanged("Rounding");
+                        OnPropertyChanged(nameof(Rounding));
                         PerformNeedPaint(true);
                     }
                 }
@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
                         {
                             BorderRounding = value
                         };
-                        OnPropertyChanged("Rounding");
+                        OnPropertyChanged(nameof(Rounding));
                         PerformNeedPaint(true);
                     }
                 }
@@ -643,8 +643,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border image.")]
+        [Category(@"Visuals")]
+        [Description(@"Border image.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Image
@@ -658,7 +658,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderImage != value)
                     {
                         _storage.BorderImage = value;
-                        OnPropertyChanged("Image");
+                        OnPropertyChanged(nameof(Image));
                         PerformNeedPaint();
                     }
                 }
@@ -670,7 +670,7 @@ namespace Krypton.Toolkit
                         {
                             BorderImage = value
                         };
-                        OnPropertyChanged("Image");
+                        OnPropertyChanged(nameof(Image));
                         PerformNeedPaint();
                     }
                 }
@@ -690,8 +690,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border image style.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border image style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border image style.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
@@ -705,7 +705,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderImageStyle != value)
                     {
                         _storage.BorderImageStyle = value;
-                        OnPropertyChanged("ImageStyle");
+                        OnPropertyChanged(nameof(ImageStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -717,7 +717,7 @@ namespace Krypton.Toolkit
                         {
                             BorderImageStyle = value
                         };
-                        OnPropertyChanged("ImageStyle");
+                        OnPropertyChanged(nameof(ImageStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -741,8 +741,8 @@ namespace Krypton.Toolkit
         /// Gets the image alignment.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border image alignment style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border image alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
@@ -756,7 +756,7 @@ namespace Krypton.Toolkit
                     if (_storage.BorderImageAlign != value)
                     {
                         _storage.BorderImageAlign = value;
-                        OnPropertyChanged("ImageAlign");
+                        OnPropertyChanged(nameof(ImageAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -768,7 +768,7 @@ namespace Krypton.Toolkit
                         {
                             BorderImageAlign = value
                         };
-                        OnPropertyChanged("ImageAlign");
+                        OnPropertyChanged(nameof(ImageAlign));
                         PerformNeedPaint();
                     }
                 }

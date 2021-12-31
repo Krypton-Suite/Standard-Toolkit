@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonTextBoxDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Enables the user to enter text, and provides multiline editing and password character masking.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Enables the user to enter text, and provides multiline editing and password character masking.")]
     public class KryptonTextBox : VisualControlBase,
                                   IContainedInputControl
     {
@@ -343,58 +343,58 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the AcceptsTab property changes.
         /// </summary>
-        [Description("Occurs when the value of the AcceptsTab property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the AcceptsTab property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
-        [Description("Occurs when the value of the HideSelection property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the HideSelection property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the TextAlign property changes.
         /// </summary>
-        [Description("Occurs when the value of the TextAlign property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the TextAlign property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler TextAlignChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
-        [Description("Occurs when the value of the Modified property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Modified property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
-        [Description("Occurs when the value of the Multiline property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Multiline property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
-        [Description("Occurs when the value of the ReadOnly property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the ReadOnly property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
 
@@ -503,10 +503,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new ViewLayoutDocker[] { _drawDockerInner },
+                                                         new[] { _drawDockerInner },
                                                          new IPaletteMetric[] { StateCommon },
-                                                         new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
+                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -552,8 +552,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Set a watermark/prompt message for the user.")]
+        [Category(@"Visuals")]
+        [Description(@"Set a watermark/prompt message for the user.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHint { get; }
 
@@ -599,8 +599,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control uses the multiline string editor widget.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the control uses the multiline string editor widget.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the control uses the multiline string editor widget.")]
         [DefaultValue(false)]
         public bool MultilineStringEditor
         {
@@ -786,8 +786,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -806,8 +806,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -826,8 +826,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the lines of text in a multiline edit, as an array of String values.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The lines of text in a multiline edit, as an array of String values.")]
+        [Category(@"Appearance")]
+        [Description(@"The lines of text in a multiline edit, as an array of String values.")]
         [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
@@ -841,8 +841,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets, for multiline edit controls, which scroll bars will be shown for this control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
         [DefaultValue(typeof(ScrollBars), "None")]
         [Localizable(true)]
         public ScrollBars ScrollBars
@@ -854,8 +854,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets how the text should be aligned for edit controls.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the text should be aligned for edit controls.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the text should be aligned for edit controls.")]
         [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
@@ -867,8 +867,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates if lines are automatically word-wrapped for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if lines are automatically word-wrapped for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if lines are automatically word-wrapped for multiline edit controls.")]
         [DefaultValue(true)]
         [Localizable(true)]
         public bool WordWrap
@@ -880,8 +880,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets whether the text in the control can span more than one line.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Control whether the text in the control can span more than one line.")]
+        [Category(@"Behavior")]
+        [Description(@"Control whether the text in the control can span more than one line.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         [Localizable(true)]
@@ -907,8 +907,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if return characters are accepted as input for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if return characters are accepted as input for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if return characters are accepted as input for multiline edit controls.")]
         [DefaultValue(false)]
         public bool AcceptsReturn
         {
@@ -919,8 +919,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if tab characters are accepted as input for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if tab characters are accepted as input for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if tab characters are accepted as input for multiline edit controls.")]
         [DefaultValue(false)]
         public bool AcceptsTab
         {
@@ -931,8 +931,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if all the characters should be left alone or converted to uppercase or lowercase.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if all the characters should be left alone or converted to uppercase or lowercase.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if all the characters should be left alone or converted to uppercase or lowercase.")]
         [DefaultValue(typeof(CharacterCasing), "Normal")]
         public CharacterCasing CharacterCasing
         {
@@ -943,8 +943,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating that the selection should be hidden when the edit control loses focus.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates that the selection should be hidden when the edit control loses focus.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates that the selection should be hidden when the edit control loses focus.")]
         [DefaultValue(true)]
         public bool HideSelection
         {
@@ -955,8 +955,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the edit control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies the maximum number of characters that can be entered into the edit control.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies the maximum number of characters that can be entered into the edit control.")]
         [DefaultValue(32767)]
         [Localizable(true)]
         public int MaxLength
@@ -968,8 +968,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the text in the edit control can be changed or not.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the text in the edit control can be changed or not.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the text in the edit control can be changed or not.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool ReadOnly
@@ -981,8 +981,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether shortcuts defined for the control are enabled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether shortcuts defined for the control are enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether shortcuts defined for the control are enabled.")]
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
@@ -993,8 +993,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a the character to display for password input for single-line edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates the character to display for password input for single-line edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates the character to display for password input for single-line edit controls.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue('\0')]
         [Localizable(true)]
@@ -1007,8 +1007,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the text in the edit control should appear as the default password character.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the text in the edit control should appear as the default password character.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the text in the edit control should appear as the default password character.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
@@ -1020,8 +1020,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Input control style.")]
+        [Category(@"Visuals")]
+        [Description(@"Input control style.")]
         public InputControlStyle InputControlStyle
         {
             get => _inputControlStyle;
@@ -1044,7 +1044,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
-        [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
+        [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
         [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -1059,7 +1059,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text completion behavior of the textbox.
         /// </summary>
-        [Description("Indicates the text completion behavior of the textbox.")]
+        [Description(@"Indicates the text completion behavior of the textbox.")]
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -1072,7 +1072,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
-        [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
+        [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
         [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -1085,32 +1085,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TextBoxButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common textbox appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common textbox appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
@@ -1119,8 +1119,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
@@ -1129,8 +1129,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
@@ -1139,8 +1139,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 
@@ -1263,7 +1263,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1459,14 +1459,14 @@ namespace Krypton.Toolkit
         /// Raises the TrackMouseEnter event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        [Description("Raises the TrackMouseEnter event.")]
+        [Description(@"Raises the TrackMouseEnter event.")]
         protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseLeave event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        [Description("Raises the TrackMouseLeave event.")]
+        [Description(@"Raises the TrackMouseLeave event.")]
         protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion

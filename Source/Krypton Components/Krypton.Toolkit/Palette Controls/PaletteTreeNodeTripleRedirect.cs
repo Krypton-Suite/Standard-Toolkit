@@ -56,12 +56,12 @@ namespace Krypton.Toolkit
         /// Gets the node appearance overrides.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining node appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining node appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Node { get; }
 
-        private bool ShouldSerializeItem() => !Node.IsDefault;
+        private bool ShouldSerializeNode() => !Node.IsDefault;
 
         #endregion
     }

@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image transparent color to use from the menu item.
         /// </summary>
-        public Color ResolveImageTransparentColor => _cachedCommand != null ? _cachedCommand.ImageTransparentColor : KryptonContextMenuLinkLabel.ImageTransparentColor;
+        public Color ResolveImageTransparentColor => _cachedCommand?.ImageTransparentColor ?? KryptonContextMenuLinkLabel.ImageTransparentColor;
 
         #endregion
 
@@ -262,14 +262,14 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case "Text":
-                case "ExtraText":
-                case "Image":
-                case "ImageTransparentColor":
+                case @"Text":
+                case @"ExtraText":
+                case @"Image":
+                case @"ImageTransparentColor":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;
-                case "KryptonCommand":
+                case @"KryptonCommand":
                     // Unhook from any existing command
                     if (_cachedCommand != null)
                     {
@@ -293,10 +293,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case "Text":
-                case "ExtraText":
-                case "ImageSmall":
-                case "ImageTransparentColor":
+                case @"Text":
+                case @"ExtraText":
+                case @"ImageSmall":
+                case @"ImageTransparentColor":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;

@@ -109,7 +109,8 @@ namespace Krypton.Ribbon
                                            (AppButtonToolTipImage == null) &&
                                            (AppButtonToolTipImageTransparentColor == Color.Empty) &&
                                            (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
-                                           AppButtonVisible;
+                                           AppButtonVisible
+                                           && !IgnoreDoubleClickClose;
 
         #endregion
 
@@ -118,8 +119,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the application button image.
         /// </summary>
         [Localizable(true)]
-        [Category("Values")]
-        [Description("Application button image.")]
+        [Category(@"Values")]
+        [Description(@"Application button image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image AppButtonImage
         {
@@ -131,7 +132,7 @@ namespace Krypton.Ribbon
                 {
                     _appButtonImage = value;
 
-                    // Captin area is not created when property first set to default value
+                    // Caption area is not created when property first set to default value
                     _ribbon.CaptionArea?.AppButtonChanged();
                 }
             }
@@ -146,8 +147,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the darker base color used for drawing an Office 2010 style application button.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Darker base color used for drawing an Office 2010 style application button.")]
+        [Category(@"Appearance")]
+        [Description(@"Darker base color used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "31, 72, 161")]
         public Color AppButtonBaseColorDark
@@ -170,8 +171,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the lighter base color used for drawing an Office 2010 style application button.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Lighter base color used for drawing an Office 2010 style application button.")]
+        [Category(@"Appearance")]
+        [Description(@"Lighter base color used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "84, 158, 243")]
         public Color AppButtonBaseColorLight
@@ -194,8 +195,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the text color used for drawing an Office 2010 style application button.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Text color used for drawing an Office 2010 style application button.")]
+        [Category(@"Appearance")]
+        [Description(@"Text color used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "White")]
         public Color AppButtonTextColor
@@ -218,8 +219,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the text used for drawing an Office 2010 style application button.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Text used for drawing an Office 2010 style application button.")]
+        [Category(@"Appearance")]
+        [Description(@"Text used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
         [DefaultValue("File")]
         [Localizable(true)]
@@ -242,10 +243,10 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the context menu items for the application button.
         /// </summary>
-        [Category("Values")]
-        [Description("Context menu items for the application button.")]
+        [Category(@"Values")]
+        [Description(@"Context menu items for the application button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"Krypton.Ribbon.KryptonContextMenuItemCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonContextMenuItemCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
         #endregion
@@ -254,8 +255,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the recent document entries for the application button.
         /// </summary>
-        [Category("Values")]
-        [Description("Recent document entries for the application buttton.")]
+        [Category(@"Values")]
+        [Description(@"Recent document entries for the application buttton.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Editor(@"Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         public virtual KryptonRibbonRecentDocCollection AppButtonRecentDocs { get; }
@@ -266,8 +267,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the minimum size of the recent documents area of the application button.
         /// </summary>
-        [Category("Values")]
-        [Description("Minimum size of the recent documents area of the application button.")]
+        [Category(@"Values")]
+        [Description(@"Minimum size of the recent documents area of the application button.")]
         [DefaultValue(typeof(Size), "250,250")]
         public Size AppButtonMinRecentSize { get; set; }
 
@@ -277,8 +278,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum size of the recent documents area of the application button.
         /// </summary>
-        [Category("Values")]
-        [Description("Maximum size of the recent documents area of the application button.")]
+        [Category(@"Values")]
+        [Description(@"Maximum size of the recent documents area of the application button.")]
         [DefaultValue(typeof(Size), "350,350")]
         public Size AppButtonMaxRecentSize { get; set; }
 
@@ -288,8 +289,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications for the app button context menu.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications for the app button context menu.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public AppMenuButtonSpecCollection AppButtonSpecs { get; }
 
@@ -297,10 +298,10 @@ namespace Krypton.Ribbon
 
         #region AppButtonShowRecentDocs
         /// <summary>
-        /// GGets and sets if the recent documents area should be shown in the application button.
+        /// Gets and sets if the recent documents area should be shown in the application button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determine if the recent documents area should be shown in the application button.")]
+        [Category(@"Visuals")]
+        [Description(@"Determine if the recent documents area should be shown in the application button.")]
         [DefaultValue(true)]
         public bool AppButtonShowRecentDocs { get; set; }
 
@@ -310,8 +311,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the tooltip label style for the application button.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Tooltip style for the application button.")]
+        [Category(@"Appearance")]
+        [Description(@"Tooltip style for the application button.")]
         [DefaultValue(typeof(LabelStyle), "SuperTip")]
         [Localizable(true)]
         public LabelStyle AppButtonToolTipStyle { get; set; }
@@ -323,8 +324,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the image for the item ToolTip.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Display image associated ToolTip.")]
+        [Category(@"Appearance")]
+        [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public Image AppButtonToolTipImage { get; set; }
@@ -336,8 +337,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the color to draw as transparent in the ToolTipImage.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Color to draw as transparent in the ToolTipImage.")]
+        [Category(@"Appearance")]
+        [Description(@"Color to draw as transparent in the ToolTipImage.")]
         [KryptonDefaultColor()]
         [Localizable(true)]
         public Color AppButtonToolTipImageTransparentColor { get; set; }
@@ -349,8 +350,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the title text for the item ToolTip.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Title text for use in associated ToolTip.")]
+        [Category(@"Appearance")]
+        [Description(@"Title text for use in associated ToolTip.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
@@ -363,8 +364,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the body text for the item ToolTip.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Body text for use in associated ToolTip.")]
+        [Category(@"Appearance")]
+        [Description(@"Body text for use in associated ToolTip.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
@@ -374,10 +375,10 @@ namespace Krypton.Ribbon
 
         #region AppButtonVisible
         /// <summary>
-        /// GGets and sets if the application button is shown.
+        /// Gets and sets if the application button is shown.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determine if the application button is shown.")]
+        [Category(@"Visuals")]
+        [Description(@"Determine if the application button is shown.")]
         [DefaultValue(true)]
         public bool AppButtonVisible
         {
@@ -399,5 +400,17 @@ namespace Krypton.Ribbon
             }
         }
         #endregion
+
+        /// <summary>
+        /// Does the application button perform "default theme Close" on double Click
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Does the application button perform 'default theme Close' on double Click.")]
+        [DefaultValue(false)]
+        public bool IgnoreDoubleClickClose
+        {
+            get => _ribbon.IgnoreDoubleClickClose;
+            set => _ribbon.IgnoreDoubleClickClose = value;
+        }
     }
 }

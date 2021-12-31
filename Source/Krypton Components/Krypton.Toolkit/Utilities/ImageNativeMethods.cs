@@ -5,17 +5,17 @@
 // *****************************************************************************
 
 namespace Krypton.Toolkit
+{
+    internal class ImageNativeMethods
     {
-     internal class ImageNativeMethods
-     {
-        private const string user32 = "user32.dll";
-        private const string uxtheme = "uxtheme.dll";
-        private const string dwmapi = "dwmapi.dll";
+        private const string USER32 = @"user32.dll";
 
-        [DllImport(user32, SetLastError = true)]
+        [DllImport(USER32, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport(user32, SetLastError = true)]
+        [DllImport(USER32, EntryPoint = "LoadImageW", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
     }
 }

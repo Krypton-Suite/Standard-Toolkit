@@ -32,7 +32,7 @@ namespace Krypton.Docking
         /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
         public KryptonDockingFloating(string name, Form ownerForm)
             : base(name) =>
-            OwnerForm = ownerForm ?? throw new ArgumentNullException("owner");
+            OwnerForm = ownerForm ?? throw new ArgumentNullException(nameof(ownerForm));
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace Krypton.Docking
                 // Only interested in floating window elements
                 if (child is KryptonDockingFloatingWindow floatingWindow)
                 {
-                    bool? ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
+                    var ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
                     if (ret.HasValue && ret.Value)
                     {
                         return floatingWindow;
@@ -88,6 +88,9 @@ namespace Krypton.Docking
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool UseMinimiseBox { get; set; }
         #endregion
 
@@ -95,7 +98,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DF";
+        protected override string XmlElementName => @"DF";
 
         /// <summary>
         /// Perform docking element specific actions for loading a child xml.
@@ -114,7 +117,7 @@ namespace Krypton.Docking
             else
             {
                 // Create a new floating window and then reload it
-                KryptonDockingFloatingWindow floatingWindow = AddFloatingWindow(xmlReader.GetAttribute("N"));
+                KryptonDockingFloatingWindow floatingWindow = AddFloatingWindow(xmlReader.GetAttribute(@"N"));
                 floatingWindow.LoadElementFromXml(xmlReader, pages);
             }
         }
@@ -124,8 +127,8 @@ namespace Krypton.Docking
         private KryptonDockingFloatingWindow CreateFloatingWindow(string name)
         {
             // Create a floatspace and floating window for hosting the floatspace
-            KryptonDockingFloatspace floatSpaceElement = new("Floatspace");
-            KryptonDockingFloatingWindow floatingWindowElement = new(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
+            var floatSpaceElement = new KryptonDockingFloatspace(@"Floatspace");
+            var floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
             floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
             InternalAdd(floatingWindowElement);
 
@@ -134,8 +137,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Generate events so the floating window/dockspace appearance can be customized
-                FloatingWindowEventArgs floatingWindowArgs = new(floatingWindowElement.FloatingWindow, floatingWindowElement);
-                FloatspaceEventArgs floatSpaceArgs = new(floatSpaceElement.FloatspaceControl, floatSpaceElement);
+                var floatingWindowArgs = new FloatingWindowEventArgs(floatingWindowElement.FloatingWindow, floatingWindowElement);
+                var floatSpaceArgs = new FloatspaceEventArgs(floatSpaceElement.FloatspaceControl, floatSpaceElement);
                 dockingManager.RaiseFloatingWindowAdding(floatingWindowArgs);
                 dockingManager.RaiseFloatspaceAdding(floatSpaceArgs);
             }
@@ -149,7 +152,7 @@ namespace Krypton.Docking
             KryptonDockingFloatingWindow floatingWindowElement = (KryptonDockingFloatingWindow)sender;
             floatingWindowElement.Disposed -= OnDockingFloatingWindowDisposed;
 
-            // Remove the elemenet from our child collection as it is no longer valid
+            // Remove the element from our child collection as it is no longer valid
             InternalRemove(floatingWindowElement);
         }
         #endregion

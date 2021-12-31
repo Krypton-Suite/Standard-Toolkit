@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common panel appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common panel appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common panel appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateCommon { get; }
 
@@ -93,8 +93,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled panel appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateDisabled { get; }
 
@@ -107,8 +107,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal panel appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateNormal { get; }
 

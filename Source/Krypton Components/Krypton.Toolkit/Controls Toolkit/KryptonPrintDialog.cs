@@ -700,6 +700,7 @@ namespace Krypton.Toolkit
     }
 
     [Flags]
+#pragma warning disable CA1069 // Enums values should not be duplicated
     internal enum PD : uint
     {
         ALLPAGES = 0x00000000,
@@ -726,11 +727,12 @@ namespace Krypton.Toolkit
         DISABLEPRINTTOFILE         = 0x00080000,
         HIDEPRINTTOFILE = 0x00100000,
         NONETWORKBUTTON = 0x00200000,
-        CURRENTPAGE = 0x00400000,
+        CURRENTPAGE = 0x00400000,   
         NOCURRENTPAGE = 0x00800000,
         EXCLUSIONFLAGS = 0x01000000,
         USELARGETEMPLATE = 0x10000000
     }
+#pragma warning restore CA1069 // Enums values should not be duplicated
 
     internal interface PRINTDLG
     {

@@ -117,8 +117,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item highlight appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item highlight appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item highlight appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetric ItemHighlight { get; }
 
@@ -131,8 +131,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item image appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item image appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleJustImage ItemImage { get; }
 
@@ -145,8 +145,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item shortcut text appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item shortcut text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item shortcut text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustShortText ItemShortcutText { get; }
 
@@ -159,8 +159,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item split appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item split appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble ItemSplit { get; }
 
@@ -173,8 +173,8 @@ namespace Krypton.Toolkit
         /// Gets access to the alternate item text appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining alternate item text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining alternate item text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextAlternate { get; }
 
@@ -187,8 +187,8 @@ namespace Krypton.Toolkit
         /// Gets access to the standard item text appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining standard item text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining standard item text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextStandard { get; }
 

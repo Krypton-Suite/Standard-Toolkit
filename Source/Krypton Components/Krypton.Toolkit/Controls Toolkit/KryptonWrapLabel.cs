@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Displays descriptive information.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays descriptive information.")]
     public sealed class KryptonWrapLabel : Label
     {
         #region Static Field
@@ -38,14 +38,15 @@ namespace Krypton.Toolkit
         private PaletteContentStyle _labelContentStyle;
         private KryptonContextMenu _kryptonContextMenu;
         private bool _globalEvents;
+
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Palette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Palette property is changed.")]
         public event EventHandler PaletteChanged;
         #endregion
 
@@ -115,6 +116,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>
+        /// Gets access to the target for mnemonic and click actions.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Target control for mnemonic and click actions.")]
+        [DefaultValue(null)]
+        public Control Target { get; set; }
+
         /// <summary>
         /// Gets or sets the tab order of the KryptonSplitterPanel within its KryptonSplitContainer.
         /// </summary>
@@ -207,8 +216,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common wrap label appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common wrap label appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common wrap label appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteWrapLabel StateCommon { get; }
 
@@ -217,8 +226,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled wrap label appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled wrap label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled wrap label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteWrapLabel StateDisabled { get; }
 
@@ -227,8 +236,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal wrap label appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal wrap label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal wrap label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteWrapLabel StateNormal { get; }
 
@@ -238,8 +247,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Label style.")]
         [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
@@ -263,8 +272,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -308,8 +317,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -363,8 +372,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut menu to show when the user right-clicks the page.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -446,10 +455,7 @@ namespace Krypton.Toolkit
             }
 
             // Recover font from state common or as last resort the inherited palette
-            if (font == null)
-            {
-                font = StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
-            }
+            font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
             if (textColor == Color.Empty)
@@ -550,10 +556,7 @@ namespace Krypton.Toolkit
             }
 
             // Recover font from state common or as last resort the inherited palette
-            if (font == null)
-            {
-                font = StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
-            }
+            font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
             if (textColor == Color.Empty)
@@ -603,7 +606,7 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new Type[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
                                                        null);
                 }
 
@@ -619,7 +622,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        private PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
+        private PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Update the view elements based on the requested label style.
@@ -663,6 +666,32 @@ namespace Krypton.Toolkit
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        /// <summary>
+        /// Processes a mnemonic character.
+        /// </summary>
+        /// <param name="charCode">The mnemonic character entered.</param>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
+        protected override bool ProcessMnemonic(char charCode)
+        {
+            // Are we allowed to process mnemonic?
+            if (UseMnemonic && CanProcessMnemonic())
+            {
+                // Does the button primary text contain the mnemonic?
+                if (IsMnemonic(charCode, Text))
+                {
+                    // Do we have a target that can take the focus
+                    if (Target is { CanFocus: true })
+                    {
+                        Target.Focus();
+                        return true;
+                    }
+                }
+            }
+
+            // No match found, let base class do standard processing
+            return base.ProcessMnemonic(charCode);
         }
 
         /// <summary>
@@ -719,6 +748,31 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+        /// <summary>
+        /// Gets a value indicating is processing of mnemonics should be allowed.
+        /// </summary>
+        /// <returns>True to allow; otherwise false.</returns>
+        private bool CanProcessMnemonic()
+        {
+            Control c = this;
+
+            // Test each control in parent chain
+            while (c != null)
+            {
+                // Control must be visible and enabled
+                if (!c.Visible || !c.Enabled)
+                {
+                    return false;
+                }
+
+                // Move up one level
+                c = c.Parent;
+            }
+
+            // Every control in chain is visible and enabled, so allow mnemonics
+            return true;
+        }
+
         private void SetPalette(IPalette palette)
         {
             if (palette != _palette)

@@ -377,68 +377,62 @@ namespace Krypton.Toolkit
             PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
             
             // Position all except the filler
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase child in Reverse()
+                         .Where(child => child.Visible && (GetDock(child) != ViewDockStyle.Fill))
+                     )
             {
-                // Only position visible children that are not 'fill'
-                if (child.Visible && (GetDock(child) != ViewDockStyle.Fill))
+                // Prevent children from showing adjacent borders that are not needed
+                UpdateChildBorders(child, context, ref leftEdges, ref rightEdges, ref topEdges, ref bottomEdges, ref fillEdges);
+
+                // Provide the available space left over
+                context.DisplayRectangle = fillerRect;
+
+                // Get the preferred size of the child
+                Size childSize = child.GetPreferredSize(context);
+
+                // Position the child inside the available space
+                switch (CalculateDock(OrientateDock(GetDock(child)), context.Control))
                 {
-                    // Prevent children from showing adjacent borders that are not needed
-                    UpdateChildBorders(child, context, ref leftEdges, ref rightEdges,
-                                       ref topEdges, ref bottomEdges, ref fillEdges);
-
-                    // Provide the available space left over
-                    context.DisplayRectangle = fillerRect;
-
-                    // Get the preferred size of the child
-                    Size childSize = child.GetPreferredSize(context);
-
-                    // Position the child inside the available space
-                    switch (CalculateDock(OrientateDock(GetDock(child)), context.Control))
-                    {
-                        case ViewDockStyle.Top:
-                            context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, fillerRect.Width, childSize.Height);
-                            fillerRect.Height -= childSize.Height;
-                            fillerRect.Y += childSize.Height;
-                            break;
-                        case ViewDockStyle.Bottom:
-                            context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Bottom - childSize.Height, fillerRect.Width, childSize.Height);
-                            fillerRect.Height -= childSize.Height;
-                            break;
-                        case ViewDockStyle.Left:
-                            context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, childSize.Width, fillerRect.Height);
-                            fillerRect.Width -= childSize.Width;
-                            fillerRect.X += childSize.Width;
-                            break;
-                        case ViewDockStyle.Right:
-                            context.DisplayRectangle = new Rectangle(fillerRect.Right - childSize.Width, fillerRect.Y, childSize.Width, fillerRect.Height);
-                            fillerRect.Width -= childSize.Width;
-                            break;
-                    }
-
-                    // Layout child in the provided space
-                    child.Layout(context);
+                    case ViewDockStyle.Top:
+                        context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, fillerRect.Width, childSize.Height);
+                        fillerRect.Height -= childSize.Height;
+                        fillerRect.Y += childSize.Height;
+                        break;
+                    case ViewDockStyle.Bottom:
+                        context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Bottom - childSize.Height, fillerRect.Width, childSize.Height);
+                        fillerRect.Height -= childSize.Height;
+                        break;
+                    case ViewDockStyle.Left:
+                        context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, childSize.Width, fillerRect.Height);
+                        fillerRect.Width -= childSize.Width;
+                        fillerRect.X += childSize.Width;
+                        break;
+                    case ViewDockStyle.Right:
+                        context.DisplayRectangle = new Rectangle(fillerRect.Right - childSize.Width, fillerRect.Y, childSize.Width, fillerRect.Height);
+                        fillerRect.Width -= childSize.Width;
+                        break;
                 }
+
+                // Layout child in the provided space
+                child.Layout(context);
             }
 
             // Allow the filler rectangle to be modified before being used
             fillerRect = UpdateFillerRect(fillerRect, context.Control);
 
             // Position any filler last
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase child in Reverse()
+                         .Where(child => child.Visible && (GetDock(child) == ViewDockStyle.Fill))
+                     )
             {
-                // Only position visible children
-                if (child.Visible && (GetDock(child) == ViewDockStyle.Fill))
-                {
-                    // Prevent children from showing adjacent borders that are not needed
-                    UpdateChildBorders(child, context, ref leftEdges, ref rightEdges,
-                                       ref topEdges, ref bottomEdges, ref fillEdges);
+                // Prevent children from showing adjacent borders that are not needed
+                UpdateChildBorders(child, context, ref leftEdges, ref rightEdges, ref topEdges, ref bottomEdges, ref fillEdges);
 
-                    // Give the filler the remaining space
-                    context.DisplayRectangle = fillerRect;
+                // Give the filler the remaining space
+                context.DisplayRectangle = fillerRect;
 
-                    // Layout child in the provided space
-                    child.Layout(context);
-                }
+                // Layout child in the provided space
+                child.Layout(context);
             }
 
             // Put back the original display value now we have finished

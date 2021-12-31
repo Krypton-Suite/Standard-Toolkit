@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         {
             _glassFadeBlend = new Blend
             {
-                Positions = new float[] { 0.0f, 0.33f, 0.66f, 1.0f },
-                Factors = new float[] { 0.0f, 0.0f, 0.8f, 1.0f }
+                Positions = new[] { 0.0f, 0.33f, 0.66f, 1.0f },
+                Factors = new[] { 0.0f, 0.0f, 0.8f, 1.0f }
             };
         }
         #endregion
@@ -1053,7 +1053,7 @@ namespace Krypton.Toolkit
                     {
                         CenterColor = ControlPaint.Light(color3),
                         CenterPoint = centerPoint,
-                        SurroundColors = new Color[] { color2 }
+                        SurroundColors = new[] { color2 }
                     };
                 }
             }
@@ -1192,7 +1192,7 @@ namespace Krypton.Toolkit
                     {
                         CenterColor = color2,
                         CenterPoint = new PointF(doubleRect.X + (doubleRect.Width / 2), doubleRect.Y + (doubleRect.Height / 2)),
-                        SurroundColors = new Color[] { color1 }
+                        SurroundColors = new[] { color1 }
                     };
                     cacheThis.mainRect = mainRect;
                 }
@@ -1272,7 +1272,7 @@ namespace Krypton.Toolkit
                     {
                         CenterColor = color2,
                         CenterPoint = new PointF(drawRect.X + (drawRect.Width / 2), drawRect.Y + (drawRect.Height / 2)),
-                        SurroundColors = new Color[] { Color.Transparent }
+                        SurroundColors = new[] { Color.Transparent }
                     };
                 }
 

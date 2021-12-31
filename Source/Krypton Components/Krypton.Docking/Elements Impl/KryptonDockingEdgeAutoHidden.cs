@@ -128,7 +128,7 @@ namespace Krypton.Docking
                 case DockingPropogateAction.RemoveAndDisposePages:
                 case DockingPropogateAction.StorePages:
                     // Ask the sliding panel to remove its display if an incoming name matches
-                    foreach (string uniqueName in uniqueNames)
+                    foreach (var uniqueName in uniqueNames)
                     {
                         _slidePanel.HideUniqueName(uniqueName);
                     }
@@ -206,7 +206,7 @@ namespace Krypton.Docking
         public void SlidePageOut(string uniqueName, bool select)
         {
             // Search each of our AutoHiddenGroup entries
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 if (this[i] is KryptonDockingAutoHiddenGroup ahg)
                 {
@@ -228,7 +228,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DEAH";
+        protected override string XmlElementName => @"DEAH";
 
         /// <summary>
         /// Perform docking element specific actions for loading a child xml.
@@ -247,7 +247,7 @@ namespace Krypton.Docking
             else
             {
                 // Create a new auto hidden group and then reload it
-                KryptonDockingAutoHiddenGroup autoHiddenGroup = AppendAutoHiddenGroup(xmlReader.GetAttribute("N"));
+                KryptonDockingAutoHiddenGroup autoHiddenGroup = AppendAutoHiddenGroup(xmlReader.GetAttribute(@"N"));
                 autoHiddenGroup.LoadElementFromXml(xmlReader, pages);
             }
         }
@@ -419,7 +419,7 @@ namespace Krypton.Docking
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager dockingManager = DockingManager;
-            dockingManager?.CloseRequest(new string[] { e.UniqueName });
+            dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
         private void OnSlidePanelPageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
@@ -454,32 +454,32 @@ namespace Krypton.Docking
             innerSize.Height -= CLIENT_MINIMUM;
 
             // Adjust for any showing auto hidden panels at the edges
-            foreach (Control child in Control.Controls)
+            foreach (Control child in Control.Controls.Cast<Control>()
+                         .Where(static child => child.Visible 
+                                     && child is KryptonAutoHiddenPanel)
+                     )
             {
-                if (child.Visible && child is KryptonAutoHiddenPanel)
+                switch (child.Dock)
                 {
-                    switch (child.Dock)
-                    {
-                        case DockStyle.Left:
-                        case DockStyle.Right:
-                            innerSize.Width -= child.Width;
-                            break;
-                        case DockStyle.Top:
-                        case DockStyle.Bottom:
-                            innerSize.Height -= child.Height;
-                            break;
-                    }
+                    case DockStyle.Left:
+                    case DockStyle.Right:
+                        innerSize.Width -= child.Width;
+                        break;
+                    case DockStyle.Top:
+                    case DockStyle.Bottom:
+                        innerSize.Height -= child.Height;
+                        break;
                 }
             }
 
             // How much can we reduce the width/height of the dockspace to reach the minimum
             Size dockspaceMinimum = _slidePanel.DockspaceControl.MinimumSize;
-            int reduceWidth = Math.Max(_slidePanel.DockspaceControl.Width - dockspaceMinimum.Width, 0);
-            int reduceHeight = Math.Max(_slidePanel.DockspaceControl.Height - dockspaceMinimum.Height, 0);
+            var reduceWidth = Math.Max(_slidePanel.DockspaceControl.Width - dockspaceMinimum.Width, 0);
+            var reduceHeight = Math.Max(_slidePanel.DockspaceControl.Height - dockspaceMinimum.Height, 0);
 
             // How much can we expand the width/height of the dockspace to reach the inner minimum
-            int expandWidth = Math.Max(innerSize.Width - _slidePanel.Width, 0);
-            int expandHeight = Math.Max(innerSize.Height - _slidePanel.Height, 0);
+            var expandWidth = Math.Max(innerSize.Width - _slidePanel.Width, 0);
+            var expandHeight = Math.Max(innerSize.Height - _slidePanel.Height, 0);
 
             // Create movement rectangle based on the initial rectangle and the allowed range
             Rectangle retRect = Rectangle.Empty;

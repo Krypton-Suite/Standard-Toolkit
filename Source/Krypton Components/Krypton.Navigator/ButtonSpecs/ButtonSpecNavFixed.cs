@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="fixedStyle">Fixed style to use.</param>
-        public ButtonSpecNavFixed(KryptonNavigator navigator,
+        protected ButtonSpecNavFixed(KryptonNavigator navigator,
                                   PaletteButtonSpecStyle fixedStyle)
         {
             Debug.Assert(navigator != null);
@@ -71,8 +71,8 @@ namespace Krypton.Navigator
         /// Gets and sets if the button header location.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Defines header location for the button.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines header location for the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
         public HeaderLocation HeaderLocation

@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         [AccessedThroughProperty(@"HScrollBar1")]
         private KryptonScrollBar _HScrollBar1;
 
-        private IContainer components;
+        private readonly IContainer components;
 
         //public WIN32ScrollBars.ScrollInfo si;
         public WIN32ScrollBars.ScrollInfo si2;

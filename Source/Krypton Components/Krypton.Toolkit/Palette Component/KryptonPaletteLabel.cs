@@ -91,8 +91,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common label appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common label appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common label appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
@@ -105,8 +105,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
         /// Gets access to the label appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining label appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining label appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
@@ -147,8 +147,8 @@ namespace Krypton.Toolkit
         /// Gets access to normal state modifications when label has been visited.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for modifying normal state when label has been visited.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for modifying normal state when label has been visited.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideVisited { get; }
 
@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
         /// Gets access to normal state modifications when label has not been visited.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for modifying normal state when label has not been visited.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for modifying normal state when label has not been visited.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideNotVisited { get; }
 
@@ -175,8 +175,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverridePressed { get; }
 

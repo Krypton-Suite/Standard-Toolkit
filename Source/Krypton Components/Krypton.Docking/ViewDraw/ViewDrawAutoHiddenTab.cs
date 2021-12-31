@@ -20,7 +20,7 @@ namespace Krypton.Docking
     {
         #region Instance Fields
 
-        private VisualOrientation _orientation;
+        private readonly VisualOrientation _orientation;
         #endregion
 
         #region Identity

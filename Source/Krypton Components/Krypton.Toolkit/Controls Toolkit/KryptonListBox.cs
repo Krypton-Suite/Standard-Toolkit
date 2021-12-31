@@ -23,8 +23,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Items")]
     [DefaultBindingProperty("SelectedValue")]
     [Designer("Krypton.Toolkit.KryptonListBoxDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Represents a list box control that allows single or multiple item selection.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Represents a list box control that allows single or multiple item selection.")]
     public class KryptonListBox : VisualControlBase,
                                   IContainedInputControl
     {
@@ -363,64 +363,64 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the DataSource property changes.
         /// </summary>
-        [Description("Occurs when the value of the DataSource property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the DataSource property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler DataSourceChanged;
 
         /// <summary>
         /// Occurs when the value of the DisplayMember property changes.
         /// </summary>
-        [Description("Occurs when the value of the DisplayMember property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the DisplayMember property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler DisplayMemberChanged;
 
         /// <summary>
         /// Occurs when the property of a control is bound to a data value. 
         /// </summary>
-        [Description("Occurs when the property of a control is bound to a data value.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the property of a control is bound to a data value.")]
+        [Category(@"Property Changed")]
         public event EventHandler Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changes.
         /// </summary>
-        [Description("Occurs when the value of the FormatInfo property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the FormatInfo property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changes.
         /// </summary>
-        [Description("Occurs when the value of the FormatString property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the FormatString property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changes.
         /// </summary>
-        [Description("Occurs when the value of the FormattingEnabled property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the FormattingEnabled property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changes.
         /// </summary>
-        [Description("Occurs when the value of the SelectedValue property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the SelectedValue property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
-        [Description("Occurs when the value of the SelectedIndex property changes.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the value of the SelectedIndex property changes.")]
+        [Category(@"Behavior")]
         public event EventHandler SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the ValueMember property changes.
         /// </summary>
-        [Description("Occurs when the value of the ValueMember property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the ValueMember property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ValueMemberChanged;
 
         /// <summary>
@@ -475,24 +475,24 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
 
         /// <summary>
         /// Occurs when [draw item].
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when an item needs to be Drawn.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when an item needs to be Drawn.")]
         public event DrawItemEventHandler DrawItem;
         #endregion
 
@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the value of the selected item in the list control, or selects the item in the list control that contains the specified value.
         /// </summary>
-        [Category("Data")]
+        [Category(@"Data")]
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -769,8 +769,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the item style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Item style.")]
+        [Category(@"Visuals")]
+        [Description(@"Item style.")]
         public ButtonStyle ItemStyle
         {
             get => _style;
@@ -795,8 +795,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the width by which the horizontal scroll bar of a KryptonListBox can scroll. 
         /// </summary>
-        [Category("Behavior")]
-        [Description("The width, in pixels, by which a list box can be scrolled horizontally. Only valid HorizontalScrollbar is true.")]
+        [Category(@"Behavior")]
+        [Description(@"The width, in pixels, by which a list box can be scrolled horizontally. Only valid HorizontalScrollbar is true.")]
         [Localizable(true)]
         [DefaultValue(0)]
         public virtual int HorizontalExtent
@@ -808,8 +808,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether a horizontal scroll bar is displayed in the control. 
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the KryptonListBox will display a horizontal scrollbar for items beyond the right edge of the KryptonListBox.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the KryptonListBox will display a horizontal scrollbar for items beyond the right edge of the KryptonListBox.")]
         [Localizable(true)]
         [DefaultValue(false)]
         public virtual bool HorizontalScrollbar
@@ -821,8 +821,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the vertical scroll bar is shown at all times. 
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the list box should always have a scroll bar present, regardless of how many items are present.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the list box should always have a scroll bar present, regardless of how many items are present.")]
         [Localizable(true)]
         [DefaultValue(false)]
         public virtual bool ScrollAlwaysVisible
@@ -834,8 +834,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the selection mode of the KryptonListBox control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the list box is to be single-select, multi-select or not selectable.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the list box is to be single-select, multi-select or not selectable.")]
         [DefaultValue(typeof(SelectionMode), "One")]
         public virtual SelectionMode SelectionMode
         {
@@ -846,8 +846,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the items in the KryptonListBox are sorted alphabetically.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the list is sorted.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the list is sorted.")]
         [DefaultValue(false)]
         public virtual bool Sorted
         {
@@ -858,8 +858,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the value member.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to use as the actual value of the items in the control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to use as the actual value of the items in the control.")]
         [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ValueMember
@@ -871,8 +871,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the list that this control will use to gets its items.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the list that this control will use to gets its items.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the list that this control will use to gets its items.")]
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
@@ -885,8 +885,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the property to display for the items in this control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to display for the items in this control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to display for the items in this control.")]
         [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
         [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
@@ -899,8 +899,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the items of the KryptonListBox. 
         /// </summary>
-        [Category("Data")]
-        [Description("The items in the KryptonListBox.")]
+        [Category(@"Data")]
+        [Description(@"The items in the KryptonListBox.")]
         [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
@@ -910,7 +910,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
-        [Description("The format specifier characters that indicate how a value is to be displayed.")]
+        [Description(@"The format specifier characters that indicate how a value is to be displayed.")]
         [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
@@ -923,7 +923,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets if this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.
         /// </summary>
-        [Description("If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
+        [Description(@"If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
         [DefaultValue(false)]
         public bool FormattingEnabled
         {
@@ -934,8 +934,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style used to draw the background.")]
+        [Category(@"Visuals")]
+        [Description(@"Style used to draw the background.")]
         public PaletteBackStyle BackStyle
         {
             get => StateCommon.BackStyle;
@@ -958,8 +958,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style used to draw the border.")]
+        [Category(@"Visuals")]
+        [Description(@"Style used to draw the border.")]
         public PaletteBorderStyle BorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -982,8 +982,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining item appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTripleRedirect OverrideFocus { get; }
 
@@ -992,8 +992,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListStateRedirect StateCommon { get; }
 
@@ -1002,8 +1002,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListState StateDisabled { get; }
 
@@ -1012,8 +1012,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListState StateNormal { get; }
 
@@ -1022,8 +1022,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateActive { get; }
 
@@ -1032,8 +1032,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateTracking { get; }
 
@@ -1042,8 +1042,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StatePressed { get; }
 
@@ -1052,8 +1052,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedNormal { get; }
 
@@ -1062,8 +1062,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedTracking { get; }
 
@@ -1072,8 +1072,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedPressed { get; }
 
@@ -1082,8 +1082,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -1205,7 +1205,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.

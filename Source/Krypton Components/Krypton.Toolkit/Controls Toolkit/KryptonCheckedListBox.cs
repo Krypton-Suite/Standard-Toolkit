@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
             /// Creates a new instance of the item collection.
             /// </summary>
             /// <returns>A ListBox.ObjectCollection that represents the new item collection.</returns>
-            protected override ObjectCollection CreateItemCollection() => new ObjectCollection(this);
+            protected override ObjectCollection CreateItemCollection() => new (this);
 
             /// <summary>
             /// Raises the KeyPress event.
@@ -731,7 +731,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetCount == null)
                 {
-                    _miGetCount = InnerArray.GetType().GetMethod(@"GetCount", new Type[] { typeof(int) }, null);
+                    _miGetCount = InnerArray.GetType().GetMethod(@"GetCount", new[] { typeof(int) }, null);
                 }
 
                 return (int)_miGetCount.Invoke(InnerArray, new object[] { stateMask });
@@ -741,27 +741,27 @@ namespace Krypton.Toolkit
             {
                 if (_miIndexOf == null)
                 {
-                    _miIndexOf = InnerArray.GetType().GetMethod(@"IndexOf", new Type[] { typeof(object), typeof(int) }, null);
+                    _miIndexOf = InnerArray.GetType().GetMethod(@"IndexOf", new[] { typeof(object), typeof(int) }, null);
                 }
 
-                return (int)_miIndexOf.Invoke(InnerArray, new object[] { item, stateMask });
+                return (int)_miIndexOf.Invoke(InnerArray, new[] { item, stateMask });
             }
 
             internal int InnerArrayIndexOfIdentifier(object identifier, int stateMask)
             {
                 if (_miIndexOfIdentifier == null)
                 {
-                    _miIndexOfIdentifier = InnerArray.GetType().GetMethod(@"IndexOfIdentifier", new Type[] { typeof(object), typeof(int) }, null);
+                    _miIndexOfIdentifier = InnerArray.GetType().GetMethod(@"IndexOfIdentifier", new[] { typeof(object), typeof(int) }, null);
                 }
 
-                return (int)_miIndexOfIdentifier.Invoke(InnerArray, new object[] { identifier, stateMask });
+                return (int)_miIndexOfIdentifier.Invoke(InnerArray, new[] { identifier, stateMask });
             }
 
             internal object InnerArrayGetItem(int index, int stateMask)
             {
                 if (_miGetItem == null)
                 {
-                    _miGetItem = InnerArray.GetType().GetMethod(@"GetItem", new Type[] { typeof(int), typeof(int) }, null);
+                    _miGetItem = InnerArray.GetType().GetMethod(@"GetItem", new[] { typeof(int), typeof(int) }, null);
                 }
 
                 return _miGetItem.Invoke(InnerArray, new object[] { index, stateMask });
@@ -781,7 +781,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetState == null)
                 {
-                    _miGetState = InnerArray.GetType().GetMethod(@"GetState", new Type[] { typeof(int), typeof(int) }, null);
+                    _miGetState = InnerArray.GetType().GetMethod(@"GetState", new[] { typeof(int), typeof(int) }, null);
                 }
 
                 return (bool)_miGetState.Invoke(InnerArray, new object[] { index, stateMask });
@@ -791,7 +791,7 @@ namespace Krypton.Toolkit
             {
                 if (_miSetState == null)
                 {
-                    _miSetState = InnerArray.GetType().GetMethod(@"SetState", new Type[] { typeof(int), typeof(int), typeof(bool) }, null);
+                    _miSetState = InnerArray.GetType().GetMethod(@"SetState", new[] { typeof(int), typeof(int), typeof(bool) }, null);
                 }
 
                 _miSetState.Invoke(InnerArray, new object[] { index, stateMask, value });
@@ -801,7 +801,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetEnumerator == null)
                 {
-                    _miGetEnumerator = InnerArray.GetType().GetMethod(@"GetEnumerator", new Type[] { typeof(int), typeof(bool) }, null);
+                    _miGetEnumerator = InnerArray.GetType().GetMethod(@"GetEnumerator", new[] { typeof(int), typeof(bool) }, null);
                 }
 
                 return (IEnumerator)_miGetEnumerator.Invoke(InnerArray, new object[] { stateMask, anyBit });
@@ -1867,7 +1867,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.

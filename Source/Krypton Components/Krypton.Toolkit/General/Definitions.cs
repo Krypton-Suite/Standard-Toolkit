@@ -1721,7 +1721,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Manage a list of DateTime instances.
     /// </summary>
-    public class DateTimeList : List<DateTime> { };
+    public class DateTimeList : List<DateTime> { }
     #endregion
 
     #region Type MonthCalendarButtonSpecCollection

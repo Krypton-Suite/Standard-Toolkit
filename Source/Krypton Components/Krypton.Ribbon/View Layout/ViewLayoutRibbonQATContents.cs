@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     internal abstract class ViewLayoutRibbonQATContents : ViewComposite
     {
         #region Classes
-        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton> { };
+        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton> { }
         #endregion
 
         #region Instance Fields
@@ -143,12 +143,11 @@ namespace Krypton.Ribbon
             foreach (ViewBase child in this)
             {
                 // If visible and we have another key tip available on stack
-                if (child.Visible && (keyTipsPool.Count > 0) &&
-                    (child is ViewDrawRibbonQATButton))
+                if (child.Visible 
+                    && (keyTipsPool.Count > 0) 
+                    && (child is ViewDrawRibbonQATButton viewQAT)
+                    )
                 {
-                    // Cast to correct type
-                    ViewDrawRibbonQATButton viewQAT = (ViewDrawRibbonQATButton)child;
-
                     // Get the screen location of the view tab
                     Rectangle viewRect = ParentControl.RectangleToScreen(viewQAT.ClientRectangle);
 

@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
         /// Gets access to the all appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the all appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the all appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
@@ -69,8 +69,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
@@ -83,8 +83,8 @@ namespace Krypton.Toolkit
         /// Gets access to the non-disabled appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the non-disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the non-disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateOthers { get; }
 

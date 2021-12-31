@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class ViewLayoutWeekCorner : ViewLeaf
     {
         #region Instance Fields
-        private IKryptonMonthCalendar _calendar;
+        private readonly IKryptonMonthCalendar _calendar;
         private readonly ViewLayoutMonths _months;
         private readonly PaletteBorder _palette;
         #endregion

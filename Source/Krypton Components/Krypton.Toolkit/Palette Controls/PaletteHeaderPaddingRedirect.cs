@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderPaddingRedirect : PaletteHeaderButtonRedirect
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private readonly PaletteRedirect _redirect;
         private Padding _headerPadding;
         #endregion
 
@@ -63,8 +63,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the padding used to inset the header within the HeaderGroup
         /// </summary>
-        [Category("Visuals")]
-        [Description("Padding used to inset the header within the HeaderGroup.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding used to inset the header within the HeaderGroup.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding HeaderPadding

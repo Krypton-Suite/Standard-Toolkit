@@ -190,13 +190,13 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move Custom Control First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move Custom Control Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move Custom Control Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move Custom Control Last", OnMoveLast);
-                _deleteCustomControlVerb = new DesignerVerb("Delete Custom Control", OnDeleteCustomControl);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move Custom Control First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move Custom Control Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move Custom Control Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move Custom Control Last", OnMoveLast);
+                _deleteCustomControlVerb = new DesignerVerb(@"Delete Custom Control", OnDeleteCustomControl);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteCustomControlVerb });
             }
 
@@ -237,12 +237,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCustomControl MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -269,12 +269,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCustomControl MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -303,12 +303,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCustomControl MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -337,12 +337,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCustomControl MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -369,12 +369,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl DeleteCustomControl");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCustomControl DeleteCustomControl");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
@@ -401,7 +401,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonCustomControl?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonCustomControl)["Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonCustomControl)[@"Enabled"];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonCustomControl);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonCustomControl, null, oldValue, newValue);
@@ -413,7 +413,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonCustomControl?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonCustomControl)["Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonCustomControl)[@"Visible"];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonCustomControl);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonCustomControl, null, oldValue, newValue);

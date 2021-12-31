@@ -108,7 +108,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Change has occured to the collection of pages.
+        /// Change has occurred to the collection of pages.
         /// </summary>
         public override void PageCollectionChanged()
         {
@@ -172,12 +172,12 @@ namespace Krypton.Navigator
             {
                 switch (property)
                 {
-                    case "Text":
-                    case "TextTitle":
-                    case "TextDescription":
-                    case "ImageSmall":
-                    case "ImageMedium":
-                    case "ImageLarge":
+                    case @"Text":
+                    case @"TextTitle":
+                    case @"TextDescription":
+                    case @"ImageSmall":
+                    case @"ImageMedium":
+                    case @"ImageLarge":
                         // Need to layout and paint to effect change
                         PerformNeedPagePaint(true);
                         break;
@@ -201,7 +201,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
@@ -232,7 +232,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the next button action requested.
+        /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -260,7 +260,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the previous button action requested.
+        /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -303,7 +303,10 @@ namespace Krypton.Navigator
 
                             if (!ce.Cancel)
                             {
-                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                if (!shift)
+                                    SelectNextPage(Navigator.SelectedPage, true, true);
+                                else
+                                    SelectPreviousPage(Navigator.SelectedPage, true, true);
                             }
                         }
                         return true;
@@ -318,7 +321,7 @@ namespace Krypton.Navigator
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         public override bool ProcessMnemonic(char charCode) =>
             // No mnemonic processing for a header group view
             false;

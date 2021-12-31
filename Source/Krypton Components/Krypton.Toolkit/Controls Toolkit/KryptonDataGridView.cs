@@ -18,14 +18,14 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDataGridView), "ToolboxBitmaps.KryptonDataGridView.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonDataGridViewDesigner, Krypton.Toolkit")]
-    [Description("Display rows and columns of data of a grid you can customize.")]
+    [Description(@"Display rows and columns of data of a grid you can customize.")]
     public class KryptonDataGridView : DataGridView
     {
         #region Type Declaractions
-        private class ColumnHeaderCache : Dictionary<int, bool> { };
-        private class RowHeaderCache : Dictionary<int, Rectangle> { };
+        private class ColumnHeaderCache : Dictionary<int, bool> { }
+        private class RowHeaderCache : Dictionary<int, Rectangle> { }
         #endregion
 
         #region Classes
@@ -148,8 +148,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Palette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Palette property is changed.")]
         public event EventHandler PaletteChanged;
         #endregion
 
@@ -352,8 +352,8 @@ namespace Krypton.Toolkit
         #region Public
         /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
         /// <returns>The <see cref="T:System.Windows.Forms.ContextMenuStrip" /> for this control, or <see langword="null" /> if there is no <see cref="T:System.Windows.Forms.ContextMenuStrip" />. The default is <see langword="null" />.</returns>
-        [Category("Behavior")]
-        [Description("Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
+        [Category(@"Behavior")]
+        [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
         public override ContextMenuStrip ContextMenuStrip
         {
@@ -385,8 +385,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The KryptonContextMenu to show when the user right-clicks the Control.")]
+        [Category(@"Behavior")]
+        [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
         public virtual KryptonContextMenu KryptonContextMenu
         {
@@ -416,8 +416,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value determining if the outer borders of the grid cells are drawn.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determine if the outer borders of the grid cells are drawn.")]
+        [Category(@"Visuals")]
+        [Description(@"Determine if the outer borders of the grid cells are drawn.")]
         [DefaultValue(false)]
         public bool HideOuterBorders
         {
@@ -436,8 +436,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -486,8 +486,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -522,7 +522,7 @@ namespace Krypton.Toolkit
                         _paletteMode = PaletteMode.Custom;
                     }
 
-                    // If real change has occured
+                    // If real change has occurred
                     if (old != _localPalette)
                     {
                         // Raise the change event
@@ -559,8 +559,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common data grid view appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common data grid view appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common data grid view appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewRedirect StateCommon { get; private set; }
 
@@ -569,8 +569,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled data grid view appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled data grid view appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled data grid view appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewAll StateDisabled { get; private set; }
 
@@ -579,8 +579,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal data grid view appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal data grid view appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal data grid view appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewAll StateNormal { get; private set; }
 
@@ -589,8 +589,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the tracking data grid view appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking data grid view appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking data grid view appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewHeaders StateTracking { get; private set; }
 
@@ -599,8 +599,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed data grid view appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed data grid view appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed data grid view appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewHeaders StatePressed { get; private set; }
 
@@ -609,8 +609,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the selected data grid view appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining selected data grid view appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining selected data grid view appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewCells StateSelected { get; private set; }
 
@@ -619,8 +619,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the grid styles.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Set of grid styles.")]
+        [Category(@"Visuals")]
+        [Description(@"Set of grid styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DataGridViewStyles GridStyles { get; private set; }
 
@@ -2517,7 +2517,7 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new Type[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
                                                        null);
                 }
 

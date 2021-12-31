@@ -29,7 +29,7 @@ namespace Krypton.Workspace
 
         #region Events
         /// <summary>
-        /// Occurs after a change has occured to the collection.
+        /// Occurs after a change has occurred to the collection.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -70,14 +70,14 @@ namespace Krypton.Workspace
                 foreach (Component c in this)
                 {
                     // If we have a cell and that cell wants to be visible then we are done
-                    if ((c is KryptonWorkspaceCell cell) && cell.WorkspaceVisible)
+                    if ((c is KryptonWorkspaceCell { WorkspaceVisible: true }))
                     {
                         return true;
                     }
                     else
                     {
                         // If we have a sequence and it is visible and contains a visible cell then we are done
-                        if ((c is KryptonWorkspaceSequence sequence) && sequence.WorkspaceVisible && sequence.Children.ContainsVisibleCell)
+                        if ((c is KryptonWorkspaceSequence { WorkspaceVisible: true } sequence) && sequence.Children.ContainsVisibleCell)
                         {
                             return true;
                         }
@@ -114,7 +114,7 @@ namespace Krypton.Workspace
                 sequence.WorkspaceParent = _sequence;
             }
 
-            OnPropertyChanged("Children");
+            OnPropertyChanged(@"Children");
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Krypton.Workspace
                 sequence.WorkspaceParent = null;
             }
 
-            OnPropertyChanged("Children");
+            OnPropertyChanged(@"Children");
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Krypton.Workspace
         protected override void OnCleared(EventArgs e)
         {
             base.OnCleared(e);
-            OnPropertyChanged("Children");
+            OnPropertyChanged(@"Children");
         }
 
         /// <summary>

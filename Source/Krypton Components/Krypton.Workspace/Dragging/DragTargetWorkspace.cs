@@ -32,7 +32,7 @@ namespace Krypton.Workspace
         /// <param name="hint">Target hint which should be one of the edges.</param>
         /// <param name="workspace">Control instance for drop.</param>
         /// <param name="allowFlags">Only drop pages that have one of these flags defined.</param>
-        public DragTargetWorkspace(Rectangle screenRect,
+        protected DragTargetWorkspace(Rectangle screenRect,
                                    Rectangle hotRect,
                                    Rectangle drawRect,
                                    DragTargetHint hint,

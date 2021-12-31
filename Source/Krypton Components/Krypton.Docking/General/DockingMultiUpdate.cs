@@ -41,6 +41,7 @@ namespace Krypton.Docking
         {
             // Inform docking elements that a multi-part update has ended
             _dockingElement.PropogateAction(DockingPropogateAction.EndUpdate, (string[])null);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

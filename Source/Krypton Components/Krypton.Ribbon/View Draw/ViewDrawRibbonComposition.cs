@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private VisualForm _ownerForm;
         private readonly NeedPaintHandler _needPaint;
-        private Blend _compBlend;
+        private readonly Blend _compBlend;
         #endregion
 
         #region Identity
@@ -49,8 +49,8 @@ namespace Krypton.Ribbon
 
             _compBlend = new Blend
             {
-                Positions = new float[] { 0.0f, 0.25f, 1.0f },
-                Factors = new float[] { 0.0f, 0.0f, 0.40f }
+                Positions = new[] { 0.0f, 0.25f, 1.0f },
+                Factors = new[] { 0.0f, 0.0f, 0.40f }
             };
         }
 
@@ -144,7 +144,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) => new Size(0, CONSTANT_COMPOSITION_HEIGHT);
+        public override Size GetPreferredSize(ViewLayoutContext context) => new (0, CONSTANT_COMPOSITION_HEIGHT);
 
         /// <summary>
         /// Perform a layout of the elements.

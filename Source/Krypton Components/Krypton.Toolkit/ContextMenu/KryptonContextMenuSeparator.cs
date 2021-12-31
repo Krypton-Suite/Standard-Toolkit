@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
         /// </summary>
-        /// <param name="keyData">Key data to check against shorcut definitions.</param>
+        /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
         public override bool ProcessShortcut(Keys keyData) => false;
 
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <param name="columns">Containing columns.</param>
         /// <param name="standardStyle">Draw items with standard or alternate style.</param>
         /// <param name="imageColumn">Draw an image background for the item images.</param>
-        /// <returns>ViewBase that is the root of the view hierachy being added.</returns>
+        /// <returns>ViewBase that is the root of the view hierarchy being added.</returns>
         public override ViewBase GenerateView(IContextMenuProvider provider,
                                               object parent,
                                               ViewLayoutStack columns,

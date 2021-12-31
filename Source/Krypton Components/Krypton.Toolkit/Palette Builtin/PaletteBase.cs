@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteBase class.
         /// </summary>
-        public PaletteBase()
+        protected PaletteBase()
         {
             // We need to notice when system color settings change
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
@@ -1162,7 +1162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual float BaseFontSize
         {
-            get => !_baseFontSize.HasValue ? SystemFonts.MenuFont.SizeInPoints : _baseFontSize.Value;
+            get => _baseFontSize ?? SystemFonts.MenuFont.SizeInPoints;
 
             set
             {

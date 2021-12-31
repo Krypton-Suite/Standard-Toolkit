@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("SelectedItemChanged")]
     [DefaultProperty("RootItem")]
     [Designer("Krypton.Toolkit.KryptonBreadCrumbDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Flat navigation of hierarchical data.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Flat navigation of hierarchical data.")]
     public class KryptonBreadCrumb : VisualSimpleBase,
                                      ISupportInitializeNotification
     {
@@ -60,29 +60,29 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the control is initialized.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the control has been fully initialized.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the control has been fully initialized.")]
         public event EventHandler Initialized;
 
         /// <summary>
         /// Occurs when the drop down portion of a bread crumb is pressed.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the drop down portion of a bread crumb is pressed.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the drop down portion of a bread crumb is pressed.")]
         public event EventHandler<BreadCrumbMenuArgs> CrumbDropDown;
 
         /// <summary>
         /// Occurs when the drop down portion of the overflow buttonis pressed.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the drop down portion of the overflow button is pressed.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the drop down portion of the overflow button is pressed.")]
         public event EventHandler<ContextPositionMenuArgs> OverflowDropDown;
 
         /// <summary>
         /// Occurs when the value of the SelectedItem property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the SelectedItem property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the SelectedItem property changes.")]
         public event EventHandler SelectedItemChanged;
         #endregion
 
@@ -126,10 +126,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
-                                                       new ViewDrawDocker[] { _drawDocker },
+                                                       new[] { _drawDocker },
                                                        new IPaletteMetric[] { StateCommon },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.None },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
+                                                       new[] { PaletteMetricPadding.None },
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -267,16 +267,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BreadCrumbButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets and sets a value indicating if drop down buttons should allow navigation to children.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should drop down buttons allow navigation to children.")]
+        [Category(@"Visuals")]
+        [Description(@"Should drop down buttons allow navigation to children.")]
         [DefaultValue(true)]
         public bool DropDownNavigation
         {
@@ -295,24 +295,24 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets and sets the background style for the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Background style for the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Background style for the control.")]
         public PaletteBackStyle ControlBackStyle
         {
             get => StateCommon.BackStyle;
@@ -337,8 +337,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the button style for drawing each bread crumb.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Button style used for drawing each bread crumb.")]
+        [Category(@"Visuals")]
+        [Description(@"Button style used for drawing each bread crumb.")]
         public ButtonStyle CrumbButtonStyle
         {
             get => _buttonStyle;
@@ -364,8 +364,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the border style for the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Border style for the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Border style for the control.")]
         [DefaultValue(typeof(PaletteBorderStyle), "Control - Client")]
         public PaletteBorderStyle ControlBorderStyle
         {
@@ -391,16 +391,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the root bread crumb item.
         /// </summary>
-        [Category("Data")]
-        [Description("Root bread crumb item.")]
+        [Category(@"Data")]
+        [Description(@"Root bread crumb item.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonBreadCrumbItem RootItem { get; }
 
         /// <summary>
         /// Gets and sets the selected bread crumb item.
         /// </summary>
-        [Category("Data")]
-        [Description("Currently selected bread crumb item.")]
+        [Category(@"Data")]
+        [Description(@"Currently selected bread crumb item.")]
         [DefaultValue(null)]
         public KryptonBreadCrumbItem SelectedItem
         {
@@ -433,8 +433,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common bread crumb appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common bread crumb appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common bread crumb appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbRedirect StateCommon { get; }
 
@@ -443,8 +443,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbDoubleState StateDisabled { get; }
 
@@ -453,8 +453,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbDoubleState StateNormal { get; }
 
@@ -463,8 +463,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the tracking bread crumb appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking bread crumb appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking bread crumb appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbState StateTracking { get; }
 
@@ -473,8 +473,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed bread crumb appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed bread crumb appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed bread crumb appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbState StatePressed { get; }
 
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         protected override bool ProcessMnemonic(char charCode)
         {
             // If the button manager wants to process mnemonic characters and

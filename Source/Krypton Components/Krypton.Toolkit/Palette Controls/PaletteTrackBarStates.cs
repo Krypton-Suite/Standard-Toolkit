@@ -106,8 +106,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tick appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tick appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tick appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Tick { get; }
 
@@ -120,8 +120,8 @@ namespace Krypton.Toolkit
         /// Gets access to the track appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining track appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining track appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Track { get; }
 
@@ -134,8 +134,8 @@ namespace Krypton.Toolkit
         /// Gets access to the position appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining position appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining position appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Position { get; }
 

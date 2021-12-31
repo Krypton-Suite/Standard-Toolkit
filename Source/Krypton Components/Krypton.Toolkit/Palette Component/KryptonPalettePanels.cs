@@ -91,8 +91,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common panel appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCommon { get; }
 
@@ -105,8 +105,8 @@ namespace Krypton.Toolkit
         /// Gets access to the client panel appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining a client panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining a client panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelClient { get; }
 
@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
         /// Gets access to the alternate panel appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining alternate panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining alternate panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelAlternate { get; }
 
@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ribbon inactive panel appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon inactive panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon inactive panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelRibbonInactive { get; }
 
@@ -147,8 +147,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom panel appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCustom1 { get; }
 
@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom panel appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the second custom panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the second custom panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCustom2 { get; }
 
@@ -175,8 +175,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom panel appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the third custom panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the third custom panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCustom3 { get; }
 

@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
                     // Only pressed if mouse still over the view element
                     var pressed = _top.ClientRectangle.Contains(pt);
 
-                    // Only update and paint if we a change has occured
+                    // Only update and paint if we a change has occurred
                     if (_target.Pressed != pressed)
                     {
                         _target.Pressed = pressed;

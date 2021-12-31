@@ -21,7 +21,7 @@ namespace Krypton.Navigator
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
     [Designer(@"Krypton.Navigator.KryptonPageDesigner, Krypton.Navigator")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonPage : VisualPanel
     {
@@ -66,29 +66,31 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the control is loaded.
         /// </summary>
-        [Category("Page")]
-        [Description("Occurs when the control is loaded.")]
+        [Category(@"Page")]
+        [Description(@"Occurs when the control is loaded.")]
         public event EventHandler Load;
 
         /// <summary>
         /// Occurs when an appearance specific page property has changed.
         /// </summary>
-        [Category("Page")]
-        [Description("Occurs when an appearance specific page property has changed.")]
+        [Category(@"Page")]
+        [Description(@"Occurs when an appearance specific page property has changed.")]
+#pragma warning disable CA1070 // Do not declare event fields as virtual
         public virtual event PropertyChangedEventHandler AppearancePropertyChanged;
+#pragma warning restore CA1070 // Do not declare event fields as virtual
 
         /// <summary>
         /// Occurs when the flags have changed.
         /// </summary>
-        [Category("Page")]
-        [Description("Occurs when the flags have changed.")]
+        [Category(@"Page")]
+        [Description(@"Occurs when the flags have changed.")]
         public event KryptonPageFlagsEventHandler FlagsChanged;
 
         /// <summary>
         /// Occurs when the AutoHiddenSlideSize property has changed.
         /// </summary>
-        [Category("Page")]
-        [Description("Occurs when the auto hidden slide size have changed.")]
+        [Category(@"Page")]
+        [Description(@"Occurs when the auto hidden slide size have changed.")]
         public event EventHandler AutoHiddenSlideSizeChanged;
 
         /// <summary>
@@ -278,16 +280,16 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PageButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common page appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common page appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorRedirect StateCommon
         {
@@ -300,8 +302,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the disabled page appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled page appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigator StateDisabled
         {
@@ -314,8 +316,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the normal page appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal page appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigator StateNormal
         {
@@ -328,8 +330,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the tracking page appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking page appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherEx StateTracking
         {
@@ -342,8 +344,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the pressed page appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed page appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherEx StatePressed
         {
@@ -356,8 +358,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the selected page appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining selected page appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining selected page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOther StateSelected
         {
@@ -370,8 +372,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the focus page appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining focus page appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining focus page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherRedirect OverrideFocus
         {
@@ -386,8 +388,8 @@ namespace Krypton.Navigator
         /// </summary>
         [Bindable(true)]
         [Browsable(true)]
-        [Category("Appearance")]
-        [Description("The page text.")]
+        [Category(@"Appearance")]
+        [Description(@"The page text.")]
         [DefaultValue("Page")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public override string Text
@@ -410,8 +412,8 @@ namespace Krypton.Navigator
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("The title text for the page.")]
+        [Category(@"Appearance")]
+        [Description(@"The title text for the page.")]
         [DefaultValue("Page Title")]
         public virtual string TextTitle
         {
@@ -441,8 +443,8 @@ namespace Krypton.Navigator
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("The description text for the page.")]
+        [Category(@"Appearance")]
+        [Description(@"The description text for the page.")]
         [DefaultValue("Page Description")]
         public virtual string TextDescription
         {
@@ -467,8 +469,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the small image for the page.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The small image that represents the page.")]
+        [Category(@"Appearance")]
+        [Description(@"The small image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
         public virtual Bitmap ImageSmall
@@ -497,8 +499,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the medium image for the page.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The medium image that represents the page.")]
+        [Category(@"Appearance")]
+        [Description(@"The medium image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
         public virtual Bitmap ImageMedium
@@ -527,8 +529,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the large image for the page.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The large image that represents the page.")]
+        [Category(@"Appearance")]
+        [Description(@"The large image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
         public virtual Bitmap ImageLarge
@@ -558,8 +560,8 @@ namespace Krypton.Navigator
         /// Gets and sets the page tooltip image.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Page tooltip image.")]
+        [Category(@"Appearance")]
+        [Description(@"Page tooltip image.")]
         [DefaultValue(null)]
         public virtual Bitmap ToolTipImage
         {
@@ -589,8 +591,8 @@ namespace Krypton.Navigator
         /// Gets and sets the tooltip image transparent color.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Page tooltip image transparent color.")]
+        [Category(@"Appearance")]
+        [Description(@"Page tooltip image transparent color.")]
         [KryptonDefaultColor()]
         public virtual Color ToolTipImageTransparentColor
         {
@@ -617,8 +619,8 @@ namespace Krypton.Navigator
         /// Gets and sets the page tooltip title text.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Page tooltip title text.")]
+        [Category(@"Appearance")]
+        [Description(@"Page tooltip title text.")]
         [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipTitle
@@ -647,8 +649,8 @@ namespace Krypton.Navigator
         /// Gets and sets the page tooltip body text.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Page tooltip body text.")]
+        [Category(@"Appearance")]
+        [Description(@"Page tooltip body text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipBody
@@ -675,8 +677,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the tooltip label style.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Page tooltip label style.")]
+        [Category(@"Appearance")]
+        [Description(@"Page tooltip label style.")]
         [DefaultValue(typeof(LabelStyle), "ToolTip")]
         public virtual LabelStyle ToolTipStyle
         {
@@ -702,8 +704,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the unique name of the page.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The unique name of the page.")]
+        [Category(@"Appearance")]
+        [Description(@"The unique name of the page.")]
         public virtual string UniqueName
         {
             [DebuggerStepThrough]
@@ -732,8 +734,8 @@ namespace Krypton.Navigator
         /// Gets and sets the preferred size for the page when inside an auto hidden slide panel.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Category("Appearance")]
-        [Description("When used within a KryptonDockingSpace,\nGive a hint on the Minimum Initial size needed")]
+        [Category(@"Appearance")]
+        [Description(@"When used within a KryptonDockingSpace,\nGive a hint on the Minimum Initial size needed")]
         public virtual Size AutoHiddenSlideSize
         {
             get => _autoHiddenSlideSize;

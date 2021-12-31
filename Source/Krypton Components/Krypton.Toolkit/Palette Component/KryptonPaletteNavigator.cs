@@ -60,8 +60,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common navigator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common navigator appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common navigator appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteNavigatorState StateCommon { get; }
 

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class ViewContextMenuManager : ViewManager
     {
         #region Type Definitions
-        private class TargetList : List<IContextMenuTarget> { };
+        private class TargetList : List<IContextMenuTarget> { }
         #endregion
 
         #region Instance Fields
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
         /// <returns>True to become current; otherwise false.</returns>
         public bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) =>
             // Do we have a current target we can ask?
-            _target != null ? _target.DoesStackedClientMouseDownBecomeCurrent(pt) : true;
+            _target?.DoesStackedClientMouseDownBecomeCurrent(pt) ?? true;
 
         #endregion
 

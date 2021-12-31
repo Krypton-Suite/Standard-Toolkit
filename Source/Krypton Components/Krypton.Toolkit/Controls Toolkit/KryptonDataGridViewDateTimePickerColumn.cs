@@ -109,23 +109,21 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of the button specifications.
         /// </summary>
-        [Category("Data")]
-        [Description("Set of extra button specs to appear with control.")]
+        [Category(@"Data")]
+        [Description(@"Set of extra button specs to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Replicates the ShowCheckBox property of the KryptonDataGridViewDateTimePickerCell cell type.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines whether a check box is displayed in the control. When the box is unchecked, no value is selected.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines whether a check box is displayed in the control. When the box is unchecked, no value is selected.")]
         [DefaultValue(false)]
         public bool ShowCheckBox
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.ShowCheckBox;
+                DateTimePickerCellTemplate?.ShowCheckBox ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -159,15 +157,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the ShowUpDown property of the KryptonDataGridViewDateTimePickerCell cell type.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether a spin box rather than a drop-down calendar is displayed for modifying the control value.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether a spin box rather than a drop-down calendar is displayed for modifying the control value.")]
         [DefaultValue(false)]
         public bool ShowUpDown
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.ShowUpDown;
+                DateTimePickerCellTemplate?.ShowUpDown ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -201,16 +197,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the Format property of the KryptonDataGridViewDateTimePickerCell cell type.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines whether dates and times are displayed using standard or custom formatting.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines whether dates and times are displayed using standard or custom formatting.")]
         [DefaultValue(typeof(DateTimePickerFormat), "Long")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.Format;
+                DateTimePickerCellTemplate?.Format ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -244,15 +238,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the AutoShift property of the KryptonDataGridViewDateTimePickerCell cell type.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if keyboard input will automatically shift to the next input field.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if keyboard input will automatically shift to the next input field.")]
         [DefaultValue(false)]
         public bool AutoShift
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.AutoShift;
+                DateTimePickerCellTemplate?.AutoShift ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -286,15 +278,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the check box is checked and if the ValueNullable is DBNull or a DateTime value.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if the check box is checked and if the ValueNullable is DBNull or a DateTime value.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the check box is checked and if the ValueNullable is DBNull or a DateTime value.")]
         [DefaultValue(true)]
         public bool Checked
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.Checked;
+                DateTimePickerCellTemplate?.Checked ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -328,8 +318,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the custom date/time format string.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The custom format string used to format the date and/or time displayed in the control.")]
+        [Category(@"Behavior")]
+        [Description(@"The custom format string used to format the date and/or time displayed in the control.")]
         [DefaultValue("")]
         public string CustomFormat
         {
@@ -370,8 +360,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the custom text to show when control is not checked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The custom text to draw when the control is not checked. Provide an empty string for default action of showing the defined date.")]
+        [Category(@"Behavior")]
+        [Description(@"The custom text to draw when the control is not checked. Provide an empty string for default action of showing the defined date.")]
         [DefaultValue(" ")]
         public string CustomNullText
         {
@@ -412,14 +402,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum date and time that can be selected in the control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Maximum allowable date.")]
+        [Category(@"Behavior")]
+        [Description(@"Maximum allowable date.")]
         public DateTime MaxDate
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.MaxDate;
+                DateTimePickerCellTemplate?.MaxDate ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -462,14 +450,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the minimum date and time that can be selected in the control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Minimum allowable date.")]
+        [Category(@"Behavior")]
+        [Description(@"Minimum allowable date.")]
         public DateTime MinDate
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.MinDate;
+                DateTimePickerCellTemplate?.MinDate ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -512,15 +498,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the number of columns and rows of months displayed. 
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Specifies the number of rows and columns of months displayed.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Specifies the number of rows and columns of months displayed.")]
         [DefaultValue(typeof(Size), "1,1")]
         public Size CalendarDimensions
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.CalendarDimensions;
+                DateTimePickerCellTemplate?.CalendarDimensions ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -554,8 +538,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the label text for todays text. 
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Text used as label for todays date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Text used as label for todays date.")]
         [DefaultValue("Today:")]
         public string CalendarTodayText
         {
@@ -601,15 +585,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// First day of the week.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("First day of the week.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"First day of the week.")]
         [DefaultValue(typeof(Day), "Default")]
         public Day CalendarFirstDayOfWeek
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.CalendarFirstDayOfWeek;
+                DateTimePickerCellTemplate?.CalendarFirstDayOfWeek ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -643,15 +625,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control will display todays date.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates whether this month calendar will display todays date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates whether this month calendar will display todays date.")]
         [DefaultValue(true)]
         public bool CalendarShowToday
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.CalendarShowToday;
+                DateTimePickerCellTemplate?.CalendarShowToday ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -685,15 +665,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if clicking the Today button closes the drop down menu.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates if clicking the Today button closes the drop down menu.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates if clicking the Today button closes the drop down menu.")]
         [DefaultValue(false)]
         public bool CalendarCloseOnTodayClick
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.CalendarCloseOnTodayClick;
+                DateTimePickerCellTemplate?.CalendarCloseOnTodayClick ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -727,15 +705,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control will circle the today date.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates whether this month calendar will circle the today date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates whether this month calendar will circle the today date.")]
         [DefaultValue(true)]
         public bool CalendarShowTodayCircle
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.CalendarShowTodayCircle;
+                DateTimePickerCellTemplate?.CalendarShowTodayCircle ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -769,15 +745,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if week numbers to the left of each row.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates whether this month calendar will display week numbers to the left of each row.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates whether this month calendar will display week numbers to the left of each row.")]
         [DefaultValue(false)]
         public bool CalendarShowWeekNumbers
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.CalendarShowWeekNumbers;
+                DateTimePickerCellTemplate?.CalendarShowWeekNumbers ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -811,14 +785,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets today's date.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Today's date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Today's date.")]
         public DateTime CalendarTodayDate
         {
             get =>
-                DateTimePickerCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : DateTimePickerCellTemplate.CalendarTodayDate;
+                DateTimePickerCellTemplate?.CalendarTodayDate ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (DateTimePickerCellTemplate == null)
@@ -856,8 +828,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates which annual dates should be boldface.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
         public DateTime[] CalendarAnnuallyBoldedDates
         {
@@ -886,8 +858,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates which monthly dates should be boldface.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
         public DateTime[] CalendarMonthlyBoldedDates
         {
@@ -916,8 +888,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are displayed in bold.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates which dates should be boldface.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
         public DateTime[] CalendarBoldedDates
         {

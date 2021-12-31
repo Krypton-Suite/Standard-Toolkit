@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("Paint")]
     [DefaultProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonHeaderDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Display a descriptive caption.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Display a descriptive caption.")]
     public class KryptonHeader : VisualSimpleBase
     {
         #region Type Definitions
@@ -90,10 +90,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
-                                                       new ViewDrawDocker[] { _drawDocker },
+                                                       new[] { _drawDocker },
                                                        new IPaletteMetric[] { StateCommon },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
+                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -191,8 +191,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual orientation of the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual orientation of the control.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
@@ -217,8 +217,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -237,32 +237,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets and sets the header style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Header style.")]
+        [Category(@"Visuals")]
+        [Description(@"Header style.")]
         [DefaultValue(typeof(HeaderStyle), "Primary")]
         public HeaderStyle HeaderStyle
         {
@@ -344,8 +344,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the header content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Header values")]
+        [Category(@"Visuals")]
+        [Description(@"Header values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderValues Values { get; }
 
@@ -354,8 +354,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common header appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common header appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common header appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderRedirect StateCommon { get; }
 
@@ -364,8 +364,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric StateDisabled { get; }
 
@@ -374,8 +374,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric StateNormal { get; }
 
@@ -444,7 +444,7 @@ namespace Krypton.Toolkit
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         protected override bool ProcessMnemonic(char charCode)
         {
             // If the button manager wants to process mnemonic characters and

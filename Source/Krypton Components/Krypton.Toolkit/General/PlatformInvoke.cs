@@ -18,6 +18,8 @@
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
+using System.Runtime.Versioning;
+
 #pragma warning disable 649
 
 
@@ -112,7 +114,7 @@ namespace Krypton.Toolkit
             ALL = RANGE | PAGE | POS | TRACKPOS
         }
 
-#pragma warning disable CA1069 // Enums values should not be duplicated
+ #pragma warning disable CA1069 // Enums values should not be duplicated
         internal enum SB_
         {
             LINEUP = 0,
@@ -2107,7 +2109,7 @@ namespace Krypton.Toolkit
             // A top-level window is being replaced. The window exists when the system calls this hook.
             // </summary>
             HSHELL_WINDOWREPLACED = 13;
-        };
+        }
 
         /// <summary>
         /// CS_*
@@ -2180,7 +2182,7 @@ namespace Krypton.Toolkit
             /// popup windows, the retrieved handle is that of the specified window.
             /// </summary>
             GW_ENABLEDPOPUP = 6
-        };
+        }
 
         /// <summary>
         /// Window Styles.
@@ -2520,7 +2522,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MakeLParam(int LoWord, int HiWord) => (HiWord << 16) | (LoWord & 0xffff);
 
-        internal static IntPtr MakeWParam(int LoWord, int HiWord) => new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
+        internal static IntPtr MakeWParam(int LoWord, int HiWord) => new ((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         /// <summary>
         /// Is the specified key currently pressed down.
@@ -2558,7 +2560,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         #region Static User32
 
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [DllImport(@"user32.dll", SetLastError = true, EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool SetWindowText(IntPtr hwnd, String lpString);
 
@@ -2594,7 +2596,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetDlgItem(IntPtr hWnd, int nIDDlgItem);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(@"user32.dll", EntryPoint = "GetWindowTextW", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
@@ -2654,7 +2656,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("user32.dll", EntryPoint = "GetWindowInfo", SetLastError = true)]
+        [DllImport(@"user32.dll", EntryPoint = "GetWindowInfo", SetLastError = true)]
         private static extern bool GetWindowInfoInt(IntPtr hwnd, ref WINDOWINFO pwi);
 
         [StructLayout(LayoutKind.Sequential)]
@@ -2748,11 +2750,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
 
-        [DllImport("user32.dll", EntryPoint = "SetClassLong")]
+        [DllImport(@"user32.dll", EntryPoint = "SetClassLong")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
 
-        [DllImport("user32.dll", EntryPoint = "SetClassLongPtr")]
+        [DllImport(@"user32.dll", EntryPoint = "SetClassLongPtr")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SetClassLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
@@ -2761,15 +2763,15 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool IntersectRect([Out] out RECT lprcDst, [In] ref RECT lprcSrc1, [In] ref RECT lprcSrc2);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool InvalidateRect(IntPtr hWnd, RECT rect, bool erase);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool erase);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool UpdateWindow(IntPtr hWnd);
 
@@ -2833,7 +2835,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern ushort GetKeyState(int virtKey);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SendDlgItemMessage(IntPtr hDlg, int nIDDlgItem, int Msg, IntPtr wParam, IntPtr lParam);
 
@@ -2861,7 +2863,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         {
             if (!PostMessage(hWnd, msg, wParam, lParam))
             {
-                // An error occured
+                // An error occurred
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
         }
@@ -3137,11 +3139,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         #region Static Gdi32
 
-        [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(@"gdiplus.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipCreateSolidFill(int color, out IntPtr brush);
 
-        [DllImport("gdiplus.dll", EntryPoint = "GdipDeleteBrush", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(@"gdiplus.dll", EntryPoint = "GdipDeleteBrush", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipDeleteBrush(HandleRef brush);
 
@@ -3493,9 +3495,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GlobalFree(IntPtr hMem);
 
-        [DllImport(@"kernel32.dll", CharSet = CharSet.Auto)]
+        [DllImport(@"kernel32.dll", CharSet=CharSet.Unicode, BestFitMapping=false, ThrowOnUnmappableChar=true)]
+//        [DllImport(ExternDll.Kernel32, CharSet=CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern IntPtr GetModuleHandle(string modName);
+        [ResourceExposure(ResourceScope.Process)]
+        internal static extern IntPtr GetModuleHandle(string moduleName);
 
         [DllImport(@"kernel32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3791,7 +3795,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             /// <summary>
             /// </summary>            
             public int dwFlags = 0;
-        };
+        }
 
 
         [StructLayout(LayoutKind.Sequential)]

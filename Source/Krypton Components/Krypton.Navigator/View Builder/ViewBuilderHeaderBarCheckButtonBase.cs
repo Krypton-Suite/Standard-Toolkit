@@ -60,11 +60,11 @@ namespace Krypton.Navigator
         {
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutHeaderBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
-                                                                     new ViewLayoutDocker[] { _layoutBarDocker },
+                                                                     new[] { _layoutBarDocker },
                                                                      new IPaletteMetric[] { Navigator.StateCommon.Bar },
-                                                                     new PaletteMetricInt[] { PaletteMetricInt.BarButtonEdgeInside },
-                                                                     new PaletteMetricInt[] { PaletteMetricInt.BarButtonEdgeOutside },
-                                                                     new PaletteMetricPadding[] { PaletteMetricPadding.BarButtonPadding },
+                                                                     new[] { PaletteMetricInt.BarButtonEdgeInside },
+                                                                     new[] { PaletteMetricInt.BarButtonEdgeOutside },
+                                                                     new[] { PaletteMetricPadding.BarButtonPadding },
                                                                      Navigator.CreateToolStripRenderer,
                                                                      NeedPaintDelegate,
                                                                      GetRemappingPaletteContent(),
@@ -136,16 +136,16 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "HeaderStyleBar":
+                case @"HeaderStyleBar":
                     SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "HeaderVisibleBar":
+                case @"HeaderVisibleBar":
                     _viewHeadingBar.Visible = Navigator.Header.HeaderVisibleBar;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "HeaderPositionBar":
+                case @"HeaderPositionBar":
                     UpdateOrientation();
                     UpdateItemOrientation();
                     _buttonManager?.RecreateButtons();
@@ -165,7 +165,7 @@ namespace Krypton.Navigator
         protected override VisualOrientation ConvertButtonBorderBackOrientation() => ResolveButtonContentOrientation(Navigator.Header.HeaderPositionBar);
 
         /// <summary>
-        /// Gets the visual orientation of the check butttons content.
+        /// Gets the visual orientation of the check buttons content.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected override VisualOrientation ConvertButtonContentOrientation() => ResolveButtonContentOrientation(Navigator.Header.HeaderPositionBar);

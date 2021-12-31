@@ -48,7 +48,6 @@ namespace Krypton.Workspace
         /// Initialize a new instance of the WorkspaceMenus class.
         /// </summary>
         public WorkspaceMenus(KryptonWorkspace workspace)
-            : base()
         {
             // Default values
             TextClose = DEFAULT_TEXT_CLOSE;
@@ -102,8 +101,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the close context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the close context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the close context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Close")]
         [Localizable(true)]
@@ -122,8 +121,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the 'close all but this' context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the 'close all but this' context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the 'close all but this' context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Close &All But This")]
         [Localizable(true)]
@@ -142,8 +141,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the move next context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the move next context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the move next context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Move &Next")]
         [Localizable(true)]
@@ -162,8 +161,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the move previous context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the move previous context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the move previous context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Move &Previous")]
         [Localizable(true)]
@@ -182,8 +181,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the split vertical context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the split vertical context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the split vertical context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Split &Vertical")]
         [Localizable(true)]
@@ -202,8 +201,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the split horizontal context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the split horizontal context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the split horizontal context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Split &Horizontal")]
         [Localizable(true)]
@@ -222,8 +221,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the rebalance context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the rebalance context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the rebalance context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Rebalance")]
         [Localizable(true)]
@@ -242,8 +241,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the maximize context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the maximize context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the maximize context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Maximize")]
         [Localizable(true)]
@@ -262,8 +261,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the text to use for the restore context menu item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use for the restore context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use for the restore context menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Res&tore")]
         [Localizable(true)]
@@ -282,8 +281,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for closing the current page.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for closing the current page.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for closing the current page.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutClose { get; set; }
 
@@ -306,8 +305,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for 'close all but this' page.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for 'close all but this' page.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for 'close all but this' page.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutCloseAllButThis { get; set; }
 
@@ -330,8 +329,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for moving the current page to the next cell.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for moving the current page to the next cell.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for moving the current page to the next cell.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutMoveNext { get; set; }
 
@@ -354,8 +353,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for moving the current page to the previous cell.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for moving the current page to the previous cell.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for moving the current page to the previous cell.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutMovePrevious { get; set; }
 
@@ -378,8 +377,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for splitting the current page into a vertical aligned page.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for splitting the current page into a vertical aligned page.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for splitting the current page into a vertical aligned page.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutSplitVertical { get; set; }
 
@@ -402,8 +401,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for splitting the current page into a horizontal aligned page.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for splitting the current page into a horizontal aligned page.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for splitting the current page into a horizontal aligned page.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutSplitHorizontal { get; set; }
 
@@ -426,8 +425,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for rebalancing the layout.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for rebalancing the layout.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for rebalancing the layout.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutRebalance { get; set; }
 
@@ -450,8 +449,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the shortcut for maximizing/restoring the layout.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Shortcut for maximizing/restoring the layout.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for maximizing/restoring the layout.")]
         [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutMaximizeRestore { get; set; }
 
@@ -474,8 +473,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets if a workspace context menu is shown on tab right clicking.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if a workspace context menu is added on tab right clicking.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if a workspace context menu is added on tab right clicking.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool ShowContextMenu { get; set; }

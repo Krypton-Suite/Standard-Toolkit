@@ -223,10 +223,10 @@ namespace Krypton.Toolkit
             var w = windowBounds.Width + extraWidth * 2;
             var h = windowBounds.Height + extraWidth * 2;
 
-            int top;
-            int left;
-            int bottom;
-            int right;
+            var top = 0;
+            var left = 0;
+            var bottom = 0;
+            var right = 0;
 
             switch (_visualOrientation)
             {
@@ -254,8 +254,6 @@ namespace Krypton.Toolkit
                     bottom = h;
                     right = w;
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             return Rectangle.FromLTRB(left, top, right, bottom);

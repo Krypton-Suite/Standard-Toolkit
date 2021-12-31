@@ -832,7 +832,6 @@ namespace Krypton.Navigator
             ClientRectangle = context.DisplayRectangle;
 
             // Start laying out children from the top left
-            Point pt = ClientLocation;
 
             // Nothing to calculate if there are no children
             if (Count > 0)

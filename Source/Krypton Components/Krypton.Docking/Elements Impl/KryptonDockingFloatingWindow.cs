@@ -179,10 +179,10 @@ namespace Krypton.Docking
         {
             // Output floating window docking element
             xmlWriter.WriteStartElement(XmlElementName);
-            xmlWriter.WriteAttributeString("N", Name);
-            xmlWriter.WriteAttributeString("C", Count.ToString());
-            xmlWriter.WriteAttributeString("L", CommonHelper.PointToString(FloatingWindow.Location));
-            xmlWriter.WriteAttributeString("S", CommonHelper.SizeToString(FloatingWindow.ClientSize));
+            xmlWriter.WriteAttributeString(@"N", Name);
+            xmlWriter.WriteAttributeString(@"C", Count.ToString());
+            xmlWriter.WriteAttributeString(@"L", CommonHelper.PointToString(FloatingWindow.Location));
+            xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(FloatingWindow.ClientSize));
 
             // Output an element per child
             foreach (IDockingElement child in this)
@@ -199,7 +199,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DFW";
+        protected override string XmlElementName => @"DFW";
 
         /// <summary>
         /// Perform docking element specific actions based on the loading xml.
@@ -209,12 +209,12 @@ namespace Krypton.Docking
         protected override void LoadDockingElement(XmlReader xmlReader, KryptonPageCollection pages)
         {
             // Grab the requested size and location
-            Point location = CommonHelper.StringToPoint(xmlReader.GetAttribute("L"));
-            Size clientSize = CommonHelper.StringToSize(xmlReader.GetAttribute("S"));
+            Point location = CommonHelper.StringToPoint(xmlReader.GetAttribute(@"L"));
+            Size clientSize = CommonHelper.StringToSize(xmlReader.GetAttribute(@"S"));
 
             // Find the size of the floating window borders
-            int hBorders = FloatingWindow.Width - FloatingWindow.ClientSize.Width;
-            int vBorders = FloatingWindow.Height - FloatingWindow.ClientSize.Height;
+            var hBorders = FloatingWindow.Width - FloatingWindow.ClientSize.Width;
+            var vBorders = FloatingWindow.Height - FloatingWindow.ClientSize.Height;
 
             // Find the monitor that has the window
             Rectangle workingArea = Screen.GetWorkingArea(new Rectangle(location, clientSize));

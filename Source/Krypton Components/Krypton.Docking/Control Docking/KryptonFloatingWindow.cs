@@ -69,14 +69,6 @@ namespace Krypton.Docking
             Controls.Add(FloatspaceControl);
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
         #endregion
 
         #region Public
@@ -99,7 +91,7 @@ namespace Krypton.Docking
                 case PI.WM_.NCLBUTTONDOWN:
                     {
                         // Perform a hit test to determine which area the mouse press is over at the moment
-                        uint result = PI.SendMessage(Handle, PI.WM_.NCHITTEST, IntPtr.Zero, m.LParam);
+                        var result = PI.SendMessage(Handle, PI.WM_.NCHITTEST, IntPtr.Zero, m.LParam);
 
                         // Only want to override the behaviour of moving the window via the caption bar
                         if (result == PI.HT.CAPTION)
@@ -185,8 +177,8 @@ namespace Krypton.Docking
             e.Cancel = true;
 
             // Generate event so handlers to perform appropriate processing
-            string[] uniqueNames = VisibleCloseableUniqueNames();
-            if (uniqueNames.Length > 0)
+            var uniqueNames = VisibleCloseableUniqueNames();
+            if (uniqueNames.Any())
             {
                 OnWindowCloseClicked(new UniqueNamesEventArgs(uniqueNames));
             }
@@ -246,6 +238,10 @@ namespace Krypton.Docking
         private void OnFloatspaceCellAdding(object sender, WorkspaceCellEventArgs e)
         {
             e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged;
+            var childMinSize = e.Cell.GetMinSize();
+            MinimumSize = new Size(Math.Max(MinimumSize.Width, childMinSize.Width)+20,
+                Math.Max(MinimumSize.Height, childMinSize.Height)+20);
+            ClientSize = MinimumSize;
         }
 
         private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e)
@@ -285,25 +281,22 @@ namespace Krypton.Docking
             Visible = (FloatspaceControl.CellVisibleCount > 0);
         }
 
-        private string[] VisibleCloseableUniqueNames()
+        private IReadOnlyList<string> VisibleCloseableUniqueNames()
         {
-            List<string> uniqueNames = new List<string>();
+            var uniqueNames = new List<string>();
             KryptonWorkspaceCell cell = FloatspaceControl.FirstVisibleCell();
             while (cell != null)
             {
                 // Create a list of all the visible page names in the floatspace that are allowed to be closed
-                foreach (KryptonPage page in cell.Pages)
-                {
-                    if (page.LastVisibleSet && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose))
-                    {
-                        uniqueNames.Add(page.UniqueName);
-                    }
-                }
+                uniqueNames.AddRange(from page in cell.Pages 
+                    where page.LastVisibleSet 
+                    && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose) 
+                    select page.UniqueName);
 
                 cell = FloatspaceControl.NextVisibleCell(cell);
             }
 
-            return uniqueNames.ToArray();
+            return uniqueNames;
         }
         #endregion
     }

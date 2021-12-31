@@ -205,9 +205,7 @@ namespace Krypton.Toolkit
         public bool ThreeState
         {
             get =>
-                CheckBoxCellTemplate == null
-                    ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
-                    : CheckBoxCellTemplate.ThreeState;
+                CheckBoxCellTemplate?.ThreeState ?? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required");
             set
             {
                 if (ThreeState != value)
@@ -248,7 +246,7 @@ namespace Krypton.Toolkit
         #region Private
         private KryptonDataGridViewCheckBoxCell CheckBoxCellTemplate => (KryptonDataGridViewCheckBoxCell)CellTemplate;
 
-        private bool ShouldSerializeDefaultCellStyle()
+        private bool ShouldSerializeCellTemplate()
         {
             KryptonDataGridViewCheckBoxCell cellTemplate = CheckBoxCellTemplate;
             if (cellTemplate != null)

@@ -207,7 +207,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Change has occured to the collection of pages.
+        /// Change has occurred to the collection of pages.
         /// </summary>
         public override void PageCollectionChanged()
         {
@@ -269,7 +269,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
@@ -301,7 +301,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the next button action requested.
+        /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -329,7 +329,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the previous button action requested.
+        /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
