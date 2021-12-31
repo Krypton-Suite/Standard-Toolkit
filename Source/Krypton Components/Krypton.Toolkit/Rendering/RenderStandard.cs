@@ -5767,24 +5767,38 @@ namespace Krypton.Toolkit
             {
                 try
                 {
+                    // Check for enough space to show all of the image
+                    if ((displayRect.Width < memento.Image.Width) ||
+                        (displayRect.Height < memento.Image.Height))
+                    {
+                        // Resize image to fit display area
+                        var currentWidth = Math.Min(displayRect.Width, memento.Image.Width);
+                        var currentHeight = Math.Min(displayRect.Height, memento.Image.Height);
+
+                        var newImage = new Bitmap(currentWidth, currentHeight);
+                        using Graphics gr = Graphics.FromImage(newImage);
+                        gr.Clear(Color.Transparent);
+                        gr.SmoothingMode = SmoothingMode.HighQuality;
+                        // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
+                        gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+                        gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        gr.DrawImage(memento.Image, new Rectangle(0, 0, currentWidth, currentHeight));
+                        memento.Image = newImage;
+
+                    }
                     // Cache the size of the image
                     memento.ImageRect.Size = memento.Image.Size;
 
-                    // Check for enough space to show all of the image
-                    if ((displayRect.Width >= memento.ImageRect.Width) &&
-                        (displayRect.Height >= memento.ImageRect.Height))
-                    {
-                        // Convert from alignment enums to integers
-                        var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentImageH(state));
-                        var alignVIndex = (int)paletteContent.GetContentImageV(state);
+                    // Convert from alignment enums to integers
+                    var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentImageH(state));
+                    var alignVIndex = (int)paletteContent.GetContentImageV(state);
 
-                        // Bump the allocated space in the destination grid cell
-                        allocation[alignHIndex, alignVIndex].Width += memento.ImageRect.Width;
-                        allocation[alignHIndex, alignVIndex].Height += memento.ImageRect.Height;
+                    // Bump the allocated space in the destination grid cell
+                    allocation[alignHIndex, alignVIndex].Width += memento.ImageRect.Width;
+                    allocation[alignHIndex, alignVIndex].Height += memento.ImageRect.Height;
 
-                        // Yes, we do want to draw the image/icon
-                        memento.DrawImage = true;
-                    }
+                    // Yes, we do want to draw the image/icon
+                    memento.DrawImage = true;
                 }
                 catch
                 {

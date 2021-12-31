@@ -600,12 +600,10 @@ namespace Krypton.Toolkit
                 }
 
                 // Work out DPI adjustment factor
-                var factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
-                var factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
-                messageMainSize.Width = (int)(messageMainSize.Width * factorX);
-                messageMainSize.Height = (int)(messageMainSize.Height * factorY);
-                messageContentSize.Width = (int)(messageContentSize.Width * factorX);
-                messageContentSize.Height = (int)(messageContentSize.Height * factorY);
+                messageMainSize.Width = (int)(messageMainSize.Width * FactorDpiX);
+                messageMainSize.Height = (int)(messageMainSize.Height * FactorDpiY);
+                messageContentSize.Width = (int)(messageContentSize.Width * FactorDpiX);
+                messageContentSize.Height = (int)(messageContentSize.Height * FactorDpiY);
 
                 // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
                 // character it contains, this ensures there is always definitely enough space for it all

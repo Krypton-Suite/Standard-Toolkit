@@ -306,14 +306,55 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IContentValues
+
+        private float _lastFactorDpiX;
+        private float _lastFactorDpiY;
+        private readonly Dictionary<Image, Image> _cachedImages = new();
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) =>
+        public Image GetImage(PaletteState state)
+        {
             // Get value from button spec passing inheritance redirector
-            ButtonSpec.GetImage(_redirector, state);
+            var baseImage = ButtonSpec.GetImage(_redirector, state);
+            if (baseImage == null)
+            {
+                return null;
+            }
+
+            // Currently the `ViewButton.FactorDpi#`'s do _NOT_ change whilst the app is running
+            if (/*(ViewButton.FactorDpiX != _lastFactorDpiX)
+                || (ViewButton.FactorDpiY != _lastFactorDpiY)
+                ||*/ !_cachedImages.ContainsKey(baseImage)
+               )
+            {
+                // Image needs to be regenerated
+                _lastFactorDpiX = ViewButton.FactorDpiX;
+                _lastFactorDpiY = ViewButton.FactorDpiY;
+                var currentWidth = (int)(baseImage.Width * _lastFactorDpiX);
+                var currentHeight = (int)(baseImage.Height * _lastFactorDpiY);
+                if (currentHeight == baseImage.Height)
+                {
+                    // Need to workaround the image drawing off the bottom of the form title bar when scaling @ 100%
+                    currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
+                }
+
+                var newImage = new Bitmap(currentWidth, currentHeight);
+                using Graphics gr = Graphics.FromImage(newImage);
+                gr.Clear(Color.Transparent);
+                gr.SmoothingMode = SmoothingMode.HighQuality;
+                // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
+                gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.DrawImage(baseImage, new Rectangle(0, 0, currentWidth, currentHeight));
+                _cachedImages[baseImage] = newImage;
+            }
+
+            //return baseImage;
+            return _cachedImages[baseImage];
+        }
 
         /// <summary>
         /// Gets the content image transparent color.
