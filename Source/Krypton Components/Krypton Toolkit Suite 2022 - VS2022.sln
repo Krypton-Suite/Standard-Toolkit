@@ -98,6 +98,7 @@ Global
 		Installer|Any CPU = Installer|Any CPU
 		Nightly|Any CPU = Nightly|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Signed|Any CPU = Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
@@ -110,6 +111,8 @@ Global
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Signed|Any CPU.Build.0 = Signed|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Canary|Any CPU.Build.0 = Canary|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -120,6 +123,8 @@ Global
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Signed|Any CPU.Build.0 = Signed|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Canary|Any CPU.Build.0 = Canary|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -130,6 +135,8 @@ Global
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Signed|Any CPU.Build.0 = Signed|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Canary|Any CPU.Build.0 = Canary|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -140,6 +147,8 @@ Global
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Signed|Any CPU.Build.0 = Signed|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Canary|Any CPU.Build.0 = Canary|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -150,6 +159,8 @@ Global
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Signed|Any CPU.Build.0 = Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
