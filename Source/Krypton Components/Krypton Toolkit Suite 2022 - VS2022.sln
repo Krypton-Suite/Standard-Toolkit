@@ -61,7 +61,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMD Files", "CMD Files", "{F59A6624-A207-40B8-8B1B-36FC4F4199CA}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\debug.cmd = ..\..\debug.cmd
-		..\..\pack.cmd = ..\..\pack.cmd
 		..\..\publish.cmd = ..\..\publish.cmd
 		..\..\purge.cmd = ..\..\purge.cmd
 		..\..\run.cmd = ..\..\run.cmd
@@ -78,6 +77,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scri
 		..\..\build-nightly-2019.cmd = ..\..\build-nightly-2019.cmd
 		..\..\build-nightly-2022.cmd = ..\..\build-nightly-2022.cmd
 		..\..\buildsolution.cmd = ..\..\buildsolution.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pack Scripts", "Pack Scripts", "{7965B9C5-5383-4F95-8404-2F5EF68B05CA}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\pack-canary.cmd = ..\..\pack-canary.cmd
+		..\..\pack-installer.cmd = ..\..\pack-installer.cmd
+		..\..\pack-nightly.cmd = ..\..\pack-nightly.cmd
+		..\..\pack.cmd = ..\..\pack.cmd
 	EndProjectSection
 EndProject
 Global
@@ -157,6 +164,7 @@ Global
 		{9AE36C6C-9EAE-4B63-B326-70680262884B} = {511519DD-C887-40E5-8961-658AE4CA5D46}
 		{F59A6624-A207-40B8-8B1B-36FC4F4199CA} = {511519DD-C887-40E5-8961-658AE4CA5D46}
 		{8B44A4AE-79FA-4C8E-ADDF-7EBFDC8E7352} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
+		{7965B9C5-5383-4F95-8404-2F5EF68B05CA} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}
