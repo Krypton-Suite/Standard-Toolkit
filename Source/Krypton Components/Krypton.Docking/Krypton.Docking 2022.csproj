@@ -13,7 +13,7 @@
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-        <Configurations>Debug;Release;Preview</Configurations>
+        <Configurations>Debug;Release;Preview;Installer;Nightly;Canary</Configurations>
     </PropertyGroup>
 
     <Choose>
