@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
             // Default the initial state
             _elementState = PaletteState.Normal;
 
-            //seb Dpi aware
+            // This does mean that the app will not change it's dpi awareness until restarted !
             using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
             FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
             FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;

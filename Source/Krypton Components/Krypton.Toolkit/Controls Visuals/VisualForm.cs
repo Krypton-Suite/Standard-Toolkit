@@ -127,6 +127,10 @@ namespace Krypton.Toolkit
             ShadowValues = new ShadowValues();
             BlurValues = new BlurValues();
 
+            // Note: Will not handle movement between monitors
+            using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
+            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
         }
 
         /// <summary>
@@ -166,6 +170,31 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>
+        /// Gets the DpiX of the view.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public float FactorDpiX
+        {
+            [DebuggerStepThrough]
+            get;
+        }
+
+        /// <summary>
+        /// Gets the DpiY of the view.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public float FactorDpiY
+        {
+            [DebuggerStepThrough]
+            get;
+        }
+
         /// <summary>
         /// Gets and sets a value indicating if palette chrome should be applied.
         /// </summary>

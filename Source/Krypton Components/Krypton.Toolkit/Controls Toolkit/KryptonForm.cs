@@ -736,18 +736,36 @@ namespace Krypton.Toolkit
                 // Remember the icon used to generate the cached bitmap
                 _cacheIcon = displayIcon;
 
+                // Currently the `FactorDpi#`'s do _NOT_ change whilst the app is running
+                //if ((ViewButton.FactorDpiX != _lastFactorDpiX)
+                // || (ViewButton.FactorDpiY != _lastFactorDpiY)
+                // )
+                //{
+                    // Image needs to be regenerated
+                    var currentWidth = (int)(CAPTION_ICON_SIZE.Width * FactorDpiX);
+                    var currentHeight = (int)(CAPTION_ICON_SIZE.Height * FactorDpiY);
+                //}
                 try
                 {
-                    // Convert to a bitmap for use in drawing (get the 16x16 version if available)
-                    using Icon temp = new(_cacheIcon, new Size(16, 16));
-                    _cacheBitmap = temp.ToBitmap();
+                        using var temp = new Icon(_cacheIcon, currentWidth, currentHeight);
+                        _cacheBitmap = temp.ToBitmap();
                 }
                 catch
                 {
                     try
                     {
                         // Failed so we convert the Icon directly instead of trying to get a sized version first
-                        _cacheBitmap = _cacheIcon.ToBitmap();
+                        Bitmap resizedBitmap = _cacheIcon.ToBitmap();
+                        var newImage = new Bitmap(currentWidth, currentHeight);
+                        using Graphics gr = Graphics.FromImage(newImage);
+                        gr.Clear(Color.Transparent);
+                        gr.SmoothingMode = SmoothingMode.HighQuality;
+                        // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
+                        gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+                        gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        gr.DrawImage(resizedBitmap, new Rectangle(0, 0, currentWidth, currentHeight));
+                        // Cache for future access
+                        _cacheBitmap = newImage;
                     }
                     catch
                     {
@@ -755,22 +773,6 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                // If the ToBitmap() fails then we might still have no bitmap for use
-                if (_cacheBitmap != null)
-                {
-                    // If the image is not the required size, create it
-                    if (_cacheBitmap.Size != CAPTION_ICON_SIZE)
-                    {
-                        // Create a resized version of the bitmap
-                        Bitmap resizedBitmap = new(_cacheBitmap, CAPTION_ICON_SIZE);
-
-                        // Must gracefully remove unused resources!
-                        _cacheBitmap.Dispose();
-
-                        // Cache for future access
-                        _cacheBitmap = resizedBitmap;
-                    }
-                }
             }
 
             return _cacheBitmap;
