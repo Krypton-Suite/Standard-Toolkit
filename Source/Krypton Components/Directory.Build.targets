@@ -85,6 +85,7 @@
 					If you require .NET Framework 3.5 -> 4.7.2 support, or want to use library fully build against your specific framework version, please use non-lite package.
 				</Description>-->
 
+				<!--Note Sort this out!-->
 				<!--Uncomment if you want Stable packages-->
 				<!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId)</PackageId>-->
 				<!--Uncomment if you want Signed packages-->
