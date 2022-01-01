@@ -5,28 +5,38 @@
 
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
+			<PropertyGroup>
+				<!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
+				<!--<CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>-->
 
+				<Minor>$([System.DateTime]::Now.ToString(yyMM))</Minor>
+				<Build>$([System.DateTime]::Now.get_DayOfYear().ToString())</Build>
+
+				<!--Version layout:
+				6 = Major
+				2109 = Minor
+				18 = Build
+				-alpha = Indicates a pre-release package
+				-->
+				<LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
+
+				<!--Nightly-->
+				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+				<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>
+
+				<AssemblyVersion>6.$(Minor).$(Build)</AssemblyVersion>
+
+				<FileVersion>6.$(Minor).$(Build)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+
+				<IncludeSymbols>true</IncludeSymbols>
+			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
-
-		</When>
-
-		<When Condition="'$(Configuration)' == 'Installer'">
-			<PropertyGroup>
-				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
-				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
-				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
-
-				<!--As WIX installer can only cope with build numbers <= 256, the yyMM layout won't work. 
-				 Therefore, the build number for these packages will utilise the month number, assuming
-				 that the major number will follow the latest .NET release number.-->
-				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
-
-				<PackageVersion>6.$(Minor).$(Build).$(Revision)</PackageVersion>
-			</PropertyGroup>
-		</When>
-		<Otherwise>
 			<PropertyGroup>
 				<!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
 				<!--<CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>-->
@@ -46,15 +56,95 @@
 				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
 				<PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>
 
-				<!--Canary only-->
-				<!--<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>-->
+				<AssemblyVersion>6.$(Minor).$(Build)</AssemblyVersion>
+
+				<FileVersion>6.$(Minor).$(Build)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+				
+				<AnalysLevel>preview</AnalysLevel>
+				
+				<IncludeSymbols>true</IncludeSymbols>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Signed'">
+			<PropertyGroup>
+				<!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
+				<!--<CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>-->
+
+				<Minor>$([System.DateTime]::Now.ToString(yyMM))</Minor>
+				<Build>$([System.DateTime]::Now.get_DayOfYear().ToString())</Build>
+
+				<!--Version layout:
+				6 = Major
+				2109 = Minor
+				18 = Build
+				-alpha = Indicates a pre-release package
+				-->
+				<LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
+
+				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
 
 				<!--Stable/Signed-->
-				<!--<PackageVersion>6.$(Minor).$(Build)</PackageVersion>-->
+				<PackageVersion>6.$(Minor).$(Build)</PackageVersion>
 
 				<AssemblyVersion>6.$(Minor).$(Build)</AssemblyVersion>
 
 				<FileVersion>6.$(Minor).$(Build)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Installer'">
+			<PropertyGroup>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
+
+				<!--As WIX installer can only cope with build numbers <= 256, the yyMM layout won't work. 
+				 Therefore, the build number for these packages will utilise the month number, assuming
+				 that the major number will follow the latest .NET release number.-->
+				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
+
+				<PackageVersion>6.$(Minor).$(Build).$(Revision)</PackageVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
+				<!--<CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>-->
+
+				<Minor>$([System.DateTime]::Now.ToString(yyMM))</Minor>
+				<Build>$([System.DateTime]::Now.get_DayOfYear().ToString())</Build>
+
+				<!--Version layout:
+				6 = Major
+				2109 = Minor
+				18 = Build
+				-alpha = Indicates a pre-release package
+				-->
+				<LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
+
+				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+
+				<!--Stable/Signed-->
+				<PackageVersion>6.$(Minor).$(Build)</PackageVersion>
+
+				<AssemblyVersion>6.$(Minor).$(Build)</AssemblyVersion>
+
+				<FileVersion>6.$(Minor).$(Build)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+				
+				<AnalysLevel>preview</AnalysLevel>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

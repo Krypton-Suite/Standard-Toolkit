@@ -18,11 +18,11 @@
         <Configurations>Debug;Release;Preview;Installer;Nightly;Canary;Signed</Configurations>
     </PropertyGroup>
 
-    <Choose>
+    <!--<Choose>
         <When Condition="'$(Configuration)' == 'Release'">
             <PropertyGroup>
-                <!--<LangVersion>latest</LangVersion>
-                <AnalysisLevel>latest</AnalysisLevel>-->
+                ~1~<LangVersion>latest</LangVersion>
+                <AnalysisLevel>latest</AnalysisLevel>@1@
 
                 <LangVersion>preview</LangVersion>
                 <AnalysLevel>preview</AnalysLevel>
@@ -35,7 +35,7 @@
                 <IncludeSymbols>true</IncludeSymbols>
             </PropertyGroup>
         </Otherwise>
-    </Choose>
+    </Choose>-->
 
     <ItemGroup>
         <Reference Include="System.Windows.Forms.Design.Editors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Condition="$(TargetFramework.StartsWith('netcore'))">

@@ -58,8 +58,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMD Files", "CMD Files", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{8B44A4AE-79FA-4C8E-ADDF-7EBFDC8E7352}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\build-2019.cmd = ..\..\build-2019.cmd
-		..\..\build-2022.cmd = ..\..\build-2022.cmd
 		..\..\build-canary-2019.cmd = ..\..\build-canary-2019.cmd
 		..\..\build-canary-2022.cmd = ..\..\build-canary-2022.cmd
 		..\..\build-installer-2019.cmd = ..\..\build-installer-2019.cmd
@@ -68,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scri
 		..\..\build-nightly-2022.cmd = ..\..\build-nightly-2022.cmd
 		..\..\build-signed-2019.cmd = ..\..\build-signed-2019.cmd
 		..\..\build-signed-2022.cmd = ..\..\build-signed-2022.cmd
+		..\..\build-stable-2019.cmd = ..\..\build-stable-2019.cmd
+		..\..\build-stable-2022.cmd = ..\..\build-stable-2022.cmd
 		..\..\buildsolution.cmd = ..\..\buildsolution.cmd
 	EndProjectSection
 EndProject
@@ -77,7 +77,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pack Scripts", "Pack Script
 		..\..\pack-installer.cmd = ..\..\pack-installer.cmd
 		..\..\pack-nightly.cmd = ..\..\pack-nightly.cmd
 		..\..\pack-signed.cmd = ..\..\pack-signed.cmd
-		..\..\pack.cmd = ..\..\pack.cmd
+		..\..\pack-stable.cmd = ..\..\pack-stable.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration Files", "Configuration Files", "{B1BEF7ED-96F3-4BA3-AD05-428987BC2491}"

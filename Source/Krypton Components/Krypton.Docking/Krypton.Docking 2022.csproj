@@ -16,25 +16,6 @@
         <Configurations>Debug;Release;Preview;Installer;Nightly;Canary;Signed</Configurations>
     </PropertyGroup>
 
-    <Choose>
-        <When Condition="'$(Configuration)' == 'Release'">
-            <PropertyGroup>
-                <!--<LangVersion>latest</LangVersion>
-                <AnalysisLevel>latest</AnalysisLevel>-->
-
-                <LangVersion>preview</LangVersion>
-                <AnalysLevel>preview</AnalysLevel>
-            </PropertyGroup>
-        </When>
-        <Otherwise>
-            <PropertyGroup>
-                <LangVersion>preview</LangVersion>
-                <AnalysLevel>preview</AnalysLevel>
-                <IncludeSymbols>true</IncludeSymbols>
-            </PropertyGroup>
-        </Otherwise>
-    </Choose>
-
     <PropertyGroup>
         <PackageId>Krypton.Docking</PackageId>
         <Description>This is the docking module.</Description>
