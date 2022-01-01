@@ -58,26 +58,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMD Files", "CMD Files", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{8B44A4AE-79FA-4C8E-ADDF-7EBFDC8E7352}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\build-canary-2019.cmd = ..\..\build-canary-2019.cmd
-		..\..\build-canary-2022.cmd = ..\..\build-canary-2022.cmd
-		..\..\build-installer-2019.cmd = ..\..\build-installer-2019.cmd
-		..\..\build-installer-2022.cmd = ..\..\build-installer-2022.cmd
-		..\..\build-nightly-2019.cmd = ..\..\build-nightly-2019.cmd
-		..\..\build-nightly-2022.cmd = ..\..\build-nightly-2022.cmd
-		..\..\build-signed-2019.cmd = ..\..\build-signed-2019.cmd
-		..\..\build-signed-2022.cmd = ..\..\build-signed-2022.cmd
-		..\..\build-stable-2019.cmd = ..\..\build-stable-2019.cmd
-		..\..\build-stable-2022.cmd = ..\..\build-stable-2022.cmd
-		..\..\buildsolution.cmd = ..\..\buildsolution.cmd
+		..\..\Scripts\build-canary-2019.cmd = ..\..\Scripts\build-canary-2019.cmd
+		..\..\Scripts\build-canary-2022.cmd = ..\..\Scripts\build-canary-2022.cmd
+		..\..\Scripts\build-installer-2019.cmd = ..\..\Scripts\build-installer-2019.cmd
+		..\..\Scripts\build-installer-2022.cmd = ..\..\Scripts\build-installer-2022.cmd
+		..\..\Scripts\build-nightly-2019.cmd = ..\..\Scripts\build-nightly-2019.cmd
+		..\..\Scripts\build-nightly-2022.cmd = ..\..\Scripts\build-nightly-2022.cmd
+		..\..\Scripts\build-signed-2019.cmd = ..\..\Scripts\build-signed-2019.cmd
+		..\..\Scripts\build-signed-2022.cmd = ..\..\Scripts\build-signed-2022.cmd
+		..\..\Scripts\build-stable-2019.cmd = ..\..\Scripts\build-stable-2019.cmd
+		..\..\Scripts\build-stable-2022.cmd = ..\..\Scripts\build-stable-2022.cmd
+		..\..\Scripts\buildsolution.cmd = ..\..\Scripts\buildsolution.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pack Scripts", "Pack Scripts", "{7965B9C5-5383-4F95-8404-2F5EF68B05CA}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\pack-canary.cmd = ..\..\pack-canary.cmd
-		..\..\pack-installer.cmd = ..\..\pack-installer.cmd
-		..\..\pack-nightly.cmd = ..\..\pack-nightly.cmd
-		..\..\pack-signed.cmd = ..\..\pack-signed.cmd
-		..\..\pack-stable.cmd = ..\..\pack-stable.cmd
+		..\..\Scripts\pack-canary.cmd = ..\..\Scripts\pack-canary.cmd
+		..\..\Scripts\pack-installer.cmd = ..\..\Scripts\pack-installer.cmd
+		..\..\Scripts\pack-nightly.cmd = ..\..\Scripts\pack-nightly.cmd
+		..\..\Scripts\pack-signed.cmd = ..\..\Scripts\pack-signed.cmd
+		..\..\Scripts\pack-stable.cmd = ..\..\Scripts\pack-stable.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration Files", "Configuration Files", "{B1BEF7ED-96F3-4BA3-AD05-428987BC2491}"
