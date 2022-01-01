@@ -2,15 +2,16 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Installer'">
 			<PropertyGroup>
-				<Minor>$([System.DateTime]::Now.ToString(MM))</Minor>
-				<Build>$([System.DateTime]::Now.get_DayOfYear().ToString())</Build>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
 				<!--As WIX installer can only cope with build numbers <= 256, the yyMM layout won't work. 
 				 Therefore, the build number for these packages will utilise the month number, assuming
 				 that the major number will follow the latest .NET release number.-->
-				<LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
+				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 
-				<PackageVersion>6.$(Minor).$(Build)</PackageVersion>
+				<PackageVersion>6.$(Minor).$(Build).$(Revision)</PackageVersion>
 			</PropertyGroup>
 		</When>
 		<Otherwise>

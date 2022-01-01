@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PROJ Files", "PROJ Files", 
 		..\..\debug.proj = ..\..\debug.proj
 		..\..\installer.proj = ..\..\installer.proj
 		..\..\nightly.proj = ..\..\nightly.proj
+		..\..\signed.proj = ..\..\signed.proj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMD Files", "CMD Files", "{F59A6624-A207-40B8-8B1B-36FC4F4199CA}"
@@ -65,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scri
 		..\..\build-installer-2022.cmd = ..\..\build-installer-2022.cmd
 		..\..\build-nightly-2019.cmd = ..\..\build-nightly-2019.cmd
 		..\..\build-nightly-2022.cmd = ..\..\build-nightly-2022.cmd
+		..\..\build-signed-2019.cmd = ..\..\build-signed-2019.cmd
+		..\..\build-signed-2022.cmd = ..\..\build-signed-2022.cmd
 		..\..\buildsolution.cmd = ..\..\buildsolution.cmd
 	EndProjectSection
 EndProject
@@ -73,6 +76,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pack Scripts", "Pack Script
 		..\..\pack-canary.cmd = ..\..\pack-canary.cmd
 		..\..\pack-installer.cmd = ..\..\pack-installer.cmd
 		..\..\pack-nightly.cmd = ..\..\pack-nightly.cmd
+		..\..\pack-signed.cmd = ..\..\pack-signed.cmd
 		..\..\pack.cmd = ..\..\pack.cmd
 	EndProjectSection
 EndProject
