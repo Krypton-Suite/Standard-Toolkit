@@ -1,4 +1,4 @@
-@echo off
+echo off
 
 echo Do you want to build using Visual Studio 2019 or 2022? (2019/2022)
 set INPUT=

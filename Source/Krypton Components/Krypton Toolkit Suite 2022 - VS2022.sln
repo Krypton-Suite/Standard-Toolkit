@@ -68,7 +68,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scri
 		..\..\Scripts\build-signed-2022.cmd = ..\..\Scripts\build-signed-2022.cmd
 		..\..\Scripts\build-stable-2019.cmd = ..\..\Scripts\build-stable-2019.cmd
 		..\..\Scripts\build-stable-2022.cmd = ..\..\Scripts\build-stable-2022.cmd
-		..\..\Scripts\buildsolution.cmd = ..\..\Scripts\buildsolution.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pack Scripts", "Pack Scripts", "{7965B9C5-5383-4F95-8404-2F5EF68B05CA}"

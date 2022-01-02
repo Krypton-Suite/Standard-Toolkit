@@ -1,6 +1,9 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-02-01 - Build 2202 - February 2022
+* Versions have now been changed to the following format `Major.yy.MM.dayofyear`, but for convenience, builds will still be referenced as `yyMM` in documentation
+* Overhauled `run.cmd`
+* Build scripts are now stored in the `Scripts` folder, though it is now recommended to utilise `run.cmd`
 * Fixed [#487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/487), The position of the KryptonForm Control Buttons are too low, when no desktop scaling preference is applied
 * Implemented [#53](https://github.com/Krypton-Suite/Standard-Toolkit/issues/53), Need images of what this toolkit can give a developer on landing page 
 * Fixed [#34](https://github.com/Krypton-Suite/Standard-Toolkit/issues/34), KryptonRibbon.RibbonAppButton.AppButtonMenuItems has error
@@ -14,7 +17,6 @@
 * Fixed [#525](https://github.com/Krypton-Suite/Standard-Toolkit/issues/525), Undesired behaviour in KryptonGroupBox
 * Fixed [#520](https://github.com/Krypton-Suite/Standard-Toolkit/issues/520), KTooltips default to using the KryptonIcon when nothing is set by the developer
 * Fixed some minor issues regarding some dark themes
-* Fixed minor batch script bugs
 * Fixed tracking colours in `Office 2010 - Black (Dark Mode)`
 * Fixed [#500](https://github.com/Krypton-Suite/Standard-Toolkit/issues/500), `KryptonThemeComboBox` Themes List empty at Runtime
 * Implemented [#492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/492), Remove `Office 2013` due to redundancy with `Office 2013 White` theme

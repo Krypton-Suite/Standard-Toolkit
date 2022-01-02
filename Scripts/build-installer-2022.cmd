@@ -38,3 +38,17 @@ if not "%~1" == "" set targets=%~1
 echo Plese alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
 
 pause
+
+@echo Do you want to return to complete another task? (Y/N)
+set /p answer="Enter input:"
+if %answer%==Y (goto run)
+if %answer%==y (goto run)
+if %answer%==N exit
+if %answer%==n exit
+
+@echo Invalid input, please try again.
+
+:run
+cd ..
+
+run.cmd

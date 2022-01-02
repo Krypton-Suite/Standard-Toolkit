@@ -11,5 +11,28 @@ if /I "%INPUT%"=="2022" goto vs2022pack
 :vs2019pack
 build-canary-2019.cmd Pack
 
+@echo Do you want to return to complete another task? (Y/N)
+set /p answer="Enter input:"
+if %answer%==Y (goto run)
+if %answer%==y (goto run)
+if %answer%==N exit
+if %answer%==n exit
+
+@echo Invalid input, please try again.
+
 :vs2022pack
 build-canary-2022.cmd Pack
+
+@echo Do you want to return to complete another task? (Y/N)
+set /p answer="Enter input:"
+if %answer%==Y (goto run)
+if %answer%==y (goto run)
+if %answer%==N exit
+if %answer%==n exit
+
+@echo Invalid input, please try again.
+
+:run
+cd ..
+
+run.cmd
