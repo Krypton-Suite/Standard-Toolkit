@@ -14,6 +14,9 @@ if %answer%==3 (goto mainmenuchoice3)
 if %answer%==4 (goto mainmenuchoice4)
 
 @echo Invalid input, please try again.
+
+pause
+
 goto mainmenu
 
 :: ===================================================================================================
@@ -25,11 +28,17 @@ echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
 echo 4. End
 
-set /p answer="Enter number:"
+set /p answer="Enter number (1 - 4):"
 if %answer%==1 (goto mainmenuchoice1)
 if %answer%==2 (goto mainmenuchoice2)
 if %answer%==3 (goto mainmenuchoice3)
 if %answer%==4 (goto mainmenuchoice4)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto mainmenu
 
 :buildmenu
 cls
@@ -43,7 +52,7 @@ echo 7. Build signed version using Visual Studio 2019
 echo 8. Build signed version using Visual Studio 2022
 echo 9. Go back to main menu
 
-set /p answer="Enter number:"
+set /p answer="Enter number (1 - 9):"
 if %answer%==1 (goto buildnightlyusingvisualstudio2019)
 if %answer%==2 (goto buildnightlyusingvisualstudio2022)
 if %answer%==3 (goto buildcanaryusingvisualstudio2019)
@@ -54,17 +63,32 @@ if %answer%==7 (goto buildsignedusingvisualstudio2019)
 if %answer%==8 (goto buildsignedusingvisualstudio2022)
 if %answer%==9 (goto mainmenu)
 
+@echo Invalid input, please try again.
+
+pause
+
+goto buildmenu
+
 :packmenu
 cls
-echo 1. Build nightly NuGet packages using Visual Studio 2019
-echo 2. Build nightly NuGet packages using Visual Studio 2022
-echo 3. Build canary NuGet packages using Visual Studio 2019
-echo 4. Build canary NuGet packages using Visual Studio 2022
-echo 5. Build stable NuGet packages using Visual Studio 2019
-echo 6. Build stable NuGet packages using Visual Studio 2022
-echo 7. Build signed NuGet packages using Visual Studio 2019
-echo 8. Build signed NuGet packages using Visual Studio 2022
-echo 9. Go back to main menu
+echo 1. Build nightly NuGet packages
+echo 2. Build canary NuGet packages
+echo 3. Build stable NuGet packages
+echo 4. Build signed NuGet packages
+echo 5. Go back to main menu
+
+set /p answer="Enter number (1 - 5):"
+if %answer%==1 (goto packnightly)
+if %answer%==2 (goto packcanary)
+if %answer%==3 (goto packstable)
+if %answer%==4 (goto packsigned)
+if %answer%==5 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packmenu
 
 :: ===================================================================================================
 
@@ -113,6 +137,8 @@ goto packmenu
 
 :mainmenuchoice4
 exit
+
+:: ===================================================================================================
 
 :buildnightlyusingvisualstudio2019
 cd Scripts
@@ -163,3 +189,30 @@ build-stable-2019.cmd
 cd Scripts
 
 build-stable-2022.cmd
+
+:: ===================================================================================================
+
+:packcanary
+cd Scripts
+
+pack-canary.cmd
+
+:packinstaller
+cd Scripts
+
+pack-installer.cmd
+
+:packnightly
+cd Scripts
+
+pack-nightly.cmd
+
+:packsigned
+cd Scripts
+
+pack-signed.cmd
+
+:packstable
+cd Scripts
+
+pack-stable.cmd
