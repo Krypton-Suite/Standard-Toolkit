@@ -25,17 +25,17 @@ echo Deleted the 'Krypton.Toolkit\obj' folder
 echo Deleting the 'Krypton.Workspace\obj' folder
 rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
 echo Deleted the 'Krypton.Workspace\obj' folder
-if exist build.log ( goto deletebuildfile )
-if exist debug.log ( goto deletedebugfile )
+if exist "Scripts\build.log" ( goto deletebuildfile )
+if exist "Scripts\debug.log" ( goto deletedebugfile )
 
 :deletebuildfile
 echo Deleting the 'build.log' file
-del /f build.log
+del /f "Scripts\build.log"
 echo Deleted the 'build.log' file
 
 :deletedebugfile
 echo Deleting the 'debug.log' file
-del /f debug.log
+del /f "Scripts\debug.log"
 echo Deleted the 'debug.log' file
 
 :no
