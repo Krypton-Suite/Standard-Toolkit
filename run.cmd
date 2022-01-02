@@ -1,9 +1,9 @@
 @echo off
 
-echo 1. Clean project
-echo 2. Build Krypton Toolkit
-echo 3. Create NuGet packages
-echo 4. End
+echo Clean project (1)
+echo Build Krypton Toolkit (2)
+echo Create NuGet packages (3)
+echo End (4)
 
 :mainmenu
 goto clearscreen
