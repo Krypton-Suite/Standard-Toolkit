@@ -6,15 +6,15 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
-				-alpha = Indicates a pre-release package
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-beta = Indicates a pre-release package
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 
-				<!--Nightly-->
 				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
 				<PackageVersion>6.$(Minor).$(Build).$(Revision)-beta</PackageVersion>
 			</PropertyGroup>
@@ -26,10 +26,11 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
 				-alpha = Indicates a pre-release package
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
@@ -46,11 +47,11 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
-				-alpha = Indicates a pre-release package
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 
@@ -67,6 +68,13 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
+				<!--Version layout schema:
+				6 = Major
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-->
+
 				<!--As WIX installer can only cope with build numbers <= 256, the yyMM layout won't work. 
 				 Therefore, the build number for these packages will utilise the month number, assuming
 				 that the major number will follow the latest .NET release number.-->
@@ -81,11 +89,11 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
-				-alpha = Indicates a pre-release package
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->

@@ -10,11 +10,12 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
-				-alpha = Indicates a pre-release package
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-beta = Indicates a pre-release package
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
@@ -40,10 +41,11 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
 				-alpha = Indicates a pre-release package
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
@@ -70,11 +72,11 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
-				-alpha = Indicates a pre-release package
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
@@ -98,11 +100,10 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
-				6 = Major
-				2109 = Minor
-				18 = Build
-				-alpha = Indicates a pre-release package
+				<!--Version layout schema:
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
@@ -125,11 +126,11 @@
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
 				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
 
-				<!--Version layout:
+				<!--Version layout schema:
 				6 = Major
-				2109 = Minor
-				18 = Build
-				-alpha = Indicates a pre-release package
+				22 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
 				-->
 				<LibraryVersion>6.$(Minor).$(Build).$(Revision)</LibraryVersion>
 				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
