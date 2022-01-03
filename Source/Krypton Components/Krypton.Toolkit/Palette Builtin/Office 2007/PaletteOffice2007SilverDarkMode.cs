@@ -26,15 +26,19 @@ namespace Krypton.Toolkit
         private static readonly Image _silverCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseNormal_24_x_24;
         private static readonly Image _silverCloseHover = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseHover_24_x_24;
         private static readonly Image _silverCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseDisabled_24_x_24;
+        private static readonly Image _silverClosePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverClosePressed_24_x_24;
         private static readonly Image _silverMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseNormal_24_x_24;
         private static readonly Image _silverMaximiseHover = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseHover_24_x_24;
         private static readonly Image _silverMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseDisabled_24_x_24;
+        private static readonly Image _silverMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximisePressed_24_x_24;
         private static readonly Image _silverMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseNormal_24_x_24;
         private static readonly Image _silverMinimiseHover = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseHover_24_x_24;
         private static readonly Image _silverMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseDisabled_24_x_24;
+        private static readonly Image _silverMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimisePessed_24_x_24;
         private static readonly Image _silverRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreNormal_24_x_24;
         private static readonly Image _silverRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreHover_24_x_24;
         private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreDisabled_24_x_24;
+        private static readonly Image _silverRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverRestorePressed_24_x_24;
         private static readonly Image _silverHelpNormal = HelpIconResources.GenericPre2010HelpIconSilver;
         private static readonly Image _silverHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
@@ -344,10 +348,34 @@ namespace Krypton.Toolkit
         {
             return style switch
             {
-                PaletteButtonSpecStyle.FormClose => state == PaletteState.Disabled ? _silverCloseDisabled : _silverCloseNormal,
-                PaletteButtonSpecStyle.FormMin => state == PaletteState.Disabled ? _silverMinimiseDisabled : _silverMinimiseNormal,
-                PaletteButtonSpecStyle.FormMax => state == PaletteState.Disabled ? _silverMaximiseDisabled : _silverMaximiseNormal,
-                PaletteButtonSpecStyle.FormRestore => state == PaletteState.Disabled ? _silverRestoreDisabled : _silverRestoreNormal,
+                PaletteButtonSpecStyle.FormClose => state switch
+                {
+                    PaletteState.Disabled => _silverCloseDisabled,
+                    PaletteState.Tracking => _silverCloseHover,
+                    PaletteState.Pressed => _silverClosePressed,
+                    _ => _silverCloseNormal
+                },
+                PaletteButtonSpecStyle.FormMin => state switch
+                {
+                    PaletteState.Disabled => _silverMinimiseDisabled,
+                    PaletteState.Tracking => _silverMinimiseHover,
+                    PaletteState.Pressed => _silverMinimisePressed,
+                    _ => _silverMinimiseNormal
+                },
+                PaletteButtonSpecStyle.FormMax => state switch
+                {
+                    PaletteState.Disabled => _silverMaximiseDisabled,
+                    PaletteState.Tracking => _silverMaximiseHover,
+                    PaletteState.Pressed => _silverMaximisePressed,
+                    _ => _silverMaximiseNormal
+                },
+                PaletteButtonSpecStyle.FormRestore => state switch
+                {
+                    PaletteState.Disabled => _silverRestoreDisabled,
+                    PaletteState.Tracking => _silverRestoreHover,
+                    PaletteState.Pressed => _silverRestorePressed,
+                    _ => _silverRestoreNormal
+                },
                 PaletteButtonSpecStyle.FormHelp => state == PaletteState.Disabled ? _silverHelpDisabled : _silverHelpNormal,
                 _ => base.GetButtonSpecImage(style, state)
             };
