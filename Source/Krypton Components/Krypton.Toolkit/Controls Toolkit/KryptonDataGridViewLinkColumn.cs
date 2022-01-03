@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the default text displayed on the link cell.
+        /// Gets or sets the default text Displayed on the link cell.
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(null)]
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the Text property value is displayed as the link text for cells in this column.
+        /// Gets or sets a value indicating whether the Text property value is Displayed as the link text for cells in this column.
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(false)]
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
             if (_piUseColumnTextForLinkValueInternal == null)
             {
                 // Cache access to the internal property sette 'UseColumnTextForLinkValueInternal'
-                _piUseColumnTextForLinkValueInternal = typeof(DataGridViewLinkCell).GetProperty("UseColumnTextForLinkValueInternal", BindingFlags.Instance |
+                _piUseColumnTextForLinkValueInternal = typeof(DataGridViewLinkCell).GetProperty(@"UseColumnTextForLinkValueInternal", BindingFlags.Instance |
                                                                                                                                      BindingFlags.NonPublic |
                                                                                                                                      BindingFlags.SetProperty);
 
@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
             if (_piTrackVisitedStateInternal == null)
             {
                 // Cache access to the internal property sette 'TrackVisitedStateInternal'
-                _piTrackVisitedStateInternal = typeof(DataGridViewLinkCell).GetProperty("TrackVisitedStateInternal", BindingFlags.Instance |
+                _piTrackVisitedStateInternal = typeof(DataGridViewLinkCell).GetProperty(@"TrackVisitedStateInternal", BindingFlags.Instance |
                                                                                                                      BindingFlags.NonPublic |
                                                                                                                      BindingFlags.SetProperty);
 

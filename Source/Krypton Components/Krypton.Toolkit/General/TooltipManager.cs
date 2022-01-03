@@ -14,7 +14,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Manages when tooltips are displayed in response to provided messages.
+    /// Manages when tooltips are Displayed in response to provided messages.
     /// </summary>
     public class ToolTipManager
     {

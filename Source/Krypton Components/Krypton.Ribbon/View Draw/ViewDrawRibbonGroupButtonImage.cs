@@ -17,14 +17,10 @@ namespace Krypton.Ribbon
     /// Draws either a large or small image from a group button.
     /// </summary>
     internal class ViewDrawRibbonGroupButtonImage : ViewDrawRibbonGroupImageBase
-
     {
-        #region Static Fields
-        private static Size _smallSize;// = new Size(32 , 32); //new Size(16, 16);
-        private static Size _largeSize;// = new Size(48, 48);//new Size(32, 32);
-        #endregion
-
         #region Instance Fields
+        private readonly Size _smallSize;
+        private readonly Size _largeSize;
         private readonly KryptonRibbonGroupButton _ribbonButton;
         private readonly bool _large;
         #endregion
@@ -43,12 +39,10 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonButton != null);
 
-            //Seb dpi aware
-            _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
-            _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
-
             _ribbonButton = ribbonButton;
             _large = large;
+            _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
+            _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
         }
 
         /// <summary>
@@ -57,7 +51,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupButtonImage:" + Id;
+            @"ViewDrawRibbonGroupButtonImage:" + Id;
 
         #endregion
 

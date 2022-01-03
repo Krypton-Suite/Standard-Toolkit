@@ -14,7 +14,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// What will be displayed in the designer
+    /// What will be Displayed in the designer
     /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
@@ -55,6 +55,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeEnableToolTips() => EnableToolTips;
 
+        /// <inheritdoc />
         protected override Image GetImageDefault() => null;
 
         /// <summary>

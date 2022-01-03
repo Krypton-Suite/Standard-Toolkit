@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
 
-        private const int SEP_WIDTH = 4;
+        private const int SEP_WIDTH = 4;    // Passed to base class for DPI modification
         private static readonly Color _lighten1 = Color.FromArgb(128, Color.White);
         private static readonly Blend _fadeBlend;
         #endregion

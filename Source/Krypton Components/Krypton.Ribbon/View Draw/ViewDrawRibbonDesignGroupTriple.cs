@@ -19,17 +19,16 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignGroupTriple : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _preferredPaddingL = new(1, 3, 1, 3);
-        private static readonly Padding _layoutPaddingL = new(1);
-        private static readonly Padding _outerPaddingL = new(0, 2, 0, 2);
-        private static readonly Padding _paddingMS = new(0, 2, 0, 2);
         private static readonly ImageList _imageList;
         #endregion
 
         #region Instance Fields
         private readonly KryptonRibbonGroupTriple _ribbonTriple;
         private ContextMenuStrip _cms;
-
+        private readonly Padding _preferredPaddingL; // = new(1, 3, 1, 3);
+        private readonly Padding _layoutPaddingL; // = new(1);
+        private readonly Padding _outerPaddingL; // = new(0, 2, 0, 2);
+        private readonly Padding _paddingMS; // = new(0, 2, 0, 2);
         #endregion
 
         #region Identity
@@ -73,6 +72,10 @@ namespace Krypton.Ribbon
 
             _ribbonTriple = ribbonTriple;
             CurrentSize = currentSize;
+            _preferredPaddingL = new Padding((int)(1 * FactorDpiX), (int)(3 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
+            _layoutPaddingL = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(1 * FactorDpiY));
+            _outerPaddingL = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
+            _paddingMS = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonDesignGroupTriple:" + Id;
+            @"ViewDrawRibbonDesignGroupTriple:" + Id;
 
         #endregion
 

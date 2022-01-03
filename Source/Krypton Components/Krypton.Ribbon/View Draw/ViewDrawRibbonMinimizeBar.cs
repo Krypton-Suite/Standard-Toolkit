@@ -19,9 +19,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonMinimizeBar : ViewLayoutRibbonSeparator
     {
         #region Static Fields
-
-        private const int SEP_WIDTH = 2;
-
+        private const int SEP_WIDTH = 2; // DPI conversion will happen in base class
         #endregion
 
         #region Instance Fields

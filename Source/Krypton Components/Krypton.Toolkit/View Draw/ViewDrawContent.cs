@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
         {
             if (_pi == null)
             {
-                _pi = typeof(Control).GetProperty("ShowFocusCues", BindingFlags.Instance |
+                _pi = typeof(Control).GetProperty(@"ShowFocusCues", BindingFlags.Instance |
                                                                    BindingFlags.GetProperty |
                                                                    BindingFlags.NonPublic);
             }

@@ -131,7 +131,7 @@ namespace Krypton.Navigator
                                             _hintToTarget.ContainsKey(DragTargetHint.Transfer))
                                     };
 
-                    // Ensure window is displayed in correct location
+                    // Ensure window is Displayed in correct location
                     _indicators.ShowRelative(ScreenRect);
 
                     // Hit test against indicators and update display

@@ -170,7 +170,7 @@ namespace Krypton.Navigator
         /// Gets and set the logic used to decide how to show the previous button.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Logic used to decide if previous button is displayed.")]
+        [Description(@"Logic used to decide if previous button is Displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay PreviousButtonDisplay
         {
@@ -248,7 +248,7 @@ namespace Krypton.Navigator
         /// Gets and set the logic used to decide how to show the next button.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Logic used to decide if next button is displayed.")]
+        [Description(@"Logic used to decide if next button is Displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay NextButtonDisplay
         {
@@ -326,7 +326,7 @@ namespace Krypton.Navigator
         /// Gets and set the logic used to decide how to show the context button.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Logic used to decide if context button is displayed.")]
+        [Description(@"Logic used to decide if context button is Displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay ContextButtonDisplay
         {
@@ -426,7 +426,7 @@ namespace Krypton.Navigator
         /// Gets and set the logic used to decide how to show the close button.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Logic used to decide if close button is displayed.")]
+        [Description(@"Logic used to decide if close button is Displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay CloseButtonDisplay
         {

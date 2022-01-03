@@ -1720,7 +1720,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Raises the OutlookDropDown event.
         /// </summary>
-        /// <param name="kcm">Context menu about to be displayed.</param>
+        /// <param name="kcm">Context menu about to be Displayed.</param>
         protected internal virtual void OnOutlookDropDown(KryptonContextMenu kcm)
         {
             OutlookDropDown?.Invoke(this, new KryptonContextMenuEventArgs(SelectedPage, SelectedIndex, kcm));

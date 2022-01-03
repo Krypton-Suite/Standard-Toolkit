@@ -18,11 +18,8 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonGroupClusterSeparator : ViewLeaf
     {
-        #region Static Fields
-        private static readonly Size _preferredSize = new(1, 4);
-        #endregion
-
         #region Instance Fields
+        private readonly Size _preferredSize; // = new(1, 4);
         private readonly KryptonRibbon _ribbon;
         private readonly bool _start;
         #endregion
@@ -38,6 +35,7 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
             _start = start;
+            _preferredSize = new Size((int)(1 * FactorDpiX), (int)(4 * FactorDpiY));
         }
 
         /// <summary>
@@ -46,7 +44,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupClusterSeparator:" + Id;
+            @"ViewDrawRibbonGroupClusterSeparator:" + Id;
 
         #endregion
 

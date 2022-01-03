@@ -21,16 +21,15 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
         private static readonly string _empty = "<Empty>";
-        private static readonly Padding _preferredBorder2007 = new(12, 3, 12, 1);
-        private static readonly Padding _preferredBorder2010 = new(8, 4, 8, 3);
-        private static readonly Padding _layoutBorder2007 = new(4, 3, 4, 1);
-        private static readonly Padding _layoutBorder2010 = new(1, 4, 0, 3);
         private static readonly Blend _contextBlend2007;
         private static readonly Blend _contextBlend2010;
         #endregion
 
         #region Instance Fields
-
+        private readonly Padding _preferredBorder2007; // = new(12, 3, 12, 1);
+        private readonly Padding _preferredBorder2010; // = new(8, 4, 8, 3);
+        private readonly Padding _layoutBorder2007; // = new(4, 3, 4, 1);
+        private readonly Padding _layoutBorder2010; // = new(1, 4, 0, 3);
         private KryptonRibbonTab _ribbonTab;
         private readonly PaletteRibbonGeneral _paletteGeneral;
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateNormal;
@@ -121,6 +120,11 @@ namespace Krypton.Ribbon
 
             // Create the state specific memento array
             _mementos = new IDisposable[Enum.GetValues(typeof(PaletteState)).Length];
+
+            _preferredBorder2007 = new Padding((int)(12 * FactorDpiX), (int)(3 * FactorDpiY), (int)(12 * FactorDpiX), (int)(1 * FactorDpiY));
+            _preferredBorder2010 = new Padding((int)(8 * FactorDpiX), (int)(4 * FactorDpiY), (int)(8 * FactorDpiX), (int)(3 * FactorDpiY));
+            _layoutBorder2007 = new Padding((int)(4 * FactorDpiX), (int)(3 * FactorDpiY), (int)(4 * FactorDpiX), (int)(1 * FactorDpiY));
+            _layoutBorder2010 = new Padding((int)(1 * FactorDpiX), (int)(4 * FactorDpiY), (int)(0 * FactorDpiX), (int)(3 * FactorDpiY));
         }
 
         /// <summary>
@@ -129,7 +133,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonTab:" + Id;
+            @"ViewDrawRibbonTab:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -371,7 +375,7 @@ namespace Krypton.Ribbon
                                                          ClientWidth - layoutBorder.Horizontal,
                                                          ClientHeight - layoutBorder.Vertical);
 
-                // Let contained content element we layed out
+                // Let contained content element we laid out
                 base.Layout(context);
 
                 // Put back the original display value now we have finished
