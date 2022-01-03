@@ -724,7 +724,7 @@ namespace Krypton.Navigator
         {
             actions.Add(new DesignerActionHeaderItem("Button"));
             actions.Add(new DesignerActionPropertyItem("ButtonDisplayLogic", "Display Logic", "Button", "Logic used to determine button display."));
-            actions.Add(new DesignerActionPropertyItem("CloseButtonDisplay", "Close Display", "Button", "How should the close button be displayed."));
+            actions.Add(new DesignerActionPropertyItem("CloseButtonDisplay", "Close Display", "Button", "How should the close button be Displayed."));
             actions.Add(new DesignerActionPropertyItem("CloseButtonAction", "Close Action", "Button", "Action to take when close button pressed."));
         }
 

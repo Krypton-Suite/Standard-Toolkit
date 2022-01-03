@@ -19,11 +19,9 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonQATButton : ViewComposite,
                                              IContentValues
     {
-        #region Static Fields
-        private static readonly Size _viewSize = new(22, 22);
-        #endregion
 
         #region Instance Fields
+        private readonly Size _viewSize;
         private readonly KryptonRibbon _ribbon;
         private readonly QATButtonToContent _contentProvider;
         private readonly ViewDrawContent _drawContent;
@@ -47,6 +45,8 @@ namespace Krypton.Ribbon
             // Remember incoming references
             _ribbon = ribbon;
             QATButton = qatButton;
+
+            _viewSize = new Size((int)(22 * FactorDpiX), (int)(22*FactorDpiY));
 
             // If the source interface comes from a component then allow it to 
             // be selected at design time by clicking on the view instance
@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonQATButton:" + Id;
+            @"ViewDrawRibbonQATButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -232,12 +232,31 @@ namespace Krypton.Ribbon
         #endregion
 
         #region IContentValues
+
+        private Image _cachedImage;
         /// <summary>
         /// Gets the image used for the ribbon tab.
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => QATButton.GetImage();
+        public Image GetImage(PaletteState state)
+        {
+            if (_cachedImage == null)
+            {
+                var sourceImage = QATButton.GetImage();
+                var currentWidth = sourceImage.Width * FactorDpiX;
+                var currentHeight = sourceImage.Height * FactorDpiY;
+                if ((int)currentHeight == sourceImage.Height)
+                {
+                    // Need to workaround the image drawing off the bottom of the form title bar when scaling @ 100%
+                    currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
+                }
+
+                _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight);
+            }
+
+            return _cachedImage;
+        }
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.

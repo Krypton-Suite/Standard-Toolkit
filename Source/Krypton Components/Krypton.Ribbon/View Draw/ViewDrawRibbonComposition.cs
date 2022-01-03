@@ -19,13 +19,8 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonComposition : ViewLeaf,
                                                IKryptonComposition
     {
-        #region Static Fields
-
-        private const int CONSTANT_COMPOSITION_HEIGHT = 30;
-
-        #endregion
-
         #region Instance Fields
+        private readonly int CONSTANT_COMPOSITION_HEIGHT;
         private readonly KryptonRibbon _ribbon;
         private VisualForm _ownerForm;
         private readonly NeedPaintHandler _needPaint;
@@ -44,6 +39,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
+            CONSTANT_COMPOSITION_HEIGHT = (int)(30 * FactorDpiY);
+
             _ribbon = ribbon;
             _needPaint = needPaint;
 
@@ -60,7 +57,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonComposition:" + Id;
+            @"ViewDrawRibbonComposition:" + Id;
 
         #endregion
 

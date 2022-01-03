@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
             // Add docker as the composite content
             Add(_outerDocker);
 
-            // Want to know when a property changes whilst displayed
+            // Want to know when a property changes whilst Displayed
             KryptonContextMenuCheckButton.PropertyChanged += OnPropertyChanged;
 
             // We need to know if a property of the command changes

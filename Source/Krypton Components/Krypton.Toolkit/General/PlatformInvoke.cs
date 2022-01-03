@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
             DROPHILITED, // The item is selected as a drag-and-drop target.
             EXPANDED = 0x0020, // The item's list of child items is currently expanded; that is, the child items are visible. This value applies only to parent items.
             EXPANDEDONCE, // The item's list of child items has been expanded at least once. The TVN_ITEMEXPANDING and TVN_ITEMEXPANDED notification codes are not generated for parent items that have this state set in response to a TVM_EXPAND message. Using TVE_COLLAPSE and TVE_COLLAPSERESET with TVM_EXPAND will cause this state to be reset. This value applies only to parent items.
-            EXPANDPARTIAL, // Version 4.70. A partially expanded tree-view item. In this state, some, but not all, of the child items are visible and the parent item's plus symbol is displayed.
+            EXPANDPARTIAL, // Version 4.70. A partially expanded tree-view item. In this state, some, but not all, of the child items are visible and the parent item's plus symbol is Displayed.
             SELECTED = 0x0002, // The item is selected.Its appearance depends on whether it has the focus.The item will be drawn using the system colors for selection.
             OVERLAYMASK, // Mask for the bits used to specify the item's overlay image index.
             STATEIMAGEMASK = 0xF000, // Mask for the bits used to specify the item's state image index.
@@ -1186,7 +1186,7 @@ namespace Krypton.Toolkit
             // </summary>
             TIMECHANGE = 0x001E,
             // <summary>
-            // The WM_CANCELMODE message is sent to cancel certain modes, such as mouse capture. For example, the system sends this message to the active window when a dialog box or message box is displayed. Certain functions also send this message explicitly to the specified window regardless of whether it is the active window. For example, the EnableWindow function sends this message when disabling the specified window.
+            // The WM_CANCELMODE message is sent to cancel certain modes, such as mouse capture. For example, the system sends this message to the active window when a dialog box or message box is Displayed. Certain functions also send this message explicitly to the specified window regardless of whether it is the active window. For example, the EnableWindow function sends this message when disabling the specified window.
             // </summary>
             CANCELMODE = 0x001F,
             // <summary>
@@ -1548,7 +1548,7 @@ namespace Krypton.Toolkit
             IME_COMPOSITION = 0x010F,
             IME_KEYLAST = 0x010F,
             // <summary>
-            // The WM_INITDIALOG message is sent to the dialog box procedure immediately before a dialog box is displayed.
+            // The WM_INITDIALOG message is sent to the dialog box procedure immediately before a dialog box is Displayed.
             // Dialog box procedures typically use this message to initialize controls and carry out any other initialization tasks that affect the appearance of the dialog box.
             // </summary>
             INITDIALOG = 0x0110,
@@ -1575,11 +1575,11 @@ namespace Krypton.Toolkit
             // </summary>
             VSCROLL = 0x0115,
             // <summary>
-            // The WM_INITMENU message is sent when a menu is about to become active. It occurs when the user clicks an item on the menu bar or presses a menu key. This allows the application to modify the menu before it is displayed.
+            // The WM_INITMENU message is sent when a menu is about to become active. It occurs when the user clicks an item on the menu bar or presses a menu key. This allows the application to modify the menu before it is Displayed.
             // </summary>
             INITMENU = 0x0116,
             // <summary>
-            // The WM_INITMENUPOPUP message is sent when a drop-down menu or submenu is about to become active. This allows an application to modify the menu before it is displayed, without changing the entire menu.
+            // The WM_INITMENUPOPUP message is sent when a drop-down menu or submenu is about to become active. This allows an application to modify the menu before it is Displayed, without changing the entire menu.
             // </summary>
             INITMENUPOPUP = 0x0117,
             // <summary>
@@ -1938,11 +1938,11 @@ namespace Krypton.Toolkit
             // </summary>
             UNDO = 0x0304,
             // <summary>
-            // The WM_RENDERFORMAT message is sent to the clipboard owner if it has delayed rendering a specific clipboard format and if an application has requested data in that format. The clipboard owner must render data in the specified format and place it on the clipboard by calling the SetClipboardData function.
+            // The WM_RENDERFORMAT message is sent to the clipboard owner if it has delaid rendering a specific clipboard format and if an application has requested data in that format. The clipboard owner must render data in the specified format and place it on the clipboard by calling the SetClipboardData function.
             // </summary>
             RENDERFORMAT = 0x0305,
             // <summary>
-            // The WM_RENDERALLFORMATS message is sent to the clipboard owner before it is destroyed, if the clipboard owner has delayed rendering one or more clipboard formats. For the content of the clipboard to remain available to other applications, the clipboard owner must render data in all the formats it is capable of generating, and place the data on the clipboard by calling the SetClipboardData function.
+            // The WM_RENDERALLFORMATS message is sent to the clipboard owner before it is destroyed, if the clipboard owner has delaid rendering one or more clipboard formats. For the content of the clipboard to remain available to other applications, the clipboard owner must render data in all the formats it is capable of generating, and place the data on the clipboard by calling the SetClipboardData function.
             // </summary>
             RENDERALLFORMATS = 0x0306,
             // <summary>
@@ -2281,12 +2281,12 @@ namespace Krypton.Toolkit
             public const uint
             PUSHBUTTON = 0x0,   // Creates a push button that posts a WM_COMMAND message to the owner window when the user selects the button.
             DEFPUSHBUTTON = 0x1,   // +/-Default.Creates a push button with a heavy black border.If the button is in a dialog box, the user can select the button by pressing Enter, even when the button does not have the input focus.This style is useful for enabling the user to quickly select the most likely option.
-            CHECKBOX = 0x2, // Creates a small, empty check box with text.By default, the text is displayed to the right of the check box.To display the text to the left of the check box, combine this flag with the BS_LEFTTEXT style (or with the equivalent BS_RIGHTBUTTON style).
+            CHECKBOX = 0x2, // Creates a small, empty check box with text.By default, the text is Displayed to the right of the check box.To display the text to the left of the check box, combine this flag with the BS_LEFTTEXT style (or with the equivalent BS_RIGHTBUTTON style).
             AUTOCHECKBOX = 0x3,  // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
-            RADIOBUTTON = 0x4, // Creates a small circle with text. By default, the text is displayed to the right of the circle. To display the text to the left of the circle, combine this flag with the BS_LEFTTEXT style (or with the equivalent BS_RIGHTBUTTON style). Use radio buttons for groups of related, but mutually exclusive choices.
+            RADIOBUTTON = 0x4, // Creates a small circle with text. By default, the text is Displayed to the right of the circle. To display the text to the left of the circle, combine this flag with the BS_LEFTTEXT style (or with the equivalent BS_RIGHTBUTTON style). Use radio buttons for groups of related, but mutually exclusive choices.
             _3STATE = 0x5,      // Creates a button that is the same as a check box, except that the box can be grayed as well as checked or cleared. Use the grayed state to show that the state of the check box is not determined.
             AUTO3STATE = 0x6,   // Creates a button that is the same as a three-state check box, except that the box changes its state when the user selects it.The state cycles through checked, indeterminate, and cleared.AUTOCHECKBOX = 0x3,   // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
-            GROUPBOX = 0x7,   // Creates a rectangle in which other controls can be grouped. Any text associated with this style is displayed in the rectangle's upper left corner.
+            GROUPBOX = 0x7,   // Creates a rectangle in which other controls can be grouped. Any text associated with this style is Displayed in the rectangle's upper left corner.
             USERBUTTON = 0x8, // Obsolete, but provided for compatibility with 16-bit versions of Windows. Applications should use BS_OWNERDRAW instead.
             AUTORADIOBUTTON = 0x9,   // Creates a button that is the same as a radio button, except that when the user selects it, the system automatically sets the button's check state to checked and automatically sets the check state for all other buttons in the same group to cleared.
             // PUSHBOX = 0xA

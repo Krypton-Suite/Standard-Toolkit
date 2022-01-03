@@ -25,6 +25,7 @@ global using System.Drawing.Drawing2D;
 global using System.Drawing.Imaging;
 global using System.Globalization;
 global using System.IO;
+global using System.Linq;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
 global using System.Text;
@@ -38,7 +39,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
-[assembly: Dependency("System", LoadHint.Always)]
-[assembly: Dependency("System.Drawing", LoadHint.Always)]
-[assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
-[assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]
+[assembly: Dependency(@"System", LoadHint.Always)]
+[assembly: Dependency(@"System.Drawing", LoadHint.Always)]
+[assembly: Dependency(@"System.Windows.Forms", LoadHint.Always)]
+[assembly: Dependency(@"Krypton.Toolkit", LoadHint.Always)]

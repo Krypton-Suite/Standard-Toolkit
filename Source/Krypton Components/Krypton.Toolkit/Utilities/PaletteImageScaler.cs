@@ -33,24 +33,21 @@ namespace Krypton.Toolkit.Utilities
         /// <summary>
         /// scales the custom KryptonPalette images using the current Dpi
         /// </summary>
-        /// <param name="frm">Form</param>
+        /// <param name="factorDpiX">multiplier from dpi of 96 X</param>
+        /// <param name="factorDpiY">multiplier from dpi of 96 Y</param>
         /// <param name="pal">KryptonPalette</param>
-        public static void ScalePalette(Form frm, KryptonPalette pal)
+        public static void ScalePalette(float factorDpiX, float factorDpiY, KryptonPalette pal)
         {
-            SizeF dpi = new();
-            SizeF scaleFactor = new();
-
-            // Get System Dpi setting. Note this does not handle per monitor Dpi
-            // but should be the same Dpi as AutoScaleFont
-            using (Graphics g = frm.CreateGraphics())
+            if (pal == null
+//            || pal.HasAlreadyBeenScaled
+                )
             {
-                dpi.Width = g.DpiX;
-                dpi.Height = g.DpiY;
+                return;
             }
 
-            // set scale factor from current Dpi / the Dpi the images were created for (96)
-            scaleFactor.Width = dpi.Width / 96.0F;
-            scaleFactor.Height = dpi.Height / 96.0F;
+//            pal.HasAlreadyBeenScaled = true;
+
+            var scaleFactor = new SizeF( factorDpiX, factorDpiY);
 
             // if the scale is the same then no further processing needed (we are at 96 dpi).
             if ((scaleFactor.Width == 1.0F) && (scaleFactor.Height == 1.0F))
@@ -156,17 +153,9 @@ namespace Krypton.Toolkit.Utilities
             {
                 return img;
             }
-
-            Bitmap bmp = new((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), PixelFormat.Format32bppPArgb);
-
             using Bitmap tmpBmp = new(img);
             tmpBmp.MakeTransparent(Color.Magenta);
-            using Graphics g = Graphics.FromImage(bmp);
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.High;
-            g.DrawImage(tmpBmp, 0, 0, bmp.Width, bmp.Height);
-
-            return bmp;
+            return CommonHelper.ScaleImageForSizedDisplay(tmpBmp, img.Width * scaleFactor.Width, img.Height * scaleFactor.Height);
         }
     }
 }

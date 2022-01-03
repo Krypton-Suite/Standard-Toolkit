@@ -14,7 +14,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Extends the ViewLayoutPile so that menu items are layed out in columns.
+    /// Extends the ViewLayoutPile so that menu items are laid out in columns.
     /// </summary>
     public class ViewLayoutMenuItemsPile : ViewLayoutPile
     {

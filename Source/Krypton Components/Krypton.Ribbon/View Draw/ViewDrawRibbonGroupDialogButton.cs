@@ -18,14 +18,11 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonGroupDialogButton : ViewLeaf
     {
-        #region Static Fields
-        // Button is 8 for context image, 4 for context padding and 2 for border drawing
-        private static readonly Size _viewSize = new(14, 14);
-        // Inflate size to convert from view size to content size
-        private static readonly Size _contentSize = new(-3, -3);
-        #endregion
-
         #region Instance Fields
+        // Button is 8 for context image, 4 for context padding and 2 for border drawing
+        private readonly Size _viewSize; // = new(14, 14);
+        // Inflate size to convert from view size to content size
+        private readonly Size _contentSize; // = new(-3, -3);
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private IDisposable _mementoBack;
@@ -55,6 +52,10 @@ namespace Krypton.Ribbon
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
+            // Button is 8 for context image, 4 for context padding and 2 for border drawing
+            _viewSize = new Size((int)(14 * FactorDpiX), (int)(14 * FactorDpiY));
+            // Inflate size to convert from view size to content size
+            _contentSize = new Size((int)(-3 * FactorDpiX), (int)(-3 * FactorDpiY));
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupButton:" + Id;
+            @"ViewDrawRibbonGroupButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -117,7 +118,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBack;
             IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder;
@@ -142,7 +143,7 @@ namespace Krypton.Ribbon
             // Do we need to draw the border?
             if (paletteBorder.GetBorderDraw(State) == InheritBool.True)
             {
-                context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder, 
+                context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder,
                     VisualOrientation.Top, State);
             }
 

@@ -189,7 +189,7 @@ namespace Krypton.Ribbon
                     // Mouse is being pressed
                     UpdateTargetState();
 
-                    // Fix the button to be displayed as pressed
+                    // Fix the button to be Displayed as pressed
                     SetFixed();
 
                     // Generate a click event

@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         }
         
         /// <summary>
-        /// Gets or sets the default text displayed on the button cell.
+        /// Gets or sets the default text Displayed on the button cell.
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(null)]
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the Text property value is displayed as the button text for cells in this column.
+        /// Gets or sets a value indicating whether the Text property value is Displayed as the button text for cells in this column.
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(false)]
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the Text property value is displayed as the button text for cells in this column.
+        /// Gets or sets a value indicating whether the Text property value is Displayed as the button text for cells in this column.
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(typeof(ButtonStyle), "Standalone")]

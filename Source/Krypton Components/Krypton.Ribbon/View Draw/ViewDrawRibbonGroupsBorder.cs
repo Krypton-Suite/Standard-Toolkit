@@ -19,16 +19,11 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupsBorder : ViewComposite,
                                                  IPaletteRibbonBack
     {
-        #region Static Fields
-        private static readonly Padding _borderPadding2007 = new(3, 3, 3, 2);
-        private static readonly Padding _borderPadding2010 = new(1, 1, 1, 3);
-        //TODO checkseb
-        private static readonly Padding _borderPadding2013 = new(1, 1, 1, 0);
-        private static readonly Padding _borderPadding365 = new(1, 1, 1, 0);
-        #endregion
-
         #region Instance Fields
-
+        private readonly Padding _borderPadding2007; // = new(3, 3, 3, 2);
+        private readonly Padding _borderPadding2010; // = new(1, 1, 1, 3);
+        private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
+        private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
         private IPaletteRibbonBack _inherit;
         private IDisposable _memento;
         private readonly bool _borderOutside;
@@ -52,6 +47,10 @@ namespace Krypton.Ribbon
             Ribbon = ribbon;
             NeedPaintDelegate = needPaintDelegate;
             _borderOutside = borderOutside;
+            _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
+            _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
+            _borderPadding2013 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
+            _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
         }
 
         /// <summary>
@@ -59,8 +58,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
-            // Return the class name and instance identifier
-            "ViewDrawRibbonGroupsBorder:" + Id;
+           // Return the class name and instance identifier
+           @"ViewDrawRibbonGroupsBorder:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -148,7 +147,7 @@ namespace Krypton.Ribbon
                 context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context.DisplayRectangle, BorderPadding);
             }
 
-            // Let children be layed out inside our space
+            // Let children be laid out inside our space
             base.Layout(context);
 
             // Put back the original display value now we have finished

@@ -696,8 +696,9 @@ namespace Krypton.Ribbon
                         {
                             // Find screen location of the application button lower half
                             Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppButton.AppButton.ClientRectangle);
-                            appRectBottom = new Rectangle(appButtonRect.X, appButtonRect.Y + 22, appButtonRect.Width, appButtonRect.Height - 21);
-                            appRectTop = new Rectangle(appRectBottom.X, appRectBottom.Y - 21, appRectBottom.Width, 21);
+                            var localHalf = (int)(21 * FactorDpiY);
+                            appRectBottom = new Rectangle(appButtonRect.X, appButtonRect.Y + localHalf, appButtonRect.Width, appButtonRect.Height - localHalf);
+                            appRectTop = new Rectangle(appRectBottom.X, appRectBottom.Y - localHalf, appRectBottom.Width, localHalf);
                             appRectShow = appRectBottom;
                         }
                         else

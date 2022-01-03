@@ -19,18 +19,13 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupImage : ViewLeaf
 
     {
-        #region Static Fields
-        //TODO dpi aware !! 
-        private static readonly Size _viewSize_2007 = new(30, 31);
-        private static readonly Size _viewSize_2010 = new(31, 31);
-        private static readonly Size _imageSize = new(16, 16);
-        private const int IMAGE_OFFSET_X = 7;
-        private const int IMAGE_OFFSET_Y_2007 = 4;
-        private const int IMAGE_OFFSET_Y_2010 = 7;
-
-        #endregion
-
         #region Instance Fields
+        private readonly Size _viewSize_2007; // = new(30, 31);
+        private readonly Size _viewSize_2010; // = new(31, 31);
+        private readonly Size _imageSize; // = new(16, 16);
+        private readonly int IMAGE_OFFSET_X; // = 7;
+        private readonly int IMAGE_OFFSET_Y_2007; // = 4;
+        private readonly int IMAGE_OFFSET_Y_2010; // = 7;
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly ViewDrawRibbonGroup _viewGroup;
@@ -58,6 +53,12 @@ namespace Krypton.Ribbon
             _ribbon = ribbon;
             _ribbonGroup = ribbonGroup;
             _viewGroup = viewGroup;
+            _viewSize_2007 = new Size((int)(30 * FactorDpiX), (int)(31 * FactorDpiY));
+            _viewSize_2010 = new Size((int)(31 * FactorDpiX), (int)(31 * FactorDpiY));
+            _imageSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
+            IMAGE_OFFSET_X = (int)(7 * FactorDpiX);
+            IMAGE_OFFSET_Y_2007 = (int)(4 * FactorDpiY);
+            IMAGE_OFFSET_Y_2010 = (int)(7 * FactorDpiY);  
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupImage:" + Id;
+            @"ViewDrawRibbonGroupImage:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

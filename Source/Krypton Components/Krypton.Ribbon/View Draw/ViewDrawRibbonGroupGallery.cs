@@ -19,13 +19,10 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupGallery : ViewComposite,
                                                 IRibbonViewGroupContainerView
     {
-        #region Static Fields
-
-        private const int NULL_CONTROL_WIDTH = 50;
-        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
-        #endregion
 
         #region Instance Fields
+        private readonly int NULL_CONTROL_WIDTH; // = 50;
+        private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly GalleryController _controller;
@@ -97,6 +94,8 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon custom definition
             GroupGallery.PropertyChanged += OnGalleryPropertyChanged;
+            NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
+            _largeImagePadding = new Padding((int)(3 * FactorDpiX), (int)(2 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupGallery:" + Id;
+            @"ViewDrawRibbonGroupGallery:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

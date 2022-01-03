@@ -67,10 +67,10 @@ namespace Krypton.Navigator
 
 		#region AllowPageToolTips
 		/// <summary>
-		/// Gets and sets a value indicating if tooltips should be displayed for page headers.
+		/// Gets and sets a value indicating if tooltips should be Displayed for page headers.
 		/// </summary>
 		[Category(@"Visuals")]
-		[Description(@"Should tooltips be displayed for page headers.")]
+		[Description(@"Should tooltips be Displayed for page headers.")]
 		[DefaultValue(false)]
 		public bool AllowPageToolTips { get; set; }
 
@@ -78,10 +78,10 @@ namespace Krypton.Navigator
 
 		#region AllowButtonSpecToolTips
 		/// <summary>
-		/// Gets and sets a value indicating if tooltips should be displayed for button specs.
+		/// Gets and sets a value indicating if tooltips should be Displayed for button specs.
 		/// </summary>
 		[Category(@"Visuals")]
-		[Description(@"Should tooltips be displayed for button specs.")]
+		[Description(@"Should tooltips be Displayed for button specs.")]
 		[DefaultValue(false)]
 		public bool AllowButtonSpecToolTips { get; set; }
 		

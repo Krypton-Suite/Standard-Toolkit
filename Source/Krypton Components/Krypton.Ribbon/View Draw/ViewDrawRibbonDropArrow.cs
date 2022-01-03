@@ -18,12 +18,9 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonDropArrow : ViewLeaf
     {
-        #region Static Fields
-        private static readonly Size _arrowSize = new(5, 4);
-        #endregion
-
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
+        private readonly Size _arrowSize; // = new(5, 4);
         #endregion
 
         #region Identity
@@ -35,6 +32,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
+            _arrowSize = new Size((int)(5 * FactorDpiX), (int)(4 * FactorDpiY));
         }
 
         /// <summary>
@@ -43,7 +41,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonDropArrow:" + Id;
+            @"ViewDrawRibbonDropArrow:" + Id;
 
         #endregion
 

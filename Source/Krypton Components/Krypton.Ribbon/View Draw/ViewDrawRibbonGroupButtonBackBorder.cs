@@ -18,11 +18,8 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
     {
-        #region Static Fields
-        private static readonly Size _viewSize = new(22, 22);
-        #endregion
-
         #region Instance Fields
+        private readonly Size _viewSize; // = new(22, 22);
         private readonly KryptonRibbon _ribbon;
         private IDisposable _mementoBack;
         private readonly IPaletteBack _paletteBack;
@@ -101,6 +98,7 @@ namespace Krypton.Ribbon
             MouseController = Controller;
             SourceController = Controller;
             KeyController = Controller;
+            _viewSize = new Size((int)(22 * FactorDpiX), (int)(22 * FactorDpiY));
         }
 
         /// <summary>
@@ -109,7 +107,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupButtonBackBorder:" + Id;
+            @"ViewDrawRibbonGroupButtonBackBorder:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
