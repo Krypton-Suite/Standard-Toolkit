@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
         /// Request the calculated display of the image.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
-        /// <returns>True if the image is being displayed; otherwise false.</returns>
+        /// <returns>True if the image is being Displayed; otherwise false.</returns>
         bool GetContentImageDisplayed(IDisposable memento);
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         /// Request the calculated display of the short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
-        /// <returns>True if the short text is being displayed; otherwise false.</returns>
+        /// <returns>True if the short text is being Displayed; otherwise false.</returns>
         bool GetContentShortTextDisplayed(IDisposable memento);
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// Request the calculated display of the long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
-        /// <returns>True if the long text is being displayed; otherwise false.</returns>
+        /// <returns>True if the long text is being Displayed; otherwise false.</returns>
         bool GetContentLongTextDisplayed(IDisposable memento);
 
         /// <summary>
@@ -511,10 +511,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should check box be displayed as enabled.</param>
+        /// <param name="enabled">Should check box be Displayed as enabled.</param>
         /// <param name="checkState">The checked state of the check box.</param>
-        /// <param name="tracking">Should check box be displayed as hot tracking.</param>
-        /// <param name="pressed">Should check box be displayed as pressed.</param>
+        /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should check box be Displayed as pressed.</param>
         Size GetCheckBoxPreferredSize(ViewLayoutContext context,
                                       IPalette palette,
                                       bool enabled,
@@ -528,10 +528,10 @@ namespace Krypton.Toolkit
         /// <param name="context">Render context.</param>
         /// <param name="displayRect">Display area available for drawing.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should check box be displayed as enabled.</param>
+        /// <param name="enabled">Should check box be Displayed as enabled.</param>
         /// <param name="checkState">The checked state of the check box.</param>
-        /// <param name="tracking">Should check box be displayed as hot tracking.</param>
-        /// <param name="pressed">Should check box be displayed as pressed.</param>
+        /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should check box be Displayed as pressed.</param>
         void DrawCheckBox(RenderContext context,
                           Rectangle displayRect,
                           IPalette palette,
@@ -545,10 +545,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should check box be displayed as enabled.</param>
+        /// <param name="enabled">Should check box be Displayed as enabled.</param>
         /// <param name="checkState">Checked state of the radio button.</param>
-        /// <param name="tracking">Should check box be displayed as hot tracking.</param>
-        /// <param name="pressed">Should check box be displayed as pressed.</param>
+        /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should check box be Displayed as pressed.</param>
         Size GetRadioButtonPreferredSize(ViewLayoutContext context,
                                          IPalette palette,
                                          bool enabled,
@@ -562,10 +562,10 @@ namespace Krypton.Toolkit
         /// <param name="context">Render context.</param>
         /// <param name="displayRect">Display area available for drawing.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should radio button be displayed as enabled.</param>
+        /// <param name="enabled">Should radio button be Displayed as enabled.</param>
         /// <param name="checkState">Checked state of the radio button.</param>
-        /// <param name="tracking">Should radio button be displayed as hot tracking.</param>
-        /// <param name="pressed">Should radio button be displayed as pressed.</param>
+        /// <param name="tracking">Should radio button be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should radio button be Displayed as pressed.</param>
         void DrawRadioButton(RenderContext context,
                              Rectangle displayRect,
                              IPalette palette,

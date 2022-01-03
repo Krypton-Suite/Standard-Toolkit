@@ -19,15 +19,12 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonAppTab : ViewComposite, 
                                           IContentValues
     {
-        #region Static Fields
-        private static Padding _preferredBorder = new(17, 4, 17, 3);
-        #endregion
-
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private IDisposable[] _mementos;
         private readonly PaletteRibbonGeneral _paletteGeneral;
         private readonly ApplicationTabToContent _contentProvider;
+        private readonly Padding _preferredBorder; // = new(17, 4, 17, 3);
         #endregion
 
         #region Identity
@@ -39,6 +36,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
 
+            _preferredBorder = new Padding((int)(17 * FactorDpiX), (int)(4 * FactorDpiY), (int)(17 * FactorDpiX), (int)(3 * FactorDpiY));
             _ribbon = ribbon;
             _mementos = new IDisposable[4];
 
@@ -56,7 +54,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonAppTab:" + Id;
+            @"ViewDrawRibbonAppTab:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

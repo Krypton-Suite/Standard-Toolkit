@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         public bool PrintToFile { get; set; }
 
         /// <summary>
-        ///  Gets or sets a value indicating whether the Help button is displayed.
+        ///  Gets or sets a value indicating whether the Help button is Displayed.
         /// </summary>
         [Category(@"Behavior")]
         [DefaultValue(false)]
@@ -250,11 +250,11 @@ namespace Krypton.Toolkit
         public bool ShowHelp { get; set; }
 
         /// <summary>
-        ///  Gets or sets a value indicating whether the Network button is displayed.
+        ///  Gets or sets a value indicating whether the Network button is Displayed.
         /// </summary>
         [Category(@"Behavior")]
         [DefaultValue(true)]
-        [Description(@"Show Network: whether the Network button is displayed")]
+        [Description(@"Show Network: whether the Network button is Displayed")]
         public bool ShowNetwork { get; set; } = true;
 
         ///// <summary>

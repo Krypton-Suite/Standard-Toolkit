@@ -19,11 +19,8 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupClusterColorButtonImage : ViewDrawRibbonGroupImageBase
 
     {
-        #region Static Fields
-        private static Size _smallSize;// = new Size(16, 16);
-        #endregion
-
         #region Instance Fields
+        private readonly Size _smallSize;// = new Size(16, 16);
         private readonly KryptonRibbonGroupClusterColorButton _ribbonColorButton;
         private Image _compositeImage;
         private Color _selectedColor;
@@ -47,7 +44,6 @@ namespace Krypton.Ribbon
             _emptyBorderColor = ribbonColorButton.EmptyBorderColor;
             _selectedRect = ribbonColorButton.SelectedRect;
 
-            //Seb dpi aware
             _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
         }
 
@@ -57,7 +53,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupClusterColorButtonImage:" + Id;
+            @"ViewDrawRibbonGroupClusterColorButtonImage:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

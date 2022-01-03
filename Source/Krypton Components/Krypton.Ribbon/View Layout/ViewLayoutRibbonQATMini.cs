@@ -18,13 +18,9 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewLayoutRibbonQATMini : ViewLayoutDocker
     {
-        #region Static Fields
-
-        private const int SEP_GAP = 2;
-
-        #endregion
-
         #region Instance Fields
+
+        private readonly int SEP_GAP;
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonQATBorder _border;
         private readonly ViewLayoutRibbonQATFromRibbon _borderContents;
@@ -43,7 +39,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
-
+            SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
             _border = new ViewDrawRibbonQATBorder(ribbon, needPaintDelegate, true);
 
@@ -70,7 +66,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonQATMini:" + Id;
+            @"ViewLayoutRibbonQATMini:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -149,7 +145,7 @@ namespace Krypton.Ribbon
                 Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
                                            viewRect.Bottom - 2 - borders.Top);
 
-                // Create fixed key tip of '00' that invokes the extra button contoller
+                // Create fixed key tip of '00' that invokes the extra button controller
                 keyTipList.Add(new KeyTipInfo(true, "00", screenPt, 
                                               _extraButton.ClientRectangle, 
                                               _extraButton.KeyTipTarget));
@@ -229,18 +225,9 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            var visibleQATButtons = false;
-
             // Scan to see if there are any visible quick access toolbar buttons
-            foreach(IQuickAccessToolbarButton qatButton in _ribbon.QATButtons)
-            {
-                if (qatButton.GetVisible())
-                {
-                    visibleQATButtons = true;
-                    break;
-                }
-            }
-
+            var visibleQATButtons = _ribbon.QATButtons.Cast<IQuickAccessToolbarButton>().Any(static qatButton => qatButton.GetVisible());
+            
             // Only show the border if there are some visible contents
             _border.Visible = visibleQATButtons;
 

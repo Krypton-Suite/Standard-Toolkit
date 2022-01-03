@@ -391,7 +391,7 @@ namespace Krypton.Navigator
         protected virtual PageDragEndData CreateDropData(PageDragEndData dropData) => dropData;
 
         /// <summary>
-        /// Update the displayed cursor to reflect the current dragging state.
+        /// Update the Displayed cursor to reflect the current dragging state.
         /// </summary>
         protected virtual void UpdateCursor()
         {
@@ -406,7 +406,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Restore the displayed cursor back to null.
+        /// Restore the Displayed cursor back to null.
         /// </summary>
         protected virtual void RestoreCursor()
         {

@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             DefineFonts();
 
             // We need to notice when system color settings change
-            SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(OnUserPreferenceChanged);
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
         }
 
         /// <summary>

@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
                                          int height,
                                          bool ignoreMouse)
         {
-            _width = width;
-            _height = height;
+            _width = (int)(width * FactorDpiX);
+            _height = (int)(height * FactorDpiY);
 
             if (ignoreMouse)
             {

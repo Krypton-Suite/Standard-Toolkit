@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeTodayDate() => TodayDate != DateTime.Now.Date;
 
         /// <summary>
-        /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
+        /// Gets or sets the array of DateTime objects that determines which annual days are Displayed in bold.
         /// </summary>
         [KryptonPersist]
         [Localizable(true)]
@@ -406,7 +406,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
         /// <summary>
-        /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are displayed in bold.
+        /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are Displayed in bold.
         /// </summary>
         [KryptonPersist]
         [Localizable(true)]
@@ -674,7 +674,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the today date format string.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The today format string used to format the date displayed in the today button.")]
+        [Description(@"The today format string used to format the date Displayed in the today button.")]
         [DefaultValue(@"d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
@@ -722,11 +722,11 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the number of columns and rows of months displayed. 
+        /// Gets or sets the number of columns and rows of months Displayed. 
         /// </summary>
         [KryptonPersist]
         [Category(@"Appearance")]
-        [Description(@"Specifies the number of rows and columns of months displayed.")]
+        [Description(@"Specifies the number of rows and columns of months Displayed.")]
         [DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions
@@ -1051,9 +1051,9 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 
         /// <summary>
-        /// Adds a day that is displayed in bold on an annual basis in the month calendar.
+        /// Adds a day that is Displayed in bold on an annual basis in the month calendar.
         /// </summary>
-        /// <param name="date">The date to be displayed in bold.</param>
+        /// <param name="date">The date to be Displayed in bold.</param>
         public void AddAnnuallyBoldedDate(DateTime date)
         {
             if (!_annualDates.Contains(date))
@@ -1065,9 +1065,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Adds a day to be displayed in bold in the month calendar.
+        /// Adds a day to be Displayed in bold in the month calendar.
         /// </summary>
-        /// <param name="date">The date to be displayed in bold.</param>
+        /// <param name="date">The date to be Displayed in bold.</param>
         public void AddBoldedDate(DateTime date)
         {
             if (!BoldedDatesList.Contains(date))
@@ -1078,9 +1078,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Adds a day that is displayed in bold on a monthly basis in the month calendar.
+        /// Adds a day that is Displayed in bold on a monthly basis in the month calendar.
         /// </summary>
-        /// <param name="date">The date to be displayed in bold.</param>
+        /// <param name="date">The date to be Displayed in bold.</param>
         public void AddMonthlyBoldedDate(DateTime date)
         {
             if (!_monthlyDates.Contains(date))

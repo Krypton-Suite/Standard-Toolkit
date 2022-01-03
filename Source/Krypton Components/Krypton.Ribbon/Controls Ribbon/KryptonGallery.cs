@@ -558,7 +558,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnGotFocus(EventArgs e)
         {
-            // If there are some images displayed
+            // If there are some images Displayed
             if ((_imageList != null) && (_imageList.Images.Count > 0))
             {
                 if (TrackingIndex < 0)

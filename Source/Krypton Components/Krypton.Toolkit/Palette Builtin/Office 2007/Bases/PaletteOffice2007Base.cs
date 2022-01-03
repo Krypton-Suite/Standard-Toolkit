@@ -4081,7 +4081,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets the edge to positon the button against.
+        /// Gets the edge to position the button against.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>

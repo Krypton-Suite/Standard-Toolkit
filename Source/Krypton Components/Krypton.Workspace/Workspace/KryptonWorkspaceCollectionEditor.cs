@@ -612,7 +612,7 @@ namespace Krypton.Workspace
 
                 #region Public
                 /// <summary>
-                /// Gets or sets a value indicating whether the sequence is displayed.
+                /// Gets or sets a value indicating whether the sequence is Displayed.
                 /// </summary>
                 [Category(@"Visuals")]
                 [DefaultValue(true)]

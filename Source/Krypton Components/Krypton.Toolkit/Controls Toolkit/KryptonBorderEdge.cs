@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the font of the text displayed by the control.
+        /// Gets or sets the font of the text Displayed by the control.
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]

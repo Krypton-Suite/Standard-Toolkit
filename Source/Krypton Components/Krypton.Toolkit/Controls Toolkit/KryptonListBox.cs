@@ -662,7 +662,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the font of the text displayed by the control.
+        /// Gets or sets the font of the text Displayed by the control.
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a horizontal scroll bar is displayed in the control. 
+        /// Gets or sets a value indicating whether a horizontal scroll bar is Displayed in the control. 
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates whether the KryptonListBox will display a horizontal scrollbar for items beyond the right edge of the KryptonListBox.")]
@@ -908,9 +908,9 @@ namespace Krypton.Toolkit
         public virtual ListBox.ObjectCollection Items => _listBox.Items;
 
         /// <summary>
-        /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
+        /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
         /// </summary>
-        [Description(@"The format specifier characters that indicate how a value is to be displayed.")]
+        [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
         [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
@@ -921,9 +921,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets if this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.
+        /// Gets or sets if this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be Displayed.
         /// </summary>
-        [Description(@"If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
+        [Description(@"If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be Displayed.")]
         [DefaultValue(false)]
         public bool FormattingEnabled
         {

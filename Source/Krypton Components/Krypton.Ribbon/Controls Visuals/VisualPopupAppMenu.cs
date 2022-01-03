@@ -193,7 +193,7 @@ namespace Krypton.Ribbon
             _drawOutsideBacking = new ViewDrawRibbonAppMenuOuter(_ribbon)
             {
                 { _drawInnerBacking, ViewDockStyle.Fill },
-                { new ViewLayoutSeparator(14), ViewDockStyle.Top },
+                { new ViewLayoutSeparator( _rectAppButtonBottomHalf.Height-2), ViewDockStyle.Top },
                 { new ViewLayoutSeparator(2), ViewDockStyle.Left },
                 { new ViewLayoutSeparator(2), ViewDockStyle.Right },
                 { new ViewLayoutSeparator(2), ViewDockStyle.Bottom },
@@ -206,13 +206,9 @@ namespace Krypton.Ribbon
         {
             _appButtonBottom = new ViewDrawRibbonAppButton(_ribbon, true)
             {
-                ElementState = PaletteState.Pressed
+                ElementState = PaletteState.Pressed,
+                Visible = _ribbon.RibbonShape != PaletteRibbonShape.Office2010
             };
-
-            if (_ribbon.RibbonShape == PaletteRibbonShape.Office2010)
-            {
-                _appButtonBottom.Visible = false;
-            }
         }
 
         private void CreateOutsideDocker()

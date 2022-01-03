@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem(@"TextBox"));
                 actions.Add(new DesignerActionPropertyItem(@"Multiline", @"Multiline", @"TextBox", @"Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(@"WordWrap", @"WordWrap", @"TextBox", @"Should words be wrapped over multiple lines."));
-                actions.Add(new DesignerActionPropertyItem(@"UseSystemPasswordChar", @"UseSystemPasswordChar", @"TextBox", @"Should characters be displayed in password characters."));
+                actions.Add(new DesignerActionPropertyItem(@"UseSystemPasswordChar", @"UseSystemPasswordChar", @"TextBox", @"Should characters be Displayed in password characters."));
                 actions.Add(new DesignerActionPropertyItem(@"Hint", @"Hint", @"TextBox", @"Sets the hint string for the textbox."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));

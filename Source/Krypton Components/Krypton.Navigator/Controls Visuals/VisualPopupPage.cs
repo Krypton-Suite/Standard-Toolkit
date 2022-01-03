@@ -109,7 +109,7 @@ namespace Krypton.Navigator
                 Controls.Remove(_navigator.ChildPanel);
 
                 // Move the panel back to a minus position so it does not show
-                // until it is layed out again by the owning navigator instance
+                // until it is laid out again by the owning navigator instance
                 _navigator.ChildPanel.Location = new Point(-_navigator.ChildPanel.Width,
                                                            -_navigator.ChildPanel.Height);
 

@@ -19,11 +19,8 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupGalleryImage : ViewDrawRibbonGroupImageBase
                                               
     {
-        #region Static Fields
-        private static readonly Size _largeSize = new(32, 32);
-        #endregion
-
         #region Instance Fields
+        private readonly Size _largeSize; // = new(32, 32);
         private readonly KryptonRibbonGroupGallery _ribbonGallery;
         #endregion
 
@@ -40,6 +37,7 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbonGallery != null);
 
             _ribbonGallery = ribbonGallery;
+            _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
         }        
 
         /// <summary>
@@ -48,7 +46,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupGalleryImage:" + Id;
+            @"ViewDrawRibbonGroupGalleryImage:" + Id;
 
         #endregion
 

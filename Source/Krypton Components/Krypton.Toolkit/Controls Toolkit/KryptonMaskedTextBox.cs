@@ -633,7 +633,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the font of the text displayed by the control.
+        /// Gets or sets the font of the text Displayed by the control.
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
@@ -921,7 +921,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating whether the prompt characters in the input mask are hidden when the masked text box loses focus.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Indicates whether prompt characters are displayed when the control does not have focus.")]
+        [Description(@"Indicates whether prompt characters are Displayed when the control does not have focus.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         public bool HidePromptOnLeave
@@ -1110,10 +1110,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be displayed for button specs.
+        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should tooltips be displayed for button specs.")]
+        [Description(@"Should tooltips be Displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 

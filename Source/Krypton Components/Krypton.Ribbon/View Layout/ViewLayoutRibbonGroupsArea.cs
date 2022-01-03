@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
                                                      ClientWidth - padding.Horizontal,
                                                      ClientHeight - padding.Vertical);
 
-            // Let contained content element be layed out
+            // Let contained content element be laid out
             base.Layout(context);
 
             // Put back the original display value now we have finished

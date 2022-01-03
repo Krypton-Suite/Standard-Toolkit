@@ -97,7 +97,7 @@ namespace Krypton.Ribbon
                 {
                     if (value != null)
                     {
-                        // The image must be 16x16 or less in order to be displayed on the
+                        // The image must be 16x16 or less in order to be Displayed on the
                         // quick access toolbar. So we reject anything bigger than 16x16.
                         if ((value.Width > 16) || (value.Height > 16))
                         {

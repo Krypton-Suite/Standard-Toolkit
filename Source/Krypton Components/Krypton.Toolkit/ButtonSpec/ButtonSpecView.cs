@@ -333,23 +333,15 @@ namespace Krypton.Toolkit
                 // Image needs to be regenerated
                 _lastFactorDpiX = ViewButton.FactorDpiX;
                 _lastFactorDpiY = ViewButton.FactorDpiY;
-                var currentWidth = (int)(baseImage.Width * _lastFactorDpiX);
-                var currentHeight = (int)(baseImage.Height * _lastFactorDpiY);
-                if (currentHeight == baseImage.Height)
+                var currentWidth = baseImage.Width * _lastFactorDpiX;
+                var currentHeight = baseImage.Height * _lastFactorDpiY;
+                if ((int)currentHeight == baseImage.Height)
                 {
                     // Need to workaround the image drawing off the bottom of the form title bar when scaling @ 100%
                     currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
                 }
 
-                var newImage = new Bitmap(currentWidth, currentHeight);
-                using Graphics gr = Graphics.FromImage(newImage);
-                gr.Clear(Color.Transparent);
-                gr.SmoothingMode = SmoothingMode.HighQuality;
-                // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
-                gr.InterpolationMode = InterpolationMode.NearestNeighbor;
-                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                gr.DrawImage(baseImage, new Rectangle(0, 0, currentWidth, currentHeight));
-                _cachedImages[baseImage] = newImage;
+                _cachedImages[baseImage] = CommonHelper.ScaleImageForSizedDisplay(baseImage, currentWidth, currentHeight);
             }
 
             //return baseImage;

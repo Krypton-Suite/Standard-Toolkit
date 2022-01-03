@@ -18,13 +18,9 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonQATOverflow  : ViewComposite
     {
-        #region Static Fields
-        private static readonly Padding _borderPadding = new(3);
-        private const int QAT_HEIGHT_FULL = 28;
-
-        #endregion
-
         #region Instance Fields
+        private readonly Padding _borderPadding; // = new(3);
+        private readonly int QAT_HEIGHT_FULL; // = 28;
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
         private IDisposable _memento;
@@ -45,6 +41,8 @@ namespace Krypton.Ribbon
             // Remember incoming references
             _ribbon = ribbon;
             _needPaintDelegate = needPaintDelegate;
+            _borderPadding = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
+            QAT_HEIGHT_FULL = (int)(28 * FactorDpiY);
         }
 
         /// <summary>
@@ -53,7 +51,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonQATOverflow:" + Id;
+            @"ViewDrawRibbonQATOverflow:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -106,7 +104,7 @@ namespace Krypton.Ribbon
             // Remove QAT border for positioning children
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, ClientRectangle, _borderPadding);
 
-            // Let children be layed out inside border area
+            // Let children be laid out inside border area
             base.Layout(context);
 
             // Put back the original display value now we have finished

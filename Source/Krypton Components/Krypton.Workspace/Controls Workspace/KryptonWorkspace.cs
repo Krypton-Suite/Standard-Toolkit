@@ -352,7 +352,7 @@ namespace Krypton.Workspace
         }
 
         /// <summary>
-        /// Gets or sets the font of the text displayed by the control.
+        /// Gets or sets the font of the text Displayed by the control.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -641,10 +641,10 @@ namespace Krypton.Workspace
         public bool AllowPageDrag { get; set; }
 
         /// <summary>
-        /// Gets or sets if the maximized/restore button is displayed. 
+        /// Gets or sets if the maximized/restore button is Displayed. 
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Determines if the maximized/restore button is displayed.")]
+        [Description(@"Determines if the maximized/restore button is Displayed.")]
         [DefaultValue(true)]
         public bool ShowMaximizeButton
         {
@@ -2674,7 +2674,7 @@ namespace Krypton.Workspace
             if (m.Msg == PI.WM_CONTEXTMENU)
             {
                 // We never allow our ContextMenuStrip/KryptonContextMenu to show if there are cells 
-                // displayed, we only want the context menus showing if there are no cells at all displayed
+                // Displayed, we only want the context menus showing if there are no cells at all Displayed
                 if (CellVisibleCount > 0)
                 {
                     return;
@@ -3372,7 +3372,7 @@ namespace Krypton.Workspace
                         // If not already a child control then it should be!
                         if (!Controls.Contains(control))
                         {
-                            // Generate event so users can update the cell before it is displayed
+                            // Generate event so users can update the cell before it is Displayed
                             if (control is KryptonWorkspaceCell)
                             {
                                 KryptonWorkspaceCell cell = control as KryptonWorkspaceCell;
