@@ -33,7 +33,7 @@ goto build
 :build
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% preview.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% signed.proj /fl /flp:logfile=build.log
 
 echo Plese alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
 
