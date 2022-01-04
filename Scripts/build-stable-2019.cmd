@@ -42,8 +42,8 @@ if not "%~1" == "" set targets=%~1
 "%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
 
 echo Build Completed: %date% %time% %zone%
-echo
-echo Plese alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
+
+pause
 
 @echo Do you want to return to complete another task? (Y/N)
 set /p answer="Enter input:"

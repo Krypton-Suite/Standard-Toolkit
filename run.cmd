@@ -71,18 +71,26 @@ goto buildmenu
 
 :packmenu
 cls
-echo 1. Build nightly NuGet packages
-echo 2. Build canary NuGet packages
-echo 3. Build stable NuGet packages
-echo 4. Build signed NuGet packages
-echo 5. Go back to main menu
+echo 1. Pack nightly version using Visual Studio 2019
+echo 2. Pack nightly version using Visual Studio 2022
+echo 3. Pack canary version using Visual Studio 2019
+echo 4. Pack canary version using Visual Studio 2022
+echo 5. Pack stable version using Visual Studio 2019
+echo 6. Pack stable version using Visual Studio 2022
+echo 7. Pack signed version using Visual Studio 2019
+echo 8. Pack signed version using Visual Studio 2022
+echo 9. Go back to main menu
 
-set /p answer="Enter number (1 - 5):"
-if %answer%==1 (goto packnightly)
-if %answer%==2 (goto packcanary)
-if %answer%==3 (goto packstable)
-if %answer%==4 (goto packsigned)
-if %answer%==5 (goto mainmenu)
+set /p answer="Enter number (1 - 9):"
+if %answer%==1 (goto packnightlyusingvisualstudio2019)
+if %answer%==2 (goto packnightlyusingvisualstudio2022)
+if %answer%==3 (goto packcanaryusingvisualstudio2019)
+if %answer%==4 (goto packcanaryusingvisualstudio2022)
+if %answer%==5 (goto packstableusingvisualstudio2019)
+if %answer%==6 (goto packstableusingvisualstudio2022)
+if %answer%==7 (goto packsignedusingvisualstudio2019)
+if %answer%==8 (goto packsignedusingvisualstudio2022)
+if %answer%==9 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -192,27 +200,52 @@ build-stable-2022.cmd
 
 :: ===================================================================================================
 
-:packcanary
+:packnightlyusingvisualstudio2019
 cd Scripts
 
-pack-canary.cmd
+build-nightly-2019.cmd Pack
 
-:packinstaller
+:packnightlyusingvisualstudio2022
 cd Scripts
 
-pack-installer.cmd
+build-nightly-2022.cmd Pack
 
-:packnightly
+:packcanaryusingvisualstudio2019
 cd Scripts
 
-pack-nightly.cmd
+build-canary-2019.cmd Pack
 
-:packsigned
+:packcanaryusingvisualstudio2022
 cd Scripts
 
-pack-signed.cmd
+build-canary-2022.cmd Pack
 
-:packstable
+:packinstallerusingvisualstudio2019
 cd Scripts
 
-pack-stable.cmd
+build-installer-2019.cmd Pack
+
+:packinstallerusingvisualstudio2022
+cd Scripts
+
+build-installer-2022.cmd Pack
+
+:packsignedusingvisualstudio2019
+cd Scripts
+
+build-signed-2019.cmd Pack
+
+:packsignedusingvisualstudio2022
+cd Scripts
+
+build-signed-2022.cmd Pack
+
+:packstableusingvisualstudio2019
+cd Scripts
+
+build-stable-2019.cmd Pack
+
+:packstableusingvisualstudio2022
+cd Scripts
+
+build-stable-2022.cmd Pack
