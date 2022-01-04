@@ -1,0 +1,139 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Ribbon</RootNamespace>
+		<AssemblyName>Krypton.Ribbon</AssemblyName>
+		<SignAssembly>false</SignAssembly>
+		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>Krypton.ico</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Preview</Configurations>
+	</PropertyGroup>
+
+    <Choose>
+        <When Condition="'$(Configuration)' == 'Release'">
+            <PropertyGroup>
+                <!--<LangVersion>latest</LangVersion>
+                <AnalysisLevel>latest</AnalysisLevel>-->
+
+                <LangVersion>preview</LangVersion>
+                <AnalysLevel>preview</AnalysLevel>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <LangVersion>preview</LangVersion>
+                <AnalysLevel>preview</AnalysLevel>
+                <IncludeSymbols>true</IncludeSymbols>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+
+	<ItemGroup>
+		<Reference Include="System.Windows.Forms.Design.Editors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Condition="$(TargetFramework.StartsWith('netcore'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>5.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>6.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+			<!-- Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
+			<SpecificVersion>True</SpecificVersion>
+			<Version>5.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+			<!-- Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
+			<SpecificVersion>True</SpecificVersion>
+			<Version>6.0.0.0</Version>
+		</Reference>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageId>Krypton.Ribbon</PackageId>
+		<Description>This is the ribbon module.</Description>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="..\Krypton.Toolkit\Designers\AssemblyRef.cs" Link="General\AssemblyRef.cs" />
+		<Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
+		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
+			<Link>General\PlatformInvoke.cs</Link>
+		</Compile>
+		<Compile Update="ButtonSpec\ButtonSpecAppMenu.cs" />
+		<Compile Update="ButtonSpec\ButtonSpecMdiChildFixed.cs" />
+		<Compile Update="ButtonSpec\ButtonSpecMdiChildClose.cs" />
+		<Compile Update="ButtonSpec\ButtonSpecMdiChildRestore.cs" />
+		<Compile Update="ButtonSpec\ButtonSpecMdiChildMin.cs" />
+		<Compile Update="ButtonSpec\ButtonSpecMinimizeRibbon.cs" />
+		<Compile Update="ButtonSpec\ButtonSpecExpandRibbon.cs" />
+		<Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Krypton.ico" Pack="false" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupDateTimePicker.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupDomainUpDown.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupNumericUpDown.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonGalleryRange.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonGallery.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupColorButton.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupClusterColorButton.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupMaskedTextBox.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonRecentDoc.png" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupRichTextBox.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupComboBox.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupTextBox.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupCustomControl.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupRadioButton.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupCheckBox.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupLabel.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupClusterButton.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupLines.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupCluster.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupTriple.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupButton.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupSeparator.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonQATButton.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonContext.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroup.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonTab.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonRibbon.bmp" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Controls Ribbon Install\KryptonGalleryLicence.cs" />
+		<Compile Remove="View Layout Demo\ViewLayoutRibbonAppButton.cs" />
+		<Compile Remove="View Layout Demo\ViewLayoutRibbonAppTab.cs" />
+		<Compile Remove="View Layout Install\ViewLayoutRibbonAppButton.cs" />
+		<Compile Remove="View Layout Install\ViewLayoutRibbonAppTab.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+	<PropertyGroup>
+		<DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Ribbon.xml</DocumentationFile>
+		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<NoWarn>1701;1702</NoWarn>
+	</PropertyGroup>
+
+</Project>

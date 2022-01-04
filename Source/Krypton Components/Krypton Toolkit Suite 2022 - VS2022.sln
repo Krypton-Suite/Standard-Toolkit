@@ -1,0 +1,120 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56F1A41E-584B-4F91-9E98-7D8BF678210C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build System", "Build System", "{511519DD-C887-40E5-8961-658AE4CA5D46}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\build-2022.cmd = ..\..\build-2022.cmd
+		..\..\build-preview-2019.cmd = ..\..\build-preview-2019.cmd
+		..\..\build-preview-2022.cmd = ..\..\build-preview-2022.cmd
+		..\..\build.proj = ..\..\build.proj
+		..\..\buildsolution.cmd = ..\..\buildsolution.cmd
+		..\..\debug.cmd = ..\..\debug.cmd
+		..\..\debug.proj = ..\..\debug.proj
+		Directory.Build.props = Directory.Build.props
+		..\..\Directory.Build.props = ..\..\Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		..\..\pack.cmd = ..\..\pack.cmd
+		..\..\preview.proj = ..\..\preview.proj
+		..\..\publish.cmd = ..\..\publish.cmd
+		..\..\purge.cmd = ..\..\purge.cmd
+		..\..\run.cmd = ..\..\run.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{405E4318-4C8A-4DC7-B624-8F7097CDFF60}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development", "{B0683F1A-BA1F-4891-93BE-958319089C89}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Documents\Development\Development-Workflow.md = ..\..\Documents\Development\Development-Workflow.md
+		..\..\Documents\Development\How to Manage Using Statements.md = ..\..\Documents\Development\How to Manage Using Statements.md
+		..\..\Documents\Development\How-to-Build.md = ..\..\Documents\Development\How-to-Build.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{C2B58A1A-4451-4A21-8487-14DBA720672D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Documents\Help\Changelog.md = ..\..\Documents\Help\Changelog.md
+		..\..\Documents\Help\Designer Fix.md = ..\..\Documents\Help\Designer Fix.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{6A930598-4EF1-4563-9BD9-CC1C831D86A6}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\..\.gitattributes = ..\..\.gitattributes
+		..\..\.gitignore = ..\..\.gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{950EE50E-C0E8-4A28-96D3-4735F5313610}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Workspace 2022", "Krypton.Workspace\Krypton.Workspace 2022.csproj", "{E653EA23-58F4-45C7-B258-0843B1AE92A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Toolkit 2022", "Krypton.Toolkit\Krypton.Toolkit 2022.csproj", "{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Ribbon 2022", "Krypton.Ribbon\Krypton.Ribbon 2022.csproj", "{37664E81-FE79-4EAD-8B04-A77C443FB181}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Navigator 2022", "Krypton.Navigator\Krypton.Navigator 2022.csproj", "{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Docking 2022", "Krypton.Docking\Krypton.Docking 2022.csproj", "{44D3FB26-8CF6-45E1-8036-93F111EC3287}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Preview|Any CPU = Preview|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Preview|Any CPU.ActiveCfg = Preview|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Preview|Any CPU.Build.0 = Preview|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Preview|Any CPU.ActiveCfg = Preview|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Preview|Any CPU.Build.0 = Preview|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Preview|Any CPU.ActiveCfg = Preview|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Preview|Any CPU.Build.0 = Preview|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Preview|Any CPU.ActiveCfg = Preview|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Preview|Any CPU.Build.0 = Preview|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Preview|Any CPU.ActiveCfg = Preview|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Preview|Any CPU.Build.0 = Preview|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{511519DD-C887-40E5-8961-658AE4CA5D46} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
+		{405E4318-4C8A-4DC7-B624-8F7097CDFF60} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
+		{B0683F1A-BA1F-4891-93BE-958319089C89} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
+		{C2B58A1A-4451-4A21-8487-14DBA720672D} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
+		{6A930598-4EF1-4563-9BD9-CC1C831D86A6} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{37664E81-FE79-4EAD-8B04-A77C443FB181} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}
+	EndGlobalSection
+EndGlobal

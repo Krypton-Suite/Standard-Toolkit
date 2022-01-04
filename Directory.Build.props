@@ -1,0 +1,27 @@
+<Project>
+	<!--Nightly NuGets only!!!!!!!!!!!-->
+	<PropertyGroup>
+		<!--For use with Nightly packages-->
+		<!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
+		<!--<CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>-->
+
+		<Minor>$([System.DateTime]::Now.ToString(yyMM))</Minor>
+		<Build>$([System.DateTime]::Now.get_DayOfYear().ToString())</Build>
+
+		<!--Version layout:
+			6 = Major
+			2109 = Minor
+			18 = Build
+			-alpha = Indicates a pre-release package
+		-->
+		<LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
+		<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+		<!--<PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>-->
+
+		<!--Canary only-->
+		<!--<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>-->
+
+		<!--Stable/Signed-->
+		<PackageVersion>6.$(Minor).$(Build)</PackageVersion>
+	</PropertyGroup>
+</Project>
