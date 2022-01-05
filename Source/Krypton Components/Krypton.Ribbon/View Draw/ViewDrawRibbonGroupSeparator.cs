@@ -19,12 +19,9 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
                                                   IRibbonViewGroupContainerView
     {
-        #region Static Fields
-        private static readonly Size _preferredSize2007 = new(4, 4);
-        private static readonly Size _preferredSize2010 = new(7, 4);
-        #endregion
-
         #region Instance Fields
+        private readonly Size _preferredSize2007; // = new(4, 4);
+        private readonly Size _preferredSize2010; // = new(7, 4);
         private readonly KryptonRibbon _ribbon;
         private KryptonRibbonGroupSeparator _ribbonSeparator;
         private readonly NeedPaintHandler _needPaint;
@@ -68,6 +65,9 @@ namespace Krypton.Ribbon
             // Hook into changes in the ribbon separator definition
             _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged;
 
+            _preferredSize2007 = new Size((int)(4 * FactorDpiX), (int)(4 * FactorDpiY));
+            _preferredSize2010 = new Size((int)(7 * FactorDpiX), (int)(4 * FactorDpiY));
+            
             // Default the preferred size
             _lastShape = PaletteRibbonShape.Office2007;
             _preferredSize = _preferredSize2007;
@@ -79,7 +79,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupSeparator:" + Id;
+            @"ViewDrawRibbonGroupSeparator:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

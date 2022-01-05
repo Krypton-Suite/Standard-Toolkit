@@ -186,10 +186,10 @@ namespace Krypton.Navigator
 
         #region StackAlignment
         /// <summary>
-        /// Gets and sets the alignment of the stack relative to the displayed page.
+        /// Gets and sets the alignment of the stack relative to the Displayed page.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Alignment of the stack relative to the displayed page.")]
+        [Description(@"Alignment of the stack relative to the Displayed page.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(RelativePositionAlign), "Center")]
         public RelativePositionAlign StackAlignment

@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         public override HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecLocation(style);
 
         /// <summary>
-        /// Gets the edge to positon the button against.
+        /// Gets the edge to position the button against.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>

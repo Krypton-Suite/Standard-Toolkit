@@ -74,12 +74,12 @@ namespace Krypton.Workspace
         IWorkspaceItem WorkspaceParent { get; }
 
         /// <summary>
-        /// Should the item be displayed in the workspace.
+        /// Should the item be Displayed in the workspace.
         /// </summary>
         bool WorkspaceAllowResizing { get; }
 
         /// <summary>
-        /// Should the item be displayed in the workspace.
+        /// Should the item be Displayed in the workspace.
         /// </summary>
         bool WorkspaceVisible { get; }
 

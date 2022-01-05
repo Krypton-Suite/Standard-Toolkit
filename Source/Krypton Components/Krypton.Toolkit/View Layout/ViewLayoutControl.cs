@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             // Back reference hookup
             ChildControl.ViewLayoutControl = this;
 
-            // Start off invisible until first layed out
+            // Start off invisible until first laid out
             ChildControl.Visible = false;
 
             // Ensure that all view elements inside here use our control

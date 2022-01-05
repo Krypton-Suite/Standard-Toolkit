@@ -19,13 +19,13 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignCluster : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _padding = new(1, 2, 0, 2);
         private static readonly ImageList _imageList;
         #endregion
 
         #region Instance Fields
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
         private ContextMenuStrip _cms;
+        private readonly Padding _padding; // = new(1, 2, 0, 2);
         #endregion
 
         #region Identity
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]{Properties.Resources.KryptonRibbonGroupClusterButton,                                                   
+            _imageList.Images.AddRange(new Image[]{Properties.Resources.KryptonRibbonGroupClusterButton,
                                                    Properties.Resources.KryptonRibbonGroupClusterColorButton});
         }
 
@@ -53,6 +53,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonCluster != null);
             _ribbonCluster = ribbonCluster;
+            _padding = new Padding((int)(1 * FactorDpiX), (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonDesignCluster:" + Id;
+            @"ViewDrawRibbonDesignCluster:" + Id;
 
         #endregion
 
@@ -70,7 +71,7 @@ namespace Krypton.Ribbon
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public override string GetShortText() => "Item";
+        public override string GetShortText() => @"Item";
 
         /// <summary>
         /// Gets the padding to use when calculating the preferred size.
@@ -109,7 +110,7 @@ namespace Krypton.Ribbon
                 // Assign correct images
                 menuButton.ImageIndex = 0;
                 menuColorButton.ImageIndex = 1;
-                
+
                 // Finally, add all items to the strip
                 _cms.Items.AddRange(new ToolStripItem[] { menuButton, menuColorButton });
             }

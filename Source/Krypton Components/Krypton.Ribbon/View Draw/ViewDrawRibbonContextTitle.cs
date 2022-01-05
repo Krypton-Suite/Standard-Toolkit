@@ -20,13 +20,6 @@ namespace Krypton.Ribbon
                                                 IPaletteRibbonBack,
                                                 IContentValues
     {
-        #region Static Fields
-
-        private const int TEXT_SIDE_GAP = 4;
-        private const int TEXT_SIDE_GAP_COMPOSITION = 2;
-        private const int TEXT_BOTTOM_GAP = 3;
-
-        #endregion
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
@@ -38,6 +31,9 @@ namespace Krypton.Ribbon
         private IDisposable _mementoContentShadow1;
         private IDisposable _mementoContentShadow2;
         private Rectangle _textRect;
+        private readonly int TEXT_SIDE_GAP; // = 4;
+        private readonly int TEXT_SIDE_GAP_COMPOSITION; // = 2;
+        private readonly int TEXT_BOTTOM_GAP; // = 3;
         #endregion
 
         #region Identity
@@ -51,6 +47,10 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(inherit != null);
+
+            TEXT_SIDE_GAP = (int)(4 * FactorDpiX);
+            TEXT_SIDE_GAP_COMPOSITION = (int)(2 * FactorDpiX);
+            TEXT_BOTTOM_GAP = (int)(3 * FactorDpiY);
 
             // Remember incoming references
             _inherit = inherit;
@@ -66,7 +66,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonContextTitle:" + Id;
+            @"ViewDrawRibbonContextTitle:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

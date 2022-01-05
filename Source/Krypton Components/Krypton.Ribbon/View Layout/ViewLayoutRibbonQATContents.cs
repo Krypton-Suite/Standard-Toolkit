@@ -171,7 +171,7 @@ namespace Krypton.Ribbon
                 Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
                                            viewRect.Bottom - 2 - borders.Top);
 
-                // Create fixed key tip of '00' that invokes the extra button contoller
+                // Create fixed key tip of '00' that invokes the extra button controller
                 keyTipList.Add(new KeyTipInfo(true, "00", screenPt, _extraButton.ClientRectangle, _extraButton.KeyTipTarget));
             }
 
@@ -527,17 +527,10 @@ namespace Krypton.Ribbon
             // Make sure we have a view element to match each QAT button definition
             foreach (IQuickAccessToolbarButton qatButton in qatButtons)
             {
-                ViewDrawRibbonQATButton view = null;
-
                 // Get the currently cached view for the button
-                if (_qatButtonToView.ContainsKey(qatButton))
+                if (!_qatButtonToView.TryGetValue(qatButton, out ViewDrawRibbonQATButton view))
                 {
-                    view = _qatButtonToView[qatButton];
-                }
-
-                // If a new button, create a view for it now
-                if (view == null)
-                {
+                    // If a new button, create a view for it now
                     view = new ViewDrawRibbonQATButton(Ribbon, qatButton, _needPaint);
                 }
 
@@ -546,10 +539,8 @@ namespace Krypton.Ribbon
             }
 
             // Add child elements appropriate for each qat button
-            for (var i = 0; i < qatButtons.Length; i++)
+            foreach (IQuickAccessToolbarButton qatButton in qatButtons)
             {
-                IQuickAccessToolbarButton qatButton = qatButtons[i];
-
                 // Does the layout processing require the view to be updated
                 if (layout)
                 {

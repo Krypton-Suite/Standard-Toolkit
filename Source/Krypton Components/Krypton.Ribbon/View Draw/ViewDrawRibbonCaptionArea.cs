@@ -679,13 +679,11 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
     {
-        #region Static Fields
-        private const int MIN_INTEGRATED_HEIGHT = 26;    // MiniBar, 16 image + 2 * (2 gap + 1 border + 2 border) 
-        private const int CAPTION_TEXT_GAPS = 10;        // 4 below and 6 above
-        private const int MIN_SELF_HEIGHT = 28;          // Min height to show application button and the mini bar and context tabs
-        #endregion
 
         #region Instance Fields
+        private readonly int MIN_INTEGRATED_HEIGHT;
+        private readonly int CAPTION_TEXT_GAPS;
+        private readonly int MIN_SELF_HEIGHT;
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
         private readonly NeedPaintHandler _needIntegratedDelegate;
@@ -728,11 +726,14 @@ namespace Krypton.Ribbon
             Debug.Assert(compositionArea != null);
             Debug.Assert(needPaintDelegate != null);
 
+            MIN_INTEGRATED_HEIGHT = (int)(FactorDpiY * 26);    // MiniBar, 16 image + 2 * (2 gap + 1 border + 2 border) 
+            CAPTION_TEXT_GAPS = (int)(FactorDpiX * 10);        // 4 below and 6 above
+            MIN_SELF_HEIGHT = (int)(FactorDpiY * 28);          // Min height to show application button and the mini bar and context tabs
             // Remember incoming references
             _ribbon = ribbon;
             _compositionArea = compositionArea;
             _needPaintDelegate = needPaintDelegate;
-            _needIntegratedDelegate = new NeedPaintHandler(OnIntegratedNeedPaint);
+            _needIntegratedDelegate = OnIntegratedNeedPaint;
 
             // Create a special redirector for overriding the border setting
             _redirect = new PaletteCaptionRedirect(redirect);
@@ -763,9 +764,9 @@ namespace Krypton.Ribbon
                         _integrated = false;
                     }
 
-                    _kryptonForm.ApplyCustomChromeChanged -= new EventHandler(OnFormChromeCheck);
-                    _kryptonForm.ClientSizeChanged -= new EventHandler(OnFormChromeCheck);
-                    _kryptonForm.WindowActiveChanged -= new EventHandler(OnWindowActiveChanged);
+                    _kryptonForm.ApplyCustomChromeChanged -= OnFormChromeCheck;
+                    _kryptonForm.ClientSizeChanged -= OnFormChromeCheck;
+                    _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged;
                     _kryptonForm = null;
                 }
             }
@@ -1090,11 +1091,11 @@ namespace Krypton.Ribbon
                 Target1 = _captionAppButton.AppButton,
                 Target2 = _otherAppButton.AppButton
             };
-            _appButtonController.NeedPaint += new NeedPaintHandler(OnAppButtonNeedPaint);
+            _appButtonController.NeedPaint += OnAppButtonNeedPaint;
             _captionAppButton.MouseController = _appButtonController;
             _otherAppButton.MouseController = _appButtonController;
             _appTabController = new AppTabController(_ribbon);
-            _appTabController.NeedPaint += new NeedPaintHandler(OnAppButtonNeedPaint);
+            _appTabController.NeedPaint += OnAppButtonNeedPaint;
 
             // When not showing the app button we show this spacer instead
             _spaceInsteadOfAppButton = new ViewLayoutSeparator(0)
@@ -1130,7 +1131,7 @@ namespace Krypton.Ribbon
             // We have to know when the parent of the ribbon changes so we can then hook
             // into monitoring the top level custom chrome control. We need information this
             // decide if we integrate with top chrome or show this control instead.
-            _ribbon.ParentChanged += new EventHandler(OnRibbonParentChanged);
+            _ribbon.ParentChanged += OnRibbonParentChanged;
         }
 
         private void OnRibbonParentChanged(object sender, EventArgs e)
@@ -1138,9 +1139,9 @@ namespace Krypton.Ribbon
             // Unhook from any current krypton form monitoring
             if (_kryptonForm != null)
             {
-                _kryptonForm.ApplyCustomChromeChanged -= new EventHandler(OnFormChromeCheck);
-                _kryptonForm.ClientSizeChanged -= new EventHandler(OnFormChromeCheck);
-                _kryptonForm.WindowActiveChanged -= new EventHandler(OnWindowActiveChanged);
+                _kryptonForm.ApplyCustomChromeChanged -= OnFormChromeCheck;
+                _kryptonForm.ClientSizeChanged -= OnFormChromeCheck;
+                _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged;
                 _kryptonForm = null;
             }
 
@@ -1155,9 +1156,9 @@ namespace Krypton.Ribbon
                 {
                     _kryptonForm = form;
                     _kryptonForm.Composition = _compositionArea;
-                    _kryptonForm.ApplyCustomChromeChanged += new EventHandler(OnFormChromeCheck);
-                    _kryptonForm.ClientSizeChanged += new EventHandler(OnFormChromeCheck);
-                    _kryptonForm.WindowActiveChanged += new EventHandler(OnWindowActiveChanged);
+                    _kryptonForm.ApplyCustomChromeChanged += OnFormChromeCheck;
+                    _kryptonForm.ClientSizeChanged += OnFormChromeCheck;
+                    _kryptonForm.WindowActiveChanged += OnWindowActiveChanged;
                 }
 
                 // Update decision about integrating or providing caption functionality

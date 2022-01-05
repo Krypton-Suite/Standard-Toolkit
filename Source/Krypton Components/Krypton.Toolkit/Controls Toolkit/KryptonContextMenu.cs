@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// Occurs when the context menu is opening.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Occurs when context menu is opening but not displayed as yet.")]
+        [Description(@"Occurs when context menu is opening but not Displayed as yet.")]
         public event CancelEventHandler Opening;
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Show the context menu at the current mouse location.
         /// </summary>
-        /// <returns>Has the context menu become displayed.</returns>
+        /// <returns>Has the context menu become Displayed.</returns>
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
         public bool Show(object caller) =>
             // Without a screen location we just place it at the same location as the mouse
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
         /// <param name="horz">Horizontal location relative to screen rectangle.</param>
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
-        /// <returns>Has the context menu become displayed.</returns>
+        /// <returns>Has the context menu become Displayed.</returns>
         public bool Show(object caller,
                          KryptonContextMenuPositionH horz,
                          KryptonContextMenuPositionV vert) =>
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
         /// <param name="screenPt">Screen location.</param>
-        /// <returns>Has the context menu become displayed.</returns>
+        /// <returns>Has the context menu become Displayed.</returns>
         public bool Show(object caller,
                          Point screenPt) =>
             // Convert to a zero sized rectangle
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
         /// <param name="screenRect">Screen rectangle.</param>
-        /// <returns>Has the context menu become displayed.</returns>
+        /// <returns>Has the context menu become Displayed.</returns>
         public bool Show(object caller,
                          Rectangle screenRect) =>
             // When the relative position is not provided we assume a default 
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// <param name="screenPt">Screen location.</param>
         /// <param name="horz">Horizontal location relative to screen rectangle.</param>
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
-        /// <returns>Has the context menu become displayed.</returns>
+        /// <returns>Has the context menu become Displayed.</returns>
         public bool Show(object caller,
                          Point screenPt,
                          KryptonContextMenuPositionH horz,
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
         /// <param name="screenRect">Screen rectangle.</param>
         /// <param name="horz">Horizontal location relative to screen rectangle.</param>
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
-        /// <returns>Has the context menu become displayed.</returns>
+        /// <returns>Has the context menu become Displayed.</returns>
         public bool Show(object caller,
                          Rectangle screenRect,
                          KryptonContextMenuPositionH horz,
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
         /// <param name="keyboardActivated">Was context menu initiated via a keyboard action.</param>
         /// <param name="constrain">Should size and position of menu be constrained by display size.</param>
-        /// <returns>Has the context menu become displayed.</returns>
+        /// <returns>Has the context menu become Displayed.</returns>
         public bool Show(object caller,
                          Rectangle screenRect,
                          KryptonContextMenuPositionH horz,
@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
                          bool keyboardActivated,
                          bool constrain)
         {
-            var displayed = false;
+            var Displayed = false;
 
             // Only need to show if not already displaying it
             if (VisualContextMenu == null)
@@ -378,15 +378,15 @@ namespace Krypton.Toolkit
                     VisualContextMenu.ShowHorz = KryptonContextMenuPositionH.After;
                     VisualContextMenu.ShowVert = KryptonContextMenuPositionV.Top;
 
-                    // Indicate the context menu is fully constructed and displayed
+                    // Indicate the context menu is fully constructed and Displayed
                     OnOpened(EventArgs.Empty);
 
-                    // The menu has actually become displayed
-                    displayed = true;
+                    // The menu has actually become Displayed
+                    Displayed = true;
                 }
             }
 
-            return displayed;
+            return Displayed;
         }
 
         /// <summary>

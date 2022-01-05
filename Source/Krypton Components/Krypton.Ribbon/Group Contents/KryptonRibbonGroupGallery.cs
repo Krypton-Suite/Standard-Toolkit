@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the number of horizontal items when in large setting.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Number of horizontal displayed items when in large setting.")]
+        [Description(@"Number of horizontal Displayed items when in large setting.")]
         [DefaultValue(9)]
         public int LargeItemCount
         {
@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the number of horizontal items when in medium setting.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Number of horizontal displayed items when in medium setting.")]
+        [Description(@"Number of horizontal Displayed items when in medium setting.")]
         [DefaultValue(3)]
         public int MediumItemCount
         {
@@ -276,10 +276,10 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets and sets the number of horizontal displayed items when showing drop menu from the large button.
+        /// Gets and sets the number of horizontal Displayed items when showing drop menu from the large button.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Number of horizontal displayed items when showing drop menu from the large button.")]
+        [Description(@"Number of horizontal Displayed items when showing drop menu from the large button.")]
         [DefaultValue(9)]
         public int DropButtonItemWidth
         {

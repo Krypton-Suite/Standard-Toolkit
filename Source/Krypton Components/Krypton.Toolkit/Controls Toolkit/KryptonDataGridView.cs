@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Indicates if tool tips are displayed when the mouse hovers over the cell.
+        /// Indicates if tool tips are Displayed when the mouse hovers over the cell.
         /// </summary>
         public new bool ShowCellToolTips { get; set; }
 
@@ -676,7 +676,7 @@ namespace Krypton.Toolkit
                             // ..and the mouse is still over the cell
                             if (cellIndex.Equals(_cellOver))
                             {
-                                // ...then displayed as pressed
+                                // ...then Displayed as pressed
                                 retState = PaletteState.Pressed;
                             }
                         }
@@ -1412,7 +1412,7 @@ namespace Krypton.Toolkit
                                 // Update the content interceptor class
                                 _contentInherit.SetInherit(paletteContent, e.CellStyle);
 
-                                // Is there any text to be displayed?
+                                // Is there any text to be Displayed?
                                 if (e.FormattedValue != null)
                                 {
                                     // Use the display value of the header cell
@@ -1601,7 +1601,7 @@ namespace Krypton.Toolkit
                 if (_piRTL == null)
                 {
                     // Cache access to the internal get property 'RightToLeftInternal'
-                    _piRTL = typeof(DataGridView).GetProperty("RightToLeftInternal", BindingFlags.Instance |
+                    _piRTL = typeof(DataGridView).GetProperty(@"RightToLeftInternal", BindingFlags.Instance |
                                                                                      BindingFlags.NonPublic |
                                                                                      BindingFlags.GetField);
 

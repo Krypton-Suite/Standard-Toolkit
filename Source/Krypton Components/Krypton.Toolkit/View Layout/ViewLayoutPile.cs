@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            // Ensure all children are layed out in our total space
+            // Ensure all children are laid out in our total space
             base.Layout(context);
         }
         #endregion

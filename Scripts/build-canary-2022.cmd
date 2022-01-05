@@ -8,7 +8,7 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current
 
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
 
-goto end
+pause
 
 :vs17prev
 set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
@@ -31,19 +31,22 @@ set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\C
 goto build
 
 :build
-for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
-    set "zone=%%A"
-)
-
-echo Started: %date% %time% %zone%
-echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% canary.proj /fl /flp:logfile=build.log
 
-echo Build Completed: %date% %time% %zone%
-echo.
-echo Please alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
-
-:end
 pause
+
+@echo Do you want to return to complete another task? (Y/N)
+set /p answer="Enter input:"
+if %answer%==Y (goto run)
+if %answer%==y (goto run)
+if %answer%==N exit
+if %answer%==n exit
+
+@echo Invalid input, please try again.
+
+:run
+cd ..
+
+run.cmd

@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the font of the text displayed by the control.
+        /// Gets or sets the font of the text Displayed by the control.
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
@@ -787,10 +787,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether check boxes are displayed next to the tree nodes in the tree view control.
+        /// Gets or sets a value indicating whether check boxes are Displayed next to the tree nodes in the tree view control.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Indicates whether check boxes are displayed next to nodes")]
+        [Description(@"Indicates whether check boxes are Displayed next to nodes")]
         [DefaultValue(false)]
         public bool CheckBoxes
         {
@@ -835,7 +835,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the image-list index value of the default image that is displayed by the tree nodes.
+        /// Gets or sets the image-list index value of the default image that is Displayed by the tree nodes.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"The default image index for nodes.")]
@@ -918,7 +918,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the image list index value of the image that is displayed when a tree node is selected.
+        /// Gets or sets the image list index value of the image that is Displayed when a tree node is selected.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"The default image index for selected nodes.")]
@@ -979,7 +979,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating ToolTips are shown when the mouse pointer hovers over a TreeNode.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Indicates whether ToolTips are displayed for the nodes.")]
+        [Description(@"Indicates whether ToolTips are Displayed for the nodes.")]
         [DefaultValue(false)]
         public bool ShowNodeToolTips
         {
@@ -988,7 +988,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether plus-sign (+) and minus-sign (-) buttons are displayed next to tree nodes that contain child tree nodes.
+        /// Gets or sets a value indicating whether plus-sign (+) and minus-sign (-) buttons are Displayed next to tree nodes that contain child tree nodes.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates whether plus/minus nodes are drawn next to parent nodes.")]

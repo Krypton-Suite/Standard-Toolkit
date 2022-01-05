@@ -621,7 +621,7 @@ namespace Krypton.Ribbon
         /// Gets or sets a value indicating whether the prompt characters in the input mask are hidden when the masked text box loses focus.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Indicates whether prompt characters are displayed when the control does not have focus.")]
+        [Description(@"Indicates whether prompt characters are Displayed when the control does not have focus.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         public bool HidePromptOnLeave
@@ -800,10 +800,10 @@ namespace Krypton.Ribbon
         public override ToolTipValues ToolTipValues => MaskedTextBox.ToolTipValues;
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be displayed for button specs.
+        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should tooltips be displayed for button specs.")]
+        [Description(@"Should tooltips be Displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {

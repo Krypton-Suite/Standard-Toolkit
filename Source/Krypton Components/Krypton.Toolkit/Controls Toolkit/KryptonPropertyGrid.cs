@@ -42,10 +42,10 @@ namespace Krypton.Toolkit
             // Add Palette Handler
             if (_palette != null)
             {
-                _palette.PalettePaint += new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint += OnPalettePaint;
             }
 
-            KryptonManager.GlobalPaletteChanged += new EventHandler(OnGlobalPaletteChanged);
+            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
             _palette = KryptonManager.CurrentGlobalPalette;
 
@@ -58,6 +58,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Overrides
+        /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs pevent)
         {
             base.OnPaint(pevent);
@@ -75,7 +76,7 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                _palette.PalettePaint -= new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint -= OnPalettePaint;
             }
 
             _palette = KryptonManager.CurrentGlobalPalette;
@@ -83,7 +84,7 @@ namespace Krypton.Toolkit
 
             if (_palette != null)
             {
-                _palette.PalettePaint += new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint += OnPalettePaint;
                 //repaint with new values
 
                 InitColours();

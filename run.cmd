@@ -1,18 +1,113 @@
 @echo off
 
-if exist Bin ( goto purge ) else ( goto no )
+cls
 
-:purge
-echo You are about to delete the Bin folder; do you want to continue? (Y/N)
-set INPUT=
-set /P INPUT=Type input: %=%
-if /I "%INPUT%"=="y" goto yes
-if /I "%INPUT%"=="n" goto no
+echo 1. Clean project
+echo 2. Build Krypton Toolkit
+echo 3. Create NuGet packages
+echo 4. End
 
-echo Invalid argument.
-goto break
+set /p answer="Enter number (1 - 4):"
+if %answer%==1 (goto mainmenuchoice1)
+if %answer%==2 (goto mainmenuchoice2)
+if %answer%==3 (goto mainmenuchoice3)
+if %answer%==4 (goto mainmenuchoice4)
 
-:yes
+@echo Invalid input, please try again.
+
+pause
+
+goto mainmenu
+
+:: ===================================================================================================
+
+:mainmenu
+cls
+echo 1. Clean project
+echo 2. Build Krypton Toolkit
+echo 3. Create NuGet packages
+echo 4. End
+
+set /p answer="Enter number (1 - 4):"
+if %answer%==1 (goto mainmenuchoice1)
+if %answer%==2 (goto mainmenuchoice2)
+if %answer%==3 (goto mainmenuchoice3)
+if %answer%==4 (goto mainmenuchoice4)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto mainmenu
+
+:buildmenu
+cls
+echo 1. Build nightly version using Visual Studio 2019
+echo 2. Build nightly version using Visual Studio 2022
+echo 3. Build canary version using Visual Studio 2019
+echo 4. Build canary version using Visual Studio 2022
+echo 5. Build stable version using Visual Studio 2019
+echo 6. Build stable version using Visual Studio 2022
+echo 7. Build signed version using Visual Studio 2019
+echo 8. Build signed version using Visual Studio 2022
+echo 9. Go back to main menu
+
+set /p answer="Enter number (1 - 9):"
+if %answer%==1 (goto buildnightlyusingvisualstudio2019)
+if %answer%==2 (goto buildnightlyusingvisualstudio2022)
+if %answer%==3 (goto buildcanaryusingvisualstudio2019)
+if %answer%==4 (goto buildcanaryusingvisualstudio2022)
+if %answer%==5 (goto buildstableusingvisualstudio2019)
+if %answer%==6 (goto buildstableusingvisualstudio2022)
+if %answer%==7 (goto buildsignedusingvisualstudio2019)
+if %answer%==8 (goto buildsignedusingvisualstudio2022)
+if %answer%==9 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto buildmenu
+
+:packmenu
+cls
+echo 1. Pack nightly version using Visual Studio 2019
+echo 2. Pack nightly version using Visual Studio 2022
+echo 3. Pack canary version using Visual Studio 2019
+echo 4. Pack canary version using Visual Studio 2022
+echo 5. Pack stable version using Visual Studio 2019
+echo 6. Pack stable version using Visual Studio 2022
+echo 7. Pack signed version using Visual Studio 2019
+echo 8. Pack signed version using Visual Studio 2022
+echo 9. Go back to main menu
+
+set /p answer="Enter number (1 - 9):"
+if %answer%==1 (goto packnightlyusingvisualstudio2019)
+if %answer%==2 (goto packnightlyusingvisualstudio2022)
+if %answer%==3 (goto packcanaryusingvisualstudio2019)
+if %answer%==4 (goto packcanaryusingvisualstudio2022)
+if %answer%==5 (goto packstableusingvisualstudio2019)
+if %answer%==6 (goto packstableusingvisualstudio2022)
+if %answer%==7 (goto packsignedusingvisualstudio2019)
+if %answer%==8 (goto packsignedusingvisualstudio2022)
+if %answer%==9 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packmenu
+
+:: ===================================================================================================
+
+:clearscreen
+cls
+
+:hold
+pause
+
+:cleanproject
+cls
 echo Deleting the 'Bin' folder
 rd /s /q "Bin"
 echo Deleted the 'Bin' folder
@@ -35,43 +130,122 @@ echo Deleting the 'build.log' file
 del /f build.log
 echo Deleted the 'build.log' file
 
-:no
-echo Do you now want to build the repository? (y/n)
-set INPUT=
-set /P INPUT=Type input: %=%
-if /I "%INPUT%"=="y" goto buildproject
-if /I "%INPUT%"=="n" goto break
-
-echo Invalid argument.
-goto break
-
-:buildproject
-buildsolution.cmd
-
-echo Do you now want to create NuGet packages? (REMINDER: If you are creating Nightly packages, please ensure that the 'CurrentDate' adheres to the correct ISO format, i.e. yyyyMMdd) (y/n)
-set INPUT=
-set /P INPUT=Type input: %=%
-if /I "%INPUT%"=="y" goto createpackages
-if /I "%INPUT%"=="n" goto break
-
-echo Invalid argument.
-goto break
-
-:createpackages
-echo Do you want to pack using Visual Studio 2019 or 2022? (2019/2022)
-set INPUT=
-set /P INPUT=Type 2019 or 2022: %=%
-if /I "%INPUT%"=="2019" goto vs2019pack
-if /I "%INPUT%"=="2022" goto vs2022pack
-
-echo Invalid argument.
-goto break
-
-:vs2019pack
-build-2019.cmd Pack
-
-:vs2022pack
-build-2022.cmd Pack
-
-:break
 pause
+
+goto mainmenu
+
+:mainmenuchoice1
+goto cleanproject
+
+:mainmenuchoice2
+goto buildmenu
+
+:mainmenuchoice3
+goto packmenu
+
+:mainmenuchoice4
+exit
+
+:: ===================================================================================================
+
+:buildnightlyusingvisualstudio2019
+cd Scripts
+
+build-nightly-2019.cmd
+
+:buildnightlyusingvisualstudio2022
+cd Scripts
+
+build-nightly-2022.cmd
+
+:buildcanaryusingvisualstudio2019
+cd Scripts
+
+build-canary-2019.cmd
+
+:buildcanaryusingvisualstudio2022
+cd Scripts
+
+build-canary-2022.cmd
+
+:buildinstallerusingvisualstudio2019
+cd Scripts
+
+build-installer-2019.cmd
+
+:buildinstallerusingvisualstudio2022
+cd Scripts
+
+build-installer-2022.cmd
+
+:buildsignedusingvisualstudio2019
+cd Scripts
+
+build-signed-2019.cmd
+
+:buildsignedusingvisualstudio2022
+cd Scripts
+
+build-signed-2022.cmd
+
+:buildstableusingvisualstudio2019
+cd Scripts
+
+build-stable-2019.cmd
+
+:buildstableusingvisualstudio2022
+cd Scripts
+
+build-stable-2022.cmd
+
+:: ===================================================================================================
+
+:packnightlyusingvisualstudio2019
+cd Scripts
+
+build-nightly-2019.cmd Pack
+
+:packnightlyusingvisualstudio2022
+cd Scripts
+
+build-nightly-2022.cmd Pack
+
+:packcanaryusingvisualstudio2019
+cd Scripts
+
+build-canary-2019.cmd Pack
+
+:packcanaryusingvisualstudio2022
+cd Scripts
+
+build-canary-2022.cmd Pack
+
+:packinstallerusingvisualstudio2019
+cd Scripts
+
+build-installer-2019.cmd Pack
+
+:packinstallerusingvisualstudio2022
+cd Scripts
+
+build-installer-2022.cmd Pack
+
+:packsignedusingvisualstudio2019
+cd Scripts
+
+build-signed-2019.cmd Pack
+
+:packsignedusingvisualstudio2022
+cd Scripts
+
+build-signed-2022.cmd Pack
+
+:packstableusingvisualstudio2019
+cd Scripts
+
+build-stable-2019.cmd Pack
+
+:packstableusingvisualstudio2022
+cd Scripts
+
+build-stable-2022.cmd Pack

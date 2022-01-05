@@ -1375,7 +1375,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Changes the displayed text of the context menu items dependent of the current <see cref="ScrollBarOrientation"/>.
+        /// Changes the Displayed text of the context menu items dependent of the current <see cref="ScrollBarOrientation"/>.
         /// </summary>
         private void ChangeContextMenuItems()
         {

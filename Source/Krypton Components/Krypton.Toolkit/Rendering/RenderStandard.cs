@@ -1528,7 +1528,7 @@ namespace Krypton.Toolkit
         /// Request the calculated display of the image.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
-        /// <returns>True if the image is being displayed; otherwise false.</returns>
+        /// <returns>True if the image is being Displayed; otherwise false.</returns>
         public override bool GetContentImageDisplayed(IDisposable memento)
         {
             if (memento != null)
@@ -1564,7 +1564,7 @@ namespace Krypton.Toolkit
         /// Request the calculated display of the short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
-        /// <returns>True if the short text is being displayed; otherwise false.</returns>
+        /// <returns>True if the short text is being Displayed; otherwise false.</returns>
         public override bool GetContentShortTextDisplayed(IDisposable memento)
         {
             if (memento != null)
@@ -1600,7 +1600,7 @@ namespace Krypton.Toolkit
         /// Request the calculated display of the long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
-        /// <returns>True if the long text is being displayed; otherwise false.</returns>
+        /// <returns>True if the long text is being Displayed; otherwise false.</returns>
         public override bool GetContentLongTextDisplayed(IDisposable memento)
         {
             if (memento != null)
@@ -2345,10 +2345,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should check box be displayed as enabled.</param>
+        /// <param name="enabled">Should check box be Displayed as enabled.</param>
         /// <param name="checkState">The checked state of the check box.</param>
-        /// <param name="tracking">Should check box be displayed as hot tracking.</param>
-        /// <param name="pressed">Should check box be displayed as pressed.</param>
+        /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should check box be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetCheckBoxPreferredSize(ViewLayoutContext context,
                                                       IPalette palette,
@@ -2395,10 +2395,10 @@ namespace Krypton.Toolkit
         /// <param name="context">Render context.</param>
         /// <param name="displayRect">Display area available for drawing.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should check box be displayed as enabled.</param>
+        /// <param name="enabled">Should check box be Displayed as enabled.</param>
         /// <param name="checkState">The checked state of the check box.</param>
-        /// <param name="tracking">Should check box be displayed as hot tracking.</param>
-        /// <param name="pressed">Should check box be displayed as pressed.</param>
+        /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should check box be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawCheckBox(RenderContext context,
                                           Rectangle displayRect,
@@ -2452,10 +2452,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should check box be displayed as enabled.</param>
+        /// <param name="enabled">Should check box be Displayed as enabled.</param>
         /// <param name="checkState">Checked state of the radio button.</param>
-        /// <param name="tracking">Should check box be displayed as hot tracking.</param>
-        /// <param name="pressed">Should check box be displayed as pressed.</param>
+        /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public override Size GetRadioButtonPreferredSize(ViewLayoutContext context,
                                                          IPalette palette,
                                                          bool enabled,
@@ -2486,10 +2486,10 @@ namespace Krypton.Toolkit
         /// <param name="context">Render context.</param>
         /// <param name="displayRect">Display area available for drawing.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
-        /// <param name="enabled">Should radio button be displayed as enabled.</param>
+        /// <param name="enabled">Should radio button be Displayed as enabled.</param>
         /// <param name="checkState">Checked state of the radio button.</param>
-        /// <param name="tracking">Should radio button be displayed as hot tracking.</param>
-        /// <param name="pressed">Should radio button be displayed as pressed.</param>
+        /// <param name="tracking">Should radio button be Displayed as hot tracking.</param>
+        /// <param name="pressed">Should radio button be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawRadioButton(RenderContext context,
                                              Rectangle displayRect,
@@ -2917,22 +2917,23 @@ namespace Krypton.Toolkit
             using (Pen darkPen = new(c1),
                        lightPen = new(c2))
             {
+                // TODO: WagnerP - please provide a better way of doing this for Various themes and dpi's
                 if (shape == PaletteRibbonShape.Office2010)
                 {
-                    context.Graphics.DrawLine(darkPen, displayRect.Left - 1, displayRect.Top, displayRect.Left + 5, displayRect.Top);
-                    context.Graphics.DrawLine(lightPen, displayRect.Left - 1, displayRect.Top + 1, displayRect.Left + 5, displayRect.Top + 1);
+                    context.Graphics.DrawLine(darkPen, displayRect.Left - 1, displayRect.Top, displayRect.Right + 1, displayRect.Top);
+                    context.Graphics.DrawLine(lightPen, displayRect.Left - 1, displayRect.Top + 1, displayRect.Right + 1, displayRect.Top + 1);
                 }
                 else
                 {
-                    context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4, displayRect.Top);
-                    context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 4, displayRect.Top + 1);
+                    context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Right, displayRect.Top);
+                    context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Right, displayRect.Top + 1);
                 }
 
-                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 3);
-                context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 4, displayRect.Left + 3, displayRect.Top + 4);
-                context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 4, displayRect.Left + 2, displayRect.Top + 5);
-                context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 4, displayRect.Left + 2, displayRect.Top + 6);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 6, displayRect.Left + 4, displayRect.Top + 4);
+                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right, displayRect.Top + 3);
+                context.Graphics.DrawLine(darkPen, displayRect.Right-1, displayRect.Top + 4, displayRect.Left+displayRect.Width/2, displayRect.Bottom - 4);
+                context.Graphics.DrawLine(darkPen, displayRect.Left+displayRect.Width/2, displayRect.Bottom - 4, displayRect.Left, displayRect.Top + 3);
+                context.Graphics.DrawLine(lightPen, displayRect.Left+1, displayRect.Top + 5, displayRect.Left+displayRect.Width/2-1, displayRect.Bottom - 5);
+                context.Graphics.DrawLine(lightPen, displayRect.Left+displayRect.Width/2+1, displayRect.Bottom - 5, displayRect.Right-1, displayRect.Top + 5);
             }
         }
 
@@ -2984,6 +2985,7 @@ namespace Krypton.Toolkit
             using (Pen darkPen = new(c1),
                        lightPen = new(c2))
             {
+                // TODO: WagnerP - please provide a better way of doing this for Various themes and dpi's
                 context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 1, displayRect.Left, displayRect.Top + 3);
                 context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 2, displayRect.Left, displayRect.Top + 3);
                 context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top, displayRect.Left + 2, displayRect.Top + 2);
@@ -5775,15 +5777,7 @@ namespace Krypton.Toolkit
                         var currentWidth = Math.Min(displayRect.Width, memento.Image.Width);
                         var currentHeight = Math.Min(displayRect.Height, memento.Image.Height);
 
-                        var newImage = new Bitmap(currentWidth, currentHeight);
-                        using Graphics gr = Graphics.FromImage(newImage);
-                        gr.Clear(Color.Transparent);
-                        gr.SmoothingMode = SmoothingMode.HighQuality;
-                        // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
-                        gr.InterpolationMode = InterpolationMode.NearestNeighbor;
-                        gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        gr.DrawImage(memento.Image, new Rectangle(0, 0, currentWidth, currentHeight));
-                        memento.Image = newImage;
+                        memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, currentWidth, currentHeight);
 
                     }
                     // Cache the size of the image

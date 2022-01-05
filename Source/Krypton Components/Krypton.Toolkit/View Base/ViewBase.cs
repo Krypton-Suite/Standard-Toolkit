@@ -35,6 +35,8 @@ namespace Krypton.Toolkit
         private PaletteState _elementState;
 
         private Control _owningControl;
+        private float _factorDpiY;
+        private float _factorDpiX;
 
         #endregion
 
@@ -53,11 +55,6 @@ namespace Krypton.Toolkit
 
             // Default the initial state
             _elementState = PaletteState.Normal;
-
-            // This does mean that the app will not change it's dpi awareness until restarted !
-            using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
-            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
-            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
         }
 
         /// <summary>
@@ -115,7 +112,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewBase:" + Id;
+            @"ViewBase:" + Id;
 
         #endregion
 
@@ -218,8 +215,23 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiX
         {
-            [DebuggerStepThrough]
-            get;
+            get 
+            {
+                if (_factorDpiX <= 0.1)
+                {
+                    InitialiseFactors();
+                }
+
+                return _factorDpiX; 
+            }
+        }
+
+        private void InitialiseFactors()
+        {
+            // This does mean that the app will not change it's dpi awareness until restarted !
+            using Graphics graphics = Graphics.FromHwnd(OwningControl?.Handle ?? IntPtr.Zero);
+            _factorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
+            _factorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
         }
 
         /// <summary>
@@ -227,8 +239,15 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiY
         {
-            [DebuggerStepThrough]
-            get;
+            get 
+            {
+                if (_factorDpiY <= 0.1)
+                {
+                    InitialiseFactors();
+                }
+
+                return _factorDpiY; 
+            }
         }
 
         #endregion

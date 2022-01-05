@@ -10,6 +10,7 @@
  */
 #endregion
 
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -127,11 +128,13 @@ namespace Krypton.Toolkit
             ShadowValues = new ShadowValues();
             BlurValues = new BlurValues();
 
+#if !NET462
+            DpiChanged += OnDpiChanged;
+#endif
             // Note: Will not handle movement between monitors
-            using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
-            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
-            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
+            UpdateDpiFactors();
         }
+
 
         /// <summary>
         /// Releases all resources used by the Control. 
@@ -181,6 +184,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
+            set;
         }
 
         /// <summary>
@@ -193,6 +197,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
+            set;
         }
 
         /// <summary>
@@ -1109,7 +1114,7 @@ namespace Krypton.Toolkit
                         // Is this the command for closing the form?
                         if ((PI.SC_)m.WParam.ToInt64() == PI.SC_.CLOSE)
                         {
-                            PropertyInfo pi = typeof(Form).GetProperty("CloseReason",
+                            PropertyInfo pi = typeof(Form).GetProperty(@"CloseReason",
                                                                         BindingFlags.Instance |
                                                                         BindingFlags.SetProperty |
                                                                         BindingFlags.NonPublic);
@@ -1864,6 +1869,7 @@ namespace Krypton.Toolkit
                     _palette.AllowFormChromeChanged += OnAllowFormChromeChanged;
                     _palette.BasePaletteChanged += OnBaseChanged;
                     _palette.BaseRendererChanged += OnBaseChanged;
+//                    PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
                 }
             }
         }
@@ -1872,8 +1878,25 @@ namespace Krypton.Toolkit
         {
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
+//            PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
         }
 
+#if !NET462
+        private void OnDpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            UpdateDpiFactors();
+        }
+#endif
         #endregion
+
+        private void UpdateDpiFactors()
+        {
+            using Graphics graphics = Graphics.FromHwnd(Handle);
+            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
+            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
+//            _palette.HasAlreadyBeenScaled = false;
+//            PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
+        }
+
     }
 }

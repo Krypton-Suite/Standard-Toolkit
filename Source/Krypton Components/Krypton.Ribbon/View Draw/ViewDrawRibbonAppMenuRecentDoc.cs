@@ -29,10 +29,10 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="provider">Provider of context menu information.</param>
-        /// <param name="recentDoc">Source rencent document instance.</param>
+        /// <param name="recentDoc">Source recent document instance.</param>
         /// <param name="maxWidth">Maximum width allowed for the item.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint updates.</param>
-        /// <param name="index">Recent documet index.</param>
+        /// <param name="index">Recent document index.</param>
         public ViewDrawRibbonAppMenuRecentDec(KryptonRibbon ribbon,
                                               IContextMenuProvider provider,
                                               KryptonRibbonRecentDoc recentDoc,
@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
             _maxWidth = maxWidth;
             Provider = provider;
             RecentDoc = recentDoc;
-            ShortcutText = index < 10 ? @"&" + index.ToString() : "A";
+            ShortcutText = index < 10 ? @"&" + index.ToString() : @"A";
 
             // Use docker to organize horizontal items
             ViewLayoutDocker docker = new()
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonAppMenuRecentDec:" + Id;
+            @"ViewDrawRibbonAppMenuRecentDec:" + Id;
 
         #endregion
 

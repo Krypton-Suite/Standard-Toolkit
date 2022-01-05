@@ -19,13 +19,13 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _padding = new(1, 0, 0, 0);
         private static readonly ImageList _imageList;
         #endregion
 
         #region Instance Fields
         private readonly KryptonRibbonGroup _ribbonGroup;
         private ContextMenuStrip _cms;
+        private readonly Padding _padding; // = new(1, 0, 0, 0);
         #endregion
 
         #region Identity
@@ -55,6 +55,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonGroup != null);
             _ribbonGroup = ribbonGroup;
+            _padding = new Padding((int)(1 * FactorDpiX), 0, 0, 0);
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonDesignGroupContainer:" + Id;
+            @"ViewDrawRibbonDesignGroupContainer:" + Id;
 
         #endregion
 

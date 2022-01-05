@@ -20,12 +20,9 @@ namespace Krypton.Ribbon
                                                     IRibbonViewGroupItemView,
                                                     IContentValues
     {
-        #region Static Fields
-        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
-        private static readonly Padding _smallImagePadding = new(3);
-        #endregion
-
         #region Instance Fields
+        private readonly Padding _largeImagePadding = new(3, 2, 3, 3);
+        private readonly Padding _smallImagePadding = new(3);
         private readonly KryptonRibbon _ribbon;
         private ViewLayoutRibbonRadioButton _viewLarge;
         private ViewDrawRibbonGroupRadioButtonImage _viewLargeImage;
@@ -83,6 +80,8 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon radio button definition
             GroupRadioButton.PropertyChanged += OnRadioButtonPropertyChanged;
+            _largeImagePadding = new Padding((int)(3 * FactorDpiX), (int)(2 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
+            _smallImagePadding = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupRadioButton:" + Id;
+            @"ViewDrawRibbonGroupRadioButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

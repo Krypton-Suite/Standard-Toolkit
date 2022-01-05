@@ -7,4 +7,4 @@ If you want to build this project, there are a number of prerequisites you will 
 * Microsoft .NET Framework 3.5 and later
 * Windows Terminal (optional)
 
-To compile the source tree for yourself, type in `run.cmd` or `build.cmd` from Command Prompt or Windows Terminal. By running `run.cmd`, you will also generate the NuGet packages. The output will be stored in 'Bin\Release'.
+To compile the source tree for yourself, type in `run.cmd` from Command Prompt or Windows Terminal. By running `run.cmd`, you will also generate the NuGet packages. The output will be stored in 'Bin\Release'.

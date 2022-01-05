@@ -18,12 +18,10 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     {
-        #region Static Fields
-        private static readonly Size _viewSize = new(13, 22);
         private static readonly Size _contentSize = new(-4, -7);
-        #endregion
 
         #region Instance Fields
+        private readonly Size _viewSize; // = new(13, 22);
         private readonly KryptonRibbon _ribbon;
         private IDisposable _mementoBack;
         private readonly EventHandler _finishDelegate;
@@ -60,6 +58,7 @@ namespace Krypton.Ribbon
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
+            _viewSize = new Size((int)(13 * FactorDpiX), (int)(22 * FactorDpiY));
         }
 
         /// <summary>
@@ -68,7 +67,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonQATExtraButton:" + Id;
+            @"ViewDrawRibbonQATExtraButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

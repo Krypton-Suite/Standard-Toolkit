@@ -16,27 +16,22 @@ namespace Krypton.Ribbon
     /// <summary>
     /// Draws the border around the quick access toolbar.
     /// </summary>
-    internal class ViewDrawRibbonQATBorder  : ViewComposite
+    internal class ViewDrawRibbonQATBorder : ViewComposite
     {
-        #region Static Fields
-        private static readonly Padding _minibarBorderPaddingOverlap = new(8, 2, 11, 2);
-        private static readonly Padding _minibarBorderPaddingNoOverlap = new(17, 2, 11, 2);
-        private static readonly Padding _fullbarBorderPadding_2007 = new(1, 3, 2, 2);
-        private static readonly Padding _fullbarBorderPadding_2010 = new(2);
-        private static readonly Padding _noBorderPadding = new(1, 0, 1, 0);
-        private const int QAT_BUTTON_WIDTH = 22;
-        private const int QAT_HEIGHT_MINI = 26;
-        private const int QAT_HEIGHT_FULL = 27;
-        private const int QAT_MINIBAR_LEFT = 6;
-
-        #endregion
-
         #region Instance Fields
+        private readonly int QAT_BUTTON_WIDTH; // = 22;
+        private readonly int QAT_HEIGHT_MINI; // = 26;
+        private readonly int QAT_HEIGHT_FULL; // = 27;
+        private readonly int QAT_MINIBAR_LEFT; // = 6;
+        private readonly Padding _minibarBorderPaddingOverlap; // = new(8, 2, 11, 2);
+        private readonly Padding _minibarBorderPaddingNoOverlap; // = new(17, 2, 11, 2);
+        private readonly Padding _fullbarBorderPadding_2007; // = new(1, 3, 2, 2);
+        private readonly Padding _fullbarBorderPadding_2010; // = new(2);
+        private readonly Padding _noBorderPadding; // = new(1, 0, 1, 0);
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
         private IDisposable _memento;
         private readonly bool _minibar;
-
         #endregion
 
         #region Identity
@@ -53,6 +48,15 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaintDelegate != null);
 
+            QAT_BUTTON_WIDTH = (int)(22 * FactorDpiX);
+            QAT_HEIGHT_MINI = (int)(26 * FactorDpiY);
+            QAT_HEIGHT_FULL = (int)(27 * FactorDpiY);
+            QAT_MINIBAR_LEFT = (int)(6 * FactorDpiX);
+            _minibarBorderPaddingOverlap = new Padding((int)(8 * FactorDpiX), (int)(2 * FactorDpiY), (int)(11 * FactorDpiX), (int)(2 * FactorDpiY));
+            _minibarBorderPaddingNoOverlap = new Padding((int)(17 * FactorDpiX), (int)(2 * FactorDpiY), (int)(11 * FactorDpiX), (int)(2 * FactorDpiY));
+            _fullbarBorderPadding_2007 = new Padding((int)(1 * FactorDpiX), (int)(3 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
+            _fullbarBorderPadding_2010 = new Padding((int)(2 * FactorDpiX),  (int)(2 * FactorDpiY), (int)(2 * FactorDpiX),  (int)(2 * FactorDpiY));
+            _noBorderPadding = new Padding((int)(1 * FactorDpiX), 0, (int)(1 * FactorDpiX), 0);
             // Remember incoming references
             _ribbon = ribbon;
             _needPaintDelegate = needPaintDelegate;
@@ -66,7 +70,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonQATBorder:" + Id;
+            @"ViewDrawRibbonQATBorder:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -143,7 +147,7 @@ namespace Krypton.Ribbon
 
             return preferredSize;
         }
-            
+
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
@@ -166,7 +170,7 @@ namespace Krypton.Ribbon
             // Remove QAT border for positioning children
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, ClientRectangle, BarPadding);
 
-            // Let children be layed out inside border area
+            // Let children be laid out inside border area
             base.Layout(context);
 
             // Put back the original display value now we have finished
