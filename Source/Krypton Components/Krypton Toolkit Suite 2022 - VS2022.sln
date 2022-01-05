@@ -68,16 +68,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scri
 		..\..\Scripts\build-signed-2022.cmd = ..\..\Scripts\build-signed-2022.cmd
 		..\..\Scripts\build-stable-2019.cmd = ..\..\Scripts\build-stable-2019.cmd
 		..\..\Scripts\build-stable-2022.cmd = ..\..\Scripts\build-stable-2022.cmd
-		..\..\Scripts\buildsolution.cmd = ..\..\Scripts\buildsolution.cmd
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pack Scripts", "Pack Scripts", "{7965B9C5-5383-4F95-8404-2F5EF68B05CA}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\Scripts\pack-canary.cmd = ..\..\Scripts\pack-canary.cmd
-		..\..\Scripts\pack-installer.cmd = ..\..\Scripts\pack-installer.cmd
-		..\..\Scripts\pack-nightly.cmd = ..\..\Scripts\pack-nightly.cmd
-		..\..\Scripts\pack-signed.cmd = ..\..\Scripts\pack-signed.cmd
-		..\..\Scripts\pack-stable.cmd = ..\..\Scripts\pack-stable.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration Files", "Configuration Files", "{B1BEF7ED-96F3-4BA3-AD05-428987BC2491}"
@@ -183,7 +173,6 @@ Global
 		{9AE36C6C-9EAE-4B63-B326-70680262884B} = {511519DD-C887-40E5-8961-658AE4CA5D46}
 		{F59A6624-A207-40B8-8B1B-36FC4F4199CA} = {511519DD-C887-40E5-8961-658AE4CA5D46}
 		{8B44A4AE-79FA-4C8E-ADDF-7EBFDC8E7352} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
-		{7965B9C5-5383-4F95-8404-2F5EF68B05CA} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
 		{B1BEF7ED-96F3-4BA3-AD05-428987BC2491} = {511519DD-C887-40E5-8961-658AE4CA5D46}
 		{6C07B04E-D571-4E73-B760-180EA9DD6CC5} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
 	EndGlobalSection

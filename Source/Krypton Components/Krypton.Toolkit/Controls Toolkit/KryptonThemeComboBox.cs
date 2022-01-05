@@ -40,6 +40,13 @@ namespace Krypton.Toolkit
             set => _selectedIndex = value;
         }
 
+        public KryptonManager Manager
+        {
+            get => _manager;
+
+            private set => _manager = value;
+        }
+
         #endregion
 
         #region Constructor
@@ -65,20 +72,20 @@ namespace Krypton.Toolkit
 
             if (_manager == null)
             {
-                _manager = new KryptonManager();
+                Manager = new KryptonManager();
             }
 
-            Text = _manager.GlobalPaletteMode.ToString();
+            Text = Manager.GlobalPaletteMode.ToString();
 
 
-            _paletteModeManager = _manager.GlobalPaletteMode;
+            _paletteModeManager = Manager.GlobalPaletteMode;
 
             base.OnCreateControl();
         }
 
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            ThemeManager.ApplyTheme(Text, _manager);
+            ThemeManager.ApplyTheme(Text, Manager);
 
             ThemeSelectedIndex = SelectedIndex;
 
