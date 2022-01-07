@@ -24,15 +24,19 @@ namespace Krypton.Toolkit
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlueCloseNormal_25_x_23;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlueCloseDisabled_25_x_23;
         private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010BlueCloseHover_25_x_23;
+        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlueClosePressed_25_x_23;
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BlueMaximiseNormal_25_x_23;
         private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlueMaximiseDisabled_25_x_23;
         private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010BlueMaximiseHover_25_x_23;
+        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlueMaximisePressed_13_x_12;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueMinimiseNormal_25_x_23;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlueMinimiseHover_25_x_23;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueMinimiseDisabled_25_x_23;
+        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlueMinimisePressed_25_x_23;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlueRestoreNormal_25_x_23;
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlueRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlueRestoreHover_25_x_23;
+        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlueRestorePressed_25_x_23;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconBlue;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
@@ -342,24 +346,28 @@ namespace Krypton.Toolkit
                 {
                     PaletteState.Tracking => _formCloseHover,
                     PaletteState.Normal => _formCloseNormal,
+                    PaletteState.Pressed => _formClosePressed,
                     _ => _formCloseDisabled
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Normal => _formMinimiseNormal,
                     PaletteState.Tracking => _formMinimiseHover,
+                    PaletteState.Pressed => _formMinimisePressed,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Normal => _formMaximiseNormal,
                     PaletteState.Tracking => _formMaximiseHover,
+                    PaletteState.Pressed => _formMaximisePressed,
                     _ => _formMaximiseDisabled
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Normal => _formRestoreNormal,
                     PaletteState.Tracking => _formRestoreHover,
+                    PaletteState.Pressed => _formRestorePressed,
                     _ => _formRestoreDisabled
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
