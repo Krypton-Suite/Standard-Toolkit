@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonContextTitles:" + Id;
+            @"ViewLayoutRibbonContextTitles:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -100,59 +100,41 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Find any filler child
-            ViewBase filler = null;
-
-            foreach (ViewBase child in this)
-            {
-                if (GetDock(child) == ViewDockStyle.Fill)
-                {
-                    filler = child;
-                    break;
-                }
-            }
+            ViewBase filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
 
             var xLeftMost = ClientRectangle.Right;
             var xRightMost = ClientRectangle.Left;
 
             // Find the correct position for each child context set
-            foreach (ViewBase child in this)
+            // We are only interested in laying out context titles
+            foreach (ViewDrawRibbonContextTitle childContextTitle in this.Where(static child => child.Visible).OfType<ViewDrawRibbonContextTitle>())
             {
-                // Only interested in visible children
-                if (child.Visible)
+                // Get the context set it is representing
+                ContextTabSet tabContext = childContextTitle.ContextTabSet;
+
+                // Get the screen position of the left and right hand positions
+                Point leftTab = tabContext.GetLeftScreenPosition();
+                Point rightTab = tabContext.GetRightScreenPosition();
+
+                // If our position is above the ribbon control we must be in the chrome
+                if (_captionArea.UsingCustomChrome && !_captionArea.KryptonForm.ApplyComposition)
                 {
-                    // We are only interested in laying out context titles
-                    if (child is ViewDrawRibbonContextTitle)
-                    {
-                        ViewDrawRibbonContextTitle childContextTitle = child as ViewDrawRibbonContextTitle;
-
-                        // Get the context set it is representing
-                        ContextTabSet tabContext = childContextTitle.ContextTabSet;
-
-                        // Get the screen position of the left and right hand positions
-                        Point leftTab = tabContext.GetLeftScreenPosition();
-                        Point rightTab = tabContext.GetRightScreenPosition();
-
-                        // If our position is above the ribbon control we must be in the chrome
-                        if (_captionArea.UsingCustomChrome && !_captionArea.KryptonForm.ApplyComposition)
-                        {
-                            var leftPadding = _captionArea.RealWindowBorders.Left;
-                            leftTab.X += leftPadding;
-                            rightTab.X += leftPadding;
-                        }
-
-                        // Convert the screen to our own coordinates
-                        leftTab = context.TopControl.PointToClient(leftTab);
-                        rightTab = context.TopControl.PointToClient(rightTab);
-
-                        // Calculate the position of the child and layout
-                        context.DisplayRectangle = new Rectangle(leftTab.X, ClientLocation.Y, rightTab.X - leftTab.X, ClientHeight);
-                        childContextTitle.Layout(context);
-
-                        // Track the left and right most positions
-                        xLeftMost = Math.Min(xLeftMost, leftTab.X);
-                        xRightMost = Math.Max(xRightMost, rightTab.X);
-                    }
+                    var leftPadding = _captionArea.RealWindowBorders.Left;
+                    leftTab.X += leftPadding;
+                    rightTab.X += leftPadding;
                 }
+
+                // Convert the screen to our own coordinates
+                leftTab = context.TopControl.PointToClient(leftTab);
+                rightTab = context.TopControl.PointToClient(rightTab);
+
+                // Calculate the position of the child and layout
+                context.DisplayRectangle = new Rectangle(leftTab.X, ClientLocation.Y, rightTab.X - leftTab.X, ClientHeight);
+                childContextTitle.Layout(context);
+
+                // Track the left and right most positions
+                xLeftMost = Math.Min(xLeftMost, leftTab.X);
+                xRightMost = Math.Max(xRightMost, rightTab.X);
             }
 
             // Do we need to position a filler element?

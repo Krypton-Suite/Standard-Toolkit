@@ -94,8 +94,12 @@ namespace Krypton.Ribbon
         {
             // If we are rendering using desktop window composition and using the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chrome
-            // Not for 2013
-            if (DrawOnComposition && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365))
+            // Not for 2007
+            if (DrawOnComposition 
+                && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 
+                    || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 
+                    || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
+                )
             {
                 if (edges)
                 {

@@ -374,10 +374,10 @@ namespace Krypton.Ribbon
         public override ToolTipValues ToolTipValues => DateTimePicker.ToolTipValues;
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be displayed for button specs.
+        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should tooltips be displayed for button specs.")]
+        [Description(@"Should tooltips be Displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
@@ -406,10 +406,10 @@ namespace Krypton.Ribbon
         public KryptonDateTimePicker.DateTimePickerButtonSpecCollection ButtonSpecs => DateTimePicker.ButtonSpecs;
 
         /// <summary>
-        /// Gets or sets the number of columns and rows of months displayed. 
+        /// Gets or sets the number of columns and rows of months Displayed. 
         /// </summary>
         [Category(@"MonthCalendar")]
-        [Description(@"Specifies the number of rows and columns of months displayed.")]
+        [Description(@"Specifies the number of rows and columns of months Displayed.")]
         [DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions
@@ -516,7 +516,7 @@ namespace Krypton.Ribbon
         private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
         /// <summary>
-        /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
+        /// Gets or sets the array of DateTime objects that determines which annual days are Displayed in bold.
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
@@ -554,7 +554,7 @@ namespace Krypton.Ribbon
         private bool ShouldSerializeCalendarMonthlyBoldedDates() => DateTimePicker.ShouldSerializeCalendarMonthlyBoldedDates();
 
         /// <summary>
-        /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are displayed in bold.
+        /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are Displayed in bold.
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
@@ -627,10 +627,10 @@ namespace Krypton.Ribbon
         private bool ShouldSerializeValue() => DateTimePicker.ShouldSerializeValue();
 
         /// <summary>
-        /// Gets or sets the format of the date and time displayed in the control.
+        /// Gets or sets the format of the date and time Displayed in the control.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Determines whether dates and times are displayed using standard or custom formatting.")]
+        [Description(@"Determines whether dates and times are Displayed using standard or custom formatting.")]
         [DefaultValue(typeof(DateTimePickerFormat), "Long")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
@@ -643,7 +643,7 @@ namespace Krypton.Ribbon
         /// Gets or sets a value indicating whether a spin button control (also known as an up-down control) is used to adjust the date/time value.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Indicates whether a spin box rather than a drop-down calendar is displayed for modifying the control value.")]
+        [Description(@"Indicates whether a spin box rather than a drop-down calendar is Displayed for modifying the control value.")]
         [DefaultValue(false)]
         public bool ShowUpDown
         {
@@ -655,7 +655,7 @@ namespace Krypton.Ribbon
         /// Specifies whether to show the check box in the exception message box.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Determines whether a check box is displayed in the control. When the box is unchecked, no value is selected.")]
+        [Description(@"Determines whether a check box is Displayed in the control. When the box is unchecked, no value is selected.")]
         [DefaultValue(false)]
         public bool ShowCheckBox
         {
@@ -729,7 +729,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the custom date/time format string.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The custom format string used to format the date and/or time displayed in the control.")]
+        [Description(@"The custom format string used to format the date and/or time Displayed in the control.")]
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
@@ -757,7 +757,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the today date format string.
         /// </summary>
         [Category(@"Visuals - MonthCalendar")]
-        [Description(@"The today format string used to format the date displayed in the today button.")]
+        [Description(@"The today format string used to format the date Displayed in the today button.")]
         [DefaultValue("d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]

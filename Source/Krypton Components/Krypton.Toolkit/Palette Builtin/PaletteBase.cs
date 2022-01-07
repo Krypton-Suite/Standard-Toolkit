@@ -17,8 +17,7 @@ namespace Krypton.Toolkit
     /// Provides base class implementation for palettes.
     /// </summary>
     [ToolboxItem(false)]
-    public abstract class PaletteBase : Component,
-                                        IPalette
+    public abstract class PaletteBase : Component, IPalette
     {
         #region Instance Fields
         private float? _baseFontSize;
@@ -649,9 +648,11 @@ namespace Krypton.Toolkit
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
         public abstract Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric);
+
         #endregion
 
         #region Images
+
         /// <summary>
         /// Gets a tree view image appropriate for the provided state.
         /// </summary>
@@ -827,7 +828,7 @@ namespace Krypton.Toolkit
         public abstract HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style);
 
         /// <summary>
-        /// Gets the edge to positon the button against.
+        /// Gets the edge to position the button against.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>
@@ -1101,7 +1102,7 @@ namespace Krypton.Toolkit
                 if (_dragFeedback == PaletteDragFeedback.Rounded)
                 {
                     // Rounded feedback uses a per-pixel alpha blending and so we need to be on a machine that supports
-                    // more than 256 colors and also allows the layered windows feature. If not then revert to sqaures
+                    // more than 256 colors and also allows the layered windows feature. If not then revert to squares
                     if ((OSFeature.Feature.GetVersionPresent(OSFeature.LayeredWindows) == null) || (CommonHelper.ColorDepth() <= 8))
                     {
                         _dragFeedback = PaletteDragFeedback.Square;
@@ -1167,8 +1168,14 @@ namespace Krypton.Toolkit
             set
             {
                 // Is there a change in value?
-                if (((value <= 0) && _baseFontSize.HasValue) ||
-                    ((value > 0) && (!_baseFontSize.HasValue || (_baseFontSize.Value != value))))
+                if (((value <= 0) 
+                     && _baseFontSize.HasValue) 
+                    || ((value > 0) 
+                        && (!_baseFontSize.HasValue 
+                            || (_baseFontSize.Value != value)
+                        )
+                        )
+                    )
                 {
                     // Cache new value
                     if (value <= 0)
@@ -1241,7 +1248,7 @@ namespace Krypton.Toolkit
         /// <returns>Faded version of parameter color.</returns>
         public static Color FadedColor(Color baseColor)
         {
-            // Conver to HSL space
+            // Convert to HSL space
             ColorHSL hsl = new(baseColor)
             {
 

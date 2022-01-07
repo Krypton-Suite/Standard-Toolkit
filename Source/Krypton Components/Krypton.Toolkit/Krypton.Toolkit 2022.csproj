@@ -72,9 +72,6 @@
         <Description>This is the core toolkit module.</Description>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-    </PropertyGroup>
     <ItemGroup>
         <Compile Update="ButtonSpec\ButtonSpecFormFixed.cs">
             <SubType>Component</SubType>

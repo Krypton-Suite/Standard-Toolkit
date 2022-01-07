@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the KryptonSplitterPanel is displayed.
+        /// Gets or sets a value indicating whether the KryptonSplitterPanel is Displayed.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]

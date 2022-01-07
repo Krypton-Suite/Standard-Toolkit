@@ -19,13 +19,8 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
                                                       IRibbonViewGroupItemView
     {
-        #region Static Fields
-
-        private const int NULL_CONTROL_WIDTH = 50;
-
-        #endregion
-
         #region Instance Fields
+        private readonly int NULL_CONTROL_WIDTH; // = 50;
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly CustomControlController _controller;
@@ -86,6 +81,7 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon custom definition
             GroupCustomControl.PropertyChanged += OnCustomPropertyChanged;
+            NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
 
         /// <summary>
@@ -94,7 +90,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupCustom:" + Id;
+            @"ViewDrawRibbonGroupCustom:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

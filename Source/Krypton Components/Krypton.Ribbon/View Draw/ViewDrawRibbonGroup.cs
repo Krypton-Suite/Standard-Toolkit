@@ -19,24 +19,20 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroup : ViewComposite,
                                          IRibbonViewGroupSize
     {
-        #region Static Fields
-
-        private const int MINIMUM_GROUP_WIDTH = 32;
-        private const int NORMAL_BORDER_TOPLEFT2007 = 2;
-        private const int NORMAL_BORDER_RIGHT2007 = 4;
-        private const int NORMAL_BORDER_TOP2010 = 3;
-        private const int NORMAL_BORDER_LEFT2010 = 3;
-        private const int NORMAL_BORDER_RIGHT2010 = 6;
-        private const int TOTAL_LEFT_RIGHT_BORDERS_2007 = 7;
-        private const int TOTAL_LEFT_RIGHT_BORDERS_2010 = 10;
-        private const int VERT_OFFSET_2007 = 0;
-        private const int VERT_OFFSET_2010 = 2;
-        private static readonly Padding COLLAPSED_PADDING = new(2);
-        private static readonly Padding COLLAPSED_IMAGE_PADDING_2007 = new(3, 3, 3, 4);
-        private static readonly Padding COLLAPSED_IMAGE_PADDING_2010 = new(3, 1, 5, 5);
-        #endregion
-
         #region Instance Fields
+        private readonly int MINIMUM_GROUP_WIDTH; // = 32;
+        private readonly int NORMAL_BORDER_TOPLEFT2007; // = 2;
+        private readonly int NORMAL_BORDER_RIGHT2007; // = 4;
+        private readonly int NORMAL_BORDER_TOP2010; // = 3;
+        private readonly int NORMAL_BORDER_LEFT2010; // = 3;
+        private readonly int NORMAL_BORDER_RIGHT2010; // = 6;
+        private readonly int TOTAL_LEFT_RIGHT_BORDERS_2007; // = 7;
+        private readonly int TOTAL_LEFT_RIGHT_BORDERS_2010; // = 10;
+        private readonly int VERT_OFFSET_2007; // = 0;
+        private readonly int VERT_OFFSET_2010; // = 2;
+        private readonly Padding COLLAPSED_PADDING; // = new(2);
+        private readonly Padding COLLAPSED_IMAGE_PADDING_2007; // = new(3, 3, 3, 4);
+        private readonly Padding COLLAPSED_IMAGE_PADDING_2010; // = new(3, 1, 5, 5);
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private VisualPopupGroup _popupGroup;
@@ -100,6 +96,19 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon button definition
             _ribbonGroup.PropertyChanged += OnGroupPropertyChanged;
+            MINIMUM_GROUP_WIDTH = (int)(32 * FactorDpiX);
+            NORMAL_BORDER_TOPLEFT2007 = (int)(2 * FactorDpiY);
+            NORMAL_BORDER_RIGHT2007 = (int)(4 * FactorDpiX);
+            NORMAL_BORDER_TOP2010 = (int)(3 * FactorDpiY);
+            NORMAL_BORDER_LEFT2010 = (int)(3 * FactorDpiX);
+            NORMAL_BORDER_RIGHT2010 = (int)(6 * FactorDpiX);
+            TOTAL_LEFT_RIGHT_BORDERS_2007 = (int)(7 * FactorDpiX);
+            TOTAL_LEFT_RIGHT_BORDERS_2010 = (int)(10 * FactorDpiX);
+            VERT_OFFSET_2007 = (int)(0 * FactorDpiY);
+            VERT_OFFSET_2010 = (int)(2 * FactorDpiY);
+            COLLAPSED_PADDING = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
+            COLLAPSED_IMAGE_PADDING_2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(4 * FactorDpiY));
+            COLLAPSED_IMAGE_PADDING_2010 = new Padding((int)(3 * FactorDpiX), (int)(1 * FactorDpiY), (int)(5 * FactorDpiX), (int)(5 * FactorDpiY));
         }
         
         /// <summary>
@@ -497,7 +506,7 @@ namespace Krypton.Ribbon
             // We only show the dialog box launcher button if group says we need one
             _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher;
 
-            // Let contained content element be layed out
+            // Let contained content element be laid out
             base.Layout(context);
 
             // Put back the original display value now we have finished

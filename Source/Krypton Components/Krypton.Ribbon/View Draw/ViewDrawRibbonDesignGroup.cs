@@ -18,9 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonDesignGroup : ViewDrawRibbonDesignBase
     {
-        #region Static Fields
-        private static readonly Padding _padding = new(5, 0, 0, 1);
-        #endregion
+        private readonly Padding _padding; // = new(5, 0, 0, 1);
 
         #region Identity
         /// <summary>
@@ -30,9 +28,8 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroup(KryptonRibbon ribbon,
                                          NeedPaintHandler needPaint)
-            : base(ribbon, needPaint)
-        {
-        }
+            : base(ribbon, needPaint) =>
+            _padding = new Padding((int)(5 * FactorDpiX), 0, 0, (int)(1 * FactorDpiY));
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -40,7 +37,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonDesignGroup:" + Id;
+            @"ViewDrawRibbonDesignGroup:" + Id;
 
         #endregion
 
@@ -49,7 +46,7 @@ namespace Krypton.Ribbon
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public override string GetShortText() => "Group";
+        public override string GetShortText() => @"Group";
 
         /// <summary>
         /// Gets the padding to use when calculating the preferred size.

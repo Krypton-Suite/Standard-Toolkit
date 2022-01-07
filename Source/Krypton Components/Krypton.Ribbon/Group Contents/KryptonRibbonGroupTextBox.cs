@@ -625,10 +625,10 @@ namespace Krypton.Ribbon
         public override ToolTipValues ToolTipValues => TextBox.ToolTipValues;
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be displayed for button specs.
+        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should tooltips be displayed for button specs.")]
+        [Description(@"Should tooltips be Displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {

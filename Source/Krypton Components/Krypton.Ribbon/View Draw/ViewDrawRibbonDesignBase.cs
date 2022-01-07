@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonDesignBase:" + Id;
+            @"ViewDrawRibbonDesignBase:" + Id;
 
         #endregion
 
@@ -107,7 +107,7 @@ namespace Krypton.Ribbon
                                                      ClientWidth - LayoutPadding.Horizontal,
                                                      ClientHeight - LayoutPadding.Vertical);
 
-            // Let contained content element we layed out
+            // Let contained content element we laid out
             base.Layout(context);
 
             // Put back the original display value now we have finished

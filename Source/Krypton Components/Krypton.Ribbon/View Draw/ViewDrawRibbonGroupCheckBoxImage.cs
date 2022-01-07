@@ -18,12 +18,9 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonGroupCheckBoxImage : ViewComposite
     {
-        #region Static Fields
-        private static Size _smallSize;// = new Size(16, 16);
-        private static Size _largeSize;// = new Size(32, 32);
-        #endregion
-
         #region Instance Fields
+        private readonly Size _smallSize;// = new Size(16, 16);
+        private readonly Size _largeSize;// = new Size(32, 32);
         private readonly KryptonRibbonGroupCheckBox _ribbonCheckBox;
         private readonly ViewDrawCheckBox _drawCheckBox;
         private readonly bool _large;
@@ -42,10 +39,6 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonCheckBox != null);
 
-            //Seb dpi aware
-            _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
-            _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
-
             // Remember incoming parameters
             _ribbonCheckBox = ribbonCheckBox;
             _large = large;
@@ -58,6 +51,9 @@ namespace Krypton.Ribbon
 
             // Add as only child
             Add(_drawCheckBox);
+
+            _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
+            _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
         }
 
         /// <summary>
@@ -66,7 +62,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroupCheckBoxImage:" + Id;
+            @"ViewDrawRibbonGroupCheckBoxImage:" + Id;
 
         #endregion
 

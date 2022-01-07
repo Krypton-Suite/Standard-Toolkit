@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
                     }
                     // The base implementation of GetFormattedValue (which triggers the CellFormatting event) did nothing else than 
                     // the typical 1234.5 to "1234.5" conversion. But depending on the values of ThousandsSeparator and DecimalPlaces,
-                    // this may not be the actual string displayed. The real formatted value may be "1,234.500"
+                    // this may not be the actual string Displayed. The real formatted value may be "1,234.500"
                     return formattedDecimal.ToString((ThousandsSeparator ? "N" : "F") + DecimalPlaces.ToString());
                 }
             }

@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating whether the prompt characters in the input mask are hidden when the masked text box loses focus.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Indicates whether prompt characters are displayed when the control does not have focus.")]
+        [Description(@"Indicates whether prompt characters are Displayed when the control does not have focus.")]
         [DefaultValue(false)]
         public bool HidePromptOnLeave
         {

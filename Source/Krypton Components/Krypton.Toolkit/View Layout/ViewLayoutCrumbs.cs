@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
                     if (_buttonToCrumb.TryGetValue(crumbButton, out KryptonBreadCrumbItem _))
                     {
                         // If the button is pressed then point button downwards, 
-                        // otherwise we point in the direction the buttons layed out.
+                        // otherwise we point in the direction the buttons laid out.
                         crumbButton.DropDownOrientation = crumbButton.ElementState == PaletteState.Pressed ? VisualOrientation.Top : VisualOrientation.Left;
                     }
                 }

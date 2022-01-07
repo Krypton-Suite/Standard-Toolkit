@@ -48,7 +48,7 @@ namespace Krypton.Navigator
             // Initialize the drag data that indicators which docking indicators are needed
             _dragData = new RenderDragDockingData(showLeft, showRight, showTop, showBottom, showMiddle);
 
-            // Ask the renderer to measure the sizing of the indicators that are displayed
+            // Ask the renderer to measure the sizing of the indicators that are Displayed
             _renderer.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop, PaletteDragFeedback.Square);
 
             // Setup window so that it is transparent to the Silver color and does not have any borders etc...

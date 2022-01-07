@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
                 if (e.ToolStrip.Parent.TopLevelControl is Form f)
                 {
                     // Get the mdi control strip instance
-                    PropertyInfo piMCS = typeof(Form).GetProperty("MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+                    PropertyInfo piMCS = typeof(Form).GetProperty(@"MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
                     if (piMCS != null)
                     {
                         var mcs = piMCS.GetValue(f, null);

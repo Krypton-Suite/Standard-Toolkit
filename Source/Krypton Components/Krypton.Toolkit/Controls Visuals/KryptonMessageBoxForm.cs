@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// When the user clicks the Help button, the Help file specified in the helpFilePath parameter
-        /// is opened and the Help keyword topic identified by the keyword parameter is displayed.
+        /// is opened and the Help keyword topic identified by the keyword parameter is Displayed.
         /// The form that owns the message box (or the active form) also receives the HelpRequested event.
         /// </summary>
         private void LaunchHelp()

@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
                     // ...and we tried to position downwards
                     if (vert is KryptonContextMenuPositionV.Below or KryptonContextMenuPositionV.Top)
                     {
-                        // Then switch to positoning upwards
+                        // Then switch to positioning upwards
                         vert = KryptonContextMenuPositionV.Bottom;
                         screenPt.Y = screenRect.Bottom - preferredSize.Height;
                     }
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
                     // ...and we tried to position upwards
                     if (vert is KryptonContextMenuPositionV.Above or KryptonContextMenuPositionV.Bottom)
                     {
-                        // Then switch to positoning downwards
+                        // Then switch to positioning downwards
                         vert = KryptonContextMenuPositionV.Top;
                         screenPt.Y = screenRect.Top;
                     }

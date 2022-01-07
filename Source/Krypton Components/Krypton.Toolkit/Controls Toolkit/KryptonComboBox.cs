@@ -1307,7 +1307,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the font of the text displayed by the control.
+        /// Gets or sets the font of the text Displayed by the control.
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
@@ -1778,10 +1778,10 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeDropBackStyle() => DropBackStyle != PaletteBackStyle.ControlClient;
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be displayed for button specs.
+        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should tooltips be displayed for button specs.")]
+        [Description(@"Should tooltips be Displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
@@ -1845,9 +1845,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
+        /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
         /// </summary>
-        [Description(@"The format specifier characters that indicate how a value is to be displayed.")]
+        [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
         [Editor(@"System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue(@"")]
@@ -1858,9 +1858,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets if this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.
+        /// Gets or sets if this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be Displayed.
         /// </summary>
-        [Description(@"If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
+        [Description(@"If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be Displayed.")]
         [DefaultValue(false)]
         public bool FormattingEnabled
         {

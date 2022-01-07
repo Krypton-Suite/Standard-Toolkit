@@ -325,7 +325,7 @@ namespace Krypton.Ribbon
         /// Gets or sets a value indicating how to display the tick marks on the track bar.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Determines where tick marks are displayed.")]
+        [Description(@"Determines where tick marks are Displayed.")]
         [DefaultValue(typeof(TickStyle), "None")]
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle

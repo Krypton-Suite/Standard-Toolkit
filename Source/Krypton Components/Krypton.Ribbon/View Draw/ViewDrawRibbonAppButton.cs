@@ -18,11 +18,6 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonAppButton : ViewLeaf
     {
-        #region Static Fields
-        private static readonly Size SIZE_FULL = new(39, 39);
-        private static readonly Size SIZE_TOP = new(39, 22);
-        private static readonly Size SIZE_BOTTOM = new(39, 17);
-        #endregion
 
         #region Instance Fields
         private IDisposable[] _mementos;
@@ -30,6 +25,9 @@ namespace Krypton.Ribbon
         private readonly bool _bottomHalf;
         private Rectangle _clipRect;
         private readonly Size _size;
+        private readonly Size SIZE_FULL; // = new(39, 39);
+        private readonly Size SIZE_TOP; // = new(39, 22);
+        private readonly Size SIZE_BOTTOM; // = new(39, 17);
         #endregion
 
         #region Identity
@@ -38,10 +36,13 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewDrawRibbonAppButton(KryptonRibbon ribbon,
-                                       bool bottomHalf)
+        public ViewDrawRibbonAppButton(KryptonRibbon ribbon, bool bottomHalf)
         {
             Debug.Assert(ribbon != null);
+
+            SIZE_FULL = new Size((int)(39 * FactorDpiX), (int)(39 * FactorDpiY));
+            SIZE_TOP = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
+            SIZE_BOTTOM = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
             _ribbon = ribbon;
             _bottomHalf = bottomHalf;
@@ -55,7 +56,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonAppButton:" + Id;
+            @"ViewDrawRibbonAppButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -167,12 +168,16 @@ namespace Krypton.Ribbon
             // If there is an application button to be drawn
             if (_ribbon.RibbonAppButton.AppButtonImage != null)
             {
-                // We always draw the image a 24x24 image
-                Rectangle imageRect = new(ClientLocation.X + 7, ClientLocation.Y + 6, 24, 24);
+                // We always draw the image a 24x24 image (if dpi = 1!)
+                var localImage = _ribbon.RibbonAppButton.AppButtonImage;
+                localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
+                    localImage.Height * FactorDpiY);
+
+                Rectangle imageRect = new(ClientLocation.X + (int)(7 * FactorDpiX), ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
 
                 if (_ribbon.Enabled)
                 {
-                    context.Graphics.DrawImage(_ribbon.RibbonAppButton.AppButtonImage, imageRect);
+                    context.Graphics.DrawImage(localImage, imageRect);
                 }
                 else
                 {
@@ -180,10 +185,10 @@ namespace Krypton.Ribbon
                     using ImageAttributes attribs = new();
                     attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 
-                    context.Graphics.DrawImage(_ribbon.RibbonAppButton.AppButtonImage,
+                    context.Graphics.DrawImage(localImage,
                         imageRect, 0, 0,
-                        _ribbon.RibbonAppButton.AppButtonImage.Width,
-                        _ribbon.RibbonAppButton.AppButtonImage.Height,
+                        localImage.Width,
+                        localImage.Height,
                         GraphicsUnit.Pixel, attribs);
                 }
             }

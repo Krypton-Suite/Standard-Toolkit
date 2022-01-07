@@ -126,7 +126,7 @@ namespace Krypton.Ribbon
         /// Occurs when the application button menu is opening.
         /// </summary>
         [Category(@"Ribbon")]
-        [Description(@"Occurs when application button menu is opening but not displayed as yet.")]
+        [Description(@"Occurs when application button menu is opening but not Displayed as yet.")]
         public event CancelEventHandler AppButtonMenuOpening;
 
         /// <summary>
@@ -447,10 +447,10 @@ namespace Krypton.Ribbon
         public bool AllowMinimizedChange { get; set; }
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be displayed for button specs.
+        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should tooltips be displayed for button specs.")]
+        [Description(@"Should tooltips be Displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
@@ -872,7 +872,7 @@ namespace Krypton.Ribbon
                         TabsArea.RecreateButtons();
                         PerformNeedPaint(true);
 
-                        // Allow the ribbon to be layed out and painted before we 
+                        // Allow the ribbon to be laid out and painted before we 
                         // remove the control obscurer the reduces flicker when switching.
                         Application.DoEvents();
                     }
@@ -896,7 +896,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"Determines how the quick access toolbar is displayed.")]
+        [Description(@"Determines how the quick access toolbar is Displayed.")]
         [DefaultValue(typeof(QATLocation), "Above")]
         public QATLocation QATLocation
         {

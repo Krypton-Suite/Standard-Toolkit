@@ -139,7 +139,7 @@ namespace Krypton.Workspace
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the sequence is displayed.
+        /// Gets or sets a value indicating whether the sequence is Displayed.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Should the sequence be visible.")]
@@ -426,7 +426,7 @@ namespace Krypton.Workspace
         }
 
         /// <summary>
-        /// Should the item be displayed in the workspace.
+        /// Should the item be Displayed in the workspace.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]

@@ -50,7 +50,7 @@ namespace Krypton.Navigator
             // Initialize the drag data that indicators which docking indicators are needed
             _dragData = new RenderDragDockingData(showLeft, showRight, showTop, showBottom, showMiddle);
 
-            // Ask the renderer to measure the sizing of the indicators that are displayed
+            // Ask the renderer to measure the sizing of the indicators that are Displayed
             _renderer.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
             _showRect = new Rectangle(Point.Empty, _dragData.DockWindowSize);
 

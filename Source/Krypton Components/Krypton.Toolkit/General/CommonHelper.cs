@@ -59,7 +59,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Public Static
         /// <summary>
         /// Gets access to the global null point value.
         /// </summary>
@@ -143,7 +142,7 @@ namespace Krypton.Toolkit
                 // Cache the info needed to sneak access to the context menu strip
                 if (_cachedShortcutPI == null)
                 {
-                    _cachedShortcutPI = typeof(ToolStrip).GetProperty("Shortcuts",
+                    _cachedShortcutPI = typeof(ToolStrip).GetProperty(@"Shortcuts",
                                                                       BindingFlags.Instance |
                                                                       BindingFlags.GetProperty |
                                                                       BindingFlags.NonPublic);
@@ -396,7 +395,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Decide if the context menu strip should be displayed.
+        /// Decide if the context menu strip should be Displayed.
         /// </summary>
         /// <param name="cms">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
@@ -405,7 +404,7 @@ namespace Krypton.Toolkit
             (cms != null) && (cms.Items.Count > 0);
 
         /// <summary>
-        /// Decide if the KryptonContextMenu should be displayed.
+        /// Decide if the KryptonContextMenu should be Displayed.
         /// </summary>
         /// <param name="kcm">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
@@ -829,8 +828,7 @@ namespace Krypton.Toolkit
         /// <param name="rect">Rectangle to become rounded.</param>
         /// <param name="rounding">The rounding factor to apply.</param>
         /// <returns>GraphicsPath instance.</returns>
-        public static GraphicsPath RoundedRectanglePath(Rectangle rect,
-                                                        int rounding)
+        public static GraphicsPath RoundedRectanglePath(Rectangle rect, int rounding)
         {
             GraphicsPath roundedPath = new();
 
@@ -1104,22 +1102,19 @@ namespace Krypton.Toolkit
         public static Control GetControlWithFocus(Control control)
         {
             // Does the provided control have the focus?
-            if (control.Focused && control is not IContainedInputControl)
+            if (control.Focused 
+                && control is not IContainedInputControl
+                )
             {
                 return control;
             }
             else
             {
                 // Check each child hierarchy in turn
-                foreach (Control child in control.Controls)
-                {
-                    if (child.ContainsFocus)
-                    {
-                        return GetControlWithFocus(child);
-                    }
-                }
-
-                return null;
+                return (from Control child in control.Controls 
+                            where child.ContainsFocus 
+                            select GetControlWithFocus(child)
+                        ).FirstOrDefault();
             }
         }
 
@@ -1437,8 +1432,8 @@ namespace Krypton.Toolkit
         public static void LogOutput(string str)
         {
             FileInfo fi = new(Application.ExecutablePath);
-            using StreamWriter writer = new(fi.DirectoryName + "LogOutput.txt", true, Encoding.ASCII);
-            writer.Write(DateTime.Now.ToLongTimeString() + " :  ");
+            using var writer = new StreamWriter(fi.DirectoryName + @"LogOutput.txt", true, Encoding.ASCII);
+            writer.Write(DateTime.Now.ToLongTimeString() + @" :  ");
             writer.WriteLine(str);
             writer.Flush();
         }
@@ -1453,7 +1448,7 @@ namespace Krypton.Toolkit
             // Cache the info needed to sneak access to the component protected property
             if (_cachedDesignModePI == null)
             {
-                _cachedDesignModePI = typeof(ToolStrip).GetProperty("DesignMode",
+                _cachedDesignModePI = typeof(ToolStrip).GetProperty(@"DesignMode",
                                                                     BindingFlags.Instance |
                                                                     BindingFlags.GetProperty |
                                                                     BindingFlags.NonPublic);
@@ -1579,8 +1574,6 @@ namespace Krypton.Toolkit
         /// </summary>
         public static Form ActiveFloatingWindow { get; set; }
 
-        #endregion
-
         /// <summary>
         /// Gets the current active cursor, and if that is null use the current default cursor
         /// </summary>
@@ -1609,5 +1602,31 @@ namespace Krypton.Toolkit
             rect.Height -= margins.Top+margins.Bottom;
         }
 
+        /// <summary>
+        /// Do not use the `DpiHandler.ScaleBitmapLogicalToDevice` as that will introduce the "purple artifact" lines
+        /// Also, Using the int version of the `DrawImage` produces better upscale for the 125% images
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="trgtWidth"></param>
+        /// <param name="trgtHeight"></param>
+        /// <returns></returns>
+        public static Bitmap ScaleImageForSizedDisplay(Image src, float trgtWidth, float trgtHeight)
+        {
+            var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);
+            using Graphics gr = Graphics.FromImage(newImage);
+            gr.Clear(Color.Transparent);
+            gr.SmoothingMode = SmoothingMode.HighQuality;
+            // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
+            gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+            gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            //var srcRect = new RectangleF(0.0f, 0.0f, src.Width, src.Height);
+            //var destRect = new RectangleF(0.0f, 0.0f, trgtWidth, trgtHeight);
+            //// Handle rounding down of the target `newImage` dimensions
+            //srcRect.Offset(-trgtWidth%1, -trgtHeight%1);
+            //gr.DrawImage(src, destRect, srcRect, GraphicsUnit.Pixel);
+            gr.DrawImage(src, 0, 0, (int)trgtWidth, (int)trgtHeight);
+            
+            return newImage;
+        }
     }
 }

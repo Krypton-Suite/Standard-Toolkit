@@ -74,10 +74,10 @@ namespace Krypton.Navigator
 
         #region AllowPopupPages
         /// <summary>
-        /// Gets and sets if popup pages are displayed.
+        /// Gets and sets if popup pages are Displayed.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Determines if popup pages are displayed.")]
+        [Description(@"Determines if popup pages are Displayed.")]
         [DefaultValue(typeof(PopupPageAllow), "Only Outlook Mini Mode")]
         public PopupPageAllow AllowPopupPages { get; set; }
 

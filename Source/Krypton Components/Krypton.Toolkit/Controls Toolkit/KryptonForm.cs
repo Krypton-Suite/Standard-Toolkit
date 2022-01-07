@@ -200,7 +200,6 @@ namespace Krypton.Toolkit
 
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
         }
 
         /// <summary>
@@ -256,10 +255,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be displayed for button specs.
+        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should tooltips be displayed for button specs.")]
+        [Description(@"Should tooltips be Displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
@@ -716,7 +715,7 @@ namespace Krypton.Toolkit
         {
             Icon displayIcon = GetDefinedIcon();
 
-            // Has the icon to be displayed changed since the last time around?
+            // Has the icon to be Displayed changed since the last time around?
             if (displayIcon != _cacheIcon)
             {
                 // Clear down the cached bitmap
@@ -741,31 +740,23 @@ namespace Krypton.Toolkit
                 // || (ViewButton.FactorDpiY != _lastFactorDpiY)
                 // )
                 //{
-                    // Image needs to be regenerated
-                    var currentWidth = (int)(CAPTION_ICON_SIZE.Width * FactorDpiX);
-                    var currentHeight = (int)(CAPTION_ICON_SIZE.Height * FactorDpiY);
+                // Image needs to be regenerated
+                var currentWidth = (int)(CAPTION_ICON_SIZE.Width * FactorDpiX);
+                var currentHeight = (int)(CAPTION_ICON_SIZE.Height * FactorDpiY);
                 //}
                 try
                 {
-                        using var temp = new Icon(_cacheIcon, currentWidth, currentHeight);
-                        _cacheBitmap = temp.ToBitmap();
+                    using var temp = new Icon(_cacheIcon, currentWidth, currentHeight);
+                    _cacheBitmap = temp.ToBitmap();
                 }
                 catch
                 {
                     try
                     {
                         // Failed so we convert the Icon directly instead of trying to get a sized version first
-                        Bitmap resizedBitmap = _cacheIcon.ToBitmap();
-                        var newImage = new Bitmap(currentWidth, currentHeight);
-                        using Graphics gr = Graphics.FromImage(newImage);
-                        gr.Clear(Color.Transparent);
-                        gr.SmoothingMode = SmoothingMode.HighQuality;
-                        // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
-                        gr.InterpolationMode = InterpolationMode.NearestNeighbor;
-                        gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        gr.DrawImage(resizedBitmap, new Rectangle(0, 0, currentWidth, currentHeight));
+                        using Bitmap resizedBitmap = _cacheIcon.ToBitmap();
                         // Cache for future access
-                        _cacheBitmap = newImage;
+                        _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight);
                     }
                     catch
                     {
@@ -1012,7 +1003,7 @@ namespace Krypton.Toolkit
 
             using (ViewLayoutContext context = new(this, Renderer))
             {
-                // Discover if the form icon is being displayed
+                // Discover if the form icon is being Displayed
                 if (_drawContent.IsImageDisplayed(context))
                 {
                     // Is the mouse over the image area
@@ -1733,6 +1724,7 @@ namespace Krypton.Toolkit
         /// <param name="value">if set to <c>true</c> [value].</param>
         public static void SetIsInAdministratorMode(bool value)
         {
+            // TODO: @wagnerp: what is this supposed to be doing ?
             KryptonForm form = new();
 
             //form.IsInAdministratorMode = value;
@@ -1742,6 +1734,7 @@ namespace Krypton.Toolkit
         /// <returns>IsInAdministratorMode</returns>
         public static bool GetIsInAdministratorMode()
         {
+            // TODO: @wagnerp: what is this supposed to be doing ?
             KryptonForm form = new();
 
             return form.IsInAdministratorMode;

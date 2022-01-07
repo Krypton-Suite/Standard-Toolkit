@@ -511,7 +511,7 @@ namespace Krypton.Toolkit
         GetToolStripRenderer GetToolStripDelegate { get; }
 
         /// <summary>
-        /// Gets the number of columns and rows of months displayed.
+        /// Gets the number of columns and rows of months Displayed.
         /// </summary>
         Size CalendarDimensions { get; }
 

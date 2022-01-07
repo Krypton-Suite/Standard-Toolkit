@@ -18,24 +18,17 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonCompoRightBorder : ViewLeaf
     {
-        #region Static Fields
-
-        private const int SPACING_GAP = 10;
-
-        #endregion
-
         #region Instance Fields
 
         private int _width;
+        private readonly int SPACING_GAP; // = 10;
         #endregion
 
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewDrawRibbonCompoRightBorder class.
         /// </summary>
-        public ViewDrawRibbonCompoRightBorder()
-        {
-        }
+        public ViewDrawRibbonCompoRightBorder() => SPACING_GAP = (int)(10 * FactorDpiX);
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -43,7 +36,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonCompoRightBorder:" + Id;
+            @"ViewDrawRibbonCompoRightBorder:" + Id;
 
         #endregion
 

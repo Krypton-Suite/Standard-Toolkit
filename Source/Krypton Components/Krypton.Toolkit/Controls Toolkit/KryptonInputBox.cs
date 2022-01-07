@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
             this._textBoxResponse.Name = "_textBoxResponse";
             this._textBoxResponse.Size = new System.Drawing.Size(446, 27);
             this._textBoxResponse.TabIndex = 0;
-            this._textBoxResponse.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxResponse_KeyDown);
+            this._textBoxResponse.KeyDown += this.textBoxResponse_KeyDown;
             // 
             // _kryptonBorderEdge1
             // 
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
             this._buttonOk.Size = new System.Drawing.Size(73, 32);
             this._buttonOk.TabIndex = 1;
             this._buttonOk.Values.Text = "&OK";
-            this._buttonOk.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button_keyDown);
+            this._buttonOk.KeyDown += this.button_keyDown;
             // 
             // _buttonCancel
             // 
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
             this._buttonCancel.Size = new System.Drawing.Size(73, 32);
             this._buttonCancel.TabIndex = 2;
             this._buttonCancel.Values.Text = "Cance&l";
-            this._buttonCancel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button_keyDown);
+            this._buttonCancel.KeyDown += this.button_keyDown;
             // 
             // KryptonInputBox
             // 
@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Load += new System.EventHandler(this.KryptonInputBox_Load);
+            this.Load += this.KryptonInputBox_Load;
             ((System.ComponentModel.ISupportInitialize)this._panelMessage).EndInit();
             this._panelMessage.ResumeLayout(false);
             this._panelMessage.PerformLayout();

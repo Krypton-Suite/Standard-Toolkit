@@ -19,14 +19,13 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignGroupLines : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _padding = new(0, 2, 2, 4);
         private static readonly ImageList _imageList;
         #endregion
 
         #region Instance Fields
         private readonly KryptonRibbonGroupLines _ribbonLines;
         private ContextMenuStrip _cms;
-
+        private readonly Padding _padding; // = new(0, 2, 2, 4);
         #endregion
 
         #region Identity
@@ -71,6 +70,7 @@ namespace Krypton.Ribbon
 
             _ribbonLines = ribbonLines;
             CurrentSize = currentSize;
+             _padding = new Padding(0, (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(4 * FactorDpiY));
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonDesignGroupLines:" + Id;
+            @"ViewDrawRibbonDesignGroupLines:" + Id;
 
         #endregion
 
@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public override string GetShortText() => "Item";
+        public override string GetShortText() => @"Item";
 
         /// <summary>
         /// Gets the padding to use when calculating the preferred size.
