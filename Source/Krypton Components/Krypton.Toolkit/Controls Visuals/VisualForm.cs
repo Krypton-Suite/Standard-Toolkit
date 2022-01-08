@@ -182,10 +182,9 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float FactorDpiX
         {
-            [DebuggerStepThrough]
-            get;
+            [DebuggerStepThrough] get;
             set;
-        }
+        } = 1;
 
         /// <summary>
         /// Gets the DpiY of the view.
@@ -195,10 +194,9 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float FactorDpiY
         {
-            [DebuggerStepThrough]
-            get;
+            [DebuggerStepThrough] get;
             set;
-        }
+        } = 1;
 
         /// <summary>
         /// Gets and sets a value indicating if palette chrome should be applied.
@@ -1891,11 +1889,23 @@ namespace Krypton.Toolkit
 
         private void UpdateDpiFactors()
         {
-            using Graphics graphics = Graphics.FromHwnd(Handle);
-            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
-            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
-//            _palette.HasAlreadyBeenScaled = false;
-//            PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
+            // Do not use the control dpi, as these values are being used to target the screen
+            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
+            if (screenDc != IntPtr.Zero)
+            {
+                FactorDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;
+                FactorDpiY = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSY) / 96f;
+                PI.ReleaseDC(IntPtr.Zero, screenDc);
+            }
+            else
+            {
+                // Do it the slow "init everything long way"
+                using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+                FactorDpiX = graphics.DpiX / 96f;
+                FactorDpiY = graphics.DpiY / 96f;
+            }
+            // _palette.HasAlreadyBeenScaled = false;
+            // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
         }
 
     }
