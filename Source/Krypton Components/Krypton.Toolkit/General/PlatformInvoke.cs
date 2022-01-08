@@ -62,6 +62,170 @@ namespace Krypton.Toolkit
         internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
+        public enum DeviceCap
+        {
+            /// <summary>
+            /// Device driver version
+            /// </summary>
+            DRIVERVERSION = 0,
+            /// <summary>
+            /// Device classification
+            /// </summary>
+            TECHNOLOGY = 2,
+            /// <summary>
+            /// Horizontal size in millimeters
+            /// </summary>
+            HORZSIZE = 4,
+            /// <summary>
+            /// Vertical size in millimeters
+            /// </summary>
+            VERTSIZE = 6,
+            /// <summary>
+            /// Horizontal width in pixels
+            /// </summary>
+            HORZRES = 8,
+            /// <summary>
+            /// Vertical height in pixels
+            /// </summary>
+            VERTRES = 10,
+            /// <summary>
+            /// Number of bits per pixel
+            /// </summary>
+            BITSPIXEL = 12,
+            /// <summary>
+            /// Number of planes
+            /// </summary>
+            PLANES = 14,
+            /// <summary>
+            /// Number of brushes the device has
+            /// </summary>
+            NUMBRUSHES = 16,
+            /// <summary>
+            /// Number of pens the device has
+            /// </summary>
+            NUMPENS = 18,
+            /// <summary>
+            /// Number of markers the device has
+            /// </summary>
+            NUMMARKERS = 20,
+            /// <summary>
+            /// Number of fonts the device has
+            /// </summary>
+            NUMFONTS = 22,
+            /// <summary>
+            /// Number of colors the device supports
+            /// </summary>
+            NUMCOLORS = 24,
+            /// <summary>
+            /// Size required for device descriptor
+            /// </summary>
+            PDEVICESIZE = 26,
+            /// <summary>
+            /// Curve capabilities
+            /// </summary>
+            CURVECAPS = 28,
+            /// <summary>
+            /// Line capabilities
+            /// </summary>
+            LINECAPS = 30,
+            /// <summary>
+            /// Polygonal capabilities
+            /// </summary>
+            POLYGONALCAPS = 32,
+            /// <summary>
+            /// Text capabilities
+            /// </summary>
+            TEXTCAPS = 34,
+            /// <summary>
+            /// Clipping capabilities
+            /// </summary>
+            CLIPCAPS = 36,
+            /// <summary>
+            /// Bitblt capabilities
+            /// </summary>
+            RASTERCAPS = 38,
+            /// <summary>
+            /// Length of the X leg
+            /// </summary>
+            ASPECTX = 40,
+            /// <summary>
+            /// Length of the Y leg
+            /// </summary>
+            ASPECTY = 42,
+            /// <summary>
+            /// Length of the hypotenuse
+            /// </summary>
+            ASPECTXY = 44,
+            /// <summary>
+            /// Shading and Blending caps
+            /// </summary>
+            SHADEBLENDCAPS = 45,
+
+            /// <summary>
+            /// Logical pixels inch in X
+            /// </summary>
+            LOGPIXELSX = 88,
+            /// <summary>
+            /// Logical pixels inch in Y
+            /// </summary>
+            LOGPIXELSY = 90,
+
+            /// <summary>
+            /// Number of entries in physical palette
+            /// </summary>
+            SIZEPALETTE = 104,
+            /// <summary>
+            /// Number of reserved entries in palette
+            /// </summary>
+            NUMRESERVED = 106,
+            /// <summary>
+            /// Actual color resolution
+            /// </summary>
+            COLORRES = 108,
+
+            // Printing related DeviceCaps. These replace the appropriate Escapes
+            /// <summary>
+            /// Physical Width in device units
+            /// </summary>
+            PHYSICALWIDTH = 110,
+            /// <summary>
+            /// Physical Height in device units
+            /// </summary>
+            PHYSICALHEIGHT = 111,
+            /// <summary>
+            /// Physical Printable Area x margin
+            /// </summary>
+            PHYSICALOFFSETX = 112,
+            /// <summary>
+            /// Physical Printable Area y margin
+            /// </summary>
+            PHYSICALOFFSETY = 113,
+            /// <summary>
+            /// Scaling factor x
+            /// </summary>
+            SCALINGFACTORX = 114,
+            /// <summary>
+            /// Scaling factor y
+            /// </summary>
+            SCALINGFACTORY = 115,
+
+            /// <summary>
+            /// Current vertical refresh rate of the display device (for displays only) in Hz
+            /// </summary>
+            VREFRESH = 116,
+            /// <summary>
+            /// Vertical height of entire desktop in pixels
+            /// </summary>
+            DESKTOPVERTRES = 117,
+            /// <summary>
+            /// Horizontal width of entire desktop in pixels
+            /// </summary>
+            DESKTOPHORZRES = 118,
+            /// <summary>
+            /// Preferred blt alignment
+            /// </summary>
+            BLTALIGNMENT = 119
+        }
         /// <summary>
         ///  Blittable version of Windows BOOL type. It is convenient in situations where
         ///  manual marshalling is required, or to avoid overhead of regular bool marshalling.
@@ -114,7 +278,7 @@ namespace Krypton.Toolkit
             ALL = RANGE | PAGE | POS | TRACKPOS
         }
 
- #pragma warning disable CA1069 // Enums values should not be duplicated
+#pragma warning disable CA1069 // Enums values should not be duplicated
         internal enum SB_
         {
             LINEUP = 0,
@@ -2490,8 +2654,6 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal const int DTT_GLOWSIZE = 2048;
         internal const int DTT_TEXTCOLOR = 1;
         internal const int MCSC_BACKGROUND = 0;
-        internal const int PLANES = 14;
-        internal const int BITSPIXEL = 12;
         internal const byte AC_SRC_OVER = 0x00;
         internal const byte AC_SRC_ALPHA = 0x01;
         internal const int EM_SETCUEBANNER = 0x1501;
@@ -2522,7 +2684,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MakeLParam(int LoWord, int HiWord) => (HiWord << 16) | (LoWord & 0xffff);
 
-        internal static IntPtr MakeWParam(int LoWord, int HiWord) => new ((long)((HiWord << 16) | (LoWord & 0xffff)));
+        internal static IntPtr MakeWParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         /// <summary>
         /// Is the specified key currently pressed down.
@@ -3173,7 +3335,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern int GetDeviceCaps(IntPtr hDC, int nIndex);
+        internal static extern int GetDeviceCaps(IntPtr hDC, DeviceCap nIndex);
 
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3495,8 +3657,8 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GlobalFree(IntPtr hMem);
 
-        [DllImport(@"kernel32.dll", CharSet=CharSet.Unicode, BestFitMapping=false, ThrowOnUnmappableChar=true)]
-//        [DllImport(ExternDll.Kernel32, CharSet=CharSet.Auto)]
+        [DllImport(@"kernel32.dll", CharSet = CharSet.Unicode, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        //        [DllImport(ExternDll.Kernel32, CharSet=CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [ResourceExposure(ResourceScope.Process)]
         internal static extern IntPtr GetModuleHandle(string moduleName);
@@ -3600,9 +3762,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 X = x;
                 Y = y;
             }
-            public static implicit operator Point(POINT p) => new (p.X, p.Y);
+            public static implicit operator Point(POINT p) => new(p.X, p.Y);
 
-            public static implicit operator POINT(Point p) => new (p.X, p.Y);
+            public static implicit operator POINT(Point p) => new(p.X, p.Y);
         }
 
         [StructLayout(LayoutKind.Sequential)]

@@ -1058,8 +1058,8 @@ namespace Krypton.Toolkit
             IntPtr desktopDC = PI.GetDC(IntPtr.Zero);
 
             // Find raw values that define the color depth
-            var planes = PI.GetDeviceCaps(desktopDC, PI.PLANES);
-            var bitsPerPixel = PI.GetDeviceCaps(desktopDC, PI.BITSPIXEL);
+            var planes = PI.GetDeviceCaps(desktopDC, PI.DeviceCap.PLANES);
+            var bitsPerPixel = PI.GetDeviceCaps(desktopDC, PI.DeviceCap.BITSPIXEL);
 
             // Must remember to release it!
             PI.ReleaseDC(IntPtr.Zero, desktopDC);
