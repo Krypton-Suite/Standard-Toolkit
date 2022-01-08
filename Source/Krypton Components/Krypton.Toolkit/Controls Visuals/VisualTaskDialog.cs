@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
             {
                 _messageContent.Text = string.Empty;
             }
-            else if (_content.Length - _content.Replace("\n", @"").Length > 20)
+            else if (_content.Length - _content.Replace("\n", string.Empty).Length > 20)
             {
                 _messageContentMultiline.Text = _content;
                 _messageContentMultiline.Visible = true;

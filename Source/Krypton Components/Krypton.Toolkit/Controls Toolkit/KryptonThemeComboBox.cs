@@ -23,8 +23,6 @@ namespace Krypton.Toolkit
 
         private int _selectedIndex;
 
-        private KryptonManager _manager;
-
         private PaletteModeManager _paletteModeManager;
         #endregion
 
@@ -42,10 +40,9 @@ namespace Krypton.Toolkit
 
         public KryptonManager Manager
         {
-            get => _manager;
+            get;
 
-            private set => _manager = value;
-        }
+        } = new KryptonManager();
 
         #endregion
 
@@ -68,11 +65,6 @@ namespace Krypton.Toolkit
             if (!DesignMode)
             {
                 Items.AddRange(ThemeManager.ReturnThemeArray());
-            }
-
-            if (_manager == null)
-            {
-                Manager = new KryptonManager();
             }
 
             Text = Manager.GlobalPaletteMode.ToString();

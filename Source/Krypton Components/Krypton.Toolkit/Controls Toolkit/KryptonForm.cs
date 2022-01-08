@@ -1404,12 +1404,9 @@ namespace Krypton.Toolkit
 
         private void UpdateBorderRegion(Region newRegion)
         {
-            if (newRegion == null)
-            {
-                return;
-            }
-
-            if (newRegion.IsEmpty(this.CreateGraphics()))
+            if ((newRegion != null)
+                && (newRegion.IsEmpty(this.CreateGraphics()))
+                )
             {
                 return;
             }
