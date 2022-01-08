@@ -182,7 +182,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float FactorDpiX
         {
-            [DebuggerStepThrough] get;
+            [DebuggerStepThrough]
+            get;
             set;
         } = 1;
 
@@ -194,7 +195,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float FactorDpiY
         {
-            [DebuggerStepThrough] get;
+            [DebuggerStepThrough]
+            get;
             set;
         } = 1;
 
@@ -242,7 +244,7 @@ namespace Krypton.Toolkit
                                 if (!ApplyComposition)
                                 {
                                     // Remove any theme that is currently drawing chrome
-                                    PI.SetWindowTheme(Handle, "", @"");
+                                    PI.SetWindowTheme(Handle, string.Empty, string.Empty);
                                 }
                                 else
                                 {
@@ -829,7 +831,10 @@ namespace Krypton.Toolkit
 
             base.OnResize(e);
 
-            if (ApplyCustomChrome && !((MdiParent != null) && CommonHelper.IsFormMaximized(this)))
+            if (ApplyCustomChrome 
+                && !((MdiParent != null) 
+                     && CommonHelper.IsFormMaximized(this))
+                )
             {
                 PerformNeedPaint(true);
             }
@@ -941,7 +946,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new(_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1032,7 +1037,7 @@ namespace Krypton.Toolkit
             // LayoutMdi call on the parent from working and cascading/tiling the children
             //if ((m.Msg == (int)PI.WM_NCCALCSIZE) && _themedApp &&
             //    ((MdiParent == null) || ApplyCustomChrome))
-            if (_themedApp 
+            if (_themedApp
                 && ((MdiParent == null) || ApplyCustomChrome)
                 )
             {
@@ -1109,23 +1114,25 @@ namespace Krypton.Toolkit
                         processed = OnWM_NCLBUTTONDBLCLK(ref m);
                         break;
                     case PI.WM_.SYSCOMMAND:
-                        // Is this the command for closing the form?
-                        if ((PI.SC_)m.WParam.ToInt64() == PI.SC_.CLOSE)
                         {
-                            PropertyInfo pi = typeof(Form).GetProperty(@"CloseReason",
-                                                                        BindingFlags.Instance |
-                                                                        BindingFlags.SetProperty |
-                                                                        BindingFlags.NonPublic);
+                            var sc = (PI.SC_)m.WParam.ToInt64();
+                            // Is this the command for closing the form?
+                            if (sc == PI.SC_.CLOSE)
+                            {
+                                PropertyInfo pi = typeof(Form).GetProperty(@"CloseReason",
+                                    BindingFlags.Instance |
+                                    BindingFlags.SetProperty |
+                                    BindingFlags.NonPublic);
 
-                            // Update form with the reason for the close
-                            pi.SetValue(this, CloseReason.UserClosing, null);
+                                // Update form with the reason for the close
+                                pi.SetValue(this, CloseReason.UserClosing, null);
+                            }
+
+                            if (sc != PI.SC_.KEYMENU)
+                            {
+                                processed = OnPaintNonClient(ref m);
+                            }
                         }
-
-                        if ((int)m.WParam.ToInt64() != 61696)
-                        {
-                            processed = OnPaintNonClient(ref m);
-                        }
-
                         break;
                     case PI.WM_.INITMENU:
                     case PI.WM_.SETTEXT:
@@ -1182,7 +1189,7 @@ namespace Krypton.Toolkit
                 // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
                 mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);
                 mmi.ptMinTrackSize.Y = Math.Max(mmi.ptMinTrackSize.Y * 2, MinimumSize.Height);
-                
+
                 // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
                 if (MaximumSize.Width > mmi.ptMinTrackSize.X
                     && MaximumSize.Width < mmi.ptMaxSize.X)
@@ -1867,7 +1874,7 @@ namespace Krypton.Toolkit
                     _palette.AllowFormChromeChanged += OnAllowFormChromeChanged;
                     _palette.BasePaletteChanged += OnBaseChanged;
                     _palette.BaseRendererChanged += OnBaseChanged;
-//                    PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
+                    // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
                 }
             }
         }
@@ -1876,7 +1883,7 @@ namespace Krypton.Toolkit
         {
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
-//            PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
+            // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
         }
 
 #if !NET462
