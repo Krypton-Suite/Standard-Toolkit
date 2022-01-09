@@ -27,15 +27,19 @@ namespace Krypton.Toolkit
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal_25_x_23;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled_25_x_23;
         private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010BlackCloseHover_25_x_23;
+        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed_25_x_23;
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal_25_x_23;
         private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled_25_x_23;
         private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010BlackMaximiseHover_25_x_23;
+        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed_13_x_12;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal_25_x_23;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlackMinimiseHover_25_x_23;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled_25_x_23;
+        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed_25_x_23;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal_25_x_23;
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlackRestoreHover_25_x_23;
+        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed_25_x_23;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice2010HelpIconBlack;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice2010HelpIconDisabled;
@@ -614,24 +618,28 @@ namespace Krypton.Toolkit
                 {
                     PaletteState.Tracking => _formCloseHover,
                     PaletteState.Normal => _formCloseNormal,
+                    PaletteState.Pressed => _formClosePressed,
                     _ => _formCloseDisabled
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Normal => _formMinimiseNormal,
                     PaletteState.Tracking => _formMinimiseHover,
+                    PaletteState.Pressed => _formMinimisePressed,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Normal => _formMaximiseNormal,
                     PaletteState.Tracking => _formMaximiseHover,
+                    PaletteState.Pressed => _formMaximisePressed,
                     _ => _formMaximiseDisabled
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Normal => _formRestoreNormal,
                     PaletteState.Tracking => _formRestoreHover,
+                    PaletteState.Pressed => _formRestorePressed,
                     _ => _formRestoreDisabled
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
@@ -4162,7 +4170,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets the edge to position the button against.
+        /// Gets the edge to positon the button against.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>

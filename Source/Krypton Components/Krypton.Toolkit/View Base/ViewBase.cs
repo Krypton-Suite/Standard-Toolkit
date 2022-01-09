@@ -229,9 +229,21 @@ namespace Krypton.Toolkit
         private void InitialiseFactors()
         {
             // This does mean that the app will not change it's dpi awareness until restarted !
-            using Graphics graphics = Graphics.FromHwnd(OwningControl?.Handle ?? IntPtr.Zero);
-            _factorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
-            _factorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
+            // Do not use the control dpi, as these values are being used to target the screen
+            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
+            if (screenDc != IntPtr.Zero)
+            {
+                _factorDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;
+                _factorDpiY = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSY) / 96f;
+                PI.ReleaseDC(IntPtr.Zero, screenDc);
+            }
+            else
+            {
+                // Do it the slow "init everything long way"
+                using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+                _factorDpiX = graphics.DpiX / 96f;
+                _factorDpiY = graphics.DpiY / 96f;
+            }
         }
 
         /// <summary>

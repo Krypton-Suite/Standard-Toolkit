@@ -26,15 +26,19 @@ namespace Krypton.Toolkit
         private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal_24_x_24;
         private static readonly Image _blueCloseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseHover_24_x_24;
         private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled_24_x_24;
-        private static readonly Image _blueMaximumNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal_24_x_24;
-        private static readonly Image _blueMaximumHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseHover_24_x_24;
-        private static readonly Image _blueMaximumDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled_24_x_24;
-        private static readonly Image _blueMinimumNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal_24_x_24;
-        private static readonly Image _blueMinimumHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseHover_24_x_24;
-        private static readonly Image _blueMinimumDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled_24_x_24;
+        private static readonly Image _blueClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueClosePressed_24_x_24;
+        private static readonly Image _blueMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal_24_x_24;
+        private static readonly Image _blueMaximiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseHover_24_x_24;
+        private static readonly Image _blueMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled_24_x_24;
+        private static readonly Image _blueMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximisePressed_24_x_24;
+        private static readonly Image _blueMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal_24_x_24;
+        private static readonly Image _blueMinimiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseHover_24_x_24;
+        private static readonly Image _blueMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled_24_x_24;
+        private static readonly Image _blueMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed_24_x_24;
         private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreNormal_24_x_24;
         private static readonly Image _blueRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreHover_24_x_24;
         private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled_24_x_24;
+        private static readonly Image _blueRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueRestorePressed_24_x_24;
         private static readonly Image _blueHelpNormal = HelpIconResources.GenericPre2010HelpIconBlue;
         private static readonly Image _blueHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
@@ -344,10 +348,34 @@ namespace Krypton.Toolkit
         {
             return style switch
             {
-                PaletteButtonSpecStyle.FormClose => state == PaletteState.Disabled ? _blueCloseDisabled : _blueCloseNormal,
-                PaletteButtonSpecStyle.FormMin => state == PaletteState.Disabled ? _blueMinimumDisabled : _blueMinimumNormal,
-                PaletteButtonSpecStyle.FormMax => state == PaletteState.Disabled ? _blueMaximumDisabled : _blueMaximumNormal,
-                PaletteButtonSpecStyle.FormRestore => state == PaletteState.Disabled ? _blueRestoreDisabled : _blueRestoreNormal,
+                PaletteButtonSpecStyle.FormClose => state switch
+                {
+                    PaletteState.Disabled => _blueCloseDisabled,
+                    PaletteState.Tracking => _blueCloseHover,
+                    PaletteState.Pressed => _blueClosePressed,
+                    _ => _blueCloseNormal
+                },
+                PaletteButtonSpecStyle.FormMin => state switch
+                {
+                    PaletteState.Disabled => _blueMinimiseDisabled,
+                    PaletteState.Tracking => _blueMinimiseHover,
+                    PaletteState.Pressed => _blueMinimisePressed,
+                    _ => _blueMinimiseNormal
+                },
+                PaletteButtonSpecStyle.FormMax => state switch
+                {
+                    PaletteState.Disabled => _blueMaximiseDisabled,
+                    PaletteState.Tracking => _blueMaximiseHover,
+                    PaletteState.Pressed => _blueMaximisePressed,
+                    _ => _blueMaximiseNormal
+                },
+                PaletteButtonSpecStyle.FormRestore => state switch
+                {
+                    PaletteState.Disabled => _blueRestoreDisabled,
+                    PaletteState.Tracking => _blueRestoreHover,
+                    PaletteState.Pressed => _blueRestorePressed,
+                    _ => _blueRestoreNormal
+                },
                 PaletteButtonSpecStyle.FormHelp => state == PaletteState.Disabled ? _blueHelpDisabled : _blueHelpNormal,
                 _ => base.GetButtonSpecImage(style, state)
             };
@@ -3940,7 +3968,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets the edge to position the button against.
+        /// Gets the edge to positon the button against.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>

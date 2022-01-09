@@ -1,10 +1,15 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-02-01 - Build 2202 - February 2022
+* Add links to the NuGet version information in the package descriptions
+* Updated NuGet package information to aid deployment to GitHub
 * Versions have now been changed to the following format `Major.yy.MM.dayofyear`, but for convenience, builds will still be referenced as `yyMM` in documentation
 * Overhauled `run.cmd`
 * Build scripts are now stored in the `Scripts` folder, though it is now recommended to utilise `run.cmd`
+* Fixed [#380](https://github.com/Krypton-Suite/Standard-Toolkit/issues/380), MDI Child form not fully maximizing not merging on the ribbon
+* Fixed [#571](https://github.com/Krypton-Suite/Standard-Toolkit/issues/571), CenterScreen start on Form is no longer respected
 * Fixed [#441](https://github.com/Krypton-Suite/Standard-Toolkit/issues/441), Wrong Ribbon Form Height when Windows is using scaling; e.g. 200% dpi
+* Implement [#493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/493), Invoke `PaletteState.Pressed` for all controlbox items in all office palettes
 * Fixed [#487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/487), The position of the KryptonForm Control Buttons are too low, when no desktop scaling preference is applied
 * Implemented [#53](https://github.com/Krypton-Suite/Standard-Toolkit/issues/53), Need images of what this toolkit can give a developer on landing page 
 * Fixed [#34](https://github.com/Krypton-Suite/Standard-Toolkit/issues/34), KryptonRibbon.RibbonAppButton.AppButtonMenuItems has error
