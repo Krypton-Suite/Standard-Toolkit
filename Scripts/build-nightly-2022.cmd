@@ -31,9 +31,17 @@ set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\C
 goto build
 
 :build
+for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
+    set "zone=%%A"
+)
+
+@echo Started: %date% %time% %zone%
+@echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% nightly.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% canary.proj /fl /flp:logfile=build.log
+
+@echo Build Completed: %date% %time% %zone%
 
 pause
 
