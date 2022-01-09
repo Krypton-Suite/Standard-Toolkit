@@ -3,7 +3,7 @@
 ## 2022-02-01 - Build 2202 - February 2022
 * Add links to the NuGet version information in the package descriptions
 * Updated NuGet package information to aid deployment to GitHub
-* Versions have now been changed to the following format `Major.yy.MM.dayofyear`, but for convenience, builds will still be referenced as `yyMM` in documentation
+* Versions have now been changed to the following format `Major.yy.MM.dayofyear`, i.e. `60.22.02.32`, but for convenience, builds will still be referenced as `yyMM` in documentation
 * Overhauled `run.cmd`
 * Build scripts are now stored in the `Scripts` folder, though it is now recommended to utilise `run.cmd`
 * Fixed [#562](https://github.com/Krypton-Suite/Standard-Toolkit/issues/562), Help Icon is not clearly visible in a lot of themes
@@ -27,6 +27,7 @@
 * Fixed tracking colours in `Office 2010 - Black (Dark Mode)`
 * Fixed [#500](https://github.com/Krypton-Suite/Standard-Toolkit/issues/500), `KryptonThemeComboBox` Themes List empty at Runtime
 * Implemented [#492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/492), Remove `Office 2013` due to redundancy with `Office 2013 White` theme
+* Solve [#361](https://github.com/Krypton-Suite/Standard-Toolkit/issues/361), Nightlies version needs to have something that allows installers to upgrade correctly
 
 =======
 
