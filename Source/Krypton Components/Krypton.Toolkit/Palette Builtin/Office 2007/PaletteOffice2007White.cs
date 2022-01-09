@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         private static readonly Image _silverRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreHover_24_x_24;
         private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreDisabled_24_x_24;
         private static readonly Image _silverRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverRestorePressed_24_x_24;
-        private static readonly Image _silverHelpNormal = HelpIconResources.GenericPre2010HelpIconWhite;
+        private static readonly Image _silverHelpNormal = HelpIconResources.GenericPre2010HelpIcon;
         private static readonly Image _silverHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
         private static readonly Color[] _trackBarColors = new Color[] { Color.Red,      // Tick marks
