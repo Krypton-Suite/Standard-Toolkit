@@ -1,6 +1,7 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-02-01 - Build 2202 - February 2022
+* Updated NuGet package information to aid deployment to GitHub
 * Versions have now been changed to the following format `Major.yy.MM.dayofyear`, but for convenience, builds will still be referenced as `yyMM` in documentation
 * Overhauled `run.cmd`
 * Build scripts are now stored in the `Scripts` folder, though it is now recommended to utilise `run.cmd`

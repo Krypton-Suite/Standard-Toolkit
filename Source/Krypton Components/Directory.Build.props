@@ -28,6 +28,7 @@
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
 				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
 			</PropertyGroup>
 		</When>
 
@@ -44,6 +45,7 @@
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
 				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
 
 				<SignAssembly>true</SignAssembly>
 				<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
@@ -63,6 +65,7 @@
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
 				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
@@ -78,6 +81,7 @@
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
 				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
