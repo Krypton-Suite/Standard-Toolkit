@@ -1293,10 +1293,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
-        private void ResetInputControlStyle()
-        {
-            InputControlStyle = InputControlStyle.Standalone;
-        }
+        private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.

@@ -893,6 +893,8 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.InputControlCustom1
                     or PaletteBackStyle.InputControlCustom2
                     or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.InputControlReadOnlyMode
+                    or PaletteBackStyle.InputControlReadOnlyModeAlternate
                     or PaletteBackStyle.FormMain
                     or PaletteBackStyle.FormCustom1
                     or PaletteBackStyle.FormCustom2
@@ -927,10 +929,9 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.ButtonInputControl
                     or PaletteBackStyle.GridBackgroundList
                     or PaletteBackStyle.GridBackgroundSheet
-                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
-
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
                     or PaletteBackStyle.GridHeaderColumnList
@@ -1139,6 +1140,8 @@ namespace Krypton.Toolkit
                             ? _ribbonColors[(int)SchemeOfficeColors.InputControlBackNormal]
                             : _ribbonColors[(int)SchemeOfficeColors.InputControlBackInactive];
                     }
+                case PaletteBackStyle.InputControlReadOnlyMode:
+                case PaletteBackStyle.InputControlReadOnlyModeAlternate:
                 case PaletteBackStyle.ControlRibbon:
                     return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected4];
                 case PaletteBackStyle.ControlRibbonAppMenu:
@@ -1376,6 +1379,10 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
                     return SystemColors.Window;
+                case PaletteBackStyle.InputControlReadOnlyMode:
+                    return SystemColors.Window;
+                case PaletteBackStyle.InputControlReadOnlyModeAlternate:
+                    return SystemColors.Control;
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
@@ -1539,6 +1546,8 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.InputControlCustom1
                     or PaletteBackStyle.InputControlCustom2
                     or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.InputControlReadOnlyMode
+                    or PaletteBackStyle.InputControlReadOnlyModeAlternate
                     or PaletteBackStyle.GridBackgroundList
                     or PaletteBackStyle.GridBackgroundSheet
                                         or PaletteBackStyle.GridBackgroundCustom1
@@ -1654,7 +1663,7 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.PanelCustom3
                     or PaletteBackStyle.GridBackgroundList
                     or PaletteBackStyle.GridBackgroundSheet
-                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
 
@@ -1825,10 +1834,9 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.ContextMenuItemHighlight
                     or PaletteBackStyle.GridBackgroundList
                     or PaletteBackStyle.GridBackgroundSheet
-                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
-
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
                     or PaletteBackStyle.GridHeaderColumnList
@@ -1944,10 +1952,9 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.ContextMenuItemHighlight
                     or PaletteBackStyle.GridBackgroundList
                     or PaletteBackStyle.GridBackgroundSheet
-                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
-
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
                     or PaletteBackStyle.GridHeaderColumnList
@@ -2062,11 +2069,10 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.ContextMenuItemImage
                     or PaletteBackStyle.ContextMenuItemHighlight
                     or PaletteBackStyle.GridBackgroundList
-                    or PaletteBackStyle.GridBackgroundSheet
-                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundSheet 
+                    or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
-
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
                     or PaletteBackStyle.GridHeaderColumnList
@@ -2137,6 +2143,8 @@ namespace Krypton.Toolkit
                     or PaletteBackStyle.InputControlCustom1
                     or PaletteBackStyle.InputControlCustom2
                     or PaletteBackStyle.InputControlCustom3
+                    or PaletteBackStyle.InputControlReadOnlyMode
+                    or PaletteBackStyle.InputControlReadOnlyModeAlternate
                     or PaletteBackStyle.FormMain
                     or PaletteBackStyle.FormCustom1
                     or PaletteBackStyle.FormCustom2

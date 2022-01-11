@@ -3056,6 +3056,10 @@ namespace Krypton.Toolkit
         InputControlCustom2,
         InputControlCustom3,
 
+        InputControlReadOnlyMode,
+
+        InputControlReadOnlyModeAlternate,
+
         /// <summary>
         /// Specifies a background style appropriate for column headers in a list style grid.
         /// </summary>
@@ -3471,6 +3475,10 @@ namespace Krypton.Toolkit
         InputControlCustom1,
         InputControlCustom2,
         InputControlCustom3,
+
+        InputControlReadOnlyMode,
+
+        InputControlReadOnlyModeAlternate,
 
         /// <summary>
         /// Specifies a border style appropriate for column headers in a list style grid.
@@ -4007,7 +4015,11 @@ namespace Krypton.Toolkit
         /// </summary>
         InputControlCustom1,
         InputControlCustom2,
-        InputControlCustom3
+        InputControlCustom3,
+
+        InputControlReadOnlyMode,
+
+        InputControlReadOnlyModeAlternate,
     }
     #endregion
 

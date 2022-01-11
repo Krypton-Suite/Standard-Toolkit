@@ -119,6 +119,16 @@ namespace Krypton.Toolkit
                         PaletteBorderStyle.InputControlCustom3,
                         PaletteContentStyle.InputControlCustom3);
                     break;
+                case InputControlStyle.ReadOnlyMode:
+                    SetStyles(PaletteBackStyle.InputControlReadOnlyMode,
+                        PaletteBorderStyle.InputControlReadOnlyMode,
+                        PaletteContentStyle.InputControlReadOnlyMode);
+                    break;
+                case InputControlStyle.ReadOnlyModeAlternate:
+                    SetStyles(PaletteBackStyle.InputControlReadOnlyModeAlternate,
+                        PaletteBorderStyle.InputControlReadOnlyModeAlternate,
+                        PaletteContentStyle.InputControlReadOnlyModeAlternate);
+                    break;
             }
         }
 

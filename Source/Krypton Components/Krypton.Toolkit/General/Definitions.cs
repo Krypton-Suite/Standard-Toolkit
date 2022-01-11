@@ -1344,7 +1344,9 @@ namespace Krypton.Toolkit
         /// </summary>
         Custom1,
         Custom2,
-        Custom3
+        Custom3,
+        ReadOnlyMode,
+        ReadOnlyModeAlternate
     }
     #endregion
 
