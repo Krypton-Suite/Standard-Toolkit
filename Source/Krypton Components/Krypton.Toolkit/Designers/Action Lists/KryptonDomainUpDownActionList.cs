@@ -37,19 +37,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _domainUpDown.ContextMenuStrip;
+            get => _domainUpDown.KryptonContextMenu;
 
             set
             {
-                if (_domainUpDown.ContextMenuStrip != value)
+                if (_domainUpDown.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.KryptonContextMenu, value);
 
-                    _domainUpDown.ContextMenuStrip = value;
+                    _domainUpDown.KryptonContextMenu = value;
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _domainUpDown.StateCommon.Border.Rounding;
 
@@ -137,10 +137,10 @@ namespace Krypton.Toolkit
             {
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"DomainUpDown display style."));
                 actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"The font for the domain up down."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }

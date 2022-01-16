@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /*
          /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font ShortTextFont
+        public Font StateCommonShortTextFont
         {
             get => _set..StateCommon.Content.ShortText.Font;
 
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font LongTextFont
+        public Font StateCommonLongTextFont
         {
             get => _button.StateCommon.Content.LongText.Font;
 

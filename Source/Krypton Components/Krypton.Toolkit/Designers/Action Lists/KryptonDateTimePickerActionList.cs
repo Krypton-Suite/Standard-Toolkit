@@ -37,19 +37,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _dateTimePicker.ContextMenuStrip;
+            get => _dateTimePicker.KryptonContextMenu;
 
             set
             {
-                if (_dateTimePicker.ContextMenuStrip != value)
+                if (_dateTimePicker.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.KryptonContextMenu, value);
 
-                    _dateTimePicker.ContextMenuStrip = value;
+                    _dateTimePicker.KryptonContextMenu = value;
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _dateTimePicker.StateCommon.Border.Rounding;
 
@@ -188,13 +188,13 @@ namespace Krypton.Toolkit
             {
                 // Add the list of bread crumb specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"Format", @"Format", @"Appearance", @"Decide what to display in the edit portion of the control"));
                 actions.Add(new DesignerActionPropertyItem(@"ShowUpDown", @"ShowUpDown", @"Appearance", @"Display up and down buttons for modifying dates and times"));
                 actions.Add(new DesignerActionPropertyItem(@"ShowCheckBox", @"ShowCheckBox", @"Appearance", @"Display a check box allowing the user to set the value is null"));
                 actions.Add(new DesignerActionPropertyItem(@"Checked", @"Checked", @"Appearance", @"Is the current value null"));
                 actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"The font for the date time picker."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }

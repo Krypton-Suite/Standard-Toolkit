@@ -37,19 +37,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _richTextBox.ContextMenuStrip;
+            get => _richTextBox.KryptonContextMenu;
 
             set
             {
-                if (_richTextBox.ContextMenuStrip != value)
+                if (_richTextBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.KryptonContextMenu, value);
 
-                    _richTextBox.ContextMenuStrip = value;
+                    _richTextBox.KryptonContextMenu = value;
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _richTextBox.StateCommon.Border.Rounding;
 
@@ -173,10 +173,10 @@ namespace Krypton.Toolkit
             {
                 // Add the list of rich text box specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"TextBox display style."));
                 actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"Modifies the font of the control."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"TextBox"));
                 actions.Add(new DesignerActionPropertyItem(@"Multiline", @"Multiline", @"TextBox", @"Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(@"WordWrap", @"WordWrap", @"TextBox", @"Should words be wrapped over multiple lines."));

@@ -37,19 +37,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _maskedTextBox.ContextMenuStrip;
+            get => _maskedTextBox.KryptonContextMenu;
 
             set
             {
-                if (_maskedTextBox.ContextMenuStrip != value)
+                if (_maskedTextBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.KryptonContextMenu, value);
 
-                    _maskedTextBox.ContextMenuStrip = value;
+                    _maskedTextBox.KryptonContextMenu = value;
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _maskedTextBox.StateCommon.Border.Rounding;
 
@@ -156,10 +156,10 @@ namespace Krypton.Toolkit
             {
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"TextBox display style."));
                 actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"Modifies the font of the control."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"MaskedTextBox"));
                 actions.Add(new DesignerActionPropertyItem(@"Mask", @"Mask", @"MaskedTextBox", @"Input mask."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
