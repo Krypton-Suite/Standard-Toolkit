@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _dateTimePicker.StateCommon.Border.Rounding;
 
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"ShowCheckBox", @"ShowCheckBox", @"Appearance", @"Display a check box allowing the user to set the value is null"));
                 actions.Add(new DesignerActionPropertyItem(@"Checked", @"Checked", @"Appearance", @"Is the current value null"));
                 actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"The font for the date time picker."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }

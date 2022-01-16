@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font DayShortTextFont
+        public Font DayStateCommonShortTextFont
         {
             get => _monthCalendar.StateCommon.Day.Content.ShortText.Font;
 
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font DayLongTextFont
+        public Font DayStateCommonLongTextFont
         {
             get => _monthCalendar.StateCommon.Day.Content.LongText.Font;
 
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _monthCalendar.StateCommon.Border.Rounding;
 
@@ -208,9 +208,9 @@ namespace Krypton.Toolkit
                 // Add the list of bread crumb specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
                 actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem(@"DayShortTextFont", @"Day Short Text Font", @"Appearance", @"The short text font."));
-                actions.Add(new DesignerActionPropertyItem(@"DayLongTextFont", @"Day Long Text Font", @"Appearance", @"The long text font."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"DayStateCommonShortTextFont", @"Day State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"DayStateCommonLongTextFont", @"Day State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Behavior"));
                 actions.Add(new DesignerActionPropertyItem(@"MaxSelectionCount", @"MaxSelectionCount", @"Behavior", @"Maximum number of selected days"));
                 actions.Add(new DesignerActionPropertyItem(@"ShowToday", @"ShowToday", @"Behavior", @"Show the today button"));

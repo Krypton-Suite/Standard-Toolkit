@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font ShortTextFont
+        public Font StateCommonShortTextFont
         {
             get => _button.StateCommon.Content.ShortText.Font;
 
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font LongTextFont
+        public Font StateCommonLongTextFont
         {
             get => _button.StateCommon.Content.LongText.Font;
 
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _button.StateCommon.Border.Rounding;
 
@@ -265,9 +265,9 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance",
                     "The krypton context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Button orientation"));
-                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
-                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
                 actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Button text"));
                 actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Button extra text"));

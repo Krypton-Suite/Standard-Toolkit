@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font ShortTextFont
+        public Font StateCommonShortTextFont
         {
             get => _checkBox.StateCommon.ShortText.Font;
 
@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font LongTextFont
+        public Font StateCommonLongTextFont
         {
             get => _checkBox.StateCommon.LongText.Font;
 
@@ -314,9 +314,9 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
                 actions.Add(new DesignerActionPropertyItem(@"LabelStyle", @"Style", @"Appearance", @"Label style"));
                 actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Visual orientation"));
-                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"ShortTextTrim", @"Short Text Trim", @"Appearance", @"The trim mode of the short text."));
-                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"LongTextTrim", @"Long Text Trim", @"Appearance", @"The trim mode of the long text."));
                 actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
