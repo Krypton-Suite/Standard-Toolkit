@@ -54,23 +54,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
-        {
-            get => _button.ContextMenuStrip;
-
-            set
-            {
-                if (_button.ContextMenuStrip != value)
-                {
-                    _service.OnComponentChanged(_button, null, _button.ContextMenuStrip, value);
-
-                    _button.ContextMenuStrip = value;
-                }
-            }
-        }
-
         /// <summary>Gets or sets the krypton context menu.</summary>
         /// <value>The krypton context menu.</value>
         public KryptonContextMenu KryptonContextMenu
@@ -261,9 +244,7 @@ namespace Krypton.Toolkit
                 // Add the list of button specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
                 actions.Add(new DesignerActionPropertyItem(@"ButtonStyle", @"Style", @"Appearance", @"Button style"));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance",
-                    "The krypton context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Button orientation"));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));

@@ -86,19 +86,19 @@ namespace Krypton.Toolkit.Designers.Action_Lists
             }
         }
 
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _listView.ContextMenuStrip;
+            get => _listView.KryptonContextMenu;
 
             set
             {
-                if (_listView.ContextMenuStrip != value)
+                if (_listView.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_listView, null, _listView.KryptonContextMenu, value);
 
-                    _listView.ContextMenuStrip = value;
+                    _listView.KryptonContextMenu = value;
                 }
             }
         }
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit.Designers.Action_Lists
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
                 actions.Add(new DesignerActionPropertyItem(@"BackStyle", @"Back Style", @"Appearance", @"Style used to draw background."));
                 actions.Add(new DesignerActionPropertyItem(@"BorderStyle", @"Border Style", @"Appearance", @"Style used to draw the border."));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"ItemStyle", @"Item Style", @"Appearance", @"How to display list items."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));

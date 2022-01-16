@@ -105,19 +105,19 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _checkBox.ContextMenuStrip;
+            get => _checkBox.KryptonContextMenu;
 
             set
             {
-                if (_checkBox.ContextMenuStrip != value)
+                if (_checkBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_checkBox, null, _checkBox.KryptonContextMenu, value);
 
-                    _checkBox.ContextMenuStrip = value;
+                    _checkBox.KryptonContextMenu = value;
                 }
             }
         }
@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"ShortTextTrim", @"Short Text Trim", @"Appearance", @"The trim mode of the short text."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"LongTextTrim", @"Long Text Trim", @"Appearance", @"The trim mode of the long text."));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
                 actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Checkbox text"));
                 actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Checkbox extra text"));

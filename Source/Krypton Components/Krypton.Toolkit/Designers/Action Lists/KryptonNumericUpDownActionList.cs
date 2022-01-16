@@ -37,19 +37,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _numericUpDown.ContextMenuStrip;
+            get => _numericUpDown.KryptonContextMenu;
 
             set
             {
-                if (_numericUpDown.ContextMenuStrip != value)
+                if (_numericUpDown.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.KryptonContextMenu, value);
 
-                    _numericUpDown.ContextMenuStrip = value;
+                    _numericUpDown.KryptonContextMenu = value;
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
             {
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"NumericUpDown display style."));
                 actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"The numeric up down font."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
