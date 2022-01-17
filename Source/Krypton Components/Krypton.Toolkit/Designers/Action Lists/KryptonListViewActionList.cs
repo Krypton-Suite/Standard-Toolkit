@@ -141,7 +141,7 @@ namespace Krypton.Toolkit.Designers.Action_Lists
         /// <summary>Gets or sets the item corner radius.</summary>
         /// <value>The item corner radius.</value>
         [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float ItemCornerRounding
+        public float StateCommonItemCornerRoundingRadius
         {
             get => _listView.StateCommon.Item.Border.Rounding;
 
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit.Designers.Action_Lists
                 actions.Add(new DesignerActionPropertyItem(@"ItemStyle", @"Item Style", @"Appearance", @"How to display list items."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionPropertyItem(@"ItemCornerRounding", @"Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonItemCornerRoundingRadius", @"State Common Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
                 actions.Add(new DesignerActionHeaderItem(@"Behavior"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             }

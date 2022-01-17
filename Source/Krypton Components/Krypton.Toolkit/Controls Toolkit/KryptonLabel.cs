@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonLabel), "ToolboxBitmaps.KryptonLabel.bmp")]
-    [DefaultEvent("Paint")]
+    [DefaultEvent("Click")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonLabelDesigner, Krypton.Toolkit")]

@@ -1,7 +1,9 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-04-04 - Build 2204 - April 2022
+* Resolved [#596](https://github.com/Krypton-Suite/Standard-Toolkit/issues/596), ActionLists do not reflect the recommended or possible settings in the designer properties
 * Resolved [#590](https://github.com/Krypton-Suite/Standard-Toolkit/issues/590), Button text colour in certain themes is unreadable
+* Resolved [#587](https://github.com/Krypton-Suite/Standard-Toolkit/issues/587), `KryptonLabel` adds the `Paint` method by default
 
 =======
 

@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the item corner radius.</summary>
         /// <value>The item corner radius.</value>
         [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float ItemCornerRounding
+        public float StateCommonItemCornerRoundingRadius
         {
             get => _listBox.StateCommon.Item.Border.Rounding;
 
@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
                 actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionPropertyItem(@"ItemCornerRounding", @"Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonItemCornerRoundingRadius", @"State Common Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
                 actions.Add(new DesignerActionHeaderItem(@"Behavior"));
                 actions.Add(new DesignerActionPropertyItem(@"SelectionMode", @"Selection Mode", @"Behavior", @"Determines the selection mode."));
                 actions.Add(new DesignerActionPropertyItem(@"Sorted", @"Sorted", @"Behavior", @"Should items be sorted according to string."));
