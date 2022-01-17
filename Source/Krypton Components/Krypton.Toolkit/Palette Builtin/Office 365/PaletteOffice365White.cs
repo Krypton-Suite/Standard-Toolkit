@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010SilverRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconWhite;
+        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIcon;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
         private static readonly Color[] _trackBarColors = new Color[] { Color.Red,      // Tick marks

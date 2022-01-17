@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         private static readonly Image _blackRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreHover_24_x_24;
         private static readonly Image _blackRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreDisabled_24_x_24;
         private static readonly Image _blackRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackRestorePressed_24_x_24;
-        private static readonly Image _blackHelpNormal = HelpIconResources.GenericPre2010HelpIconBlack;
+        private static readonly Image _blackHelpNormal = HelpIconResources.GenericPre2010HelpIcon;
         private static readonly Image _blackHelpHover = HelpIconResources.GenericPre2010HelpIconHover;
         private static readonly Image _blackHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _blackRibbonMinimize = GenericImageResources.BlackButtonCollapse;
