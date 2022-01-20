@@ -40,9 +40,10 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlackRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice2010HelpIcon;
-        private static readonly Image _formHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
-        private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice2010HelpIconDisabled;
+        private static readonly Image _formHelpNormal = HelpIconResources.Office365HelpIconNormal;
+        private static readonly Image _formHelpHover = HelpIconResources.Office365HelpIconHover;
+        private static readonly Image _formHelpPressed = HelpIconResources.Office365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = HelpIconResources.Office365HelpIconDisabled;
         private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDICloseBlack;
         private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMinBlack;
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
@@ -390,6 +391,7 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                     PaletteState.Tracking => _formHelpHover,
+                    PaletteState.Pressed => _formHelpPressed,
                     PaletteState.Normal => _formHelpNormal,
                     _ => _formHelpDisabled
                 },

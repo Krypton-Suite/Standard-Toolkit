@@ -89,9 +89,10 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleMinI = SparkleControlBoxResources.SparkleButtonMinDisabled;
         private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
         private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
-        private static readonly Image _sparkleHelpA = HelpIconResources.GenericOffice2010HelpIcon;
-        private static readonly Image _sparkleHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
-        private static readonly Image _sparkleHelpI = HelpIconResources.GenericOffice2010HelpIconDisabled;
+        private static readonly Image _sparkleHelpA = HelpIconResources.Office2010HelpIconNormal;
+        private static readonly Image _sparkleHelpHover = HelpIconResources.Office2010HelpIconHover;
+        private static readonly Image _sparkleHelpPressed = HelpIconResources.Office2010HelpIconPressed;
+        private static readonly Image _sparkleHelpI = HelpIconResources.Office2010HelpIconDisabled;
         private static readonly Image _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
         private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
@@ -3141,6 +3142,7 @@ namespace Krypton.Toolkit
                     return state switch
                     {
                         PaletteState.Normal => _sparkleHelpA,
+                        PaletteState.Pressed => _sparkleHelpPressed,
                         PaletteState.Tracking => _sparkleHelpHover,
                         _ => _sparkleHelpI
                     };

@@ -40,9 +40,10 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlueRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlueRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlueRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIcon;
-        private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
-        private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
+        private static readonly Image _formHelpNormal = HelpIconResources.Office365HelpIconNormal;
+        private static readonly Image _formHelpHover = HelpIconResources.Office365HelpIconHover;
+        private static readonly Image _formHelpPressed = HelpIconResources.Office365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = HelpIconResources.Office365HelpIconDisabled;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
                                                                         Color.FromArgb(152, 190, 241),      // Bottom track
@@ -376,6 +377,7 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                     PaletteState.Tracking => _formHelpHover,
+                    PaletteState.Pressed => _formHelpPressed,
                     PaletteState.Normal => _formHelpNormal,
                     _ => _formHelpDisabled
                 },
