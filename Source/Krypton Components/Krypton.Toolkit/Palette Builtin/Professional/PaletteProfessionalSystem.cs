@@ -80,8 +80,8 @@ namespace Krypton.Toolkit
         private static readonly Image _systemMinimiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMinDisabled;
         private static readonly Image _systemRestoreNormal = ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
         private static readonly Image _systemRestoreDisabled = ProfessionalControlBoxResources.ProfessionalButtonRestoreDisabled;
-        private static readonly Image _systemHelpA = HelpIconResources.GenericPre2010HelpIcon;
-        private static readonly Image _systemHelpI = HelpIconResources.GenericPre2010HelpIconDisabled;
+        private static readonly Image _systemHelpA = HelpIconResources.ProfessionalHelpIconNormal;
+        private static readonly Image _systemHelpI = HelpIconResources.ProfessionalHelpIconDisabled;
         private static readonly Image _pendantCloseA = ProfessionalPendantImageResources.ProfessionalPendantCloseNormal;
         private static readonly Image _pendantCloseI = ProfessionalPendantImageResources.ProfessionalPendantCloseDisabled;
         private static readonly Image _pendantMinA = ProfessionalPendantImageResources.ProfessionalPendantMinNormal;
