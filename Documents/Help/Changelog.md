@@ -15,6 +15,7 @@
 * Versions have now been changed to the following format `Major.yy.MM.dayofyear`, i.e. `60.22.02.32`, but for convenience, builds will still be referenced as `yyMM` in documentation
 * Overhauled `run.cmd`
 * Build scripts are now stored in the `Scripts` folder, though it is now recommended to utilise `run.cmd`
+* Resolved [#601](https://github.com/Krypton-Suite/Standard-Toolkit/issues/601), Form icon is displaying stretched width
 * Resolved [#596](https://github.com/Krypton-Suite/Standard-Toolkit/issues/596), ActionLists do not reflect the recommended or possible settings in the designer properties
 * Resolved [#562](https://github.com/Krypton-Suite/Standard-Toolkit/issues/562), Help Icon is not clearly visible in a lot of themes
 * Resolved [#380](https://github.com/Krypton-Suite/Standard-Toolkit/issues/380), MDI Child form not fully maximizing not merging on the ribbon
