@@ -1952,7 +1952,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnEditorButtonClicked(object sender, EventArgs e) => new MultilineStringEditor(this).ShowEditor();
+        private void OnEditorButtonClicked(object sender, EventArgs e) => new InternalKryptonMultilineStringEditor(this).ShowEditor();
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
