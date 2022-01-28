@@ -34,6 +34,7 @@ namespace Krypton.Toolkit
         private Image _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
+        private KryptonCommand _command;
         private LabelStyle _style;
         #endregion
 
@@ -395,6 +396,27 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
+        /// Gets and sets the associated KryptonCommand.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the menu check box.")]
+        [DefaultValue(null)]
+        public virtual KryptonCommand KryptonCommand
+        {
+            get => _command;
+
+            set
+            {
+                if (_command != value)
+                {
+                    _command = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(KryptonCommand)));
+                }
+            }
+        }
+
+        /// <summary>
         /// Generates a Click event for the component.
         /// </summary>
         public void PerformClick() => OnClick(EventArgs.Empty);
@@ -402,11 +424,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnClick(EventArgs e) => Click?.Invoke(this, e);
+        protected virtual void OnClick(EventArgs e)
+        {
+            Click?.Invoke(this, e);
+
+            // If we have an attached command then execute it
+            KryptonCommand?.PerformExecute();
+        }
 
         /// <summary>
         /// Raises the CheckedChanged event.
