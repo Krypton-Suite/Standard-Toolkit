@@ -2,6 +2,7 @@
 
 ## 2022-04-04 - Build 2204 - April 2022
 * Implemented [#610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/610), `KryptonContextMenuRadioButton` - no way to assign a method/event through the item editor
+* Resolved [#607](https://github.com/Krypton-Suite/Standard-Toolkit/issues/607), `KryptonMessageBox` Certain length of the first line of text can push the text on the following out of the visible area (thanks to [giduac](https://github.com/giduac))
 * Resolved [#596](https://github.com/Krypton-Suite/Standard-Toolkit/issues/596), ActionLists do not reflect the recommended or possible settings in the designer properties
 * Resolved [#590](https://github.com/Krypton-Suite/Standard-Toolkit/issues/590), Button text colour in certain themes is unreadable
 * Resolved [#587](https://github.com/Krypton-Suite/Standard-Toolkit/issues/587), `KryptonLabel` adds the `Paint` method by default
