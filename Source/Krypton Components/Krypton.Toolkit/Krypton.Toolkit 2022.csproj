@@ -697,6 +697,7 @@
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
         <NeutralLanguage>en</NeutralLanguage>
         <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
 </Project>
