@@ -323,3 +323,4 @@ Installer Project Files/Krypton Toolkit Suite/Krypton Toolkit Suite-cache/cacheI
 Installer Project Files/Krypton Toolkit Suite/Krypton Toolkit Suite-cache/part1/Krypton Toolkit Suite1.cab
 Installer Project Files/Krypton Toolkit Suite/Krypton Toolkit Suite-cache/part1/output-info.ini
 Source\Miscellaneous Toolkit Items\Krypton Toolkit Documentation\Help
+*.bak

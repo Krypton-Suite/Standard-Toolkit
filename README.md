@@ -50,6 +50,8 @@
 | <img src="https://img.shields.io/badge/Module-Ribbon-green.svg?style=flat-square" />               | ![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon.Signed?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 | <img src="https://img.shields.io/badge/Module-Workspace-green.svg?style=flat-square" />            | ![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Signed?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 
+Keep up-to-date [here](https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard)
+
 =======
 
 # <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
