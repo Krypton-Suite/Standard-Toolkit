@@ -23,6 +23,7 @@ namespace Krypton.Toolkit
         private readonly BlurValues _blurValues;
         private VisualBlur _visualBlur;
         private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
+        private Bitmap _currentFormDisplay;
         #endregion
 
         #region Identity
@@ -36,34 +37,27 @@ namespace Krypton.Toolkit
             _detectIsActiveTimer = new System.Windows.Forms.Timer { Enabled = false, Interval = 200 };
             _detectIsActiveTimer.Tick += DetectIsTopMost;
 
-            _blurValues.EnableBlurChanged += BlurValues_EnableBlurChanged;
-            _blurValues.RadiusChanged += BlurValuesOnRadiusChanged;
+            _blurValues.BlurWhenFocusLostChanged += BlurValues_EnableBlurChanged;
             _blurValues.OpacityChanged += BlurValuesOnOpacityChanged;
         }
 
-        internal void WndProc(ref Message m)
+        internal void SetBlurState(bool parentIsActive)
         {
-            switch (m.Msg)
+            if (_parentForm.IsDisposed
+                || _parentForm.Disposing)
             {
-                case PI.WM_.ACTIVATE:
-                    if ((PI.LOWORD(m.WParam) == 0) // WA_INACTIVE
-                        && (PI.HIWORD(m.WParam) == 0)
-                        )
-                    {
-                        if (_blurValues.BlurWhenFocusLost
-                            || (Form.ActiveForm != null)
-                            )
-                        {
-                            DoTheBlur();
-                        }
-                    }
-                    else
-                    {
-                        RemoveBlur();
-                    }
-                    break;
-                default:
-                    break;
+                return;
+            }
+
+            if (_blurValues.BlurWhenFocusLost
+                && !parentIsActive
+               )
+            {
+                DoTheBlur();
+            }
+            else
+            {
+                RemoveBlur();
             }
         }
 
@@ -73,6 +67,13 @@ namespace Krypton.Toolkit
 
         private void RemoveBlur()
         {
+            if (!_parentForm.IsDisposed
+                && !_parentForm.Disposing
+               )
+            {
+                _parentForm.Opacity = 1;
+            }
+
             _detectIsActiveTimer.Enabled = false;
             if (_visualBlur != null)
             {
@@ -133,18 +134,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void BlurValuesOnRadiusChanged(object sender, EventArgs e)
-        {
-            if (_visualBlur != null)
-            {
-                _visualBlur.Visible = false;
-                DoTheBlur();
-            }
-        }
-
         private void BlurValues_EnableBlurChanged(object sender, EventArgs e)
         {
-            if (!_blurValues.EnableBlur)
+            if (!_blurValues.BlurWhenFocusLost)
             {
                 RemoveBlur();
             }
@@ -162,7 +154,10 @@ namespace Krypton.Toolkit
 
         private void DoTheBlur()
         {
-            if (!_blurValues.EnableBlur)
+            if (!_blurValues.BlurWhenFocusLost
+                || _parentForm.IsDisposed
+                || _parentForm.Disposing
+                )
             {
                 // Has blur been turned off ?
                 return;
@@ -172,9 +167,17 @@ namespace Krypton.Toolkit
             _visualBlur.SetTargetRect(_parentForm.DesktopLocation, clientRectangle);
 
             Rectangle targetRect = _visualBlur.TargetRect;
-            Bitmap bmp = TakeSnapshot(targetRect);
-            _visualBlur.UpdateBlur(bmp);
-            PI.SetWindowPos(_visualBlur.Handle, PI.HWND_TOPMOST,
+            _visualBlur.UpdateBlur(_currentFormDisplay);
+            // As UpdateBlur can take a few moments, then it is possible for the app to be closed before getting to the next line
+            if ((_visualBlur == null)
+                || _parentForm.IsDisposed
+                || _parentForm.Disposing
+               )
+            {
+                return;
+            }
+
+            PI.SetWindowPos(_visualBlur.Handle, PI.HWND_TOP,//.HWND_TOPMOST,
             //PI.SetWindowPos(_visualBlur.Handle, _parentForm.Handle,
                 targetRect.X, targetRect.Y, targetRect.Width, targetRect.Height,
                 PI.SWP_.NOACTIVATE
@@ -183,8 +186,26 @@ namespace Krypton.Toolkit
                 | PI.SWP_.NOCOPYBITS
             //| PI.SWP_.NOOWNERZORDER
             );
+            // Set parent form opacity afterwards to prevent flicker
+            _parentForm.Opacity = _blurValues.Opacity / 100.0;
             _detectIsActiveTimer.Enabled = true;
 
+        }
+
+        internal void TakeSnapshot()
+        {
+            _currentFormDisplay?.Dispose();
+            if (!_blurValues.BlurWhenFocusLost
+                || _parentForm.IsDisposed
+                || _parentForm.Disposing
+                )
+            {
+                // Has blur been turned off ?
+                _currentFormDisplay = null;
+                return;
+            }
+            Rectangle clientRectangle = CommonHelper.RealClientRectangle(_parentForm.Handle);
+            _currentFormDisplay = TakeSnapshot(VisualBlur.GetTargetRectangle(_parentForm.DesktopLocation, clientRectangle));
         }
 
         private static Bitmap TakeSnapshot(Rectangle targetRectangle)

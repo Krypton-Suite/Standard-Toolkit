@@ -1,6 +1,9 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-04-04 - Build 2204 - April 2022
+* Resolved [#70](https://github.com/Krypton-Suite/Standard-Toolkit/issues/70), If the BlurWhenFocusLost is set and the app is underneath another, then it will still have the blur overlay topmost (i.e. on top of the other app which is currently fullscreen!)
+* Resolved [#69](https://github.com/Krypton-Suite/Standard-Toolkit/issues/69), The MessageBox display clears the blur underneath (Due to the code thinking it has lost focus, even when the messageBox is owned)
+* Resolved [#68](https://github.com/Krypton-Suite/Standard-Toolkit/issues/68), When Blurring on Windows 10 with a large screen, the offset of the blur overlay is wrong
 * Implemented [#610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/610), `KryptonContextMenuRadioButton` - no way to assign a method/event through the item editor
 * Resolved [#607](https://github.com/Krypton-Suite/Standard-Toolkit/issues/607), `KryptonMessageBox` Certain length of the first line of text can push the text on the following out of the visible area (thanks to [giduac](https://github.com/giduac))
 * Resolved [#596](https://github.com/Krypton-Suite/Standard-Toolkit/issues/596), ActionLists do not reflect the recommended or possible settings in the designer properties
