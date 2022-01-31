@@ -581,7 +581,7 @@ namespace Krypton.Toolkit
                 _buttonAddComboBox.TextImageRelation = TextImageRelation.ImageBeforeText;
                 _buttonAddComboBox.UseVisualStyleBackColor = true;
                 // Note Remove this when fully implemented
-                _buttonAddComboBox.Visible = false;
+                _buttonAddComboBox.Enabled = false;
                 _buttonAddComboBox.Click += buttonAddComboBox_Click;
                 // 
                 // KryptonContextMenuCollectionForm
