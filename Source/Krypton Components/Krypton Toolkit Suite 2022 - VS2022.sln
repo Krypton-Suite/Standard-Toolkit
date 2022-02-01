@@ -1,0 +1,182 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56F1A41E-584B-4F91-9E98-7D8BF678210C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build System", "Build System", "{511519DD-C887-40E5-8961-658AE4CA5D46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{405E4318-4C8A-4DC7-B624-8F7097CDFF60}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development", "{B0683F1A-BA1F-4891-93BE-958319089C89}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Documents\Development\Development-Workflow.md = ..\..\Documents\Development\Development-Workflow.md
+		..\..\Documents\Development\How to Manage Using Statements.md = ..\..\Documents\Development\How to Manage Using Statements.md
+		..\..\Documents\Development\How-to-Build.md = ..\..\Documents\Development\How-to-Build.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{C2B58A1A-4451-4A21-8487-14DBA720672D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Documents\Help\Changelog.md = ..\..\Documents\Help\Changelog.md
+		..\..\Documents\Help\Designer Fix.md = ..\..\Documents\Help\Designer Fix.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{6A930598-4EF1-4563-9BD9-CC1C831D86A6}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\..\.gitattributes = ..\..\.gitattributes
+		..\..\.gitignore = ..\..\.gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{950EE50E-C0E8-4A28-96D3-4735F5313610}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Workspace 2022", "Krypton.Workspace\Krypton.Workspace 2022.csproj", "{E653EA23-58F4-45C7-B258-0843B1AE92A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Toolkit 2022", "Krypton.Toolkit\Krypton.Toolkit 2022.csproj", "{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Ribbon 2022", "Krypton.Ribbon\Krypton.Ribbon 2022.csproj", "{37664E81-FE79-4EAD-8B04-A77C443FB181}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Navigator 2022", "Krypton.Navigator\Krypton.Navigator 2022.csproj", "{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Docking 2022", "Krypton.Docking\Krypton.Docking 2022.csproj", "{44D3FB26-8CF6-45E1-8036-93F111EC3287}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PROJ Files", "PROJ Files", "{9AE36C6C-9EAE-4B63-B326-70680262884B}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\build.proj = ..\..\build.proj
+		..\..\canary.proj = ..\..\canary.proj
+		..\..\debug.proj = ..\..\debug.proj
+		..\..\installer.proj = ..\..\installer.proj
+		..\..\nightly.proj = ..\..\nightly.proj
+		..\..\signed.proj = ..\..\signed.proj
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMD Files", "CMD Files", "{F59A6624-A207-40B8-8B1B-36FC4F4199CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{8B44A4AE-79FA-4C8E-ADDF-7EBFDC8E7352}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Scripts\build-canary-2019.cmd = ..\..\Scripts\build-canary-2019.cmd
+		..\..\Scripts\build-canary-2022.cmd = ..\..\Scripts\build-canary-2022.cmd
+		..\..\Scripts\build-installer-2019.cmd = ..\..\Scripts\build-installer-2019.cmd
+		..\..\Scripts\build-installer-2022.cmd = ..\..\Scripts\build-installer-2022.cmd
+		..\..\Scripts\build-nightly-2019.cmd = ..\..\Scripts\build-nightly-2019.cmd
+		..\..\Scripts\build-nightly-2022.cmd = ..\..\Scripts\build-nightly-2022.cmd
+		..\..\Scripts\build-signed-2019.cmd = ..\..\Scripts\build-signed-2019.cmd
+		..\..\Scripts\build-signed-2022.cmd = ..\..\Scripts\build-signed-2022.cmd
+		..\..\Scripts\build-stable-2019.cmd = ..\..\Scripts\build-stable-2019.cmd
+		..\..\Scripts\build-stable-2022.cmd = ..\..\Scripts\build-stable-2022.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration Files", "Configuration Files", "{B1BEF7ED-96F3-4BA3-AD05-428987BC2491}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Directory.Build.props = ..\..\Directory.Build.props
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Miscellaneous Scripts", "Miscellaneous Scripts", "{6C07B04E-D571-4E73-B760-180EA9DD6CC5}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\debug.cmd = ..\..\debug.cmd
+		..\..\publish.cmd = ..\..\publish.cmd
+		..\..\purge.cmd = ..\..\purge.cmd
+		..\..\run.cmd = ..\..\run.cmd
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Canary|Any CPU = Canary|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Installer|Any CPU = Installer|Any CPU
+		Nightly|Any CPU = Nightly|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Signed|Any CPU = Signed|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Canary|Any CPU.Build.0 = Canary|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Signed|Any CPU.Build.0 = Signed|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Canary|Any CPU.Build.0 = Canary|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Signed|Any CPU.Build.0 = Signed|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Canary|Any CPU.Build.0 = Canary|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Signed|Any CPU.Build.0 = Signed|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Canary|Any CPU.Build.0 = Canary|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Signed|Any CPU.Build.0 = Signed|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Canary|Any CPU.Build.0 = Canary|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Signed|Any CPU.Build.0 = Signed|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{511519DD-C887-40E5-8961-658AE4CA5D46} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
+		{405E4318-4C8A-4DC7-B624-8F7097CDFF60} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
+		{B0683F1A-BA1F-4891-93BE-958319089C89} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
+		{C2B58A1A-4451-4A21-8487-14DBA720672D} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
+		{6A930598-4EF1-4563-9BD9-CC1C831D86A6} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{37664E81-FE79-4EAD-8B04-A77C443FB181} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
+		{9AE36C6C-9EAE-4B63-B326-70680262884B} = {511519DD-C887-40E5-8961-658AE4CA5D46}
+		{F59A6624-A207-40B8-8B1B-36FC4F4199CA} = {511519DD-C887-40E5-8961-658AE4CA5D46}
+		{8B44A4AE-79FA-4C8E-ADDF-7EBFDC8E7352} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
+		{B1BEF7ED-96F3-4BA3-AD05-428987BC2491} = {511519DD-C887-40E5-8961-658AE4CA5D46}
+		{6C07B04E-D571-4E73-B760-180EA9DD6CC5} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}
+	EndGlobalSection
+EndGlobal

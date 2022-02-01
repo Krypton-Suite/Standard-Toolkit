@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+        <OutputType>Library</OutputType>
+        <RootNamespace>Krypton.Docking</RootNamespace>
+        <AssemblyName>Krypton.Docking</AssemblyName>
+        <SignAssembly>false</SignAssembly>
+        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <DelaySign>false</DelaySign>
+        <UseWindowsForms>true</UseWindowsForms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <NeutralLanguage>en</NeutralLanguage>
+        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+        <Configurations>Debug;Release;Preview;Installer;Nightly;Canary;Signed</Configurations>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Krypton.Docking</PackageId>
+        <Description>This is the docking module.</Description>
+    </PropertyGroup>
+
+    <PropertyGroup />
+
+
+    <ItemGroup>
+        <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
+        <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
+            <Link>General\PlatformInvoke.cs</Link>
+        </Compile>
+        <Compile Update="Elements Base\DockingElementClosedCollection.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="Elements Base\DockingElementOpenCollection.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="Elements Base\DockingElement.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="General\ObscureControl.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="Resources\GenericImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericImageResources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Krypton.ico" Pack="false" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonDockableNavigator.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonDockableWorkspace.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonDockingManager.bmp" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\GenericImageResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+    <PropertyGroup>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Docking.xml</DocumentationFile>
+        <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NoWarn>1701;1702</NoWarn>
+    </PropertyGroup>
+   
+</Project>

@@ -1,0 +1,88 @@
+<Project>
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
+
+	<!--Handle AssemblyInfo-->
+	<PropertyGroup>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<NeutralLanguage>en</NeutralLanguage>
+		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
+		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2022. All rights reserved.</Copyright>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- common project data -->
+		<Version>$(LibraryVersion)</Version>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="'$(Configuration)' == 'Canary'">
+			<ItemGroup>
+				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Canary.png" Link="Icon.png" Pack="true" PackagePath="" />
+			</ItemGroup>
+
+			<PropertyGroup>
+				<!-- common package data -->
+				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
+				<PackageIcon>Krypton Canary.png</PackageIcon>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Thomas Bolon</Authors>
+				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
+				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Signed'">
+			<ItemGroup>
+				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
+			</ItemGroup>
+
+			<PropertyGroup>
+				<!-- common package data -->
+				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
+				<PackageIcon>Krypton Stable.png</PackageIcon>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Thomas Bolon</Authors>
+				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
+				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
+
+				<SignAssembly>true</SignAssembly>
+				<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Nightly'">
+			<ItemGroup>
+				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />
+			</ItemGroup>
+
+			<PropertyGroup>
+				<!-- common package data -->
+				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
+				<PackageIcon>Krypton Nightly.png</PackageIcon>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Thomas Bolon</Authors>
+				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
+				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
+			</ItemGroup>
+
+			<PropertyGroup>
+				<!-- common package data -->
+				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
+				<PackageIcon>Krypton Stable.png</PackageIcon>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Thomas Bolon</Authors>
+				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
+				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+</Project>

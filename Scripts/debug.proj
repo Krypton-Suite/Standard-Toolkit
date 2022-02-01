@@ -1,0 +1,29 @@
+<Project>
+	<Import Project="..\Directory.Build.props" />
+	
+	<PropertyGroup>
+		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
+		<Configuration>Debug</Configuration>
+	</PropertyGroup>
+
+	<Target Name="Clean">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
+	</Target>	
+
+	<Target Name="Restore">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+	</Target>
+	
+	<Target Name="Build" DependsOnTargets="Restore">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" />
+	</Target>
+</Project>
