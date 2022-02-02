@@ -580,6 +580,9 @@ namespace Krypton.Toolkit
                 _buttonAddComboBox.Text = @"Add ComboBox";
                 _buttonAddComboBox.TextImageRelation = TextImageRelation.ImageBeforeText;
                 _buttonAddComboBox.UseVisualStyleBackColor = true;
+                // Note Remove this when fully implemented
+                _buttonAddComboBox.Enabled = false;
+                _buttonAddComboBox.Click += buttonAddComboBox_Click;
                 // 
                 // KryptonContextMenuCollectionForm
                 // 
@@ -801,6 +804,8 @@ namespace Krypton.Toolkit
             private void buttonAddColorColumns_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
 
             private void buttonAddImageSelect_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
+            
+            private void buttonAddComboBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
 
             private void buttonDelete_Click(object sender, EventArgs e)
             {
