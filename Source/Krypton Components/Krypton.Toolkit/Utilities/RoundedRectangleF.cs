@@ -18,7 +18,10 @@ namespace Krypton.Toolkit
     public class RoundedRectangleF
     {
         #region Variables
-        private readonly float _x, _y, _width, _height;
+        private readonly float _x;
+        private readonly float _y;
+        private readonly float _width;
+        private readonly float _height;
         private readonly GraphicsPath _graphicsPath;
         #endregion
 

@@ -38,7 +38,9 @@ namespace Krypton.Toolkit
         /// <param name="pal">KryptonPalette</param>
         public static void ScalePalette(float factorDpiX, float factorDpiY, KryptonPalette pal)
         {
-            if (pal == null /*|| pal.HasAlreadyBeenScaled*/)
+            if (pal == null 
+                //|| pal.HasAlreadyBeenScaled
+                )
             {
                 return;
             }
