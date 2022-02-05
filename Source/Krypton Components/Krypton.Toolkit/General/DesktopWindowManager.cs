@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Static Methods
         /// <summary>
-        /// Is composition currently enabled for the deskop.
+        /// Is composition currently enabled for the desktop.
         /// </summary>
         public static bool IsCompositionEnabled
         {
@@ -34,9 +34,7 @@ namespace Krypton.Toolkit
                 else if (Environment.OSVersion.Version.Major < 10)
                 {
                     // Ask the desktop window manager is composition is currently enabled
-                    var compositionEnabled = false;
-                    PI.DwmIsCompositionEnabled(ref compositionEnabled);
-                    return compositionEnabled;
+                    return PI.Dwm.IsCompositionEnabled();
                 }
                 else //Win 10
                 {
@@ -54,8 +52,8 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(hWnd != null);
 
-            // Cerate structure that contains distances for each edge
-            PI.MARGINS margins = new()
+            // Create structure that contains distances for each edge
+            var margins = new PI.MARGINS
             {
                 leftWidth = padding.Left,
                 topHeight = padding.Top,
@@ -64,7 +62,7 @@ namespace Krypton.Toolkit
             };
 
             // Request change from the desktop window manager
-            PI.DwmExtendFrameIntoClientArea(hWnd, ref margins);
+            PI.Dwm.DwmExtendFrameIntoClientArea(hWnd, ref margins);
         }
         #endregion
     }

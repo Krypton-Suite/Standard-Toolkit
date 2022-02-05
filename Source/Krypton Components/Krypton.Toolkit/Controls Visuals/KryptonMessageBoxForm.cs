@@ -434,8 +434,10 @@ namespace Krypton.Toolkit
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
-                messageSize.Width = messageXSize * FactorDpiX;
-                messageSize.Height *= FactorDpiY;
+                var factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
+                var factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
+                messageSize.Width = messageXSize * factorX;
+                messageSize.Height *= factorY;
 
                 // Always add on ad extra 5 pixels as sometimes the measure size does not draw the last 
                 // character it contains, this ensures there is always definitely enough space for it all
@@ -443,13 +445,9 @@ namespace Krypton.Toolkit
                 textSize = Size.Ceiling(messageSize);
             }
 
-            // Find size of icon area plus the text area added together
-            if (_messageIcon.Image != null)
-            {
-                return new Size(textSize.Width + _messageIcon.Width, Math.Max(_messageIcon.Height + 10, textSize.Height));
-            }
-
-            return textSize;
+            return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right + 
+                            _messageText.Margin.Left + _messageText.Margin.Right,
+                            Math.Max(_messageIcon.Height + 10, textSize.Height));
         }
 
         private Size UpdateButtonsSizing()

@@ -71,19 +71,19 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _dropButton.ContextMenuStrip;
+            get => _dropButton.KryptonContextMenu;
 
             set
             {
-                if (_dropButton.ContextMenuStrip != value)
+                if (_dropButton.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_dropButton, null, _dropButton.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_dropButton, null, _dropButton.KryptonContextMenu, value);
 
-                    _dropButton.ContextMenuStrip = value;
+                    _dropButton.KryptonContextMenu = value;
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font ShortTextFont
+        public Font StateCommonShortTextFont
         {
             get => _dropButton.StateCommon.Content.ShortText.Font;
 
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font LongTextFont
+        public Font StateCommonLongTextFont
         {
             get => _dropButton.StateCommon.Content.LongText.Font;
 
@@ -244,7 +244,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _dropButton.StateCommon.Border.Rounding;
 
@@ -278,12 +278,12 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"Splitter", @"Splitter", @"Appearance", @"Splitter of DropDown"));
                 actions.Add(new DesignerActionPropertyItem(@"ButtonStyle", @"ButtonStyle", @"Appearance", @"Button style"));
                 actions.Add(new DesignerActionPropertyItem(@"ButtonOrientation", @"ButtonOrientation", @"Appearance", @"Button orientation"));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"DropDownPosition", @"DropDownPosition", @"Appearance", @"DropDown position"));
                 actions.Add(new DesignerActionPropertyItem(@"DropDownOrientation", @"DropDownOrientation", @"Appearance", @"DropDown orientation"));
-                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
-                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
                 actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Button text"));
                 actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Button extra text"));

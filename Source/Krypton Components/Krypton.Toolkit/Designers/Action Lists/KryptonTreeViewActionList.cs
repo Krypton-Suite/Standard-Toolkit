@@ -37,19 +37,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
+        /// <summary>Gets or sets the Krypton Context Menu.</summary>
+        /// <value>The Krypton Context Menu.</value>
+        public KryptonContextMenu KryptonContextMenu
         {
-            get => _treeView.ContextMenuStrip;
+            get => _treeView.KryptonContextMenu;
 
             set
             {
-                if (_treeView.ContextMenuStrip != value)
+                if (_treeView.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.ContextMenuStrip, value);
+                    _service.OnComponentChanged(_treeView, null, _treeView.KryptonContextMenu, value);
 
-                    _treeView.ContextMenuStrip = value;
+                    _treeView.KryptonContextMenu = value;
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font ShortTextFont
+        public Font StateCommonShortTextFont
         {
             get => _treeView.StateCommon.Node.Content.ShortText.Font;
 
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font LongTextFont
+        public Font StateCommonLongTextFont
         {
             get => _treeView.StateCommon.Node.Content.LongText.Font;
 
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRadius
+        public float StateCommonCornerRoundingRadius
         {
             get => _treeView.StateCommon.Border.Rounding;
 
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the node corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float NodeCornerRadius
+        public float NodeStateCommonCornerRoundingRadius
         {
             get => _treeView.StateCommon.Node.Border.Rounding;
 
@@ -227,12 +227,12 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem(@"Appearance"));
                 actions.Add(new DesignerActionPropertyItem(@"BackStyle", @"Back Style", @"Appearance", @"Style used to draw background."));
                 actions.Add(new DesignerActionPropertyItem(@"BorderStyle", @"Border Style", @"Appearance", @"Style used to draw the border."));
-                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(@"ItemStyle", @"Item Style", @"Appearance", @"How to display tree items."));
-                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
-                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
-                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionPropertyItem(@"NodeCornerRadius", @"Node Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the node."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"NodeStateCommonCornerRoundingRadius", @"Node Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the node."));
                 actions.Add(new DesignerActionHeaderItem(@"Behavior"));
                 actions.Add(new DesignerActionPropertyItem(@"Sorted", @"Sorted", @"Behavior", @"Should items be sorted according to string."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));

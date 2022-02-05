@@ -744,6 +744,7 @@ namespace Krypton.Toolkit
                 var currentWidth = (int)(CAPTION_ICON_SIZE.Width * FactorDpiX);
                 var currentHeight = (int)(CAPTION_ICON_SIZE.Height * FactorDpiY);
                 //}
+                
                 Bitmap resizedBitmap = null;
                 try
                 {
@@ -759,12 +760,15 @@ namespace Krypton.Toolkit
                     }
                     catch
                     {
-                        //
+                        // Do nothing
                     }
                 }
+                
                 // Cache for future access
                 if (resizedBitmap != null)
-                    _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight);
+                {
+                     _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight);
+                }
             }
 
             return _cacheBitmap;
