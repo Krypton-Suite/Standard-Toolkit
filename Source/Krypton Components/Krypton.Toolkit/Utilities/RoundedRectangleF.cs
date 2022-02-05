@@ -26,13 +26,23 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Properties
+        /// <summary>Gets the path.</summary>
+        /// <value>The path.</value>
         public GraphicsPath Path => _graphicsPath;
 
+        /// <summary>Gets the rectangle.</summary>
+        /// <value>The rectangle.</value>
         public RectangleF Rect => new (_x, _y, _width, _height);
 
         #endregion
 
         #region Constructors
+        /// <summary>Initializes a new instance of the <see cref="RoundedRectangleF" /> class.</summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="radius">The radius.</param>
+        /// <param name="x">The x axis.</param>
+        /// <param name="y">The y axis.</param>
         public RoundedRectangleF(float width, float height, float radius, float x = 0, float y = 0)
         {
             _x = x;

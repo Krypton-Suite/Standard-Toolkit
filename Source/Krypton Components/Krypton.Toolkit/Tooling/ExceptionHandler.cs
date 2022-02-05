@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     internal class ExceptionHandler
     {
         #region Constructor
+        /// <summary>Initializes a new instance of the <see cref="ExceptionHandler" /> class.</summary>
         public ExceptionHandler()
         {
 
@@ -26,9 +27,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Captures the exception.
-        /// </summary>
+        /// <summary>Captures the exception.</summary>
         /// <param name="exception">The exception.</param>
         /// <param name="title">The title.</param>
         /// <param name="buttons">The buttons.</param>
@@ -55,11 +54,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Captures a stacktrace of the exception.
-        /// </summary>
+        /// <summary>Captures a stack trace of the exception.</summary>
         /// <param name="exc">The incoming exception.</param>
-        /// <param name="fileName">The file to write the exception stacktrace to.</param>
+        /// <param name="fileName">The file to write the exception stack trace to.</param>
         public static void PrintStackTrace(Exception exc, string fileName)
         {
             try
@@ -77,18 +74,15 @@ namespace Krypton.Toolkit
 
                 writer.Dispose();
             }
-            catch
+            catch (Exception e)
             {
-
-                throw;
+                CaptureException(e);
             }
         }
 
-        /// <summary>
-        /// Captures a stacktrace of the exception.
-        /// </summary>
+        /// <summary>Captures a stack trace of the exception.</summary>
         /// <param name="exc">The incoming exception.</param>
-        /// <param name="fileName">The file to write the exception stacktrace to.</param>
+        /// <param name="fileName">The file to write the exception stack trace to.</param>
         public static void PrintExceptionStackTrace(Exception exc, string fileName)
         {
             try
@@ -106,10 +100,9 @@ namespace Krypton.Toolkit
 
                 writer.Dispose();
             }
-            catch
+            catch (Exception e)
             {
-
-                throw;
+                CaptureException(e);
             }
         }
         #endregion
