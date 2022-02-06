@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
-                                                                      Color.White,                                   // InputControlTextNormal - Combobox, textbox etc text colour
+                                                                      Color.White,                      // InputControlTextNormal - Combobox, textbox etc text colour
                                                                       Color.FromArgb(128, 128, 128),    // InputControlTextDisabled
                                                                       Color.FromArgb(132, 132, 132),    // InputControlBorderNormal
                                                                       Color.FromArgb(187, 187, 187),    // InputControlBorderDisabled
@@ -256,8 +256,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonOuter3
                                                                       Color.Empty,                      // AppButtonInner1
                                                                       Color.FromArgb( 50,  50,  50),    // AppButtonInner2
-                                                                      Color.FromArgb(32, 32, 32),                      // AppButtonMenuDocs
-                                                                      Color.Black,                      // AppButtonMenuDocsText
+                                                                      Color.FromArgb(32, 32, 32),       // AppButtonMenuDocs
+                                                                      Color.White,                      // AppButtonMenuDocsText
                                                                       Color.FromArgb(172, 172, 172),    // SeparatorHighInternalBorder1
                                                                       Color.FromArgb(111, 111, 111),    // SeparatorHighInternalBorder2
                                                                       Color.FromArgb(132, 132, 132),    // RibbonGalleryBorder
