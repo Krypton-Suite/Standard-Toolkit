@@ -307,9 +307,6 @@ namespace Krypton.Toolkit
 
         #region IContentValues
 
-        private float _lastFactorDpiX;
-        private float _lastFactorDpiY;
-        private readonly Dictionary<Image, Image> _cachedImages = new();
         /// <summary>
         /// Gets the content image.
         /// </summary>
@@ -319,33 +316,10 @@ namespace Krypton.Toolkit
         {
             // Get value from button spec passing inheritance redirector
             var baseImage = ButtonSpec.GetImage(_redirector, state);
-            if (baseImage == null)
-            {
-                return null;
-            }
-
-            // Currently the `ViewButton.FactorDpi#`'s do _NOT_ change whilst the app is running
-            if (/*(ViewButton.FactorDpiX != _lastFactorDpiX)
-                || (ViewButton.FactorDpiY != _lastFactorDpiY)
-                ||*/ !_cachedImages.ContainsKey(baseImage)
-               )
-            {
-                // Image needs to be regenerated
-                _lastFactorDpiX = ViewButton.FactorDpiX;
-                _lastFactorDpiY = ViewButton.FactorDpiY;
-                var currentWidth = baseImage.Width * _lastFactorDpiX;
-                var currentHeight = baseImage.Height * _lastFactorDpiY;
-                if ((int)currentHeight == baseImage.Height)
-                {
-                    // Need to workaround the image drawing off the bottom of the form title bar when scaling @ 100%
-                    currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
-                }
-
-                _cachedImages[baseImage] = CommonHelper.ScaleImageForSizedDisplay(baseImage, currentWidth, currentHeight);
-            }
-
-            //return baseImage;
-            return _cachedImages[baseImage];
+            // No need to perform scaling as it will be done @
+            // $\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Rendering\RenderStandard.cs
+            // line 5779: memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, currentWidth, currentHeight);
+            return baseImage;
         }
 
         /// <summary>
