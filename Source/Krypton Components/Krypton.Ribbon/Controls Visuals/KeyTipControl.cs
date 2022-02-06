@@ -44,6 +44,7 @@ namespace Krypton.Ribbon
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             TransparencyKey = Color.Magenta;
+            UseDropShadow = false;
             
             // Disabled key tips are show semi-transparent
             if (_showDisabled)
