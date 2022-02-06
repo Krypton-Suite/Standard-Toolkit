@@ -307,6 +307,9 @@ namespace Krypton.Toolkit
 
         #region IContentValues
 
+        private float _lastFactorDpiX;
+        private float _lastFactorDpiY;
+        private readonly Dictionary<Image, Image> _cachedImages = new();
         /// <summary>
         /// Gets the content image.
         /// </summary>
@@ -316,10 +319,40 @@ namespace Krypton.Toolkit
         {
             // Get value from button spec passing inheritance redirector
             var baseImage = ButtonSpec.GetImage(_redirector, state);
-            // No need to perform scaling as it will be done @
-            // $\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Rendering\RenderStandard.cs
-            // line 5779: memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, currentWidth, currentHeight);
-            return baseImage;
+            if (baseImage == null)
+            {
+                return null;
+            }
+
+            if ( !_cachedImages.ContainsKey(baseImage)
+               )
+            {
+                // Currently the `ViewButton.FactorDpi#`'s do _NOT_ change whilst the app is running
+                _lastFactorDpiX = ViewButton.FactorDpiX;
+                _lastFactorDpiY = ViewButton.FactorDpiY;
+
+                var targetWidth = 16 * _lastFactorDpiX * 1.25f;
+                var targetHeight = 16 * _lastFactorDpiY * 1.25f;
+
+                if ((targetWidth > baseImage.Width) 
+                    && (targetHeight > baseImage.Height)
+                    )
+                {
+                    // Image needs to be regenerated as oversized in order to be scaled back later
+                    // $\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Rendering\RenderStandard.cs
+                    // line 5779: memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, currentWidth, currentHeight);
+                    var ratio = 1.0f * Math.Min(baseImage.Width, baseImage.Height) /
+                                Math.Max(baseImage.Width, baseImage.Height);
+                    _cachedImages[baseImage] =
+                        CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * ratio * _lastFactorDpiX, baseImage.Height * ratio * _lastFactorDpiY);
+                }
+                else
+                {
+                    _cachedImages[baseImage] = baseImage;
+                }
+            }
+
+            return _cachedImages[baseImage];
         }
 
         /// <summary>
