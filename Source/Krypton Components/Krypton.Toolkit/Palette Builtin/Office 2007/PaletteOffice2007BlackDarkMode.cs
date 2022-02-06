@@ -669,8 +669,10 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(9, 9, 9); //(76, 76, 76);
+        private static readonly Color _contextMenuBack = Color.FromArgb(61, 61, 61);
+        //private static readonly Color _contextMenuBorder = Color.FromArgb(38, 38, 38);
         private static readonly Color _contextMenuInnerBack = Color.FromArgb(250, 250, 250);
-        private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);
+        //private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
@@ -1146,16 +1148,16 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlToolTip:
                     return _toolTipBack1;
                 case PaletteBackStyle.ContextMenuOuter:
-                    return _contextMenuOuterBack;
+                    return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:
                 case PaletteBackStyle.ContextMenuItemSplit:
                     return state switch
                     {
                         PaletteState.Tracking => _buttonBackColors[2],
-                        _ => _contextMenuOuterBack
+                        _ => _contextMenuBack
                     };
                 case PaletteBackStyle.ContextMenuInner:
-                    return _contextMenuInnerBack;
+                    return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuHeading:
                     return _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingBack];
                 case PaletteBackStyle.ContextMenuItemImageColumn:
@@ -1398,12 +1400,12 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlToolTip:
                     return _toolTipBack2;
                 case PaletteBackStyle.ContextMenuOuter:
-                    return _contextMenuOuterBack;
+                    return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:
                 case PaletteBackStyle.ContextMenuItemSplit:
-                    return state == PaletteState.Tracking ? _buttonBackColors[3] : _contextMenuOuterBack;
+                    return state == PaletteState.Tracking ? _buttonBackColors[3] : _contextMenuBack;
                 case PaletteBackStyle.ContextMenuInner:
-                    return _contextMenuInnerBack;
+                    return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuHeading:
                     return _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingBack];
                 case PaletteBackStyle.ContextMenuItemImageColumn:
@@ -2367,7 +2369,7 @@ namespace Krypton.Toolkit
                 PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1],
                 PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
                 PaletteBorderStyle.ContextMenuOuter => _contextMenuBorder,
-                PaletteBorderStyle.ContextMenuInner => _contextMenuInnerBack,
+                PaletteBorderStyle.ContextMenuInner => _contextMenuBack,
                 PaletteBorderStyle.ControlToolTip => state == PaletteState.Disabled ? _disabledBorder : _toolTipBorder,
                 PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 => state == PaletteState.Disabled
 ? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactive]
