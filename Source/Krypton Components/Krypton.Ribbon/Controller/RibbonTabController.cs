@@ -241,8 +241,9 @@ namespace Krypton.Ribbon
             {
                 case Keys.Right:
                     // Get the next visible tab page
-                    newView = (_target.ViewLayoutRibbonTabs.GetViewForNextRibbonTab(_target.RibbonTab) ?? (ViewBase) _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
-                              _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = (_target.ViewLayoutRibbonTabs.GetViewForNextRibbonTab(_target.RibbonTab) 
+                               ?? (ViewBase) _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) 
+                              ?? _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -263,8 +264,9 @@ namespace Krypton.Ribbon
                     break;
                 case Keys.Left:
                     // Get the previous visible tab page
-                    newView = (_target.ViewLayoutRibbonTabs.GetViewForPreviousRibbonTab(_target.RibbonTab) ?? (ViewBase) _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)) ??
-                              _ribbon.GetLastQATView();
+                    newView = (_target.ViewLayoutRibbonTabs.GetViewForPreviousRibbonTab(_target.RibbonTab) 
+                               ?? (ViewBase) _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)) 
+                              ?? _ribbon.GetLastQATView();
 
                     // Move across to any near defined buttons
 
@@ -285,8 +287,8 @@ namespace Krypton.Ribbon
                     break;
                 case Keys.Tab | Keys.Shift:
                     // Move across to any near defined buttons
-                    newView = _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near) ??
-                              _ribbon.GetLastQATView();
+                    newView = _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near) 
+                              ?? _ribbon.GetLastQATView();
 
                     // Get the last qat button
 
@@ -309,8 +311,9 @@ namespace Krypton.Ribbon
                     break;
                 case Keys.Tab:
                     // Get the first focus item for the currently selected page
-                    newView = (_ribbon.GroupsArea.ViewGroups.GetFirstFocusItem() ?? _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)) ??
-                              _ribbon.GetLastQATView();
+                    newView = (_ribbon.GroupsArea.ViewGroups.GetFirstFocusItem() 
+                               ?? _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)) 
+                              ?? _ribbon.GetLastQATView();
 
                     // Move across to any near defined buttons
 
@@ -333,7 +336,8 @@ namespace Krypton.Ribbon
                 case Keys.Space:
                     // When minimize, pressing enter will select the tab and pop it up
                     if (_ribbon.RealMinimizedMode 
-                        && (_ribbon.SelectedTab != _target.RibbonTab))
+                        && (_ribbon.SelectedTab != _target.RibbonTab)
+                        )
                     {
                         // Select the tab will automatically create a popup for it
                         _ribbon.SelectedTab = _target.RibbonTab;
@@ -414,8 +418,9 @@ namespace Krypton.Ribbon
             set
             {
                 // Warn if multiple sources want to hook their single delegate
-                Debug.Assert(((_needPaint == null) && (value != null)) ||
-                             ((_needPaint != null) && (value == null)));
+                Debug.Assert(((_needPaint == null) && (value != null)) 
+                             || ((_needPaint != null) && (value == null))
+                             );
 
                 _needPaint = value;
             }
