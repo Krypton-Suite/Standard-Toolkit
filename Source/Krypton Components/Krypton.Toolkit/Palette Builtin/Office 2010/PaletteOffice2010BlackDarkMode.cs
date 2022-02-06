@@ -58,8 +58,8 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
         private static readonly Color[] _schemeColors = { Color.White,    // TextLabelControl
-                                                          Color.FromArgb(70, 70, 70), // TextButtonNormal
-                                                          Color.White,                      // TextButtonChecked
+                                                          Color.White, // TextButtonNormal
+                                                          Color.FromArgb(128, 128, 128),    // TextButtonChecked
                                                           Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
                                                           Color.FromArgb( 94,  94,  94),    // ButtonNormalDefaultBorder
                                                           Color.FromArgb(189, 189, 189),    // ButtonNormalBack1
@@ -245,9 +245,9 @@ namespace Krypton.Toolkit
                                                                       Color.Transparent,                // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
-                                                                      Color.FromArgb(240, 242, 245),    // ContextMenuHeadingBack
-                                                                      Color.Black,                      // ContextMenuHeadingText
-                                                                      Color.White,                      // ContextMenuImageColumn
+                                                                      Color.FromArgb(99, 99, 99),       // ContextMenuHeadingBack
+                                                                      Color.White,                      // ContextMenuHeadingText
+                                                                      Color.FromArgb(91, 91, 91),       // ContextMenuImageColumn
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonBack1
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonBack2
                                                                       Color.FromArgb( 50,  50,  50),    // AppButtonBorder
@@ -256,8 +256,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonOuter3
                                                                       Color.Empty,                      // AppButtonInner1
                                                                       Color.FromArgb( 50,  50,  50),    // AppButtonInner2
-                                                                      Color.White,                      // AppButtonMenuDocs
-                                                                      Color.Black,                      // AppButtonMenuDocsText
+                                                                      Color.FromArgb(32, 32, 32),       // AppButtonMenuDocs
+                                                                      Color.White,                      // AppButtonMenuDocsText
                                                                       Color.FromArgb(172, 172, 172),    // SeparatorHighInternalBorder1
                                                                       Color.FromArgb(111, 111, 111),    // SeparatorHighInternalBorder2
                                                                       Color.FromArgb(132, 132, 132),    // RibbonGalleryBorder
@@ -830,8 +830,8 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuBack = Color.White;
-        private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
+        private static readonly Color _contextMenuBack = Color.FromArgb(61, 61, 61);
+        private static readonly Color _contextMenuBorder = Color.FromArgb(38, 38, 38);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
@@ -847,11 +847,28 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _controlCustom3Color = Color.FromArgb(38, 38, 38);
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
+        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
+                                                             Color.FromArgb(214, 220, 231),
+                                                             Color.FromArgb(188, 198, 211),
+                                                             Color.FromArgb(254, 254, 255),
+                                                             Color.FromArgb(206, 213, 225)
+                                                            };
 
-        /*private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
+        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230),
+                                                            Color.FromArgb(248, 230, 143),
+                                                            Color.FromArgb(238, 213, 126),
+                                                            Color.FromArgb(254, 247, 129),
+                                                            Color.FromArgb(240, 201, 41)
+                                                          };
+
+        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
+                                                              Color.FromArgb(228, 198, 149),
+                                                              Color.FromArgb(166, 97, 7),
+                                                              Color.FromArgb(242, 155, 57),
+                                                              Color.FromArgb(236, 136, 9)
+                                                            };
+
+        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
                                                                 Color.FromArgb(187, 186, 186),  // Button, Tracking, Border 1
                                                                 Color.FromArgb(139, 139, 139),  // Button, Tracking, Border 2
                                                                 Color.FromArgb(30, 30, 30),  // Button, Pressed, Border 1
@@ -868,27 +885,6 @@ namespace Krypton.Toolkit
                                                               Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
                                                               Color.FromArgb(61, 61, 61), // Button, Checked, Back 2
-                                                              Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                              Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                            };*/
-
-        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
-                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
-                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
-                                                                Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
-                                                                Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
-                                                              };
-
-        private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                              Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                              Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
-                                                              Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
-                                                              Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
-                                                              Color.FromArgb(194, 118, 43),  // Button, Pressed, Back 2
-                                                              Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
-                                                              Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
                                                               Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
                                                               Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
                                                             };

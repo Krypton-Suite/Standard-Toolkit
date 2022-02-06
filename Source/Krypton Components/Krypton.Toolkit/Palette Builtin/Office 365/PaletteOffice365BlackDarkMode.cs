@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
                                                                       Color.FromArgb(99, 99, 99),    // ContextMenuHeadingBack
-                                                                      Color.Black,                      // ContextMenuHeadingText
+                                                                      Color.White,                   // ContextMenuHeadingText
                                                                       Color.FromArgb(91, 91, 91),       // ContextMenuImageColumn - Context menu margin
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonBack1
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonBack2
