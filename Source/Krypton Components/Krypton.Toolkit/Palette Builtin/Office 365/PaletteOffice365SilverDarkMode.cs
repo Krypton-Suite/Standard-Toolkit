@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(80, 81, 82)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb(255, 255, 255),    // TextLabelControl
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb(255, 255, 255),    // TextLabelControl
                                                                       Color.FromArgb(54, 79, 110),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(187, 191, 196),    // ButtonNormalBorder1
@@ -304,7 +304,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initializes a new instance of the <see cref="PaletteOffice365Silver"/> class.
         /// </summary>
-        public PaletteOffice365SilverDarkMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice365SilverDarkMode() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }

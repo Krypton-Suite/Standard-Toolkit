@@ -7,8 +7,6 @@
 
 using System.Drawing.Printing;
 
-using static Krypton.Toolkit.CommonDialogHandler;
-
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 #pragma warning disable IDE1006 // Naming Styles

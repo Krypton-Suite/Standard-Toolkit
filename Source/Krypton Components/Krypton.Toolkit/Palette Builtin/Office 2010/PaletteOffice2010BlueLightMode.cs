@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(63, 101, 152)        // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 30,  57,  91),    // TextLabelControl
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 30,  57,  91),    // TextLabelControl
                                                                       Color.FromArgb( 30,  57,  91),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(171, 186, 208),    // ButtonNormalBorder
@@ -310,7 +310,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2010Blue class.
         /// </summary>
         public PaletteOffice2010BlueLightMode()
-            : base(_schemeColors,
+            : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
                    _radioButtonArray,

@@ -171,6 +171,8 @@
 
 					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
 
+					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Help/Changelog.md
+
 					This package is for those who want to try out the latest features before deployment. Please use $(PackageId) or $(PackageId).Signed if deployment is intended.
 				</Description>
 			</PropertyGroup>
@@ -187,6 +189,8 @@
 					Also, all libraries are included targeting each specific framework version for performance purposes.
 
 					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
+
+					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md
 
 					The binaries contained in this package have been digitally signed.
 				</Description>
@@ -205,6 +209,8 @@
 
 					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
 
+					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Help/Changelog.md
+
 					This package is for those who want to try out the latest cutting edge features before deployment. Please use $(PackageId) or $(PackageId).Signed if deployment is intended.
 				</Description>
 			</PropertyGroup>
@@ -221,6 +227,8 @@
 					Also, all libraries are included targeting each specific framework version for performance purposes.
 
 					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
+
+					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md
 
 					FOR USE WITH DEMO INSTALLERS ONLY! Please use $(PackageId) or $(PackageId).Signed if deployment is intended.
 				</Description>

@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
                                                                         Color.Empty,                        // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
                                                                       Color.FromArgb( 70,  70,  70),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(137, 135, 133),    // ButtonNormalBorder1
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2007Black class.
         /// </summary>
         public PaletteOffice2007Black()
-            : base(_schemeColors,
+            : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
                    _radioButtonArray,
@@ -342,7 +342,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.HeaderPrimaryBack1];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.HeaderPrimaryBack1];
                     }
                     break;
             }
@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.ControlBorder];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
                     }
                     break;
             }
@@ -388,7 +388,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.ControlBorder];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
                     }
                     break;
             }
@@ -412,7 +412,7 @@ namespace Krypton.Toolkit
                 {
                     case PaletteState.FocusOverride:
                     case PaletteState.CheckedNormal:
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                        return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
                 }
             }
 
@@ -433,7 +433,7 @@ namespace Krypton.Toolkit
                 {
                     case PaletteState.FocusOverride:
                     case PaletteState.CheckedNormal:
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                        return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
                 }
             }
 
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
                 {
                     case PaletteState.FocusOverride:
                     case PaletteState.CheckedNormal:
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                        return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
                 }
             }
 
@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
                 {
                     case PaletteState.FocusOverride:
                     case PaletteState.CheckedNormal:
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                        return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
                 }
             }
 

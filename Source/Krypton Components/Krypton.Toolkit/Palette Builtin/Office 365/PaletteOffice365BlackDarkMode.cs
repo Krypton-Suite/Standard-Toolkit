@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = {             Color.White,             // TextLabelControl - Why is this used for  context menu normal & tracking text?
+        private static readonly Color[] _schemeOfficeColors = {             Color.White,             // TextLabelControl - Why is this used for  context menu normal & tracking text?
                                                                       Color.White,                      // TextButtonNormal - Normal button text
                                                                       Color.FromArgb(128, 128, 128),                      // TextButtonChecked
                                                                       Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initializes a new instance of the <see cref="PaletteOffice365Black"/> class.
         /// </summary>
-        public PaletteOffice365BlackDarkMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice365BlackDarkMode() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }
