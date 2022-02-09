@@ -671,7 +671,7 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipText = Color.FromArgb(9, 9, 9); //(76, 76, 76);
         private static readonly Color _calendarDayColour = Color.White; // The calendar day colour
         private static readonly Color _calendarDayDisabledColour = Color.FromArgb(128, 128, 128);
-        private static readonly Color _contextMenuBack = Color.FromArgb(113, 113, 1113);
+        private static readonly Color _contextMenuBack = Color.FromArgb(113, 113, 113);
         //private static readonly Color _contextMenuBorder = Color.FromArgb(38, 38, 38);
         private static readonly Color _contextMenuInnerBack = Color.FromArgb(250, 250, 250);
         //private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);
