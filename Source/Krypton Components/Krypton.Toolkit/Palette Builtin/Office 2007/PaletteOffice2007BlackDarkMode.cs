@@ -669,6 +669,8 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(9, 9, 9); //(76, 76, 76);
+        private static readonly Color _calendarDayColour = Color.White; // The calendar day colour
+        private static readonly Color _calendarDayDisabledColour = Color.FromArgb(128, 128, 128);
         private static readonly Color _contextMenuBack = Color.FromArgb(61, 61, 61);
         //private static readonly Color _contextMenuBorder = Color.FromArgb(38, 38, 38);
         private static readonly Color _contextMenuInnerBack = Color.FromArgb(250, 250, 250);
@@ -3251,7 +3253,7 @@ namespace Krypton.Toolkit
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
+                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _calendarDayColour,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
@@ -3327,7 +3329,7 @@ namespace Krypton.Toolkit
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
+                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _calendarDayColour,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem

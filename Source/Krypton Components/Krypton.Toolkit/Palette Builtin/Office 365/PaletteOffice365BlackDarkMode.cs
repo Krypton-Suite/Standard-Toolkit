@@ -474,12 +474,14 @@ namespace Krypton.Toolkit
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
-        private static readonly Color _ribbonDisabledText = Color.FromArgb(167, 167, 167);
-        private static readonly Color _genericDisabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _ribbonDisabledText = Color.FromArgb(92, 92, 92); //.FromArgb(167, 167, 167);
+        private static readonly Color _genericDisabledText = Color.FromArgb(92, 92, 92); //.FromArgb(167, 167, 167);
         private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
         private static readonly Color _disabledGlyphLight = Color.FromArgb(237, 237, 237);
+        private static readonly Color _calendarDayColour = Color.White; // The calendar day colour
+        private static readonly Color _calendarDayDisabledColour = Color.FromArgb(128, 128, 128);
         private static readonly Color _contextCheckedTabBorder1 = Color.FromArgb(223, 119, 0);
         private static readonly Color _contextCheckedTabBorder2 = Color.FromArgb(230, 190, 129);
         private static readonly Color _contextCheckedTabBorder3 = Color.FromArgb(220, 202, 171);
@@ -2420,7 +2422,7 @@ namespace Krypton.Toolkit
                 (style != PaletteContentStyle.ButtonInputControl) &&
                 (style != PaletteContentStyle.ButtonCalendarDay))
             {
-                return _genericDisabledText;
+                return _genericDisabledText; //? Look into this
             }
 
             return style switch
@@ -2439,7 +2441,7 @@ namespace Krypton.Toolkit
 ? _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
+                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _calendarDayColour,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
@@ -2517,7 +2519,7 @@ namespace Krypton.Toolkit
 ? _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
+                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _calendarDayDisabledColour,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
