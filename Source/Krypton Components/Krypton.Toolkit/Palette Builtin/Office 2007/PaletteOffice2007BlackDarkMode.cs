@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb( 83,  83,  83),    // ToolStripBack
                                                                       Color.FromArgb(178, 177, 178),    // StatusStripLight
                                                                       Color.FromArgb(131, 132, 132),    // StatusStripDark
-                                                                      Color.FromArgb(239, 239, 239),    // ImageMargin
+                                                                      Color.FromArgb(70, 70, 70),       // ImageMargin - Menu strip menu margins
                                                                       Color.FromArgb(210, 213, 218),    // ToolStripBegin
                                                                       Color.FromArgb(188, 193, 201),    // ToolStripMiddle
                                                                       Color.FromArgb(138, 146, 156),    // ToolStripEnd
@@ -239,8 +239,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(255, 248, 203),    // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
-                                                                      Color.FromArgb(235, 235, 235),    // ContextMenuHeading
-                                                                      Color.FromArgb( 76,  83,  92),    // ContextMenuHeadingText
+                                                                      Color.FromArgb(70, 70, 70),       // ContextMenuHeading
+                                                                      Color.White,                      // ContextMenuHeadingText
                                                                       Color.FromArgb(239, 239, 239),    // ContextMenuImageColumn
                                                                       Color.FromArgb(109, 108, 108),    // AppButtonBack1
                                                                       Color.FromArgb(104, 103, 103),    // AppButtonBack2
@@ -671,7 +671,7 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipText = Color.FromArgb(9, 9, 9); //(76, 76, 76);
         private static readonly Color _calendarDayColour = Color.White; // The calendar day colour
         private static readonly Color _calendarDayDisabledColour = Color.FromArgb(128, 128, 128);
-        private static readonly Color _contextMenuBack = Color.FromArgb(61, 61, 61);
+        private static readonly Color _contextMenuBack = Color.FromArgb(113, 113, 1113);
         //private static readonly Color _contextMenuBorder = Color.FromArgb(38, 38, 38);
         private static readonly Color _contextMenuInnerBack = Color.FromArgb(250, 250, 250);
         //private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);

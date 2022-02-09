@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(113, 113, 113),    // ToolStripBack
                                                                       Color.FromArgb( 75,  75,  75),    // StatusStripLight
                                                                       Color.FromArgb( 50,  50,  50),    // StatusStripDark
-                                                                      Color.White,                      // ImageMargin
+                                                                      Color.FromArgb(71, 71, 71),       // ImageMargin - Menu strip menu margins
                                                                       Color.FromArgb( 75,  75,  75),    // ToolStripBegin
                                                                       Color.FromArgb( 50,  50,  50),    // ToolStripMiddle
                                                                       Color.FromArgb( 50,  50,  50),    // ToolStripEnd
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
                                                                       Color.Transparent,                // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
-                                                                      Color.FromArgb(99, 99, 99),       // ContextMenuHeadingBack
+                                                                      Color.FromArgb(70, 70, 70),       // ContextMenuHeadingBack - Used for margins
                                                                       Color.White,                      // ContextMenuHeadingText
                                                                       Color.FromArgb(91, 91, 91),       // ContextMenuImageColumn
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonBack1

@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(113, 113, 113),    // ToolStripBack
                                                                       Color.FromArgb( 75,  75,  75),    // StatusStripLight
                                                                       Color.FromArgb( 50,  50,  50),    // StatusStripDark
-                                                                      Color.White,                      // ImageMargin
+                                                                      Color.FromArgb(61, 61, 61),       // ImageMargin - Menu strip menu margins
                                                                       Color.FromArgb( 75,  75,  75),    // ToolStripBegin
                                                                       Color.FromArgb( 50,  50,  50),    // ToolStripMiddle
                                                                       Color.FromArgb( 50,  50,  50),    // ToolStripEnd
