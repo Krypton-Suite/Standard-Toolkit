@@ -57,9 +57,9 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.White,    // TextLabelControl
-                                                          Color.FromArgb(70, 70, 70), // TextButtonNormal
-                                                          Color.White,                      // TextButtonChecked
+        private static readonly Color[] _schemeOfficeColors = { Color.White,    // TextLabelControl
+                                                          Color.White, // TextButtonNormal
+                                                          Color.FromArgb(128, 128, 128),    // TextButtonChecked
                                                           Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
                                                           Color.FromArgb( 94,  94,  94),    // ButtonNormalDefaultBorder
                                                           Color.FromArgb(189, 189, 189),    // ButtonNormalBack1
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(113, 113, 113),    // ToolStripBack
                                                                       Color.FromArgb( 75,  75,  75),    // StatusStripLight
                                                                       Color.FromArgb( 50,  50,  50),    // StatusStripDark
-                                                                      Color.White,                      // ImageMargin
+                                                                      Color.FromArgb(71, 71, 71),       // ImageMargin - Menu strip menu margins
                                                                       Color.FromArgb( 75,  75,  75),    // ToolStripBegin
                                                                       Color.FromArgb( 50,  50,  50),    // ToolStripMiddle
                                                                       Color.FromArgb( 50,  50,  50),    // ToolStripEnd
@@ -245,9 +245,9 @@ namespace Krypton.Toolkit
                                                                       Color.Transparent,                // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
-                                                                      Color.FromArgb(240, 242, 245),    // ContextMenuHeadingBack
-                                                                      Color.Black,                      // ContextMenuHeadingText
-                                                                      Color.White,                      // ContextMenuImageColumn
+                                                                      Color.FromArgb(70, 70, 70),       // ContextMenuHeadingBack - Used for margins
+                                                                      Color.White,                      // ContextMenuHeadingText
+                                                                      Color.FromArgb(91, 91, 91),       // ContextMenuImageColumn
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonBack1
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonBack2
                                                                       Color.FromArgb( 50,  50,  50),    // AppButtonBorder
@@ -256,8 +256,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb( 70,  70,  70),    // AppButtonOuter3
                                                                       Color.Empty,                      // AppButtonInner1
                                                                       Color.FromArgb( 50,  50,  50),    // AppButtonInner2
-                                                                      Color.White,                      // AppButtonMenuDocs
-                                                                      Color.Black,                      // AppButtonMenuDocsText
+                                                                      Color.FromArgb(32, 32, 32),       // AppButtonMenuDocs
+                                                                      Color.White,                      // AppButtonMenuDocsText
                                                                       Color.FromArgb(172, 172, 172),    // SeparatorHighInternalBorder1
                                                                       Color.FromArgb(111, 111, 111),    // SeparatorHighInternalBorder2
                                                                       Color.FromArgb(132, 132, 132),    // RibbonGalleryBorder
@@ -317,7 +317,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2010Black class.
         /// </summary>
         public PaletteOffice2010BlackDarkMode()
-            : base(_schemeColors,
+            : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
                    _radioButtonArray,
@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.HeaderSecondaryBack1];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.HeaderSecondaryBack1];
                     }
                     break;
             }
@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.ControlBorder];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
                     }
                     break;
             }
@@ -419,7 +419,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.ControlBorder];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
                     }
                     break;
             }
@@ -448,7 +448,7 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonCustom3:
                     if (state == PaletteState.NormalDefaultOverride)
                     {
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonChecked];
+                        return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked];
                     }
 
                     break;
@@ -456,8 +456,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -493,8 +493,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -530,8 +530,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -567,8 +567,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -830,8 +830,10 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuBack = Color.White;
-        private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
+        private static readonly Color _calendarDayColour = Color.White; // The calendar day colour
+        private static readonly Color _calendarDayDisabledColour = Color.FromArgb(128, 128, 128);
+        private static readonly Color _contextMenuBack = Color.FromArgb(61, 61, 61);
+        private static readonly Color _contextMenuBorder = Color.FromArgb(38, 38, 38);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
@@ -847,11 +849,28 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _controlCustom3Color = Color.FromArgb(38, 38, 38);
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
+        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
+                                                             Color.FromArgb(214, 220, 231),
+                                                             Color.FromArgb(188, 198, 211),
+                                                             Color.FromArgb(254, 254, 255),
+                                                             Color.FromArgb(206, 213, 225)
+                                                            };
 
-        /*private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
+        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230),
+                                                            Color.FromArgb(248, 230, 143),
+                                                            Color.FromArgb(238, 213, 126),
+                                                            Color.FromArgb(254, 247, 129),
+                                                            Color.FromArgb(240, 201, 41)
+                                                          };
+
+        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
+                                                              Color.FromArgb(228, 198, 149),
+                                                              Color.FromArgb(166, 97, 7),
+                                                              Color.FromArgb(242, 155, 57),
+                                                              Color.FromArgb(236, 136, 9)
+                                                            };
+
+        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
                                                                 Color.FromArgb(187, 186, 186),  // Button, Tracking, Border 1
                                                                 Color.FromArgb(139, 139, 139),  // Button, Tracking, Border 2
                                                                 Color.FromArgb(30, 30, 30),  // Button, Pressed, Border 1
@@ -870,32 +889,11 @@ namespace Krypton.Toolkit
                                                               Color.FromArgb(61, 61, 61), // Button, Checked, Back 2
                                                               Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
                                                               Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                            };*/
-
-        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
-                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
-                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
-                                                                Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
-                                                                Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
-                                                              };
-
-        private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                              Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                              Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
-                                                              Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
-                                                              Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
-                                                              Color.FromArgb(194, 118, 43),  // Button, Pressed, Back 2
-                                                              Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
-                                                              Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
-                                                              Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                              Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
                                                             };
         #endregion
 
         #region Instance Fields
-        private KryptonColorTable2010 _table;
+        private KryptonColorTable2010BlackDarkMode _table;
         private readonly Color[] _ribbonColors;
         private readonly Color[] _trackBarColors;
         private readonly ImageList _checkBoxList;
@@ -1456,7 +1454,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    return SystemColors.Window; // Note: What does this control?
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
@@ -2738,7 +2736,7 @@ namespace Krypton.Toolkit
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
+                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _calendarDayColour,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
@@ -2816,7 +2814,7 @@ namespace Krypton.Toolkit
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
+                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _calendarDayColour,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
@@ -5317,7 +5315,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the color table instance.
         /// </summary>
-        public override KryptonColorTable ColorTable => _table ??= new KryptonColorTable2010(_ribbonColors, InheritBool.True, this);
+        public override KryptonColorTable ColorTable => _table ??= new KryptonColorTable2010BlackDarkMode(_ribbonColors, InheritBool.True, this);
 
         #endregion
 
@@ -5341,4 +5339,627 @@ namespace Krypton.Toolkit
     }
     #endregion
 
+    #region Class: KryptonColorTable2010BlackDarkMode
+    /// <summary>
+    /// Provide KryptonColorTable2010BlackDarkMode values using an array of Color values as the source.
+    /// </summary>
+    public class KryptonColorTable2010BlackDarkMode : KryptonColorTable
+    {
+        #region Static Fields
+        private static readonly Color _contextMenuBackground = Color.FromArgb(61, 61, 61);
+        private static readonly Color _menuBorder = Color.FromArgb(167, 171, 176);
+        private static readonly Color _checkBackground = Color.FromArgb(252, 241, 194);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(251, 242, 215);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(247, 224, 135);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(255, 228, 138);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(255, 228, 138);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(255, 216, 107);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(255, 216, 107);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(251, 242, 215);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(247, 224, 135);
+        private static Font _menuToolFont;
+        private static Font _statusFont;
+        #endregion
+
+        #region Instance Fields
+
+        #endregion
+
+        #region Identity
+        static KryptonColorTable2010BlackDarkMode()
+        {
+            // Get the font settings from the system
+            DefineFonts();
+
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the KryptonColorTable2010BlackDarkMode class.
+        /// </summary>
+        /// <param name="colors">Source of </param>
+        /// <param name="roundedEdges">Should have rounded edges.</param>
+        /// <param name="palette">Associated palette instance.</param>
+        public KryptonColorTable2010BlackDarkMode(Color[] colors,
+                                     InheritBool roundedEdges,
+                                     IPalette palette)
+            : base(palette)
+        {
+            Debug.Assert(colors != null);
+            Colors = colors;
+            UseRoundedEdges = roundedEdges;
+        }
+        #endregion
+
+        #region Colors
+        /// <summary>
+        /// Gets the raw set of colors.
+        /// </summary>
+        public Color[] Colors { get; }
+
+        #endregion
+
+        #region RoundedEdges
+        /// <summary>
+        /// Gets a value indicating if rounded egdes are required.
+        /// </summary>
+        public override InheritBool UseRoundedEdges { get; }
+
+        #endregion
+
+        #region ButtonPressed
+        #region ButtonPressedBorder
+        /// <summary>
+        /// Gets the border color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+
+        #region ButtonPressedGradientBegin
+        /// <summary>
+        /// Gets the background starting color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedGradientBegin => _buttonPressedBegin;
+
+        #endregion
+
+        #region ButtonPressedGradientMiddle
+        /// <summary>
+        /// Gets the background middle color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedGradientMiddle => _buttonPressedBegin;
+
+        #endregion
+
+        #region ButtonPressedGradientEnd
+        /// <summary>
+        /// Gets the background ending color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedGradientEnd => _buttonPressedEnd;
+
+        #endregion
+
+        #region ButtonPressedHighlight
+        /// <summary>
+        /// Gets the highlight background for a pressed button.
+        /// </summary>
+        public override Color ButtonPressedHighlight => _buttonPressedBegin;
+
+        #endregion
+
+        #region ButtonPressedHighlightBorder
+        /// <summary>
+        /// Gets the highlight border for a pressed button.
+        /// </summary>
+        public override Color ButtonPressedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+        #endregion
+
+        #region ButtonSelected
+        #region ButtonSelectedBorder
+        /// <summary>
+        /// Gets the border color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+
+        #region ButtonSelectedGradientBegin
+        /// <summary>
+        /// Gets the background starting color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedGradientBegin => _buttonSelectedBegin;
+
+        #endregion
+
+        #region ButtonSelectedGradientMiddle
+        /// <summary>
+        /// Gets the background middle color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedGradientMiddle => _buttonSelectedBegin;
+
+        #endregion
+
+        #region ButtonSelectedGradientEnd
+        /// <summary>
+        /// Gets the background ending color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedGradientEnd => _buttonSelectedEnd;
+
+        #endregion
+
+        #region ButtonSelectedHighlight
+        /// <summary>
+        /// Gets the highlight background for a selected button.
+        /// </summary>
+        public override Color ButtonSelectedHighlight => _buttonSelectedBegin;
+
+        #endregion
+
+        #region ButtonSelectedHighlightBorder
+        /// <summary>
+        /// Gets the highlight border for a selected button.
+        /// </summary>
+        public override Color ButtonSelectedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+        #endregion
+
+        #region ButtonChecked
+        #region ButtonCheckedGradientBegin
+        /// <summary>
+        /// Gets the background starting color for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedGradientBegin => _buttonCheckedBegin;
+
+        #endregion
+
+        #region ButtonCheckedGradientMiddle
+        /// <summary>
+        /// Gets the background middle color for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedGradientMiddle => _buttonCheckedBegin;
+
+        #endregion
+
+        #region ButtonCheckedGradientEnd
+        /// <summary>
+        /// Gets the background ending color for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedGradientEnd => _buttonCheckedEnd;
+
+        #endregion
+
+        #region ButtonCheckedHighlight
+        /// <summary>
+        /// Gets the highlight background for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedHighlight => _buttonCheckedBegin;
+
+        #endregion
+
+        #region ButtonCheckedHighlightBorder
+        /// <summary>
+        /// Gets the highlight border for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+        #endregion
+
+        #region Check
+        #region CheckBackground
+        /// <summary>
+        /// Get background of the check mark area.
+        /// </summary>
+        public override Color CheckBackground => _checkBackground;
+
+        #endregion
+
+        #region CheckBackground
+        /// <summary>
+        /// Get background of a pressed check mark area.
+        /// </summary>
+        public override Color CheckPressedBackground => _checkBackground;
+
+        #endregion
+
+        #region CheckBackground
+        /// <summary>
+        /// Get background of a selected check mark area.
+        /// </summary>
+        public override Color CheckSelectedBackground => _checkBackground;
+
+        #endregion
+        #endregion
+
+        #region Grip
+        #region GripLight
+        /// <summary>
+        /// Gets the light color used to draw grips.
+        /// </summary>
+        public override Color GripLight => Colors[(int)SchemeOfficeColors.GripLight];
+
+        #endregion
+
+        #region GripDark
+        /// <summary>
+        /// Gets the dark color used to draw grips.
+        /// </summary>
+        public override Color GripDark => Colors[(int)SchemeOfficeColors.GripDark];
+
+        #endregion
+        #endregion
+
+        #region ImageMargin
+        #region ImageMarginGradientBegin
+        /// <summary>
+        /// Gets the starting color for the context menu margin.
+        /// </summary>
+        public override Color ImageMarginGradientBegin => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginGradientMiddle
+        /// <summary>
+        /// Gets the middle color for the context menu margin.
+        /// </summary>
+        public override Color ImageMarginGradientMiddle => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginGradientEnd
+        /// <summary>
+        /// Gets the ending color for the context menu margin.
+        /// </summary>
+        public override Color ImageMarginGradientEnd => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginRevealedGradientBegin
+        /// <summary>
+        /// Gets the starting color for the context menu margin revealed.
+        /// </summary>
+        public override Color ImageMarginRevealedGradientBegin => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginRevealedGradientMiddle
+        /// <summary>
+        /// Gets the middle color for the context menu margin revealed.
+        /// </summary>
+        public override Color ImageMarginRevealedGradientMiddle => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginRevealedGradientEnd
+        /// <summary>
+        /// Gets the ending color for the context menu margin revealed.
+        /// </summary>
+        public override Color ImageMarginRevealedGradientEnd => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+        #endregion
+
+        #region MenuBorder
+        /// <summary>
+        /// Gets the color of the border around menus.
+        /// </summary>
+        public override Color MenuBorder => _menuBorder;
+
+        #endregion
+
+        #region MenuItem
+        #region MenuItemBorder
+        /// <summary>
+        /// Gets the border color for around the menu item.
+        /// </summary>
+        public override Color MenuItemBorder => _menuBorder;
+
+        #endregion
+
+        #region MenuItemSelected
+        /// <summary>
+        /// Gets the color of a selected menu item.
+        /// </summary>
+        public override Color MenuItemSelected => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+
+        #region MenuItemPressedGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used when a top-level ToolStripMenuItem is pressed down.
+        /// </summary>
+        public override Color MenuItemPressedGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBegin];
+
+        #endregion
+
+        #region MenuItemPressedGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used when a top-level ToolStripMenuItem is pressed down.
+        /// </summary>
+        public override Color MenuItemPressedGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripEnd];
+
+        #endregion
+
+        #region MenuItemPressedGradientMiddle
+        /// <summary>
+        /// Gets the middle color of the gradient used when a top-level ToolStripMenuItem is pressed down.
+        /// </summary>
+        public override Color MenuItemPressedGradientMiddle => Colors[(int)SchemeOfficeColors.ToolStripMiddle];
+
+        #endregion
+
+        #region MenuItemSelectedGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used when the ToolStripMenuItem is selected.
+        /// </summary>
+        public override Color MenuItemSelectedGradientBegin => _menuItemSelectedBegin;
+
+        #endregion
+
+        #region MenuItemSelectedGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used when the ToolStripMenuItem is selected.
+        /// </summary>
+        public override Color MenuItemSelectedGradientEnd => _menuItemSelectedEnd;
+
+        #endregion
+        #endregion
+
+        #region MenuStrip
+        #region MenuStripGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the MenuStrip.
+        /// </summary>
+        public override Color MenuStripGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region MenuStripGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the MenuStrip.
+        /// </summary>
+        public override Color MenuStripGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #endregion
+
+        #region OverflowButton
+        #region OverflowButtonGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStripOverflowButton.
+        /// </summary>
+        public override Color OverflowButtonGradientBegin => Colors[(int)SchemeOfficeColors.OverflowBegin];
+
+        #endregion
+
+        #region OverflowButtonGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStripOverflowButton.
+        /// </summary>
+        public override Color OverflowButtonGradientEnd => Colors[(int)SchemeOfficeColors.OverflowEnd];
+
+        #endregion
+
+        #region OverflowButtonGradientMiddle
+        /// <summary>
+        /// Gets the middle color of the gradient used in the ToolStripOverflowButton.
+        /// </summary>
+        public override Color OverflowButtonGradientMiddle => Colors[(int)SchemeOfficeColors.OverflowMiddle];
+
+        #endregion
+        #endregion
+
+        #region RaftingContainer
+        #region RaftingContainerGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStripContainer.
+        /// </summary>
+        public override Color RaftingContainerGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region RaftingContainerGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStripContainer.
+        /// </summary>
+        public override Color RaftingContainerGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #endregion
+
+        #region Separator
+        #region SeparatorLight
+        /// <summary>
+        /// Gets the light separator color.
+        /// </summary>
+        public override Color SeparatorLight => Colors[(int)SchemeOfficeColors.SeparatorLight];
+
+        #endregion
+
+        #region SeparatorDark
+        /// <summary>
+        /// Gets the dark separator color.
+        /// </summary>
+        public override Color SeparatorDark => Colors[(int)SchemeOfficeColors.SeparatorDark];
+
+        #endregion
+        #endregion
+
+        #region StatusStrip
+        #region StatusStripGradientBegin
+        /// <summary>
+        /// Gets the starting color for the status strip background.
+        /// </summary>
+        public override Color StatusStripGradientBegin => Colors[(int)SchemeOfficeColors.StatusStripLight];
+
+        #endregion
+
+        #region StatusStripGradientEnd
+        /// <summary>
+        /// Gets the ending color for the status strip background.
+        /// </summary>
+        public override Color StatusStripGradientEnd => Colors[(int)SchemeOfficeColors.StatusStripDark];
+
+        #endregion
+        #endregion
+
+        #region Text
+        #region MenuItemText
+        /// <summary>
+        /// Gets the text color used on the menu items.
+        /// </summary>
+        public override Color MenuItemText => Colors[(int)SchemeOfficeColors.TextButtonNormal];
+
+        #endregion
+
+        #region MenuStripText
+        /// <summary>
+        /// Gets the text color used on the menu strip.
+        /// </summary>
+        public override Color MenuStripText => Colors[(int)SchemeOfficeColors.StatusStripText];
+
+        #endregion
+
+        #region ToolStripText
+        /// <summary>
+        /// Gets the text color used on the tool strip.
+        /// </summary>
+        public override Color ToolStripText => Colors[(int)SchemeOfficeColors.StatusStripText];
+
+        #endregion
+
+        #region StatusStripText
+        /// <summary>
+        /// Gets the text color used on the status strip.
+        /// </summary>
+        public override Color StatusStripText => Colors[(int)SchemeOfficeColors.StatusStripText];
+
+        #endregion
+
+        #region MenuStripFont
+        /// <summary>
+        /// Gets the font used on the menu strip.
+        /// </summary>
+        public override Font MenuStripFont => _menuToolFont;
+
+        #endregion
+
+        #region ToolStripFont
+        /// <summary>
+        /// Gets the font used on the tool strip.
+        /// </summary>
+        public override Font ToolStripFont => _menuToolFont;
+
+        #endregion
+
+        #region StatusStripFont
+        /// <summary>
+        /// Gets the font used on the status strip.
+        /// </summary>
+        public override Font StatusStripFont => _statusFont;
+
+        #endregion
+        #endregion
+
+        #region ToolStrip
+        #region ToolStripBorder
+        /// <summary>
+        /// Gets the border color to use on the bottom edge of the ToolStrip.
+        /// </summary>
+        public override Color ToolStripBorder => Colors[(int)SchemeOfficeColors.ToolStripBorder];
+
+        #endregion
+
+        #region ToolStripContentPanelGradientBegin
+        /// <summary>
+        /// Gets the starting color for the content panel background.
+        /// </summary>
+        public override Color ToolStripContentPanelGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region ToolStripContentPanelGradientEnd
+        /// <summary>
+        /// Gets the ending color for the content panel background.
+        /// </summary>
+        public override Color ToolStripContentPanelGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region ToolStripDropDownBackground
+        /// <summary>
+        /// Gets the background color for drop down menus.
+        /// </summary>
+        public override Color ToolStripDropDownBackground => _contextMenuBackground;
+
+        #endregion
+
+        #region ToolStripGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStrip background.
+        /// </summary>
+        public override Color ToolStripGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBegin];
+
+        #endregion
+
+        #region ToolStripGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStrip background.
+        /// </summary>
+        public override Color ToolStripGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripEnd];
+
+        #endregion
+
+        #region ToolStripGradientMiddle
+        /// <summary>
+        /// Gets the middle color of the gradient used in the ToolStrip background.
+        /// </summary>
+        public override Color ToolStripGradientMiddle => Colors[(int)SchemeOfficeColors.ToolStripMiddle];
+
+        #endregion
+
+        #region ToolStripPanelGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStripPanel.
+        /// </summary>
+        public override Color ToolStripPanelGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region ToolStripPanelGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStripPanel.
+        /// </summary>
+        public override Color ToolStripPanelGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+        #endregion
+
+        #region Implementation
+        private static void DefineFonts()
+        {
+            // Release existing resources
+            _menuToolFont?.Dispose();
+
+            _statusFont?.Dispose();
+
+            // Create new font using system information
+            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
+            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
+        }
+
+        private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
+            // Update fonts to reflect any change in system settings
+            DefineFonts();
+
+        #endregion
+    }
+    #endregion
 }

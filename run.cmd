@@ -5,13 +5,15 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. End
+echo 4. Debug project
+echo 5. End
 
-set /p answer="Enter number (1 - 4):"
+set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto mainmenuchoice1)
 if %answer%==2 (goto mainmenuchoice2)
 if %answer%==3 (goto mainmenuchoice3)
 if %answer%==4 (goto mainmenuchoice4)
+if %answer%==5 (goto mainmenuchoice5)
 
 @echo Invalid input, please try again.
 
@@ -26,13 +28,15 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. End
+echo 4. Debug project
+echo 5. End
 
-set /p answer="Enter number (1 - 4):"
+set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto mainmenuchoice1)
 if %answer%==2 (goto mainmenuchoice2)
 if %answer%==3 (goto mainmenuchoice3)
 if %answer%==4 (goto mainmenuchoice4)
+if %answer%==5 (goto mainmenuchoice5)
 
 @echo Invalid input, please try again.
 
@@ -52,7 +56,7 @@ echo 7. Build signed version using Visual Studio 2019
 echo 8. Build signed version using Visual Studio 2022
 echo 9. Go back to main menu
 
-set /p answer="Enter number (1 - 9):"
+set /p answer="Enter number (1 - 9): "
 if %answer%==1 (goto buildnightlyusingvisualstudio2019)
 if %answer%==2 (goto buildnightlyusingvisualstudio2022)
 if %answer%==3 (goto buildcanaryusingvisualstudio2019)
@@ -81,7 +85,7 @@ echo 7. Pack signed version using Visual Studio 2019
 echo 8. Pack signed version using Visual Studio 2022
 echo 9. Go back to main menu
 
-set /p answer="Enter number (1 - 9):"
+set /p answer="Enter number (1 - 9): "
 if %answer%==1 (goto packnightlyusingvisualstudio2019)
 if %answer%==2 (goto packnightlyusingvisualstudio2022)
 if %answer%==3 (goto packcanaryusingvisualstudio2019)
@@ -97,6 +101,23 @@ if %answer%==9 (goto mainmenu)
 pause
 
 goto packmenu
+
+:debugmenu
+cls
+echo 1. Debug using Visual Studio 2019
+echo 2. Debug using Visual Studio 2022
+echo 3. Go back to main mainmenu
+
+set /p answer="Enter number (1 - 3): "
+if %answer%==1 (goto debugusingvisualstudio2019)
+if %answer%==2 (goto debugusingvisualstudio2022)
+if %answer%==3 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto debugmenu
 
 :: ===================================================================================================
 
@@ -134,6 +155,8 @@ pause
 
 goto mainmenu
 
+:: ===================================================================================================
+
 :mainmenuchoice1
 goto cleanproject
 
@@ -144,6 +167,9 @@ goto buildmenu
 goto packmenu
 
 :mainmenuchoice4
+goto debugmenu
+
+:mainmenuchoice5
 exit
 
 :: ===================================================================================================
@@ -249,3 +275,65 @@ build-stable-2019.cmd Pack
 cd Scripts
 
 build-stable-2022.cmd Pack
+
+:: ===================================================================================================
+
+:debugusingvisualstudio2019
+cls
+echo Deleting the 'Bin' folder
+rd /s /q "Bin"
+echo Deleted the 'Bin' folder
+echo Deleting the 'Krypton.Docking\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
+echo Deleted the 'Krypton.Docking\obj' folder
+echo Deleting the 'Krypton.Navigator\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
+echo Deleted the 'Krypton.Navigator\obj' folder
+echo Deleting the 'Krypton.Ribbon\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
+echo Deleted the 'Krypton.Ribbon\obj' folder
+echo Deleting the 'Krypton.Toolkit\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
+echo Deleted the 'Krypton.Toolkit\obj' folder
+echo Deleting the 'Krypton.Workspace\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+echo Deleted the 'Krypton.Workspace\obj' folder
+echo Deleting the 'build.log' file
+del /f build.log
+echo Deleted the 'build.log' file
+
+cls
+
+cd Scripts
+
+build-nightly-2019.cmd
+
+:debugusingvisualstudio2022
+cls
+echo Deleting the 'Bin' folder
+rd /s /q "Bin"
+echo Deleted the 'Bin' folder
+echo Deleting the 'Krypton.Docking\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
+echo Deleted the 'Krypton.Docking\obj' folder
+echo Deleting the 'Krypton.Navigator\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
+echo Deleted the 'Krypton.Navigator\obj' folder
+echo Deleting the 'Krypton.Ribbon\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
+echo Deleted the 'Krypton.Ribbon\obj' folder
+echo Deleting the 'Krypton.Toolkit\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
+echo Deleted the 'Krypton.Toolkit\obj' folder
+echo Deleting the 'Krypton.Workspace\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+echo Deleted the 'Krypton.Workspace\obj' folder
+echo Deleting the 'build.log' file
+del /f build.log
+echo Deleted the 'build.log' file
+
+cls
+
+cd Scripts
+
+build-nightly-2022.cmd
