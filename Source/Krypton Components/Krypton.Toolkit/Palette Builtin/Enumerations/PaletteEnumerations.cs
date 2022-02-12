@@ -232,9 +232,10 @@
         ToolTipBottom = 225,
         // ============================================
         MenuItemText = 226,
-        ContextMenuMargin = 227,
-        ContextMenuInner = 228,
-        ToolStripText = 229
+        MenuMarginGradientStart = 227,
+        MenuMarginGradientMiddle = 228,
+        MenuMarginGradientEnd = 229,
+        DisabledMenuItemText = 230
     }
 
     #endregion
@@ -246,6 +247,19 @@
         MenuItemText = 1,
         ContextMenuMargin = 2,
         ContextMenuInner = 3,
+    }
+
+    #endregion
+
+    #region Enumeration: SchemeMenuStripColors
+
+    internal enum SchemeMenuStripColors
+    {
+        MenuItemText = 1,
+        MenuMarginGradientStart = 2,
+        MenuMarginGradientMiddle = 3,
+        MenuMarginGradientEnd = 4,
+        DisabledMenuItemText = 5
     }
 
     #endregion
