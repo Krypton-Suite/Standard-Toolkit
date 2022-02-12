@@ -316,7 +316,13 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
-            get => _storage?.BorderColor1 ?? Color.Empty;
+            get
+            {
+                if (_storage?.BorderColor1 != null)
+                    return _storage.BorderColor1;
+                else
+                    return Color.Empty;
+            }
 
             set
             {

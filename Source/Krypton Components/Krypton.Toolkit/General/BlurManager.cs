@@ -24,6 +24,7 @@ namespace Krypton.Toolkit
         private VisualBlur _visualBlur;
         private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
         private Bitmap _currentFormDisplay;
+        private double? _parentBeforeOpacity;
         #endregion
 
         #region Identity
@@ -69,9 +70,11 @@ namespace Krypton.Toolkit
         {
             if (!_parentForm.IsDisposed
                 && !_parentForm.Disposing
+                && _parentBeforeOpacity.HasValue
                )
             {
-                _parentForm.Opacity = 1;
+                _parentForm.Opacity = _parentBeforeOpacity.Value;
+                _parentBeforeOpacity = null;
             }
 
             _detectIsActiveTimer.Enabled = false;
@@ -96,33 +99,42 @@ namespace Krypton.Toolkit
             // The set is used to make calling GetWindow in a loop stable by checking if we have already
             //  visited the window returned by GetWindow. This avoids the possibility of an infinite loop.
             var visited = new HashSet<IntPtr> { hWnd };
-            Form activeForm = Form.ActiveForm;
-            if (activeForm != null)
+            try
             {
-                visited.Add(activeForm.Handle);
-            }
-
-            visited.Add(_visualBlur.Handle);
-
-
-            PI.RECT thisRect = new();
-            PI.GetWindowRect(hWnd, ref thisRect);
-
-            while ((hWnd = PI.GetWindow(hWnd, PI.GetWindowType.GW_HWNDPREV)) != IntPtr.Zero
-                   && !visited.Contains(hWnd))
-            {
-                visited.Add(hWnd);
-                PI.RECT testRect = new();
-                if (PI.IsWindowVisible(hWnd)
-                    && PI.GetWindowRect(hWnd, ref testRect)
-                    && PI.IntersectRect(out _, ref thisRect, ref testRect)
-                    )
+                Form activeForm = Form.ActiveForm;
+                if (activeForm != null)
                 {
-                    return true;
+                    visited.Add(activeForm.Handle);
                 }
-            }
 
-            return false;
+                visited.Add(_visualBlur.Handle);
+
+
+                PI.RECT thisRect = new();
+                PI.GetWindowRect(hWnd, ref thisRect);
+
+                while ((hWnd = PI.GetWindow(hWnd, PI.GetWindowType.GW_HWNDPREV)) != IntPtr.Zero
+                       && !visited.Contains(hWnd))
+                {
+                    visited.Add(hWnd);
+                    PI.RECT testRect = new();
+                    if (PI.IsWindowVisible(hWnd)
+                        && PI.GetWindowRect(hWnd, ref testRect)
+                        && PI.IntersectRect(out _, ref thisRect, ref testRect)
+                       )
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            finally
+            {
+                // Attempt to clear sooner to allow handles to be released.
+                visited.Clear();
+                visited = null;
+            }
         }
 
         private void BlurValuesOnOpacityChanged(object sender, EventArgs e)
@@ -187,7 +199,9 @@ namespace Krypton.Toolkit
             //| PI.SWP_.NOOWNERZORDER
             );
             // Set parent form opacity afterwards to prevent flicker
-            _parentForm.Opacity = _blurValues.Opacity / 100.0;
+            _parentBeforeOpacity ??= _parentForm.Opacity;
+
+            _parentForm.Opacity =_blurValues.Opacity / 100.0;
             _detectIsActiveTimer.Enabled = true;
 
         }
