@@ -38,10 +38,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public BlurValues()
-        {
-            Reset();
-        }
+        public BlurValues() => Reset();
 
         /// <summary>
         /// 
@@ -91,10 +88,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetOpacity()
-        {
-            _opacity = OPACITY_DEFAULT;
-        }
+        public void ResetOpacity() => _opacity = OPACITY_DEFAULT;
 
         /// <summary>
         /// </summary>
@@ -118,10 +112,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetBlurWhenFocusLost()
-        {
-            BlurWhenFocusLost = false;
-        }
+        public void ResetBlurWhenFocusLost() => BlurWhenFocusLost = false;
 
         #region Default Values
         /// <summary>

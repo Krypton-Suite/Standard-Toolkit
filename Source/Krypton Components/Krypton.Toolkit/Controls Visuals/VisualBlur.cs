@@ -56,6 +56,7 @@ namespace Krypton.Toolkit
 
             // Create the actual window
             CreateHandle(cp);
+            _optimisedVisible = true;
         }
 
         /// <summary>
