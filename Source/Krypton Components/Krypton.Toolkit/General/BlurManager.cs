@@ -24,6 +24,7 @@ namespace Krypton.Toolkit
         private VisualBlur _visualBlur;
         private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
         private Bitmap _currentFormDisplay;
+        private double? _parentBeforeOpacity;
         #endregion
 
         #region Identity
@@ -69,9 +70,11 @@ namespace Krypton.Toolkit
         {
             if (!_parentForm.IsDisposed
                 && !_parentForm.Disposing
+                && _parentBeforeOpacity.HasValue
                )
             {
-                _parentForm.Opacity = 1;
+                _parentForm.Opacity = _parentBeforeOpacity.Value;
+                _parentBeforeOpacity = null;
             }
 
             _detectIsActiveTimer.Enabled = false;
@@ -187,6 +190,11 @@ namespace Krypton.Toolkit
             //| PI.SWP_.NOOWNERZORDER
             );
             // Set parent form opacity afterwards to prevent flicker
+            if (!_parentBeforeOpacity.HasValue)
+            {
+                _parentBeforeOpacity = _parentForm.Opacity;
+            }
+
             _parentForm.Opacity = _blurValues.Opacity / 100.0;
             _detectIsActiveTimer.Enabled = true;
 
