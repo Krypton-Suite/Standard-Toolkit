@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             Clear();
 
             // Release each cached child control just once
-            foreach (ViewBase child in _crumbToButton.Values)
+            foreach (var child in _crumbToButton.Values)
             {
                 child.Dispose();
             }
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutCrumbs:" + Id;
+            @"ViewLayoutCrumbs:" + Id;
 
         #endregion
 
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
             for(var i=1; i<Count; i++)
             {
                 // Do not show the left border on the first crumb
-                redirect.Left = i == 1;
+                redirect.Left = i == 0;
 
                 // Find size of the child
                 Size childSize = this[i].GetPreferredSize(context);
@@ -492,11 +492,11 @@ namespace Krypton.Toolkit
             // Cast to correct type
             KryptonContextMenu kcm = (KryptonContextMenu)sender;
 
-            // Unhook from context menu and dipose of it, we only use each menu instance once
+            // Unhook from context menu and dispose of it, we only use each menu instance once
             kcm.Closed -= OnKryptonContextMenuClosed;
             kcm.Dispose();
 
-            // Remove the fixed appearnce of the view button
+            // Remove the fixed appearance of the view button
             _pressedButtonController.RemoveFixed();
             _pressedButtonController = null;
 
