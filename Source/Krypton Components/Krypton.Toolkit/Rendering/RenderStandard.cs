@@ -1108,7 +1108,8 @@ namespace Krypton.Toolkit
 
                 // For the form level buttons we have to calculate the correct padding based on caption area
                 PaletteContentStyle contentStyle = palette.GetContentStyle();
-                if (contentStyle is PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose)
+                if (contentStyle is PaletteContentStyle.ButtonForm 
+                    or PaletteContentStyle.ButtonFormClose)
                 {
                     borderPadding = ContentPaddingForButtonForm(borderPadding, context, allocatedHeight);
                 }
@@ -5822,68 +5823,70 @@ namespace Krypton.Toolkit
             var shortText = contentValues.GetShortText();
 
             // Is there any text to be drawn?
-            if (shortText is { Length: > 0 })
+            if (string.IsNullOrEmpty(shortText))
             {
-                // If the text is not allowed to span multiple lines
-                if (paletteContent.GetContentShortTextMultiLine(state) == InheritBool.False)
-                {
-                    // Replace any carriage returns and newlines with just spaces
-                    shortText = shortText.Replace("\r\n", @" ");
-                    shortText = shortText.Replace("\n", @" ");
-                    shortText = shortText.Replace("\r", @" ");
-                }
+                return;
+            }
 
-                // Convert from alignment enums to integers
-                var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentShortTextH(state));
-                var alignVIndex = (int)paletteContent.GetContentShortTextV(state);
+            // If the text is not allowed to span multiple lines
+            if (paletteContent.GetContentShortTextMultiLine(state) == InheritBool.False)
+            {
+                // Replace any carriage returns and newlines with just spaces
+                shortText = shortText.Replace("\r\n", @" ");
+                shortText = shortText.Replace("\n", @" ");
+                shortText = shortText.Replace("\r", @" ");
+            }
 
-                // Cache the rendering hint used
-                memento.ShortTextHint = CommonHelper.PaletteTextHintToRenderingHint(paletteContent.GetContentShortTextHint(state));
-                memento.ShortTextTrimming = paletteContent.GetContentShortTextTrim(state);
+            // Convert from alignment enums to integers
+            var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentShortTextH(state));
+            var alignVIndex = (int)paletteContent.GetContentShortTextV(state);
 
-                var fontChanged = false;
-                Font textFont = paletteContent.GetContentShortTextFont(state);
+            // Cache the rendering hint used
+            memento.ShortTextHint = CommonHelper.PaletteTextHintToRenderingHint(paletteContent.GetContentShortTextHint(state));
+            memento.ShortTextTrimming = paletteContent.GetContentShortTextTrim(state);
 
-                // Get the appropriate font to use in the caption area
-                if (paletteContent.GetContentStyle() == PaletteContentStyle.HeaderForm)
-                {
-                    Font captionFont = ContentFontForButtonForm(context, textFont);
-                    fontChanged = captionFont != textFont;
-                    textFont = captionFont;
-                }
+            var fontChanged = false;
+            Font textFont = paletteContent.GetContentShortTextFont(state);
 
-                // Get a pixel accurate measure of text drawing space needed
-                memento.ShortTextMemento = AccurateText.MeasureString(g,
-                                                                      rtl,
-                                                                      shortText,
-                                                                      textFont,
-                                                                      memento.ShortTextTrimming,
-                                                                      paletteContent.GetContentShortTextMultiLineH(state),
-                                                                      paletteContent.GetContentShortTextPrefix(state),
-                                                                      memento.ShortTextHint,
-                                                                      composition,
-                                                                      glowing,
-                                                                      fontChanged);
+            // Get the appropriate font to use in the caption area
+            if (paletteContent.GetContentStyle() == PaletteContentStyle.HeaderForm)
+            {
+                Font captionFont = ContentFontForButtonForm(context, textFont);
+                fontChanged = captionFont != textFont;
+                textFont = captionFont;
+            }
 
-                // Space required for short text starts with the text width itself
-                Size requiredSpace = memento.ShortTextMemento.Size;
+            // Get a pixel accurate measure of text drawing space needed
+            memento.ShortTextMemento = AccurateText.MeasureString(g,
+                rtl,
+                shortText,
+                textFont,
+                memento.ShortTextTrimming,
+                paletteContent.GetContentShortTextMultiLineH(state),
+                paletteContent.GetContentShortTextPrefix(state),
+                memento.ShortTextHint,
+                composition,
+                glowing,
+                fontChanged);
 
-                // Find the space available given our required alignment
-                var noClipIsSet = memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
-                if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
-                                           allocation, displayRect,
-                                           spacingGap, memento.ShortTextTrimming,
-                                           ref requiredSpace,
-                                           noClipIsSet)
-                    )
-                {
-                    // Allocate the actual space used up
-                    // Cache the actual draw size of the text
-                    memento.ShortTextRect.Size = requiredSpace;
+            // Space required for short text starts with the text width itself
+            Size requiredSpace = memento.ShortTextMemento.Size;
 
-                    // Mark the memento to draw the short text
-                    memento.DrawShortText = true;
-                }
+            // Find the space available given our required alignment
+            var noClipIsSet = memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
+            if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
+                    allocation, displayRect,
+                    spacingGap, memento.ShortTextTrimming,
+                    ref requiredSpace,
+                    noClipIsSet)
+               )
+            {
+                // Allocate the actual space used up
+                // Cache the actual draw size of the text
+                memento.ShortTextRect.Size = requiredSpace;
+
+                // Mark the memento to draw the short text
+                memento.DrawShortText = true;
             }
         }
 

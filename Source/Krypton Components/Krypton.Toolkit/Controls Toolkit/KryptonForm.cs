@@ -79,6 +79,7 @@ namespace Krypton.Toolkit
         private readonly ViewDecoratorFixedSize _headingFixedSize;
         private readonly ViewLayoutNull _layoutNull;
         private HeaderStyle _headerStyle;
+        private PaletteRelativeAlign _formTitleAlign;
         private HeaderStyle _headerStylePrev;
         private FormWindowState _regionWindowState;
         private FormWindowState _lastWindowState;
@@ -107,6 +108,7 @@ namespace Krypton.Toolkit
         {
             // Default properties
             _headerStyle = HeaderStyle.Form;
+            _formTitleAlign = PaletteRelativeAlign.Near;
             _headerStylePrev = _headerStyle;
             AllowButtonSpecToolTips = false;
             _allowFormChrome = true;
@@ -324,6 +326,31 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>
+        /// Gets and sets the header edge to display the button against.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"The Form Title position, relative to available space")]
+        [RefreshProperties(RefreshProperties.All)]
+        [DefaultValue(typeof(PaletteRelativeAlign), "Near")]
+        public PaletteRelativeAlign FormTitleAlign
+        {
+            get => _formTitleAlign;
+
+            set
+            {
+                if (_formTitleAlign != value)
+                {
+                    _formTitleAlign = value;
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        private bool ShouldSerializeFormTitleAlign() => _formTitleAlign != PaletteRelativeAlign.Near;
+
+        private void ResetFormTitleAlign() => _formTitleAlign = PaletteRelativeAlign.Near;
 
         /// <summary>
         /// Gets and sets the chrome group border style.
@@ -744,7 +771,7 @@ namespace Krypton.Toolkit
                 var currentWidth = (int)(CAPTION_ICON_SIZE.Width * FactorDpiX);
                 var currentHeight = (int)(CAPTION_ICON_SIZE.Height * FactorDpiY);
                 //}
-                
+
                 Bitmap resizedBitmap = null;
                 try
                 {
@@ -763,11 +790,11 @@ namespace Krypton.Toolkit
                         // Do nothing
                     }
                 }
-                
+
                 // Cache for future access
                 if (resizedBitmap != null)
                 {
-                     _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight);
+                    _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight);
                 }
             }
 
@@ -800,6 +827,39 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected Override
+        /// <summary>
+        /// Create the redirector instance.
+        /// </summary>
+        /// <returns>PaletteRedirect derived class.</returns>
+        protected override PaletteRedirect CreateRedirector() => new FormPaletteRedirect(GetResolvedPalette(), this);
+
+        internal class FormPaletteRedirect : PaletteRedirect
+        {
+            private readonly KryptonForm _kryptonForm;
+
+            public FormPaletteRedirect(IPalette palette, KryptonForm kryptonForm)
+                : base(palette) =>
+                _kryptonForm = kryptonForm;
+
+            public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
+            {
+                return style switch
+                {
+                    PaletteContentStyle.HeaderForm
+                        or PaletteContentStyle.HeaderPrimary
+                        or PaletteContentStyle.HeaderDockInactive
+                        or PaletteContentStyle.HeaderDockActive
+                        or PaletteContentStyle.HeaderSecondary
+                        or PaletteContentStyle.HeaderCustom1
+                        or PaletteContentStyle.HeaderCustom2
+                        or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                            ? _kryptonForm._formTitleAlign
+                            : base.GetContentShortTextH(style, state),
+                    _ => base.GetContentShortTextH(style, state)
+                };
+            }
+        }
+
         /// <summary>
         /// Raises the ControlAdded event.
         /// </summary>
@@ -983,8 +1043,8 @@ namespace Krypton.Toolkit
             if (!composition)
             {
                 // Is the mouse over any of the min/max/close buttons?
-                if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt) 
-                    || _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt) 
+                if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt)
+                    || _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt)
                     || _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
                 {
                     // Get the mouse controller for this button
@@ -1020,14 +1080,14 @@ namespace Krypton.Toolkit
 
             var borders = FormBorderStyle switch
             {
-                FormBorderStyle.None 
-                    or FormBorderStyle.Fixed3D 
-                    or FormBorderStyle.FixedDialog 
-                    or FormBorderStyle.FixedSingle 
+                FormBorderStyle.None
+                    or FormBorderStyle.Fixed3D
+                    or FormBorderStyle.FixedDialog
+                    or FormBorderStyle.FixedSingle
                     or FormBorderStyle.FixedToolWindow => Padding.Empty,
-                
-                _ => WindowState == FormWindowState.Maximized 
-                    ? Padding.Empty 
+
+                _ => WindowState == FormWindowState.Maximized
+                    ? Padding.Empty
                     : RealWindowBorders // When maximized we do not have any borders around the client
             };
 
@@ -1353,13 +1413,12 @@ namespace Krypton.Toolkit
                     }
 
                     // Is a layout required?
-                    if (NeedLayout || (GetDefinedIcon() != _cacheIcon))
+                    if (NeedLayout
+                        || (GetDefinedIcon() != _cacheIcon)
+                        )
                     {
                         // Ask the view to perform a layout
-                        using (ViewLayoutContext context = new(ViewManager,
-                                                                                 this,
-                                                                                 RealWindowRectangle,
-                                                                                 Renderer))
+                        using (var context = new ViewLayoutContext(ViewManager, this, RealWindowRectangle, Renderer))
                         {
                             ViewManager.Layout(context);
                         }
@@ -1489,8 +1548,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal bool StatusStripMerging => _allowStatusStripMerge &&
-                                            _statusStrip is { Visible: true, Dock: DockStyle.Bottom } && (_statusStrip.Bottom == ClientRectangle.Bottom) && (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode) && (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer);
+        internal bool StatusStripMerging => _allowStatusStripMerge
+                                            && _statusStrip is { Visible: true, Dock: DockStyle.Bottom }
+                                            && (_statusStrip.Bottom == ClientRectangle.Bottom)
+                                            && (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode)
+                                            && (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer);
 
         private void MonitorStatusStrip(StatusStrip statusStrip)
         {
