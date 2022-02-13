@@ -975,7 +975,6 @@ namespace Krypton.Toolkit
         protected override IntPtr WindowChromeHitTest(Point pt, bool composition)
         {
             Point originalPt = pt;
-
             if ((CustomCaptionArea != null) && CustomCaptionArea.Contains(pt))
             {
                 return (IntPtr)PI.HT.CAPTION;
@@ -984,9 +983,9 @@ namespace Krypton.Toolkit
             if (!composition)
             {
                 // Is the mouse over any of the min/max/close buttons?
-                if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt) ||
-                    _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt) ||
-                    _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
+                if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt) 
+                    || _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt) 
+                    || _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
                 {
                     // Get the mouse controller for this button
                     ViewBase viewBase = ViewManager.Root.ViewFromPoint(pt);
@@ -1021,8 +1020,15 @@ namespace Krypton.Toolkit
 
             var borders = FormBorderStyle switch
             {
-                FormBorderStyle.None or FormBorderStyle.Fixed3D or FormBorderStyle.FixedDialog or FormBorderStyle.FixedSingle or FormBorderStyle.FixedToolWindow => Padding.Empty,
-                _ => WindowState == FormWindowState.Maximized ? Padding.Empty : RealWindowBorders // When maximized we do not have any borders around the client
+                FormBorderStyle.None 
+                    or FormBorderStyle.Fixed3D 
+                    or FormBorderStyle.FixedDialog 
+                    or FormBorderStyle.FixedSingle 
+                    or FormBorderStyle.FixedToolWindow => Padding.Empty,
+                
+                _ => WindowState == FormWindowState.Maximized 
+                    ? Padding.Empty 
+                    : RealWindowBorders // When maximized we do not have any borders around the client
             };
 
             // Restrict the top border to the same size as the left as we are using
@@ -1119,14 +1125,51 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Process the WM_NCLBUTTONDOWN message when overriding window chrome.
+        /// </summary>
+        /// <param name="m">A Windows-based message.</param>4
+        /// <returns>True if the message was processed; otherwise false.</returns>
+        protected override bool OnWM_NCLBUTTONDOWN(ref Message m)
+        {
+            using ViewLayoutContext context = new(this, Renderer);
+            // Discover if the form icon is being Displayed
+            if (_drawContent.IsImageDisplayed(context))
+            {
+                // Extract the point in screen coordinates
+                Point screenPoint = new((int)m.LParam.ToInt64());
+
+                // Convert to window coordinates
+                Point windowPoint = ScreenToWindow(screenPoint);
+
+                // In composition we need to adjust for the left window border
+                if (ApplyComposition)
+                {
+                    windowPoint.X -= RealWindowBorders.Left;
+                }
+
+                // Is the mouse over the Application icon image area
+                if (_drawContent.ImageRectangle(context).Contains(windowPoint))
+                {
+                    // TODO: Use `GetSystemMenu` to obtain the system menu and convert into a KryptonContextMenu with the correct theming !
+
+                    // Make this work for the offset Application Icon when ButtonSpecs are left aligned
+                    PI.PostMessage(this.Handle, PI.WM_.CONTEXTMENU, this.Handle, m.LParam);
+                    return true;
+                }
+            }
+
+            return base.OnWM_NCLBUTTONDOWN(ref m);
+        }
+
+        /// <summary>
         /// Process the left mouse down event.
         /// </summary>
-        /// <param name="pt">Window coordinate of the mouse up.</param>
+        /// <param name="windowPoint">Window coordinate of the mouse down.</param>
         /// <returns>True if event is processed; otherwise false.</returns>
-        protected override bool WindowChromeLeftMouseDown(Point pt)
+        protected override bool WindowChromeLeftMouseDown(Point windowPoint)
         {
             // Let base class perform standard processing of the event
-            var ret = base.WindowChromeLeftMouseDown(pt);
+            var ret = base.WindowChromeLeftMouseDown(windowPoint);
 
             // Has pressing down made a view active and indicated it also wants to capture mouse?
             if ((ViewManager.ActiveView != null) && ViewManager.MouseCaptured)

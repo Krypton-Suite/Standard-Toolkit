@@ -1715,11 +1715,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Process the left mouse down event.
         /// </summary>
-        /// <param name="pt">Window coordinate of the mouse up.</param>
+        /// <param name="windowPoint">Window coordinate of the mouse down.</param>
         /// <returns>True if event is processed; otherwise false.</returns>
-        protected virtual bool WindowChromeLeftMouseDown(Point pt)
+        protected virtual bool WindowChromeLeftMouseDown(Point windowPoint)
         {
-            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0), pt);
+            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
             // If we moused down on a active view element
             // Ask the controller if the mouse down should be ignored by wnd proc processing
