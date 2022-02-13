@@ -588,6 +588,7 @@ namespace Krypton.Toolkit
         [Category(@"Window Style")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description(@"Please use a ButtonSpec, as this gives greater flexibility!")]
         public new bool HelpButton
         {
             get => base.HelpButton;
@@ -941,7 +942,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new(_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.

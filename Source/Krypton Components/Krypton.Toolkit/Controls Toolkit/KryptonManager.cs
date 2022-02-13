@@ -1032,10 +1032,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void ResetToolStripManager()
-        {
-            ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
-        }
+        private static void ResetToolStripManager() => ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
+
         #endregion
 
     }
