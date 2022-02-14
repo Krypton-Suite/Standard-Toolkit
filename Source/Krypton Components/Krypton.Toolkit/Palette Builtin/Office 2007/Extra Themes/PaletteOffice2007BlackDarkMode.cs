@@ -205,20 +205,20 @@
                                                                       Color.FromArgb(179, 188, 191),    // ButtonClusterButtonBorder1                                                      
                                                                       Color.FromArgb(145, 156, 159),    // ButtonClusterButtonBorder2                                                      
                                                                       Color.FromArgb(235, 235, 235),    // NavigatorMiniBackColor                                                    
-                                                                      Color.White,                      // GridListNormal1                                                    
-                                                                      Color.FromArgb(212, 215, 219),    // GridListNormal2                                                    
-                                                                      Color.FromArgb(210, 213, 218),    // GridListPressed1                                                    
-                                                                      Color.FromArgb(252, 253, 253),    // GridListPressed2                                                    
+                                                                      Color.FromArgb(10, 10, 10),       // GridListNormal1                                                    
+                                                                      Color.FromArgb(41, 41, 41),       // GridListNormal2                                                    
+                                                                      Color.FromArgb(41, 41, 41),       // GridListPressed1                                                    
+                                                                      Color.FromArgb(61, 61, 61),       // GridListPressed2                                                    
                                                                       Color.FromArgb(186, 189, 194),    // GridListSelected                                                    
-                                                                      Color.FromArgb(248, 248, 248),    // GridSheetColNormal1                                                    
-                                                                      Color.FromArgb(222, 222, 222),    // GridSheetColNormal2                                                    
+                                                                      Color.FromArgb(10, 10, 10),       // GridSheetColNormal1                                                    
+                                                                      Color.FromArgb(41, 41, 41),       // GridSheetColNormal2                                                    
                                                                       Color.FromArgb(224, 224, 224),    // GridSheetColPressed1                                                    
                                                                       Color.FromArgb(195, 195, 195),    // GridSheetColPressed2                                                    
                                                                       Color.FromArgb(249, 217, 159),    // GridSheetColSelected1
                                                                       Color.FromArgb(241, 193,  95),    // GridSheetColSelected2
                                                                       Color.FromArgb(237, 237, 237),    // GridSheetRowNormal                                                   
                                                                       Color.FromArgb(196, 196, 196),    // GridSheetRowPressed
-                                                                      Color.FromArgb(255, 213, 141),    // GridSheetRowSelected
+                                                                      Color.FromArgb(61, 61, 61),       // GridSheetRowSelected
                                                                       Color.FromArgb(188, 195, 209),    // GridDataCellBorder
                                                                       Color.FromArgb(194, 217, 240),    // GridDataCellSelected
                                                                       Color.White,                      // InputControlTextNormal
@@ -1026,10 +1026,10 @@
                 case PaletteBackStyle.GridDataCellCustom1:
                 case PaletteBackStyle.GridDataCellCustom2:
                 case PaletteBackStyle.GridDataCellCustom3:
-                    return state == PaletteState.CheckedNormal ? _ribbonColors[(int)SchemeOfficeColors.GridDataCellSelected] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal ? _ribbonColors[(int)SchemeOfficeColors.GridDataCellSelected] : _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.GridDataCellSheet:
-                    return state == PaletteState.CheckedNormal ? _buttonBackColors[6] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal ? _buttonBackColors[6] : _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.TabHighProfile:
                 case PaletteBackStyle.TabStandardProfile:
@@ -1119,6 +1119,15 @@
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int) SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
@@ -1131,7 +1140,15 @@
                 case PaletteBackStyle.GridBackgroundCustom3:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.FormMain:
                 case PaletteBackStyle.FormCustom1:
                 case PaletteBackStyle.FormCustom2:
@@ -1141,10 +1158,29 @@
                         : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveLight];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int) SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
+                    // Note: This controls the input control dropdown background
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
@@ -1393,11 +1429,29 @@
                         : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveDark];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    return _ribbonColors[(int) SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
