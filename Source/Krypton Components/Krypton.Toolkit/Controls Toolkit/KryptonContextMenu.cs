@@ -173,7 +173,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Collection of menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonContextMenuCollection Items { get; }
+        public KryptonContextMenuCollection Items { get; /*set;*/ }
 
         /// <summary>
         /// Gets and sets user-defined data associated with the object.

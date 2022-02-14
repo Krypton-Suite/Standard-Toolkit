@@ -50,19 +50,19 @@
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(137, 135, 133),    // ButtonNormalBorder1
                                                                       Color.FromArgb(127, 125, 123),    // ButtonNormalBorder2
-                                                                      Color.FromArgb(61, 61, 61),       // ButtonNormalBack1
-                                                                      Color.FromArgb(71, 71, 71),       // ButtonNormalBack2
+                                                                      Color.FromArgb(10, 10, 10),       // ButtonNormalBack1
+                                                                      Color.FromArgb(41, 41, 41),       // ButtonNormalBack2
                                                                       Color.FromArgb(164, 163, 163),    // ButtonNormalDefaultBack1
                                                                       Color.FromArgb(114, 114, 114),    // ButtonNormalDefaultBack2
                                                                       Color.FromArgb(204, 208, 214),    // ButtonNormalNavigatorBack1
                                                                       Color.FromArgb(229, 232, 236),    // ButtonNormalNavigatorBack2
-                                                                      Color.FromArgb( 61, 61, 61),      // PanelClient
-                                                                      Color.FromArgb( 71, 71, 71),      // PanelAlternative
+                                                                      Color.FromArgb( 10, 10, 10),      // PanelClient
+                                                                      Color.FromArgb( 41, 41, 41),      // PanelAlternative
                                                                       Color.FromArgb( 30,  30,  30),    // ControlBorder
                                                                       Color.FromArgb(167, 167, 167),    // SeparatorHighBorder1
                                                                       Color.FromArgb(119, 119, 119),    // SeparatorHighBorder2
-                                                                      Color.FromArgb(61, 61, 61),    // HeaderPrimaryBack1
-                                                                      Color.FromArgb(71, 71, 71),    // HeaderPrimaryBack2
+                                                                      Color.FromArgb(10, 10, 10),    // HeaderPrimaryBack1
+                                                                      Color.FromArgb(41, 41, 41),    // HeaderPrimaryBack2
                                                                       Color.FromArgb(164, 163, 163),    // HeaderSecondaryBack1
                                                                       Color.FromArgb(114, 114, 114),    // HeaderSecondaryBack2
                                                                       Color.White,                      // HeaderText
@@ -72,13 +72,13 @@
                                                                       Color.FromArgb(145, 153, 164),    // SeparatorDark
                                                                       Color.FromArgb(228, 228, 228),    // GripLight
                                                                       Color.FromArgb( 77,  77,  77),    // GripDark
-                                                                      Color.FromArgb(71, 71, 71),    // ToolStripBack
-                                                                      Color.FromArgb(71, 71, 71),    // StatusStripLight
-                                                                      Color.FromArgb(61, 61, 61),    // StatusStripDark
-                                                                      Color.FromArgb(71, 71, 71),    // ImageMargin
-                                                                      Color.FromArgb(61, 61, 61),    // ToolStripBegin
-                                                                      Color.FromArgb(66, 66, 66),    // ToolStripMiddle
-                                                                      Color.FromArgb(71, 71, 71),    // ToolStripEnd
+                                                                      Color.FromArgb(41, 41, 41),    // ToolStripBack
+                                                                      Color.FromArgb(41, 41, 41),    // StatusStripLight
+                                                                      Color.FromArgb(10, 10, 10),    // StatusStripDark
+                                                                      Color.FromArgb(41, 41, 41),    // ImageMargin
+                                                                      Color.FromArgb(10, 10, 10),    // ToolStripBegin
+                                                                      Color.FromArgb(33, 33, 33),    // ToolStripMiddle
+                                                                      Color.FromArgb(54, 54, 54),    // ToolStripEnd
                                                                       Color.FromArgb(178, 183, 191),    // OverflowBegin
                                                                       Color.FromArgb(139, 147, 158),    // OverflowMiddle
                                                                       Color.FromArgb( 76,  83,  92),    // OverflowEnd
@@ -108,7 +108,7 @@
                                                                       Color.White,    // TextButtonFormNormal
                                                                       Color.FromArgb(255, 255, 255),    // TextButtonFormTracking
                                                                       Color.FromArgb(255, 255, 255),    // TextButtonFormPressed
-                                                                      Color.Blue,                       // LinkNotVisitedOverrideControl
+                                                                      Color.White,                       // LinkNotVisitedOverrideControl
                                                                       Color.Purple,                     // LinkVisitedOverrideControl
                                                                       Color.Red,                        // LinkPressedOverrideControl
                                                                       Color.FromArgb(180, 210, 255),    // LinkNotVisitedOverridePanel
@@ -225,25 +225,25 @@
                                                                       Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
                                                                       Color.FromArgb(137, 137, 137),    // InputControlBorderNormal
                                                                       Color.FromArgb(204, 204, 204),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(61, 61, 61),       // InputControlBackNormal
+                                                                      Color.FromArgb(10, 10, 10),       // InputControlBackNormal
                                                                       SystemColors.Control,             // InputControlBackDisabled
                                                                       Color.FromArgb(232, 232, 232),    // InputControlBackInactive
                                                                       Color.FromArgb(91, 91, 91),    // InputDropDownNormal1
                                                                       Color.FromArgb(88, 88, 88),    // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
-                                                                      Color.FromArgb(71, 71, 71),    // ContextMenuHeading
+                                                                      Color.FromArgb(41, 41, 41),    // ContextMenuHeading
                                                                       Color.White,    // ContextMenuHeadingText
-                                                                      Color.FromArgb(71, 71, 71),    // ContextMenuImageColumn
-                                                                      Color.FromArgb(61, 61, 61),    // AppButtonBack1
-                                                                      Color.FromArgb(71, 71, 71),    // AppButtonBack2
+                                                                      Color.FromArgb(54, 54, 54),    // ContextMenuImageColumn
+                                                                      Color.FromArgb(10, 10, 10),    // AppButtonBack1
+                                                                      Color.FromArgb(41, 41, 41),    // AppButtonBack2
                                                                       Color.FromArgb( 67,  66,  65),    // AppButtonBorder
                                                                       Color.FromArgb( 78,  78,  79),    // AppButtonOuter1
                                                                       Color.FromArgb( 47,  47,  47),    // AppButtonOuter2
                                                                       Color.FromArgb( 64,  64,  64),    // AppButtonOuter3
                                                                       Color.FromArgb(107, 108, 113),    // AppButtonInner1
                                                                       Color.FromArgb( 67,  66,  65),    // AppButtonInner2
-                                                                      Color.FromArgb(61, 61, 61),    // AppButtonMenuDocs
+                                                                      Color.FromArgb(38, 38, 38),    // AppButtonMenuDocs
                                                                       Color.White,    // AppButtonMenuDocsText
                                                                       Color.FromArgb(240, 241, 242),    // SeparatorHighInternalBorder1
                                                                       Color.FromArgb(195, 200, 206),    // SeparatorHighInternalBorder2
@@ -662,12 +662,12 @@
         private static readonly Color _contextTabSeparator = Color.FromArgb(32, Color.Black);
         private static readonly Color _todayBorder = Color.FromArgb(187, 85, 3);
         private static readonly Color _focusTabFill = Color.FromArgb(248, 201, 90);
-        private static readonly Color _toolTipBack1 = Color.FromArgb(61, 61, 61);
-        private static readonly Color _toolTipBack2 = Color.FromArgb(71, 71, 71);
+        private static readonly Color _toolTipBack1 = Color.FromArgb(10, 10, 10);
+        private static readonly Color _toolTipBack2 = Color.FromArgb(41, 41, 41);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.White;
-        private static readonly Color _contextMenuInnerBack = Color.FromArgb(61, 61, 61);
-        private static readonly Color _contextMenuOuterBack = Color.FromArgb(71, 71, 71);
+        private static readonly Color _contextMenuInnerBack = Color.FromArgb(10, 10, 10);
+        private static readonly Color _contextMenuOuterBack = Color.FromArgb(41, 41, 41);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
@@ -738,7 +738,7 @@
                                                               Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
                                                               Color.FromArgb(88, 88, 88), // Button, Checked, Back 2
-                                                              Color.FromArgb(71, 71, 71), // Button, Checked Tracking, Back 1
+                                                              Color.FromArgb(41, 41, 41), // Button, Checked Tracking, Back 1
                                                               Color.FromArgb(70, 70, 70)  // Button, Checked Tracking, Back 2
                                                             };
         #endregion
@@ -6050,19 +6050,19 @@
     {
         #region Static Fields
         private static readonly Color _menuBorder = Color.FromArgb(134, 134, 134);
-        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(71, 71, 71);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(41, 41, 41);
         private static readonly Color _menuItemSelectedMiddle = Color.White;
-        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(61, 61, 61);
-        private static readonly Color _contextMenuBackground = Color.FromArgb(61, 61, 61);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(10, 10, 10);
+        private static readonly Color _contextMenuBackground = Color.FromArgb(10, 10, 10);
         private static readonly Color _checkBackground = Color.FromArgb(255, 227, 149);
-        private static readonly Color _buttonSelectedBegin = Color.FromArgb(71, 71, 71);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(41, 41, 41);
         private static readonly Color _buttonSelectedMiddle = Color.White;
-        private static readonly Color _buttonSelectedEnd = Color.FromArgb(61, 61, 61);
-        private static readonly Color _buttonPressedBegin = Color.FromArgb(71, 71, 71);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(10, 10, 10);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(41, 41, 41);
         private static readonly Color _buttonPressedMiddle = Color.White;
-        private static readonly Color _buttonPressedEnd = Color.FromArgb(61, 61, 61);
-        private static readonly Color _buttonCheckedBegin = Color.FromArgb(71, 71, 71);
-        private static readonly Color _buttonCheckedEnd = Color.FromArgb(61, 61, 61);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(10, 10, 10);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(41, 41, 41);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(10, 10, 10);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion
