@@ -134,7 +134,15 @@ namespace Krypton.Toolkit
         public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
         {
             // Is this the metric we provide?
-            if (metric is PaletteMetricInt.HeaderButtonEdgeInsetPrimary or PaletteMetricInt.HeaderButtonEdgeInsetSecondary or PaletteMetricInt.HeaderButtonEdgeInsetDockInactive or PaletteMetricInt.HeaderButtonEdgeInsetDockActive or PaletteMetricInt.HeaderButtonEdgeInsetForm or PaletteMetricInt.HeaderButtonEdgeInsetInputControl or PaletteMetricInt.HeaderButtonEdgeInsetCustom1 or PaletteMetricInt.HeaderButtonEdgeInsetCustom2 or PaletteMetricInt.HeaderButtonEdgeInsetCustom3
+            if (metric is PaletteMetricInt.HeaderButtonEdgeInsetPrimary 
+                or PaletteMetricInt.HeaderButtonEdgeInsetSecondary 
+                or PaletteMetricInt.HeaderButtonEdgeInsetDockInactive 
+                or PaletteMetricInt.HeaderButtonEdgeInsetDockActive 
+                or PaletteMetricInt.HeaderButtonEdgeInsetForm 
+                or PaletteMetricInt.HeaderButtonEdgeInsetInputControl
+                or PaletteMetricInt.HeaderButtonEdgeInsetCustom1
+                or PaletteMetricInt.HeaderButtonEdgeInsetCustom2
+                or PaletteMetricInt.HeaderButtonEdgeInsetCustom3
                 )
             {
                 // If the user has defined an actual value to use
@@ -167,7 +175,15 @@ namespace Krypton.Toolkit
         public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
         {
             // Is this the metric we provide?
-            if (metric is PaletteMetricPadding.HeaderButtonPaddingPrimary or PaletteMetricPadding.HeaderButtonPaddingSecondary or PaletteMetricPadding.HeaderButtonPaddingDockInactive or PaletteMetricPadding.HeaderButtonPaddingDockActive or PaletteMetricPadding.HeaderButtonPaddingForm or PaletteMetricPadding.HeaderButtonPaddingInputControl or PaletteMetricPadding.HeaderButtonPaddingCustom1 or PaletteMetricPadding.HeaderButtonPaddingCustom2 or PaletteMetricPadding.HeaderButtonPaddingCustom3
+            if (metric is PaletteMetricPadding.HeaderButtonPaddingPrimary
+                or PaletteMetricPadding.HeaderButtonPaddingSecondary
+                or PaletteMetricPadding.HeaderButtonPaddingDockInactive
+                or PaletteMetricPadding.HeaderButtonPaddingDockActive 
+                or PaletteMetricPadding.HeaderButtonPaddingForm
+                or PaletteMetricPadding.HeaderButtonPaddingInputControl
+                or PaletteMetricPadding.HeaderButtonPaddingCustom1
+                or PaletteMetricPadding.HeaderButtonPaddingCustom2
+                or PaletteMetricPadding.HeaderButtonPaddingCustom3
                 )
             {
                 // If the user has defined an actual value to use
@@ -181,5 +197,6 @@ namespace Krypton.Toolkit
             return _redirect.GetMetricPadding(state, metric);
         }
         #endregion
+
     }
 }

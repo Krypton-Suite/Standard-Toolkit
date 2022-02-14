@@ -2684,7 +2684,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MAKEHIWORD(int value) => (value & 0xFFFF) << 0x10;
 
-        internal static int MakeLParam(int LoWord, int HiWord) => (HiWord << 16) | (LoWord & 0xffff);
+        internal static IntPtr MakeLParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         internal static IntPtr MakeWParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
 
@@ -3157,6 +3157,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DllImport(@"User32")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+
+        [DllImport(@"user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

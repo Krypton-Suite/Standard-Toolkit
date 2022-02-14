@@ -1,6 +1,8 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-04-04 - Build 2204 - April 2022
+* Implemented [#640](https://github.com/Krypton-Suite/Standard-Toolkit/issues/640), KForm add an option to align the title text.
+* Resolved [#646](https://github.com/Krypton-Suite/Standard-Toolkit/issues/646), When the ButtonSpecs are left aligned the System Menu icon does not react to the click event any more
 * Resolved [#642](https://github.com/Krypton-Suite/Standard-Toolkit/issues/642), Blurred window get left behind when focus is regained
 * Resolved [#634](https://github.com/Krypton-Suite/Standard-Toolkit/issues/634), Opacity no longer works
 * Resolved [#633](https://github.com/Krypton-Suite/Standard-Toolkit/issues/633), Source contains licensing code

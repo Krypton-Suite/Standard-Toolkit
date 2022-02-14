@@ -588,6 +588,7 @@ namespace Krypton.Toolkit
         [Category(@"Window Style")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description(@"Please use a ButtonSpec, as this gives greater flexibility!")]
         public new bool HelpButton
         {
             get => base.HelpButton;
@@ -941,7 +942,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new(_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1715,11 +1716,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Process the left mouse down event.
         /// </summary>
-        /// <param name="pt">Window coordinate of the mouse up.</param>
+        /// <param name="windowPoint">Window coordinate of the mouse down.</param>
         /// <returns>True if event is processed; otherwise false.</returns>
-        protected virtual bool WindowChromeLeftMouseDown(Point pt)
+        protected virtual bool WindowChromeLeftMouseDown(Point windowPoint)
         {
-            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0), pt);
+            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
             // If we moused down on a active view element
             // Ask the controller if the mouse down should be ignored by wnd proc processing
