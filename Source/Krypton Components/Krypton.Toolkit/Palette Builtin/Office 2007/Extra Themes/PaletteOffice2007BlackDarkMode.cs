@@ -1248,6 +1248,14 @@
                 case PaletteBackStyle.ButtonCommand:
                 case PaletteBackStyle.ButtonButtonSpec:
                 case PaletteBackStyle.ButtonCalendarDay:
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int) SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ButtonCluster:
                 case PaletteBackStyle.ButtonNavigatorStack:
                 case PaletteBackStyle.ButtonNavigatorOverflow:
@@ -1514,6 +1522,14 @@
                 case PaletteBackStyle.ButtonCommand:
                 case PaletteBackStyle.ButtonButtonSpec:
                 case PaletteBackStyle.ButtonCalendarDay:
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ButtonCluster:
                 case PaletteBackStyle.ButtonNavigatorStack:
                 case PaletteBackStyle.ButtonNavigatorOverflow:
@@ -2268,7 +2284,7 @@
                     or PaletteBackStyle.ContextMenuItemHighlight
                     or PaletteBackStyle.GridBackgroundList
                     or PaletteBackStyle.GridBackgroundSheet
-                                        or PaletteBackStyle.GridBackgroundCustom1
+                    or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
 
@@ -3296,7 +3312,11 @@
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
+                PaletteContentStyle.ButtonCalendarDay => state switch
+                {
+                    PaletteState.Disabled => _disabledText2,
+                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                },
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
@@ -3373,7 +3393,11 @@
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
+                PaletteContentStyle.ButtonCalendarDay => state switch
+                {
+                    PaletteState.Disabled => _disabledText2,
+                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                },
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
