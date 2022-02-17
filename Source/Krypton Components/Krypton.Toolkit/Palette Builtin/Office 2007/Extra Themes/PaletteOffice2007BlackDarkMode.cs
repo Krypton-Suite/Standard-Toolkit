@@ -47,7 +47,7 @@
                                                                       };
         private static readonly Color[] _schemeOfficeColors = { Color.White,    // TextLabelControl
                                                                       Color.White,    // TextButtonNormal
-                                                                      Color.Black,                      // TextButtonChecked
+                                                                      Color.White,                      // TextButtonChecked
                                                                       Color.FromArgb(137, 135, 133),    // ButtonNormalBorder1
                                                                       Color.FromArgb(127, 125, 123),    // ButtonNormalBorder2
                                                                       Color.FromArgb(10, 10, 10),       // ButtonNormalBack1
@@ -58,7 +58,7 @@
                                                                       Color.FromArgb(229, 232, 236),    // ButtonNormalNavigatorBack2
                                                                       Color.FromArgb( 10, 10, 10),      // PanelClient
                                                                       Color.FromArgb( 41, 41, 41),      // PanelAlternative
-                                                                      Color.FromArgb( 30,  30,  30),    // ControlBorder
+                                                                      Color.White,                      // ControlBorder
                                                                       Color.FromArgb(167, 167, 167),    // SeparatorHighBorder1
                                                                       Color.FromArgb(119, 119, 119),    // SeparatorHighBorder2
                                                                       Color.FromArgb(10, 10, 10),    // HeaderPrimaryBack1
@@ -97,7 +97,7 @@
                                                                       Color.FromArgb(158, 158, 158),    // FormBorderHeaderInctive2
                                                                       Color.FromArgb(174, 209, 255),    // FormHeaderShortActive
                                                                       Color.FromArgb(225, 225, 225),    // FormHeaderShortInactive
-                                                                      Color.FromArgb(255, 255, 255),    // FormHeaderLongActive
+                                                                      Color.White,    // FormHeaderLongActive
                                                                       Color.FromArgb(225, 225, 225),    // FormHeaderLongInactive
                                                                       Color.FromArgb( 88,  95, 104),    // FormButtonBorderTrack
                                                                       Color.FromArgb( 91, 105, 123),    // FormButtonBack1Track
@@ -106,8 +106,8 @@
                                                                       Color.FromArgb(  0,   0,   0),    // FormButtonBack1Pressed
                                                                       Color.FromArgb( 65,  83, 102),    // FormButtonBack2Pressed
                                                                       Color.White,    // TextButtonFormNormal
-                                                                      Color.FromArgb(255, 255, 255),    // TextButtonFormTracking
-                                                                      Color.FromArgb(255, 255, 255),    // TextButtonFormPressed
+                                                                      Color.White,    // TextButtonFormTracking
+                                                                      Color.White,    // TextButtonFormPressed
                                                                       Color.White,                       // LinkNotVisitedOverrideControl
                                                                       Color.Purple,                     // LinkVisitedOverrideControl
                                                                       Color.Red,                        // LinkPressedOverrideControl
@@ -209,7 +209,7 @@
                                                                       Color.FromArgb(41, 41, 41),       // GridListNormal2                                                    
                                                                       Color.FromArgb(41, 41, 41),       // GridListPressed1                                                    
                                                                       Color.FromArgb(61, 61, 61),       // GridListPressed2                                                    
-                                                                      Color.FromArgb(186, 189, 194),    // GridListSelected                                                    
+                                                                      Color.FromArgb(151, 149, 149),    // GridListSelected                                                    
                                                                       Color.FromArgb(10, 10, 10),       // GridSheetColNormal1                                                    
                                                                       Color.FromArgb(41, 41, 41),       // GridSheetColNormal2                                                    
                                                                       Color.FromArgb(224, 224, 224),    // GridSheetColPressed1                                                    
@@ -581,6 +581,8 @@
     public abstract class PaletteOffice2007BlackDarkModeDarkModeBase : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader2 = new(2, 1, 2, 1);
@@ -617,9 +619,11 @@
         private static readonly Padding _metricPaddingBarTabs = new(0);
         private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
+        #endregion
+
+        #region Images
         private static readonly Image _treePlus = TreeItemImageResources.TreePlusBox;
         private static readonly Image _treeMinus = TreeItemImageResources.TreeMinusBox;
-
         private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
         private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = GenericProfessionalImageResources.ProfessionalContextButton;
@@ -641,15 +645,17 @@
         private static readonly Image _buttonSpecRibbonExpand = MDIImageResources.MdiRibbonExpand;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
+        #endregion
 
+        #region Colours
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _calendarTextColor = Color.White;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
-        private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
-        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
-        private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
-        private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
+        private static readonly Color _disabledText2 = Color.FromArgb(78, 78, 78);
+        private static readonly Color _disabledText = Color.FromArgb(172, 172, 172);
+        private static readonly Color _disabledBack = Color.FromArgb(128, 128, 128);
+        private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
         private static readonly Color _disabledGlyphLight = Color.FromArgb(237, 237, 237);
@@ -672,7 +678,8 @@
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-       
+        #endregion
+
 
         private static readonly Color[] _ribbonGroupCollapsedBackContext =
                                                                             {
