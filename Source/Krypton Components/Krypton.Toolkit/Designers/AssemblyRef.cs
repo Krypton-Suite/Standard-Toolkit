@@ -19,6 +19,8 @@ internal static class FXAssembly
     internal const string Version = "5.0.0.0";
 #elif NET6_0
     internal const string Version = "6.0.0.0";
+#elif NET7_0
+    internal const string Version = "7.0.0.0";
 #endif
 }
 
