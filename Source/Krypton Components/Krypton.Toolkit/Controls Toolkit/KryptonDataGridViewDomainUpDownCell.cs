@@ -84,13 +84,6 @@ namespace Krypton.Toolkit
                 {
                     domainUpDown.Items.Clear();
 
-                    foreach (ButtonSpec bs in domainUpDown.ButtonSpecs)
-                    {
-                        bs.Click -= OnButtonClick;
-                    }
-
-                    domainUpDown.ButtonSpecs.Clear();
-
                     if (domainUpDown.Controls[0].Controls[1] is TextBox textBox)
                     {
                         textBox.ClearUndo();
@@ -120,24 +113,9 @@ namespace Krypton.Toolkit
                 if (OwningColumn is KryptonDataGridViewDomainUpDownColumn domainColumn)
                 {
                     domainUpDown.Items.InsertRange(0, domainColumn.Items);
-
-                    // Set this cell as the owner of the buttonspecs
-                    domainUpDown.ButtonSpecs.Owner = DataGridView.Rows[rowIndex].Cells[ColumnIndex];
-                    foreach (ButtonSpec bs in domainColumn.ButtonSpecs)
-                    {
-                        bs.Click += OnButtonClick;
-                        domainUpDown.ButtonSpecs.Add(bs);
-                    }
                 }
 
-                if (initialFormattedValue is not string initialFormattedValueStr)
-                {
-                    domainUpDown.Text = string.Empty;
-                }
-                else
-                {
-                    domainUpDown.Text = initialFormattedValueStr;
-                }
+                domainUpDown.Text = initialFormattedValue is string initialFormattedValueStr ? initialFormattedValueStr : string.Empty;
             }
         }
 
@@ -172,16 +150,16 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int ButtonsWidth = 16;
+            const int BUTTONS_WIDTH = 16;
 
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
             if (DataGridView.RightToLeft == RightToLeft.Yes)
             {
-                errorIconBounds.X = errorIconBounds.Left + ButtonsWidth;
+                errorIconBounds.X = errorIconBounds.Left + BUTTONS_WIDTH;
             }
             else
             {
-                errorIconBounds.X = errorIconBounds.Left - ButtonsWidth;
+                errorIconBounds.X = errorIconBounds.Left - BUTTONS_WIDTH;
             }
 
             return errorIconBounds;
@@ -200,9 +178,9 @@ namespace Krypton.Toolkit
             Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
             if (constraintSize.Width == 0)
             {
-                const int ButtonsWidth = 16; // Account for the width of the up/down buttons.
-                const int ButtonMargin = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += ButtonsWidth + ButtonMargin;
+                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
+                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
+                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
             }
 
             return preferredSize;
@@ -210,12 +188,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, EventArgs e)
-        {
-            KryptonDataGridViewDomainUpDownColumn domainColumn = OwningColumn as KryptonDataGridViewDomainUpDownColumn;
-            DataGridViewButtonSpecClickEventArgs args = new(domainColumn, this, (ButtonSpecAny)sender);
-            domainColumn.PerfomButtonSpecClick(args);
-        }
 
         private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView.EditingControl as KryptonDataGridViewDomainUpDownEditingControl;
 

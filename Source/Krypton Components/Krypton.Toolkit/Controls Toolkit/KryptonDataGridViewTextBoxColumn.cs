@@ -26,13 +26,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Events
-        /// <summary>
-        /// Occurs when the user clicks a button spec.
-        /// </summary>
-        public event EventHandler<DataGridViewButtonSpecClickEventArgs> ButtonSpecClick;
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewTextBoxColumn class.
@@ -40,7 +33,6 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewTextBoxColumn()
             : base(new KryptonDataGridViewTextBoxCell())
         {
-            ButtonSpecs = new DataGridViewColumnSpecCollection(this);
             SortMode = DataGridViewColumnSortMode.Automatic;
         }
 
@@ -69,11 +61,6 @@ namespace Krypton.Toolkit
         {
             KryptonDataGridViewTextBoxColumn cloned = base.Clone() as KryptonDataGridViewTextBoxColumn;
 
-            // Move the button specs over to the new clone
-            foreach (ButtonSpec bs in ButtonSpecs)
-            {
-                cloned.ButtonSpecs.Add(bs.Clone());
-            }
             cloned.Multiline = Multiline;
             cloned.MultilineStringEditor = MultilineStringEditor;
             return cloned;
@@ -196,15 +183,6 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets the collection of the button specifications.
-        /// </summary>
-        [Category(@"Data")]
-        [Description(@"Set of extra button specs to appear with control.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DataGridViewColumnSpecCollection ButtonSpecs { get; }
-
-
-        /// <summary>
         /// Replicates the Multiline property of the KryptonDataGridViewTextBoxCell cell type.
         /// </summary>
         [Category(@"Behavior")]
@@ -284,9 +262,5 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Internal
-        internal void PerformButtonSpecClick(DataGridViewButtonSpecClickEventArgs args) => ButtonSpecClick?.Invoke(this, args);
-
-        #endregion
     }
 }
