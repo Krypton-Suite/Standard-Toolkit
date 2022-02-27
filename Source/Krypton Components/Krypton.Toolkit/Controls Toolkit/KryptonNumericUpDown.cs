@@ -376,13 +376,13 @@ namespace Krypton.Toolkit
                                 //////////////////////////////////////////////////////
                                 // Following removed to allow the Draw to always happen, to allow centering etc  
                                 _internalNumericUpDown.TextAlign = states.Content.GetContentShortTextH(state) switch
-                                {
-                                    PaletteRelativeAlign.Center =>
-                                        HorizontalAlignment.Center,
-                                    PaletteRelativeAlign.Far => HorizontalAlignment
-                                        .Right,
-                                    _ => HorizontalAlignment.Left
-                                };
+                                                                   {
+                                                                       PaletteRelativeAlign.Center =>
+                                                                           HorizontalAlignment.Center,
+                                                                       PaletteRelativeAlign.Far => HorizontalAlignment
+                                                                           .Right,
+                                                                       _ => HorizontalAlignment.Left
+                                                                   };
                                 if (NumericUpDown.Enabled)
                                 {
                                     if (!NumericUpDown.TrailingZeroes && NumericUpDown.AllowDecimals)
@@ -690,12 +690,12 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    return NumericUpDown.IsActive
-                               || (NumericUpDown.IsFixedActive
+                    return NumericUpDown.IsActive 
+                               || (NumericUpDown.IsFixedActive 
                                    && (NumericUpDown.InputControlStyle == InputControlStyle.Standalone)
                                )
                         ? NumericUpDown.InputControlStyle == InputControlStyle.Standalone
-                            ? PaletteState.CheckedNormal
+                            ? PaletteState.CheckedNormal 
                             : PaletteState.CheckedTracking
                         : PaletteState.Normal;
                 }

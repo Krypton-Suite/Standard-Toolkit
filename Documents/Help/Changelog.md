@@ -1,6 +1,7 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-04-04 - Build 2204 - April 2022
+* Resolved [#39](https://github.com/Krypton-Suite/Standard-Toolkit/issues/39), KryptonNumericUpDown loses selection (visually) each time the control is painted
 * Resolved [#399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/399), DataGridView columns can have buttonspecs added, but they are never visible.
 * Implemented [#640](https://github.com/Krypton-Suite/Standard-Toolkit/issues/640), KForm add an option to align the title text.
 * Resolved [#646](https://github.com/Krypton-Suite/Standard-Toolkit/issues/646), When the ButtonSpecs are left aligned the System Menu icon does not react to the click event any more
