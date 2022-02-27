@@ -25,13 +25,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Events
-        /// <summary>
-        /// Occurs when the user clicks a button spec.
-        /// </summary>
-        public event EventHandler<DataGridViewButtonSpecClickEventArgs> ButtonSpecClick;
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewComboBoxColumn class.
@@ -39,7 +32,6 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewComboBoxColumn()
             : base(new KryptonDataGridViewComboBoxCell())
         {
-            ButtonSpecs = new DataGridViewColumnSpecCollection(this);
             Items = new List<object>();
             AutoCompleteCustomSource = new AutoCompleteStringCollection();
         }
@@ -79,13 +71,6 @@ namespace Krypton.Toolkit
 
             cloned.AutoCompleteCustomSource.AddRange(strings);
 
-
-            // Move the button specs over to the new clone
-            foreach (ButtonSpec bs in ButtonSpecs)
-            {
-                cloned.ButtonSpecs.Add(bs.Clone());
-            }
-
             return cloned;
         }
         #endregion
@@ -112,14 +97,6 @@ namespace Krypton.Toolkit
                 base.CellTemplate = value;
             }
         }
-
-        /// <summary>
-        /// Gets the collection of the button specifications.
-        /// </summary>
-        [Category(@"Data")]
-        [Description(@"Set of extra button specs to appear with control.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets the collection of allowable items of the domain up down.
@@ -524,8 +501,5 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Internal
-        internal void PerfomButtonSpecClick(DataGridViewButtonSpecClickEventArgs args) => ButtonSpecClick?.Invoke(this, args);
-        #endregion
     }
 }

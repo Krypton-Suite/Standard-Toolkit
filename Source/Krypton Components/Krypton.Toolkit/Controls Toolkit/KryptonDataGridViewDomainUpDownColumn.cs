@@ -24,12 +24,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Events
-        /// <summary>
-        /// Occurs when the user clicks a button spec.
-        /// </summary>
-        public event EventHandler<DataGridViewButtonSpecClickEventArgs> ButtonSpecClick;
-        #endregion
 
         #region Identity
         /// <summary>
@@ -38,7 +32,6 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewDomainUpDownColumn()
             : base(new KryptonDataGridViewDomainUpDownCell())
         {
-            ButtonSpecs = new DataGridViewColumnSpecCollection(this);
             Items = new StringCollection();
         }
 
@@ -75,12 +68,6 @@ namespace Krypton.Toolkit
 
             cloned.Items.AddRange(strings);
 
-            // Move the button specs over to the new clone
-            foreach (ButtonSpec bs in ButtonSpecs)
-            {
-                cloned.ButtonSpecs.Add(bs.Clone());
-            }
-
             return cloned;
         }
         #endregion
@@ -106,14 +93,6 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets the collection of the button specifications.
-        /// </summary>
-        [Category(@"Data")]
-        [Description(@"Set of extra button specs to appear with control.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DataGridViewColumnSpecCollection ButtonSpecs { get; }
-
-        /// <summary>
         /// Gets the collection of allowable items of the domain up down.
         /// </summary>
         [Category(@"Data")]
@@ -132,8 +111,5 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Internal
-        internal void PerfomButtonSpecClick(DataGridViewButtonSpecClickEventArgs args) => ButtonSpecClick?.Invoke(this, args);
-        #endregion
     }
 }

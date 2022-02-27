@@ -130,13 +130,6 @@ namespace Krypton.Toolkit
             {
                 if (OwningColumn is KryptonDataGridViewTextBoxColumn)
                 {
-                    foreach (ButtonSpec bs in kryptonTextBox.ButtonSpecs)
-                    {
-                        bs.Click -= OnButtonClick;
-                    }
-
-                    //kryptonTextBox.ButtonSpecs.Clear();
-
                     if (kryptonTextBox.Controls[0] is TextBox textBox)
                     {
                         textBox.ClearUndo();
@@ -258,12 +251,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, EventArgs e)
-        {
-            KryptonDataGridViewTextBoxColumn textColumn = OwningColumn as KryptonDataGridViewTextBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new(textColumn, this, (ButtonSpecAny)sender);
-            textColumn.PerformButtonSpecClick(args);
-        }
 
         private KryptonDataGridViewTextBoxEditingControl EditingTextBox => DataGridView.EditingControl as KryptonDataGridViewTextBoxEditingControl;
 

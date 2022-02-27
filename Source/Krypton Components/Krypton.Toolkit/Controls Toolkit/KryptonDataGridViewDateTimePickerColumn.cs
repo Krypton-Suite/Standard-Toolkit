@@ -27,13 +27,6 @@ namespace Krypton.Toolkit
         private readonly DateTimeList _dates;
         #endregion
 
-        #region Events
-        /// <summary>
-        /// Occurs when the user clicks a button spec.
-        /// </summary>
-        public event EventHandler<DataGridViewButtonSpecClickEventArgs> ButtonSpecClick;
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewDateTimePickerColumn class.
@@ -41,7 +34,6 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewDateTimePickerColumn()
             : base(new KryptonDataGridViewDateTimePickerCell())
         {
-            ButtonSpecs = new DataGridViewColumnSpecCollection(this);
             _annualDates = new DateTimeList();
             _monthlyDates = new DateTimeList();
             _dates = new DateTimeList();
@@ -75,12 +67,6 @@ namespace Krypton.Toolkit
             cloned.CalendarMonthlyBoldedDates = CalendarMonthlyBoldedDates;
             cloned.CalendarBoldedDates = CalendarBoldedDates;
 
-            // Move the button specs over to the new clone
-            foreach (ButtonSpec bs in ButtonSpecs)
-            {
-                cloned.ButtonSpecs.Add(bs.Clone());
-            }
-
             return cloned;
         }
         #endregion
@@ -105,14 +91,6 @@ namespace Krypton.Toolkit
                 base.CellTemplate = value;
             }
         }
-
-        /// <summary>
-        /// Gets the collection of the button specifications.
-        /// </summary>
-        [Category(@"Data")]
-        [Description(@"Set of extra button specs to appear with control.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Replicates the ShowCheckBox property of the KryptonDataGridViewDateTimePickerCell cell type.
@@ -922,9 +900,5 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Internal
-        internal void PerfomButtonSpecClick(DataGridViewButtonSpecClickEventArgs args) => ButtonSpecClick?.Invoke(this, args);
-
-        #endregion
     }
 }
