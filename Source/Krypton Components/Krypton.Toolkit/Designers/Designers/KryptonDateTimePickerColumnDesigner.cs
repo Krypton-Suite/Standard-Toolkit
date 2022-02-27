@@ -39,12 +39,6 @@ namespace Krypton.Toolkit
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
 
-        /// <summary>
-        /// Gets the collection of components associated with the component managed by the designer.
-        /// </summary>
-        public override ICollection AssociatedComponents =>
-            _dateTimePicker != null ? _dateTimePicker.ButtonSpecs : base.AssociatedComponents;
-
         #endregion
 
         #region Private
@@ -55,25 +49,6 @@ namespace Krypton.Toolkit
             {
                 // Need access to host in order to delete a component
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
-
-                // We need to remove all the button spec instances
-                for (var i = _dateTimePicker.ButtonSpecs.Count - 1; i >= 0; i--)
-                {
-                    // Get access to the indexed button spec
-                    ButtonSpec spec = _dateTimePicker.ButtonSpecs[i];
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_dateTimePicker, null);
-
-                    // Perform actual removal of button spec from textbox
-                    _dateTimePicker.ButtonSpecs.Remove(spec);
-
-                    // Get host to remove it from design time
-                    host.DestroyComponent(spec);
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_dateTimePicker, null, null, null);
-                }
             }
         }
         #endregion
