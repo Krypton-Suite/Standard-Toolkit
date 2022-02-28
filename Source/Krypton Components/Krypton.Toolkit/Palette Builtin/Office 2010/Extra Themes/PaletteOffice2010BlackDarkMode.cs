@@ -273,7 +273,7 @@
                                                                       Color.FromArgb(148, 148, 143),    // ButtonNavigatorPressed2
                                                                       Color.FromArgb( 91,  91,  91),    // ButtonNavigatorChecked1
                                                                       Color.FromArgb( 73,  73,  73),    // ButtonNavigatorChecked2
-                                                                      Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
+                                                                      Color.FromArgb(91, 91, 91) // ToolTipBottom                                                                      
         };
         #endregion
 
@@ -887,8 +887,8 @@
                                                               Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
                                                               Color.FromArgb(89, 89, 89), // Button, Tracking, Back 2
-                                                              Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
-                                                              Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
+                                                              Color.FromArgb(91, 91, 91), // Button, Pressed, Back 1
+                                                              Color.FromArgb(89, 89, 89),  // Button, Pressed, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
                                                               Color.FromArgb(88, 88, 88), // Button, Checked, Back 2
                                                               Color.FromArgb(41, 41, 41), // Button, Checked Tracking, Back 1
@@ -5430,14 +5430,14 @@
         private static readonly Color _contextMenuBackground = Color.FromArgb(10, 10, 10);
         private static readonly Color _menuBorder = Color.FromArgb(167, 171, 176);
         private static readonly Color _checkBackground = Color.FromArgb(252, 241, 194);
-        private static readonly Color _buttonSelectedBegin = Color.FromArgb(251, 242, 215);
-        private static readonly Color _buttonSelectedEnd = Color.FromArgb(247, 224, 135);
-        private static readonly Color _buttonPressedBegin = Color.FromArgb(255, 228, 138);
-        private static readonly Color _buttonPressedEnd = Color.FromArgb(255, 228, 138);
-        private static readonly Color _buttonCheckedBegin = Color.FromArgb(255, 216, 107);
-        private static readonly Color _buttonCheckedEnd = Color.FromArgb(255, 216, 107);
-        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(251, 242, 215);
-        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(247, 224, 135);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(89, 89, 89);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(91, 91, 91);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(89, 89, 89);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion
