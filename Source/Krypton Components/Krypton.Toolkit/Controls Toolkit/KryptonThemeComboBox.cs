@@ -48,6 +48,7 @@ namespace Krypton.Toolkit
 
         #region Constructor
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
@@ -56,6 +57,16 @@ namespace Krypton.Toolkit
 
             _supportedThemesList = ThemeManager.PropagateSupportedThemeList();
         }
+        #endregion
+
+        #region Methods
+
+        /// <summary>Returns the palette mode.</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        public PaletteMode ReturnPaletteMode() => (PaletteMode)Manager.GlobalPaletteMode;
+
         #endregion
 
         #region Protected Overrides
