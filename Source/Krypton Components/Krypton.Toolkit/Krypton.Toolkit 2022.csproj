@@ -166,9 +166,7 @@
         <Compile Update="Palette Builtin\Sparkle\PaletteSparkleOrange.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Sparkle\PaletteSparkleBlue.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Sparkle\PaletteSparkleBlue.cs" />
         <Compile Update="Palette Builtin\Office 2007\PaletteOffice2007Black.cs">
             <SubType>Component</SubType>
         </Compile>
