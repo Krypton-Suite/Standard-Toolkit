@@ -427,6 +427,9 @@
     public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader2 = new(2, 1, 2, 1);
@@ -463,6 +466,11 @@
         private static readonly Padding _metricPaddingBarTabs = new(0);
         private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
+
+        #endregion
+
+        #region Images
+
         private static readonly Image _treePlus = TreeItemImageResources.TreePlusBox;
         private static readonly Image _treeMinus = TreeItemImageResources.TreeMinusBox;
 
@@ -488,12 +496,16 @@
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
+        #endregion
+
+        #region Colours
+
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
-        private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
+        private static readonly Color _disabledBack = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
@@ -518,6 +530,11 @@
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
         private static readonly Color _controlCustom3Color = Color.FromArgb(134, 179, 236);
+
+        #endregion
+
+        #region Colour Arrays
+
         private static readonly Color[] _ribbonGroupCollapsedBackContext = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
         private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
         private static readonly Color[] _ribbonGroupCollapsedBorderContext = { Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
@@ -526,24 +543,27 @@
         private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(212, 212, 212), // Button, Disabled, Border
-                                                                           Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
-                                                                           Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
-                                                                           Color.FromArgb(147, 125,  90), // Button, Pressed, Border 1
-                                                                           Color.FromArgb(255, 196,  68), // Button, Pressed, Border 2
-                                                                           Color.FromArgb(158, 130,  85), // Button, Checked, Border 1
-                                                                           Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
-                                                                         };
+                                                                Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
+                                                                Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
+                                                                Color.FromArgb(147, 125,  90), // Button, Pressed, Border 1
+                                                                Color.FromArgb(255, 196,  68), // Button, Pressed, Border 2
+                                                                Color.FromArgb(158, 130,  85), // Button, Checked, Border 1
+                                                                Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
+        };
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
-                                                                         Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
-                                                                         Color.FromArgb(255, 213,  77), // Button, Tracking, Back 1
-                                                                         Color.FromArgb(255, 239, 177), // Button, Tracking, Back 2
-                                                                         Color.FromArgb(235, 122,   5), // Button, Pressed, Back 1
-                                                                         Color.FromArgb(254, 195, 108), // Button, Pressed, Back 2
-                                                                         Color.FromArgb(254, 175,  77), // Button, Checked, Back 1
-                                                                         Color.FromArgb(254, 230, 136), // Button, Checked, Back 2
-                                                                         Color.FromArgb(232, 142,  49), // Button, Checked Tracking, Back 1
-                                                                         Color.FromArgb(252, 207, 100)  // Button, Checked Tracking, Back 2
-                                                                       };
+                                                              Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
+                                                              Color.FromArgb(141, 168, 203), // Button, Tracking, Back 1
+                                                              Color.FromArgb(95, 127, 169), // Button, Tracking, Back 2
+                                                              Color.FromArgb(235, 122,   5), // Button, Pressed, Back 1
+                                                              Color.FromArgb(254, 195, 108), // Button, Pressed, Back 2
+                                                              Color.FromArgb(254, 175,  77), // Button, Checked, Back 1
+                                                              Color.FromArgb(254, 230, 136), // Button, Checked, Back 2
+                                                              Color.FromArgb(232, 142,  49), // Button, Checked Tracking, Back 1
+                                                              Color.FromArgb(252, 207, 100)  // Button, Checked Tracking, Back 2
+        };
+
+        #endregion
+
         #endregion
 
         #region Instance Fields
@@ -922,6 +942,15 @@
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    } 
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
@@ -934,7 +963,15 @@
                 case PaletteBackStyle.GridBackgroundCustom3:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.FormMain:
                 case PaletteBackStyle.FormCustom1:
                 case PaletteBackStyle.FormCustom2:
@@ -944,11 +981,30 @@
                         : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveLight];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return _controlCustom3Color;
+                    // Note: This controls the input control dropdown background
+                    return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
@@ -1174,6 +1230,15 @@
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
@@ -1186,7 +1251,15 @@
                 case PaletteBackStyle.GridBackgroundCustom3:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.FormMain:
                 case PaletteBackStyle.FormCustom1:
                 case PaletteBackStyle.FormCustom2:
@@ -1196,11 +1269,30 @@
                         : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveDark];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    // Note: This controls the input control dropdown background
+                    return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
@@ -5335,12 +5427,12 @@
     {
         #region Static Fields
         private static readonly Color _menuBorder = Color.FromArgb(134, 134, 134);
-        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(255, 213, 103);
-        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(255, 228, 145);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(141, 168, 203);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(95, 127, 169);
         private static readonly Color _contextMenuBackground = Color.FromArgb(134, 179, 236);
         private static readonly Color _checkBackground = Color.FromArgb(255, 227, 149);
-        private static readonly Color _buttonSelectedBegin = Color.FromArgb(255, 235, 166);
-        private static readonly Color _buttonSelectedEnd = Color.FromArgb(255, 213, 103);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(141, 168, 203);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(95, 127, 169);
         private static readonly Color _buttonPressedBegin = Color.FromArgb(253, 164, 97);
         private static readonly Color _buttonPressedEnd = Color.FromArgb(252, 143, 61);
         private static readonly Color _buttonCheckedBegin = Color.FromArgb(252, 180, 100);
