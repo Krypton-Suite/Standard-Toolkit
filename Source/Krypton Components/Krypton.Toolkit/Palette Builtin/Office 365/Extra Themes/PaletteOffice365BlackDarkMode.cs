@@ -401,6 +401,9 @@
     public abstract class PaletteOffice365BlackDarkModeBase : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader2 = new(2, 1, 2, 1);
@@ -436,6 +439,11 @@
         private static readonly Padding _metricPaddingBarTabs = new(0);
         private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
+
+        #endregion
+
+        #region Images
+
         private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
@@ -460,6 +468,10 @@
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
+
+        #endregion
+
+        #region Colours
 
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _disabledText2 = Color.FromArgb(78, 78, 78);
@@ -496,6 +508,8 @@
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
+
+        #endregion
 
 
         private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
@@ -5024,17 +5038,17 @@
     public class KryptonColorTable365BlackDarkMode : KryptonColorTable
     {
         #region Static Fields
-        private static readonly Color _contextMenuBackground = Color.White;
+        private static readonly Color _contextMenuBackground = Color.FromArgb(10, 10, 10);
         private static readonly Color _menuBorder = Color.FromArgb(167, 171, 176);
         private static readonly Color _checkBackground = Color.FromArgb(252, 241, 194);
-        private static readonly Color _buttonSelectedBegin = Color.FromArgb(251, 242, 215);
-        private static readonly Color _buttonSelectedEnd = Color.FromArgb(247, 224, 135);
-        private static readonly Color _buttonPressedBegin = Color.FromArgb(255, 228, 138);
-        private static readonly Color _buttonPressedEnd = Color.FromArgb(255, 228, 138);
-        private static readonly Color _buttonCheckedBegin = Color.FromArgb(255, 216, 107);
-        private static readonly Color _buttonCheckedEnd = Color.FromArgb(255, 216, 107);
-        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(251, 242, 215);
-        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(247, 224, 135);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(89, 89, 89);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(91, 91, 91);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(91, 91, 91);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(89, 89, 89);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion
