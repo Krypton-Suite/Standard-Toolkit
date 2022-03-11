@@ -327,7 +327,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Cue hint values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteCueHintText CueHintText { get; set; }
+        public KryptonPaletteCueHintText CueHintText { get; set; }
 
         public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
 
@@ -2860,11 +2860,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Property Grid
-        [KryptonPersist]
-        [Category(@"Visuals")]
-        [Description(@"Colors associated with the property grid control.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPalettePropertyGrid PropertyGrid { get; set; }
+        // Note: Uncomment when `KryptonPalettePropertyGrid` is completed
+        //[KryptonPersist]
+        //[Category(@"Visuals")]
+        //[Description(@"Colors associated with the property grid control.")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public KryptonPalettePropertyGrid PropertyGrid { get; set; }
 
         //public bool ShouldSerializePropertyGrid() => !PropertyGrid.IsDefault;
         #endregion
