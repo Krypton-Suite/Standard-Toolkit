@@ -1095,19 +1095,6 @@ namespace Krypton.Toolkit
             set => _richTextBox.ScrollBars = value;
         }
 
-        //public InputControlStyle ControlStyle
-        //{
-        //    get => _inputControlStyle;
-
-        //    set
-        //    {
-        //        if (_inputControlStyle != null)
-        //        {
-        //            _inputControlStyle = value;
-        //        }
-        //    }
-        //}
-
         /// <summary>
         /// Indicates if lines are automatically word-wrapped for multiline edit controls.
         /// </summary>
@@ -1828,8 +1815,6 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
-
-        //protected virtual void SetInputControlStyle(InputControlStyle controlStyle) => _re
         #endregion
 
         #region Protected Overrides
