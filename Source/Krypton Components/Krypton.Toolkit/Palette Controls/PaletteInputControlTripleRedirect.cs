@@ -119,6 +119,16 @@ namespace Krypton.Toolkit
                         PaletteBorderStyle.InputControlCustom3,
                         PaletteContentStyle.InputControlCustom3);
                     break;
+                case InputControlStyle.PanelClient:
+                    SetStyles(PaletteBackStyle.PanelClient,
+                        PaletteBorderStyle.InputControlStandalone,
+                        PaletteContentStyle.LabelNormalControl);
+                    break;
+                case InputControlStyle.PanelAlternative:
+                    SetStyles(PaletteBackStyle.PanelAlternate,
+                        PaletteBorderStyle.InputControlStandalone,
+                        PaletteContentStyle.LabelNormalControl);
+                    break;
             }
         }
 

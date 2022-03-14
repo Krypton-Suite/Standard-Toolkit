@@ -40,7 +40,9 @@ namespace Krypton.Toolkit
             new(InputControlStyle.Ribbon,     "Ribbon"),
             new(InputControlStyle.Custom1,    "Custom1"),
             new(InputControlStyle.Custom2,    "Custom2"),
-            new(InputControlStyle.Custom3,    "Custom3")
+            new(InputControlStyle.Custom3,    "Custom3"),
+            new(InputControlStyle.PanelClient, "Panel Client"),
+            new(InputControlStyle.PanelAlternative, "Panel Alternative")
         };
 
         #endregion
