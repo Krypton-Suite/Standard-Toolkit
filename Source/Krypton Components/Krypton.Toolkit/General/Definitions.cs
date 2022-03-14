@@ -1345,8 +1345,20 @@ namespace Krypton.Toolkit
         Custom1,
         Custom2,
         Custom3,
+        /// <summary>
+        /// Specifies a panel client input style.
+        /// </summary>
         PanelClient,
-        PanelAlternative
+        /// <summary>
+        /// Specifies the panel alternative input style.
+        /// </summary>
+        PanelAlternative,
+        /*
+        /// <summary>
+        /// Specifies the disabled input style.
+        /// </summary>
+        Disabled
+        */
     }
     #endregion
 
