@@ -1350,9 +1350,9 @@ namespace Krypton.Toolkit
         /// </summary>
         PanelClient,
         /// <summary>
-        /// Specifies the panel alternative input style.
+        /// Specifies the panel alternate input style.
         /// </summary>
-        PanelAlternative,
+        PanelAlternate,
         /*
         /// <summary>
         /// Specifies the disabled input style.

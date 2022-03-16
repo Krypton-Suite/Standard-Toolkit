@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             new(InputControlStyle.Custom2,    "Custom2"),
             new(InputControlStyle.Custom3,    "Custom3"),
             new(InputControlStyle.PanelClient, "Panel Client"),
-            new(InputControlStyle.PanelAlternative, "Panel Alternative"),
+            new(InputControlStyle.PanelAlternate, "Panel Alternate"),
             // new(InputControlStyle.Disabled, "Disabled")
         };
 

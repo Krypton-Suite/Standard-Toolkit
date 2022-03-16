@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
                         PaletteBorderStyle.InputControlStandalone,
                         PaletteContentStyle.LabelNormalControl);
                     break;
-                case InputControlStyle.PanelAlternative:
+                case InputControlStyle.PanelAlternate:
                     SetStyles(PaletteBackStyle.PanelAlternate,
                         PaletteBorderStyle.InputControlStandalone,
                         PaletteContentStyle.LabelNormalControl);
