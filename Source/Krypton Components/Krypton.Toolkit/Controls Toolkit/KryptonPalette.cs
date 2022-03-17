@@ -3695,6 +3695,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                             return null;
                     }
                 case PaletteElement.TrackBarTrack:
@@ -3709,6 +3710,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                             return null;
                     }
                 case PaletteElement.TrackBarPosition:
@@ -3727,11 +3729,13 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                             return null;
                     }
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                     return null;
             }
         }

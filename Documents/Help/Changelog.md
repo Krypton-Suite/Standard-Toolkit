@@ -4,6 +4,7 @@
 
 ## 2022-04-04 - Build 2204 - April 2022
 * Resolved [#673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/673), `KryptonRibbonGroup` does not have entries for either `StateContextPressed` or `StateContextTracking`
+* Resolved [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665), Breadcrumb - Cannot Add items to Root via the designer
 * Implemented [#640](https://github.com/Krypton-Suite/Standard-Toolkit/issues/640), KForm add an option to align the title text.
 * Resolved [#646](https://github.com/Krypton-Suite/Standard-Toolkit/issues/646), When the ButtonSpecs are left aligned the System Menu icon does not react to the click event any more
 * Resolved [#642](https://github.com/Krypton-Suite/Standard-Toolkit/issues/642), Blurred window get left behind when focus is regained
