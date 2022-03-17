@@ -1815,7 +1815,6 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
-
         #endregion
 
         #region Protected Overrides

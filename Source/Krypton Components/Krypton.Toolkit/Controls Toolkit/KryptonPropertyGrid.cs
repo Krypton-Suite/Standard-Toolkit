@@ -57,6 +57,13 @@ namespace Krypton.Toolkit
         }
         #endregion
 
+        #region Public
+
+        /// <summary>Refreshes the colours.</summary>
+        public void RefreshColours() => InitColours();
+
+        #endregion
+
         #region Overrides
         /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs pevent)
@@ -111,7 +118,14 @@ namespace Krypton.Toolkit
 
             HelpForeColor = _palette.ColorTable.StatusStripText;
 
-            LineColor = _palette.ColorTable.ToolStripGradientMiddle;
+            if (KryptonManager.InternalGlobalPaletteMode == PaletteModeManager.Office2007BlackDarkMode)
+            {
+                LineColor = Color.Silver;
+            }
+            else
+            {
+                LineColor = _palette.ColorTable.ToolStripGradientMiddle;
+            }
 
             CategoryForeColor = _palette.ColorTable.StatusStripText;
         }

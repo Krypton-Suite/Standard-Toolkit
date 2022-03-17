@@ -263,4 +263,15 @@
     }
 
     #endregion
-}
+
+    #region Enumeration: KryptonPropertyGridColors
+
+    internal enum KryptonPropertyGridColors
+    {
+        HelpBackColor = 1,
+        HelpForeColor = 2,
+        LineColor = 3,
+        CategoryForeColor = 4
+    }
+    #endregion
+    }

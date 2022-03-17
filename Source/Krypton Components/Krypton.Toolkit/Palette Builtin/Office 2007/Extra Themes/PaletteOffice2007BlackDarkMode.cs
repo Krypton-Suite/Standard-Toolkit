@@ -740,7 +740,7 @@
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
                                                               Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
-                                                              Color.FromArgb(89, 89, 89), // Button, Tracking, Back 2
+                                                              Color.FromArgb(33, 33, 33), // Button, Tracking, Back 2
                                                               Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
                                                               Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
@@ -6134,6 +6134,9 @@
     public class KryptonColorTable2007BlackDarkMode : KryptonColorTable
     {
         #region Static Fields
+
+        #region Colours
+
         private static readonly Color _menuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _menuItemSelectedBegin = Color.FromArgb(41, 41, 41);
         private static readonly Color _menuItemSelectedMiddle = Color.White;
@@ -6148,6 +6151,21 @@
         private static readonly Color _buttonPressedEnd = Color.FromArgb(10, 10, 10);
         private static readonly Color _buttonCheckedBegin = Color.FromArgb(41, 41, 41);
         private static readonly Color _buttonCheckedEnd = Color.FromArgb(10, 10, 10);
+
+        #endregion
+
+        #region Colour Arrays
+
+        private static Color[] _propertyGridColors =
+                                                    {
+                                                        Color.FromArgb(33, 33, 33), // HelpBackColor
+                                                        Color.FromArgb(255, 255, 255), // HelpForeColor
+                                                        Color.Silver,     // LineColor
+                                                        Color.FromArgb(255, 255, 255)  // CategoryForeColor
+                                                    };
+
+        #endregion
+
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion
@@ -6563,6 +6581,42 @@
         public override Color RaftingContainerGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
+
+        #endregion
+
+        #region Property Grid
+
+        /// <summary>
+        /// Gets the color of the property grid help back.
+        /// </summary>
+        /// <value>
+        /// The color of the property grid help back.
+        /// </value>
+        public override Color PropertyGridHelpBackColor => _propertyGridColors[(int) KryptonPropertyGridColors.HelpBackColor];
+
+        /// <summary>
+        /// Gets the color of the property grid help fore.
+        /// </summary>
+        /// <value>
+        /// The color of the property grid help fore.
+        /// </value>
+        public override Color PropertyGridHelpForeColor => _propertyGridColors[(int) KryptonPropertyGridColors.HelpForeColor];
+
+        /// <summary>
+        /// Gets the color of the property grid category fore.
+        /// </summary>
+        /// <value>
+        /// The color of the property grid category fore.
+        /// </value>
+        public override Color PropertyGridCategoryForeColor => _propertyGridColors[(int) KryptonPropertyGridColors.CategoryForeColor];
+
+        /// <summary>
+        /// Gets the color of the property grid line.
+        /// </summary>
+        /// <value>
+        /// The color of the property grid line.
+        /// </value>
+        public override Color PropertyGridLineColor => _propertyGridColors[(int) KryptonPropertyGridColors.LineColor];
 
         #endregion
 

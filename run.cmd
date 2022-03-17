@@ -1,3 +1,5 @@
+:: Last updated: Monday 14th March 2022 @ 09:00 AM
+
 @echo off
 
 cls
@@ -175,51 +177,71 @@ exit
 :: ===================================================================================================
 
 :buildnightlyusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-nightly-2019.cmd
 
 :buildnightlyusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-nightly-2022.cmd
 
 :buildcanaryusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-canary-2019.cmd
 
 :buildcanaryusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-canary-2022.cmd
 
 :buildinstallerusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-installer-2019.cmd
 
 :buildinstallerusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-installer-2022.cmd
 
 :buildsignedusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-signed-2019.cmd
 
 :buildsignedusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-signed-2022.cmd
 
 :buildstableusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-stable-2019.cmd
 
 :buildstableusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-stable-2022.cmd
@@ -227,51 +249,71 @@ build-stable-2022.cmd
 :: ===================================================================================================
 
 :packnightlyusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-nightly-2019.cmd Pack
 
 :packnightlyusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-nightly-2022.cmd Pack
 
 :packcanaryusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-canary-2019.cmd Pack
 
 :packcanaryusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-canary-2022.cmd Pack
 
 :packinstallerusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-installer-2019.cmd Pack
 
 :packinstallerusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-installer-2022.cmd Pack
 
 :packsignedusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-signed-2019.cmd Pack
 
 :packsignedusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-signed-2022.cmd Pack
 
 :packstableusingvisualstudio2019
+cls
+
 cd Scripts
 
 build-stable-2019.cmd Pack
 
 :packstableusingvisualstudio2022
+cls
+
 cd Scripts
 
 build-stable-2022.cmd Pack
