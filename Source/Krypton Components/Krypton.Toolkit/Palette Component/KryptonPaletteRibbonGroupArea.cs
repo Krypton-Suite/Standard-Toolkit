@@ -38,6 +38,8 @@ namespace Krypton.Toolkit
             StateCheckedNormal = new PaletteRibbonBack(StateCommon, needPaint);
             StateContextCheckedNormal = new PaletteRibbonBack(StateCommon, needPaint);
             StateTracking = new PaletteRibbonBack(StateCommon, needPaint);
+            StateContextPressed = new PaletteRibbonBack(StateCommon, needPaint);
+            StateContextTracking = new PaletteRibbonBack(StateCommon, needPaint);
         }
         #endregion
 
@@ -58,7 +60,9 @@ namespace Krypton.Toolkit
         public override bool IsDefault => StateCommon.IsDefault &&
                                           StateCheckedNormal.IsDefault &&
                                           StateContextCheckedNormal.IsDefault &&
-                                          StateTracking.IsDefault;
+                                          StateTracking.IsDefault &&
+                                          StateContextPressed.IsDefault &&
+                                          StateContextTracking.IsDefault;
 
         #endregion
 
@@ -72,6 +76,8 @@ namespace Krypton.Toolkit
             StateCheckedNormal.PopulateFromBase(PaletteState.CheckedNormal);
             StateContextCheckedNormal.PopulateFromBase(PaletteState.ContextCheckedNormal);
             StateTracking.PopulateFromBase(PaletteState.Tracking);
+            StateContextPressed.PopulateFromBase(PaletteState.Pressed);
+            StateContextTracking.PopulateFromBase(PaletteState.Tracking);
         }
         #endregion
 
@@ -129,6 +135,32 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
+        #endregion
+
+        #region StateContextPressed
+        /// <summary>
+        /// Gets access to the context pressed ribbon group area appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context pressed ribbon group area appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteRibbonBack StateContextPressed { get; }
+
+        private bool ShouldSerializeStateContextPressed() => !StateContextPressed.IsDefault;
+        #endregion
+
+        #region StateContextTracking
+        /// <summary>
+        /// Gets access to the context tracking ribbon group area appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context tracking ribbon group area appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteRibbonBack StateContextTracking { get; }
+
+        private bool ShouldSerializeStateContextTracking() => !StateContextTracking.IsDefault;
         #endregion
     }
 }
