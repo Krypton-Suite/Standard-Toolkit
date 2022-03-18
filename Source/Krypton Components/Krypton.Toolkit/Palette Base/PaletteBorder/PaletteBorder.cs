@@ -207,7 +207,7 @@ namespace Krypton.Toolkit
         [Description(@"Specify which borders should be drawn.")]
         [DefaultValue(typeof(PaletteDrawBorders), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"Krypton.Toolkit.PaletteDrawBordersEditor", typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.PaletteDrawBordersEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public PaletteDrawBorders DrawBorders
         {
             get => _storage?.BorderDrawBorders ?? PaletteDrawBorders.Inherit;
