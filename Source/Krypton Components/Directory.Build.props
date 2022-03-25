@@ -38,6 +38,10 @@
 			</ItemGroup>
 
 			<PropertyGroup>
+				<TFMs Condition="'$(TFMs)' == ''">lite</TFMs>
+			</PropertyGroup>
+
+			<PropertyGroup>
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Stable.png</PackageIcon>
@@ -72,6 +76,10 @@
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
+
+			<PropertyGroup>
+				<TFMs Condition="'$(TFMs)' == ''">lite</TFMs>
+			</PropertyGroup>
 
 			<PropertyGroup>
 				<!-- common package data -->

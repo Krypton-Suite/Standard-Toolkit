@@ -34,6 +34,22 @@
 		<Delete Files="@(NugetPkgs)" />
 	</Target>
 
+	<Target Name="PackLite">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<ItemGroup>
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
+		<Delete Files="@(NugetAssets)" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Pack" />
+	</Target>
+
 	<Target Name="PackAll">
 		<ItemGroup>
 			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
@@ -50,26 +66,12 @@
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Pack" />
 	</Target>
 	
-	<Target Name="Pack" DependsOnTargets="CleanPackages;PackAll" />
+	<Target Name="Pack" DependsOnTargets="CleanPackages;PackLite;PackAll" />
 	
 	<Target Name="Push">
 		<ItemGroup>
 			<NugetPkgs Include="..\Bin\Signed\*.$(LibraryVersion).nupkg" />
 		</ItemGroup>
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
-	</Target>
-
-	<Target Name="CreateNightlyZip">
-		<PropertyGroup>
-			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
-		</PropertyGroup>
-		<ItemGroup>
-			<DebugApplicationFiles Include="..\Bin\Signed\**\*.*" Exclude="..\Bin\Signed\*vshost.exe*" />
-		</ItemGroup>
-		<MakeDir Directories="$(NightlyBuildPath)"/>
-		<Zip Files="@(DebugApplicationFiles)"
-		     WorkingDirectory="..\Bin\Signed"
-		     ZipFileName="$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).zip"
-		     ZipLevel="9" />
 	</Target>
 </Project>
