@@ -180,6 +180,21 @@
 
 		<When Condition="'$(Configuration)' == 'Signed'">
 			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Signed.Lite</PackageId>
+
+				<Description Condition="'$(TFMs)' == 'lite'">
+					An update to Component factory's krypton toolkit to support .NET Framework 4.8, .NET Core 3.1 and .NET 6. $(Description)
+
+					This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6.
+					Also, all libraries are included targeting each specific framework version for performance purposes.
+
+					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
+
+					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md
+
+					The binaries contained in this package have been digitally signed.
+				</Description>
+
 				<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>
 
 				<Description Condition="'$(TFMs)' == 'all'">
@@ -236,6 +251,19 @@
 		</When>
 		<Otherwise>
 			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite</PackageId>
+
+				<Description Condition="'$(TFMs)' == 'lite'">
+					An update to Component factory's krypton toolkit to support .NET Framework 4.8, .NET Core 3.1 and .NET 6. $(Description)
+
+					This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6.
+					Also, all libraries are included targeting each specific framework version for performance purposes.
+
+					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
+
+					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md
+				</Description>
+
 				<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId)</PackageId>
 				<Description Condition="'$(TFMs)' == 'all'">
 					An update to Component factory's krypton toolkit to support .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6. $(Description)
