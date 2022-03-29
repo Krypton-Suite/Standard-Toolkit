@@ -1,4 +1,4 @@
-:: Last updated: Monday 14th March 2022 @ 09:00 AM
+:: Last updated: Tuesday 29th March 2022 @ 10:00 AM
 
 @echo off
 
@@ -27,6 +27,7 @@ goto mainmenu
 
 :mainmenu
 cls
+
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
@@ -48,6 +49,7 @@ goto mainmenu
 
 :buildmenu
 cls
+
 echo 1. Build nightly version using Visual Studio 2019
 echo 2. Build nightly version using Visual Studio 2022
 echo 3. Build canary version using Visual Studio 2019
@@ -77,6 +79,7 @@ goto buildmenu
 
 :packmenu
 cls
+
 echo 1. Pack nightly version using Visual Studio 2019
 echo 2. Pack nightly version using Visual Studio 2022
 echo 3. Pack canary version using Visual Studio 2019
@@ -106,6 +109,7 @@ goto packmenu
 
 :debugmenu
 cls
+
 echo 1. Debug using Visual Studio 2019
 echo 2. Debug using Visual Studio 2022
 echo 3. Go back to main mainmenu
@@ -131,6 +135,7 @@ pause
 
 :cleanproject
 cls
+
 echo Deleting the 'Bin' folder
 rd /s /q "Bin"
 echo Deleted the 'Bin' folder
@@ -293,25 +298,163 @@ build-installer-2022.cmd Pack
 :packsignedusingvisualstudio2019
 cls
 
+echo 1. Produce 'Lite' signed packages
+echo 2. Produce 'full' signed packages
+echo 3. Produce 'full/lite' signed packages
+echo 4. Go back to main menu
+
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto packsignedusingvisualstudio2019lite)
+if %answer%==2 (goto packsignedusingvisualstudio2019full)
+if %answer%==3 (goto packsignedusingvisualstudio2019both)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packsignedusingvisualstudio2019
+
+:packsignedusingvisualstudio2022
+cls
+
+echo 1. Produce 'Lite' signed packages
+echo 2. Produce 'full' signed packages
+echo 3. Produce 'full/lite' signed packages
+echo 4. Go back to main menu
+
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto packsignedusingvisualstudio2022lite)
+if %answer%==2 (goto packsignedusingvisualstudio2022full)
+if %answer%==3 (goto packsignedusingvisualstudio2022both)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packsignedusingvisualstudio2022
+
+:packstableusingvisualstudio2019
+cls
+
+echo 1. Produce 'Lite' stable packages
+echo 2. Produce 'full' stable packages
+echo 3. Produce 'full/lite' stable packages
+echo 4. Go back to main menu
+
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto packstableusingvisualstudio2019lite)
+if %answer%==2 (goto packstableusingvisualstudio2019full)
+if %answer%==3 (goto packstableusingvisualstudio2019both)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packstableusingvisualstudio2019
+
+:packstableusingvisualstudio2022
+cls
+
+echo 1. Produce 'Lite' stable packages
+echo 2. Produce 'full' stable packages
+echo 3. Produce 'full/lite' stable packages
+echo 4. Go back to main menu
+
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto packstableusingvisualstudio2022lite)
+if %answer%==2 (goto packstableusingvisualstudio2022full)
+if %answer%==3 (goto packstableusingvisualstudio2022both)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packstableusingvisualstudio2022
+
+:: ===================================================================================================
+
+:packsignedusingvisualstudio2019lite
+cls
+
+cd Scripts
+
+build-signed-2019.cmd PackLite
+
+:packsignedusingvisualstudio2019full
+cls
+
+cd Scripts
+
+build-signed-2019.cmd PackAll
+
+:packsignedusingvisualstudio2019both
+cls
+
 cd Scripts
 
 build-signed-2019.cmd Pack
 
-:packsignedusingvisualstudio2022
+:packsignedusingvisualstudio2022lite
+cls
+
+cd Scripts
+
+build-signed-2022.cmd PackLite
+
+:packsignedusingvisualstudio2022full
+cls
+
+cd Scripts
+
+build-signed-2022.cmd PackAll
+
+:packsignedusingvisualstudio2022both
 cls
 
 cd Scripts
 
 build-signed-2022.cmd Pack
 
-:packstableusingvisualstudio2019
+:packstableusingvisualstudio2019lite
+cls
+
+cd Scripts
+
+build-stable-2019.cmd PackLite
+
+:packstableusingvisualstudio2019full
+cls
+
+cd Scripts
+
+build-stable-2019.cmd PackAll
+
+:packstableusingvisualstudio2019both
 cls
 
 cd Scripts
 
 build-stable-2019.cmd Pack
 
-:packstableusingvisualstudio2022
+:packstableusingvisualstudio2022lite
+cls
+
+cd Scripts
+
+build-stable-2022.cmd PackLite
+
+:packstableusingvisualstudio2022full
+cls
+
+cd Scripts
+
+build-stable-2022.cmd PackAll
+
+:packstableusingvisualstudio2022both
 cls
 
 cd Scripts
@@ -322,6 +465,7 @@ build-stable-2022.cmd Pack
 
 :debugusingvisualstudio2019
 cls
+
 echo Deleting the 'Bin' folder
 rd /s /q "Bin"
 echo Deleted the 'Bin' folder
@@ -352,6 +496,7 @@ build-nightly-2019.cmd
 
 :debugusingvisualstudio2022
 cls
+
 echo Deleting the 'Bin' folder
 rd /s /q "Bin"
 echo Deleted the 'Bin' folder
