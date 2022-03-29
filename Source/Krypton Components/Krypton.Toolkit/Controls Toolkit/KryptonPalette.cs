@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCueHintText CueHintText { get; set; }
 
-        public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
+        //public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
 
         #endregion
 
