@@ -1179,6 +1179,15 @@
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
                 case PaletteBackStyle.PanelCustom3:
@@ -1190,7 +1199,15 @@
                 case PaletteBackStyle.GridBackgroundCustom3:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.PanelRibbonInactive:
                     return _ribbonColors[(int)SchemeOfficeColors.FormBorderInactiveLight];
                 case PaletteBackStyle.FormMain:
@@ -1202,11 +1219,30 @@
                         : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveLight];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    // Note: This controls the input control dropdown background
+                    return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
@@ -1431,6 +1467,15 @@
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
                 case PaletteBackStyle.PanelCustom3:
@@ -1442,7 +1487,15 @@
                 case PaletteBackStyle.GridBackgroundCustom3:
                     return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.PanelRibbonInactive:
                     return _ribbonColors[(int)SchemeOfficeColors.FormBorderInactiveDark];
                 case PaletteBackStyle.FormMain:
@@ -1454,11 +1507,30 @@
                         : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveDark];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    // Note: This controls the input control dropdown background
+                    return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
