@@ -3833,12 +3833,17 @@
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
+                PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                                                    ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
                                                    : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
+                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                },
+                PaletteContentStyle.ButtonCalendarDay => state switch
+                {
+                    PaletteState.Disabled => _disabledText2,
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
                 PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -3907,12 +3912,17 @@
 ? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
 : _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
+                PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                                                    ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
                                                    : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
+                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                },
+                PaletteContentStyle.ButtonCalendarDay => state switch
+                {
+                    PaletteState.Disabled => _disabledText2,
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
                 PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
