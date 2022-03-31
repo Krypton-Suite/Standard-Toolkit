@@ -2,6 +2,9 @@
 
 <!--* Added the ability to control the `CueHint` values through `KryptonPalette`-->
 
+## 2022-06-xx - Build 2206 - June 2022
+* Improvements to all 'Black/Blue (Dark Mode)' themes
+
 ## 2022-04-04 - Build 2204 - April 2022
 * Resolved [#678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/678), Dropdown list background & text colour are the same (Office 2010 - Black (Dark Mode))
 * Resolved [#673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/673), `KryptonRibbonGroup` does not have entries for either `StateContextPressed` or `StateContextTracking`
