@@ -8,6 +8,8 @@
     - Full - Supports every framework from .NET Framework 4.6.2 to .NET 6
     - Lite - Supports .NET Framework 4.8, .NET Core 3.1 and .NET 6
 * Fixed grid cell selection colours for dark/light mode themes
+* Blue dark mode themes now have a darker alternate colour
+* Resolved [#653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/653), Page Drag&Drop/Floating exception
 
 ## 2022-04-04 - Build 2204 - April 2022
 * Resolved [#678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/678), Dropdown list background & text colour are the same (Office 2010 - Black (Dark Mode))
