@@ -46,7 +46,7 @@ echo Build Completed: %date% %time% %zone%
 pause
 
 @echo Do you want to return to complete another task? (Y/N)
-set /p answer="Enter input:"
+set /p answer="Enter input: "
 if %answer%==Y (goto run)
 if %answer%==y (goto run)
 if %answer%==N exit

@@ -190,9 +190,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the long text font.</summary>
-        /// <value>The long text font.</value>
-        public Font LongTextFont
+        /// <summary>Gets or sets the State Common State Common Long Text Font.</summary>
+        /// <value>The State Common State Common Long Text Font.</value>
+        public Font StateCommonLongTextFont
         {
             get => _groupBox.StateCommon.Content.LongText.Font;
 
@@ -207,9 +207,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the short text font.</summary>
-        /// <value>The short text font.</value>
-        public Font ShortTextFont
+        /// <summary>Gets or sets the State Common Short Text Font.</summary>
+        /// <value>The State Common Short Text Font.</value>
+        public Font StateCommonShortTextFont
         {
             get => _groupBox.StateCommon.Content.ShortText.Font;
 
@@ -245,8 +245,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"CaptionStyle", @"Caption style", @"Appearance", @"Caption style"));
                 actions.Add(new DesignerActionPropertyItem(@"CaptionEdge", @"Caption edge", @"Appearance", @"Caption edge"));
                 actions.Add(new DesignerActionPropertyItem(@"CaptionOverlap", @"Caption overlap", @"Appearance", @"Caption overlap"));
-                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
-                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));

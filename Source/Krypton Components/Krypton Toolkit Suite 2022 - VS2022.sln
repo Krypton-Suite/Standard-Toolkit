@@ -46,12 +46,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Docking 2022", "Kry
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PROJ Files", "PROJ Files", "{9AE36C6C-9EAE-4B63-B326-70680262884B}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\build.proj = ..\..\build.proj
-		..\..\canary.proj = ..\..\canary.proj
-		..\..\debug.proj = ..\..\debug.proj
-		..\..\installer.proj = ..\..\installer.proj
-		..\..\nightly.proj = ..\..\nightly.proj
-		..\..\signed.proj = ..\..\signed.proj
+		..\..\Scripts\build.proj = ..\..\Scripts\build.proj
+		..\..\Scripts\canary.proj = ..\..\Scripts\canary.proj
+		..\..\Scripts\debug.proj = ..\..\Scripts\debug.proj
+		..\..\Scripts\installer.proj = ..\..\Scripts\installer.proj
+		..\..\Scripts\nightly.proj = ..\..\Scripts\nightly.proj
+		..\..\Scripts\signed.proj = ..\..\Scripts\signed.proj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMD Files", "CMD Files", "{F59A6624-A207-40B8-8B1B-36FC4F4199CA}"

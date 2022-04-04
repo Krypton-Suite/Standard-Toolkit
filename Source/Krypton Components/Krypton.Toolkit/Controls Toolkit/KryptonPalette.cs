@@ -320,6 +320,19 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Cue Hint
+        /// <summary>Gets or sets the cue hint text.</summary>
+        /// <value>The cue hint text.</value>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Cue hint values.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteCueHintText CueHintText { get; set; }
+
+        //public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
+
+        #endregion
+
         #region DragDrop
         /// <summary>
         /// Gets access to the appearance of drag and drop.
@@ -2846,6 +2859,17 @@ namespace Krypton.Toolkit
         }
         #endregion
 
+        #region Property Grid
+        // Note: Uncomment when `KryptonPalettePropertyGrid` is completed
+        //[KryptonPersist]
+        //[Category(@"Visuals")]
+        //[Description(@"Colors associated with the property grid control.")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public KryptonPalettePropertyGrid PropertyGrid { get; set; }
+
+        //public bool ShouldSerializePropertyGrid() => !PropertyGrid.IsDefault;
+        #endregion
+
         #region Internal
         internal bool HasCircularReference()
         {
@@ -3671,6 +3695,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                             return null;
                     }
                 case PaletteElement.TrackBarTrack:
@@ -3685,6 +3710,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                             return null;
                     }
                 case PaletteElement.TrackBarPosition:
@@ -3703,11 +3729,13 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                             return null;
                     }
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
                     return null;
             }
         }
@@ -3822,6 +3850,12 @@ namespace Krypton.Toolkit
                     return ribbonGroupArea.StateContextCheckedNormal;
                 case PaletteState.Tracking:
                     return ribbonGroupArea.StateTracking;
+                case PaletteState.ContextNormal:
+                    return ribbonGroupArea.StateCheckedNormal;
+                case PaletteState.ContextPressed:
+                    return ribbonGroupArea.StateContextPressed;
+                case PaletteState.ContextTracking:
+                    return ribbonGroupArea.StateContextTracking;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

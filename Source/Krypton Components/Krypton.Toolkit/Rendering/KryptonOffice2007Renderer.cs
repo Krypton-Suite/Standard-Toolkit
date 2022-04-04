@@ -779,7 +779,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
         {
-            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
+            if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
             {
                 // Start with the total margin area
                 Rectangle marginRect = e.AffectedBounds;

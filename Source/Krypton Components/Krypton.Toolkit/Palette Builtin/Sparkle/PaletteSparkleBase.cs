@@ -89,16 +89,17 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleMinI = SparkleControlBoxResources.SparkleButtonMinDisabled;
         private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
         private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
-        private static readonly Image _sparkleHelpA = HelpIconResources.GenericOffice2010HelpIcon;
-        private static readonly Image _sparkleHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
-        private static readonly Image _sparkleHelpI = HelpIconResources.GenericOffice2010HelpIconDisabled;
+        private static readonly Image _sparkleHelpA = HelpIconResources.Office2010HelpIconNormal;
+        private static readonly Image _sparkleHelpHover = HelpIconResources.Office2010HelpIconHover;
+        private static readonly Image _sparkleHelpPressed = HelpIconResources.Office2010HelpIconPressed;
+        private static readonly Image _sparkleHelpI = HelpIconResources.Office2010HelpIconDisabled;
         private static readonly Image _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
         private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
         private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
-        private static readonly Color _disabledText = Color.FromArgb(160, 160, 160);
+        private static readonly Color _disabledText = Color.FromArgb(120, 120, 120);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
@@ -119,7 +120,7 @@ namespace Krypton.Toolkit
         private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
         private static readonly Color[] _ribbonGroupCollapsedBorderContext = { Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
         private static readonly Color[] _trackBarColors = { Color.FromArgb(180, 180, 180), Color.FromArgb(33, 37, 50), Color.FromArgb(126, 131, 142), Color.FromArgb(99, 99, 99), Color.FromArgb(32, Color.White), Color.FromArgb(35, 35, 35) };
-        private static readonly Color _inputControlTextDisabled = Color.FromArgb(172, 168, 153);
+        private static readonly Color _inputControlTextDisabled = Color.FromArgb(120, 120, 120);
         private static readonly Color _colorDark00 = Color.Black;
         private static readonly Color _colorWhite119 = Color.FromArgb(119, 119, 119);
         private static readonly Color _colorWhite128 = Color.FromArgb(128, 128, 128);
@@ -3141,6 +3142,7 @@ namespace Krypton.Toolkit
                     return state switch
                     {
                         PaletteState.Normal => _sparkleHelpA,
+                        PaletteState.Pressed => _sparkleHelpPressed,
                         PaletteState.Tracking => _sparkleHelpHover,
                         _ => _sparkleHelpI
                     };

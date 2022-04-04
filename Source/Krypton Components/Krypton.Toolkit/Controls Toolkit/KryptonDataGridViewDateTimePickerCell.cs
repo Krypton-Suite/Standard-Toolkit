@@ -469,19 +469,6 @@ namespace Krypton.Toolkit
                 throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
             }
 
-            if (dataGridView.EditingControl is KryptonDateTimePicker dateTimePicker)
-            {
-                if (OwningColumn is KryptonDataGridViewDateTimePickerColumn dateTimeColumn)
-                {
-                    foreach (ButtonSpec bs in dateTimePicker.ButtonSpecs)
-                    {
-                        bs.Click -= OnButtonClick;
-                    }
-
-                    dateTimePicker.ButtonSpecs.Clear();
-                }
-            }
-
             base.DetachEditingControl();
         }
 
@@ -520,15 +507,6 @@ namespace Krypton.Toolkit
                     dateTime.CalendarAnnuallyBoldedDates = dateTimeColumn.CalendarAnnuallyBoldedDates;
                     dateTime.CalendarMonthlyBoldedDates = dateTimeColumn.CalendarMonthlyBoldedDates;
                     dateTime.CalendarBoldedDates = dateTimeColumn.CalendarBoldedDates;
-
-                    // Set this cell as the owner of the buttonspecs
-                    dateTime.ButtonSpecs.Clear();
-                    dateTime.ButtonSpecs.Owner = DataGridView.Rows[rowIndex].Cells[ColumnIndex];
-                    foreach (ButtonSpec bs in dateTimeColumn.ButtonSpecs)
-                    {
-                        bs.Click += OnButtonClick;
-                        dateTime.ButtonSpecs.Add(bs);
-                    }
                 }
 
                 if ((initialFormattedValue is not string initialFormattedValueStr) || string.IsNullOrEmpty(initialFormattedValueStr))
@@ -724,12 +702,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, EventArgs e)
-        {
-            KryptonDataGridViewDateTimePickerColumn dateTimeColumn = OwningColumn as KryptonDataGridViewDateTimePickerColumn;
-            DataGridViewButtonSpecClickEventArgs args = new(dateTimeColumn, this, (ButtonSpecAny)sender);
-            dateTimeColumn.PerfomButtonSpecClick(args);
-        }
 
         private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker =>
             DataGridView.EditingControl as KryptonDataGridViewDateTimePickerEditingControl;

@@ -24,20 +24,15 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Events
-        /// <summary>
-        /// Occurs when the user clicks a button spec.
-        /// </summary>
-        public event EventHandler<DataGridViewButtonSpecClickEventArgs> ButtonSpecClick;
-        #endregion
-
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewMaskedTextBoxColumn class.
         /// </summary>
         public KryptonDataGridViewMaskedTextBoxColumn()
-            : base(new KryptonDataGridViewMaskedTextBoxCell()) =>
-            ButtonSpecs = new DataGridViewColumnSpecCollection(this);
+            : base(new KryptonDataGridViewMaskedTextBoxCell())
+        {
+        }
 
         /// <summary>
         /// Returns a standard compact string representation of the column.
@@ -63,12 +58,6 @@ namespace Krypton.Toolkit
         {
             KryptonDataGridViewMaskedTextBoxColumn cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn;
 
-            // Move the button specs over to the new clone
-            foreach (ButtonSpec bs in ButtonSpecs)
-            {
-                cloned.ButtonSpecs.Add(bs.Clone());
-            }
-
             return cloned;
         }
         #endregion
@@ -92,14 +81,6 @@ namespace Krypton.Toolkit
                 base.CellTemplate = value;
             }
         }
-
-        /// <summary>
-        /// Gets the collection of the button specifications.
-        /// </summary>
-        [Category(@"Data")]
-        [Description(@"Set of extra button specs to appear with control.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Replicates the PromptChar property of the KryptonDataGridViewMaskedTextBoxCell cell type.
@@ -752,9 +733,5 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Internal
-        internal void PerfomButtonSpecClick(DataGridViewButtonSpecClickEventArgs args) => ButtonSpecClick?.Invoke(this, args);
-
-        #endregion
     }
 }

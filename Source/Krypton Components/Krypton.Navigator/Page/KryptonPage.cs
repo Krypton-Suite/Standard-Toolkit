@@ -131,7 +131,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the KryptonPage class.
         /// </summary>
         public KryptonPage()
-            : this("Page", null)
+            : this(@"Page", null)
         {
         }
 
@@ -166,9 +166,9 @@ namespace Krypton.Navigator
             // Default properties
             Text = text;
             MinimumSize = new Size(50, 50);
-            _textTitle = "Page Title";
-            _textDescription = "Page Description";
-            _toolTipTitle = "Page ToolTip";
+            _textTitle = @"Page Title";
+            _textDescription = @"Page Description";
+            _toolTipTitle = @"Page ToolTip";
             _toolTipBody = string.Empty;
             _toolTipImage = null;
             _toolTipStyle = LabelStyle.ToolTip;

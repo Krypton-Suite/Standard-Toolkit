@@ -20,6 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
+        private IPalette _palette;
         #endregion
 
         #region Identity
@@ -52,6 +53,26 @@ namespace Krypton.Toolkit
         /// Gets the text color used on the menu items.
         /// </summary>
         public virtual Color MenuItemText => SystemColors.MenuText;
+
+        #endregion
+
+        #region Property Grid
+
+        /// <summary>Gets the color of the property grid help back.</summary>
+        /// <value>The color of the property grid help back.</value>
+        public virtual Color PropertyGridHelpBackColor => _palette.ColorTable.MenuStripGradientBegin;
+
+        /// <summary>Gets the color of the property grid help fore.</summary>
+        /// <value>The color of the property grid help fore.</value>
+        public virtual Color PropertyGridHelpForeColor => _palette.ColorTable.StatusStripText;
+
+        /// <summary>Gets the color of the property grid line.</summary>
+        /// <value>The color of the property grid line.</value>
+        public virtual Color PropertyGridLineColor => _palette.ColorTable.ToolStripGradientMiddle;
+
+        /// <summary>Gets the color of the property grid category fore.</summary>
+        /// <value>The color of the property grid category fore.</value>
+        public virtual Color PropertyGridCategoryForeColor => _palette.ColorTable.StatusStripText;
 
         #endregion
 

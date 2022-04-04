@@ -65,6 +65,12 @@ namespace Krypton.Toolkit
                 // We provide the border manually
                 BorderStyle = BorderStyle.None;
             }
+
+            public void SetChangingText(bool value)
+            {
+                base.ChangingText = value;
+            }
+
             #endregion
 
             #region MouseOver
@@ -352,14 +358,15 @@ namespace Krypton.Toolkit
 
                                 PaletteState state = NumericUpDown.Enabled
                                         ? (NumericUpDown.IsActive ? PaletteState.Tracking : PaletteState.Normal)
-                                        : PaletteState.Disabled
-                                    ;
+                                        : PaletteState.Disabled;
                                 PaletteInputControlTripleStates states = NumericUpDown.GetTripleState();
 
                                 // Drawn entire client area in the background color
                                 using (SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state)))
                                 {
-                                    g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
+                                    g.FillRectangle(backBrush,
+                                        new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                            rect.bottom - rect.top));
                                 }
 
                                 // Create rect for the text area
@@ -368,82 +375,48 @@ namespace Krypton.Toolkit
 
                                 //////////////////////////////////////////////////////
                                 // Following removed to allow the Draw to always happen, to allow centering etc  
-                                //// If enabled then let the combo draw the text area
-                                //if (NumericUpDown.Enabled)
-                                //{
-                                //    // Let base implementation draw the actual text area
-                                //    if (m.WParam == IntPtr.Zero)
-                                //    {
-                                //        m.WParam = hdc;
-                                //        DefWndProc(ref m);
-                                //        m.WParam = IntPtr.Zero;
-                                //    }
-                                //    else
-                                //    {
-                                //        DefWndProc(ref m);
-                                //    }
-                                //}
-                                //else
+                                _internalNumericUpDown.TextAlign = states.Content.GetContentShortTextH(state) switch
+                                                                   {
+                                                                       PaletteRelativeAlign.Center =>
+                                                                           HorizontalAlignment.Center,
+                                                                       PaletteRelativeAlign.Far => HorizontalAlignment
+                                                                           .Right,
+                                                                       _ => HorizontalAlignment.Left
+                                                                   };
+                                if (NumericUpDown.Enabled)
                                 {
-
-                                    // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
-                                    // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
-                                    // it from the device context. Resulting in blurred text.
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
-
-                                    // Define the string formatting requirements
-                                    StringFormat stringFormat = new()
-                                    {
-                                        LineAlignment = StringAlignment.Near,
-                                        FormatFlags = StringFormatFlags.NoWrap,
-                                        Trimming = StringTrimming.None,
-                                        // Use the correct prefix setting
-                                        HotkeyPrefix = HotkeyPrefix.None
-                                    };
-
-                                    stringFormat.Alignment = states.Content.GetContentShortTextH(state) switch
-                                    {
-                                        PaletteRelativeAlign.Near => NumericUpDown.RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Far
-                                            : StringAlignment.Near,
-                                        PaletteRelativeAlign.Far => NumericUpDown.RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Near
-                                            : StringAlignment.Far,
-                                        PaletteRelativeAlign.Center => StringAlignment.Center,
-                                        _ => stringFormat.Alignment
-                                    };
-
-                                    Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
-
-                                    // Draw using a solid brush
-                                    var text = _internalNumericUpDown.Text;
                                     if (!NumericUpDown.TrailingZeroes && NumericUpDown.AllowDecimals)
                                     {
                                         // Got ot deal with culture formatting, and also the override to include `ThousandsSeparator`
-                                        var textInvariantAsRequested = _internalNumericUpDown.Value.ToString('F' + _internalNumericUpDown.DecimalPlaces.ToString(CultureInfo.InvariantCulture), (IFormatProvider) CultureInfo.CurrentCulture);
-                                        var textInvariantAsTrimmed = _internalNumericUpDown.Value.ToString(@"0.#########################", CultureInfo.InvariantCulture);
-                                        var lengthToRemove = textInvariantAsRequested.Length - textInvariantAsTrimmed.Length;
+                                        var textInvariantAsRequested =
+                                            _internalNumericUpDown.Value.ToString(
+                                                'F' + _internalNumericUpDown.DecimalPlaces.ToString(CultureInfo
+                                                    .InvariantCulture), CultureInfo.CurrentCulture);
+                                        var textInvariantAsTrimmed =
+                                            _internalNumericUpDown.Value.ToString(@"0.#########################",
+                                                CultureInfo.InvariantCulture);
+                                        var lengthToRemove = textInvariantAsRequested.Length -
+                                                             textInvariantAsTrimmed.Length;
                                         if (lengthToRemove > 0)
                                         {
-                                            text = text.Substring(0, text.Length - lengthToRemove);
+                                            _internalNumericUpDown.SetChangingText(true);
+                                            _internalNumericUpDown.Text = textInvariantAsRequested.Substring(0,
+                                                textInvariantAsRequested.Length - lengthToRemove);
                                         }
                                     }
 
-                                    try
+                                    // Let base implementation draw the actual text area
+                                    if (m.WParam == IntPtr.Zero)
                                     {
-                                        using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
-                                        g.DrawString(text, states.Content.GetContentShortTextFont(state), foreBrush, rectangle, stringFormat);
+                                        m.WParam = hdc;
+                                        DefWndProc(ref m);
+                                        m.WParam = IntPtr.Zero;
                                     }
-                                    catch (ArgumentException)
+                                    else
                                     {
-                                        using SolidBrush foreBrush = new(_internalNumericUpDown.ForeColor);
-                                        g.DrawString(text, _internalNumericUpDown.Font, foreBrush, rectangle, stringFormat);
+                                        DefWndProc(ref m);
                                     }
                                 }
-
-                                // Remove clipping settings
-                                PI.SelectClipRgn(hdc, IntPtr.Zero);
                             }
 
                             // Do we need to match the original BeginPaint?
@@ -717,8 +690,13 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    return NumericUpDown.IsActive || (NumericUpDown.IsFixedActive && (NumericUpDown.InputControlStyle == InputControlStyle.Standalone))
-                        ? NumericUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking
+                    return NumericUpDown.IsActive 
+                               || (NumericUpDown.IsFixedActive 
+                                   && (NumericUpDown.InputControlStyle == InputControlStyle.Standalone)
+                               )
+                        ? NumericUpDown.InputControlStyle == InputControlStyle.Standalone
+                            ? PaletteState.CheckedNormal 
+                            : PaletteState.CheckedTracking
                         : PaletteState.Normal;
                 }
                 else
@@ -1221,7 +1199,8 @@ namespace Krypton.Toolkit
                     HorizontalAlignment.Center => PaletteRelativeAlign.Center,
                     _ => PaletteRelativeAlign.Near
                 };
-                _numericUpDown.TextAlign = value;
+                // Following wil be done as part of the state drawing code
+                //_numericUpDown.TextAlign = value;
             }
         }
 

@@ -293,15 +293,6 @@ namespace Krypton.Toolkit
 
             if (dataGridView.EditingControl is KryptonComboBox comboBox)
             {
-                if (OwningColumn is KryptonDataGridViewComboBoxColumn)
-                {
-                    foreach (ButtonSpec bs in comboBox.ButtonSpecs)
-                    {
-                        bs.Click -= OnButtonClick;
-                    }
-
-                    comboBox.ButtonSpecs.Clear();
-                }
                 comboBox.DataSource = null;
             }
 
@@ -342,15 +333,6 @@ namespace Krypton.Toolkit
 
                         comboBox.AutoCompleteCustomSource.Clear();
                         comboBox.AutoCompleteCustomSource.AddRange(autoAppend);
-                    }
-
-                    // Set this cell as the owner of the button specs
-                    comboBox.ButtonSpecs.Clear();
-                    comboBox.ButtonSpecs.Owner = DataGridView.Rows[rowIndex].Cells[ColumnIndex];
-                    foreach (ButtonSpec bs in comboColumn.ButtonSpecs)
-                    {
-                        bs.Click += OnButtonClick;
-                        comboBox.ButtonSpecs.Add(bs);
                     }
                 }
 
@@ -445,12 +427,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, EventArgs e)
-        {
-            KryptonDataGridViewComboBoxColumn comboColumn = OwningColumn as KryptonDataGridViewComboBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new(comboColumn, this, (ButtonSpecAny)sender);
-            comboColumn?.PerfomButtonSpecClick(args);
-        }
 
         private KryptonDataGridViewComboBoxEditingControl EditingComboBox => DataGridView.EditingControl as KryptonDataGridViewComboBoxEditingControl;
 
@@ -495,9 +471,9 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingComboBox(int rowIndex) =>
-            rowIndex != -1 && DataGridView != null
-&& (DataGridView.EditingControl is KryptonDataGridViewComboBoxEditingControl control)
-                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+            rowIndex != -1 
+            && DataGridView is { EditingControl: KryptonDataGridViewComboBoxEditingControl control } 
+            && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
 

@@ -2491,9 +2491,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         /// <summary>
         /// Window style extended values, WS_EX_*
+        /// https://docs.microsoft.com/en-gb/windows/win32/winmsg/extended-window-styles
         /// </summary>
         internal struct WS_EX_
-        {
+        {   
             public const uint
                 None = 0,
                 DLGMODALFRAME = 0x00000001,
@@ -2517,6 +2518,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 APPWINDOW = 0x00040000,
                 LAYERED = 0x00080000,
                 NOINHERITLAYOUT = 0x00100000, // Disable inheritance of mirroring by children
+                NOREDIRECTIONBITMAP = 0x00200000, // The window does not render to a redirection surface. This is for windows that do not have visible content or that use mechanisms other than surfaces to provide their visual.
                 LAYOUTRTL = 0x00400000, // Right to left mirroring
                 COMPOSITED = 0x02000000,
                 NOACTIVATE = 0x08000000,
@@ -2682,7 +2684,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MAKEHIWORD(int value) => (value & 0xFFFF) << 0x10;
 
-        internal static int MakeLParam(int LoWord, int HiWord) => (HiWord << 16) | (LoWord & 0xffff);
+        internal static IntPtr MakeLParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         internal static IntPtr MakeWParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
 
@@ -2852,7 +2854,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         // This is aliased as a macro in 32bit Windows.
         internal static IntPtr GetWindowLongPtr(IntPtr hwnd, GWL_ nIndex)
         {
-            IntPtr ret = (8 == IntPtr.Size)
+            IntPtr ret = IntPtr.Size > 4
                 ? GetWindowLongPtr64(hwnd, nIndex)
                 : new IntPtr(GetWindowLongPtr32(hwnd, nIndex));
             if (IntPtr.Zero == ret)
@@ -2872,7 +2874,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static IntPtr SetClassLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong, bool noThrow = true)
         {
-            IntPtr ret = (IntPtr.Size > 4)
+            IntPtr ret = IntPtr.Size > 4
                 ? SetClassLongPtr64(hWnd, nIndex, dwNewLong)
                 : new IntPtr(SetClassLongPtr32(hWnd, nIndex, unchecked((uint)dwNewLong.ToInt32())));
             if (!noThrow
@@ -2889,7 +2891,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex, bool noThrow = true)
         {
-            IntPtr ret = (IntPtr.Size > 4)
+            IntPtr ret = IntPtr.Size > 4
                 ? GetClassLongPtr64(hWnd, nIndex)
                 : new IntPtr(GetClassLongPtr32(hWnd, nIndex));
             if (!noThrow
@@ -2955,7 +2957,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         // This is aliased as a macro in 32bit Windows.
         [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal static IntPtr SetWindowLongPtr(IntPtr hwnd, GWL_ nIndex, IntPtr dwNewLong) =>
-            (8 == IntPtr.Size)
+            IntPtr.Size > 4
                 ? SetWindowLongPtr64(hwnd, nIndex, dwNewLong)
                 : new IntPtr(SetWindowLongPtr32(hwnd, nIndex, dwNewLong.ToInt32()));
 
@@ -3158,6 +3160,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport(@"user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetSystemMetrics(SM_ smIndex);
 
         [DllImport(@"user32.dll", EntryPoint = "GetCursorInfo")]
@@ -3213,47 +3219,20 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [StructLayout(LayoutKind.Sequential)]
         internal struct WindowCompositionAttribData
         {
-            public WindowCompositionAttribute Attribute;
-            public IntPtr Data;
+            public Dwm.WindowCompositionAttribute Attribute;
+            public IntPtr Data;     // Will point to an AccentPolicy struct, where Attribute will be WindowCompositionAttribute.AccentPolicy
             public int SizeOfData;
+
+            public WindowCompositionAttribData(Dwm.WindowCompositionAttribute attribute, IntPtr data, int sizeOfData)
+            {
+                Attribute = attribute;
+                Data = data;
+                SizeOfData = sizeOfData;
+            }
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct AccentPolicy
-        {
-            public AccentState AccentState;
-            public AccentFlags AccentFlags;
-            public int GradientColor;
-            public int AnimationId;
-        }
 
-        [Flags]
-        internal enum AccentFlags
-        {
-            // ...
-            DrawLeftBorder = 0x20,
-            DrawTopBorder = 0x40,
-            DrawRightBorder = 0x80,
-            DrawBottomBorder = 0x100,
-            DrawAllBorders = DrawLeftBorder | DrawTopBorder | DrawRightBorder | DrawBottomBorder
-            // ...
-        }
 
-        internal enum WindowCompositionAttribute
-        {
-            // ...
-            WCA_ACCENT_POLICY = 19
-            // ...
-        }
-
-        internal enum AccentState
-        {
-            ACCENT_DISABLED = 0,
-            ACCENT_ENABLE_GRADIENT = 1,
-            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-            ACCENT_ENABLE_BLURBEHIND = 3,
-            ACCENT_INVALID_STATE = 4
-        }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         internal class LOGFONT
@@ -3461,53 +3440,269 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion
 
         #region dwmapi
-        // Applicable to Vista -> Win 8
-        // Warning API's appear deprecated on MSDN for Win 10
 
-        [DllImport(@"dwmapi.dll")]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern void DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
-
-        [Flags]
-        internal enum DWM_BB
+        public class Dwm
         {
-            Enable = 1,
-            BlurRegion = 2,
-            TransitionOnMaximized = 4
-        }
 
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct DWM_BLURBEHIND
-        {
-            public DWM_BB dwFlags;
-            public int fEnable;
-            public IntPtr hRgnBlur;
-            public int fTransitionOnMaximized;
+            // Applicable to Vista -> Win 8
+            // Warning API's appear deprecated on MSDN for Win 10
 
-            public DWM_BLURBEHIND(bool enabled)
+            // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
+
+            [DllImport(@"dwmapi.dll")]
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            internal static extern int DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
+
+            // https://msdn.microsoft.com/it-it/library/windows/desktop/aa969512(v=vs.85).aspx
+            [DllImport(@"dwmapi.dll")]
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            internal static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+
+            // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969515(v=vs.85).aspx
+            [DllImport(@"dwmapi.dll")]
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue,
+                int attrSize);
+
+            //https://msdn.microsoft.com/en-us/library/windows/desktop/aa969524(v=vs.85).aspx
+            [DllImport(@"dwmapi.dll")]
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            internal static extern int DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue,
+                int attrSize);
+
+            [DllImport(@"dwmapi.dll")]
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            internal static extern int DwmIsCompositionEnabled(ref int pfEnabled);
+
+            [DllImport(@"dwmapi.dll", CharSet = CharSet.Auto)]
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            internal static extern int DwmDefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr result);
+
+            public enum DWMWINDOWATTRIBUTE : uint
             {
-                fEnable = enabled ? 1 : 0;
-                hRgnBlur = IntPtr.Zero;
-                fTransitionOnMaximized = 0;
-                dwFlags = DWM_BB.Enable;
+                NCRenderingEnabled = 1, // Get only attribute
+                NCRenderingPolicy, // Enable or disable non-client rendering
+                TransitionsForceDisabled,
+                AllowNCPaint,
+                CaptionButtonBounds,
+                NonClientRtlLayout,
+                ForceIconicRepresentation,
+                Flip3DPolicy,
+                ExtendedFrameBounds,
+                HasIconicBitmap,
+                DisallowPeek,
+                ExcludedFromPeek,
+                Cloak,
+                Cloaked,
+                FreezeRepresentation,
+                PlaceHolder1,
+                PlaceHolder2,
+                PlaceHolder3,
+                AccentPolicy = 19
             }
 
-            public Region Region => Region.FromHrgn(hRgnBlur);
-
-            public bool TransitionOnMaximized
+            public enum DWMNCRENDERINGPOLICY : uint
             {
-                get => fTransitionOnMaximized > 0;
-                set
+                UseWindowStyle, // Enable/disable non-client rendering based on window style
+                Disabled, // Disabled non-client rendering; window style is ignored
+                Enabled // Enabled non-client rendering; window style is ignored
+            }
+
+            // Values designating how Flip3D treats a given window.
+            enum DWMFLIP3DWINDOWPOLICY : uint
+            {
+                Default, // Hide or include the window in Flip3D based on window style and visibility.
+                ExcludeBelow, // Display the window under Flip3D and disabled.
+                ExcludeAbove, // Display the window above Flip3D and enabled.
+            };
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct DWM_BLURBEHIND
+            {
+                public DWM_BB dwFlags;
+                public int fEnable;
+                public IntPtr hRgnBlur;
+                public int fTransitionOnMaximized;
+
+                public DWM_BLURBEHIND(bool enabled)
                 {
-                    fTransitionOnMaximized = value ? 1 : 0;
-                    dwFlags |= DWM_BB.TransitionOnMaximized;
+                    dwFlags = DWM_BB.Enable;
+                    fEnable = enabled ? 1 : 0;
+                    hRgnBlur = IntPtr.Zero;
+                    fTransitionOnMaximized = 0;
                 }
             }
 
-            public void SetRegion(Graphics graphics, Region region)
+            [Flags]
+            public enum DWM_BB
             {
-                hRgnBlur = region.GetHrgn(graphics);
-                dwFlags |= DWM_BB.BlurRegion;
+                Enable = 1,
+                BlurRegion = 2,
+                TransitionOnMaximized = 4
+            }
+
+            internal enum WindowCompositionAttribute
+            {
+                WCA_UNDEFINED = 0x00,
+                WCA_NCRENDERING_ENABLED = 0x01,
+                WCA_NCRENDERING_POLICY = 0x02,
+                WCA_TRANSITIONS_FORCEDISABLED = 0x03,
+                WCA_ALLOW_NCPAINT = 0x04,
+                WCA_CAPTION_BUTTON_BOUNDS = 0x05,
+                WCA_NONCLIENT_RTL_LAYOUT = 0x06,
+                WCA_FORCE_ICONIC_REPRESENTATION = 0x07,
+                WCA_EXTENDED_FRAME_BOUNDS = 0x08,
+                WCA_HAS_ICONIC_BITMAP = 0x09,
+                WCA_THEME_ATTRIBUTES = 0x0A,
+                WCA_NCRENDERING_EXILED = 0x0B,
+                WCA_NCADORNMENTINFO = 0x0C,
+                WCA_EXCLUDED_FROM_LIVEPREVIEW = 0x0D,
+                WCA_VIDEO_OVERLAY_ACTIVE = 0x0E,
+                WCA_FORCE_ACTIVEWINDOW_APPEARANCE = 0x0F,
+                WCA_DISALLOW_PEEK = 0x10,
+                WCA_CLOAK = 0x11,
+                WCA_CLOAKED = 0x12,
+                WCA_ACCENT_POLICY = 0x13,
+                WCA_FREEZE_REPRESENTATION = 0x14,
+                WCA_EVER_UNCLOAKED = 0x15,
+                WCA_VISUAL_OWNER = 0x16,
+                WCA_HOLOGRAPHIC = 0x17,
+                WCA_EXCLUDED_FROM_DDA = 0x18,
+                WCA_PASSIVEUPDATEMODE = 0x19,
+                WCA_LAST = 0x1A
+            }
+
+            public enum DWMACCENTSTATE          // Affects the rendering of the background of a window.
+            {
+                ACCENT_DISABLED = 0,            // Default value. Background is black.
+                ACCENT_ENABLE_GRADIENT = 1,     // Background is GradientColor, alpha channel ignored.
+                ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,// Background is GradientColor.
+                ACCENT_ENABLE_BLURBEHIND = 3,       // Background is GradientColor, with blur effect.
+                ACCENT_ENABLE_ACRYLICBLURBEHIND = 4, // Applicable on Win 10 18H1 -> Background is GradientColor, with acrylic blur effect.
+                ACCENT_ENABLE_HOSTBACKDROP = 5,      // RS5 18H5 -> Seems to draw background fully transparent.
+                ACCENT_INVALID_STATE = 6        // Unknown. Seems to draw background fully transparent.
+            }
+
+            [Flags]
+            internal enum AccentFlags
+            {
+                UserGradientColour = 2,
+                // ...
+                DrawLeftBorder = 0x20,
+                DrawTopBorder = 0x40,
+                DrawRightBorder = 0x80,
+                DrawBottomBorder = 0x100,
+                DrawAllBorders = DrawLeftBorder | DrawTopBorder | DrawRightBorder | DrawBottomBorder
+                // ...
+            }
+            [StructLayout(LayoutKind.Sequential)]
+            public struct AccentPolicy
+            {
+                public DWMACCENTSTATE AccentState;
+                public AccentFlags AccentFlags;
+                public int GradientColor;
+                public int AnimationId;
+
+                public AccentPolicy(DWMACCENTSTATE accentState, AccentFlags accentFlags, int gradientColor, int animationId)
+                {
+                    AccentState = accentState;
+                    AccentFlags = accentFlags;
+                    GradientColor = gradientColor;
+                    AnimationId = animationId;
+                }
+            }
+
+            public static bool IsCompositionEnabled()
+            {
+                var pfEnabled = 0;
+                var result = DwmIsCompositionEnabled(ref pfEnabled);
+                return pfEnabled == 1;
+            }
+
+            public static bool IsNonClientRenderingEnabled(IntPtr hWnd)
+            {
+                var gwaEnabled = 0;
+                var result = DwmGetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.NCRenderingEnabled, ref gwaEnabled, sizeof(int));
+                return gwaEnabled == 1;
+            }
+
+            public static bool WindowSetAttribute(IntPtr hWnd, DWMWINDOWATTRIBUTE Attribute, int AttributeValue)
+            {
+                var result = DwmSetWindowAttribute(hWnd, Attribute, ref AttributeValue, sizeof(int));
+                return result == 0;
+            }
+
+            public static void Windows10EnableBlurBehind(IntPtr hWnd, bool enabled)
+            {
+                var accPolicy = new AccentPolicy(enabled ? DWMACCENTSTATE.ACCENT_ENABLE_BLURBEHIND : DWMACCENTSTATE.ACCENT_DISABLED,
+                    AccentFlags.UserGradientColour,
+                    Color.FromArgb(200, Color.White).ToArgb(),
+                    0);
+                //{
+                //    AccentState = DWMACCENTSTATE.ACCENT_ENABLE_BLURBEHIND,
+                //};
+
+                IntPtr accentPtr = IntPtr.Zero;
+                try
+                {
+                    var accentSize = Marshal.SizeOf(accPolicy);
+                    accentPtr = Marshal.AllocHGlobal(accentSize);
+                    Marshal.StructureToPtr(accPolicy, accentPtr, false);
+                    var data = new PI.WindowCompositionAttribData(WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                        accentPtr, accentSize);
+
+                    PI.SetWindowCompositionAttribute(hWnd, ref data);
+                }
+                finally
+                {
+                    if (accentPtr != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(accentPtr);
+                    }
+                }
+            }
+
+            public static bool WindowEnableBlurBehind(IntPtr hWnd, bool enabled)
+            {
+                //Create and populate the Blur Behind structure
+                var Dwm_BB = new DWM_BLURBEHIND(enabled);
+
+                var result = DwmEnableBlurBehindWindow(hWnd, ref Dwm_BB);
+                return result == 0;
+            }
+
+            public static bool WindowExtendIntoClientArea(IntPtr hWnd, PI.MARGINS Margins)
+            {
+                // Extend frame on the bottom of client area
+                var result = DwmExtendFrameIntoClientArea(hWnd, ref Margins);
+                return result == 0;
+            }
+
+            public static bool WindowBorderlessDropShadow(IntPtr hWnd, int ShadowSize)
+            {
+                var Margins = new MARGINS(0, ShadowSize, 0, ShadowSize);
+                var result = DwmExtendFrameIntoClientArea(hWnd, ref Margins);
+                return result == 0;
+            }
+
+            public static bool WindowSheetOfGlass(IntPtr hWnd)
+            {
+                var Margins = new MARGINS();
+                Margins.SheetOfGlass();
+
+                //Margins set to All:-1 - Sheet Of Glass effect
+                var result = DwmExtendFrameIntoClientArea(hWnd, ref Margins);
+                return result == 0;
+            }
+
+            public static bool WindowDisableRendering(IntPtr hWnd)
+            {
+                var NCRP = DWMNCRENDERINGPOLICY.Disabled;
+                var ncrp = (int)NCRP;
+                // Disable non-client area rendering on the window.
+                var result = DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.NCRenderingPolicy, ref ncrp,
+                    sizeof(int));
+                return result == 0;
             }
         }
         #endregion dwmapi
@@ -3539,7 +3734,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         }
 
         // Constant "FieldInfo" for getting the nativeImage from the Bitmap
-        private static readonly FieldInfo FIELD_INFO_NATIVE_IMAGE = typeof(Bitmap).GetField("nativeImage", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo FIELD_INFO_NATIVE_IMAGE = typeof(Bitmap).GetField(@"nativeImage", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic);
         /// <summary>
         /// Get the nativeImage field from the bitmap
         /// </summary>
@@ -3566,20 +3761,6 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal static extern int GdipDeleteEffect(IntPtr effect);
 
         #endregion GDIPlus
-
-        #region Static DwmApi
-        [DllImport(@"dwmapi.dll", CharSet = CharSet.Auto)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern void DwmIsCompositionEnabled(ref bool enabled);
-
-        [DllImport(@"dwmapi.dll", CharSet = CharSet.Auto)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
-
-        [DllImport(@"dwmapi.dll", CharSet = CharSet.Auto)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern int DwmDefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr result);
-        #endregion
 
         #region Static Ole32
         [DllImport(@"ole32.dll", CharSet = CharSet.Auto)]
@@ -3802,6 +3983,30 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public int rightWidth;
             public int topHeight;
             public int bottomHeight;
+
+            public MARGINS(int LeftWidth, int RightWidth, int TopHeight, int BottomHeight)
+            {
+                leftWidth = LeftWidth;
+                rightWidth = RightWidth;
+                topHeight = TopHeight;
+                bottomHeight = BottomHeight;
+            }
+
+            public void NoMargins()
+            {
+                leftWidth = 0;
+                rightWidth = 0;
+                topHeight = 0;
+                bottomHeight = 0;
+            }
+
+            public void SheetOfGlass()
+            {
+                leftWidth = -1;
+                rightWidth = -1;
+                topHeight = -1;
+                bottomHeight = -1;
+            }
         }
 
         [StructLayout(LayoutKind.Sequential)]

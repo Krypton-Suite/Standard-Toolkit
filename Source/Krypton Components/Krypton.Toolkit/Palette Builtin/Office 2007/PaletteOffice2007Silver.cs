@@ -39,8 +39,10 @@ namespace Krypton.Toolkit
         private static readonly Image _silverRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreHover_24_x_24;
         private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreDisabled_24_x_24;
         private static readonly Image _silverRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverRestorePressed_24_x_24;
-        private static readonly Image _silverHelpNormal = HelpIconResources.GenericPre2010HelpIcon;
-        private static readonly Image _silverHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
+        private static readonly Image _silverHelpNormal = HelpIconResources.Office2007HelpIconNormal;
+        private static readonly Image _silverHelpHover = HelpIconResources.Office2007HelpIconHover;
+        private static readonly Image _silverHelpPressed = HelpIconResources.Office2007HelpIconPressed;
+        private static readonly Image _silverHelpDisabled = HelpIconResources.Office2007HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(130, 130, 130),      // Tick marks
                                                                         Color.FromArgb(156, 160, 165),      // Top track
@@ -49,7 +51,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(80, 81, 82)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 56,  63,  70),    // TextLabelControl
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 56,  63,  70),    // TextLabelControl
                                                                       Color.FromArgb( 56,  63,  70),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(141, 148, 157),    // ButtonNormalBorder1
@@ -295,7 +297,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2007Silver class.
         /// </summary>
         public PaletteOffice2007Silver()
-            : base(_schemeColors,
+            : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
                    _radioButtonArray,
@@ -376,7 +378,13 @@ namespace Krypton.Toolkit
                     PaletteState.Pressed => _silverRestorePressed,
                     _ => _silverRestoreNormal
                 },
-                PaletteButtonSpecStyle.FormHelp => state == PaletteState.Disabled ? _silverHelpDisabled : _silverHelpNormal,
+                PaletteButtonSpecStyle.FormHelp => state switch
+                {
+                    PaletteState.Disabled => _silverHelpDisabled,
+                    PaletteState.Tracking => _silverHelpHover,
+                    PaletteState.Pressed => _silverHelpPressed,
+                    _ => _silverHelpNormal
+                },
                 _ => base.GetButtonSpecImage(style, state)
             };
         }

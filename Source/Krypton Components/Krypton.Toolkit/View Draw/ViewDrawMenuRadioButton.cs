@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutCenter _layoutCenter;
         private readonly ViewLayoutDocker _outerDocker;
         private readonly ViewLayoutDocker _innerDocker;
-
+        private KryptonCommand _cachedCommand;
         #endregion
 
         #region Identity
@@ -93,6 +93,13 @@ namespace Krypton.Toolkit
 
             // We need to be notified whenever the checked state changes
             KryptonContextMenuRadioButton.CheckedChanged += OnCheckedChanged;
+
+            if (KryptonContextMenuRadioButton.KryptonCommand != null)
+            {
+                _cachedCommand = KryptonContextMenuRadioButton.KryptonCommand;
+
+                KryptonContextMenuRadioButton.KryptonCommand.PropertyChanged += OnCommandPropertyChanged;
+            }
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -220,6 +227,26 @@ namespace Krypton.Toolkit
 
         private void OnClick(object sender, EventArgs e) => KryptonContextMenuRadioButton.PerformClick();
 
+        #endregion
+
+        #region Implementation
+        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case @"Text":
+                case @"ExtraText":
+                case @"ImageSmall":
+                case @"ImageLarge":
+                case @"ImageTransparentColor":
+                case @"Enabled":
+                case @"Checked":
+                case @"CheckState":
+                    // Update to show new state
+                    _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
+                    break;
+            }
+        }
         #endregion
     }
 }

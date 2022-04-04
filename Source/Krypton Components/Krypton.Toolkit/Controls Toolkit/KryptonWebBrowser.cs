@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonWrapLabel class.
+        /// Initialize a new instance of the KryptonWebBrowser class.
         /// </summary>
         public KryptonWebBrowser()
         {
@@ -192,8 +192,10 @@ namespace Krypton.Toolkit
 
         #endregion MenuStrip Overrides
 
-        #region Pallete Controls
+        #region Palette Controls
 
+        /// <summary>Sets the palette being used.</summary>
+        /// <param name="palette">The chosen palette.</param>
         private void SetPalette(IPalette palette)
         {
             if (palette != _palette)
@@ -220,6 +222,9 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Called when there is a change in base renderer or base palette.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void OnBaseChanged(object sender, EventArgs e)
         {
             // Change in base renderer or base palette require we fetch the latest renderer
@@ -256,6 +261,6 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public IPalette GetResolvedPalette() => _palette;
 
-        #endregion Pallete Controls
+        #endregion Palette Controls
     }
 }

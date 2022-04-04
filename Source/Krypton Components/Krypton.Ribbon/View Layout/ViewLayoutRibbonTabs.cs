@@ -11,8 +11,6 @@
 #endregion
 
 
-using System.Linq;
-
 namespace Krypton.Ribbon
 {
     /// <summary>

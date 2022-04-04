@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         public event EventHandler<BreadCrumbMenuArgs> CrumbDropDown;
 
         /// <summary>
-        /// Occurs when the drop down portion of the overflow buttonis pressed.
+        /// Occurs when the drop down portion of the overflow button is pressed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the drop down portion of the overflow button is pressed.")]

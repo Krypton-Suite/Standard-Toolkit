@@ -11,8 +11,6 @@
 #endregion
 
 
-using System.Linq;
-
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -1454,8 +1452,9 @@ namespace Krypton.Ribbon
             }
 
             // Check for toggling keyboard access to the ribbon
-            if ((RibbonShortcuts.ToggleKeyboardAccess1 == keyData) ||
-                (RibbonShortcuts.ToggleKeyboardAccess2 == keyData))
+            if ((RibbonShortcuts.ToggleKeyboardAccess1 == keyData) 
+                || (RibbonShortcuts.ToggleKeyboardAccess2 == keyData)
+                )
             {
                 // Cannot begin/end tooltips when showing the app menu
                 if (!VisualPopupManager.Singleton.IsTracking)
@@ -1478,7 +1477,9 @@ namespace Krypton.Ribbon
             }
 
             // Check for toggling minimized mode key combination (default = Ctrl+F1)
-            if ((RibbonShortcuts.ToggleMinimizeMode == keyData) && AllowMinimizedChange)
+            if ((RibbonShortcuts.ToggleMinimizeMode == keyData) 
+                && AllowMinimizedChange
+                )
             {
                 MinimizedMode = !MinimizedMode;
                 return true;

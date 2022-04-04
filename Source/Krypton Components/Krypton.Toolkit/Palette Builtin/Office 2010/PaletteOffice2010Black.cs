@@ -40,9 +40,10 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlackRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice2010HelpIcon;
-        private static readonly Image _formHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
-        private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice2010HelpIconDisabled;
+        private static readonly Image _formHelpNormal = HelpIconResources.Office2010HelpIconNormal;
+        private static readonly Image _formHelpHover = HelpIconResources.Office2010HelpIconHover;
+        private static readonly Image _formHelpPressed = HelpIconResources.Office2010HelpIconPressed;
+        private static readonly Image _formHelpDisabled = HelpIconResources.Office2010HelpIconDisabled;
         private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDICloseBlack;
         private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMinBlack;
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
@@ -56,7 +57,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
                                                                       Color.Black,                      // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
@@ -317,7 +318,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2010Black class.
         /// </summary>
         public PaletteOffice2010Black()
-            : base(_schemeColors,
+            : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
                    _radioButtonArray,
@@ -373,7 +374,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.HeaderSecondaryBack1];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.HeaderSecondaryBack1];
                     }
                     break;
             }
@@ -397,7 +398,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.ControlBorder];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
                     }
                     break;
             }
@@ -419,7 +420,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _schemeColors[(int)SchemeOfficeColors.ControlBorder];
+                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
                     }
                     break;
             }
@@ -448,7 +449,7 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonCustom3:
                     if (state == PaletteState.NormalDefaultOverride)
                     {
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonChecked];
+                        return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked];
                     }
 
                     break;
@@ -456,8 +457,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -493,8 +494,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -530,8 +531,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -567,8 +568,8 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
                     return state == PaletteState.NormalDefaultOverride
-                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
+                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -646,6 +647,7 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                    PaletteState.Tracking => _formHelpHover,
+                   PaletteState.Pressed => _formHelpPressed,
                    PaletteState.Normal => _formHelpNormal,
                    _ => _formHelpDisabled
                 },

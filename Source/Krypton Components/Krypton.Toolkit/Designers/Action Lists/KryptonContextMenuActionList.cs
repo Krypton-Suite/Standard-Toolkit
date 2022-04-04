@@ -50,6 +50,8 @@ namespace Krypton.Toolkit
             if (_contextMenu != null)
             {
                 // Add the list of panel specific actions
+                //actions.Add(new DesignerActionHeaderItem(@"Data"));
+                //actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenuCollection", @"Items", @"Data", @"Collection of menu items"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
@@ -72,6 +74,23 @@ namespace Krypton.Toolkit
                 {
                     _service.OnComponentChanged(_contextMenu, null, _contextMenu.PaletteMode, value);
                     _contextMenu.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the items.</summary>
+        /// <value>The items.</value>
+        public KryptonContextMenuCollection Items
+        {
+            get => _contextMenu.Items;
+
+            set
+            {
+                if (_contextMenu.Items != value)
+                {
+                    _service.OnComponentChanged(_contextMenu, null, _contextMenu.Items, value);
+
+                    //_contextMenu.Items = value;
                 }
             }
         }

@@ -22,11 +22,11 @@ namespace Krypton.Toolkit
     [Designer("Krypton.Toolkit.KryptonBreadCrumbItemDesigner, Krypton.Toolkit")]
     public class KryptonBreadCrumbItem : KryptonListItem
     {
-        #region Type Definitons
+        #region Type Definitions
         /// <summary>
         /// Manages a collection of KryptonBreadCrumbItems
         /// </summary>
-        [Editor(@"Krypton.Toolkit.KryptonBreadCrumbItemsEditor", typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonBreadCrumbItemsEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public class BreadCrumbItems : TypedCollection<KryptonBreadCrumbItem>
         {
             #region Instance Fields
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
 
         #region Public
         /// <summary>
-        /// Gets access to the colletion of child items.
+        /// Gets access to the collection of child items.
         /// </summary>
         [Category(@"Data")]
         [Description(@"Collection of child items.")]

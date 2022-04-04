@@ -39,8 +39,10 @@ namespace Krypton.Toolkit
         private static readonly Image _blueRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreHover_24_x_24;
         private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled_24_x_24;
         private static readonly Image _blueRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueRestorePressed_24_x_24;
-        private static readonly Image _blueHelpNormal = HelpIconResources.GenericPre2010HelpIcon;
-        private static readonly Image _blueHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
+        private static readonly Image _blueHelpNormal = HelpIconResources.Office2007HelpIconNormal;
+        private static readonly Image _blueHelpHover = HelpIconResources.Office2007HelpIconHover;
+        private static readonly Image _blueHelpPressed = HelpIconResources.Office2007HelpIconPressed;
+        private static readonly Image _blueHelpDisabled = HelpIconResources.Office2007HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
@@ -49,7 +51,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(63, 101, 152)        // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 21,  66, 139),    // TextLabelControl
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 21,  66, 139),    // TextLabelControl
                                                                       Color.FromArgb( 21,  66, 139),    // TextButtonNormal
                                                                       Color.Blue,                      // TextButtonChecked
                                                                       Color.FromArgb(161, 189, 207),    // ButtonNormalBorder
@@ -295,7 +297,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2007Blue class.
         /// </summary>
         public PaletteOffice2007Blue()
-            : base(_schemeColors,
+            : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
                    _radioButtonArray,
@@ -376,7 +378,13 @@ namespace Krypton.Toolkit
                     PaletteState.Pressed => _blueRestorePressed,
                     _ => _blueRestoreNormal
                 },
-                PaletteButtonSpecStyle.FormHelp => state == PaletteState.Disabled ? _blueHelpDisabled : _blueHelpNormal,
+                PaletteButtonSpecStyle.FormHelp => state switch
+                { 
+                    PaletteState.Disabled => _blueHelpDisabled,
+                    PaletteState.Tracking => _blueHelpHover,
+                    PaletteState.Pressed => _blueHelpPressed,
+                    _ => _blueHelpNormal
+                },
                 _ => base.GetButtonSpecImage(style, state)
             };
         }

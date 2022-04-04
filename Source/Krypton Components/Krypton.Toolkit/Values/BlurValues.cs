@@ -21,20 +21,14 @@ namespace Krypton.Toolkit
     public class BlurValues : Storage
     {
         #region statics
-        private bool _enableBlur;
-        private byte _radius;
-        private const byte _radiusDefault = 4;
-        private double _opacity;
-        private const double _opacityDefault = 50.0;
+        private byte _opacity;
         private bool _blurWhenFocusLost;
         #endregion
 
         #region Events
 #pragma warning disable 1591
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler EnableBlurChanged;
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler RadiusChanged;
+        public event EventHandler BlurWhenFocusLostChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public event EventHandler OpacityChanged;
 #pragma warning restore 1591
@@ -44,18 +38,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public BlurValues()
-        {
-            Reset();
-        }
+        public BlurValues() => Reset();
 
         /// <summary>
         /// 
         /// </summary>
         public void Reset()
         {
-            ResetEnableBlur();
-            ResetRadius();
             ResetOpacity();
             ResetBlurWhenFocusLost();
         }
@@ -63,62 +52,24 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description(@"Blur this when not Active")]
-        [DefaultValue(false)]
-        public bool EnableBlur
-        {
-            get => _enableBlur;
-            set
-            {
-                if (_enableBlur != value)
-                {
-                    _enableBlur = value;
-                    EnableBlurChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        private bool ShouldSerializeEnableBlur() => EnableBlur;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Obsolete(@"No longer needed, just use 'BlurWhenFocusLost' to enable")]
+        public bool EnableBlur { private get; set; }
 
         /// <summary>
         /// </summary>
-        public void ResetEnableBlur()
-        {
-            EnableBlur = false;
-        }
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Obsolete(@"No longer in use, standard 5x5 Gaussian blur is applied")]
+        public byte Radius { private get; set; }
 
-
-        /// <summary>
-        /// </summary>
-        [Description(@"Gausian pixel radius used to blur each pixel")]
-        [DefaultValue(_radiusDefault)]
-        public byte Radius
-        {
-            get => _radius;
-            set
-            {
-                if (_radius != value)
-                {
-                    _radius = value;
-                    RadiusChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        private bool ShouldSerializeRadius() => _radius != _radiusDefault;
-
-        /// <summary>
-        /// </summary>
-        public void ResetRadius()
-        {
-            _radius = _radiusDefault;
-        }
-
+        private const byte OPACITY_DEFAULT = 80;
         /// <summary>
         /// </summary>
         [Description(@"Opacity Percentage to be applied to the blur over source form. Tuning this allows for background updates to show through.")]
-        [DefaultValue(_opacityDefault)]
-        public double Opacity
+        [DefaultValue(OPACITY_DEFAULT)]
+        public byte Opacity
         {
             get => _opacity;
             set
@@ -133,14 +84,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeOpacity() => Math.Abs(_opacity - _opacityDefault) > 0.001;
+        private bool ShouldSerializeOpacity() => Math.Abs(_opacity - OPACITY_DEFAULT) > 0.001;
 
         /// <summary>
         /// </summary>
-        public void ResetOpacity()
-        {
-            _opacity = _opacityDefault;
-        }
+        public void ResetOpacity() => _opacity = OPACITY_DEFAULT;
 
         /// <summary>
         /// </summary>
@@ -154,6 +102,8 @@ namespace Krypton.Toolkit
                 if (_blurWhenFocusLost != value)
                 {
                     _blurWhenFocusLost = value;
+                    BlurWhenFocusLostChanged?.Invoke(this, EventArgs.Empty);
+
                 }
             }
         }
@@ -162,18 +112,13 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetBlurWhenFocusLost()
-        {
-            BlurWhenFocusLost = false;
-        }
+        public void ResetBlurWhenFocusLost() => BlurWhenFocusLost = false;
 
         #region Default Values
         /// <summary>
         /// 
         /// </summary>
-        public override bool IsDefault => !ShouldSerializeEnableBlur()
-                                            && !ShouldSerializeRadius()
-                                            && !ShouldSerializeOpacity()
+        public override bool IsDefault => !ShouldSerializeOpacity()
                                             && !ShouldSerializeBlurWhenFocusLost()
                                             ;
 

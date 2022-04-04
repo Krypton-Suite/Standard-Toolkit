@@ -7,8 +7,6 @@
 
 using System.Drawing.Printing;
 
-using static Krypton.Toolkit.CommonDialogHandler;
-
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 #pragma warning disable IDE1006 // Naming Styles
@@ -28,6 +26,7 @@ namespace Krypton.Toolkit
     /// This may go into the extended toolkit as a "Full replacement" if it is deemed necessary.
     /// </remarks>
     [DefaultProperty(nameof(Document))]
+    [ToolboxBitmap(typeof(PrintDialog))]
     [Description(@"PrintDialog")]
     [Designer("System.Windows.Forms.Design.PrintDialogDesigner, " + AssemblyRef.SystemDesign)]
     public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog

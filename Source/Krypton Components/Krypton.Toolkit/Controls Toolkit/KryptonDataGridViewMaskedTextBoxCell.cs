@@ -436,13 +436,6 @@ namespace Krypton.Toolkit
             {
                 if (OwningColumn is KryptonDataGridViewMaskedTextBoxColumn)
                 {
-                    foreach (ButtonSpec bs in maskedTextBox.ButtonSpecs)
-                    {
-                        bs.Click -= OnButtonClick;
-                    }
-
-                    maskedTextBox.ButtonSpecs.Clear();
-
                     if (maskedTextBox.Controls[0] is TextBox textBox)
                     {
                         textBox.ClearUndo();
@@ -482,20 +475,7 @@ namespace Krypton.Toolkit
                 maskedTextBox.SkipLiterals = SkipLiterals;
                 maskedTextBox.TextMaskFormat = TextMaskFormat;
                 maskedTextBox.UseSystemPasswordChar = UseSystemPasswordChar;
-
-                if (OwningColumn is KryptonDataGridViewMaskedTextBoxColumn maskedTextBoxColumn)
-                {
-                    // Set this cell as the owner of the buttonspecs
-                    maskedTextBox.ButtonSpecs.Clear();
-                    maskedTextBox.ButtonSpecs.Owner = DataGridView.Rows[rowIndex].Cells[ColumnIndex];
-                    foreach (ButtonSpec bs in maskedTextBoxColumn.ButtonSpecs)
-                    {
-                        bs.Click += OnButtonClick;
-                        maskedTextBox.ButtonSpecs.Add(bs);
-                    }
-                }
-
-                maskedTextBox.Text = initialFormattedValue is not string initialFormattedValueStr ? string.Empty : initialFormattedValueStr;
+                maskedTextBox.Text = initialFormattedValue is string initialFormattedValueStr ? initialFormattedValueStr : string.Empty;
             }
         }
 
@@ -530,16 +510,16 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int ButtonsWidth = 16;
+            const int BUTTONS_WIDTH = 16;
 
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
             if (DataGridView.RightToLeft == RightToLeft.Yes)
             {
-                errorIconBounds.X = errorIconBounds.Left + ButtonsWidth;
+                errorIconBounds.X = errorIconBounds.Left + BUTTONS_WIDTH;
             }
             else
             {
-                errorIconBounds.X = errorIconBounds.Left - ButtonsWidth;
+                errorIconBounds.X = errorIconBounds.Left - BUTTONS_WIDTH;
             }
 
             return errorIconBounds;
@@ -558,9 +538,9 @@ namespace Krypton.Toolkit
             Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
             if (constraintSize.Width == 0)
             {
-                const int ButtonsWidth = 16; // Account for the width of the up/down buttons.
-                const int ButtonMargin = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += ButtonsWidth + ButtonMargin;
+                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
+                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
+                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
             }
 
             return preferredSize;
@@ -569,12 +549,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, EventArgs e)
-        {
-            KryptonDataGridViewMaskedTextBoxColumn maskedColumn = OwningColumn as KryptonDataGridViewMaskedTextBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new(maskedColumn, this, (ButtonSpecAny)sender);
-            maskedColumn.PerfomButtonSpecClick(args);
-        }
 
         private KryptonDataGridViewMaskedTextBoxEditingControl EditingMaskedTextBox => DataGridView.EditingControl as KryptonDataGridViewMaskedTextBoxEditingControl;
 
@@ -619,9 +593,9 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingMaskedTextBox(int rowIndex) =>
-            rowIndex != -1 && DataGridView != null
-&& (DataGridView.EditingControl is KryptonDataGridViewMaskedTextBoxEditingControl control)
-                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+            rowIndex != -1 
+            && DataGridView is { EditingControl: KryptonDataGridViewMaskedTextBoxEditingControl control } 
+            && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
 
@@ -774,14 +748,11 @@ namespace Krypton.Toolkit
 
         internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align)
         {
-            if ((align & ANY_RIGHT) != 0)
-            {
-                return HorizontalAlignment.Right;
-            }
-            else
-            {
-                return (align & ANY_CENTER) != 0 ? HorizontalAlignment.Center : HorizontalAlignment.Left;
-            }
+            return ANY_RIGHT.HasFlag(align) 
+                ? HorizontalAlignment.Right 
+                : ANY_CENTER.HasFlag(align) 
+                    ? HorizontalAlignment.Center 
+                    : HorizontalAlignment.Left;
         }
         #endregion
 

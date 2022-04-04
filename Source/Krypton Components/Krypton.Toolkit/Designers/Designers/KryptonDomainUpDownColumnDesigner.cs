@@ -38,44 +38,7 @@ namespace Krypton.Toolkit
             // Get access to the design services
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
-
-        /// <summary>
-        /// Gets the collection of components associated with the component managed by the designer.
-        /// </summary>
-        public override ICollection AssociatedComponents =>
-            _domainUpDown != null ? _domainUpDown.ButtonSpecs : base.AssociatedComponents;
-
         #endregion
 
-        #region Private
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
-        {
-            // If our control is being removed
-            if ((_domainUpDown != null) && (e.Component == _domainUpDown))
-            {
-                // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
-
-                // We need to remove all the button spec instances
-                for (var i = _domainUpDown.ButtonSpecs.Count - 1; i >= 0; i--)
-                {
-                    // Get access to the indexed button spec
-                    ButtonSpec spec = _domainUpDown.ButtonSpecs[i];
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_domainUpDown, null);
-
-                    // Perform actual removal of button spec from textbox
-                    _domainUpDown.ButtonSpecs.Remove(spec);
-
-                    // Get host to remove it from design time
-                    host.DestroyComponent(spec);
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_domainUpDown, null, null, null);
-                }
-            }
-        }
-        #endregion
     }
 }

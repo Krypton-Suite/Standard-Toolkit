@@ -18,6 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonWrapLabel), "ToolboxBitmaps.KryptonWrapLabel.bmp")]
+    [DefaultEvent("Click")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
@@ -773,6 +774,8 @@ namespace Krypton.Toolkit
             return true;
         }
 
+        /// <summary>Sets the palette.</summary>
+        /// <param name="palette">The palette.</param>
         private void SetPalette(IPalette palette)
         {
             if (palette != _palette)
@@ -806,6 +809,9 @@ namespace Krypton.Toolkit
         // Change in base renderer or base palette require we fetch the latest renderer
         private void OnBaseChanged(object sender, EventArgs e) => Renderer = _palette.GetRenderer();
 
+        /// <summary>Called when [global palette changed].</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             // We only care if we are using the global palette

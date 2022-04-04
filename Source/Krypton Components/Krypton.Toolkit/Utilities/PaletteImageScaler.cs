@@ -11,7 +11,7 @@
 #endregion
 
 
-namespace Krypton.Toolkit.Utilities
+namespace Krypton.Toolkit
 {
     /// <summary>
     /// Helper class for high DPI.
@@ -38,14 +38,14 @@ namespace Krypton.Toolkit.Utilities
         /// <param name="pal">KryptonPalette</param>
         public static void ScalePalette(float factorDpiX, float factorDpiY, KryptonPalette pal)
         {
-            if (pal == null
-//            || pal.HasAlreadyBeenScaled
+            if (pal == null 
+                //|| pal.HasAlreadyBeenScaled
                 )
             {
                 return;
             }
 
-//            pal.HasAlreadyBeenScaled = true;
+             //pal.HasAlreadyBeenScaled = true;
 
             var scaleFactor = new SizeF( factorDpiX, factorDpiY);
 
@@ -128,6 +128,9 @@ namespace Krypton.Toolkit.Utilities
         }
 
         // helper method for scaling KyrptonPaletteButtonSpecTyped
+        /// <summary>Scales the type of the button spec image.</summary>
+        /// <param name="bst">The ButtonSpecType.</param>
+        /// <param name="scaleFactor">The scale factor.</param>
         private static void ScaleButtonSpecImageType(KryptonPaletteButtonSpecTyped bst, SizeF scaleFactor)
         {
             bst.Image = GetScaledImage(bst.Image, scaleFactor);
@@ -142,6 +145,10 @@ namespace Krypton.Toolkit.Utilities
         }
 
         // scales an image and also makes magenta transparent
+        /// <summary>Gets the scaled image.</summary>
+        /// <param name="img">The image.</param>
+        /// <param name="scaleFactor">The scale factor.</param>
+        /// <returns>A scaled image, based on the scaleFactor.</returns>
         private static Image GetScaledImage(Image img, SizeF scaleFactor)
         {
             if (img == null)

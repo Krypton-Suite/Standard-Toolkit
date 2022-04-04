@@ -271,13 +271,6 @@ namespace Krypton.Toolkit
             {
                 if (OwningColumn is KryptonDataGridViewNumericUpDownColumn)
                 {
-                    foreach (ButtonSpec bs in numericUpDown.ButtonSpecs)
-                    {
-                        bs.Click -= OnButtonClick;
-                    }
-
-                    numericUpDown.ButtonSpecs.Clear();
-
                     if (numericUpDown.Controls[0].Controls[1] is TextBox textBox)
                     {
                         textBox.ClearUndo();
@@ -307,27 +300,7 @@ namespace Krypton.Toolkit
                 numericUpDown.Minimum = Minimum;
                 numericUpDown.ThousandsSeparator = ThousandsSeparator;
                 numericUpDown.Hexadecimal = Hexadecimal;
-
-                if (OwningColumn is KryptonDataGridViewNumericUpDownColumn numericColumn)
-                {
-                    // Set this cell as the owner of the buttonspecs
-                    numericUpDown.ButtonSpecs.Clear();
-                    numericUpDown.ButtonSpecs.Owner = DataGridView.Rows[rowIndex].Cells[ColumnIndex];
-                    foreach (ButtonSpec bs in numericColumn.ButtonSpecs)
-                    {
-                        bs.Click += OnButtonClick;
-                        numericUpDown.ButtonSpecs.Add(bs);
-                    }
-                }
-
-                if (initialFormattedValue is not string initialFormattedValueStr)
-                {
-                    numericUpDown.Text = string.Empty;
-                }
-                else
-                {
-                    numericUpDown.Text = initialFormattedValueStr;
-                }
+                numericUpDown.Text = initialFormattedValue is string initialFormattedValueStr ? initialFormattedValueStr : string.Empty;
             }
         }
 
@@ -384,12 +357,12 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int ButtonsWidth = 16;
+            const int BUTTONS_WIDTH = 16;
 
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
             errorIconBounds.X = DataGridView.RightToLeft == RightToLeft.Yes
-                ? errorIconBounds.Left + ButtonsWidth
-                : errorIconBounds.Left - ButtonsWidth;
+                ? errorIconBounds.Left + BUTTONS_WIDTH
+                : errorIconBounds.Left - BUTTONS_WIDTH;
 
             return errorIconBounds;
         }
@@ -453,13 +426,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, EventArgs e)
-        {
-            KryptonDataGridViewNumericUpDownColumn numericColumn = OwningColumn as KryptonDataGridViewNumericUpDownColumn;
-            DataGridViewButtonSpecClickEventArgs args = new(numericColumn, this, (ButtonSpecAny)sender);
-            numericColumn.PerfomButtonSpecClick(args);
-        }
-
         private KryptonDataGridViewNumericUpDownEditingControl EditingNumericUpDown => DataGridView.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
 
         private decimal Constrain(decimal value)

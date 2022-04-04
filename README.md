@@ -50,6 +50,8 @@
 | <img src="https://img.shields.io/badge/Module-Ribbon-green.svg?style=flat-square" />               | ![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon.Signed?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 | <img src="https://img.shields.io/badge/Module-Workspace-green.svg?style=flat-square" />            | ![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Signed?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 
+Keep up-to-date [here](https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard)
+
 =======
 
 # <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
@@ -118,6 +120,10 @@ There are list of changes that have occurred during the development of the V6.##
 
 ### `dpiAware`
 If you are getting scaling problems in high dpi monitors, then please add an application manifest to your MainForm application, and uncomment the section that covers the `dpiAware` setting.
+
+## Known Issues & Workarounds
+
+- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 5/6 or 7
 
 =======
 

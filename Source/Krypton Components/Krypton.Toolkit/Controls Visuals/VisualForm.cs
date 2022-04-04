@@ -384,10 +384,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets access to the button content.
@@ -492,10 +489,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPalette() => _localPalette = null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -581,6 +575,7 @@ namespace Krypton.Toolkit
                 if (_windowActive != value)
                 {
                     _windowActive = value;
+                    _blurManager.SetBlurState(_windowActive);
                     OnWindowActiveChanged();
                 }
             }
@@ -593,6 +588,7 @@ namespace Krypton.Toolkit
         [Category(@"Window Style")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description(@"Please use a ButtonSpec, as this gives greater flexibility!")]
         public new bool HelpButton
         {
             get => base.HelpButton;
@@ -946,7 +942,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new(_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1007,7 +1003,8 @@ namespace Krypton.Toolkit
             if (ApplyCustomChrome)
             {
                 // If using composition drawing
-                if (ApplyComposition)
+                if (ApplyComposition
+                    && Composition != null)
                 {
                     // Ask the composition element top handle need paint event
                     Composition.CompNeedPaint(e.NeedLayout);
@@ -1104,7 +1101,8 @@ namespace Krypton.Toolkit
                             processed = OnWM_NCMOUSELEAVE(ref m);
                         }
 
-                        if (ApplyComposition)
+                        if (ApplyComposition
+                            && Composition != null)
                         {
                             // Must repaint the composition area not that mouse has left
                             Composition.CompNeedPaint(true);
@@ -1140,7 +1138,7 @@ namespace Krypton.Toolkit
                         processed = OnPaintNonClient(ref m);
                         break;
                     case 0x00AE:
-                        // Mystery message causes title bar buttons to draw, we want to 
+                        // Mystery message causes OS title bar buttons to draw, we want to 
                         // prevent that and ignoring the messages seems to do no harm.
                         processed = true;
                         break;
@@ -1159,7 +1157,12 @@ namespace Krypton.Toolkit
             {
                 base.WndProc(ref m);
                 _shadowManager.WndProc(ref m);
-                _blurManager.WndProc(ref m);
+            }
+
+            if (m.Msg == PI.WM_.SIZE)
+            {
+                // Make sure sizing is completed (due to above base) before taking a clean snapshot for focus lost
+                _blurManager.TakeSnapshot();
             }
         }
 
@@ -1293,7 +1296,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnCompWM_NCHITTEST(ref Message m)
         {
             // Let the desktop window manager process it first
-            PI.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out IntPtr result);
+            PI.Dwm.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out IntPtr result);
             m.Result = result;
 
             // If no result returned then let the base window routine process it
@@ -1396,7 +1399,6 @@ namespace Krypton.Toolkit
             {
                 PI.TRACKMOUSEEVENTS tme = new()
                 {
-
                     // This structure needs to know its own size in bytes
                     cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
                     dwHoverTime = 100,
@@ -1475,6 +1477,7 @@ namespace Krypton.Toolkit
         /// <returns>True if the message was processed; otherwise false.</returns>
         protected virtual bool OnWM_NCMOUSELEAVE(ref Message m)
         {
+            _blurManager.TakeSnapshot();
             // Next time the mouse enters the window we need to track it leaving
             _trackingMouse = false;
 
@@ -1713,11 +1716,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Process the left mouse down event.
         /// </summary>
-        /// <param name="pt">Window coordinate of the mouse up.</param>
+        /// <param name="windowPoint">Window coordinate of the mouse down.</param>
         /// <returns>True if event is processed; otherwise false.</returns>
-        protected virtual bool WindowChromeLeftMouseDown(Point pt)
+        protected virtual bool WindowChromeLeftMouseDown(Point windowPoint)
         {
-            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0), pt);
+            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
             // If we moused down on a active view element
             // Ask the controller if the mouse down should be ignored by wnd proc processing
