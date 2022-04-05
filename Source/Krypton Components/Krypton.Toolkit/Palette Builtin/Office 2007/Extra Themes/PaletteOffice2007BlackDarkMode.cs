@@ -46,15 +46,15 @@
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
         private static readonly Color[] _schemeOfficeColors = { Color.White,    // TextLabelControl
-                                                                      Color.White,    // TextButtonNormal
-                                                                      Color.White,                      // TextButtonChecked
-                                                                      Color.FromArgb(137, 135, 133),    // ButtonNormalBorder1
-                                                                      Color.FromArgb(127, 125, 123),    // ButtonNormalBorder2
-                                                                      Color.FromArgb(10, 10, 10),       // ButtonNormalBack1
-                                                                      Color.FromArgb(41, 41, 41),       // ButtonNormalBack2
-                                                                      Color.FromArgb(164, 163, 163),    // ButtonNormalDefaultBack1
-                                                                      Color.FromArgb(114, 114, 114),    // ButtonNormalDefaultBack2
-                                                                      Color.FromArgb(204, 208, 214),    // ButtonNormalNavigatorBack1
+                                                                Color.White,    // TextButtonNormal
+                                                                Color.White,                      // TextButtonChecked
+                                                                Color.FromArgb(137, 135, 133),    // ButtonNormalBorder1
+                                                                Color.FromArgb(127, 125, 123),    // ButtonNormalBorder2
+                                                                Color.FromArgb(10, 10, 10),       // ButtonNormalBack1
+                                                                Color.FromArgb(41, 41, 41),       // ButtonNormalBack2
+                                                                Color.FromArgb(164, 163, 163),    // ButtonNormalDefaultBack1
+                                                                Color.FromArgb(114, 114, 114),    // ButtonNormalDefaultBack2
+                                                                Color.FromArgb(204, 208, 214),    // ButtonNormalNavigatorBack1
                                                                       Color.FromArgb(229, 232, 236),    // ButtonNormalNavigatorBack2
                                                                       Color.FromArgb( 10, 10, 10),      // PanelClient
                                                                       Color.FromArgb( 41, 41, 41),      // PanelAlternative
