@@ -243,7 +243,7 @@
                                                                 Color.FromArgb(207, 224, 245),    // AppButtonOuter3
                                                                 Color.White,                      // AppButtonInner1
                                                                 Color.FromArgb(155, 175, 202),    // AppButtonInner2
-                                                                Color.FromArgb(233, 234, 238),    // AppButtonMenuDocs
+                                                                Color.FromArgb(63, 122, 197),    // AppButtonMenuDocs
                                                                 Color.FromArgb(0,   21,  110),    // AppButtonMenuDocsText
                                                                 Color.FromArgb(227, 239, 255),    // SeparatorHighInternalBorder1
                                                                 Color.FromArgb(182, 214, 255),    // SeparatorHighInternalBorder2

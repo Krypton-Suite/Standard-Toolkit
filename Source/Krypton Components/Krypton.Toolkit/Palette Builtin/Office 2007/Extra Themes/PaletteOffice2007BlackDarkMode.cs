@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    #region Class: PaletteOffice2007BlackDarkModeDarkMode
+    #region Class: PaletteOffice2007BlackDarkMode
     /// <summary>
     /// Provides the Black color scheme variant of the Office 2007 palette.
     /// </summary>
@@ -660,7 +660,7 @@
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
         private static readonly Color _disabledGlyphLight = Color.FromArgb(237, 237, 237);
         private static readonly Color _contextCheckedTabBorder = Color.FromArgb(194, 194, 194);
-        private static readonly Color _contextCheckedTabFill = Color.FromArgb(238, 181, 30);
+        private static readonly Color _contextCheckedTabFill = Color.FromArgb(10, 10, 10);
         private static readonly Color _contextGroupAreaBorder = Color.FromArgb(194, 194, 194);
         private static readonly Color _contextGroupAreaInside = Color.FromArgb(254, 254, 254);
         private static readonly Color _contextGroupFrameTop = Color.FromArgb(200, 249, 249, 249);
@@ -676,8 +676,8 @@
         private static readonly Color _contextMenuOuterBack = Color.FromArgb(41, 41, 41);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
-        private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
-        private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
+        private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(88, 88, 88);
+        private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(33, 33, 33);
         #endregion
 
 
@@ -1351,10 +1351,10 @@
                 case PaletteBackStyle.GridDataCellCustom1:
                 case PaletteBackStyle.GridDataCellCustom2:
                 case PaletteBackStyle.GridDataCellCustom3:
-                    return state == PaletteState.CheckedNormal ? _ribbonColours[(int)SchemeOfficeColors.GridDataCellSelected] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal ? _ribbonColours[(int)SchemeOfficeColors.GridDataCellSelected] : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.GridDataCellSheet:
-                    return state == PaletteState.CheckedNormal ? _buttonBackColors[7] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal ? _buttonBackColors[7] : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.TabHighProfile:
                 case PaletteBackStyle.TabStandardProfile:
@@ -6170,7 +6170,7 @@
         private static readonly Color _menuItemSelectedMiddle = Color.White;
         private static readonly Color _menuItemSelectedEnd = Color.FromArgb(10, 10, 10);
         private static readonly Color _contextMenuBackground = Color.FromArgb(10, 10, 10);
-        private static readonly Color _checkBackground = Color.FromArgb(255, 227, 149);
+        private static readonly Color _checkBackground = Color.FromArgb(33, 33, 33);
         private static readonly Color _buttonSelectedBegin = Color.FromArgb(41, 41, 41);
         private static readonly Color _buttonSelectedMiddle = Color.White;
         private static readonly Color _buttonSelectedEnd = Color.FromArgb(10, 10, 10);
