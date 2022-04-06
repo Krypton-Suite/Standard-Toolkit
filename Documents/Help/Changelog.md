@@ -10,6 +10,7 @@
 * Fixed grid cell selection colours for dark/light mode themes
 * Blue dark mode themes now have a darker alternate colour
 * Resolved [#653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/653), Page Drag&Drop/Floating exception
+* Resolved bug where the colour value for `PaletteBackStyle.ControlToolTip` was 'out of range' in certain themes
 
 ## 2022-04-04 - Build 2204 - April 2022
 * Resolved [#678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/678), Dropdown list background & text colour are the same (Office 2010 - Black (Dark Mode))

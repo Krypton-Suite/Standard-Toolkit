@@ -829,8 +829,8 @@
         private static readonly Color _contextTabSeparator = Color.White;
         private static readonly Color _contextTextColor = Color.White;
         private static readonly Color _todayBorder = Color.FromArgb(187, 85, 3);
-        private static readonly Color _toolTipBack1 = Color.FromArgb(255, 255, 255);
-        private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
+        private static readonly Color _toolTipBack1 = Color.FromArgb(10, 10, 10);
+        private static readonly Color _toolTipBack2 = Color.FromArgb(41, 41, 41);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
         private static readonly Color _contextMenuBack = Color.FromArgb(10, 10, 10);
@@ -1263,7 +1263,7 @@
                 case PaletteBackStyle.ControlRibbonAppMenu:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack1];
                 case PaletteBackStyle.ControlToolTip:
-                    return _toolTipBack1;
+                    return _toolTipBack2;
                 case PaletteBackStyle.ContextMenuOuter:
                     return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:

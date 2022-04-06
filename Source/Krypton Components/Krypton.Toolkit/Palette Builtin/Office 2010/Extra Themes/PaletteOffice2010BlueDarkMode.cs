@@ -904,7 +904,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlRibbonAppMenu:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack1];
                 case PaletteBackStyle.ControlToolTip:
-                    return _toolTipBack1;
+                    return _toolTipBack2;
                 case PaletteBackStyle.ContextMenuOuter:
                     return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:
