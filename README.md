@@ -54,7 +54,15 @@ Keep up-to-date [here](https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Ve
 
 =======
 
-# <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
+## Documentation
+
+The online help will give an overview of what the toolkit is capable of.
+
+<a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html"><img src="https://img.shields.io/badge/Documentation-Online Help-9cf.svg?style=flat-square" alt="Online Help" /></a>
+
+If you require the full API reference, you can download the latest version by clicking the link below.
+
+<a href="https://github.com/Krypton-Suite/Help-Files/releases"><img src="https://img.shields.io/badge/Documentation-API Reference-9cf.svg?style=flat-square" alt="API Reference" /></a>
 
 =======
 

@@ -6170,7 +6170,7 @@
         private static readonly Color _menuItemSelectedMiddle = Color.White;
         private static readonly Color _menuItemSelectedEnd = Color.FromArgb(10, 10, 10);
         private static readonly Color _contextMenuBackground = Color.FromArgb(10, 10, 10);
-        private static readonly Color _checkBackground = Color.FromArgb(33, 33, 33);
+        private static readonly Color _checkBackground = Color.FromArgb(135, 135, 135);
         private static readonly Color _buttonSelectedBegin = Color.FromArgb(41, 41, 41);
         private static readonly Color _buttonSelectedMiddle = Color.White;
         private static readonly Color _buttonSelectedEnd = Color.FromArgb(10, 10, 10);

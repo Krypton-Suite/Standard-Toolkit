@@ -57,6 +57,7 @@
                                                             Color.FromArgb(64, Color.White),    // Outside position
                                                             Color.FromArgb(63, 101, 152)        // Border (normal) position
         };
+
         private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 21,  66, 139),    // TextLabelControl
                                                                 Color.FromArgb( 21,  66, 139),    // TextButtonNormal
                                                                 Color.Blue,                      // TextButtonChecked
@@ -492,7 +493,7 @@
         private static readonly Color _toolTipBack2 = Color.FromArgb(209, 226, 244);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuBack = Color.White;
+        private static readonly Color _contextMenuBack = Color.FromArgb(230, 239, 249);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
