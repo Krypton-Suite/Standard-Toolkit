@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
         private bool _displayExtendedColorsButton;
 
         /// <summary>
-        /// Changes the title of the common Print Dialog
+        /// Changes the title of the common Font Dialog
         /// </summary>
         public string Title
         {
@@ -30,6 +30,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;

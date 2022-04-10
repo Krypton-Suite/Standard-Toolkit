@@ -53,6 +53,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;
