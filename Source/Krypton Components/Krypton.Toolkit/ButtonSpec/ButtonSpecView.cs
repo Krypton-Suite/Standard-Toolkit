@@ -324,10 +324,11 @@ namespace Krypton.Toolkit
                 return null;
             }
 
-            if ( !_cachedImages.ContainsKey(baseImage)
-               )
+            if ( !_cachedImages.ContainsKey(baseImage))
             {
-                // Currently the `ViewButton.FactorDpi#`'s do _NOT_ change whilst the app is running
+                #region Old Code
+
+                /*// Currently the `ViewButton.FactorDpi#`'s do _NOT_ change whilst the app is running
                 _lastFactorDpiX = ViewButton.FactorDpiX;
                 _lastFactorDpiY = ViewButton.FactorDpiY;
 
@@ -349,7 +350,32 @@ namespace Krypton.Toolkit
                 else
                 {
                     _cachedImages[baseImage] = baseImage;
+                }*/
+
+                    #endregion
+
+                // Image needs to be regenerated
+                _lastFactorDpiX = ViewButton.FactorDpiX;
+
+                _lastFactorDpiY = ViewButton.FactorDpiY;
+
+                var currentWidth = baseImage.Width * _lastFactorDpiX;
+
+                var currentHeight = baseImage.Height * _lastFactorDpiY;
+
+                if ((int)currentHeight == baseImage.Height)
+                {
+                    // Need to workaround the image drawing off the bottom of the title bar when scaling @ 100%
+                    // Has to be even to ensure that horizontal lines are still drawn
+                    currentHeight -= 2;
                 }
+
+                if (currentHeight == -1)
+                {
+                    currentHeight = 1;
+                }
+
+                _cachedImages[baseImage] = CommonHelper.ScaleImageForSizedDisplay(baseImage, currentWidth, currentHeight);
             }
 
             return _cachedImages[baseImage];
