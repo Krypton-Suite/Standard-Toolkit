@@ -57,9 +57,9 @@
                                                             Color.FromArgb(64, Color.White),    // Outside position
                                                             Color.FromArgb(80, 81, 82)          // Border (normal) position
         };
-        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb(122, 137, 174),    // TextLabelControl
-                                                                Color.FromArgb(122, 137, 174),    // TextButtonNormal
-                                                                Color.Black,                      // TextButtonChecked
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb(24, 24, 24),    // TextLabelControl
+                                                                Color.FromArgb(24, 24, 24),    // TextButtonNormal
+                                                                Color.FromArgb(24, 24, 24),    // TextButtonChecked
                                                                 Color.FromArgb(141, 148, 157),    // ButtonNormalBorder1
                                                                 Color.FromArgb(131, 138, 147),    // ButtonNormalBorder2
                                                                 Color.FromArgb(119, 132, 161),    // ButtonNormalBack1
@@ -78,7 +78,7 @@
                                                                 Color.FromArgb(213, 219, 231),    // HeaderSecondaryBack1
                                                                 Color.FromArgb(213, 219, 231),    // HeaderSecondaryBack2
                                                                 Color.FromArgb( 21,  66, 139),    // HeaderText
-                                                                Color.FromArgb(122, 137, 174),    // StatusStripText
+                                                                Color.FromArgb(24, 24, 24),    // StatusStripText
                                                                 Color.FromArgb(155, 163, 167),    // ButtonBorder
                                                                 Color.FromArgb(255, 255, 255),    // SeparatorLight
                                                                 Color.FromArgb(110, 109, 143),    // SeparatorDark
@@ -95,18 +95,18 @@
                                                                 Color.FromArgb(152, 151, 177),    // OverflowMiddle
                                                                 Color.FromArgb(124, 124, 148),    // OverflowEnd
                                                                 Color.FromArgb(124, 124, 148),    // ToolStripBorder
-                                                                Color.FromArgb(114, 120, 128),    // FormBorderActive
-                                                                Color.FromArgb(180, 185, 192),    // FormBorderInactive
-                                                                Color.FromArgb(222, 221, 222),    // FormBorderActiveLight
-                                                                Color.FromArgb(187, 186, 186),    // FormBorderActiveDark
-                                                                Color.FromArgb(240, 240, 240),    // FormBorderInactiveLight
-                                                                Color.FromArgb(224, 224, 224),    // FormBorderInactiveDark
-                                                                Color.FromArgb(172, 175, 183),    // FormBorderHeaderActive
-                                                                Color.FromArgb(182, 181, 181),    // FormBorderHeaderInactive
-                                                                Color.FromArgb(192, 195, 202),    // FormBorderHeaderActive1
-                                                                Color.FromArgb(240, 243, 250),    // FormBorderHeaderActive2
-                                                                Color.FromArgb(217, 219, 225),    // FormBorderHeaderInctive1
-                                                                Color.FromArgb(244, 247, 251),    // FormBorderHeaderInctive2
+                                                                Color.FromArgb(119, 132, 161),    // FormBorderActive
+                                                                Color.FromArgb(83, 99, 136),    // FormBorderInactive
+                                                                Color.FromArgb(119, 132, 161),    // FormBorderActiveLight
+                                                                Color.FromArgb(83, 99, 136),    // FormBorderActiveDark
+                                                                Color.FromArgb(119, 132, 161),    // FormBorderInactiveLight
+                                                                Color.FromArgb(83, 99, 136),    // FormBorderInactiveDark
+                                                                Color.FromArgb(119, 132, 161),    // FormBorderHeaderActive
+                                                                Color.FromArgb(83, 99, 136),    // FormBorderHeaderInactive
+                                                                Color.FromArgb(119, 132, 161),    // FormBorderHeaderActive1
+                                                                Color.FromArgb(83, 99, 136),    // FormBorderHeaderActive2
+                                                                Color.FromArgb(119, 132, 161),    // FormBorderHeaderInctive1
+                                                                Color.FromArgb(83, 99, 136),    // FormBorderHeaderInctive2
                                                                 Color.FromArgb( 53, 110, 170),    // FormHeaderShortActive
                                                                 Color.FromArgb(138, 138, 138),    // FormHeaderShortInactive
                                                                 Color.FromArgb( 92,  98, 106),    // FormHeaderLongActive
@@ -126,7 +126,7 @@
                                                                 Color.Silver,                       // LinkNotVisitedOverridePanel
                                                                 Color.Purple,                     // LinkVisitedOverridePanel
                                                                 Color.Red,                        // LinkPressedOverridePanel
-                                                                Color.FromArgb(122, 137, 174),    // TextLabelPanel
+                                                                Color.FromArgb(24, 24, 24),    // TextLabelPanel
                                                                 Color.FromArgb( 76,  83,  92),    // RibbonTabTextNormal
                                                                 Color.FromArgb( 76,  83,  92),    // RibbonTabTextChecked
                                                                 Color.FromArgb(190, 190, 190),    // RibbonTabSelected1
@@ -244,7 +244,7 @@
                                                                 Color.FromArgb(255, 248, 203),    // InputDropDownNormal2
                                                                 Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                 Color.Transparent,                // InputDropDownDisabled2
-                                                                Color.FromArgb(235, 235, 235),    // ContextMenuHeading
+                                                                Color.FromArgb(24, 24, 24),    // ContextMenuHeading
                                                                 Color.FromArgb( 76,  83,  92),    // ContextMenuHeadingText
                                                                 Color.FromArgb(239, 239, 239),    // ContextMenuImageColumn
                                                                 Color.FromArgb(119, 132, 161),    // AppButtonBack1
@@ -508,7 +508,7 @@
         private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
-        private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
+        private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(164, 172, 192);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
 
         #endregion
@@ -547,9 +547,9 @@
         #endregion
 
         #region Instance Fields
-        private KryptonColorTable2007 _table;
-        private readonly Color[] _ribbonColors;
-        private readonly Color[] _trackBarColors;
+        private KryptonColorTable2007SilverDarkMode _table;
+        private readonly Color[] _ribbonColours;
+        private readonly Color[] _trackBarColours;
         private readonly ImageList _checkBoxList;
         private readonly ImageList _galleryButtonList;
         private readonly Image[] _radioButtonArray;
@@ -594,11 +594,11 @@
             Debug.Assert(radioButtonArray != null);
 
             // Remember incoming sets of values
-            _ribbonColors = schemeColors;
+            _ribbonColours = schemeColors;
             _checkBoxList = checkBoxList;
             _galleryButtonList = galleryButtonList;
             _radioButtonArray = radioButtonArray;
-            _trackBarColors = trackBarColors;
+            _trackBarColours = trackBarColors;
 
             // Get the font settings from the system
             DefineFonts();
@@ -805,34 +805,35 @@
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Pressed => _ribbonColors[(int)SchemeOfficeColors.GridListPressed1],
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.GridListSelected],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.GridListNormal1]
+                        PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.GridListPressed1],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.GridListSelected],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.GridListNormal1]
                     };
                 case PaletteBackStyle.GridHeaderColumnSheet:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColors[(int)SchemeOfficeColors.GridSheetColPressed1],
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.GridSheetColSelected1],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.GridSheetColNormal1]
+                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.GridSheetColPressed1],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.GridSheetColSelected1],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.GridSheetColNormal1]
                     };
                 case PaletteBackStyle.GridHeaderRowSheet:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColors[(int)SchemeOfficeColors.GridSheetRowPressed],
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.GridSheetRowSelected],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.GridSheetRowNormal]
+                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.GridSheetRowPressed],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.GridSheetRowSelected],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.GridSheetRowNormal]
                     };
                 case PaletteBackStyle.GridDataCellList:
                 case PaletteBackStyle.GridDataCellCustom1:
                 case PaletteBackStyle.GridDataCellCustom2:
                 case PaletteBackStyle.GridDataCellCustom3:
-                    return state == PaletteState.CheckedNormal ? _ribbonColors[(int)SchemeOfficeColors.GridDataCellSelected] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal
+                        ? _ribbonColours[(int) SchemeOfficeColors.GridDataCellSelected] : _ribbonColours[(int) SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.GridDataCellSheet:
-                    return state == PaletteState.CheckedNormal ? _buttonBackColors[6] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal ? _buttonBackColors[6] : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.TabHighProfile:
                 case PaletteBackStyle.TabStandardProfile:
@@ -890,38 +891,47 @@
                     };
                 case PaletteBackStyle.HeaderForm:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderInactive1]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderActive1];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive1]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive1];
 
                 case PaletteBackStyle.HeaderCalendar:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-                        : _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2];
+                        ? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+                        : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2];
 
                 case PaletteBackStyle.HeaderPrimary:
                 case PaletteBackStyle.HeaderDockInactive:
                 case PaletteBackStyle.HeaderCustom1:
                 case PaletteBackStyle.HeaderCustom2:
                 case PaletteBackStyle.HeaderCustom3:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1];
 
                 case PaletteBackStyle.HeaderDockActive:
                     return state == PaletteState.Disabled ? _disabledBack : _buttonBackColors[6];
 
                 case PaletteBackStyle.HeaderSecondary:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.HeaderSecondaryBack1];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.HeaderSecondaryBack1];
 
                 case PaletteBackStyle.SeparatorHighInternalProfile:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.SeparatorHighInternalBorder1];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.SeparatorHighInternalBorder1];
 
                 case PaletteBackStyle.SeparatorHighProfile:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.SeparatorHighBorder1];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.SeparatorHighBorder1];
 
                 case PaletteBackStyle.SeparatorLowProfile:
                 case PaletteBackStyle.SeparatorCustom1:
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
@@ -932,23 +942,50 @@
                 case PaletteBackStyle.GridBackgroundCustom1:
                 case PaletteBackStyle.GridBackgroundCustom2:
                 case PaletteBackStyle.GridBackgroundCustom3:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.FormMain:
                 case PaletteBackStyle.FormCustom1:
                 case PaletteBackStyle.FormCustom2:
                 case PaletteBackStyle.FormCustom3:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactiveLight]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveLight];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactiveLight]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormBorderActiveLight];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    // Note: This controls the input control dropdown background
+                    return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
@@ -956,18 +993,18 @@
                 case PaletteBackStyle.InputControlCustom3:
                     if (state == PaletteState.Disabled)
                     {
-                        return _ribbonColors[(int)SchemeOfficeColors.InputControlBackDisabled];
+                        return _ribbonColours[(int)SchemeOfficeColors.InputControlBackDisabled];
                     }
                     else
                     {
                         return (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
-                            ? _ribbonColors[(int)SchemeOfficeColors.InputControlBackNormal]
-                            : _ribbonColors[(int)SchemeOfficeColors.InputControlBackInactive];
+                            ? _ribbonColours[(int)SchemeOfficeColors.InputControlBackNormal]
+                            : _ribbonColours[(int)SchemeOfficeColors.InputControlBackInactive];
                     }
                 case PaletteBackStyle.ControlRibbon:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected4];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected4];
                 case PaletteBackStyle.ControlRibbonAppMenu:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonBack1];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack1];
                 case PaletteBackStyle.ControlToolTip:
                     return _toolTipBack1;
                 case PaletteBackStyle.ContextMenuOuter:
@@ -982,16 +1019,16 @@
                 case PaletteBackStyle.ContextMenuInner:
                     return _contextMenuInnerBack;
                 case PaletteBackStyle.ContextMenuHeading:
-                    return _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingBack];
+                    return _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingBack];
                 case PaletteBackStyle.ContextMenuItemImageColumn:
-                    return _ribbonColors[(int)SchemeOfficeColors.ContextMenuImageColumn];
+                    return _ribbonColours[(int)SchemeOfficeColors.ContextMenuImageColumn];
                 case PaletteBackStyle.ContextMenuItemImage:
                     return _contextMenuImageBackChecked;
                 case PaletteBackStyle.ButtonGallery:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBack1],
+                        PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBack1],
                         PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBackColors[2],
                         PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -1001,10 +1038,10 @@
                     return state switch
                     {
                         PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack1Checked],
-                        PaletteState.Tracking => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack1Track],
-                        PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack1CheckTrack],
-                        PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack1Pressed],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1Checked],
+                        PaletteState.Tracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1Track],
+                        PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1CheckTrack],
+                        PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1Pressed],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
                     };
                 case PaletteBackStyle.ButtonStandalone:
@@ -1029,21 +1066,21 @@
                         PaletteState.Disabled => _disabledBack,
                         PaletteState.Normal => style switch
                         {
-                            PaletteBackStyle.ButtonNavigatorStack => _ribbonColors[
+                            PaletteBackStyle.ButtonNavigatorStack => _ribbonColours[
                                 (int)SchemeOfficeColors.ButtonNormalNavigatorBack1],
-                            PaletteBackStyle.ButtonNavigatorMini => _ribbonColors[
+                            PaletteBackStyle.ButtonNavigatorMini => _ribbonColours[
                                 (int)SchemeOfficeColors.NavigatorMiniBackColor],
-                            PaletteBackStyle.ButtonCluster => _ribbonColors[
+                            PaletteBackStyle.ButtonCluster => _ribbonColours[
                                 (int)SchemeOfficeColors.ButtonClusterButtonBack1],
-                            _ => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1]
+                            _ => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]
                         },
-                        PaletteState.NormalDefaultOverride => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBack1],
-                        PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1] : _buttonBackColors[6],
+                        PaletteState.NormalDefaultOverride => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBack1],
+                        PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1] : _buttonBackColors[6],
                         PaletteState.Tracking => _buttonBackColors[2],
                         PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBackStyle.ButtonAlternate
-? _ribbonColors[(int)SchemeOfficeColors.AlternatePressedBack1]
+? _ribbonColours[(int)SchemeOfficeColors.AlternatePressedBack1]
 : _buttonBackColors[4],
-                        PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1] : _buttonBackColors[8],
+                        PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1] : _buttonBackColors[8],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
                     };
                 default:
@@ -1079,34 +1116,34 @@
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Pressed => _ribbonColors[(int)SchemeOfficeColors.GridListPressed2],
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.GridListSelected],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.GridListNormal2]
+                        PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.GridListPressed2],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.GridListSelected],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.GridListNormal2]
                     };
                 case PaletteBackStyle.GridHeaderColumnSheet:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColors[(int)SchemeOfficeColors.GridSheetColPressed2],
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.GridSheetColSelected2],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.GridSheetColNormal2]
+                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.GridSheetColPressed2],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.GridSheetColSelected2],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.GridSheetColNormal2]
                     };
                 case PaletteBackStyle.GridHeaderRowSheet:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColors[(int)SchemeOfficeColors.GridSheetRowPressed],
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.GridSheetRowSelected],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.GridSheetRowNormal]
+                        PaletteState.Tracking or PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.GridSheetRowPressed],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.GridSheetRowSelected],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.GridSheetRowNormal]
                     };
                 case PaletteBackStyle.GridDataCellList:
                 case PaletteBackStyle.GridDataCellCustom1:
                 case PaletteBackStyle.GridDataCellCustom2:
                 case PaletteBackStyle.GridDataCellCustom3:
-                    return state == PaletteState.CheckedNormal ? _ribbonColors[(int)SchemeOfficeColors.GridDataCellSelected] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal ? _ribbonColours[(int)SchemeOfficeColors.GridDataCellSelected] : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.GridDataCellSheet:
-                    return state == PaletteState.CheckedNormal ? _buttonBackColors[7] : SystemColors.Window;
+                    return state == PaletteState.CheckedNormal ? _buttonBackColors[7] : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.TabHighProfile:
                 case PaletteBackStyle.TabStandardProfile:
@@ -1118,7 +1155,7 @@
                     return state switch
                     {
                         PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? Color.Empty : _disabledBack,
-                        PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? Color.Empty : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2],
+                        PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? Color.Empty : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2],
                         PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? Color.Empty : SystemColors.Window,
                         PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -1127,7 +1164,7 @@
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2],
+                        PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2],
                         PaletteState.Tracking or PaletteState.Pressed => _buttonBackColors[3],
                         PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -1136,44 +1173,53 @@
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2],
+                        PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2],
                         PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[3],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
                     };
                 case PaletteBackStyle.HeaderForm:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderInactive2]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderActive2];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive2]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive2];
 
                 case PaletteBackStyle.HeaderCalendar:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-                        : _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2];
+                        ? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+                        : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2];
 
                 case PaletteBackStyle.HeaderPrimary:
                 case PaletteBackStyle.HeaderDockInactive:
                 case PaletteBackStyle.HeaderCustom1:
                 case PaletteBackStyle.HeaderCustom2:
                 case PaletteBackStyle.HeaderCustom3:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2];
 
                 case PaletteBackStyle.HeaderDockActive:
                     return state == PaletteState.Disabled ? _disabledBack : _buttonBackColors[7];
 
                 case PaletteBackStyle.HeaderSecondary:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.HeaderSecondaryBack2];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.HeaderSecondaryBack2];
 
                 case PaletteBackStyle.SeparatorHighInternalProfile:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.SeparatorHighInternalBorder2];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.SeparatorHighInternalBorder2];
 
                 case PaletteBackStyle.SeparatorHighProfile:
-                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColors[(int)SchemeOfficeColors.SeparatorHighBorder2];
+                    return state == PaletteState.Disabled ? _disabledBack : _ribbonColours[(int)SchemeOfficeColors.SeparatorHighBorder2];
 
                 case PaletteBackStyle.SeparatorLowProfile:
                 case PaletteBackStyle.SeparatorCustom1:
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
@@ -1184,23 +1230,50 @@
                 case PaletteBackStyle.GridBackgroundCustom1:
                 case PaletteBackStyle.GridBackgroundCustom2:
                 case PaletteBackStyle.GridBackgroundCustom3:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelClient];
+                    return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
-                    return _ribbonColors[(int)SchemeOfficeColors.PanelAlternative];
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.FormMain:
                 case PaletteBackStyle.FormCustom1:
                 case PaletteBackStyle.FormCustom2:
                 case PaletteBackStyle.FormCustom3:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactiveDark]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormBorderActiveDark];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactiveDark]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormBorderActiveDark];
 
                 case PaletteBackStyle.ControlClient:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
+                    }
                 case PaletteBackStyle.ControlAlternate:
+                    // Note: Alter these to control the backgrounds
+                    if (state == PaletteState.Disabled)
+                    {
+                        return _disabledBack;
+                    }
+                    else
+                    {
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
+                    }
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    // Note: This controls the input control dropdown background
+                    return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:
@@ -1208,18 +1281,18 @@
                 case PaletteBackStyle.InputControlCustom3:
                     if (state == PaletteState.Disabled)
                     {
-                        return _ribbonColors[(int)SchemeOfficeColors.InputControlBackDisabled];
+                        return _ribbonColours[(int)SchemeOfficeColors.InputControlBackDisabled];
                     }
                     else
                     {
                         return (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
-                            ? _ribbonColors[(int)SchemeOfficeColors.InputControlBackNormal]
-                            : _ribbonColors[(int)SchemeOfficeColors.InputControlBackInactive];
+                            ? _ribbonColours[(int)SchemeOfficeColors.InputControlBackNormal]
+                            : _ribbonColours[(int)SchemeOfficeColors.InputControlBackInactive];
                     }
                 case PaletteBackStyle.ControlRibbon:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected4];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected4];
                 case PaletteBackStyle.ControlRibbonAppMenu:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonBack2];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack2];
                 case PaletteBackStyle.ControlToolTip:
                     return _toolTipBack2;
                 case PaletteBackStyle.ContextMenuOuter:
@@ -1230,16 +1303,16 @@
                 case PaletteBackStyle.ContextMenuInner:
                     return _contextMenuInnerBack;
                 case PaletteBackStyle.ContextMenuHeading:
-                    return _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingBack];
+                    return _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingBack];
                 case PaletteBackStyle.ContextMenuItemImageColumn:
-                    return _ribbonColors[(int)SchemeOfficeColors.ContextMenuImageColumn];
+                    return _ribbonColours[(int)SchemeOfficeColors.ContextMenuImageColumn];
                 case PaletteBackStyle.ContextMenuItemImage:
                     return _contextMenuImageBackChecked;
                 case PaletteBackStyle.ButtonGallery:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack2,
-                        PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBack2],
+                        PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBack2],
                         PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBackColors[2],
                         PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -1249,10 +1322,10 @@
                     return state switch
                     {
                         PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
-                        PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack2Checked],
-                        PaletteState.Tracking => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack2Track],
-                        PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack2CheckTrack],
-                        PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.FormButtonBack2Pressed],
+                        PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack2Checked],
+                        PaletteState.Tracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack2Track],
+                        PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack2CheckTrack],
+                        PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack2Pressed],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
                     };
                 case PaletteBackStyle.ButtonStandalone:
@@ -1277,25 +1350,25 @@
                         PaletteState.Disabled => _buttonBackColors[1],
                         PaletteState.Normal => style switch
                         {
-                            PaletteBackStyle.ButtonNavigatorStack => _ribbonColors[
+                            PaletteBackStyle.ButtonNavigatorStack => _ribbonColours[
                                 (int)SchemeOfficeColors.ButtonNormalNavigatorBack2],
-                            PaletteBackStyle.ButtonNavigatorMini => _ribbonColors[
+                            PaletteBackStyle.ButtonNavigatorMini => _ribbonColours[
                                 (int)SchemeOfficeColors.NavigatorMiniBackColor],
-                            PaletteBackStyle.ButtonCluster => _ribbonColors[
+                            PaletteBackStyle.ButtonCluster => _ribbonColours[
                                 (int)SchemeOfficeColors.ButtonClusterButtonBack2],
-                            _ => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2]
+                            _ => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2]
                         },
                         PaletteState.NormalDefaultOverride => style switch
                         {
                             PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ContextMenuItemHighlight => Color.Empty,
-                            _ => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBack2]
+                            _ => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBack2]
                         },
-                        PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2] : _buttonBackColors[7],
+                        PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2] : _buttonBackColors[7],
                         PaletteState.Tracking => _buttonBackColors[3],
                         PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBackStyle.ButtonAlternate
-? _ribbonColors[(int)SchemeOfficeColors.AlternatePressedBack2]
+? _ribbonColours[(int)SchemeOfficeColors.AlternatePressedBack2]
 : _buttonBackColors[5],
-                        PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1] : _buttonBackColors[9],
+                        PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1] : _buttonBackColors[9],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
                     };
                 default:
@@ -2164,32 +2237,32 @@
                 PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 => state switch
                 {
                     PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _disabledBorder,
-                    PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
+                    PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.TabDock => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
-                    PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
+                    PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.Pressed => _buttonBorderColors[2],
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.TabDockAutoHidden => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
-                    PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
+                    PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[2],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-: _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2],
+? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+: _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2],
                 PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderInactive]
-: _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderActive],
-                PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
+? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive]
+: _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive],
+                PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                 PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
                 PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
                 {
@@ -2199,29 +2272,29 @@
                 },
                 PaletteBorderStyle.ContextMenuItemImage => _contextMenuImageBorderChecked,
                 PaletteBorderStyle.InputControlStandalone or PaletteBorderStyle.InputControlRibbon or PaletteBorderStyle.InputControlCustom1 or PaletteBorderStyle.InputControlCustom2 or PaletteBorderStyle.InputControlCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputControlBorderDisabled]
-: _ribbonColors[(int)SchemeOfficeColors.InputControlBorderNormal],
-                PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.GridDataCellBorder],
-                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1],
-                PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
+? _ribbonColours[(int)SchemeOfficeColors.InputControlBorderDisabled]
+: _ribbonColours[(int)SchemeOfficeColors.InputControlBorderNormal],
+                PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.GridDataCellBorder],
+                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea1],
+                PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.AppButtonBorder],
                 PaletteBorderStyle.ContextMenuOuter => _contextMenuBorder,
                 PaletteBorderStyle.ContextMenuInner => _contextMenuInnerBack,
                 PaletteBorderStyle.ControlToolTip => state == PaletteState.Disabled ? _disabledBorder : _toolTipBorder,
                 PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactive]
-: _ribbonColors[(int)SchemeOfficeColors.FormBorderActive],
+? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactive]
+: _ribbonColours[(int)SchemeOfficeColors.FormBorderActive],
                 PaletteBorderStyle.ButtonForm or PaletteBorderStyle.ButtonFormClose => state switch
                 {
                     PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
-                    PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.FormButtonBorderCheck],
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.FormButtonBorderTrack],
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.FormButtonBorderPressed],
+                    PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderCheck],
+                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderTrack],
+                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderPressed],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.ButtonGallery => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
-                    PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBorder],
+                    PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBorder],
                     PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBorderColors[1],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -2230,15 +2303,15 @@
                 {
                     PaletteState.Disabled => _buttonBorderColors[0],
                     PaletteState.Normal => style == PaletteBorderStyle.ButtonCluster
-     ? _ribbonColors[(int)SchemeOfficeColors.ButtonClusterButtonBorder1]
-     : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
+     ? _ribbonColours[(int)SchemeOfficeColors.ButtonClusterButtonBorder1]
+     : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.NormalDefaultOverride => style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight
 ? Color.Empty
-: _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
+: _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
                     PaletteState.CheckedNormal => _buttonBorderColors[5],
                     PaletteState.Tracking => _buttonBorderColors[1],
                     PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBorderStyle.ButtonAlternate
-? _ribbonColors[(int)SchemeOfficeColors.AlternatePressedBorder1]
+? _ribbonColours[(int)SchemeOfficeColors.AlternatePressedBorder1]
 : _buttonBorderColors[3],
                     PaletteState.CheckedTracking => _buttonBorderColors[3],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -2246,8 +2319,8 @@
                 PaletteBorderStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1],
-                    PaletteState.NormalDefaultOverride => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBack1],
+                    PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1],
+                    PaletteState.NormalDefaultOverride => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBack1],
                     PaletteState.CheckedNormal => _buttonBackColors[6],
                     PaletteState.Tracking => _buttonBackColors[2],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
@@ -2286,32 +2359,32 @@
                 PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 => state switch
                 {
                     PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _disabledBorder,
-                    PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
+                    PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.TabDock => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
-                    PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
+                    PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.Pressed => _buttonBorderColors[2],
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.TabDockAutoHidden => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
-                    PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
+                    PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[2],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderInactive]
-: _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderActive],
-                PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
+? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive]
+: _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive],
+                PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                 PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-: _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2],
+? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+: _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2],
                 PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
                 PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
                 {
@@ -2321,29 +2394,29 @@
                 },
                 PaletteBorderStyle.ContextMenuItemImage => _contextMenuImageBorderChecked,
                 PaletteBorderStyle.InputControlStandalone or PaletteBorderStyle.InputControlRibbon or PaletteBorderStyle.InputControlCustom1 or PaletteBorderStyle.InputControlCustom2 or PaletteBorderStyle.InputControlCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputControlBorderDisabled]
-: _ribbonColors[(int)SchemeOfficeColors.InputControlBorderNormal],
-                PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.GridDataCellBorder],
-                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1],
-                PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
+? _ribbonColours[(int)SchemeOfficeColors.InputControlBorderDisabled]
+: _ribbonColours[(int)SchemeOfficeColors.InputControlBorderNormal],
+                PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.GridDataCellBorder],
+                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea1],
+                PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.AppButtonBorder],
                 PaletteBorderStyle.ContextMenuOuter => _contextMenuBorder,
                 PaletteBorderStyle.ContextMenuInner => _contextMenuInnerBack,
                 PaletteBorderStyle.ControlToolTip => state == PaletteState.Disabled ? _disabledBorder : _toolTipBorder,
                 PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactive]
-: _ribbonColors[(int)SchemeOfficeColors.FormBorderActive],
+? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactive]
+: _ribbonColours[(int)SchemeOfficeColors.FormBorderActive],
                 PaletteBorderStyle.ButtonForm or PaletteBorderStyle.ButtonFormClose => state switch
                 {
                     PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
-                    PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.FormButtonBorderCheck],
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.FormButtonBorderTrack],
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.FormButtonBorderPressed],
+                    PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderCheck],
+                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderTrack],
+                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderPressed],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
                 },
                 PaletteBorderStyle.ButtonGallery => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
-                    PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBorder],
+                    PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBorder],
                     PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBorderColors[1],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -2352,13 +2425,13 @@
                 {
                     PaletteState.Disabled => _buttonBorderColors[0],
                     PaletteState.Normal => style == PaletteBorderStyle.ButtonCluster
-     ? _ribbonColors[(int)SchemeOfficeColors.ButtonClusterButtonBorder2]
-     : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
-                    PaletteState.NormalDefaultOverride => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
+     ? _ribbonColours[(int)SchemeOfficeColors.ButtonClusterButtonBorder2]
+     : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
+                    PaletteState.NormalDefaultOverride => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
                     PaletteState.CheckedNormal => _buttonBorderColors[6],
                     PaletteState.Tracking => _buttonBorderColors[2],
                     PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBorderStyle.ButtonAlternate
-? _ribbonColors[(int)SchemeOfficeColors.AlternatePressedBorder2]
+? _ribbonColours[(int)SchemeOfficeColors.AlternatePressedBorder2]
 : _buttonBorderColors[4],
                     PaletteState.CheckedTracking => _buttonBorderColors[4],
                     _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -2366,8 +2439,8 @@
                 PaletteBorderStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1],
-                    PaletteState.NormalDefaultOverride => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBack1],
+                    PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1],
+                    PaletteState.NormalDefaultOverride => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBack1],
                     PaletteState.CheckedNormal => _buttonBackColors[6],
                     PaletteState.Tracking => _buttonBackColors[2],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
@@ -2983,21 +3056,21 @@
                 {
                     PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl => state switch
                     {
-                        PaletteState.LinkNotVisitedOverride => _ribbonColors[
+                        PaletteState.LinkNotVisitedOverride => _ribbonColours[
                             (int)SchemeOfficeColors.LinkNotVisitedOverrideControl],
-                        PaletteState.LinkVisitedOverride => _ribbonColors[
+                        PaletteState.LinkVisitedOverride => _ribbonColours[
                             (int)SchemeOfficeColors.LinkVisitedOverrideControl],
-                        PaletteState.LinkPressedOverride => _ribbonColors[
+                        PaletteState.LinkPressedOverride => _ribbonColours[
                             (int)SchemeOfficeColors.LinkPressedOverrideControl],
                         _ => Color.Empty
                     },
                     PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => state switch
                     {
-                        PaletteState.LinkNotVisitedOverride => _ribbonColors[
+                        PaletteState.LinkNotVisitedOverride => _ribbonColours[
                             (int)SchemeOfficeColors.LinkNotVisitedOverridePanel],
-                        PaletteState.LinkVisitedOverride => _ribbonColors[
+                        PaletteState.LinkVisitedOverride => _ribbonColours[
                             (int)SchemeOfficeColors.LinkVisitedOverridePanel],
-                        PaletteState.LinkPressedOverride => _ribbonColors[
+                        PaletteState.LinkPressedOverride => _ribbonColours[
                             (int)SchemeOfficeColors.LinkPressedOverridePanel],
                         _ => Color.Empty
                     },
@@ -3009,8 +3082,8 @@
             {
                 case PaletteContentStyle.HeaderForm:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortInactive]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortActive];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormHeaderShortInactive]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormHeaderShortActive];
             }
 
             if ((state == PaletteState.Disabled) &&
@@ -3031,37 +3104,37 @@
             return style switch
             {
                 PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridTextColor,
-                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColors[(int)SchemeOfficeColors.HeaderText],
+                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColours[(int)SchemeOfficeColors.HeaderText],
                 PaletteContentStyle.HeaderDockActive => Color.Black,
                 PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputControlTextDisabled]
-: _ribbonColors[(int)SchemeOfficeColors.InputControlTextNormal],
-                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _ribbonColors[(int)SchemeOfficeColors.TextLabelControl],
+? _ribbonColours[(int)SchemeOfficeColors.InputControlTextDisabled]
+: _ribbonColours[(int)SchemeOfficeColors.InputControlTextNormal],
+                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _ribbonColours[(int)SchemeOfficeColors.TextLabelControl],
                 PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
-                PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingText],
+                PaletteContentStyle.ContextMenuHeading => _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingText],
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => (state & PaletteState.Checked) == PaletteState.Checked
-? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
-: _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
+? _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
+: _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
+                PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                                                   ? _ribbonColours[(int)SchemeOfficeColors.TextLabelControl]
+                                                   : _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal]
                 },
                 PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
                 {
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormTracking],
-                    PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormPressed],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormNormal]
+                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormTracking],
+                    PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
                 PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputDropDownNormal1]
-: _ribbonColors[(int)SchemeOfficeColors.InputDropDownDisabled1],
+? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
+: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -3085,8 +3158,8 @@
             {
                 case PaletteContentStyle.HeaderForm:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortInactive]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortActive];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormHeaderShortInactive]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormHeaderShortActive];
             }
 
             if ((state == PaletteState.Disabled) &&
@@ -3107,37 +3180,37 @@
             return style switch
             {
                 PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridTextColor,
-                PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColors[(int)SchemeOfficeColors.HeaderText],
+                PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColours[(int)SchemeOfficeColors.HeaderText],
                 PaletteContentStyle.HeaderDockActive => Color.Black,
                 PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputControlTextDisabled]
-: _ribbonColors[(int)SchemeOfficeColors.InputControlTextNormal],
-                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors[(int)SchemeOfficeColors.TextLabelControl],
+? _ribbonColours[(int)SchemeOfficeColors.InputControlTextDisabled]
+: _ribbonColours[(int)SchemeOfficeColors.InputControlTextNormal],
+                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColours[(int)SchemeOfficeColors.TextLabelControl],
                 PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
-                PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingText],
+                PaletteContentStyle.ContextMenuHeading => _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingText],
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => (state & PaletteState.Checked) == PaletteState.Checked
-? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
-: _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
+? _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
+: _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
+                PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                                                   ? _ribbonColours[(int)SchemeOfficeColors.TextLabelControl]
+                                                   : _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal]
                 },
                 PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
                 {
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormTracking],
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormPressed],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormNormal]
+                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormTracking],
+                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
                 PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputDropDownNormal2]
-: _ribbonColors[(int)SchemeOfficeColors.InputDropDownDisabled2],
+? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal2]
+: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled2],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -3497,8 +3570,8 @@
             {
                 case PaletteContentStyle.HeaderForm:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormHeaderLongInactive]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormHeaderLongActive];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormHeaderLongInactive]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormHeaderLongActive];
             }
 
             if ((state == PaletteState.Disabled) &&
@@ -3518,36 +3591,36 @@
             return style switch
             {
                 PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridTextColor,
-                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColors[(int)SchemeOfficeColors.HeaderText],
+                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColours[(int)SchemeOfficeColors.HeaderText],
                 PaletteContentStyle.HeaderDockActive => Color.Black,
                 PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputControlTextDisabled]
-: _ribbonColors[(int)SchemeOfficeColors.InputControlTextNormal],
-                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _ribbonColors[(int)SchemeOfficeColors.TextLabelControl],
+? _ribbonColours[(int)SchemeOfficeColors.InputControlTextDisabled]
+: _ribbonColours[(int)SchemeOfficeColors.InputControlTextNormal],
+                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _ribbonColours[(int)SchemeOfficeColors.TextLabelControl],
                 PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
-                PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingText],
+                PaletteContentStyle.ContextMenuHeading => _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingText],
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => (state & PaletteState.Checked) == PaletteState.Checked
-? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
-: _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
+? _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
+: _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
+                PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                                                   ? _ribbonColours[(int)SchemeOfficeColors.TextLabelControl]
+                                                   : _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal]
                 },
                 PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
                 {
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormTracking],
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormPressed],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormNormal]
+                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormTracking],
+                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
                 PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputDropDownNormal1]
-: _ribbonColors[(int)SchemeOfficeColors.InputDropDownDisabled1],
+? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
+: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -3571,8 +3644,8 @@
             {
                 case PaletteContentStyle.HeaderForm:
                     return state == PaletteState.Disabled
-                        ? _ribbonColors[(int)SchemeOfficeColors.FormHeaderLongInactive]
-                        : _ribbonColors[(int)SchemeOfficeColors.FormHeaderLongActive];
+                        ? _ribbonColours[(int)SchemeOfficeColors.FormHeaderLongInactive]
+                        : _ribbonColours[(int)SchemeOfficeColors.FormHeaderLongActive];
             }
 
             if ((state == PaletteState.Disabled) &&
@@ -3592,36 +3665,36 @@
             return style switch
             {
                 PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridTextColor,
-                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColors[(int)SchemeOfficeColors.HeaderText],
+                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _ribbonColours[(int)SchemeOfficeColors.HeaderText],
                 PaletteContentStyle.HeaderDockActive => Color.Black,
                 PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputControlTextDisabled]
-: _ribbonColors[(int)SchemeOfficeColors.InputControlTextNormal],
-                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors[(int)SchemeOfficeColors.TextLabelControl],
+? _ribbonColours[(int)SchemeOfficeColors.InputControlTextDisabled]
+: _ribbonColours[(int)SchemeOfficeColors.InputControlTextNormal],
+                PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColours[(int)SchemeOfficeColors.TextLabelControl],
                 PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
-                PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeOfficeColors.ContextMenuHeadingText],
+                PaletteContentStyle.ContextMenuHeading => _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingText],
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => (state & PaletteState.Checked) == PaletteState.Checked
-? _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked]
-: _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
-                PaletteContentStyle.TabDockAutoHidden => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal],
+? _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
+: _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
+                PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                                                   ? _ribbonColours[(int)SchemeOfficeColors.TextLabelControl]
+                                                   : _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
+                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal]
                 },
                 PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
                 {
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormTracking],
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormPressed],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormNormal]
+                    PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormTracking],
+                    PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
                 PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColors[(int)SchemeOfficeColors.InputDropDownNormal2]
-: _ribbonColors[(int)SchemeOfficeColors.InputDropDownDisabled2],
+? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal2]
+: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled2],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -4599,7 +4672,7 @@
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Color GetRibbonContextTextColor(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonTabTextNormal];
+        public override Color GetRibbonContextTextColor(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonTabTextNormal];
 
         /// <summary>
         /// Gets the dark disabled color used for ribbon glyphs.
@@ -4620,63 +4693,63 @@
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDropArrowLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogLight];
+        public override Color GetRibbonDropArrowLight(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupDialogLight];
 
         /// <summary>
         /// Gets the color for the drop arrow dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDropArrowDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogDark];
+        public override Color GetRibbonDropArrowDark(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupDialogDark];
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupDialogDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogDark];
+        public override Color GetRibbonGroupDialogDark(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupDialogDark];
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupDialogLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogLight];
+        public override Color GetRibbonGroupDialogLight(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupDialogLight];
 
         /// <summary>
         /// Gets the color for the group separator dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupSeparatorDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorDark];
+        public override Color GetRibbonGroupSeparatorDark(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupSeparatorDark];
 
         /// <summary>
         /// Gets the color for the group separator light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupSeparatorLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorLight];
+        public override Color GetRibbonGroupSeparatorLight(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupSeparatorLight];
 
         /// <summary>
         /// Gets the color for the minimize bar dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonMinimizeBarDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarDark];
+        public override Color GetRibbonMinimizeBarDark(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonMinimizeBarDark];
 
         /// <summary>
         /// Gets the color for the minimize bar light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonMinimizeBarLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarLight];
+        public override Color GetRibbonMinimizeBarLight(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonMinimizeBarLight];
 
         /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonTabSeparatorColor(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonTabSeparatorColor];
+        public override Color GetRibbonTabSeparatorColor(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonTabSeparatorColor];
 
         /// <summary>
         /// Gets the color for the tab context separators.
@@ -4704,14 +4777,14 @@
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonQATButtonDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonDark];
+        public override Color GetRibbonQATButtonDark(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonQATButtonDark];
 
         /// <summary>
         /// Gets the color for the extra QAT button light content color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonQATButtonLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonLight];
+        public override Color GetRibbonQATButtonLight(PaletteState state) => _ribbonColours[(int)SchemeOfficeColors.RibbonQATButtonLight];
 
         #endregion
 
@@ -4849,39 +4922,39 @@
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBack,
-                        PaletteState.Tracking => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBackTracking],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBackNormal]
+                        PaletteState.Tracking => _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBackTracking],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBackNormal]
                     };
                 case PaletteRibbonBackStyle.RibbonGalleryBorder:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledBorder,
-                        _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBorder]
+                        _ => _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBorder]
                     };
                 case PaletteRibbonBackStyle.RibbonAppMenuDocs:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonMenuDocsBack];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonMenuDocsBack];
                 case PaletteRibbonBackStyle.RibbonAppMenuInner:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonInner1];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonInner1];
                 case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonOuter1];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonOuter1];
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
                     return state == PaletteState.Normal
-                        ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini1]
-                        : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini1I];
+                        ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini1]
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini1I];
 
                 case PaletteRibbonBackStyle.RibbonQATFullbar:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonQATFullbar1];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonQATFullbar1];
                 case PaletteRibbonBackStyle.RibbonQATOverflow:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonQATOverflow1];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonQATOverflow1];
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameBorder1];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupFrameBorder1];
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder1];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT1];
                         case PaletteState.ContextNormal:
                             return _ribbonGroupCollapsedBorderContext[0];
                         case PaletteState.ContextTracking:
@@ -4897,15 +4970,15 @@
                     return state switch
                     {
                         PaletteState.ContextNormal or PaletteState.ContextTracking => _contextGroupFrameTop,
-                        _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside1]
+                        _ => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupFrameInside1]
                     };
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBack1];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT1];
                         case PaletteState.ContextNormal:
                             return _ribbonGroupCollapsedBackContext[0];
                         case PaletteState.ContextTracking:
@@ -4920,12 +4993,12 @@
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitle1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitle1];
                         case PaletteState.ContextNormal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleContext1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitleContext1];
                         case PaletteState.Tracking:
                         case PaletteState.ContextTracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleTracking1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitleTracking1];
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -4937,10 +5010,10 @@
                     {
                         case PaletteState.Normal:
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorder1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorder1];
                         case PaletteState.ContextNormal:
                         case PaletteState.ContextTracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorderContext1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorderContext1];
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -4965,7 +5038,7 @@
                 case PaletteRibbonBackStyle.RibbonGroupArea:
                     return state == PaletteState.ContextCheckedNormal
                         ? _contextGroupAreaBorder
-                        : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1];
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea1];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
@@ -4973,12 +5046,12 @@
                         case PaletteState.Tracking:
                         case PaletteState.Pressed:
                         case PaletteState.ContextTracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabTracking1];
                         case PaletteState.CheckedNormal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected1];
                         case PaletteState.CheckedTracking:
                         case PaletteState.CheckedPressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight1];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabHighlight1];
                         case PaletteState.ContextCheckedTracking:
                         case PaletteState.ContextCheckedNormal:
                         case PaletteState.FocusOverride:
@@ -5011,27 +5084,27 @@
             switch (style)
             {
                 case PaletteRibbonBackStyle.RibbonAppMenuInner:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonInner2];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonInner2];
                 case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonOuter2];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonOuter2];
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
                     return state == PaletteState.Normal
-                        ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini2]
-                        : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini2I];
+                        ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini2]
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini2I];
 
                 case PaletteRibbonBackStyle.RibbonQATFullbar:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonQATFullbar2];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonQATFullbar2];
                 case PaletteRibbonBackStyle.RibbonQATOverflow:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonQATOverflow2];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonQATOverflow2];
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameBorder2];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupFrameBorder2];
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder2];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT2];
                         case PaletteState.ContextNormal:
                             return _ribbonGroupCollapsedBorderContext[1];
                         case PaletteState.ContextTracking:
@@ -5047,15 +5120,15 @@
                     return state switch
                     {
                         PaletteState.ContextNormal or PaletteState.ContextTracking => _contextGroupFrameBottom,
-                        _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside2]
+                        _ => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupFrameInside2]
                     };
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBack2];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT2];
                         case PaletteState.ContextNormal:
                             return _ribbonGroupCollapsedBackContext[1];
                         case PaletteState.ContextTracking:
@@ -5070,12 +5143,12 @@
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitle2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitle2];
                         case PaletteState.ContextNormal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleContext2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitleContext2];
                         case PaletteState.Tracking:
                         case PaletteState.ContextTracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleTracking2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitleTracking2];
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -5087,10 +5160,10 @@
                     {
                         case PaletteState.Normal:
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorder2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorder2];
                         case PaletteState.ContextNormal:
                         case PaletteState.ContextTracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorderContext2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorderContext2];
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -5115,19 +5188,19 @@
                 case PaletteRibbonBackStyle.RibbonGroupArea:
                     return state == PaletteState.ContextCheckedNormal
                         ? _contextGroupAreaInside
-                        : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea2];
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea2];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
                     {
                         case PaletteState.Tracking:
                         case PaletteState.Pressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabTracking2];
                         case PaletteState.CheckedNormal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected2];
                         case PaletteState.CheckedTracking:
                         case PaletteState.CheckedPressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabHighlight2];
                         case PaletteState.ContextCheckedTracking:
                             return _contextCheckedTabFill;
                         case PaletteState.FocusOverride:
@@ -5167,21 +5240,21 @@
             switch (style)
             {
                 case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonOuter3];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonOuter3];
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
                     return state == PaletteState.Normal
-                        ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini3]
-                        : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini3I];
+                        ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini3]
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini3I];
 
                 case PaletteRibbonBackStyle.RibbonQATFullbar:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonQATFullbar3];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonQATFullbar3];
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder3];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder3];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT3];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT3];
                         case PaletteState.ContextNormal:
                             return _ribbonGroupCollapsedBorderContext[2];
                         case PaletteState.ContextTracking:
@@ -5197,15 +5270,15 @@
                     return state switch
                     {
                         PaletteState.ContextNormal or PaletteState.ContextTracking => Color.Empty,
-                        _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside3]
+                        _ => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupFrameInside3]
                     };
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack3];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBack3];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT3];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT3];
                         case PaletteState.ContextNormal:
                         case PaletteState.ContextTracking:
                             return Color.Empty;
@@ -5240,19 +5313,19 @@
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return state == PaletteState.ContextCheckedNormal ? Color.Empty : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea3];
+                    return state == PaletteState.ContextCheckedNormal ? Color.Empty : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea3];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
                     {
                         case PaletteState.Tracking:
                         case PaletteState.Pressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabTracking2];
                         case PaletteState.CheckedNormal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected3];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected3];
                         case PaletteState.CheckedTracking:
                         case PaletteState.CheckedPressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight3];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabHighlight3];
                         case PaletteState.ContextTracking:
                         case PaletteState.ContextCheckedNormal:
                         case PaletteState.ContextCheckedTracking:
@@ -5286,16 +5359,16 @@
             {
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
                     return state == PaletteState.Normal
-                        ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini4]
-                        : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini4I];
+                        ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini4]
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini4I];
 
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder4];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder4];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT4];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT4];
                         case PaletteState.ContextNormal:
                             return _ribbonGroupCollapsedBorderContext[3];
                         case PaletteState.ContextTracking:
@@ -5311,15 +5384,15 @@
                     return state switch
                     {
                         PaletteState.ContextNormal or PaletteState.ContextTracking => Color.Empty,
-                        _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside4]
+                        _ => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupFrameInside4]
                     };
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack4];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBack4];
                         case PaletteState.Tracking:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT4];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT4];
                         case PaletteState.ContextNormal:
                         case PaletteState.ContextTracking:
                             return Color.Empty;
@@ -5356,19 +5429,19 @@
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return state == PaletteState.ContextCheckedNormal ? _lightGray : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea4];
+                    return state == PaletteState.ContextCheckedNormal ? _lightGray : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea4];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
                     {
                         case PaletteState.Tracking:
                         case PaletteState.Pressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabTracking2];
                         case PaletteState.CheckedNormal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected4];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected4];
                         case PaletteState.CheckedTracking:
                         case PaletteState.CheckedPressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight4];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabHighlight4];
                         case PaletteState.ContextTracking:
                         case PaletteState.ContextCheckedNormal:
                         case PaletteState.ContextCheckedTracking:
@@ -5416,8 +5489,8 @@
                     return Color.Empty;
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
                     return state == PaletteState.Normal
-                        ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini5]
-                        : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini5I];
+                        ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini5]
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini5I];
 
                 case PaletteRibbonBackStyle.RibbonAppButton:
                     switch (state)
@@ -5435,7 +5508,7 @@
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return state == PaletteState.ContextCheckedNormal ? Color.White : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5];
+                    return state == PaletteState.ContextCheckedNormal ? Color.White : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea5];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
@@ -5444,12 +5517,12 @@
                             return _disabledText;
                         case PaletteState.Tracking:
                         case PaletteState.Pressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabTracking2];
                         case PaletteState.CheckedNormal:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected5];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected5];
                         case PaletteState.CheckedTracking:
                         case PaletteState.CheckedPressed:
-                            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight5];
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonTabHighlight5];
                         case PaletteState.ContextTracking:
                         case PaletteState.ContextCheckedNormal:
                         case PaletteState.ContextCheckedTracking:
@@ -5485,22 +5558,22 @@
             {
                 case PaletteRibbonTextStyle.RibbonAppMenuDocsTitle:
                 case PaletteRibbonTextStyle.RibbonAppMenuDocsEntry:
-                    return _ribbonColors[(int)SchemeOfficeColors.AppButtonMenuDocsText];
+                    return _ribbonColours[(int)SchemeOfficeColors.AppButtonMenuDocsText];
                 case PaletteRibbonTextStyle.RibbonTab:
                 case PaletteRibbonTextStyle.RibbonGroupNormalTitle:
                     return state switch
                     {
                         PaletteState.Disabled => _disabledText,
-                        PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => _ribbonColors[(int)SchemeOfficeColors.RibbonTabTextChecked],
-                        _ => _ribbonColors[(int)SchemeOfficeColors.RibbonTabTextNormal]
+                        PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => _ribbonColours[(int)SchemeOfficeColors.RibbonTabTextChecked],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.RibbonTabTextNormal]
                     };
                 case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
+                    return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
                 case PaletteRibbonTextStyle.RibbonGroupButtonText:
                 case PaletteRibbonTextStyle.RibbonGroupLabelText:
                 case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
                 case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                    return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
+                    return state == PaletteState.Disabled ? _disabledText : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
 
                 default:
                     // Should never happen!
@@ -5530,14 +5603,14 @@
             switch (element)
             {
                 case PaletteElement.TrackBarTick:
-                    return _trackBarColors[0];
+                    return _trackBarColours[0];
                 case PaletteElement.TrackBarTrack:
-                    return _trackBarColors[1];
+                    return _trackBarColours[1];
                 case PaletteElement.TrackBarPosition:
                     return state switch
                     {
                         PaletteState.Disabled => Color.Empty,
-                        _ => _trackBarColors[4]
+                        _ => _trackBarColours[4]
                     };
                 default:
                     // Should never happen!
@@ -5565,15 +5638,15 @@
             switch (element)
             {
                 case PaletteElement.TrackBarTick:
-                    return _trackBarColors[0];
+                    return _trackBarColours[0];
                 case PaletteElement.TrackBarTrack:
-                    return _trackBarColors[2];
+                    return _trackBarColours[2];
                 case PaletteElement.TrackBarPosition:
                     return state switch
                     {
                         PaletteState.Disabled => ControlPaint.Light(
-                            _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder]),
-                        PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
+                            _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder]),
+                        PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                         PaletteState.Tracking => _buttonBorderColors[1],
                         PaletteState.Pressed => _buttonBorderColors[3],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -5604,16 +5677,16 @@
             switch (element)
             {
                 case PaletteElement.TrackBarTick:
-                    return _trackBarColors[0];
+                    return _trackBarColours[0];
                 case PaletteElement.TrackBarTrack:
-                    return _trackBarColors[3];
+                    return _trackBarColours[3];
                 case PaletteElement.TrackBarPosition:
                     return state switch
                     {
                         PaletteState.Disabled => ControlPaint.LightLight(
-                            _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1]),
+                            _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]),
                         PaletteState.Normal => ControlPaint.Light(
-                            _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1]),
+                            _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]),
                         PaletteState.Tracking => ControlPaint.Light(_buttonBackColors[2]),
                         PaletteState.Pressed => ControlPaint.Light(_buttonBackColors[4]),
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -5645,14 +5718,14 @@
                         return Color.Empty;
                     }
 
-                    return _trackBarColors[0];
+                    return _trackBarColours[0];
                 case PaletteElement.TrackBarTrack:
                     if (CommonHelper.IsOverrideState(state))
                     {
                         return Color.Empty;
                     }
 
-                    return _trackBarColors[3];
+                    return _trackBarColours[3];
                 case PaletteElement.TrackBarPosition:
                     if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                     {
@@ -5661,8 +5734,8 @@
 
                     return state switch
                     {
-                        PaletteState.Disabled => ControlPaint.LightLight(_ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1]),
-                        PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1],
+                        PaletteState.Disabled => ControlPaint.LightLight(_ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]),
+                        PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1],
                         PaletteState.Tracking or PaletteState.FocusOverride => _buttonBackColors[2],
                         PaletteState.Pressed => _buttonBackColors[4],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -5693,14 +5766,14 @@
                         return Color.Empty;
                     }
 
-                    return _trackBarColors[0];
+                    return _trackBarColours[0];
                 case PaletteElement.TrackBarTrack:
                     if (CommonHelper.IsOverrideState(state))
                     {
                         return Color.Empty;
                     }
 
-                    return _trackBarColors[3];
+                    return _trackBarColours[3];
                 case PaletteElement.TrackBarPosition:
                     if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                     {
@@ -5709,8 +5782,8 @@
 
                     return state switch
                     {
-                        PaletteState.Disabled => ControlPaint.LightLight(_ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1]),
-                        PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2],
+                        PaletteState.Disabled => ControlPaint.LightLight(_ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]),
+                        PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2],
                         PaletteState.Tracking or PaletteState.FocusOverride => _buttonBackColors[3],
                         PaletteState.Pressed => _buttonBackColors[5],
                         _ => throw new ArgumentOutOfRangeException(nameof(state))
@@ -5729,7 +5802,7 @@
         /// <summary>
         /// Gets access to the color table instance.
         /// </summary>
-        public override KryptonColorTable ColorTable => _table ??= new KryptonColorTable2007(_ribbonColors, InheritBool.True, this);
+        public override KryptonColorTable ColorTable => _table ??= new KryptonColorTable2007SilverDarkMode(_ribbonColours, InheritBool.True, this);
 
         #endregion
 
@@ -5839,6 +5912,630 @@
             _boldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
             _italicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
         }
+        #endregion
+    }
+    #endregion
+
+    #region Class: KryptonColorTable2007SilverDarkMode
+    /// <summary>
+    /// Provide KryptonColorTable2007SilverDarkMode values using an array of Color values as the source.
+    /// </summary>
+    public class KryptonColorTable2007SilverDarkMode : KryptonColorTable
+    {
+        #region Static Fields
+        private static readonly Color _menuBorder = Color.FromArgb(134, 134, 134);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(83, 99, 136);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(119, 132, 161);
+        private static readonly Color _contextMenuBackground = Color.FromArgb(119, 132, 161);
+        private static readonly Color _checkBackground = Color.FromArgb(164, 172, 192);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(83, 99, 136);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(119, 132, 161);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(83, 99, 136);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(119, 132, 161);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(83, 99, 136);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(119, 132, 161);
+        private static Font _menuToolFont;
+        private static Font _statusFont;
+        #endregion
+
+        #region Instance Fields
+
+        #endregion
+
+        #region Identity
+        static KryptonColorTable2007SilverDarkMode()
+        {
+            // Get the font settings from the system
+            DefineFonts();
+
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the KryptonColorTable2007SilverDarkMode class.
+        /// </summary>
+        /// <param name="colors">Source of </param>
+        /// <param name="roundedEdges">Should have rounded edges.</param>
+        /// <param name="palette">Associated palette instance.</param>
+        public KryptonColorTable2007SilverDarkMode(Color[] colors,
+                                     InheritBool roundedEdges,
+                                     IPalette palette)
+            : base(palette)
+        {
+            Debug.Assert(colors != null);
+            Colors = colors;
+            UseRoundedEdges = roundedEdges;
+        }
+        #endregion
+
+        #region Colors
+        /// <summary>
+        /// Gets the raw set of colors.
+        /// </summary>
+        public Color[] Colors { get; }
+
+        #endregion
+
+        #region RoundedEdges
+        /// <summary>
+        /// Gets a value indicating if rounded egdes are required.
+        /// </summary>
+        public override InheritBool UseRoundedEdges { get; }
+
+        #endregion
+
+        #region ButtonPressed
+        #region ButtonPressedBorder
+        /// <summary>
+        /// Gets the border color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+
+        #region ButtonPressedGradientBegin
+        /// <summary>
+        /// Gets the background starting color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedGradientBegin => _buttonPressedBegin;
+
+        #endregion
+
+        #region ButtonPressedGradientMiddle
+        /// <summary>
+        /// Gets the background middle color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedGradientMiddle => _buttonPressedBegin;
+
+        #endregion
+
+        #region ButtonPressedGradientEnd
+        /// <summary>
+        /// Gets the background ending color for a button being pressed.
+        /// </summary>
+        public override Color ButtonPressedGradientEnd => _buttonPressedEnd;
+
+        #endregion
+
+        #region ButtonPressedHighlight
+        /// <summary>
+        /// Gets the highlight background for a pressed button.
+        /// </summary>
+        public override Color ButtonPressedHighlight => _buttonPressedBegin;
+
+        #endregion
+
+        #region ButtonPressedHighlightBorder
+        /// <summary>
+        /// Gets the highlight border for a pressed button.
+        /// </summary>
+        public override Color ButtonPressedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+        #endregion
+
+        #region ButtonSelected
+        #region ButtonSelectedBorder
+        /// <summary>
+        /// Gets the border color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+
+        #region ButtonSelectedGradientBegin
+        /// <summary>
+        /// Gets the background starting color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedGradientBegin => _buttonSelectedBegin;
+
+        #endregion
+
+        #region ButtonSelectedGradientMiddle
+        /// <summary>
+        /// Gets the background middle color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedGradientMiddle => _buttonSelectedBegin;
+
+        #endregion
+
+        #region ButtonSelectedGradientEnd
+        /// <summary>
+        /// Gets the background ending color for a button being selected.
+        /// </summary>
+        public override Color ButtonSelectedGradientEnd => _buttonSelectedEnd;
+
+        #endregion
+
+        #region ButtonSelectedHighlight
+        /// <summary>
+        /// Gets the highlight background for a selected button.
+        /// </summary>
+        public override Color ButtonSelectedHighlight => _buttonSelectedBegin;
+
+        #endregion
+
+        #region ButtonSelectedHighlightBorder
+        /// <summary>
+        /// Gets the highlight border for a selected button.
+        /// </summary>
+        public override Color ButtonSelectedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+        #endregion
+
+        #region ButtonChecked
+        #region ButtonCheckedGradientBegin
+        /// <summary>
+        /// Gets the background starting color for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedGradientBegin => _buttonCheckedBegin;
+
+        #endregion
+
+        #region ButtonCheckedGradientMiddle
+        /// <summary>
+        /// Gets the background middle color for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedGradientMiddle => _buttonCheckedBegin;
+
+        #endregion
+
+        #region ButtonCheckedGradientEnd
+        /// <summary>
+        /// Gets the background ending color for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedGradientEnd => _buttonCheckedEnd;
+
+        #endregion
+
+        #region ButtonCheckedHighlight
+        /// <summary>
+        /// Gets the highlight background for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedHighlight => _buttonCheckedBegin;
+
+        #endregion
+
+        #region ButtonCheckedHighlightBorder
+        /// <summary>
+        /// Gets the highlight border for a checked button.
+        /// </summary>
+        public override Color ButtonCheckedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+        #endregion
+
+        #region Check
+        #region CheckBackground
+        /// <summary>
+        /// Get background of the check mark area.
+        /// </summary>
+        public override Color CheckBackground => _checkBackground;
+
+        #endregion
+
+        #region CheckBackground
+        /// <summary>
+        /// Get background of a pressed check mark area.
+        /// </summary>
+        public override Color CheckPressedBackground => _checkBackground;
+
+        #endregion
+
+        #region CheckBackground
+        /// <summary>
+        /// Get background of a selected check mark area.
+        /// </summary>
+        public override Color CheckSelectedBackground => _checkBackground;
+
+        #endregion
+        #endregion
+
+        #region Grip
+        #region GripLight
+        /// <summary>
+        /// Gets the light color used to draw grips.
+        /// </summary>
+        public override Color GripLight => Colors[(int)SchemeOfficeColors.GripLight];
+
+        #endregion
+
+        #region GripDark
+        /// <summary>
+        /// Gets the dark color used to draw grips.
+        /// </summary>
+        public override Color GripDark => Colors[(int)SchemeOfficeColors.GripDark];
+
+        #endregion
+        #endregion
+
+        #region ImageMargin
+        #region ImageMarginGradientBegin
+        /// <summary>
+        /// Gets the starting color for the context menu margin.
+        /// </summary>
+        public override Color ImageMarginGradientBegin => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginGradientMiddle
+        /// <summary>
+        /// Gets the middle color for the context menu margin.
+        /// </summary>
+        public override Color ImageMarginGradientMiddle => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginGradientEnd
+        /// <summary>
+        /// Gets the ending color for the context menu margin.
+        /// </summary>
+        public override Color ImageMarginGradientEnd => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginRevealedGradientBegin
+        /// <summary>
+        /// Gets the starting color for the context menu margin revealed.
+        /// </summary>
+        public override Color ImageMarginRevealedGradientBegin => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginRevealedGradientMiddle
+        /// <summary>
+        /// Gets the middle color for the context menu margin revealed.
+        /// </summary>
+        public override Color ImageMarginRevealedGradientMiddle => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+
+        #region ImageMarginRevealedGradientEnd
+        /// <summary>
+        /// Gets the ending color for the context menu margin revealed.
+        /// </summary>
+        public override Color ImageMarginRevealedGradientEnd => Colors[(int)SchemeOfficeColors.ImageMargin];
+
+        #endregion
+        #endregion
+
+        #region MenuBorder
+        /// <summary>
+        /// Gets the color of the border around menus.
+        /// </summary>
+        public override Color MenuBorder => _menuBorder;
+
+        #endregion
+
+        #region MenuItem
+        #region MenuItemBorder
+        /// <summary>
+        /// Gets the border color for around the menu item.
+        /// </summary>
+        public override Color MenuItemBorder => _menuBorder;
+
+        #endregion
+
+        #region MenuItemSelected
+        /// <summary>
+        /// Gets the color of a selected menu item.
+        /// </summary>
+        public override Color MenuItemSelected => Colors[(int)SchemeOfficeColors.ButtonBorder];
+
+        #endregion
+
+        #region MenuItemPressedGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used when a top-level ToolStripMenuItem is pressed down.
+        /// </summary>
+        public override Color MenuItemPressedGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBegin];
+
+        #endregion
+
+        #region MenuItemPressedGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used when a top-level ToolStripMenuItem is pressed down.
+        /// </summary>
+        public override Color MenuItemPressedGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripEnd];
+
+        #endregion
+
+        #region MenuItemPressedGradientMiddle
+        /// <summary>
+        /// Gets the middle color of the gradient used when a top-level ToolStripMenuItem is pressed down.
+        /// </summary>
+        public override Color MenuItemPressedGradientMiddle => Colors[(int)SchemeOfficeColors.ToolStripMiddle];
+
+        #endregion
+
+        #region MenuItemSelectedGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used when the ToolStripMenuItem is selected.
+        /// </summary>
+        public override Color MenuItemSelectedGradientBegin => _menuItemSelectedBegin;
+
+        #endregion
+
+        #region MenuItemSelectedGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used when the ToolStripMenuItem is selected.
+        /// </summary>
+        public override Color MenuItemSelectedGradientEnd => _menuItemSelectedEnd;
+
+        #endregion
+        #endregion
+
+        #region MenuStrip
+        #region MenuStripGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the MenuStrip.
+        /// </summary>
+        public override Color MenuStripGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region MenuStripGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the MenuStrip.
+        /// </summary>
+        public override Color MenuStripGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #endregion
+
+        #region OverflowButton
+        #region OverflowButtonGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStripOverflowButton.
+        /// </summary>
+        public override Color OverflowButtonGradientBegin => Colors[(int)SchemeOfficeColors.OverflowBegin];
+
+        #endregion
+
+        #region OverflowButtonGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStripOverflowButton.
+        /// </summary>
+        public override Color OverflowButtonGradientEnd => Colors[(int)SchemeOfficeColors.OverflowEnd];
+
+        #endregion
+
+        #region OverflowButtonGradientMiddle
+        /// <summary>
+        /// Gets the middle color of the gradient used in the ToolStripOverflowButton.
+        /// </summary>
+        public override Color OverflowButtonGradientMiddle => Colors[(int)SchemeOfficeColors.OverflowMiddle];
+
+        #endregion
+        #endregion
+
+        #region RaftingContainer
+        #region RaftingContainerGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStripContainer.
+        /// </summary>
+        public override Color RaftingContainerGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region RaftingContainerGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStripContainer.
+        /// </summary>
+        public override Color RaftingContainerGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #endregion
+
+        #region Separator
+        #region SeparatorLight
+        /// <summary>
+        /// Gets the light separator color.
+        /// </summary>
+        public override Color SeparatorLight => Colors[(int)SchemeOfficeColors.SeparatorLight];
+
+        #endregion
+
+        #region SeparatorDark
+        /// <summary>
+        /// Gets the dark separator color.
+        /// </summary>
+        public override Color SeparatorDark => Colors[(int)SchemeOfficeColors.SeparatorDark];
+
+        #endregion
+        #endregion
+
+        #region StatusStrip
+        #region StatusStripGradientBegin
+        /// <summary>
+        /// Gets the starting color for the status strip background.
+        /// </summary>
+        public override Color StatusStripGradientBegin => Colors[(int)SchemeOfficeColors.StatusStripLight];
+
+        #endregion
+
+        #region StatusStripGradientEnd
+        /// <summary>
+        /// Gets the ending color for the status strip background.
+        /// </summary>
+        public override Color StatusStripGradientEnd => Colors[(int)SchemeOfficeColors.StatusStripDark];
+
+        #endregion
+        #endregion
+
+        #region Text
+        #region MenuItemText
+        /// <summary>
+        /// Gets the text color used on the menu items.
+        /// </summary>
+        public override Color MenuItemText => Colors[(int)SchemeOfficeColors.TextButtonNormal];
+
+        #endregion
+
+        #region MenuStripText
+        /// <summary>
+        /// Gets the text color used on the menu strip.
+        /// </summary>
+        public override Color MenuStripText => Colors[(int)SchemeOfficeColors.TextLabelPanel];
+
+        #endregion
+
+        #region ToolStripText
+        /// <summary>
+        /// Gets the text color used on the tool strip.
+        /// </summary>
+        public override Color ToolStripText => Colors[(int)SchemeOfficeColors.TextButtonNormal];
+
+        #endregion
+
+        #region StatusStripText
+        /// <summary>
+        /// Gets the text color used on the status strip.
+        /// </summary>
+        public override Color StatusStripText => Colors[(int)SchemeOfficeColors.StatusStripText];
+
+        #endregion
+
+        #region MenuStripFont
+        /// <summary>
+        /// Gets the font used on the menu strip.
+        /// </summary>
+        public override Font MenuStripFont => _menuToolFont;
+
+        #endregion
+
+        #region ToolStripFont
+        /// <summary>
+        /// Gets the font used on the tool strip.
+        /// </summary>
+        public override Font ToolStripFont => _menuToolFont;
+
+        #endregion
+
+        #region StatusStripFont
+        /// <summary>
+        /// Gets the font used on the status strip.
+        /// </summary>
+        public override Font StatusStripFont => _statusFont;
+
+        #endregion
+        #endregion
+
+        #region ToolStrip
+        #region ToolStripBorder
+        /// <summary>
+        /// Gets the border color to use on the bottom edge of the ToolStrip.
+        /// </summary>
+        public override Color ToolStripBorder => Colors[(int)SchemeOfficeColors.ToolStripBorder];
+
+        #endregion
+
+        #region ToolStripContentPanelGradientBegin
+        /// <summary>
+        /// Gets the starting color for the content panel background.
+        /// </summary>
+        public override Color ToolStripContentPanelGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region ToolStripContentPanelGradientEnd
+        /// <summary>
+        /// Gets the ending color for the content panel background.
+        /// </summary>
+        public override Color ToolStripContentPanelGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region ToolStripDropDownBackground
+        /// <summary>
+        /// Gets the background color for drop down menus.
+        /// </summary>
+        public override Color ToolStripDropDownBackground => _contextMenuBackground;
+
+        #endregion
+
+        #region ToolStripGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStrip background.
+        /// </summary>
+        public override Color ToolStripGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBegin];
+
+        #endregion
+
+        #region ToolStripGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStrip background.
+        /// </summary>
+        public override Color ToolStripGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripEnd];
+
+        #endregion
+
+        #region ToolStripGradientMiddle
+        /// <summary>
+        /// Gets the middle color of the gradient used in the ToolStrip background.
+        /// </summary>
+        public override Color ToolStripGradientMiddle => Colors[(int)SchemeOfficeColors.ToolStripMiddle];
+
+        #endregion
+
+        #region ToolStripPanelGradientBegin
+        /// <summary>
+        /// Gets the starting color of the gradient used in the ToolStripPanel.
+        /// </summary>
+        public override Color ToolStripPanelGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+
+        #region ToolStripPanelGradientEnd
+        /// <summary>
+        /// Gets the end color of the gradient used in the ToolStripPanel.
+        /// </summary>
+        public override Color ToolStripPanelGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+
+        #endregion
+        #endregion
+
+        #region Implementation
+        private static void DefineFonts()
+        {
+            // Release existing resources
+            _menuToolFont?.Dispose();
+
+            _statusFont?.Dispose();
+
+            // Create new font using system information
+            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
+            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
+        }
+
+        private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
+            // Update fonts to reflect any change in system settings
+            DefineFonts();
+
         #endregion
     }
     #endregion
