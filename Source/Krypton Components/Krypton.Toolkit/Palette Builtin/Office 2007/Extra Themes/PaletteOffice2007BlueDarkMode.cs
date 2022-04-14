@@ -83,18 +83,18 @@
                                                                 Color.FromArgb(167, 204, 251),    // OverflowMiddle
                                                                 Color.FromArgb(101, 147, 207),    // OverflowEnd
                                                                 Color.FromArgb(111, 157, 217),    // ToolStripBorder
-                                                                Color.FromArgb( 59,  90, 130),    // FormBorderActive
-                                                                Color.FromArgb(192, 198, 206),    // FormBorderInactive
-                                                                Color.FromArgb(176, 203, 239),    // FormBorderActiveLight
-                                                                Color.FromArgb(194, 217, 247),    // FormBorderActiveDark
-                                                                Color.FromArgb(204, 216, 232),    // FormBorderInactiveLight
-                                                                Color.FromArgb(212, 222, 236),    // FormBorderInactiveDark
-                                                                Color.FromArgb(221, 233, 248),    // FormBorderHeaderActive
-                                                                Color.FromArgb(223, 229, 237),    // FormBorderHeaderInactive
-                                                                Color.FromArgb(176, 207, 247),    // FormBorderHeaderActive1
-                                                                Color.FromArgb(228, 239, 253),    // FormBorderHeaderActive2
-                                                                Color.FromArgb(204, 218, 236),    // FormBorderHeaderInctive1
-                                                                Color.FromArgb(227, 232, 239),    // FormBorderHeaderInctive2
+                                                                Color.FromArgb(134, 179, 236),    // FormBorderActive
+                                                                Color.FromArgb(179, 209, 247),    // FormBorderInactive
+                                                                Color.FromArgb(134, 179, 236),    // FormBorderActiveLight
+                                                                Color.FromArgb(63, 122, 197),    // FormBorderActiveDark
+                                                                Color.FromArgb(179, 209, 247),    // FormBorderInactiveLight
+                                                                Color.FromArgb(96, 150, 220),    // FormBorderInactiveDark
+                                                                Color.FromArgb(134, 179, 236),    // FormBorderHeaderActive
+                                                                Color.FromArgb(179, 209, 247),    // FormBorderHeaderInactive
+                                                                Color.FromArgb(134, 179, 236),    // FormBorderHeaderActive1
+                                                                Color.FromArgb(63, 122, 197),    // FormBorderHeaderActive2
+                                                                Color.FromArgb(179, 209, 247),    // FormBorderHeaderInctive1
+                                                                Color.FromArgb(96, 150, 220),    // FormBorderHeaderInctive2
                                                                 Color.FromArgb( 62, 106, 184),    // FormHeaderShortActive
                                                                 Color.FromArgb(160, 160, 160),    // FormHeaderShortInactive
                                                                 Color.FromArgb(105, 112, 121),    // FormHeaderLongActive
@@ -535,31 +535,80 @@
 
         #region Colour Arrays
 
-        private static readonly Color[] _ribbonGroupCollapsedBackContext = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBorderContext = { Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking = { Color.FromArgb(128, 168, 184, 196), Color.FromArgb(168, 184, 196), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(192, 207, 220) };
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
-        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(212, 212, 212), // Button, Disabled, Border
-                                                                Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
-                                                                Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
-                                                                Color.FromArgb(147, 125,  90), // Button, Pressed, Border 1
-                                                                Color.FromArgb(255, 196,  68), // Button, Pressed, Border 2
-                                                                Color.FromArgb(158, 130,  85), // Button, Checked, Border 1
-                                                                Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
-        };
-        private static readonly Color[] _buttonBackColors = { Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
-                                                              Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
-                                                              Color.FromArgb(141, 168, 203), // Button, Tracking, Back 1
-                                                              Color.FromArgb(95, 127, 169), // Button, Tracking, Back 2
-                                                              Color.FromArgb(235, 122,   5), // Button, Pressed, Back 1
-                                                              Color.FromArgb(254, 195, 108), // Button, Pressed, Back 2
-                                                              Color.FromArgb(254, 175,  77), // Button, Checked, Back 1
-                                                              Color.FromArgb(254, 230, 136), // Button, Checked, Back 2
-                                                              Color.FromArgb(232, 142,  49), // Button, Checked Tracking, Back 1
-                                                              Color.FromArgb(252, 207, 100)  // Button, Checked Tracking, Back 2
+        private static readonly Color[] _ribbonGroupCollapsedBackContext = {   
+                                                                                Color.FromArgb(48, 255, 255, 255), 
+                                                                                Color.FromArgb(235, 235, 235)    
+                                                                            };
+        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking =
+                                                                                    {
+                                                                                        Color.FromArgb(48, 255, 255, 255), 
+                                                                                        Color.FromArgb(235, 235, 235)
+                                                                                    };
+
+        private static readonly Color[] _ribbonGroupCollapsedBorderContext =
+                                                                            {
+                                                                                Color.FromArgb(128, 199, 199, 199),
+                                                                                Color.FromArgb(199, 199, 199), 
+                                                                                Color.FromArgb(48, 255, 255, 255), 
+                                                                                Color.FromArgb(235, 235, 235)
+                                                                            };
+
+        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking =
+                                                                                    {
+                                                                                        Color.FromArgb(128, 168, 184, 196),
+                                                                                        Color.FromArgb(168, 184, 196), 
+                                                                                        Color.FromArgb(48, 255, 255, 255), 
+                                                                                        Color.FromArgb(192, 207, 220)
+                                                                                    };
+
+        private static readonly Color[] _appButtonNormal =
+                                                            {
+                                                                Color.FromArgb(243, 245, 248), 
+                                                                Color.FromArgb(214, 220, 231), 
+                                                                Color.FromArgb(188, 198, 211), 
+                                                                Color.FromArgb(254, 254, 255),
+                                                                Color.FromArgb(206, 213, 225)
+                                                            };
+
+        private static readonly Color[] _appButtonTrack =
+                                                            {
+                                                                Color.FromArgb(255, 251, 230), 
+                                                                Color.FromArgb(248, 230, 143), 
+                                                                Color.FromArgb(238, 213, 126), 
+                                                                Color.FromArgb(254, 247, 129), 
+                                                                Color.FromArgb(240, 201, 41)
+                                                            };
+
+        private static readonly Color[] _appButtonPressed =
+                                                            {
+                                                                Color.FromArgb(235, 227, 196),
+                                                                Color.FromArgb(228, 198, 149),
+                                                                Color.FromArgb(166, 97, 7), 
+                                                                Color.FromArgb(242, 155, 57),
+                                                                Color.FromArgb(236, 136, 9)
+                                                            };
+
+        private static readonly Color[] _buttonBorderColors = 
+                                                                { 
+                                                                    Color.FromArgb(212, 212, 212), // Button, Disabled, Border
+                                                                    Color.FromArgb(179, 209, 255), // Button, Tracking, Border 1
+                                                                    Color.FromArgb(179, 209, 249), // Button, Tracking, Border 2
+                                                                    Color.FromArgb(96, 147, 230), // Button, Pressed, Border 1
+                                                                    Color.FromArgb(32, 98, 200), // Button, Pressed, Border 2
+                                                                    Color.FromArgb(96, 147, 235), // Button, Checked, Border 1
+                                                                    Color.FromArgb(63, 122, 220)  // Button, Checked, Border 2
+                                                                };
+
+        private static readonly Color[] _buttonBackColors = {   Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
+                                                                Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
+                                                                Color.FromArgb(141, 168, 203), // Button, Tracking, Back 1
+                                                                Color.FromArgb(95, 127, 169), // Button, Tracking, Back 2
+                                                                Color.FromArgb(96, 150, 220), // Button, Pressed, Back 1
+                                                                Color.FromArgb(179, 209, 247), // Button, Pressed, Back 2
+                                                                Color.FromArgb(32, 98, 183), // Button, Checked, Back 1
+                                                                Color.FromArgb(141, 180, 230), // Button, Checked, Back 2
+                                                                Color.FromArgb(63, 122, 197), // Button, Checked Tracking, Back 1
+                                                                Color.FromArgb(96, 147, 213)  // Button, Checked Tracking, Back 2
         };
 
         #endregion

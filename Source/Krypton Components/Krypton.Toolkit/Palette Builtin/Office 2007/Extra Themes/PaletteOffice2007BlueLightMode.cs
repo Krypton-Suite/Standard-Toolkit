@@ -85,17 +85,17 @@
                                                                 Color.FromArgb(167, 204, 251),    // OverflowMiddle
                                                                 Color.FromArgb(101, 147, 207),    // OverflowEnd
                                                                 Color.FromArgb(111, 157, 217),    // ToolStripBorder
-                                                                Color.FromArgb( 59,  90, 130),    // FormBorderActive
-                                                                Color.FromArgb(192, 198, 206),    // FormBorderInactive
-                                                                Color.FromArgb(176, 203, 239),    // FormBorderActiveLight
-                                                                Color.FromArgb(194, 217, 247),    // FormBorderActiveDark
+                                                                Color.FromArgb(230, 239, 249),    // FormBorderActive
+                                                                Color.FromArgb(209, 226, 244),    // FormBorderInactive
+                                                                Color.FromArgb(230, 239, 249),    // FormBorderActiveLight
+                                                                Color.FromArgb(209, 226, 244),    // FormBorderActiveDark
                                                                 Color.FromArgb(204, 216, 232),    // FormBorderInactiveLight
                                                                 Color.FromArgb(212, 222, 236),    // FormBorderInactiveDark
-                                                                Color.FromArgb(221, 233, 248),    // FormBorderHeaderActive
-                                                                Color.FromArgb(223, 229, 237),    // FormBorderHeaderInactive
-                                                                Color.FromArgb(176, 207, 247),    // FormBorderHeaderActive1
+                                                                Color.FromArgb(230, 239, 249),    // FormBorderHeaderActive
+                                                                Color.FromArgb(209, 226, 244),    // FormBorderHeaderInactive
+                                                                Color.FromArgb(230, 239, 249),    // FormBorderHeaderActive1
                                                                 Color.FromArgb(228, 239, 253),    // FormBorderHeaderActive2
-                                                                Color.FromArgb(204, 218, 236),    // FormBorderHeaderInctive1
+                                                                Color.FromArgb(209, 226, 244),    // FormBorderHeaderInctive1
                                                                 Color.FromArgb(227, 232, 239),    // FormBorderHeaderInctive2
                                                                 Color.FromArgb( 62, 106, 184),    // FormHeaderShortActive
                                                                 Color.FromArgb(160, 160, 160),    // FormHeaderShortInactive
