@@ -24,10 +24,13 @@ namespace Krypton.Docking
         /// <summary>
         /// Initialize a new instance of the KryptonDockspace class.
         /// </summary>
+        /// <remarks>
+        /// If Min Size not set in the Embedded control, then will default to 150, 50
+        /// </remarks>
         public KryptonDockspace()
             : base(@"Docked") =>
             // Define a sensible default minimum size
-            base.MinimumSize = new Size(50, 50);
+            base.MinimumSize = new Size(150, 150);
 
         /// <summary>
         /// Gets a string representation of the class.

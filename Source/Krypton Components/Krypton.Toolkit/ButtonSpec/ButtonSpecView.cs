@@ -363,14 +363,14 @@ namespace Krypton.Toolkit
 
                 var currentHeight = baseImage.Height * _lastFactorDpiY;
 
-                if ((int)currentHeight == baseImage.Height)
+                if (Math.Abs(_lastFactorDpiY - 1.00f) < 0.001)
                 {
                     // Need to workaround the image drawing off the bottom of the title bar when scaling @ 100%
                     // Has to be even to ensure that horizontal lines are still drawn
                     currentHeight -= 2;
                 }
 
-                if (currentHeight == -1)
+                if (currentHeight < 0.75)
                 {
                     currentHeight = 1;
                 }
