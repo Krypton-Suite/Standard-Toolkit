@@ -155,17 +155,34 @@ namespace Krypton.Navigator
         {
         }
 
+
         /// <summary>
         /// Initialize a new instance of the KryptonPage class.
         /// </summary>
         /// <param name="text">Initial text.</param>
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
+        /// <remarks>
+        /// If Min Size not set in the Embedded control, then will default to 150, 50
+        /// </remarks>
         public KryptonPage(string text, Bitmap imageSmall, string uniqueName)
+            : this(text, imageSmall, uniqueName, new Size(150, 50))
+        {
+            
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the KryptonPage class.
+        /// </summary>
+        /// <param name="text">Initial text.</param>
+        /// <param name="imageSmall">Initial small image.</param>
+        /// <param name="uniqueName">Initial unique name.</param>
+        /// <param name="minSize">Min Size of dragged docked control, if not set by Embedded</param>
+        public KryptonPage(string text, Bitmap imageSmall, string uniqueName, Size minSize)
         {
             // Default properties
             Text = text;
-            MinimumSize = new Size(50, 50);
+            MinimumSize = minSize;
             _textTitle = @"Page Title";
             _textDescription = @"Page Description";
             _toolTipTitle = @"Page ToolTip";
