@@ -321,8 +321,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Cue Hint
-        /*
         // Note: Disabled until https://github.com/Krypton-Suite/Standard-Toolkit/issues/669 is completed
+        /**
         /// <summary>Gets or sets the cue hint text.</summary>
         /// <value>The cue hint text.</value>
         [KryptonPersist]
@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
         public KryptonPaletteCueHintText CueHintText { get; set; }
 
         //public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
-        */
+        **/
 
         #endregion
 
