@@ -134,6 +134,7 @@ namespace Krypton.Toolkit
             TabStyles = new KryptonPaletteTabButtons(_redirectCommon, _needPaintDelegate);
             TrackBar = new KryptonPaletteTrackBar(_redirectCommon, _needPaintDelegate);
             ToolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, OnMenuToolStatusPaint);
+            CueHintText = new PaletteCueHintText(_redirector, _needPaintDelegate);
 
             // Hook into the storage change events
             ButtonSpecs.ButtonSpecChanged += OnButtonSpecChanged;
@@ -321,15 +322,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Cue Hint
+        
         /// <summary>Gets or sets the cue hint text.</summary>
         /// <value>The cue hint text.</value>
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Cue hint values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteCueHintText CueHintText { get; set; }
+        public PaletteCueHintText CueHintText { get; }
 
-        //public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
+        private bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
 
         #endregion
 
@@ -2951,6 +2953,7 @@ namespace Krypton.Toolkit
             TabStyles.PopulateFromBase(Common);
             TrackBar.PopulateFromBase();
             ToolMenuStatus.PopulateFromBase();
+            CueHintText.PopulateFromBase(PaletteState.Normal);
 
             return null;
         }
