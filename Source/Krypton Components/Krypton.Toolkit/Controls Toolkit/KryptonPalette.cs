@@ -322,6 +322,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Cue Hint
+        
         /// <summary>Gets or sets the cue hint text.</summary>
         /// <value>The cue hint text.</value>
         [KryptonPersist]
@@ -329,7 +330,7 @@ namespace Krypton.Toolkit
         [Description(@"Cue hint values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHintText { get; }
-
+        
         public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
 
         #endregion
