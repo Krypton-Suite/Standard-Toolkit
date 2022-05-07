@@ -4,6 +4,7 @@
 
 ## 2022-06-xx - Build 2206 - June 2022
 * Improvements to all 'Black/Blue (Dark Mode)' themes
+* Silver dark/light mode themes are now implemented
 * Full/Lite NuGet packages - as support for .NET 5 ended in May, there are now 2 types of NuGet package.
     - Full - Supports every framework from .NET Framework 4.6.2 to .NET 6
     - Lite - Supports .NET Framework 4.8, .NET Core 3.1 and .NET 6
