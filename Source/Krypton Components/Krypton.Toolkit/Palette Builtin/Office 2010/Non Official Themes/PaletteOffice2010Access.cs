@@ -1,10 +1,10 @@
 ﻿namespace Krypton.Toolkit
 {
-    #region Class: PaletteOffice2010AccessRed
+    #region Class: PaletteOffice2010Access
     /// <summary>
     /// Provides the Silver color scheme variant of the Office 2010 palette.
     /// </summary>
-    public class PaletteOffice2010AccessRed : PaletteOffice2010AccessRedBase
+    public class PaletteOffice2010Access : PaletteOffice2010AccessBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -267,7 +267,7 @@
         #endregion
 
         #region Identity
-        static PaletteOffice2010AccessRed()
+        static PaletteOffice2010Access()
         {
             _checkBoxList = new ImageList
             {
@@ -293,9 +293,9 @@
         }
 
         /// <summary>
-        /// Initialize a new instance of the PaletteOffice2010AccessRed class.
+        /// Initialize a new instance of the PaletteOffice2010Access class.
         /// </summary>
-        public PaletteOffice2010AccessRed()
+        public PaletteOffice2010Access()
             : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
@@ -374,11 +374,11 @@
     }
     #endregion
 
-    #region Class: PaletteOffice2010AccessRedBase
+    #region Class: PaletteOffice2010AccessBase
     /// <summary>
     /// Provides a base for Office 2010 palettes.
     /// </summary>
-    public abstract class PaletteOffice2010AccessRedBase : PaletteBase
+    public abstract class PaletteOffice2010AccessBase : PaletteBase
     {
         #region Static Fields
 
@@ -551,14 +551,14 @@
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteOffice2010AccessRedBase class.
+        /// Initialize a new instance of the PaletteOffice2010AccessBase class.
         /// </summary>
         /// <param name="schemeColors">Array of palette specific colors.</param>
         /// <param name="checkBoxList">List of images for check box.</param>
         /// <param name="galleryButtonList">List of images for gallery buttons.</param>
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
-        protected PaletteOffice2010AccessRedBase(Color[] schemeColors,
+        protected PaletteOffice2010AccessBase(Color[] schemeColors,
                                      ImageList checkBoxList,
                                      ImageList galleryButtonList,
                                      Image[] radioButtonArray,
