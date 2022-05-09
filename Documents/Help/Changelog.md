@@ -4,11 +4,14 @@
 
 ## 2022-06-xx - Build 2206 - June 2022
 * Improvements to all 'Black/Blue (Dark Mode)' themes
+* Silver dark/light mode themes are now implemented
 * Full/Lite NuGet packages - as support for .NET 5 ended in May, there are now 2 types of NuGet package.
     - Full - Supports every framework from .NET Framework 4.6.2 to .NET 6
     - Lite - Supports .NET Framework 4.8, .NET Core 3.1 and .NET 6
 * Fixed grid cell selection colours for dark/light mode themes
 * Blue dark mode themes now have a darker alternate colour
+* Added new `GetPaletteModeManager()` method to the `ThemeManager` API, to return the current `PaletteModeManager` of the selected `KryptonManager`
+* Update documentation for `PaletteMode` and `PaletteModeManager`
 * Resolved [#701](https://github.com/Krypton-Suite/Standard-Toolkit/issues/701), `CueHint` in `KryptonPalette` does not work
 * Resolved [#697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/697), Number 9 is handled in ribbon textbox/richtextbox.
 * Resolved [#693](https://github.com/Krypton-Suite/Standard-Toolkit/issues/693), Docked controls are rendered with smaller size which hides the caption/title text.

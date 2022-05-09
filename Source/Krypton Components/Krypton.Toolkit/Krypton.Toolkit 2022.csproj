@@ -130,10 +130,10 @@
         <Compile Update="ButtonSpec\ButtonSpec.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2007\PaletteOffice2007White.cs">
+        <Compile Update="Palette Builtin\Office 2007\Non Official Themes\PaletteOffice2007White.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2010\PaletteOffice2010White.cs">
+        <Compile Update="Palette Builtin\Office 2010\Non Official Themes\PaletteOffice2010White.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Palette Builtin\Office 2013\PaletteOffice2013Base.cs">
@@ -143,48 +143,48 @@
         <Compile Update="Palette Builtin\Office 365\Bases\PaletteOffice365Base.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 365\PaletteOffice365Blue.cs">
+        <Compile Update="Palette Builtin\Office 365\Non Official Themes\PaletteOffice365Blue.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 365\PaletteOffice365Black.cs" />
-        <Compile Update="Palette Builtin\Office 365\PaletteOffice365Silver.cs">
+        <Compile Update="Palette Builtin\Office 365\Official Themes\PaletteOffice365Black.cs" />
+        <Compile Update="Palette Builtin\Office 365\Official Themes\PaletteOffice365Silver.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 365\PaletteOffice365White.cs">
+        <Compile Update="Palette Builtin\Office 365\Official Themes\PaletteOffice365White.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Palette Builtin\PaletteVisualStudio2020Base.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2010\PaletteOffice2010Black.cs">
+        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Black.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2010\PaletteOffice2010Blue.cs">
+        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Blue.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2010\PaletteOffice2010Silver.cs">
+        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Silver.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Palette Builtin\Office 2010\Bases\PaletteOffice2010Base.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Sparkle\PaletteSparklePurple.cs">
+        <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparklePurple.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Sparkle\PaletteSparkleBase.cs">
+        <Compile Update="Palette Builtin\Sparkle\Base\PaletteSparkleBase.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Sparkle\PaletteSparkleOrange.cs">
+        <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparkleOrange.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Sparkle\PaletteSparkleBlue.cs" />
-        <Compile Update="Palette Builtin\Office 2007\PaletteOffice2007Black.cs">
+        <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparkleBlue.cs" />
+        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Black.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2007\PaletteOffice2007Silver.cs">
+        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Silver.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2007\PaletteOffice2007Blue.cs">
+        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Blue.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Palette Builtin\Office 2007\Bases\PaletteOffice2007Base.cs">
