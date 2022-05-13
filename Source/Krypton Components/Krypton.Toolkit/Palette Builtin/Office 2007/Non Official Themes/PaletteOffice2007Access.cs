@@ -96,13 +96,13 @@
             Color.FromArgb(230, 190, 200), // ToolStripBegin
             Color.FromArgb(225, 185, 195), // ToolStripMiddle
             Color.FromArgb(195, 104, 143), // ToolStripEnd
-            Color.FromArgb(167, 204, 251), // OverflowBegin
-            Color.FromArgb(167, 204, 251), // OverflowMiddle
-            Color.FromArgb(101, 147, 207), // OverflowEnd
-            Color.FromArgb(111, 157, 217), // ToolStripBorder
-            Color.FromArgb(59, 90, 130), // FormBorderActive
+            Color.FromArgb(215, 110, 160), // OverflowBegin
+            Color.FromArgb(220, 120, 170), // OverflowMiddle
+            Color.FromArgb(189, 60, 100), // OverflowEnd
+            Color.FromArgb(170, 60, 90), // ToolStripBorder
+            Color.FromArgb(160, 59, 90), // FormBorderActive
             Color.FromArgb(192, 198, 206), // FormBorderInactive
-            Color.FromArgb(176, 203, 239), // FormBorderActiveLight
+            Color.FromArgb(220, 160, 170), // FormBorderActiveLight
             Color.FromArgb(194, 217, 247), // FormBorderActiveDark
             Color.FromArgb(204, 216, 232), // FormBorderInactiveLight
             Color.FromArgb(212, 222, 236), // FormBorderInactiveDark
