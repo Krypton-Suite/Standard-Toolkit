@@ -103,12 +103,12 @@
             Color.FromArgb(160, 59, 90), // FormBorderActive
             Color.FromArgb(192, 198, 206), // FormBorderInactive
             Color.FromArgb(220, 160, 170), // FormBorderActiveLight
-            Color.FromArgb(194, 217, 247), // FormBorderActiveDark
-            Color.FromArgb(204, 216, 232), // FormBorderInactiveLight
-            Color.FromArgb(212, 222, 236), // FormBorderInactiveDark
+            Color.FromArgb(150, 60, 105), // FormBorderActiveDark
+            Color.FromArgb(204, 170, 170), // FormBorderInactiveLight
+            Color.FromArgb(230, 70, 105), // FormBorderInactiveDark
             Color.FromArgb(221, 233, 248), // FormBorderHeaderActive
             Color.FromArgb(223, 229, 237), // FormBorderHeaderInactive
-            Color.FromArgb(176, 207, 247), // FormBorderHeaderActive1
+            Color.FromArgb(215, 115, 160), // FormBorderHeaderActive1
             Color.FromArgb(228, 239, 253), // FormBorderHeaderActive2
             Color.FromArgb(204, 218, 236), // FormBorderHeaderInctive1
             Color.FromArgb(227, 232, 239), // FormBorderHeaderInctive2
