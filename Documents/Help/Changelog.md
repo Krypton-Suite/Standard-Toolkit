@@ -2,7 +2,7 @@
 
 <!--* Added the ability to control the `CueHint` values through `KryptonPalette`-->
 
-## 2022-06-xx - Build 2206 - June 2022
+## 2022-06-01 - Build 2206 - June 2022
 * Improvements to all 'Black/Blue (Dark Mode)' themes
 * Silver dark/light mode themes are now implemented
 * Full/Lite NuGet packages - as support for .NET 5 ended in May, there are now 2 types of NuGet package.
