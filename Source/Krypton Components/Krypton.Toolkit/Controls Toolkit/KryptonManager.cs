@@ -44,6 +44,12 @@ namespace Krypton.Toolkit
         private static PaletteOffice2007White _paletteOffice2007White;
         private static PaletteOffice2007Black _paletteOffice2007Black;
         private static PaletteOffice2007BlackDarkMode _paletteOffice2007BlackDarkMode;
+
+        #region Non-Official Office 2007 Themes
+
+        private static PaletteOffice2007Access _paletteOffice2007Access;
+        #endregion
+
         private static PaletteOffice2010Blue _paletteOffice2010Blue;
         private static PaletteOffice2010BlueDarkMode _paletteOffice2010BlueDarkMode;
         private static PaletteOffice2010BlueLightMode _paletteOffice2010BlueLightMode;
@@ -425,6 +431,8 @@ namespace Krypton.Toolkit
                         return PaletteProfessionalSystem;
                     case PaletteModeManager.ProfessionalOffice2003:
                         return PaletteProfessionalOffice2003;
+                    case PaletteModeManager.Office2007Access:
+                        return PaletteOffice2007Access;
                     case PaletteModeManager.Office2007Blue:
                         return PaletteOffice2007Blue;
                     case PaletteModeManager.Office2007BlueDarkMode:
@@ -523,6 +531,8 @@ namespace Krypton.Toolkit
                     return PaletteProfessionalSystem;
                 case PaletteMode.ProfessionalOffice2003:
                     return PaletteProfessionalOffice2003;
+                case PaletteMode.Office2007Access:
+                    return PaletteOffice2007Access;
                 case PaletteMode.Office2007Blue:
                     return PaletteOffice2007Blue;
                 case PaletteMode.Office2007BlueDarkMode:
@@ -662,6 +672,10 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the ### palette.
         /// </summary>
         public static PaletteOffice2007BlackDarkMode PaletteOffice2007BlackDarkMode => _paletteOffice2007BlackDarkMode ??= new PaletteOffice2007BlackDarkMode();
+
+        #region Non-Official Office 2007 Themes
+        public static PaletteOffice2007Access PaletteOffice2007Access => _paletteOffice2007Access ??= new PaletteOffice2007Access();
+        #endregion
 
         /// <summary>
         /// Gets the single instance of the Blue variant Office 2010 palette.
