@@ -193,7 +193,9 @@ namespace Krypton.Toolkit
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             // Disable 'UseDropShadow' on creation
+#pragma warning disable CS0618
             UseDropShadow = false;
+#pragma warning restore CS0618
         }
 
         /// <summary>
@@ -1771,10 +1773,12 @@ namespace Krypton.Toolkit
                 // a drop shadow around the form
                 CreateParams cp = base.CreateParams;
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 if (UseDropShadow)
                 {
                     cp.ClassStyle |= CS_DROPSHADOW;
                 }
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 //if (DisableCloseButton)
                 //{
