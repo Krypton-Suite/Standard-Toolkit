@@ -187,21 +187,13 @@ namespace Krypton.Toolkit
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawDocker);
 
-            // Set the UseDropShadow to true
-            // Check OS version for compatibility (can be overriden if needed)
-            if (Environment.OSVersion.Version.Major == 10)
-            {
-                UseDropShadow = true;
-            }
-            else if (Environment.OSVersion.Version.Major <= 6)
-            {
-                UseDropShadow = false;
-            }
-
             //DisableCloseButton = false;
 
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            // Disable 'UseDropShadow' on creation
+            UseDropShadow = false;
         }
 
         /// <summary>
@@ -397,7 +389,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Allows the use of drop shadow around the form.")]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
+        [Obsolete("Deprecated - Only use if you are using Windows 7, 8 or 8.1.")]
         public bool UseDropShadow
         {
             get => _useDropShadow;
