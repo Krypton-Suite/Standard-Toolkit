@@ -191,6 +191,9 @@ namespace Krypton.Toolkit
 
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            // Disable 'UseDropShadow' on creation
+            UseDropShadow = false;
         }
 
         /// <summary>
