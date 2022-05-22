@@ -202,22 +202,22 @@
             Color.FromArgb(219, 231, 247), // RibbonQATMini2
             Color.FromArgb(240, 160, 195), // RibbonQATMini3
             Color.FromArgb(128, Color.White), // RibbonQATMini4
-            Color.FromArgb(72, Color.White), // RibbonQATMini5       
-            // Note: Resume here                                                
-            Color.FromArgb(153, 176, 206), // RibbonQATMini1I
+            Color.FromArgb(72, Color.White), // RibbonQATMini5                              
+            Color.FromArgb(175, 65, 85), // RibbonQATMini1I
             Color.FromArgb(226, 233, 241), // RibbonQATMini2I
-            Color.FromArgb(198, 210, 226), // RibbonQATMini3I
+            Color.FromArgb(230, 165, 170), // RibbonQATMini3I
             Color.FromArgb(128, Color.White), // RibbonQATMini4I
             Color.FromArgb(72, Color.White), // RibbonQATMini5I                                                      
-            Color.FromArgb(178, 205, 237), // RibbonQATFullbar1                                                      
-            Color.FromArgb(170, 197, 234), // RibbonQATFullbar2                                                      
-            Color.FromArgb(126, 161, 205), // RibbonQATFullbar3                                                      
-            Color.FromArgb(86, 125, 177), // RibbonQATButtonDark                                                      
+            Color.FromArgb(245, 155, 185), // RibbonQATFullbar1                                                      
+            Color.FromArgb(250, 160, 190), // RibbonQATFullbar2                                                      
+            Color.FromArgb(126, 65, 95), // RibbonQATFullbar3                                                      
+            Color.FromArgb(145, 55, 95), // RibbonQATButtonDark                                                      
             Color.FromArgb(234, 242, 249), // RibbonQATButtonLight                                                      
-            Color.FromArgb(192, 220, 255), // RibbonQATOverflow1                                                      
-            Color.FromArgb(55, 100, 160), // RibbonQATOverflow2                                                      
-            Color.FromArgb(140, 172, 211), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(248, 250, 252), // RibbonGroupSeparatorLight                                                      
+            Color.FromArgb(225, 155, 185), // RibbonQATOverflow1                                                      
+            Color.FromArgb(153, 50, 80), // RibbonQATOverflow2                                                      
+            Color.FromArgb(195, 76, 93), // RibbonGroupSeparatorDark                                                      
+            Color.FromArgb(248, 250, 252), // RibbonGroupSeparatorLight          
+            // Note: Resume here                                                                     
             Color.FromArgb(192, 212, 241), // ButtonClusterButtonBack1                                                      
             Color.FromArgb(200, 219, 238), // ButtonClusterButtonBack2                                                      
             Color.FromArgb(155, 183, 224), // ButtonClusterButtonBorder1                                                      
