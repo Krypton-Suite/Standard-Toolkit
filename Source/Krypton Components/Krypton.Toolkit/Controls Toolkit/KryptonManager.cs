@@ -72,6 +72,8 @@ namespace Krypton.Toolkit
 
         private static PaletteOffice2013Access _paletteOffice2013Access;
 
+        private static PaletteOffice2013AccessLegacy _paletteOffice2013AccessLegacy;
+
         #endregion
 
         private static PaletteSparkleBlue _paletteSparkleBlue;
@@ -96,6 +98,8 @@ namespace Krypton.Toolkit
         #region Non-Official Office 365 Themes
 
         private static PaletteOffice365Access _paletteOffice365Access;
+
+        private static PaletteOffice365Accesslegacy _paletteOffice365Accesslegacy;
 
         #endregion
 
@@ -496,6 +500,8 @@ namespace Krypton.Toolkit
                         return PaletteOffice2013;*/
                     case PaletteModeManager.Office2013Access:
                         return PaletteOffice2013Access;
+                    case PaletteModeManager.Office2013AccessLegacy:
+                        return PaletteOffice2013AccessLegacy;
                     case PaletteModeManager.Office2013White:
                         return PaletteOffice2013White;
                     case PaletteModeManager.SparkleBlue:
@@ -536,6 +542,8 @@ namespace Krypton.Toolkit
                         return PaletteOffice365White;
                     case PaletteModeManager.Office365Access:
                         return PaletteOffice365Access;
+                    case PaletteModeManager.Office365AccessLegacy:
+                        return PaletteOffice365Accesslegacy;
                     case PaletteModeManager.Custom:
                         return InternalGlobalPalette;
                     default:
@@ -602,6 +610,8 @@ namespace Krypton.Toolkit
                     return PaletteOffice2013;*/
                 case PaletteMode.Office2013Access:
                     return PaletteOffice2013Access;
+                case PaletteMode.Office2013AccessLegacy:
+                    return PaletteOffice2013AccessLegacy;
                 case PaletteMode.Office2013White:
                     return PaletteOffice2013White;
                 case PaletteMode.SparkleBlue:
@@ -642,6 +652,8 @@ namespace Krypton.Toolkit
                     return PaletteOffice365White;
                 case PaletteMode.Office365Access:
                     return PaletteOffice365Access;
+                case PaletteMode.Office365AccessLegacy:
+                    return PaletteOffice365Accesslegacy;
                 case PaletteMode.Global:
                     return CurrentGlobalPalette;
                 case PaletteMode.Custom:
@@ -770,6 +782,8 @@ namespace Krypton.Toolkit
 
         public static PaletteOffice2013Access PaletteOffice2013Access => _paletteOffice2013Access ??= new PaletteOffice2013Access();
 
+        public static PaletteOffice2013AccessLegacy PaletteOffice2013AccessLegacy => _paletteOffice2013AccessLegacy ??= new PaletteOffice2013AccessLegacy();
+
         #endregion
 
         /// <summary>
@@ -829,6 +843,8 @@ namespace Krypton.Toolkit
         #region Non-Official Office 365 Themes
 
         public static PaletteOffice365Access PaletteOffice365Access => _paletteOffice365Access ??= new PaletteOffice365Access();
+
+        public static PaletteOffice365Accesslegacy PaletteOffice365Accesslegacy => _paletteOffice365Accesslegacy = new PaletteOffice365Accesslegacy();
 
         #endregion
 

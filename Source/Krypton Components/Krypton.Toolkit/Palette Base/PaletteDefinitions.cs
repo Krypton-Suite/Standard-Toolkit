@@ -2319,6 +2319,11 @@ namespace Krypton.Toolkit
 		Office2013Access,
 
         /// <summary>
+        /// Specifies the Access color variant of the Office 2013 appearance (In the pre-2013 colours).
+        /// </summary>
+        Office2013AccessLegacy,
+
+        /// <summary>
         /// Specifies the Excel color variant of the Office 2013 appearance.
         /// </summary>
 		Office2013Excel,
@@ -2392,6 +2397,11 @@ namespace Krypton.Toolkit
 		/// Specifies the Access color variant of the Office 365 appearance.
 		/// </summary>
 		Office365Access,
+
+        /// <summary>
+        /// Specifies the Access color variant of the Office 365 appearance (In the pre-2013 colours).
+        /// </summary>
+        Office365AccessLegacy,
 
 		/// <summary>
 		/// Specifies the Excel color variant of the Office 365 appearance.
@@ -2805,10 +2815,15 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2013Access,
 
-		/// <summary>
-		/// Specifies the Excel color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Excel,
+        /// <summary>
+        /// Specifies the Access color variant of the Office 2013 appearance (In the pre-2013 colours).
+        /// </summary>
+        Office2013AccessLegacy,
+
+        /// <summary>
+        /// Specifies the Excel color variant of the Office 2013 appearance.
+        /// </summary>
+        Office2013Excel,
 
 		/// <summary>
 		/// Specifies the InfoPath color variant of the Office 2013 appearance.
@@ -2880,10 +2895,15 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office365Access,
 
-		/// <summary>
-		/// Specifies the Excel color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Excel,
+        /// <summary>
+        /// Specifies the Access color variant of the Office 365 appearance (In the pre-2013 colours).
+        /// </summary>
+        Office365AccessLegacy,
+
+        /// <summary>
+        /// Specifies the Excel color variant of the Office 365 appearance.
+        /// </summary>
+        Office365Excel,
 
 		/// <summary>
 		/// Specifies the InfoPath color variant of the Office 365 appearance.

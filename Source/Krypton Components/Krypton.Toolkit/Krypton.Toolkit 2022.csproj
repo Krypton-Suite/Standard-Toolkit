@@ -136,12 +136,18 @@
 		<Compile Update="Palette Builtin\Office 2010\Non Official Themes\PaletteOffice2010White.cs">
 			<SubType>Component</SubType>
 		</Compile>
+		<Compile Update="Palette Builtin\Office 2013\Non Official Themes\PaletteOffice2013AccessLegacy.cs">
+		  <SubType>Component</SubType>
+		</Compile>
 		<Compile Update="Palette Builtin\Office 2013\PaletteOffice2013Base.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Update="Palette Builtin\Office 2013\PaletteOffice2013White.cs" />
 		<Compile Update="Palette Builtin\Office 365\Bases\PaletteOffice365Base.cs">
 			<SubType>Component</SubType>
+		</Compile>
+		<Compile Update="Palette Builtin\Office 365\Non Official Themes\PaletteOffice365AccessLegacy.cs">
+		  <SubType>Component</SubType>
 		</Compile>
 		<Compile Update="Palette Builtin\Office 365\Non Official Themes\PaletteOffice365Blue.cs">
 			<SubType>Component</SubType>

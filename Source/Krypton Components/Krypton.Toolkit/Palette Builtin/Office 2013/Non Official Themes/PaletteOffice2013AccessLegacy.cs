@@ -1,10 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    #region Class: PaletteOffice2007Access
-    /// <summary>
-    /// Provides the Blue color scheme variant of the Office 2007 palette.
-    /// </summary>
-    public class PaletteOffice2007Access : PaletteOffice2007Base
+    public class PaletteOffice2013AccessLegacy : PaletteOffice2013Base
     {
         #region Static Fields
 
@@ -23,34 +19,34 @@
 
         #region Images
 
-        private static readonly Image _blueDropDownButton = GenericImageResources.BlueDropDownButton;
-        private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal_24_x_24;
-        private static readonly Image _blueCloseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseHover_24_x_24;
-        private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled_24_x_24;
-        private static readonly Image _blueClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueClosePressed_24_x_24;
-        private static readonly Image _blueMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal_24_x_24;
-        private static readonly Image _blueMaximiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseHover_24_x_24;
-        private static readonly Image _blueMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled_24_x_24;
-        private static readonly Image _blueMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximisePressed_24_x_24;
-        private static readonly Image _blueMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal_24_x_24;
-        private static readonly Image _blueMinimiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseHover_24_x_24;
-        private static readonly Image _blueMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled_24_x_24;
-        private static readonly Image _blueMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed_24_x_24;
-        private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreNormal_24_x_24;
-        private static readonly Image _blueRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreHover_24_x_24;
-        private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled_24_x_24;
-        private static readonly Image _blueRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueRestorePressed_24_x_24;
-        private static readonly Image _blueHelpNormal = HelpIconResources.Office2007HelpIconNormal;
-        private static readonly Image _blueHelpHover = HelpIconResources.Office2007HelpIconHover;
-        private static readonly Image _blueHelpPressed = HelpIconResources.Office2007HelpIconPressed;
-        private static readonly Image _blueHelpDisabled = HelpIconResources.Office2007HelpIconDisabled;
-        private static readonly Image _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
+        private static readonly Image _silverDropDownButton = Office2010Arrows._2010BlueDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
+        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal_25_x_23;
+        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled_25_x_23;
+        private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010SilverCloseHover_25_x_23;
+        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed_25_x_23;
+        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal_25_x_23;
+        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled_25_x_23;
+        private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010SilverMaximiseHover_25_x_23;
+        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed_13_x_12;
+        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal_25_x_23;
+        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010SilverMinimiseHover_25_x_23;
+        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled_25_x_23;
+        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed_25_x_23;
+        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal_25_x_23;
+        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled_25_x_23;
+        private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010SilverRestoreHover_25_x_23;
+        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed_25_x_23;
+        private static readonly Image _formHelpNormal = HelpIconResources.Office365HelpIconNormal;
+        private static readonly Image _formHelpHover = HelpIconResources.Office365HelpIconHover;
+        private static readonly Image _formHelpPressed = HelpIconResources.Office365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = HelpIconResources.Office365HelpIconDisabled;
 
         #endregion
 
         #region Colour Arrays
 
-        private static readonly Color[] _trackBarColors =
+        private static readonly Color[] _trackBarColors = 
         {
             Color.FromArgb(160, 61, 103), // Tick marks
             Color.FromArgb(160, 61, 102), // Top track
@@ -60,9 +56,9 @@
             Color.FromArgb(163, 65, 106) // Border (normal) position
         };
 
-        private static readonly Color[] _schemeOfficeColors =
+        private static readonly Color[] _schemeOfficeColors = 
         {
-            Color.FromArgb(255, 255, 255), // TextLabelControl (Old text colour value: 150, 50, 94)
+            Color.FromArgb(255, 255, 255), // TextLabelControl
             Color.FromArgb(255, 255, 255), // TextButtonNormal
             Color.Blue, // TextButtonChecked
             Color.FromArgb(210, 140, 170), // ButtonNormalBorder
@@ -80,14 +76,14 @@
             Color.FromArgb(182, 105, 130), // SeparatorHighBorder2
             Color.FromArgb(230, 100, 125), // HeaderPrimaryBack1
             Color.FromArgb(210, 150, 160), // HeaderPrimaryBack2
-            Color.FromArgb(214, 132, 155), // HeaderSecondaryBack1
-            Color.FromArgb(214, 142, 160), // HeaderSecondaryBack2
+            Color.FromArgb(214, 232, 255), // HeaderSecondaryBack1
+            Color.FromArgb(214, 232, 255), // HeaderSecondaryBack2
             Color.FromArgb(255, 255, 255), // HeaderText
             Color.FromArgb(255, 255, 255), // StatusStripText
             Color.FromArgb(161, 62, 100), // ButtonBorder
-            Color.FromArgb(221, 150, 170), // SeparatorLight
+            Color.FromArgb(255, 255, 255), // SeparatorLight
             Color.FromArgb(150, 98, 100), // SeparatorDark
-            Color.FromArgb(220, 150, 160), // GripLight
+            Color.FromArgb(248, 248, 248), // GripLight
             Color.FromArgb(164, 52, 104), // GripDark
             Color.FromArgb(189, 99, 138), // ToolStripBack
             Color.FromArgb(245, 195, 199), // StatusStripLight
@@ -233,7 +229,7 @@
             Color.FromArgb(210, 162, 180), // GridSheetColPressed2                                                    
             Color.FromArgb(249, 217, 159), // GridSheetColSelected1
             Color.FromArgb(241, 193, 95), // GridSheetColSelected2
-            Color.FromArgb(228, 166, 177), // GridSheetRowNormal                                                   
+            Color.FromArgb(228, 236, 247), // GridSheetRowNormal                                                   
             Color.FromArgb(240, 156, 180), // GridSheetRowPressed
             Color.FromArgb(255, 213, 141), // GridSheetRowSelected
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
@@ -249,9 +245,9 @@
             Color.FromArgb(255, 248, 203), // InputDropDownNormal2
             Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2
-            Color.FromArgb(221, 131, 178), // ContextMenuHeadingBack
+            Color.FromArgb(221, 231, 238), // ContextMenuHeadingBack
             Color.FromArgb(130, 21, 70), // ContextMenuHeadingText
-            Color.FromArgb(150, 50, 94), // ContextMenuImageColumn 233, 238, 238
+            Color.FromArgb(233, 238, 238), // ContextMenuImageColumn
             Color.White, // AppButtonBack1
             Color.FromArgb(201, 138, 170), // AppButtonBack2
             Color.FromArgb(210, 145, 172), // AppButtonBorder
@@ -262,55 +258,67 @@
             Color.FromArgb(217, 148, 162), // AppButtonInner2
             Color.FromArgb(233, 234, 238), // AppButtonMenuDocs
             Color.FromArgb(140, 21, 76), // AppButtonMenuDocsText
-            Color.FromArgb(227, 139, 185), // SeparatorHighInternalBorder1
+            Color.FromArgb(227, 239, 255), // SeparatorHighInternalBorder1
             Color.FromArgb(210, 164, 175), // SeparatorHighInternalBorder2
             Color.FromArgb(215, 172, 180), // RibbonGalleryBorder
             Color.FromArgb(212, 130, 160), // RibbonGalleryBackNormal
             Color.FromArgb(236, 243, 251), // RibbonGalleryBackTracking
             Color.FromArgb(240, 145, 158), // RibbonGalleryBack1
-            Color.FromArgb(235, 140, 151), // RibbonGalleryBack2
-            Color.Empty, // RibbonTabTracking3
-            Color.Empty, // RibbonTabTracking4
-            Color.Empty, // RibbonGroupBorder3
-            Color.Empty, // RibbonGroupBorder4
-            Color.Empty, // RibbonDropArrowLight
-            Color.Empty // RibbonDropArrowDark
+            Color.FromArgb(235, 140, 151), // RibbonGalleryBack2                                                                                                                             Color.FromArgb(177, 181, 186),    // RibbonTabTracking1
+            Color.FromArgb(229, 231, 235), // RibbonTabTracking3
+            Color.FromArgb(231, 233, 235), // RibbonTabTracking4
+            Color.FromArgb(176, 182, 188), // RibbonGroupBorder3
+            Color.FromArgb(246, 247, 248), // RibbonGroupBorder4
+            Color.FromArgb(249, 250, 250), // RibbonGroupBorder5
+            Color.FromArgb(102, 109, 124), // RibbonGroupTitleText
+            Color.FromArgb(151, 156, 163), // RibbonDropArrowLight
+            Color.FromArgb(39, 49, 60), // RibbonDropArrowDark
+            Color.FromArgb(237, 242, 248), // HeaderDockInactiveBack1
+            Color.FromArgb(207, 213, 220), // HeaderDockInactiveBack2
+            Color.FromArgb(161, 169, 179), // ButtonNavigatorBorder
+            Color.Black, // ButtonNavigatorText
+            Color.FromArgb(207, 213, 220), // ButtonNavigatorTrack1
+            Color.FromArgb(232, 234, 238), // ButtonNavigatorTrack2
+            Color.FromArgb(191, 196, 202), // ButtonNavigatorPressed1
+            Color.FromArgb(225, 226, 230), // ButtonNavigatorPressed2
+            Color.FromArgb(222, 227, 234), // ButtonNavigatorChecked1
+            Color.FromArgb(206, 214, 221), // ButtonNavigatorChecked2
+            Color.FromArgb(221, 221, 221) // ToolTipBottom                                                                      
         };
 
-            #endregion
-
+        #endregion
         #endregion
 
         #region Identity
-        static PaletteOffice2007Access()
+        static PaletteOffice2013AccessLegacy()
         {
             _checkBoxList = new ImageList
             {
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2007Blue);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Silver);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(GalleryImageResources.GalleryBlue);
-            _radioButtonArray = new Image[]{Office2007BlueRadioButtonResources.RadioButton2007BlueD,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueN,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueT,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueP,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueNC,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueTC,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BluePC};
+            _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
+            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverN,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverTC,
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverPC };
         }
 
         /// <summary>
-        /// Initialize a new instance of the PaletteOffice2007Access class.
+        /// Initialize a new instance of the PaletteOffice2010Silver class.
         /// </summary>
-        public PaletteOffice2007Access()
+        public PaletteOffice2013AccessLegacy()
             : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
@@ -320,29 +328,12 @@
         }
         #endregion
 
-        #region Back
-        /// <summary>
-        /// Gets the color background drawing style.
-        /// </summary>
-        /// <param name="style">Background style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
-        {
-            return style switch
-            {
-                PaletteBackStyle.HeaderForm => PaletteColorStyle.Rounding4,
-                _ => base.GetBackColorStyle(style, state)
-            };
-        }
-        #endregion
-
         #region Images
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
@@ -366,74 +357,42 @@
             {
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
-                    PaletteState.Disabled => _blueCloseDisabled,
-                    PaletteState.Tracking => _blueCloseHover,
-                    PaletteState.Pressed => _blueClosePressed,
-                    _ => _blueCloseNormal
+                    PaletteState.Tracking => _formCloseHover,
+                    PaletteState.Normal => _formCloseNormal,
+                    PaletteState.Pressed => _formClosePressed,
+                    _ => _formCloseDisabled
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
-                    PaletteState.Disabled => _blueMinimiseDisabled,
-                    PaletteState.Tracking => _blueMinimiseHover,
-                    PaletteState.Pressed => _blueMinimisePressed,
-                    _ => _blueMinimiseNormal
+                    PaletteState.Normal => _formMinimiseNormal,
+                    PaletteState.Tracking => _formMinimiseHover,
+                    PaletteState.Pressed => _formMinimisePressed,
+                    _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
-                    PaletteState.Disabled => _blueMaximiseDisabled,
-                    PaletteState.Tracking => _blueMaximiseHover,
-                    PaletteState.Pressed => _blueMaximisePressed,
-                    _ => _blueMaximiseNormal
+                    PaletteState.Normal => _formMaximiseNormal,
+                    PaletteState.Tracking => _formMaximiseHover,
+                    PaletteState.Pressed => _formMaximisePressed,
+                    _ => _formMaximiseDisabled
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
-                    PaletteState.Disabled => _blueRestoreDisabled,
-                    PaletteState.Tracking => _blueRestoreHover,
-                    PaletteState.Pressed => _blueRestorePressed,
-                    _ => _blueRestoreNormal
+                    PaletteState.Normal => _formRestoreNormal,
+                    PaletteState.Tracking => _formRestoreHover,
+                    PaletteState.Pressed => _formRestorePressed,
+                    _ => _formRestoreDisabled
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
-                    PaletteState.Disabled => _blueHelpDisabled,
-                    PaletteState.Tracking => _blueHelpHover,
-                    PaletteState.Pressed => _blueHelpPressed,
-                    _ => _blueHelpNormal
+                    PaletteState.Tracking => _formHelpHover,
+                    PaletteState.Pressed => _formHelpPressed,
+                    PaletteState.Normal => _formHelpNormal,
+                    _ => _formHelpDisabled
                 },
                 _ => base.GetButtonSpecImage(style, state)
             };
         }
         #endregion
-
-        #region RibbonBack
-        /// <summary>
-        /// Gets the method used to draw the background of a ribbon item.
-        /// </summary>
-        /// <param name="style">Background style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>PaletteRibbonBackStyle value.</returns>
-        public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteRibbonBackStyle.RibbonGroupArea:
-                    if (state == PaletteState.CheckedNormal)
-                    {
-                        return PaletteRibbonColorStyle.RibbonGroupAreaBorder;
-                    }
-
-                    break;
-                case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
-                    if (state == PaletteState.Tracking)
-                    {
-                        return PaletteRibbonColorStyle.RibbonGroupNormalBorderTrackingLight;
-                    }
-
-                    break;
-            }
-
-            return base.GetRibbonBackColorStyle(style, state);
-        }
-        #endregion
     }
-    #endregion
 }

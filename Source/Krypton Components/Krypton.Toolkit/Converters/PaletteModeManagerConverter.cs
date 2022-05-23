@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
 
         private readonly Pair[] _pairs =
         {
-           new(PaletteModeManager.ProfessionalSystem, "Professional - System"),
+            new(PaletteModeManager.ProfessionalSystem, "Professional - System"),
             new(PaletteModeManager.ProfessionalOffice2003, "Professional - Office 2003"),
             new(PaletteModeManager.Office2007DarkGray, "Office 2007 - Dark Grey"),
             new(PaletteModeManager.Office2007LightGray, "Office 2007 - Light Grey"),
@@ -70,6 +70,7 @@ namespace Krypton.Toolkit
             new(PaletteModeManager.Office2013DarkGray, "Office 2013 - Dark Grey"),
             new(PaletteModeManager.Office2013LightGray, "Office 2013 - Light Grey"),
             new(PaletteModeManager.Office2013Access, "Office 2013 - Access"),
+            new(PaletteModeManager.Office2013AccessLegacy, "Office 2013 - Access (Pre-2013 Colours)"),
             new(PaletteModeManager.Office2013Excel, "Office 2013 - Excel"),
             new(PaletteModeManager.Office2013InfoPath, "Office 2013 - InfoPath"),
             new(PaletteModeManager.Office2013Lync, "Office 2013 - Lync"),
@@ -85,6 +86,7 @@ namespace Krypton.Toolkit
             new(PaletteModeManager.Office365DarkGray, "Office 365 - Dark Grey"),
             new(PaletteModeManager.Office365LightGray, "Office 365 - Light Grey"),
             new(PaletteModeManager.Office365Access, "Office 365 - Access"),
+            new(PaletteModeManager.Office2013AccessLegacy, "Office 365 - Access (Pre-2013 Colours)"),
             new(PaletteModeManager.Office365Excel, "Office 365 - Excel"),
             new(PaletteModeManager.Office365InfoPath, "Office 365 - InfoPath"),
             new(PaletteModeManager.Office365Lync, "Office 365 - Lync"),
