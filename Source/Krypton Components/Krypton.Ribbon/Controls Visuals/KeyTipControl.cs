@@ -44,8 +44,10 @@ namespace Krypton.Ribbon
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             TransparencyKey = Color.Magenta;
+#pragma warning disable CS0618 // Type or member is obsolete
             UseDropShadow = false;
-            
+#pragma warning restore CS0618 // Type or member is obsolete
+
             // Disabled key tips are show semi-transparent
             if (_showDisabled)
             {

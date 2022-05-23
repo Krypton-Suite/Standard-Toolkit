@@ -2,6 +2,14 @@
 
 <!--* Added the ability to control the `CueHint` values through `KryptonPalette`-->
 
+=======
+
+## 2022-11-xx - Build 2211 - Novmber 2022
+* Implemented [#551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/551), `DropShadow` should now be off and deprecated
+* Support for `.NET 7`
+
+=======
+
 ## 2022-06-01 - Build 2206 - June 2022
 * Improvements to all 'Black/Blue (Dark Mode)' themes
 * Silver dark/light mode themes are now implemented
@@ -17,7 +25,9 @@
 * Resolved [#693](https://github.com/Krypton-Suite/Standard-Toolkit/issues/693), Docked controls are rendered with smaller size which hides the caption/title text.
 * Resolved [#653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/653), Page Drag&Drop/Floating exception
 * Resolved bug where the colour value for `PaletteBackStyle.ControlToolTip` was 'out of range' in certain themes
-* Implement [#691](https://github.com/Krypton-Suite/Standard-Toolkit/issues/691), Update Project landing pages with links to Help file downloads
+* Implemented [#691](https://github.com/Krypton-Suite/Standard-Toolkit/issues/691), Update Project landing pages with links to Help file downloads
+
+=======
 
 ## 2022-04-04 - Build 2204 - April 2022
 * Resolved [#678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/678), Dropdown list background & text colour are the same (Office 2010 - Black (Dark Mode))
