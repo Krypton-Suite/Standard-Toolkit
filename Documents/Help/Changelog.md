@@ -5,6 +5,7 @@
 =======
 
 ## 2022-11-xx - Build 2211 - Novmber 2022
+* Implemented the `PlacementModeConverter` for `PlacementMode` enum type
 * Implemented [#551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/551), `DropShadow` should now be off and deprecated
 * Support for `.NET 7`
 

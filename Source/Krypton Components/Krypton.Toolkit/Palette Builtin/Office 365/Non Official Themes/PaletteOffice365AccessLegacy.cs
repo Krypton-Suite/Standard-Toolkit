@@ -290,6 +290,7 @@
         #endregion
 
         #region Constructors
+        /// <summary>Initializes the <see cref="PaletteOffice365Accesslegacy" /> class.</summary>
         static PaletteOffice365Accesslegacy()
         {
             _checkBoxList = new ImageList
@@ -316,7 +317,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the PaletteOffice365Blue class.
+        /// Initializes a new instance of the PaletteOffice365Accesslegacy class.
         /// </summary>
         public PaletteOffice365Accesslegacy() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {

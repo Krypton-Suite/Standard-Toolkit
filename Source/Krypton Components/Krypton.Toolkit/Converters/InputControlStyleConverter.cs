@@ -19,6 +19,17 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(InputControlStyle.Standalone, "Standalone"),
+            new(InputControlStyle.Ribbon, "Ribbon"),
+            new(InputControlStyle.Custom1, "Custom1"),
+            new(InputControlStyle.Custom2, "Custom2"),
+            new(InputControlStyle.Custom3, "Custom3"),
+            new(InputControlStyle.PanelClient, "Panel Client"),
+            new(InputControlStyle.PanelAlternate, "Panel Alternate"),
+            // new(InputControlStyle.Disabled, "Disabled")
+        };
         #endregion
 
         #region Identity
@@ -35,16 +46,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(InputControlStyle.Standalone, "Standalone"),
-            new(InputControlStyle.Ribbon,     "Ribbon"),
-            new(InputControlStyle.Custom1,    "Custom1"),
-            new(InputControlStyle.Custom2,    "Custom2"),
-            new(InputControlStyle.Custom3,    "Custom3"),
-            new(InputControlStyle.PanelClient, "Panel Client"),
-            new(InputControlStyle.PanelAlternate, "Panel Alternate"),
-            // new(InputControlStyle.Disabled, "Disabled")
-        };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

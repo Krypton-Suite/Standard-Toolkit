@@ -19,6 +19,33 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(PaletteButtonSpecStyle.Close, "Close"),
+            new(PaletteButtonSpecStyle.Context, "Context"),
+            new(PaletteButtonSpecStyle.Next, "Next"),
+            new(PaletteButtonSpecStyle.Previous, "Previous"),
+            new(PaletteButtonSpecStyle.Generic, "Generic"),
+            new(PaletteButtonSpecStyle.ArrowLeft, "Arrow Left"),
+            new(PaletteButtonSpecStyle.ArrowRight, "Arrow Right"),
+            new(PaletteButtonSpecStyle.ArrowUp, "Arrow Up"),
+            new(PaletteButtonSpecStyle.ArrowDown, "Arrow Down"),
+            new(PaletteButtonSpecStyle.DropDown, "Drop Down"),
+            new(PaletteButtonSpecStyle.PinVertical, "Pin Vertical"),
+            new(PaletteButtonSpecStyle.PinHorizontal, "Pin Horizontal"),
+            new(PaletteButtonSpecStyle.FormClose, "Form Close"),
+            new(PaletteButtonSpecStyle.FormMax, "Form Max"),
+            new(PaletteButtonSpecStyle.FormMin, "Form Min"),
+            new(PaletteButtonSpecStyle.FormRestore, "Form Restore"),
+            new(PaletteButtonSpecStyle.FormHelp, "Form Help"),
+            new(PaletteButtonSpecStyle.PendantClose, "Pendant Close"),
+            new(PaletteButtonSpecStyle.PendantMin, "Pendant Min"),
+            new(PaletteButtonSpecStyle.PendantRestore, "Pendant Restore"),
+            new(PaletteButtonSpecStyle.WorkspaceMaximize, "Workspace Maximize"),
+            new(PaletteButtonSpecStyle.WorkspaceRestore, "Workspace Restore"),
+            new(PaletteButtonSpecStyle.RibbonMinimize, "Ribbon Minimize"),
+            new(PaletteButtonSpecStyle.RibbonExpand, "Ribbon Expand")
+        };
         #endregion
 
         #region Identity
@@ -32,34 +59,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(PaletteButtonSpecStyle.Close,             "Close"),
-            new(PaletteButtonSpecStyle.Context,           "Context"),
-            new(PaletteButtonSpecStyle.Next,              "Next"),
-            new(PaletteButtonSpecStyle.Previous,          "Previous"),
-            new(PaletteButtonSpecStyle.Generic,           "Generic"),
-            new(PaletteButtonSpecStyle.ArrowLeft,         "Arrow Left"),
-            new(PaletteButtonSpecStyle.ArrowRight,        "Arrow Right"),
-            new(PaletteButtonSpecStyle.ArrowUp,           "Arrow Up"),
-            new(PaletteButtonSpecStyle.ArrowDown,         "Arrow Down"),
-            new(PaletteButtonSpecStyle.DropDown,          "Drop Down"),
-            new(PaletteButtonSpecStyle.PinVertical,       "Pin Vertical"),
-            new(PaletteButtonSpecStyle.PinHorizontal,     "Pin Horizontal"),
-            new(PaletteButtonSpecStyle.FormClose,         "Form Close"),
-            new(PaletteButtonSpecStyle.FormMax,           "Form Max"),
-            new(PaletteButtonSpecStyle.FormMin,           "Form Min"),
-            new(PaletteButtonSpecStyle.FormRestore,       "Form Restore"),
-            new(PaletteButtonSpecStyle.FormHelp,              "Form Help"),
-            new(PaletteButtonSpecStyle.PendantClose,      "Pendant Close"),
-            new(PaletteButtonSpecStyle.PendantMin,        "Pendant Min"),
-            new(PaletteButtonSpecStyle.PendantRestore,    "Pendant Restore"),
-            new(PaletteButtonSpecStyle.WorkspaceMaximize, "Workspace Maximize"),
-            new(PaletteButtonSpecStyle.WorkspaceRestore,  "Workspace Restore"),
-            new(PaletteButtonSpecStyle.RibbonMinimize,    "Ribbon Minimize"),
-            new(PaletteButtonSpecStyle.RibbonExpand,      "Ribbon Expand")};
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

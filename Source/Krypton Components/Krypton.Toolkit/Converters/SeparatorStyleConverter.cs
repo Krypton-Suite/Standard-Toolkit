@@ -19,6 +19,15 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(SeparatorStyle.LowProfile, "Low Profile"),
+            new(SeparatorStyle.HighProfile, "High Profile"),
+            new(SeparatorStyle.HighInternalProfile, "High Internal Profile"),
+            new(SeparatorStyle.Custom1, "Custom1"),
+            new(SeparatorStyle.Custom2, "Custom2"),
+            new(SeparatorStyle.Custom3, "Custom3")
+        };
         #endregion
 
         #region Identity
@@ -32,18 +41,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(SeparatorStyle.LowProfile,            "Low Profile"),
-            new(SeparatorStyle.HighProfile,           "High Profile"),  
-            new(SeparatorStyle.HighInternalProfile,   "High Internal Profile"),  
-            new(SeparatorStyle.Custom1,               "Custom1"),
-            new(SeparatorStyle.Custom2,               "Custom2"),
-            new(SeparatorStyle.Custom3,               "Custom3")
-
-        };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }
