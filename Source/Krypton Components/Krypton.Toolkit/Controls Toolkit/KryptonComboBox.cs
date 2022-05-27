@@ -825,6 +825,7 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private int _cachedHeight;
         private int _hoverIndex;
+        private float _cornerRoundingRadius;
         #endregion
 
         #region Events
@@ -1149,6 +1150,9 @@ namespace Krypton.Toolkit
             _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(PaletteState.Tracking);
             AutoCompleteMode = AutoCompleteMode.None;
             AutoCompleteSource = AutoCompleteSource.None;
+
+            // Set `CornerRoundingRadius' to -1
+            CornerRoundingRadius = -1;
         }
 
         /// <summary>
@@ -1180,6 +1184,24 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set
+            {
+                _cornerRoundingRadius = value;
+
+                // Repaint
+                Invalidate();
+            }
+        }
+
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
@@ -2385,6 +2407,19 @@ namespace Krypton.Toolkit
             {
                 _firstTimePaint = false;
                 ForceControlLayout();
+            }
+
+            // Feed the '_cornerRoundingRadius' value to 'StateCommon.ComboBox.Border.Rounding'
+            if (_cornerRoundingRadius >= GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                StateCommon.ComboBox.Border.Rounding = _cornerRoundingRadius;
+            }
+            else
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.ComboBox.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
             }
 
             base.OnPaint(e);
