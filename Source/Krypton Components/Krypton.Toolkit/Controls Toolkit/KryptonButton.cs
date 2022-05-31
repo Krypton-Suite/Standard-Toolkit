@@ -38,6 +38,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
         private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled, _useAsUACElevationButton;
+        private float _cornerRoundingRadius;
         #endregion
 
         #region Events
@@ -118,10 +119,31 @@ namespace Krypton.Toolkit
             _useAsDialogButton = false;
             
             _useAsUACElevationButton = false;
+
+            // Set `_cornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set
+            {
+                _cornerRoundingRadius = value;
+
+                // Repaint
+                Invalidate();
+            }
+        }
+
         /// <summary>
         /// Gets and sets the automatic resize of the control to fit contents.
         /// </summary>
@@ -654,6 +676,26 @@ namespace Krypton.Toolkit
                 {
                     Text = KryptonManager.Strings.Ignore;
                 }
+            }
+
+            // Feed the '_cornerRoundingRadius' value to 'StateCommon.Border.Rounding'
+            if (_cornerRoundingRadius >= GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                StateCommon.Border.Rounding = _cornerRoundingRadius;
+            }
+            else if (_cornerRoundingRadius > GlobalStaticValues.MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            }
+            else
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
             }
 
             base.OnPaint(e);

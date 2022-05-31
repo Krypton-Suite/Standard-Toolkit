@@ -91,6 +91,7 @@ namespace Krypton.Toolkit
         private bool _dropDownMonthChanged;
         private object _rawDateTime;
         private int _cachedHeight;
+        private float _cornerRoundingRadius;
         #endregion
 
         #region Events
@@ -306,6 +307,9 @@ namespace Krypton.Toolkit
 
             // Update alignment to match current RightToLeft settings
             UpdateForRightToLeft();
+
+            // Set `_cornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -328,6 +332,24 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set
+            {
+                _cornerRoundingRadius = value;
+
+                // Repaint
+                Invalidate();
+            }
+        }
+
         /// <summary>
         /// Gets or sets the background color for the control.
         /// </summary>
@@ -1973,6 +1995,37 @@ namespace Krypton.Toolkit
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
         }
+
+        /// <summary>
+        /// Raises the Paint event.
+        /// </summary>
+        /// <param name="e">A PaintEventArgs that contains the event data.</param>
+        /// <returns></returns>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            // Feed the '_cornerRoundingRadius' value to 'StateCommon.Border.Rounding'
+            if (_cornerRoundingRadius >= GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                StateCommon.Border.Rounding = _cornerRoundingRadius;
+            }
+            else if (_cornerRoundingRadius > GlobalStaticValues.MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            }
+            else
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            }
+
+            base.OnPaint(e);
+        }
+
         #endregion
 
         #region Internal

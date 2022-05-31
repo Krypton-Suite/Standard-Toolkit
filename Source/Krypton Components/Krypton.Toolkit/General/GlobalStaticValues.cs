@@ -26,5 +26,9 @@ namespace Krypton.Toolkit
 
         // Used for nodes etc
         public const float SECONDARY_CORNER_ROUNDING_VALUE = -1;
+
+        public const float MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE = 25;
+
+        public const float MAXIMUM_SECONDARY_CORNER_ROUNDING_VALUE = 25;
     }
 }

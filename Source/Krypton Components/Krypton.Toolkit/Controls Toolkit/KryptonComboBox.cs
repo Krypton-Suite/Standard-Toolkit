@@ -1151,8 +1151,8 @@ namespace Krypton.Toolkit
             AutoCompleteMode = AutoCompleteMode.None;
             AutoCompleteSource = AutoCompleteSource.None;
 
-            // Set `CornerRoundingRadius' to -1
-            CornerRoundingRadius = -1;
+            // Set `_cornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -2413,6 +2413,13 @@ namespace Krypton.Toolkit
             if (_cornerRoundingRadius >= GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
             {
                 StateCommon.ComboBox.Border.Rounding = _cornerRoundingRadius;
+            }
+            else if (_cornerRoundingRadius > GlobalStaticValues.MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.ComboBox.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
             }
             else
             {

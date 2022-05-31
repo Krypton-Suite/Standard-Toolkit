@@ -958,6 +958,7 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
+        private float _cornerRoundingRadius, _itemCornerRoundingRadius;
         #endregion
 
         #region Events
@@ -1193,6 +1194,10 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnCheckedListClick(object sender, EventArgs e) =>
@@ -1215,6 +1220,42 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set
+            {
+                _cornerRoundingRadius = value;
+
+                // Repaint
+                Invalidate();
+            }
+        }
+
+        /// <summary>Gets or sets the item corner rounding radius.</summary>
+        /// <value>The item corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the item corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float ItemCornerRoundingRadius
+        {
+            get => _itemCornerRoundingRadius;
+
+            set
+            {
+                _itemCornerRoundingRadius = value;
+
+                // Repaint
+                Invalidate();
+            }
+        }
+
         /// <summary>
         /// Gets access to the contained CheckedListBox instance.
         /// </summary>
@@ -2041,6 +2082,46 @@ namespace Krypton.Toolkit
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            // Feed the '_cornerRoundingRadius' value to 'StateCommon.Border.Rounding'
+            if (_cornerRoundingRadius >= GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                StateCommon.Border.Rounding = _cornerRoundingRadius;
+            }
+            else if (_cornerRoundingRadius > GlobalStaticValues.MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE)
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            }
+            else
+            {
+                // Default to -1
+                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            }
+
+            // Feed the '_itemCornerRoundingRadius' value to 'StateCommon.Item.Border.Rounding'
+            if (_itemCornerRoundingRadius >= GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)
+            {
+                StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
+            }
+            else if (_itemCornerRoundingRadius > GlobalStaticValues.MAXIMUM_SECONDARY_CORNER_ROUNDING_VALUE)
+            {
+                // Default to -1
+                _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Item.Border.Rounding = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+            }
+            else
+            {
+                // Default to -1
+                _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+                StateCommon.Item.Border.Rounding = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+            }
+
             Paint?.Invoke(this, e);
 
             base.OnPaint(e);
