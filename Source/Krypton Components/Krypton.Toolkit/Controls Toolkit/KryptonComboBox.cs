@@ -825,7 +825,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private int _cachedHeight;
         private int _hoverIndex;
-        private float _cornerRoundingRadius;
         #endregion
 
         #region Events
@@ -1151,8 +1150,8 @@ namespace Krypton.Toolkit
             AutoCompleteMode = AutoCompleteMode.None;
             AutoCompleteSource = AutoCompleteSource.None;
 
-            // Set `_cornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -1191,15 +1190,9 @@ namespace Krypton.Toolkit
         [DefaultValue(-1)]
         public float CornerRoundingRadius
         {
-            get => _cornerRoundingRadius;
+            get => StateCommon.ComboBox.Border.Rounding;
 
-            set
-            {
-                _cornerRoundingRadius = value;
-
-                // Repaint
-                Invalidate();
-            }
+            set => StateCommon.ComboBox.Border.Rounding = value;
         }
 
         /// <summary>
@@ -2407,26 +2400,6 @@ namespace Krypton.Toolkit
             {
                 _firstTimePaint = false;
                 ForceControlLayout();
-            }
-
-            // Feed the '_cornerRoundingRadius' value to 'StateCommon.ComboBox.Border.Rounding'
-            if (_cornerRoundingRadius >= GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
-            {
-                StateCommon.ComboBox.Border.Rounding = _cornerRoundingRadius;
-            }
-            else if (_cornerRoundingRadius > GlobalStaticValues.MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE)
-            {
-                // Default to -1
-                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-                StateCommon.ComboBox.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-            }
-            else
-            {
-                // Default to -1
-                _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-                StateCommon.ComboBox.Border.Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
             }
 
             base.OnPaint(e);
