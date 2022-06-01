@@ -45,11 +45,6 @@ namespace Krypton.Toolkit
         private static PaletteOffice2007Black _paletteOffice2007Black;
         private static PaletteOffice2007BlackDarkMode _paletteOffice2007BlackDarkMode;
 
-        #region Non-Official Office 2007 Themes
-
-        private static PaletteOffice2007Access _paletteOffice2007Access;
-        #endregion
-
         private static PaletteOffice2010Blue _paletteOffice2010Blue;
         private static PaletteOffice2010BlueDarkMode _paletteOffice2010BlueDarkMode;
         private static PaletteOffice2010BlueLightMode _paletteOffice2010BlueLightMode;
@@ -60,21 +55,7 @@ namespace Krypton.Toolkit
         private static PaletteOffice2010SilverDarkMode _paletteOffice2010SilverDarkMode;
         private static PaletteOffice2010SilverLightMode _paletteOffice2010SilverLightMode;
 
-        #region Non-Official Office 2010 Themes
-
-        private static PaletteOffice2010Access _paletteOffice2010Access;
-
-        #endregion
-
         private static PaletteOffice2013White _paletteOffice2013White;
-
-        #region Non-Official Office 2013 Themes
-
-        private static PaletteOffice2013Access _paletteOffice2013Access;
-
-        private static PaletteOffice2013AccessLegacy _paletteOffice2013AccessLegacy;
-
-        #endregion
 
         private static PaletteSparkleBlue _paletteSparkleBlue;
         private static PaletteSparkleBlueDarkMode _paletteSparkleBlueDarkMode;
@@ -94,14 +75,6 @@ namespace Krypton.Toolkit
         private static PaletteOffice365SilverDarkMode _paletteOffice365SilverDarkMode;
         private static PaletteOffice365SilverLightMode _paletteOffice365SilverLightMode;
         private static PaletteOffice365White _paletteOffice365White;
-
-        #region Non-Official Office 365 Themes
-
-        private static PaletteOffice365Access _paletteOffice365Access;
-
-        private static PaletteOffice365Accesslegacy _paletteOffice365Accesslegacy;
-
-        #endregion
 
         private static RenderStandard _renderStandard;
         private static RenderProfessional _renderProfessional;
@@ -456,8 +429,6 @@ namespace Krypton.Toolkit
                         return PaletteProfessionalSystem;
                     case PaletteModeManager.ProfessionalOffice2003:
                         return PaletteProfessionalOffice2003;
-                    case PaletteModeManager.Office2007Access:
-                        return PaletteOffice2007Access;
                     case PaletteModeManager.Office2007Blue:
                         return PaletteOffice2007Blue;
                     case PaletteModeManager.Office2007BlueDarkMode:
@@ -494,14 +465,8 @@ namespace Krypton.Toolkit
                         return PaletteOffice2010Black;
                     case PaletteModeManager.Office2010BlackDarkMode:
                         return PaletteOffice2010BlackDarkMode;
-                    case PaletteModeManager.Office2010Access:
-                        return PaletteOffice2010Access;
                     /*case PaletteModeManager.Office2013:
                         return PaletteOffice2013;*/
-                    case PaletteModeManager.Office2013Access:
-                        return PaletteOffice2013Access;
-                    case PaletteModeManager.Office2013AccessLegacy:
-                        return PaletteOffice2013AccessLegacy;
                     case PaletteModeManager.Office2013White:
                         return PaletteOffice2013White;
                     case PaletteModeManager.SparkleBlue:
@@ -540,10 +505,6 @@ namespace Krypton.Toolkit
                         return PaletteOffice365SilverLightMode;
                     case PaletteModeManager.Office365White:
                         return PaletteOffice365White;
-                    case PaletteModeManager.Office365Access:
-                        return PaletteOffice365Access;
-                    case PaletteModeManager.Office365AccessLegacy:
-                        return PaletteOffice365Accesslegacy;
                     case PaletteModeManager.Custom:
                         return InternalGlobalPalette;
                     default:
@@ -566,8 +527,6 @@ namespace Krypton.Toolkit
                     return PaletteProfessionalSystem;
                 case PaletteMode.ProfessionalOffice2003:
                     return PaletteProfessionalOffice2003;
-                case PaletteMode.Office2007Access:
-                    return PaletteOffice2007Access;
                 case PaletteMode.Office2007Blue:
                     return PaletteOffice2007Blue;
                 case PaletteMode.Office2007BlueDarkMode:
@@ -604,14 +563,8 @@ namespace Krypton.Toolkit
                     return PaletteOffice2010Black;
                 case PaletteMode.Office2010BlackDarkMode:
                     return PaletteOffice2010BlackDarkMode;
-                case PaletteMode.Office2010Access:
-                    return PaletteOffice2010Access;
                 /*case PaletteMode.Office2013:
                     return PaletteOffice2013;*/
-                case PaletteMode.Office2013Access:
-                    return PaletteOffice2013Access;
-                case PaletteMode.Office2013AccessLegacy:
-                    return PaletteOffice2013AccessLegacy;
                 case PaletteMode.Office2013White:
                     return PaletteOffice2013White;
                 case PaletteMode.SparkleBlue:
@@ -650,10 +603,6 @@ namespace Krypton.Toolkit
                     return PaletteOffice365SilverLightMode;
                 case PaletteMode.Office365White:
                     return PaletteOffice365White;
-                case PaletteMode.Office365Access:
-                    return PaletteOffice365Access;
-                case PaletteMode.Office365AccessLegacy:
-                    return PaletteOffice365Accesslegacy;
                 case PaletteMode.Global:
                     return CurrentGlobalPalette;
                 case PaletteMode.Custom:
@@ -718,9 +667,6 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteOffice2007BlackDarkMode PaletteOffice2007BlackDarkMode => _paletteOffice2007BlackDarkMode ??= new PaletteOffice2007BlackDarkMode();
 
-        #region Non-Official Office 2007 Themes
-        public static PaletteOffice2007Access PaletteOffice2007Access => _paletteOffice2007Access ??= new PaletteOffice2007Access();
-        #endregion
 
         /// <summary>
         /// Gets the single instance of the Blue variant Office 2010 palette.
@@ -767,24 +713,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteOffice2010White PaletteOffice2010White => _paletteOffice2010White ??= new PaletteOffice2010White();
 
-        #region Non-Official Office 2010 Themes
-
-        public static PaletteOffice2010Access PaletteOffice2010Access => _paletteOffice2010Access ??= new PaletteOffice2010Access();
-
-        #endregion
-
         /// <summary>
         /// Gets the single instance of the Office 2013 palette.
         /// </summary>
         public static PaletteOffice2013White PaletteOffice2013White => _paletteOffice2013White ??= new PaletteOffice2013White();
-
-        #region Non-Official Office 2013 Themes
-
-        public static PaletteOffice2013Access PaletteOffice2013Access => _paletteOffice2013Access ??= new PaletteOffice2013Access();
-
-        public static PaletteOffice2013AccessLegacy PaletteOffice2013AccessLegacy => _paletteOffice2013AccessLegacy ??= new PaletteOffice2013AccessLegacy();
-
-        #endregion
 
         /// <summary>
         /// Gets the palette office365 black.
@@ -839,14 +771,6 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the ### palette.
         /// </summary>
         public static PaletteOffice365White PaletteOffice365White => _paletteOffice365White ??= new PaletteOffice365White();
-
-        #region Non-Official Office 365 Themes
-
-        public static PaletteOffice365Access PaletteOffice365Access => _paletteOffice365Access ??= new PaletteOffice365Access();
-
-        public static PaletteOffice365Accesslegacy PaletteOffice365Accesslegacy => _paletteOffice365Accesslegacy = new PaletteOffice365Accesslegacy();
-
-        #endregion
 
         /// <summary>
         /// Gets the single instance of the Blue variant sparkle palette.

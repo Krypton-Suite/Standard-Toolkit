@@ -2093,7 +2093,7 @@ namespace Krypton.Toolkit
         /// </summary>
 		Office2007LightGray,
 
-        /// <summary>
+        /*/// <summary>
         /// Specifies the Access color variant of the Office 2007 appearance.
         /// </summary>
 		Office2007Access,
@@ -2146,7 +2146,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the Word color variant of the Office 2007 appearance.
         /// </summary>
-		Office2007Word,
+		Office2007Word,*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2007 appearance.
@@ -2203,7 +2203,7 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010LightGray,
 
-        /// <summary>
+        /*/// <summary>
         /// Specifies the Access color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Access,
@@ -2256,7 +2256,7 @@ namespace Krypton.Toolkit
 		/// <summary>
 		/// Specifies the Word color variant of the Office 2010 appearance.
 		/// </summary>
-		Office2010Word,
+		Office2010Word,*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2010 appearance.
@@ -2313,7 +2313,7 @@ namespace Krypton.Toolkit
         /// </summary>
 		Office2013LightGray,
 
-        /// <summary>
+        /*/// <summary>
         /// Specifies the Access color variant of the Office 2013 appearance.
         /// </summary>
 		Office2013Access,
@@ -2376,7 +2376,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the Word color variant of the Office 2013 appearance.
         /// </summary>
-		Office2013Word,
+		Office2013Word,*/
 
 		/// <summary>
 		/// Specifies the White color variant of the Office 2013 appearance.
@@ -2393,7 +2393,7 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office365LightGray,
 
-		/// <summary>
+		/*/// <summary>
 		/// Specifies the Access color variant of the Office 365 appearance.
 		/// </summary>
 		Office365Access,
@@ -2456,7 +2456,7 @@ namespace Krypton.Toolkit
 		/// <summary>
 		/// Specifies the Word color variant of the Office 365 appearance.
 		/// </summary>
-		Office365Word,
+		Office365Word,*/
 
 		/// <summary>
 		/// Specifies the Black color variant of the Office 365 appearance.
@@ -2590,7 +2590,7 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2007LightGray,
 
-		/// <summary>
+		/*/// <summary>
 		/// Specifies the Access color variant of the Office 2007 appearance.
 		/// </summary>
 		Office2007Access,
@@ -2643,7 +2643,7 @@ namespace Krypton.Toolkit
 		/// <summary>
 		/// Specifies the Word color variant of the Office 2007 appearance.
 		/// </summary>
-		Office2007Word,
+		Office2007Word,*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2007 appearance.
@@ -2700,7 +2700,7 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2010LightGray,
 
-		/// <summary>
+		/*/// <summary>
 		/// Specifies the Access color variant of the Office 2010 appearance.
 		/// </summary>
 		Office2010Access,
@@ -2753,7 +2753,7 @@ namespace Krypton.Toolkit
 		/// <summary>
 		/// Specifies the Word color variant of the Office 2010 appearance.
 		/// </summary>
-		Office2010Word,
+		Office2010Word,*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2010 appearance.
@@ -2810,7 +2810,7 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2013LightGray,
 
-		/// <summary>
+		/*/// <summary>
 		/// Specifies the Access color variant of the Office 2013 appearance.
 		/// </summary>
 		Office2013Access,
@@ -2873,7 +2873,7 @@ namespace Krypton.Toolkit
 		/// <summary>
 		/// Specifies the Word color variant of the Office 2013 appearance.
 		/// </summary>
-		Office2013Word,
+		Office2013Word,*/
 
 		/// <summary>
 		/// Specifies the White color variant of the Office 2013 appearance.
@@ -2890,7 +2890,7 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office365LightGray,
 
-		/// <summary>
+		/*/// <summary>
 		/// Specifies the Access color variant of the Office 365 appearance.
 		/// </summary>
 		Office365Access,
@@ -2953,7 +2953,7 @@ namespace Krypton.Toolkit
 		/// <summary>
 		/// Specifies the Word color variant of the Office 365 appearance.
 		/// </summary>
-		Office365Word,
+		Office365Word,*/
 
 		/// <summary>
 		/// Specifies the Black color variant of the Office 365 appearance.
