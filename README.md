@@ -35,10 +35,15 @@
 | Module Name | Current Version | Github License | 
 |---|---|---|
 | <img src="https://img.shields.io/badge/Module-Toolkit-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Toolkit?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Toolkit/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Toolkit (Lite)-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Toolkit.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Toolkit.Lite/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 | <img src="https://img.shields.io/badge/Module-Docking-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Docking?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Docking/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Docking (Lite)-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Docking.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Docking.Lite/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 | <img src="https://img.shields.io/badge/Module-Navigator-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Navigator?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Navigator/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Navigator (Lite)-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Navigator.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Navigator.Lite/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 | <img src="https://img.shields.io/badge/Module-Ribbon-brightgreen.svg?style=flat-square" />         | [![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Ribbon/)                 | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Ribbon (Lite)-brightgreen.svg?style=flat-square" />         | [![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Ribbon.Lite/)                 | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 | <img src="https://img.shields.io/badge/Module-Workspace-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Workspace/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Workspace (Lite)-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Workspace.Lite/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 
 # Stable (Signed)
 
@@ -54,7 +59,25 @@ Keep up-to-date [here](https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Ve
 
 =======
 
-# <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
+## Documentation
+
+The online help will give an overview of what the toolkit is capable of.
+
+<a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html"><img src="https://img.shields.io/badge/Documentation-Online Help-9cf.svg?style=flat-square" alt="Online Help" /></a>
+
+If you require the full API reference, you can download the latest version by clicking the link below.
+
+<a href="https://github.com/Krypton-Suite/Help-Files/releases"><img src="https://img.shields.io/badge/Documentation-API Reference-9cf.svg?style=flat-square" alt="API Reference" /></a>
+
+=======
+
+## Package Support Information
+
+Full information about support can be found [here](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Development/Package-Support-Information.md)
+
+### Release Cadence
+
+See [Krypton Toolkit release cadence](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Development/Development-Workflow.md)
 
 =======
 

@@ -1386,18 +1386,21 @@ namespace Krypton.Ribbon
             else
             {
                 // Not in keyboard mode but user pressing the tab key
-                if (keyData.HasFlag(Keys.Tab))
+                switch (keyData)    // Do not use `if (keyData.HasFlag(Keys.Tab))` otherwise `Keys.D9` etc will also match
                 {
-                    // If one of our child controls has the focus
-                    if (ContainsFocus)
-                    {
-                        // Move focus forward/background until out of the ribbon
-                        SelectNonRibbonControl(!keyData.HasFlag(Keys.Shift));
-                        return true;
-                    }
-                }
-                else
-                {
+                    case Keys.Tab | Keys.Shift:
+                    case Keys.Tab:
+                        // If one of our child controls has the focus
+                        if (ContainsFocus)
+                        {
+                            // Move focus forward/background until out of the ribbon
+                            SelectNonRibbonControl(keyData == Keys.Tab);
+                            return true;
+                        }
+
+                        break;
+                    default:
+                        break;
                 }
             }
 

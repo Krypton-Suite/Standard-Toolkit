@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
         private readonly CommonDialogHandler _commonDialogHandler;
 
         /// <summary>
-        /// Changes the title of the common Print Dialog
+        /// Changes the title of the common Colour Dialog
         /// </summary>
         public string Title
         {
@@ -28,6 +28,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
+        //[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;

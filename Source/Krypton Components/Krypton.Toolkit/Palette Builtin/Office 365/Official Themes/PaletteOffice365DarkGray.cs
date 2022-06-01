@@ -11,7 +11,7 @@
 #endregion
 
 
-namespace Krypton.Toolkit.Palette_Builtin.Office_365
+namespace Krypton.Toolkit
 {
     internal class PaletteOffice365DarkGray
     {

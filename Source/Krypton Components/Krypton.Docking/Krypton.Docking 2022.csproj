@@ -47,6 +47,10 @@
 
     <PropertyGroup />
 
+	<PropertyGroup>
+		<SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss:fffZ"))</SourceRevisionId>
+	</PropertyGroup>
+
 
     <ItemGroup>
         <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
