@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BlueMaximiseNormal_25_x_23;
         private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlueMaximiseDisabled_25_x_23;
         private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010BlueMaximiseHover_25_x_23;
-        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlueMaximisePressed_13_x_12;
+        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlueMaximisePressed_25_x_23;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueMinimiseNormal_25_x_23;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlueMinimiseHover_25_x_23;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueMinimiseDisabled_25_x_23;
