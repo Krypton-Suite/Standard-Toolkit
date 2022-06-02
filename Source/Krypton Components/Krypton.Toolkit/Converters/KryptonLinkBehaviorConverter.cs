@@ -19,6 +19,12 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(KryptonLinkBehavior.AlwaysUnderline, "Always Underline"),
+            new(KryptonLinkBehavior.HoverUnderline, "Hover Underline"),
+            new(KryptonLinkBehavior.NeverUnderline, "Never Underline")
+        };
         #endregion
 
         #region Identity
@@ -35,10 +41,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(KryptonLinkBehavior.AlwaysUnderline,  "Always Underline"),
-            new(KryptonLinkBehavior.HoverUnderline,   "Hover Underline"),
-            new(KryptonLinkBehavior.NeverUnderline,   "Never Underline") };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

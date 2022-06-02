@@ -25,7 +25,7 @@
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal_25_x_23;
         private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled_25_x_23;
         private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010SilverMaximiseHover_25_x_23;
-        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed_13_x_12;
+        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed_25_x_23;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal_25_x_23;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010SilverMinimiseHover_25_x_23;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled_25_x_23;

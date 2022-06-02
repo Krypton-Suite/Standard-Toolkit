@@ -2,8 +2,14 @@
 
 <!--* Added the ability to control the `CueHint` values through `KryptonPalette`-->
 
-## 2022-11-xx - Build 2211 - Novmber 2022
+=======
+
+## 2022-11-xx - Build 2211 - November 2022
+* Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
+* Resolved [#715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/715), v65.22.4.94 - PaletteSparkleBlueBase.GetContentPadding: Specified argument was out of the range of valid values. Parameter name: style 
+* Implemented the `PlacementModeConverter` for `PlacementMode` enum type
 * Implemented [#551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/551), `DropShadow` should now be off and deprecated
+* Version bump `65.xx.xx.xxx` -> `70.xx.xx.xxx`
 * Support for `.NET 7`
 
 =======
@@ -54,6 +60,7 @@
 * Resolved [#69](https://github.com/Krypton-Suite/Standard-Toolkit/issues/69), The MessageBox display clears the blur underneath (Due to the code thinking it has lost focus, even when the messageBox is owned)
 * Resolved [#68](https://github.com/Krypton-Suite/Standard-Toolkit/issues/68), When Blurring on Windows 10 with a large screen, the offset of the blur overlay is wrong
 * Resolved [#39](https://github.com/Krypton-Suite/Standard-Toolkit/issues/39), KryptonNumericUpDown loses selection (visually) each time the control is painted
+* Version bump `60.xx.xx.xxx` -> `65.xx.xx.xxx`
 
 =======
 

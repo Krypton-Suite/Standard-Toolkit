@@ -1778,6 +1778,7 @@ namespace Krypton.Toolkit
     /// Specifies the PlacementMode
     /// https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.primitives.placementmode?view=netframework-4.7.2#System_Windows_Controls_Primitives_PlacementMode_Absolute
     /// </summary>
+    [TypeConverter(typeof(PlacementModeConverter))]
     public enum PlacementMode
     {
         /// <summary>

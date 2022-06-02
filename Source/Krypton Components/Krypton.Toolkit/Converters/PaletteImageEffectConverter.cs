@@ -19,6 +19,20 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(PaletteImageEffect.Inherit, "Inherit"),
+            new(PaletteImageEffect.Light, "Light"),
+            new(PaletteImageEffect.LightLight, "LightLight"),
+            new(PaletteImageEffect.Normal, "Normal"),
+            new(PaletteImageEffect.Disabled, "Disabled"),
+            new(PaletteImageEffect.Dark, "Dark"),
+            new(PaletteImageEffect.DarkDark, "DarkDark"),
+            new(PaletteImageEffect.GrayScale, "GrayScale"),
+            new(PaletteImageEffect.GrayScaleRed, "GrayScale - Red"),
+            new(PaletteImageEffect.GrayScaleGreen, "GrayScale - Green"),
+            new(PaletteImageEffect.GrayScaleBlue, "GrayScale - Blue")
+        };
         #endregion
 
         #region Identity
@@ -35,18 +49,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(PaletteImageEffect.Inherit,           "Inherit"),
-            new(PaletteImageEffect.Light,             "Light"),
-            new(PaletteImageEffect.LightLight,        "LightLight"),
-            new(PaletteImageEffect.Normal,            "Normal"),
-            new(PaletteImageEffect.Disabled,          "Disabled"),
-            new(PaletteImageEffect.Dark,              "Dark"),
-            new(PaletteImageEffect.DarkDark,          "DarkDark"),
-            new(PaletteImageEffect.GrayScale,         "GrayScale"),
-            new(PaletteImageEffect.GrayScaleRed,      "GrayScale - Red"),
-            new(PaletteImageEffect.GrayScaleGreen,    "GrayScale - Green"),
-            new(PaletteImageEffect.GrayScaleBlue,     "GrayScale - Blue") };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

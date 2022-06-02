@@ -19,6 +19,27 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(PaletteButtonStyle.Inherit, "Inherit"),
+            new(PaletteButtonStyle.Standalone, "Standalone"),
+            new(PaletteButtonStyle.Alternate, "Alternate"),
+            new(PaletteButtonStyle.LowProfile, "Low Profile"),
+            new(PaletteButtonStyle.BreadCrumb, "BreadCrumb"),
+            new(PaletteButtonStyle.Cluster, "Cluster"),
+            new(PaletteButtonStyle.NavigatorStack, "Navigator Stack"),
+            new(PaletteButtonStyle.NavigatorOverflow, "Navigator Overflow"),
+            new(PaletteButtonStyle.NavigatorMini, "Navigator Mini"),
+            new(PaletteButtonStyle.InputControl, "Input Control"),
+            new(PaletteButtonStyle.ListItem, "List Item"),
+            new(PaletteButtonStyle.Form, "Form"),
+            new(PaletteButtonStyle.FormClose, "Form Close"),
+            new(PaletteButtonStyle.ButtonSpec, "ButtonSpec"),
+            new(PaletteButtonStyle.Command, "Command"),
+            new(PaletteButtonStyle.Custom1, "Custom1"),
+            new(PaletteButtonStyle.Custom2, "Custom2"),
+            new(PaletteButtonStyle.Custom3, "Custom3")
+        };
         #endregion
 
         #region Identity
@@ -35,25 +56,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(PaletteButtonStyle.Inherit,           "Inherit"),
-            new(PaletteButtonStyle.Standalone,        "Standalone"),
-            new(PaletteButtonStyle.Alternate,         "Alternate"),
-            new(PaletteButtonStyle.LowProfile,        "Low Profile"),
-            new(PaletteButtonStyle.BreadCrumb,        "BreadCrumb"),
-            new(PaletteButtonStyle.Cluster,           "Cluster"),  
-            new(PaletteButtonStyle.NavigatorStack,    "Navigator Stack"),  
-            new(PaletteButtonStyle.NavigatorOverflow, "Navigator Overflow"),  
-            new(PaletteButtonStyle.NavigatorMini,     "Navigator Mini"),  
-            new(PaletteButtonStyle.InputControl,      "Input Control"),  
-            new(PaletteButtonStyle.ListItem,          "List Item"),  
-            new(PaletteButtonStyle.Form,              "Form"),  
-            new(PaletteButtonStyle.FormClose,         "Form Close"),  
-            new(PaletteButtonStyle.ButtonSpec,        "ButtonSpec"),  
-            new(PaletteButtonStyle.Command,           "Command"),  
-            new(PaletteButtonStyle.Custom1,           "Custom1"),
-            new(PaletteButtonStyle.Custom2,           "Custom2"),
-            new(PaletteButtonStyle.Custom3,           "Custom3") };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }
