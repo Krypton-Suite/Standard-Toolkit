@@ -22,12 +22,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteImages class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        internal KryptonPaletteImages(PaletteRedirect redirector,
+        public KryptonPaletteImages(PaletteRedirect redirector,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);

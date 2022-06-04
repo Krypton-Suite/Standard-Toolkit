@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        internal KryptonPaletteHeaders(PaletteRedirect redirector,
+        public KryptonPaletteHeaders(PaletteRedirect redirector,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
 
             // Create redirectors for inheriting from style specific to style common
             PaletteRedirectTripleMetric redirectCommon = new(redirector, 
-                                                                                         HeaderCommon.StateDisabled, HeaderCommon.StateDisabled,
-                                                                                         HeaderCommon.StateNormal, HeaderCommon.StateNormal);
+                                                                         HeaderCommon.StateDisabled, HeaderCommon.StateDisabled,
+                                                                         HeaderCommon.StateNormal, HeaderCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             HeaderPrimary.SetRedirector(redirectCommon);
