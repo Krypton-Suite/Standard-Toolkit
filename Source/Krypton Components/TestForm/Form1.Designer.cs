@@ -29,34 +29,30 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonComboBox1);
+            this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonComboBox1
+            // kryptonRichTextBox1
             // 
-            this.kryptonComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.kryptonComboBox1.DropDownWidth = 177;
-            this.kryptonComboBox1.Enabled = false;
-            this.kryptonComboBox1.IntegralHeight = false;
-            this.kryptonComboBox1.Location = new System.Drawing.Point(56, 44);
-            this.kryptonComboBox1.Name = "kryptonComboBox1";
-            this.kryptonComboBox1.Size = new System.Drawing.Size(168, 25);
-            this.kryptonComboBox1.StateCommon.ComboBox.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.kryptonComboBox1.StateDisabled.ComboBox.Content.Color1 = System.Drawing.Color.Red;
-            this.kryptonComboBox1.TabIndex = 0;
-            this.kryptonComboBox1.Text = "kryptonComboBox1";
+            this.kryptonRichTextBox1.Enabled = false;
+            this.kryptonRichTextBox1.Location = new System.Drawing.Point(48, 49);
+            this.kryptonRichTextBox1.Name = "kryptonRichTextBox1";
+            this.kryptonRichTextBox1.Size = new System.Drawing.Size(282, 155);
+            this.kryptonRichTextBox1.StateDisabled.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.kryptonRichTextBox1.StateDisabled.Content.Color1 = System.Drawing.Color.Red;
+            this.kryptonRichTextBox1.TabIndex = 0;
+            this.kryptonRichTextBox1.Text = "kryptonRichTextBox1";
             // 
             // Form1
             // 
@@ -69,7 +65,6 @@
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -77,6 +72,6 @@
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
+        private Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
     }
 }

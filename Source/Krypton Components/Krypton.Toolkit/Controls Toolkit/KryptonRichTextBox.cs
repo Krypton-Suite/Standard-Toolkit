@@ -153,6 +153,12 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
+            protected override void OnEnabledChanged(EventArgs e)
+            {
+                // Do not forward, to allow the correct Background for disabled state
+                // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/722
+            }
+
             /// <summary>
             /// Process Windows-based messages.
             /// </summary>
