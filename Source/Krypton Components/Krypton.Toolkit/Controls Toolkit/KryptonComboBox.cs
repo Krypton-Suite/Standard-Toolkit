@@ -205,6 +205,12 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
+            protected override void OnEnabledChanged(EventArgs e)
+            {
+                // Do not forward, to allow the correct Background for diabled state
+                // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/662
+            }
+
             /// <summary>
             /// Raises the FontChanged event.
             /// </summary>
@@ -336,8 +342,8 @@ namespace Krypton.Toolkit
                                 PI.GetClientRect(Handle, out PI.RECT rect);
 
                                 PaletteState state = _kryptonComboBox.Enabled
-                                        ? _kryptonComboBox.IsActive 
-                                            ? PaletteState.Tracking 
+                                        ? _kryptonComboBox.IsActive
+                                            ? PaletteState.Tracking
                                             : PaletteState.Normal
                                         : PaletteState.Disabled;
                                 PaletteInputControlTripleStates states = _kryptonComboBox.GetComboBoxTripleState();
@@ -373,9 +379,9 @@ namespace Krypton.Toolkit
 
                                 // Exclude border from being drawn, we need to take off another 2 pixels from all edges
                                 PI.IntersectClipRect(hdc, rect.left + 2, rect.top + 2, rect.right - 2, rect.bottom - 2);
-
+                                string displayText = _kryptonComboBox.Text;
                                 if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
-                                    && string.IsNullOrEmpty(_kryptonComboBox.Text)
+                                    && string.IsNullOrEmpty(displayText)
                                 )
                                 {
                                     // Go perform the drawing of the CueHint
@@ -423,13 +429,14 @@ namespace Krypton.Toolkit
 
                                     try
                                     {
+                                        //string label = this.Items[e.Index].ToString();
                                         using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
-                                        g.DrawString(Text, states.Content.GetContentShortTextFont(state), foreBrush, rectangle, stringFormat);
+                                        g.DrawString(displayText, states.Content.GetContentShortTextFont(state), foreBrush, rectangle, stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
                                         using SolidBrush foreBrush = new(ForeColor);
-                                        g.DrawString(Text, Font, foreBrush, rectangle, stringFormat);
+                                        g.DrawString(displayText, Font, foreBrush, rectangle, stringFormat);
                                     }
                                 }
 
@@ -2660,7 +2667,7 @@ namespace Krypton.Toolkit
             if (_subclassEdit != null)
             {
                 //_subclassEdit.Visible = Enabled; got to allow the formatting to be seen when not editing
-                // This doe snot work see https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
+                // This does not work see https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
                 _subclassEdit.Visible = false;  // On Focus is supposed to enable this
             }
         }
@@ -3087,7 +3094,7 @@ namespace Krypton.Toolkit
             Point point = new(location.X + DropDownWidth, location.Y);
             tip.ShowCalculatingSize(PointToScreen(point));
         }
-        
+
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
