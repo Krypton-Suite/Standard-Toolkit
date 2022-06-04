@@ -4,7 +4,7 @@
 
 =======
 
-## 2022-11-xx - Build 2211 - November 2022
+## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
 * Resolved [#715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/715), v65.22.4.94 - PaletteSparkleBlueBase.GetContentPadding: Specified argument was out of the range of valid values. Parameter name: style 
 * Implemented the `PlacementModeConverter` for `PlacementMode` enum type
