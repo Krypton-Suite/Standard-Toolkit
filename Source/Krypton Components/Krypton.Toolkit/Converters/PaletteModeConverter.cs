@@ -84,12 +84,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Implementation
-
-        //public void AddToPaletteModePair(int index, PaletteMode paletteMode, string paletteName)=>_pairs.
-
-        #endregion
-
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.

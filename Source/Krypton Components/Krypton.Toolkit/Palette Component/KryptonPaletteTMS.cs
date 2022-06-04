@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Associated palettte instance.</param>
         /// <param name="baseKCT">Initial base KCT to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        internal KryptonPaletteTMS(IPalette palette,
+        public KryptonPaletteTMS(IPalette palette,
                                    KryptonColorTable baseKCT,
                                    NeedPaintHandler needPaint)
         {
@@ -223,13 +223,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal KryptonColorTable BaseKCT
+        public KryptonColorTable BaseKCT
         {
             get => InternalKCT.BaseKCT;
             set => InternalKCT.BaseKCT = value;
         }
 
-        internal KryptonInternalKCT InternalKCT { get; }
+        public KryptonInternalKCT InternalKCT { get; }
 
         #endregion
     }

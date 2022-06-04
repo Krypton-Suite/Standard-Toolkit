@@ -2093,61 +2093,6 @@ namespace Krypton.Toolkit
         /// </summary>
 		Office2007LightGray,
 
-        /*/// <summary>
-        /// Specifies the Access color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Access,
-
-        /// <summary>
-        /// Specifies the Excel color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Excel,
-
-        /// <summary>
-        /// Specifies the Groove color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Groove,
-
-        /// <summary>
-        /// Specifies the InfoPath color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007InfoPath,
-
-        /// <summary>
-        /// Specifies the OneNote color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007OneNote,
-
-        /// <summary>
-        /// Specifies the Outlook color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Outlook,
-
-        /// <summary>
-        /// Specifies the PowerPoint color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007PowerPoint,
-
-        /// <summary>
-        /// Specifies the Project color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Project,
-
-        /// <summary>
-        /// Specifies the Publisher color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Publisher,
-
-        /// <summary>
-        /// Specifies the Visio color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Visio,
-
-        /// <summary>
-        /// Specifies the Word color variant of the Office 2007 appearance.
-        /// </summary>
-		Office2007Word,*/
-
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2007 appearance.
 		/// </summary>
@@ -2202,61 +2147,6 @@ namespace Krypton.Toolkit
         /// Specifies the light Grey color variant of the Office 2010 appearance.
         /// </summary>
         Office2010LightGray,
-
-        /*/// <summary>
-        /// Specifies the Access color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010Access,
-
-        /// <summary>
-        /// Specifies the Excel color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010Excel,
-
-        /// <summary>
-        /// Specifies the InfoPath color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010InfoPath,
-
-        /// <summary>
-        /// Specifies the OneNote color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010OneNote,
-
-        /// <summary>
-        /// Specifies the Outlook color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010Outlook,
-
-        /// <summary>
-        /// Specifies the PowerPoint color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010PowerPoint,
-
-        /// <summary>
-        /// Specifies the Project color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010Project,
-
-        /// <summary>
-        /// Specifies the Publisher color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010Publisher,
-
-        /// <summary>
-        /// Specifies the SharePoint color variant of the Office 2010 appearance.
-        /// </summary>
-        Office2010SharePoint,
-
-		/// <summary>
-		/// Specifies the Visio color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Visio,
-
-		/// <summary>
-		/// Specifies the Word color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Word,*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2010 appearance.
@@ -2313,71 +2203,6 @@ namespace Krypton.Toolkit
         /// </summary>
 		Office2013LightGray,
 
-        /*/// <summary>
-        /// Specifies the Access color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Access,
-
-        /// <summary>
-        /// Specifies the Access color variant of the Office 2013 appearance (In the pre-2013 colours).
-        /// </summary>
-        Office2013AccessLegacy,
-
-        /// <summary>
-        /// Specifies the Excel color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Excel,
-
-        /// <summary>
-        /// Specifies the InfoPath color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013InfoPath,
-
-        /// <summary>
-        /// Specifies the Lync color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Lync,
-
-        /// <summary>
-        /// Specifies the OneNote color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013OneNote,
-
-        /// <summary>
-        /// Specifies the Outlook color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Outlook,
-
-        /// <summary>
-        /// Specifies the PowerPoint color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013PowerPoint,
-
-        /// <summary>
-        /// Specifies the Project color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Project,
-
-        /// <summary>
-        /// Specifies the Publisher color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Publisher,
-
-        /// <summary>
-        /// Specifies the SharePoint color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013SharePoint,
-
-        /// <summary>
-        /// Specifies the Visio color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Visio,
-
-        /// <summary>
-        /// Specifies the Word color variant of the Office 2013 appearance.
-        /// </summary>
-		Office2013Word,*/
-
 		/// <summary>
 		/// Specifies the White color variant of the Office 2013 appearance.
 		/// </summary>
@@ -2392,71 +2217,6 @@ namespace Krypton.Toolkit
 		/// Specifies the light Grey color variant of the Office 365 appearance.
 		/// </summary>
 		Office365LightGray,
-
-		/*/// <summary>
-		/// Specifies the Access color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Access,
-
-        /// <summary>
-        /// Specifies the Access color variant of the Office 365 appearance (In the pre-2013 colours).
-        /// </summary>
-        Office365AccessLegacy,
-
-		/// <summary>
-		/// Specifies the Excel color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Excel,
-
-		/// <summary>
-		/// Specifies the InfoPath color variant of the Office 365 appearance.
-		/// </summary>
-		Office365InfoPath,
-
-		/// <summary>
-		/// Specifies the Lync color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Lync,
-
-		/// <summary>
-		/// Specifies the OneNote color variant of the Office 365 appearance.
-		/// </summary>
-		Office365OneNote,
-
-		/// <summary>
-		/// Specifies the Outlook color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Outlook,
-
-		/// <summary>
-		/// Specifies the PowerPoint color variant of the Office 365 appearance.
-		/// </summary>
-		Office365PowerPoint,
-
-		/// <summary>
-		/// Specifies the Project color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Project,
-
-		/// <summary>
-		/// Specifies the Publisher color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Publisher,
-
-		/// <summary>
-		/// Specifies the SharePoint color variant of the Office 365 appearance.
-		/// </summary>
-		Office365SharePoint,
-
-		/// <summary>
-		/// Specifies the Visio color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Visio,
-
-		/// <summary>
-		/// Specifies the Word color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Word,*/
 
 		/// <summary>
 		/// Specifies the Black color variant of the Office 365 appearance.
@@ -2590,61 +2350,6 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2007LightGray,
 
-		/*/// <summary>
-		/// Specifies the Access color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Access,
-
-		/// <summary>
-		/// Specifies the Excel color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Excel,
-
-		/// <summary>
-		/// Specifies the Groove color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Groove,
-
-		/// <summary>
-		/// Specifies the InfoPath color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007InfoPath,
-
-		/// <summary>
-		/// Specifies the OneNote color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007OneNote,
-
-		/// <summary>
-		/// Specifies the Outlook color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Outlook,
-
-		/// <summary>
-		/// Specifies the PowerPoint color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007PowerPoint,
-
-		/// <summary>
-		/// Specifies the Project color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Project,
-
-		/// <summary>
-		/// Specifies the Publisher color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Publisher,
-
-		/// <summary>
-		/// Specifies the Visio color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Visio,
-
-		/// <summary>
-		/// Specifies the Word color variant of the Office 2007 appearance.
-		/// </summary>
-		Office2007Word,*/
-
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2007 appearance.
 		/// </summary>
@@ -2699,61 +2404,6 @@ namespace Krypton.Toolkit
 		/// Specifies the light Grey color variant of the Office 2010 appearance.
 		/// </summary>
 		Office2010LightGray,
-
-		/*/// <summary>
-		/// Specifies the Access color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Access,
-
-		/// <summary>
-		/// Specifies the Excel color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Excel,
-
-		/// <summary>
-		/// Specifies the InfoPath color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010InfoPath,
-
-		/// <summary>
-		/// Specifies the OneNote color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010OneNote,
-
-		/// <summary>
-		/// Specifies the Outlook color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Outlook,
-
-		/// <summary>
-		/// Specifies the PowerPoint color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010PowerPoint,
-
-		/// <summary>
-		/// Specifies the Project color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Project,
-
-		/// <summary>
-		/// Specifies the Publisher color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Publisher,
-
-		/// <summary>
-		/// Specifies the SharePoint color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010SharePoint,
-
-		/// <summary>
-		/// Specifies the Visio color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Visio,
-
-		/// <summary>
-		/// Specifies the Word color variant of the Office 2010 appearance.
-		/// </summary>
-		Office2010Word,*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2010 appearance.
@@ -2810,71 +2460,6 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2013LightGray,
 
-		/*/// <summary>
-		/// Specifies the Access color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Access,
-
-        /// <summary>
-        /// Specifies the Access color variant of the Office 2013 appearance (In the pre-2013 colours).
-        /// </summary>
-        Office2013AccessLegacy,
-
-        /// <summary>
-        /// Specifies the Excel color variant of the Office 2013 appearance.
-        /// </summary>
-        Office2013Excel,
-
-		/// <summary>
-		/// Specifies the InfoPath color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013InfoPath,
-
-		/// <summary>
-		/// Specifies the Lync color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Lync,
-
-		/// <summary>
-		/// Specifies the OneNote color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013OneNote,
-
-		/// <summary>
-		/// Specifies the Outlook color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Outlook,
-
-		/// <summary>
-		/// Specifies the PowerPoint color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013PowerPoint,
-
-		/// <summary>
-		/// Specifies the Project color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Project,
-
-		/// <summary>
-		/// Specifies the Publisher color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Publisher,
-
-		/// <summary>
-		/// Specifies the SharePoint color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013SharePoint,
-
-		/// <summary>
-		/// Specifies the Visio color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Visio,
-
-		/// <summary>
-		/// Specifies the Word color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013Word,*/
-
 		/// <summary>
 		/// Specifies the White color variant of the Office 2013 appearance.
 		/// </summary>
@@ -2889,72 +2474,7 @@ namespace Krypton.Toolkit
 		/// Specifies the light Grey color variant of the Office 365 appearance.
 		/// </summary>
 		Office365LightGray,
-
-		/*/// <summary>
-		/// Specifies the Access color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Access,
-
-        /// <summary>
-        /// Specifies the Access color variant of the Office 365 appearance (In the pre-2013 colours).
-        /// </summary>
-        Office365AccessLegacy,
-
-        /// <summary>
-        /// Specifies the Excel color variant of the Office 365 appearance.
-        /// </summary>
-        Office365Excel,
-
-		/// <summary>
-		/// Specifies the InfoPath color variant of the Office 365 appearance.
-		/// </summary>
-		Office365InfoPath,
-
-		/// <summary>
-		/// Specifies the Lync color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Lync,
-
-		/// <summary>
-		/// Specifies the OneNote color variant of the Office 365 appearance.
-		/// </summary>
-		Office365OneNote,
-
-		/// <summary>
-		/// Specifies the Outlook color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Outlook,
-
-		/// <summary>
-		/// Specifies the PowerPoint color variant of the Office 365 appearance.
-		/// </summary>
-		Office365PowerPoint,
-
-		/// <summary>
-		/// Specifies the Project color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Project,
-
-		/// <summary>
-		/// Specifies the Publisher color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Publisher,
-
-		/// <summary>
-		/// Specifies the SharePoint color variant of the Office 365 appearance.
-		/// </summary>
-		Office365SharePoint,
-
-		/// <summary>
-		/// Specifies the Visio color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Visio,
-
-		/// <summary>
-		/// Specifies the Word color variant of the Office 365 appearance.
-		/// </summary>
-		Office365Word,*/
-
+		
 		/// <summary>
 		/// Specifies the Black color variant of the Office 365 appearance.
 		/// </summary>
