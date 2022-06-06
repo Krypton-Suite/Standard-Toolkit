@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonInternalKCT : KryptonColorTable
+    public class KryptonInternalKCT : KryptonColorTable
     {
         #region Instance Fields
         private KryptonColorTable _baseKCT;

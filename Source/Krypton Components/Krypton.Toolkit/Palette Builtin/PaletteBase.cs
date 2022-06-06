@@ -1321,7 +1321,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region OnUserPreferenceChanged
-        internal void UserPreferenceChanged() => OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
+        public void UserPreferenceChanged() => OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
 
         /// <summary>
         /// Handle a change in the user preferences.

@@ -2,6 +2,18 @@
 
 <!--* Added the ability to control the `CueHint` values through `KryptonPalette`-->
 
+=======
+
+## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
+* Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
+* Resolved [#715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/715), v65.22.4.94 - PaletteSparkleBlueBase.GetContentPadding: Specified argument was out of the range of valid values. Parameter name: style 
+* Implemented the `PlacementModeConverter` for `PlacementMode` enum type
+* Implemented [#551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/551), `DropShadow` should now be off and deprecated
+* Version bump `65.xx.xx.xxx` -> `70.xx.xx.xxx`
+* Support for `.NET 7`
+
+=======
+
 ## 2022-06-01 - Build 2206 - June 2022
 * Improvements to all 'Black/Blue (Dark Mode)' themes
 * Silver dark/light mode themes are now implemented
@@ -19,7 +31,9 @@
 * Resolved [#693](https://github.com/Krypton-Suite/Standard-Toolkit/issues/693), Docked controls are rendered with smaller size which hides the caption/title text.
 * Resolved [#653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/653), Page Drag&Drop/Floating exception
 * Resolved bug where the colour value for `PaletteBackStyle.ControlToolTip` was 'out of range' in certain themes
-* Implement [#691](https://github.com/Krypton-Suite/Standard-Toolkit/issues/691), Update Project landing pages with links to Help file downloads
+* Implemented [#691](https://github.com/Krypton-Suite/Standard-Toolkit/issues/691), Update Project landing pages with links to Help file downloads
+
+=======
 
 ## 2022-04-04 - Build 2204 - April 2022
 * Resolved [#678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/678), Dropdown list background & text colour are the same (Office 2010 - Black (Dark Mode))
@@ -48,6 +62,7 @@
 * Resolved [#69](https://github.com/Krypton-Suite/Standard-Toolkit/issues/69), The MessageBox display clears the blur underneath (Due to the code thinking it has lost focus, even when the messageBox is owned)
 * Resolved [#68](https://github.com/Krypton-Suite/Standard-Toolkit/issues/68), When Blurring on Windows 10 with a large screen, the offset of the blur overlay is wrong
 * Resolved [#39](https://github.com/Krypton-Suite/Standard-Toolkit/issues/39), KryptonNumericUpDown loses selection (visually) each time the control is painted
+* Version bump `60.xx.xx.xxx` -> `65.xx.xx.xxx`
 
 =======
 

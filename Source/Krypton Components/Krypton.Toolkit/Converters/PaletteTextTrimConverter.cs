@@ -19,6 +19,16 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(PaletteTextTrim.Inherit, "Inherit"),
+            new(PaletteTextTrim.Hide, "Hide"),
+            new(PaletteTextTrim.Character, "Character"),
+            new(PaletteTextTrim.Word, "Word"),
+            new(PaletteTextTrim.EllipsisCharacter, "Ellipsis Character"),
+            new(PaletteTextTrim.EllipsisWord, "Ellipsis Word"),
+            new(PaletteTextTrim.EllipsisPath, "Ellipsis Path")
+        };
         #endregion
 
         #region Identity
@@ -35,14 +45,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(PaletteTextTrim.Inherit,              "Inherit"),
-            new(PaletteTextTrim.Hide,                 "Hide"),
-            new(PaletteTextTrim.Character,            "Character"),
-            new(PaletteTextTrim.Word,                 "Word"),
-            new(PaletteTextTrim.EllipsisCharacter,    "Ellipsis Character"),
-            new(PaletteTextTrim.EllipsisWord,         "Ellipsis Word"),
-            new(PaletteTextTrim.EllipsisPath,         "Ellipsis Path") };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

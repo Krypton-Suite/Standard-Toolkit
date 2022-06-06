@@ -1193,6 +1193,10 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
+
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            ItemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnCheckedListClick(object sender, EventArgs e) =>
@@ -1215,6 +1219,30 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => StateCommon.Border.Rounding;
+
+            set => StateCommon.Border.Rounding = value;
+        }
+
+        /// <summary>Gets or sets the item corner rounding radius.</summary>
+        /// <value>The item corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the item corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float ItemCornerRoundingRadius
+        {
+            get => StateCommon.Item.Border.Rounding;
+
+            set => StateCommon.Item.Border.Rounding = value;
+        }
+
         /// <summary>
         /// Gets access to the contained CheckedListBox instance.
         /// </summary>

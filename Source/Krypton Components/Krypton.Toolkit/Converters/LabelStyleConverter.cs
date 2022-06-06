@@ -19,6 +19,24 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(LabelStyle.NormalControl, "Normal (Control)"),
+            new(LabelStyle.BoldControl, "Bold (Control)"),
+            new(LabelStyle.ItalicControl, "Italic (Control)"),
+            new(LabelStyle.TitleControl, "Title (Control)"),
+            new(LabelStyle.NormalPanel, "Normal (Panel)"),
+            new(LabelStyle.BoldPanel, "Bold (Panel)"),
+            new(LabelStyle.ItalicPanel, "Italic (Panel)"),
+            new(LabelStyle.TitlePanel, "Title (Panel)"),
+            new(LabelStyle.GroupBoxCaption, "Caption (Panel)"),
+            new(LabelStyle.ToolTip, "ToolTip"),
+            new(LabelStyle.SuperTip, "SuperTip"),
+            new(LabelStyle.KeyTip, "KeyTip"),
+            new(LabelStyle.Custom1, "Custom1"),
+            new(LabelStyle.Custom2, "Custom2"),
+            new(LabelStyle.Custom3, "Custom3")
+        };
         #endregion
 
         #region Identity
@@ -32,25 +50,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(LabelStyle.NormalControl,     "Normal (Control)"),
-            new(LabelStyle.BoldControl,       "Bold (Control)"),
-            new(LabelStyle.ItalicControl,     "Italic (Control)"),
-            new(LabelStyle.TitleControl,      "Title (Control)"),
-            new(LabelStyle.NormalPanel,       "Normal (Panel)"),
-            new(LabelStyle.BoldPanel,         "Bold (Panel)"),
-            new(LabelStyle.ItalicPanel,       "Italic (Panel)"),
-            new(LabelStyle.TitlePanel,        "Title (Panel)"),
-            new(LabelStyle.GroupBoxCaption,   "Caption (Panel)"),
-            new(LabelStyle.ToolTip,           "ToolTip"), 
-            new(LabelStyle.SuperTip,          "SuperTip"), 
-            new(LabelStyle.KeyTip,            "KeyTip"), 
-            new(LabelStyle.Custom1,           "Custom1"), 
-            new(LabelStyle.Custom2,           "Custom2"), 
-            new(LabelStyle.Custom3,           "Custom3") };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

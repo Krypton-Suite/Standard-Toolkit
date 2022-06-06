@@ -19,6 +19,15 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(PaletteButtonOrientation.Inherit, "Inherit"),
+            new(PaletteButtonOrientation.Auto, "Auto"),
+            new(PaletteButtonOrientation.FixedTop, "Fixed Top"),
+            new(PaletteButtonOrientation.FixedBottom, "Fixed Bottom"),
+            new(PaletteButtonOrientation.FixedLeft, "Fixed Left"),
+            new(PaletteButtonOrientation.FixedRight, "Fixed Right")
+        };
         #endregion
 
         #region Identity
@@ -35,13 +44,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(PaletteButtonOrientation.Inherit,     "Inherit"),
-            new(PaletteButtonOrientation.Auto,        "Auto"),
-            new(PaletteButtonOrientation.FixedTop,    "Fixed Top"),
-            new(PaletteButtonOrientation.FixedBottom, "Fixed Bottom"),
-            new(PaletteButtonOrientation.FixedLeft,   "Fixed Left"),
-            new(PaletteButtonOrientation.FixedRight,  "Fixed Right") };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

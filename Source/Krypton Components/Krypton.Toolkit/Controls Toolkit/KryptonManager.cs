@@ -44,6 +44,7 @@ namespace Krypton.Toolkit
         private static PaletteOffice2007White _paletteOffice2007White;
         private static PaletteOffice2007Black _paletteOffice2007Black;
         private static PaletteOffice2007BlackDarkMode _paletteOffice2007BlackDarkMode;
+
         private static PaletteOffice2010Blue _paletteOffice2010Blue;
         private static PaletteOffice2010BlueDarkMode _paletteOffice2010BlueDarkMode;
         private static PaletteOffice2010BlueLightMode _paletteOffice2010BlueLightMode;
@@ -53,7 +54,9 @@ namespace Krypton.Toolkit
         private static PaletteOffice2010Silver _paletteOffice2010Silver;
         private static PaletteOffice2010SilverDarkMode _paletteOffice2010SilverDarkMode;
         private static PaletteOffice2010SilverLightMode _paletteOffice2010SilverLightMode;
+
         private static PaletteOffice2013White _paletteOffice2013White;
+
         private static PaletteSparkleBlue _paletteSparkleBlue;
         private static PaletteSparkleBlueDarkMode _paletteSparkleBlueDarkMode;
         private static PaletteSparkleBlueLightMode _paletteSparkleBlueLightMode;
@@ -72,6 +75,7 @@ namespace Krypton.Toolkit
         private static PaletteOffice365SilverDarkMode _paletteOffice365SilverDarkMode;
         private static PaletteOffice365SilverLightMode _paletteOffice365SilverLightMode;
         private static PaletteOffice365White _paletteOffice365White;
+
         private static RenderStandard _renderStandard;
         private static RenderProfessional _renderProfessional;
         private static RenderOffice2007 _renderOffice2007;
@@ -663,6 +667,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteOffice2007BlackDarkMode PaletteOffice2007BlackDarkMode => _paletteOffice2007BlackDarkMode ??= new PaletteOffice2007BlackDarkMode();
 
+
         /// <summary>
         /// Gets the single instance of the Blue variant Office 2010 palette.
         /// </summary>
@@ -707,7 +712,7 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the ### palette.
         /// </summary>
         public static PaletteOffice2010White PaletteOffice2010White => _paletteOffice2010White ??= new PaletteOffice2010White();
-        
+
         /// <summary>
         /// Gets the single instance of the Office 2013 palette.
         /// </summary>

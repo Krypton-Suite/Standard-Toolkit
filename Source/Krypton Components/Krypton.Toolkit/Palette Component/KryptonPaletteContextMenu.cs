@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        internal KryptonPaletteContextMenu(PaletteRedirect redirect,
+        public KryptonPaletteContextMenu(PaletteRedirect redirect,
                                            NeedPaintHandler needPaint)
         {
             // Create the storage objects
