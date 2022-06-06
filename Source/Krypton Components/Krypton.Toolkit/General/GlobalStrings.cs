@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
 
         // NET 6 & newer
         private const string DEFAULT_CONTINUE = "Co&ntinue";
-        private const string DEFAULT_TRY = "&Try Again";
+        private const string DEFAULT_TRY_AGAIN = "&Try Again";
         #endregion
 
         #region Instance Fields
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
                                  Today.Equals(DEFAULT_TODAY) &&
                                  Help.Equals(DEFAULT_HELP) &&
                                  Continue.Equals(DEFAULT_CONTINUE) &&
-                                 TryAgain.Equals(DEFAULT_TRY);
+                                 TryAgain.Equals(DEFAULT_TRY_AGAIN);
 
         /// <summary>
         /// Reset all strings to default values.
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
 
             // NET 6 & newer
             Continue = DEFAULT_CONTINUE;
-            TryAgain = DEFAULT_TRY;
+            TryAgain = DEFAULT_TRY_AGAIN;
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Try Again string used for Message Box Buttons.")]
-        [DefaultValue(DEFAULT_TRY)]
+        [DefaultValue(DEFAULT_TRY_AGAIN)]
         public string TryAgain { get; set; }
 #endregion
     }
