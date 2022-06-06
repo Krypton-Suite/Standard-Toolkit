@@ -61,12 +61,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
         /// <summary>
         /// Gets a value indicating if all the strings are default values.
         /// </summary>
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
-#if NET6_0
         public bool IsDefault => OK.Equals(DEFAULT_OK) &&
                                  Cancel.Equals(DEFAULT_CANCEL) &&
                                  Yes.Equals(DEFAULT_YES) &&
@@ -79,18 +79,6 @@ namespace Krypton.Toolkit
                                  Help.Equals(DEFAULT_HELP) &&
                                  Continue.Equals(DEFAULT_CONTINUE) &&
                                  TryAgain.Equals(DEFAULT_TRY);
-#else
-        public bool IsDefault => OK.Equals(DEFAULT_OK) &&
-                                 Cancel.Equals(DEFAULT_CANCEL) &&
-                                 Yes.Equals(DEFAULT_YES) &&
-                                 No.Equals(DEFAULT_NO) &&
-                                 Abort.Equals(DEFAULT_ABORT) &&
-                                 Retry.Equals(DEFAULT_RETRY) &&
-                                 Ignore.Equals(DEFAULT_IGNORE) &&
-                                 Close.Equals(DEFAULT_CLOSE) &&
-                                 Today.Equals(DEFAULT_TODAY) &&
-                                Help.Equals(DEFAULT_HELP);
-#endif
 
         /// <summary>
         /// Reset all strings to default values.
