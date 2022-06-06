@@ -33,6 +33,10 @@ namespace Krypton.Toolkit
         private const string DEFAULT_CLOSE = "Cl&ose";
         private const string DEFAULT_TODAY = "T&oday";
         private const string DEFAULT_HELP = "H&elp";
+
+        // NET 6 & newer
+        private const string DEFAULT_CONTINUE = "Co&ntinue";
+        private const string DEFAULT_TRY = "&Try Again";
         #endregion
 
         #region Instance Fields
@@ -62,6 +66,20 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
+#if NET6_0
+        public bool IsDefault => OK.Equals(DEFAULT_OK) &&
+                                 Cancel.Equals(DEFAULT_CANCEL) &&
+                                 Yes.Equals(DEFAULT_YES) &&
+                                 No.Equals(DEFAULT_NO) &&
+                                 Abort.Equals(DEFAULT_ABORT) &&
+                                 Retry.Equals(DEFAULT_RETRY) &&
+                                 Ignore.Equals(DEFAULT_IGNORE) &&
+                                 Close.Equals(DEFAULT_CLOSE) &&
+                                 Today.Equals(DEFAULT_TODAY) &&
+                                 Help.Equals(DEFAULT_HELP) &&
+                                 Continue.Equals(DEFAULT_CONTINUE) &&
+                                 TryAgain.Equals(DEFAULT_TRY);
+#else
         public bool IsDefault => OK.Equals(DEFAULT_OK) &&
                                  Cancel.Equals(DEFAULT_CANCEL) &&
                                  Yes.Equals(DEFAULT_YES) &&
@@ -72,6 +90,7 @@ namespace Krypton.Toolkit
                                  Close.Equals(DEFAULT_CLOSE) &&
                                  Today.Equals(DEFAULT_TODAY) &&
                                 Help.Equals(DEFAULT_HELP);
+#endif
 
         /// <summary>
         /// Reset all strings to default values.
@@ -88,6 +107,10 @@ namespace Krypton.Toolkit
             Close = DEFAULT_CLOSE;
             Today = DEFAULT_TODAY;
             Help = DEFAULT_HELP;
+
+            // NET 6 & newer
+            Continue = DEFAULT_CONTINUE;
+            TryAgain = DEFAULT_TRY;
         }
 
         /// <summary>
@@ -190,6 +213,24 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_HELP)]
         [RefreshProperties(RefreshProperties.All)]
         public string Help { get; set; }
-        #endregion
+
+        /// <summary>
+        /// Gets and sets the Continue string used in calendars.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Continue string used for Message Box Buttons.")]
+        [DefaultValue(DEFAULT_CONTINUE)]
+        public string Continue { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Try Again string used in calendars.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Try Again string used for Message Box Buttons.")]
+        [DefaultValue(DEFAULT_TRY)]
+        public string TryAgain { get; set; }
+#endregion
     }
 }

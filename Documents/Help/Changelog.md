@@ -5,7 +5,10 @@
 =======
 
 ## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
+* Implemented [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox `States` inline with latest .Net 6 
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
+* Resolved [#722](https://github.com/Krypton-Suite/Standard-Toolkit/issues/722), KryptonRichTextBox disabled colour cannot be set
+* Resolved [#662](https://github.com/Krypton-Suite/Standard-Toolkit/issues/662), Can not "Control / Set Disabled" Background Colour Of Comboboxes, in DropDown mode
 * Resolved [#715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/715), v65.22.4.94 - PaletteSparkleBlueBase.GetContentPadding: Specified argument was out of the range of valid values. Parameter name: style 
 * Implemented the `PlacementModeConverter` for `PlacementMode` enum type
 * Implemented [#551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/551), `DropShadow` should now be off and deprecated
@@ -24,8 +27,6 @@
 * Blue dark mode themes now have a darker alternate colour
 * Added new `GetPaletteModeManager()` method to the `ThemeManager` API, to return the current `PaletteModeManager` of the selected `KryptonManager`
 * Update documentation for `PaletteMode` and `PaletteModeManager`
-* Resolved [#722](https://github.com/Krypton-Suite/Standard-Toolkit/issues/722), KryptonRichTextBox disabled colour cannot be set
-* Resolved [#662](https://github.com/Krypton-Suite/Standard-Toolkit/issues/662), Can not "Control / Set Disabled" Background Colour Of Comboboxes, in DropDown mode
 * Resolved [#701](https://github.com/Krypton-Suite/Standard-Toolkit/issues/701), `CueHint` in `KryptonPalette` does not work
 * Resolved [#697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/697), Number 9 is handled in ribbon textbox/richtextbox.
 * Resolved [#693](https://github.com/Krypton-Suite/Standard-Toolkit/issues/693), Docked controls are rendered with smaller size which hides the caption/title text.

@@ -251,6 +251,91 @@ namespace Krypton.Toolkit
 
         private void UpdateButtons()
         {
+#if NET6_0
+            switch (_buttons)
+            {
+                case MessageBoxButtons.OK:
+                    _button1.Text = KryptonManager.Strings.OK;
+                    _button1.DialogResult = DialogResult.OK;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    break;
+                case MessageBoxButtons.OKCancel:
+                    _button1.Text = KryptonManager.Strings.OK;
+                    _button2.Text = KryptonManager.Strings.Cancel;
+                    _button1.DialogResult = DialogResult.OK;
+                    _button2.DialogResult = DialogResult.Cancel;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    _button2.Visible = true;
+                    _button2.Enabled = true;
+                    break;
+                case MessageBoxButtons.CancelTryContinue:
+                    _button1.Text = KryptonManager.Strings.Cancel;
+                    _button2.Text = KryptonManager.Strings.TryAgain;
+                    _button3.Text = KryptonManager.Strings.Continue;
+                    _button1.DialogResult = DialogResult.Cancel;
+                    _button2.DialogResult = DialogResult.TryAgain;
+                    _button3.DialogResult = DialogResult.Continue;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    _button2.Visible = true;
+                    _button2.Enabled = true;
+                    _button3.Visible = true;
+                    _button3.Enabled = true;
+                    break;
+                case MessageBoxButtons.YesNo:
+                    _button1.Text = KryptonManager.Strings.Yes;
+                    _button2.Text = KryptonManager.Strings.No;
+                    _button1.DialogResult = DialogResult.Yes;
+                    _button2.DialogResult = DialogResult.No;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    _button2.Visible = true;
+                    _button2.Enabled = true;
+                    ControlBox = false;
+                    break;
+                case MessageBoxButtons.YesNoCancel:
+                    _button1.Text = KryptonManager.Strings.Yes;
+                    _button2.Text = KryptonManager.Strings.No;
+                    _button3.Text = KryptonManager.Strings.Cancel;
+                    _button1.DialogResult = DialogResult.Yes;
+                    _button2.DialogResult = DialogResult.No;
+                    _button3.DialogResult = DialogResult.Cancel;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    _button2.Visible = true;
+                    _button2.Enabled = true;
+                    _button3.Visible = true;
+                    _button3.Enabled = true;
+                    break;
+                case MessageBoxButtons.RetryCancel:
+                    _button1.Text = KryptonManager.Strings.Retry;
+                    _button2.Text = KryptonManager.Strings.Cancel;
+                    _button1.DialogResult = DialogResult.Retry;
+                    _button2.DialogResult = DialogResult.Cancel;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    _button2.Visible = true;
+                    _button2.Enabled = true;
+                    break;
+                case MessageBoxButtons.AbortRetryIgnore:
+                    _button1.Text = KryptonManager.Strings.Abort;
+                    _button2.Text = KryptonManager.Strings.Retry;
+                    _button3.Text = KryptonManager.Strings.Ignore;
+                    _button1.DialogResult = DialogResult.Abort;
+                    _button2.DialogResult = DialogResult.Retry;
+                    _button3.DialogResult = DialogResult.Ignore;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    _button2.Visible = true;
+                    _button2.Enabled = true;
+                    _button3.Visible = true;
+                    _button3.Enabled = true;
+                    ControlBox = false;
+                    break;
+            }
+#else
             switch (_buttons)
             {
                 case MessageBoxButtons.OK:
@@ -320,6 +405,7 @@ namespace Krypton.Toolkit
                     ControlBox = false;
                     break;
             }
+#endif
 
             // Do we ignore the Alt+F4 on the buttons?
             if (!ControlBox)
