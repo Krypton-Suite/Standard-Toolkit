@@ -145,6 +145,12 @@ namespace Krypton.Toolkit
         /// <returns>The current <see cref="PaletteMode"/>.</returns>
         public static PaletteMode GetPaletteMode(KryptonManager manager) => ReturnPaletteMode(manager.GlobalPaletteMode);
 
+        private static PaletteMode ReturnPaletteMode(string themeName)
+        {
+            // Note: Needs to be filled out
+            return PaletteMode.Custom;
+        }
+
         /// <summary>Returns the palette mode.</summary>
         /// <param name="paletteModeManager">The palette mode manager.</param>
         /// <returns>The selected <see cref="PaletteMode"/>.</returns>
@@ -569,74 +575,49 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonListBox target, params string[] excludePartials)
-        {
-            AddToCollection(target.Items, excludePartials);
-        }
+        public static void PropagateThemeSelector(KryptonListBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonDomainUpDown target, params string[] excludePartials)
-        {
-            AddToCollection(target.Items, excludePartials);
-        }
+        public static void PropagateThemeSelector(KryptonDomainUpDown target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(ComboBox target, params string[] excludePartials)
-        {
-            AddToCollection(target.Items, excludePartials);
-        }
+        public static void PropagateThemeSelector(ComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(DomainUpDown target, params string[] excludePartials)
-        {
-            AddToCollection(target.Items, excludePartials);
-        }
+        public static void PropagateThemeSelector(DomainUpDown target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(ToolStripComboBox target, params string[] excludePartials)
-        {
-            AddToCollection(target.Items, excludePartials);
-        }
+        public static void PropagateThemeSelector(ToolStripComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
         /// Applies the theme mode.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode ApplyThemeMode(string themeName)
-        {
-            PaletteMode mode = (PaletteMode)Enum.Parse(typeof(PaletteMode), themeName);
-
-            return mode;
-        }
+        public static PaletteMode ApplyThemeMode(string themeName) => (PaletteMode)Enum.Parse(typeof(PaletteMode), themeName);
 
         /// <summary>
         /// Applies the theme manager mode.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteModeManager"/> equivalent.</returns>
-        public static PaletteModeManager ApplyThemeManagerMode(string themeName)
-        {
-            PaletteModeManager modeManager = (PaletteModeManager)Enum.Parse(typeof(PaletteModeManager), themeName);
-
-            return modeManager;
-        }
+        public static PaletteModeManager ApplyThemeManagerMode(string themeName) => (PaletteModeManager)Enum.Parse(typeof(PaletteModeManager), themeName);
 
         /// <summary>Returns the theme array.</summary>
         /// <returns>

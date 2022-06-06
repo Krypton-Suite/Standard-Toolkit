@@ -54,6 +54,22 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the dialog result.</summary>
+        /// <value>The dialog result.</value>
+        public DialogResult DialogResult
+        {
+            get => _button.DialogResult;
+
+            set
+            {
+                if (_button.DialogResult != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.DialogResult, value);
+                    _button.DialogResult = value;
+                }
+            }
+        }
+
         /// <summary>Gets or sets the krypton context menu.</summary>
         /// <value>The krypton context menu.</value>
         public KryptonContextMenu KryptonContextMenu
@@ -253,6 +269,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Button text"));
                 actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Button extra text"));
                 actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Button image"));
+                actions.Add(new DesignerActionPropertyItem(@"DialogResult", @"DialogResult", @"Values", @"The DialogResult for this button"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
                 actions.Add(new DesignerActionHeaderItem(@"UAC Elevation"));

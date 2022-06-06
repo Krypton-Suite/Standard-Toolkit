@@ -118,10 +118,25 @@ namespace Krypton.Toolkit
             _useAsDialogButton = false;
             
             _useAsUACElevationButton = false;
+
+            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => StateCommon.Border.Rounding;
+
+            set => StateCommon.Border.Rounding = value;
+        }
+
         /// <summary>
         /// Gets and sets the automatic resize of the control to fit contents.
         /// </summary>

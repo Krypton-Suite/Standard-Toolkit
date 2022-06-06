@@ -2083,34 +2083,15 @@ namespace Krypton.Toolkit
 		/// </summary>
 		ProfessionalOffice2003,
 
-		// Note: Uncomment for v70
-		/*
+        /// <summary>
+        /// Specifies the dark Grey color variant of the Office 2007 appearance.
+        /// </summary>
 		Office2007DarkGray,
 
+        /// <summary>
+        /// Specifies the light Grey color variant of the Office 2007 appearance.
+        /// </summary>
 		Office2007LightGray,
-
-		Office2007Access,
-
-		Office2007Excel,
-
-		Office2007Groove,
-
-		Office2007InfoPath,
-
-		Office2007Onenote,
-
-		Office2007Outlook,
-
-		Office2007Powerpoint,
-
-		Office2007Project,
-
-		Office2007Publisher,
-
-		Office2007Visio,
-
-		Office2007Word,
-		*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2007 appearance.
@@ -2147,35 +2128,6 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2007White,
 
-		// Note: Uncomment for v70
-		/*
-		Office2010DarkGray,
-
-		Office2010LightGray,
-
-		Office2010Access,
-
-		Office2010Excel,
-
-		Office2010InfoPath,
-
-		Office2010Onenote,
-
-		Office2010Outlook,
-
-		Office2010Powerpoint,
-
-		Office2010Project,
-
-		Office2010Publisher,
-		
-		Office2010SharePoint
-
-		Office2010Visio,
-
-		Office2010Word,
-		*/
-
 		/// <summary>
 		/// Specifies the Black color variant of the Office 2007 appearance.
 		/// </summary>
@@ -2185,6 +2137,16 @@ namespace Krypton.Toolkit
 		/// Specifies the dark Black color variant of the Office 2007 appearance.
 		/// </summary>
 		Office2007BlackDarkMode,
+
+        /// <summary>
+        /// Specifies the dark Grey color variant of the Office 2010 appearance.
+        /// </summary>
+        Office2010DarkGray,
+
+        /// <summary>
+        /// Specifies the light Grey color variant of the Office 2010 appearance.
+        /// </summary>
+        Office2010LightGray,
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2010 appearance.
@@ -2231,41 +2193,30 @@ namespace Krypton.Toolkit
         /// </summary>
 		Office2010BlackDarkMode,
 
-		// Note: Uncomment for v70
-		/*
+        /// <summary>
+        /// Specifies the dark Grey color variant of the Office 2013 appearance.
+        /// </summary>
 		Office2013DarkGray,
 
+        /// <summary>
+        /// Specifies the light Grey color variant of the Office 2013 appearance.
+        /// </summary>
 		Office2013LightGray,
-
-		Office2013Access,
-
-		Office2013Excel,
-
-		Office2013InfoPath,
-		
-		Office2013Lync,
-
-		Office2013Onenote,
-
-		Office2013Outlook,
-
-		Office2013Powerpoint,
-
-		Office2013Project,
-
-		Office2013Publisher,
-		
-		Office2013SharePoint
-
-		Office2013Visio,
-
-		Office2013Word,
-		*/
 
 		/// <summary>
 		/// Specifies the White color variant of the Office 2013 appearance.
 		/// </summary>
 		Office2013White,
+
+		/// <summary>
+		/// Specifies the dark Grey color variant of the Office 365 appearance.
+		/// </summary>
+		Office365DarkGray,
+
+		/// <summary>
+		/// Specifies the light Grey color variant of the Office 365 appearance.
+		/// </summary>
+		Office365LightGray,
 
 		/// <summary>
 		/// Specifies the Black color variant of the Office 365 appearance.
@@ -2373,14 +2324,13 @@ namespace Krypton.Toolkit
 		Custom
 	}
 
-	// TODO: Update documentation
 	/// <summary>
 	/// Specifies the palette requested at the global level.
 	/// </summary>
 	[TypeConverter(typeof(PaletteModeManagerConverter))]
 	public enum PaletteModeManager
 	{
-        /// <summary>
+		/// <summary>
 		/// Specifies a professional appearance based on system settings.
 		/// </summary>
 		ProfessionalSystem,
@@ -2390,34 +2340,15 @@ namespace Krypton.Toolkit
 		/// </summary>
 		ProfessionalOffice2003,
 
-		// Note: Uncomment for v70
-		/*
+		/// <summary>
+		/// Specifies the dark Grey color variant of the Office 2007 appearance.
+		/// </summary>
 		Office2007DarkGray,
 
+		/// <summary>
+		/// Specifies the light Grey color variant of the Office 2007 appearance.
+		/// </summary>
 		Office2007LightGray,
-
-		Office2007Access,
-
-		Office2007Excel,
-
-		Office2007Groove,
-
-		Office2007InfoPath,
-
-		Office2007Onenote,
-
-		Office2007Outlook,
-
-		Office2007Powerpoint,
-
-		Office2007Project,
-
-		Office2007Publisher,
-
-		Office2007Visio,
-
-		Office2007Word,
-		*/
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2007 appearance.
@@ -2454,35 +2385,6 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2007White,
 
-		// Note: Uncomment for v70
-		/*
-		Office2010DarkGray,
-
-		Office2010LightGray,
-
-		Office2010Access,
-
-		Office2010Excel,
-
-		Office2010InfoPath,
-
-		Office2010Onenote,
-
-		Office2010Outlook,
-
-		Office2010Powerpoint,
-
-		Office2010Project,
-
-		Office2010Publisher,
-		
-		Office2010SharePoint
-
-		Office2010Visio,
-
-		Office2010Word,
-		*/
-
 		/// <summary>
 		/// Specifies the Black color variant of the Office 2007 appearance.
 		/// </summary>
@@ -2492,6 +2394,16 @@ namespace Krypton.Toolkit
 		/// Specifies the dark Black color variant of the Office 2007 appearance.
 		/// </summary>
 		Office2007BlackDarkMode,
+
+		/// <summary>
+		/// Specifies the dark Grey color variant of the Office 2010 appearance.
+		/// </summary>
+		Office2010DarkGray,
+
+		/// <summary>
+		/// Specifies the light Grey color variant of the Office 2010 appearance.
+		/// </summary>
+		Office2010LightGray,
 
 		/// <summary>
 		/// Specifies the Blue color variant of the Office 2010 appearance.
@@ -2538,42 +2450,31 @@ namespace Krypton.Toolkit
 		/// </summary>
 		Office2010BlackDarkMode,
 
-		// Note: Uncomment for v70
-		/*
+		/// <summary>
+		/// Specifies the dark Grey color variant of the Office 2013 appearance.
+		/// </summary>
 		Office2013DarkGray,
 
+		/// <summary>
+		/// Specifies the light Grey color variant of the Office 2013 appearance.
+		/// </summary>
 		Office2013LightGray,
-
-		Office2013Access,
-
-		Office2013Excel,
-
-		Office2013InfoPath,
-		
-		Office2013Lync,
-
-		Office2013Onenote,
-
-		Office2013Outlook,
-
-		Office2013Powerpoint,
-
-		Office2013Project,
-
-		Office2013Publisher,
-		
-		Office2013SharePoint
-
-		Office2013Visio,
-
-		Office2013Word,
-		*/
 
 		/// <summary>
 		/// Specifies the White color variant of the Office 2013 appearance.
 		/// </summary>
 		Office2013White,
 
+		/// <summary>
+		/// Specifies the dark Grey color variant of the Office 365 appearance.
+		/// </summary>
+		Office365DarkGray,
+
+		/// <summary>
+		/// Specifies the light Grey color variant of the Office 365 appearance.
+		/// </summary>
+		Office365LightGray,
+		
 		/// <summary>
 		/// Specifies the Black color variant of the Office 365 appearance.
 		/// </summary>

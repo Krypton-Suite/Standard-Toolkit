@@ -19,6 +19,32 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private readonly Pair[] _pairs =
+        {
+            new(TabBorderStyle.OneNote, "OneNote"),
+            new(TabBorderStyle.SquareEqualSmall, "Square Equal Small"),
+            new(TabBorderStyle.SquareEqualMedium, "Square Equal Medium"),
+            new(TabBorderStyle.SquareEqualLarge, "Square Equal Large"),
+            new(TabBorderStyle.SquareOutsizeSmall, "Square Outsize Small"),
+            new(TabBorderStyle.SquareOutsizeMedium, "Square Outsize Medium"),
+            new(TabBorderStyle.SquareOutsizeLarge, "Square Outsize Large"),
+            new(TabBorderStyle.RoundedEqualSmall, "Rounded Equal Small"),
+            new(TabBorderStyle.RoundedEqualMedium, "Rounded Equal Medium"),
+            new(TabBorderStyle.RoundedEqualLarge, "Rounded Equal Large"),
+            new(TabBorderStyle.RoundedOutsizeSmall, "Rounded Outsize Small"),
+            new(TabBorderStyle.RoundedOutsizeMedium, "Rounded Outsize Medium"),
+            new(TabBorderStyle.RoundedOutsizeLarge, "Rounded Outsize Large"),
+            new(TabBorderStyle.SlantEqualNear, "Slant Equal Near"),
+            new(TabBorderStyle.SlantEqualFar, "Slant Equal Far"),
+            new(TabBorderStyle.SlantEqualBoth, "Slant Equal Both"),
+            new(TabBorderStyle.SlantOutsizeNear, "Slant Outsize Near"),
+            new(TabBorderStyle.SlantOutsizeFar, "Slant Outsize Far"),
+            new(TabBorderStyle.SlantOutsizeBoth, "Slant Outsize Both"),
+            new(TabBorderStyle.SmoothEqual, "Smooth Equal"),
+            new(TabBorderStyle.SmoothOutsize, "Smooth Outsize"),
+            new(TabBorderStyle.DockEqual, "Dock Equal"),
+            new(TabBorderStyle.DockOutsize, "Dock Outsize")
+        };
         #endregion  
 
         #region Identity
@@ -32,33 +58,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(TabBorderStyle.OneNote,               "OneNote"),
-            new(TabBorderStyle.SquareEqualSmall,      "Square Equal Small"),
-            new(TabBorderStyle.SquareEqualMedium,     "Square Equal Medium"),
-            new(TabBorderStyle.SquareEqualLarge,      "Square Equal Large"),
-            new(TabBorderStyle.SquareOutsizeSmall,    "Square Outsize Small"),
-            new(TabBorderStyle.SquareOutsizeMedium,   "Square Outsize Medium"),
-            new(TabBorderStyle.SquareOutsizeLarge,    "Square Outsize Large"),
-            new(TabBorderStyle.RoundedEqualSmall,     "Rounded Equal Small"),
-            new(TabBorderStyle.RoundedEqualMedium,    "Rounded Equal Medium"),
-            new(TabBorderStyle.RoundedEqualLarge,     "Rounded Equal Large"),
-            new(TabBorderStyle.RoundedOutsizeSmall,   "Rounded Outsize Small"),
-            new(TabBorderStyle.RoundedOutsizeMedium,  "Rounded Outsize Medium"),
-            new(TabBorderStyle.RoundedOutsizeLarge,   "Rounded Outsize Large"),
-            new(TabBorderStyle.SlantEqualNear,        "Slant Equal Near"),
-            new(TabBorderStyle.SlantEqualFar,         "Slant Equal Far"),
-            new(TabBorderStyle.SlantEqualBoth,        "Slant Equal Both"),
-            new(TabBorderStyle.SlantOutsizeNear,      "Slant Outsize Near"),
-            new(TabBorderStyle.SlantOutsizeFar,       "Slant Outsize Far"),
-            new(TabBorderStyle.SlantOutsizeBoth,      "Slant Outsize Both"),
-            new(TabBorderStyle.SmoothEqual,           "Smooth Equal"),
-            new(TabBorderStyle.SmoothOutsize,         "Smooth Outsize"),
-            new(TabBorderStyle.DockEqual,             "Dock Equal"),
-            new(TabBorderStyle.DockOutsize,           "Dock Outsize") };
+        protected override Pair[] Pairs => _pairs;
 
         #endregion
     }

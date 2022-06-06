@@ -912,6 +912,9 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_domainUpDown);
+
+            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -937,6 +940,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => StateCommon.Border.Rounding;
+
+            set => StateCommon.Border.Rounding = value;
+        }
+
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
@@ -1803,6 +1818,14 @@ namespace Krypton.Toolkit
                     break;
             }
         }
+
+        /// <summary>Raises the Paint event.</summary>
+        /// <param name="e">A PaintEventArgs that contains the event data.</param>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
         #endregion
 
         #region Internal

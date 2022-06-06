@@ -306,6 +306,9 @@ namespace Krypton.Toolkit
 
             // Update alignment to match current RightToLeft settings
             UpdateForRightToLeft();
+
+            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -328,6 +331,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => StateCommon.Border.Rounding;
+
+            set => StateCommon.Border.Rounding = value;
+        }
+
         /// <summary>
         /// Gets or sets the background color for the control.
         /// </summary>
@@ -1973,6 +1988,17 @@ namespace Krypton.Toolkit
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
         }
+
+        /// <summary>
+        /// Raises the Paint event.
+        /// </summary>
+        /// <param name="e">A PaintEventArgs that contains the event data.</param>
+        /// <returns></returns>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
         #endregion
 
         #region Internal

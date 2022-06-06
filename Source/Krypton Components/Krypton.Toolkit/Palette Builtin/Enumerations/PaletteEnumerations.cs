@@ -2,7 +2,7 @@
 {
     #region Enumeration: SchemeOfficeColors
 
-    internal enum SchemeOfficeColors
+    public enum SchemeOfficeColors
     {
         TextLabelControl = 0,
         TextButtonNormal = 1,

@@ -1149,6 +1149,9 @@ namespace Krypton.Toolkit
             _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(PaletteState.Tracking);
             AutoCompleteMode = AutoCompleteMode.None;
             AutoCompleteSource = AutoCompleteSource.None;
+
+            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -1180,6 +1183,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(-1)]
+        public float CornerRoundingRadius
+        {
+            get => StateCommon.ComboBox.Border.Rounding;
+
+            set => StateCommon.ComboBox.Border.Rounding = value;
+        }
+
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
@@ -2380,7 +2395,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            // First time we paint we perform a layout to ensure drawing works correcly
+            // First time we paint we perform a layout to ensure drawing works correctly
             if (_firstTimePaint)
             {
                 _firstTimePaint = false;
