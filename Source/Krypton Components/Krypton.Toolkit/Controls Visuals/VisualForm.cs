@@ -619,6 +619,22 @@ namespace Krypton.Toolkit
                                 PI.SWP_.NOOWNERZORDER | PI.SWP_.FRAMECHANGED);
             }
         }
+
+        /// <summary>Gets or sets the anchoring for minimized MDI children.</summary>
+        /// <value> <c>true</c> to anchor minimized MDI children to the bottom left of the parent form; <c>false</c> to anchor to the top left of the parent form.</value>
+        [Category(@"Window Style")]
+        [Description(@"Gets or sets the anchoring for minimized MDI children.")]
+        [DefaultValue(true)]
+        public new bool MdiChildrenMinimizedAnchorBottom
+        {
+            get => base.MdiChildrenMinimizedAnchorBottom;
+
+            set
+            {
+                base.MdiChildrenMinimizedAnchorBottom = value;
+                throw new NotSupportedException(@"Please use .NET 6 or newer to use this feature.");
+            }
+        }
         #endregion
 
         #region Public Chrome
