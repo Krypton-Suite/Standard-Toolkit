@@ -29,30 +29,26 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
+            this.kryptonNumericUpDown1 = new Krypton.Toolkit.KryptonNumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox1);
+            this.kryptonPanel1.Controls.Add(this.kryptonNumericUpDown1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonRichTextBox1
+            // kryptonNumericUpDown1
             // 
-            this.kryptonRichTextBox1.Enabled = false;
-            this.kryptonRichTextBox1.Location = new System.Drawing.Point(48, 49);
-            this.kryptonRichTextBox1.Name = "kryptonRichTextBox1";
-            this.kryptonRichTextBox1.Size = new System.Drawing.Size(282, 155);
-            this.kryptonRichTextBox1.StateDisabled.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.kryptonRichTextBox1.StateDisabled.Content.Color1 = System.Drawing.Color.Red;
-            this.kryptonRichTextBox1.TabIndex = 0;
-            this.kryptonRichTextBox1.Text = "kryptonRichTextBox1";
+            this.kryptonNumericUpDown1.Location = new System.Drawing.Point(87, 50);
+            this.kryptonNumericUpDown1.Name = "kryptonNumericUpDown1";
+            this.kryptonNumericUpDown1.Size = new System.Drawing.Size(146, 26);
+            this.kryptonNumericUpDown1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -72,6 +68,6 @@
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
+        private Krypton.Toolkit.KryptonNumericUpDown kryptonNumericUpDown1;
     }
 }

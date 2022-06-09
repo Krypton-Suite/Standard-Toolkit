@@ -1787,11 +1787,12 @@ namespace Krypton.Toolkit
                 // Override the actual height used
                 height = preferredSize.Height;
             }
-            if (specified.HasFlag(BoundsSpecified.Width))
-            {
-                // Override the actual height used
-                width = preferredSize.Width;
-            }
+            // Do not do the following otherwise the designer will not allow width to be set!
+            //if (specified.HasFlag(BoundsSpecified.Width))
+            //{
+            //    // Override the actual Width used
+            //    width = preferredSize.Width;
+            //}
 
             base.SetBoundsCore(x, y, width, height, specified);
         }
