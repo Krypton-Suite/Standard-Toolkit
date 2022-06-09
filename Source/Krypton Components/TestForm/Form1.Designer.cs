@@ -29,30 +29,20 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
-            this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
+            this.kryptonPanel1.StateCommon.Color1 = System.Drawing.Color.Black;
+            this.kryptonPanel1.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.kryptonPanel1.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Rounded;
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kryptonRichTextBox1
-            // 
-            this.kryptonRichTextBox1.Enabled = false;
-            this.kryptonRichTextBox1.Location = new System.Drawing.Point(48, 49);
-            this.kryptonRichTextBox1.Name = "kryptonRichTextBox1";
-            this.kryptonRichTextBox1.Size = new System.Drawing.Size(282, 155);
-            this.kryptonRichTextBox1.StateDisabled.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.kryptonRichTextBox1.StateDisabled.Content.Color1 = System.Drawing.Color.Red;
-            this.kryptonRichTextBox1.TabIndex = 0;
-            this.kryptonRichTextBox1.Text = "kryptonRichTextBox1";
             // 
             // Form1
             // 
@@ -60,11 +50,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.kryptonPanel1);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
-            this.PaletteMode = Krypton.Toolkit.PaletteMode.SparkleOrange;
+            this.PaletteMode = Krypton.Toolkit.PaletteMode.Office2007BlackDarkMode;
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
-            this.kryptonPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -72,6 +62,5 @@
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
     }
 }
