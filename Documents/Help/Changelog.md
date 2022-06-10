@@ -6,6 +6,7 @@
 
 ## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
+* Resolved [#737](https://github.com/Krypton-Suite/Standard-Toolkit/issues/737), `Office 2013 - Dark Grey` for `PaletteMode` in designer causes a crash
 * Resolved [#578](https://github.com/Krypton-Suite/Standard-Toolkit/issues/578), ComboBox Center no longer draws text centered
 * Resolved [#20](https://github.com/Krypton-Suite/Standard-Toolkit/issues/20), Selected text in ComboBox is drawn in a different font
 * Resolved [#308](https://github.com/Krypton-Suite/Standard-Toolkit/issues/308), Panel AntiAlias Border Problem

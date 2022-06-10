@@ -23,8 +23,9 @@ namespace Krypton.Toolkit
         {
             new(PaletteModeManager.ProfessionalSystem, "Professional - System"),
             new(PaletteModeManager.ProfessionalOffice2003, "Professional - Office 2003"),
-            new(PaletteModeManager.Office2007DarkGray, "Office 2007 - Dark Grey"),
-            new(PaletteModeManager.Office2007LightGray, "Office 2007 - Light Grey"),
+            // Note: Re-enable when the gray themes are completed
+            //new(PaletteModeManager.Office2007DarkGray, "Office 2007 - Dark Grey"),
+            //new(PaletteModeManager.Office2007LightGray, "Office 2007 - Light Grey"),
             new(PaletteModeManager.Office2007Blue, "Office 2007 - Blue"),
             new(PaletteModeManager.Office2007BlueDarkMode, "Office 2007 - Blue (Dark Mode)"),
             new(PaletteModeManager.Office2007BlueLightMode, "Office 2007 - Blue (Light Mode)"),
@@ -34,8 +35,9 @@ namespace Krypton.Toolkit
             new(PaletteModeManager.Office2007White, "Office 2007 - White"),
             new(PaletteModeManager.Office2007Black, "Office 2007 - Black"),
             new(PaletteModeManager.Office2007BlackDarkMode, "Office 2007 - Black (Dark Mode)"),
-            new(PaletteModeManager.Office2010DarkGray, "Office 2010 - Dark Grey"),
-            new(PaletteModeManager.Office2010LightGray, "Office 2010 - Light Grey"),
+            // Note: Re-enable when the gray themes are completed
+            //new(PaletteModeManager.Office2010DarkGray, "Office 2010 - Dark Grey"),
+            //new(PaletteModeManager.Office2010LightGray, "Office 2010 - Light Grey"),
             new(PaletteModeManager.Office2010Blue, "Office 2010 - Blue"),
             new(PaletteModeManager.Office2010BlueDarkMode, "Office 2010 - Blue (Dark Mode)"),
             new(PaletteModeManager.Office2010BlueLightMode, "Office 2010 - Blue (Light Mode)"),
@@ -45,11 +47,13 @@ namespace Krypton.Toolkit
             new(PaletteModeManager.Office2010White, "Office 2010 - White"),
             new(PaletteModeManager.Office2010Black, "Office 2010 - Black"),
             new(PaletteModeManager.Office2010BlackDarkMode, "Office 2010 - Black (Dark Mode)"),
-            new(PaletteModeManager.Office2013DarkGray, "Office 2013 - Dark Grey"),
-            new(PaletteModeManager.Office2013LightGray, "Office 2013 - Light Grey"),
+            // Note: Re-enable when the gray themes are completed
+            //new(PaletteModeManager.Office2013DarkGray, "Office 2013 - Dark Grey"),
+            //new(PaletteModeManager.Office2013LightGray, "Office 2013 - Light Grey"),
             new(PaletteModeManager.Office2013White, "Office 2013 - White"),
-            new(PaletteModeManager.Office365DarkGray, "Office 365 - Dark Grey"),
-            new(PaletteModeManager.Office365LightGray, "Office 365 - Light Grey"),
+            // Note: Re-enable when the gray themes are completed
+            //new(PaletteModeManager.Office365DarkGray, "Office 365 - Dark Grey"),
+            //new(PaletteModeManager.Office365LightGray, "Office 365 - Light Grey"),
             new(PaletteModeManager.Office365Black, "Office 365 - Black"),
             new(PaletteModeManager.Office365BlackDarkMode, "Office 365 - Black (Dark Mode)"),
             new(PaletteModeManager.Office365Blue, "Office 365 - Blue"),
