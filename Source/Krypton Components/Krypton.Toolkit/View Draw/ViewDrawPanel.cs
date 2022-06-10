@@ -173,8 +173,11 @@ namespace Krypton.Toolkit
                 {
                     // Render the background
                     using GraphicsPath panelPath = new();
+                    var rectF = ClientRectangleF;
+                    // Now workaround https://github.com/Krypton-Suite/Standard-Toolkit/issues/308
+                    rectF.Offset(-0.25f, -0.25f);
                     // The path encloses the entire panel area
-                    panelPath.AddRectangle(ClientRectangle);
+                    panelPath.AddRectangle(rectF);
 
                     // Perform actual panel drawing
                     _memento = context.Renderer.RenderStandardBack.DrawBack(context, ClientRectangle, panelPath, _paletteBack, VisualOrientation, State, _memento);

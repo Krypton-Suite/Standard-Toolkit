@@ -47,6 +47,16 @@ namespace Krypton.Toolkit
                 case PaletteGraphicsHint.AntiAlias:
                     _graphics.SmoothingMode = SmoothingMode.AntiAlias;
                     break;
+                case PaletteGraphicsHint.HighSpeed:
+                    _graphics.SmoothingMode = SmoothingMode.HighSpeed;
+                    break;
+                case PaletteGraphicsHint.HighQuality:
+                    _graphics.SmoothingMode = SmoothingMode.HighQuality;
+                    break;
+                case PaletteGraphicsHint.Inherit:
+                    // Change nothing!
+                    break;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);

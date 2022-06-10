@@ -5041,7 +5041,13 @@ namespace Krypton.Toolkit
 		/// <summary>
 		/// Specifies anti aliasing for graphics rendering.
 		/// </summary>
-		AntiAlias
+		AntiAlias,
+        
+        /// <summary>Specifies no antialiasing.</summary>
+        HighSpeed,
+        /// <summary>Specifies antialiased rendering.</summary>
+        HighQuality
+
 	}
 	#endregion
 

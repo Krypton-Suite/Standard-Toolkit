@@ -29,7 +29,6 @@ namespace Krypton.Toolkit
         private bool _visible;
         private bool _fixed;
         private ViewBase _enableDependantView;
-        private Rectangle _clientRect;
         private RectangleF _clientRectF;
         private PaletteState _fixedState;
         private PaletteState _elementState;
@@ -51,7 +50,7 @@ namespace Krypton.Toolkit
             _visible = true;
             _fixed = false;
             _enableDependant = false;
-            _clientRect = Rectangle.Empty;
+            _clientRectF = RectangleF.Empty;
 
             // Default the initial state
             _elementState = PaletteState.Normal;
@@ -159,8 +158,8 @@ namespace Krypton.Toolkit
         public virtual Rectangle ClientRectangle
         {
             [DebuggerStepThrough]
-            get => _clientRect;
-            set => _clientRect = value;
+            get => Rectangle.Round(_clientRectF);
+            set => _clientRectF = value;
         }
 
         public virtual RectangleF ClientRectangleF
@@ -176,8 +175,8 @@ namespace Krypton.Toolkit
         public virtual Point ClientLocation
         {
             [DebuggerStepThrough]
-            get => _clientRect.Location;
-            set => _clientRect.Location = value;
+            get => ClientRectangle.Location;
+            set => _clientRectF.Location = value;
         }
 
         /// <summary>
@@ -186,8 +185,8 @@ namespace Krypton.Toolkit
         public virtual Size ClientSize
         {
             [DebuggerStepThrough]
-            get => _clientRect.Size;
-            set => _clientRect.Size = value;
+            get => ClientRectangle.Size;
+            set => _clientRectF.Size = value;
         }
 
         /// <summary>
@@ -196,8 +195,8 @@ namespace Krypton.Toolkit
         public virtual int ClientWidth
         {
             [DebuggerStepThrough]
-            get => _clientRect.Width;
-            set => _clientRect.Width = value;
+            get => ClientRectangle.Width;
+            set => _clientRectF.Width = value;
         }
 
         /// <summary>
@@ -206,8 +205,8 @@ namespace Krypton.Toolkit
         public virtual int ClientHeight
         {
             [DebuggerStepThrough]
-            get => _clientRect.Height;
-            set => _clientRect.Height = value;
+            get => ClientRectangle.Height;
+            set => _clientRectF.Height = value;
         }
 
         /// <summary>
