@@ -130,8 +130,9 @@ namespace Krypton.Toolkit
                 // Remove from view until size for the first time by the Krypton control
                 ItemHeight = 15;
                 DropDownHeight = 200;
-                DrawMode = DrawMode.OwnerDrawFixed; // DrawMode = DrawMode.OwnerDrawVariable;
-                SetStyle(/*ControlStyles.UserPaint| */ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer, true);
+                //DrawMode = DrawMode.OwnerDrawFixed; // #20 fix, but this causes other problems; see #578
+                DrawMode = DrawMode.OwnerDrawVariable;
+                SetStyle(/*ControlStyles.UserPaint | */ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer, true);
             }
             #endregion
 
@@ -171,10 +172,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Reset the app themed setting so it is retested when next required.
             /// </summary>
-            public void ClearAppThemed()
-            {
-                _appThemed = null;
-            }
+            public void ClearAppThemed() => _appThemed = null;
 
             /// <summary>
             /// Gets the content short text.
@@ -388,56 +386,53 @@ namespace Krypton.Toolkit
                                     _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, rect, backBrush);
                                 }
                                 else
-                                //////////////////////////////////////////////////////
-                                // Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards  
-                                // Draw Over is tracked here
-                                //  https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
-                                // If not enabled or not the dropDown Style then we can draw over the text area
-                                //if (!_kryptonComboBox.Enabled || _kryptonComboBox.DropDownStyle != ComboBoxStyle.DropDown)
+                                    ////////////////////////////////////////////////////////
+                                    //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards  
+                                    //// Draw Over is tracked here
+                                    ////  https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
+                                    //// If not enabled or not the dropDown Style then we can draw over the text area
+                                    ////if (!_kryptonComboBox.Enabled || _kryptonComboBox.DropDownStyle != ComboBoxStyle.DropDown)
                                 {
-                                    // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
-                                    // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
-                                    // it from the device context. Resulting in blurred text.
                                     g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
 
-                                    // Define the string formatting requirements
-                                    StringFormat stringFormat = new()
-                                    {
-                                        LineAlignment = StringAlignment.Near,
-                                        FormatFlags = StringFormatFlags.NoWrap,
-                                        Trimming = StringTrimming.None,
-                                        // Use the correct prefix setting
-                                        HotkeyPrefix = HotkeyPrefix.None
-                                    };
+                                    TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
 
-                                    stringFormat.Alignment = states.Content.GetContentShortTextH(state) switch
-                                    {
-                                        PaletteRelativeAlign.Near => RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Far
-                                            : StringAlignment.Near,
-                                        PaletteRelativeAlign.Far => RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Near
-                                            : StringAlignment.Far,
-                                        PaletteRelativeAlign.Center => StringAlignment.Center,
-                                        _ => stringFormat.Alignment
-                                    };
+                                    // Use the correct prefix setting
+                                    flags |= TextFormatFlags.NoPrefix;
 
-                                    // Draw using a solid brush
+                                    // Do we need to switch drawing direction?
+                                    if (RightToLeft == RightToLeft.Yes)
+                                    {
+                                        flags |= TextFormatFlags.RightToLeft;
+                                    }
+
+                                    switch (states.Content.GetContentShortTextH(state))
+                                    {
+                                        case PaletteRelativeAlign.Near:
+                                            flags |= TextFormatFlags.Left;
+                                            break;
+                                        case PaletteRelativeAlign.Center:
+                                            flags |= TextFormatFlags.HorizontalCenter;
+                                            break;
+                                        case PaletteRelativeAlign.Far:
+                                            flags |= TextFormatFlags.Right;
+                                            break;
+                                    }
+
+                                    // Draw text using font defined by the control
                                     Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
-                                        states.Content.GetContentPadding(state));
+                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
+                                    // Find correct text color
+                                    Color textColor = states.Content.GetContentShortTextColor1(state);
+                                    Font contentShortTextFont = states.Content.GetContentShortTextFont(state);
+                                    // Find correct background color
+                                    Color backColor = states.PaletteBack.GetBackColor1(state);
 
-                                    try
-                                    {
-                                        //string label = this.Items[e.Index].ToString();
-                                        using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
-                                        g.DrawString(displayText, states.Content.GetContentShortTextFont(state), foreBrush, rectangle, stringFormat);
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                        using SolidBrush foreBrush = new(ForeColor);
-                                        g.DrawString(displayText, Font, foreBrush, rectangle, stringFormat);
-                                    }
+                                    TextRenderer.DrawText(g,
+                                        Text, contentShortTextFont,
+                                        rectangle,
+                                        textColor, backColor,
+                                        flags);
                                 }
 
                                 // Remove clipping settings
@@ -672,8 +667,8 @@ namespace Krypton.Toolkit
                     IntPtr.Zero,
                     0, 0, 0, 0,
                     PI.SWP_.NOMOVE | PI.SWP_.NOSIZE |
-                           (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW)
-                    );
+                    (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW)
+                );
             }
 
             #endregion
@@ -1277,6 +1272,8 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the draw mode of the combobox.</summary>
         /// <value>The draw mode of the combobox.</value>
         [Description(@"Gets or sets the draw mode of the combobox.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public DrawMode DrawMode
         {
             get => _comboBox.DrawMode;
@@ -2666,7 +2663,15 @@ namespace Krypton.Toolkit
                     // If we found a child then it is the edit class
                     if (childPtr != IntPtr.Zero)
                     {
+                        if (this.DropDownStyle == ComboBoxStyle.Simple)
+                        {
+                            //this.childListBox = new ComboBox.ComboBoxChildNativeWindow(this, ComboBox.ChildWindowType.ListBox);
+                            //this.childListBox.AssignHandle(window);
+                            childPtr = PI.GetWindow(childPtr, PI.GetWindowType.GW_HWNDNEXT);
+                        }
                         _subclassEdit = new SubclassEdit(childPtr, this);
+                        // Following will have been done by Framework
+                        //PI.SendMessage(childPtr, PI.WM_.EM_SETMARGINS, new IntPtr(3), IntPtr.Zero);
                         _subclassEdit.TrackMouseEnter += OnComboBoxMouseChange;
                         _subclassEdit.TrackMouseLeave += OnComboBoxMouseChange;
                     }
@@ -2723,6 +2728,7 @@ namespace Krypton.Toolkit
             // Do we need to draw the edit area
             if ((e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit)
             {
+                // TODO: Check if this is covered by the WM_PAINT in the internal Combo
                 // Always get base implementation to draw the background
                 e.DrawBackground();
 
@@ -2926,7 +2932,13 @@ namespace Krypton.Toolkit
         {
             if (DropDownStyle == ComboBoxStyle.DropDown)
             {
-                //_subclassEdit.Visible = true;
+                _subclassEdit.Visible = true;
+                PaletteState state = Enabled
+                    ? IsActive
+                        ? PaletteState.Tracking
+                        : PaletteState.Normal
+                    : PaletteState.Disabled;
+                _comboBox.Font = GetComboBoxTripleState().Content.GetContentShortTextFont(state);
             }
 
             base.OnGotFocus(e);
@@ -2938,7 +2950,8 @@ namespace Krypton.Toolkit
         {
             if (DropDownStyle == ComboBoxStyle.DropDown)
             {
-                //_subclassEdit.Visible = false;
+                _subclassEdit.Visible = false;
+                _comboBox.Font = GetComboBoxTripleState().Content.GetContentShortTextFont(PaletteState.Normal);
             }
 
             // ReSharper disable RedundantBaseQualifier
