@@ -375,47 +375,44 @@ namespace Krypton.Toolkit
 
                                 //////////////////////////////////////////////////////
                                 // Following removed to allow the Draw to always happen, to allow centering etc  
-                                _internalNumericUpDown.TextAlign = states.Content.GetContentShortTextH(state) switch
-                                                                   {
-                                                                       PaletteRelativeAlign.Center =>
-                                                                           HorizontalAlignment.Center,
-                                                                       PaletteRelativeAlign.Far => HorizontalAlignment
-                                                                           .Right,
-                                                                       _ => HorizontalAlignment.Left
-                                                                   };
-                                if (NumericUpDown.Enabled)
-                                {
-                                    if (!NumericUpDown.TrailingZeroes && NumericUpDown.AllowDecimals)
+                                _internalNumericUpDown.TextAlign = 
+                                    states.Content.GetContentShortTextH(state) switch
                                     {
-                                        // Got ot deal with culture formatting, and also the override to include `ThousandsSeparator`
-                                        var textInvariantAsRequested =
-                                            _internalNumericUpDown.Value.ToString(
-                                                'F' + _internalNumericUpDown.DecimalPlaces.ToString(CultureInfo
-                                                    .InvariantCulture), CultureInfo.CurrentCulture);
-                                        var textInvariantAsTrimmed =
-                                            _internalNumericUpDown.Value.ToString(@"0.#########################",
-                                                CultureInfo.InvariantCulture);
-                                        var lengthToRemove = textInvariantAsRequested.Length -
-                                                             textInvariantAsTrimmed.Length;
-                                        if (lengthToRemove > 0)
-                                        {
-                                            _internalNumericUpDown.SetChangingText(true);
-                                            _internalNumericUpDown.Text = textInvariantAsRequested.Substring(0,
-                                                textInvariantAsRequested.Length - lengthToRemove);
-                                        }
-                                    }
+                                       PaletteRelativeAlign.Center => HorizontalAlignment.Center,
+                                       PaletteRelativeAlign.Far    => HorizontalAlignment.Right,
+                                       _                           => HorizontalAlignment.Left
+                                    };
 
-                                    // Let base implementation draw the actual text area
-                                    if (m.WParam == IntPtr.Zero)
+                                if (!NumericUpDown.TrailingZeroes && NumericUpDown.AllowDecimals)
+                                {
+                                    // Got ot deal with culture formatting, and also the override to include `ThousandsSeparator`
+                                    var textInvariantAsRequested =
+                                        _internalNumericUpDown.Value.ToString(
+                                            'F' + _internalNumericUpDown.DecimalPlaces.ToString(CultureInfo
+                                                .InvariantCulture), CultureInfo.CurrentCulture);
+                                    var textInvariantAsTrimmed =
+                                        _internalNumericUpDown.Value.ToString(@"0.#########################",
+                                            CultureInfo.InvariantCulture);
+                                    var lengthToRemove = textInvariantAsRequested.Length -
+                                                         textInvariantAsTrimmed.Length;
+                                    if (lengthToRemove > 0)
                                     {
-                                        m.WParam = hdc;
-                                        DefWndProc(ref m);
-                                        m.WParam = IntPtr.Zero;
+                                        _internalNumericUpDown.SetChangingText(true);
+                                        _internalNumericUpDown.Text = textInvariantAsRequested.Substring(0,
+                                            textInvariantAsRequested.Length - lengthToRemove);
                                     }
-                                    else
-                                    {
-                                        DefWndProc(ref m);
-                                    }
+                                }
+
+                                // Let base implementation draw the actual text area
+                                if (m.WParam == IntPtr.Zero)
+                                {
+                                    m.WParam = hdc;
+                                    DefWndProc(ref m);
+                                    m.WParam = IntPtr.Zero;
+                                }
+                                else
+                                {
+                                    DefWndProc(ref m);
                                 }
                             }
 

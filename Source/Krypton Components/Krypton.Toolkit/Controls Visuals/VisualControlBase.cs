@@ -525,6 +525,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public ViewManager ViewManager
         {
             [DebuggerStepThrough]

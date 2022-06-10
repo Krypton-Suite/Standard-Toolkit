@@ -9,6 +9,10 @@
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
 * Resolved [#722](https://github.com/Krypton-Suite/Standard-Toolkit/issues/722), KryptonRichTextBox disabled colour cannot be set
 * Resolved [#662](https://github.com/Krypton-Suite/Standard-Toolkit/issues/662), Can not "Control / Set Disabled" Background Colour Of Comboboxes, in DropDown mode
+* Resolved [#578](https://github.com/Krypton-Suite/Standard-Toolkit/issues/578), ComboBox Center no longer draws text centered
+* Resolved [#20](https://github.com/Krypton-Suite/Standard-Toolkit/issues/20), Selected text in ComboBox is drawn in a different font
+* Resolved [#308](https://github.com/Krypton-Suite/Standard-Toolkit/issues/308), Panel AntiAlias Border Problem
+* Resolved [#734](https://github.com/Krypton-Suite/Standard-Toolkit/issues/734), Disabled Text in NumericUpDown Not visible
 * Resolved [#715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/715), v65.22.4.94 - PaletteSparkleBlueBase.GetContentPadding: Specified argument was out of the range of valid values. Parameter name: style 
 * Implemented the `PlacementModeConverter` for `PlacementMode` enum type
 * Implemented [#551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/551), `DropShadow` should now be off and deprecated
