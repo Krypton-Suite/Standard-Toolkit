@@ -620,6 +620,7 @@ namespace Krypton.Toolkit
             }
         }
 
+#if NET6_0_OR_GREATER
         /// <summary>Gets or sets the anchoring for minimized MDI children.</summary>
         /// <value> <c>true</c> to anchor minimized MDI children to the bottom left of the parent form; <c>false</c> to anchor to the top left of the parent form.</value>
         [Category(@"Window Style")]
@@ -635,7 +636,8 @@ namespace Krypton.Toolkit
                 throw new NotSupportedException(@"Please use .NET 6 or newer to use this feature.");
             }
         }
-        #endregion
+#endif
+#endregion
 
         #region Public Chrome
         /// <summary>

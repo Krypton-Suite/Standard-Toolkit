@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
                     _button3.Enabled = true;
                     ControlBox = false;
                     break;
-#if NET6_0
+#if NET6_0_OR_GREATER
                 case MessageBoxButtons.CancelTryContinue:
                     _button1.Text = KryptonManager.Strings.Cancel;
                     _button2.Text = KryptonManager.Strings.TryAgain;
