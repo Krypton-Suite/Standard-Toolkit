@@ -319,6 +319,22 @@ namespace Krypton.Toolkit
                     _button3.Enabled = true;
                     ControlBox = false;
                     break;
+#if NET6_0_OR_GREATER
+                case MessageBoxButtons.CancelTryContinue:
+                    _button1.Text = KryptonManager.Strings.Cancel;
+                    _button2.Text = KryptonManager.Strings.TryAgain;
+                    _button3.Text = KryptonManager.Strings.Continue;
+                    _button1.DialogResult = DialogResult.Cancel;
+                    _button2.DialogResult = DialogResult.TryAgain;
+                    _button3.DialogResult = DialogResult.Continue;
+                    _button1.Visible = true;
+                    _button1.Enabled = true;
+                    _button2.Visible = true;
+                    _button2.Enabled = true;
+                    _button3.Visible = true;
+                    _button3.Enabled = true;
+                    break;
+#endif
             }
 
             // Do we ignore the Alt+F4 on the buttons?

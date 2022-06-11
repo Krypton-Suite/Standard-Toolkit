@@ -33,6 +33,10 @@ namespace Krypton.Toolkit
         private const string DEFAULT_CLOSE = "Cl&ose";
         private const string DEFAULT_TODAY = "T&oday";
         private const string DEFAULT_HELP = "H&elp";
+
+        // NET 6 & newer
+        private const string DEFAULT_CONTINUE = "Co&ntinue";
+        private const string DEFAULT_TRY_AGAIN = "&Try Again";
         #endregion
 
         #region Instance Fields
@@ -57,6 +61,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
         /// <summary>
         /// Gets a value indicating if all the strings are default values.
         /// </summary>
@@ -71,7 +76,9 @@ namespace Krypton.Toolkit
                                  Ignore.Equals(DEFAULT_IGNORE) &&
                                  Close.Equals(DEFAULT_CLOSE) &&
                                  Today.Equals(DEFAULT_TODAY) &&
-                                Help.Equals(DEFAULT_HELP);
+                                 Help.Equals(DEFAULT_HELP) &&
+                                 Continue.Equals(DEFAULT_CONTINUE) &&
+                                 TryAgain.Equals(DEFAULT_TRY_AGAIN);
 
         /// <summary>
         /// Reset all strings to default values.
@@ -88,6 +95,10 @@ namespace Krypton.Toolkit
             Close = DEFAULT_CLOSE;
             Today = DEFAULT_TODAY;
             Help = DEFAULT_HELP;
+
+            // NET 6 & newer
+            Continue = DEFAULT_CONTINUE;
+            TryAgain = DEFAULT_TRY_AGAIN;
         }
 
         /// <summary>
@@ -190,6 +201,24 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_HELP)]
         [RefreshProperties(RefreshProperties.All)]
         public string Help { get; set; }
-        #endregion
+
+        /// <summary>
+        /// Gets and sets the Continue string used in calendars.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Continue string used for Message Box Buttons.")]
+        [DefaultValue(DEFAULT_CONTINUE)]
+        public string Continue { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Try Again string used in calendars.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Try Again string used for Message Box Buttons.")]
+        [DefaultValue(DEFAULT_TRY_AGAIN)]
+        public string TryAgain { get; set; }
+#endregion
     }
 }
