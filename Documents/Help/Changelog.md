@@ -9,6 +9,7 @@
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
 * Resolved [#722](https://github.com/Krypton-Suite/Standard-Toolkit/issues/722), KryptonRichTextBox disabled colour cannot be set
 * Resolved [#662](https://github.com/Krypton-Suite/Standard-Toolkit/issues/662), Can not "Control / Set Disabled" Background Colour Of Comboboxes, in DropDown mode
+* Resolved [#737](https://github.com/Krypton-Suite/Standard-Toolkit/issues/737), `Office 2013 - Dark Grey` for `PaletteMode` in designer causes a crash
 * Resolved [#578](https://github.com/Krypton-Suite/Standard-Toolkit/issues/578), ComboBox Center no longer draws text centered
 * Resolved [#20](https://github.com/Krypton-Suite/Standard-Toolkit/issues/20), Selected text in ComboBox is drawn in a different font
 * Resolved [#308](https://github.com/Krypton-Suite/Standard-Toolkit/issues/308), Panel AntiAlias Border Problem
