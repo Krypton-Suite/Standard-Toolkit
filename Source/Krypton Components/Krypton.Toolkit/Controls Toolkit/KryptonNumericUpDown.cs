@@ -1479,6 +1479,20 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>https://github.com/Krypton-Suite/Standard-Toolkit/issues/688</summary>
+        /// <returns>A bitwise combination of the <see cref="T:System.Windows.Forms.AnchorStyles" /> values. The default is <see langword="Top" /> and <see langword="Left" />.</returns>
+        [Category(@"CatLayout")]
+        [DefaultValue(AnchorStyles.Top | AnchorStyles.Left)]
+        [Description(@"Defines the edges of the container to which a certain control is bound. When a control is anchored to an edge, the distance between the control's closest edge and the specified edge will remain constant")]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        public override AnchorStyles Anchor
+        {
+            get => base.Anchor;
+            set => base.Anchor = value.HasFlag(AnchorStyles.Bottom | AnchorStyles.Top)
+                ? value ^ AnchorStyles.Bottom
+                : value;
+        }
+
         /// <summary>
         /// Gets the rectangle that represents the display area of the control.
         /// </summary>
@@ -1784,12 +1798,13 @@ namespace Krypton.Toolkit
                 // Override the actual height used
                 height = preferredSize.Height;
             }
-            if (specified.HasFlag(BoundsSpecified.Width))
-            {
-                // Override the actual height used
-                width = preferredSize.Width;
-            }
-
+            // Do not do the following otherwise the designer will not allow width to be set!
+            // https://github.com/Krypton-Suite/Standard-Toolkit/issues/724
+            //if (specified.HasFlag(BoundsSpecified.Width))
+            //{
+            //    // Override the actual Width used
+            //    width = preferredSize.Width;
+            //}
             base.SetBoundsCore(x, y, width, height, specified);
         }
 
