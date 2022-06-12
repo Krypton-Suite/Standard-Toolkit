@@ -860,7 +860,7 @@ namespace Krypton.Toolkit
             Debug.Assert(!context.Control.IsDisposed);
 
             // Is there anything to actually draw?
-            if ((rect.Width <= 0) 
+            if ((rect.Width <= 0)
                 || (rect.Height <= 0)
                 )
             {
@@ -869,7 +869,7 @@ namespace Krypton.Toolkit
 
             // The `RenderBefore` does not know about tracking - so check again
             if ((state == PaletteState.Tracking)
-                && (palette.GetBackDraw(state) != InheritBool.True) 
+                && (palette.GetBackDraw(state) != InheritBool.True)
                )
             {
                 state = PaletteState.Normal;
@@ -1108,7 +1108,7 @@ namespace Krypton.Toolkit
 
                 // For the form level buttons we have to calculate the correct padding based on caption area
                 PaletteContentStyle contentStyle = palette.GetContentStyle();
-                if (contentStyle is PaletteContentStyle.ButtonForm 
+                if (contentStyle is PaletteContentStyle.ButtonForm
                     or PaletteContentStyle.ButtonFormClose)
                 {
                     borderPadding = ContentPaddingForButtonForm(borderPadding, context, allocatedHeight);
@@ -2931,10 +2931,10 @@ namespace Krypton.Toolkit
                 }
 
                 context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right, displayRect.Top + 3);
-                context.Graphics.DrawLine(darkPen, displayRect.Right-1, displayRect.Top + 4, displayRect.Left+displayRect.Width/2, displayRect.Bottom - 4);
-                context.Graphics.DrawLine(darkPen, displayRect.Left+displayRect.Width/2, displayRect.Bottom - 4, displayRect.Left, displayRect.Top + 3);
-                context.Graphics.DrawLine(lightPen, displayRect.Left+1, displayRect.Top + 5, displayRect.Left+displayRect.Width/2-1, displayRect.Bottom - 5);
-                context.Graphics.DrawLine(lightPen, displayRect.Left+displayRect.Width/2+1, displayRect.Bottom - 5, displayRect.Right-1, displayRect.Top + 5);
+                context.Graphics.DrawLine(darkPen, displayRect.Right - 1, displayRect.Top + 4, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4);
+                context.Graphics.DrawLine(darkPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4, displayRect.Left, displayRect.Top + 3);
+                context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5, displayRect.Left + displayRect.Width / 2 - 1, displayRect.Bottom - 5);
+                context.Graphics.DrawLine(lightPen, displayRect.Left + displayRect.Width / 2 + 1, displayRect.Bottom - 5, displayRect.Right - 1, displayRect.Top + 5);
             }
         }
 
@@ -5771,15 +5771,31 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Check for enough space to show all of the image
-                    if ((displayRect.Width < memento.Image.Width) ||
-                        (displayRect.Height < memento.Image.Height))
+                    if ((displayRect.Width < memento.Image.Width)
+                        || (displayRect.Height < memento.Image.Height)
+                       )
                     {
-                        var ratio = 1.0f * Math.Min(memento.Image.Width, memento.Image.Height) /
-                                    Math.Max(memento.Image.Width, memento.Image.Height);
-                        // Resize image to fit display area
-                        memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width*ratio, displayRect.Height*ratio);
+                        float ratioW = float.MaxValue;
+                        float ratioH = float.MaxValue;
+                        if (displayRect.Width < memento.Image.Width)
+                        {
+                            ratioW = 1.0f * displayRect.Width / memento.Image.Width;
+                        }
 
+                        if (displayRect.Height < memento.Image.Height)
+                        {
+                            ratioH = 1.0f * displayRect.Height / memento.Image.Height;
+                        }
+
+                        var useRatio = Math.Min(ratioW, ratioH);
+                        if (useRatio > 0)
+                        {
+                            // Resize image to fit display area
+                            memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image,
+                                memento.Image.Width * useRatio, memento.Image.Height * useRatio);
+                        }
                     }
+
                     // Cache the size of the image
                     memento.ImageRect.Size = memento.Image.Size;
 
