@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Determines if popup pages are Displayed.")]
-        [DefaultValue(typeof(PopupPageAllow), "Only Outlook Mini Mode")]
+        //[DefaultValue(typeof(PopupPageAllow), "Only Outlook Mini Mode")]
         public PopupPageAllow AllowPopupPages { get; set; }
 
         #endregion
@@ -100,7 +100,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"The relative element to use when calculating size and position of the popup page.")]
-        [DefaultValue(typeof(PopupPageElement), "Item")]
+        //[DefaultValue(typeof(PopupPageElement), "Item")]
         public PopupPageElement Element { get; set; }
 
         #endregion
@@ -122,7 +122,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"How to calculate the size and position of the popup page.")]
-        [DefaultValue(typeof(PopupPagePosition), "ModeAppropriate")]
+        //[DefaultValue(typeof(PopupPagePosition), "ModeAppropriate")]
         public PopupPagePosition Position { get; set; }
 
         #endregion

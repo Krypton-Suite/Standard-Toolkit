@@ -74,7 +74,7 @@ namespace Krypton.Navigator
         [Category(@"Behavior")]
         [Description(@"Defines header location for the button.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
+        //[DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
         public HeaderLocation HeaderLocation
         {
             get => _location;

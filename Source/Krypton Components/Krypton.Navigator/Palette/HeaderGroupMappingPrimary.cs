@@ -72,7 +72,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the Image property.
         /// </summary>
-        [DefaultValue(typeof(MapKryptonPageImage), "Small - Medium")]
+        //[DefaultValue(typeof(MapKryptonPageImage), "Small - Medium")]
         public override MapKryptonPageImage MapImage
         {
             get => base.MapImage;
@@ -84,7 +84,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the Heading property.
         /// </summary>
-        [DefaultValue(typeof(MapKryptonPageText), "Title - Text")]
+        //[DefaultValue(typeof(MapKryptonPageText), "Title - Text")]
         public override MapKryptonPageText MapHeading
         {
             get => base.MapHeading;
@@ -96,7 +96,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the Description property.
         /// </summary>
-        [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+        //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public override MapKryptonPageText MapDescription
         {
             get => base.MapDescription;
