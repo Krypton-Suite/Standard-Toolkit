@@ -696,7 +696,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Page tooltip label style.")]
-        [DefaultValue(typeof(LabelStyle), "ToolTip")]
+        //[DefaultValue(typeof(LabelStyle), "ToolTip")]
         public virtual LabelStyle ToolTipStyle
         {
             get => _toolTipStyle;

@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Mini button style.")]
-        [DefaultValue(typeof(ButtonStyle), "NavigatorMini")]
+        //[DefaultValue(typeof(ButtonStyle), "NavigatorMini")]
         public ButtonStyle MiniButtonStyle
         {
             get => _miniButtonStyle;
@@ -102,7 +102,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Mapping used for the mini button item image.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MapKryptonPageImage), "None (Null image)")]
+        //[DefaultValue(typeof(MapKryptonPageImage), "None (Null image)")]
         public virtual MapKryptonPageImage MiniMapImage
         {
             get => _miniMapImage;
@@ -133,7 +133,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Mapping used for the mini button item text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
+        //[DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
         public MapKryptonPageText MiniMapText
         {
             get => _miniMapText;
@@ -164,7 +164,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Mapping used for the mini button item description.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+        //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText MiniMapExtraText
         {
             get => _miniMapExtraText;
@@ -196,7 +196,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Mapping used for the stack item image.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MapKryptonPageImage), "MediumSmall")]
+        //[DefaultValue(typeof(MapKryptonPageImage), "MediumSmall")]
         public virtual MapKryptonPageImage StackMapImage
         {
             get => _stackMapImage;
@@ -227,7 +227,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Mapping used for the stack item text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+        //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText StackMapText
         {
             get => _stackMapText;
@@ -258,7 +258,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Mapping used for the stack item description.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+        //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText StackMapExtraText
         {
             get => _stackMapExtraText;
