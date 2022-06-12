@@ -365,72 +365,26 @@ namespace Krypton.Toolkit
                                 rect.left -= borderSize.Width + 1;
 
                                 //////////////////////////////////////////////////////
-                                // Following removed to allow the Draw to always happen, to allow centering etc  
-                                //// If enabled then let the combo draw the text area
-                                //if (_kryptonDomainUpDown.Enabled)
-                                //{
-                                //    // Let base implementation draw the actual text area
-                                //    if (m.WParam == IntPtr.Zero)
-                                //    {
-                                //        m.WParam = hdc;
-                                //        DefWndProc(ref m);
-                                //        m.WParam = IntPtr.Zero;
-                                //    }
-                                //    else
-                                //    {
-                                //        DefWndProc(ref m);
-                                //    }
-                                //}
-                                //else
+                                // Following to allow the Draw to always happen, to allow centering etc  
+                                _internalDomainUpDown.TextAlign = 
+                                    states.Content.GetContentShortTextH(state) switch
+                                    {
+                                        PaletteRelativeAlign.Center => HorizontalAlignment.Center,
+                                        PaletteRelativeAlign.Far    => HorizontalAlignment.Right,
+                                        _                           => HorizontalAlignment.Left
+                                    };
+
+                                // Let base implementation draw the actual text area
+                                if (m.WParam == IntPtr.Zero)
                                 {
-                                    // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
-                                    // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
-                                    // it from the device context. Resulting in blurred text.
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
-
-                                    // Define the string formatting requirements
-                                    StringFormat stringFormat = new()
-                                    {
-                                        LineAlignment = StringAlignment.Near,
-                                        FormatFlags = StringFormatFlags.NoWrap,
-                                        Trimming = StringTrimming.None,
-                                        // Use the correct prefix setting
-                                        HotkeyPrefix = HotkeyPrefix.None
-                                    };
-
-                                    stringFormat.Alignment = states.Content.GetContentShortTextH(state) switch
-                                    {
-                                        PaletteRelativeAlign.Near => DomainUpDown.RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Far
-                                            : StringAlignment.Near,
-                                        PaletteRelativeAlign.Far => DomainUpDown.RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Near
-                                            : StringAlignment.Far,
-                                        PaletteRelativeAlign.Center => StringAlignment.Center,
-                                        _ => stringFormat.Alignment
-                                    };
-
-                                    Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
-                                        states.Content.GetContentPadding(state));
-
-                                    // Draw using a solid brush
-                                    try
-                                    {
-                                        using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
-                                        g.DrawString(DomainUpDown.Text, states.Content.GetContentShortTextFont(state), foreBrush,
-                                            rectangle,
-                                            stringFormat);
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                        using SolidBrush foreBrush = new(DomainUpDown.ForeColor);
-                                        g.DrawString(DomainUpDown.Text, DomainUpDown.Font, foreBrush, rectangle, stringFormat);
-                                    }
+                                    m.WParam = hdc;
+                                    DefWndProc(ref m);
+                                    m.WParam = IntPtr.Zero;
                                 }
-
-                                // Remove clipping settings
-                                PI.SelectClipRgn(hdc, IntPtr.Zero);
+                                else
+                                {
+                                    DefWndProc(ref m);
+                                }
                             }
 
                             // Do we need to match the original BeginPaint?

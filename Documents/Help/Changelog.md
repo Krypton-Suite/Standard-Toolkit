@@ -7,6 +7,7 @@
 ## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
 * Implemented [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox `States` inline with latest .Net 6 
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
+* Resolved [#660](https://github.com/Krypton-Suite/Standard-Toolkit/issues/660), Krypton DomainUpDown control: Nearly impossible to place the cursor via the mouse
 * Resolved [#748](https://github.com/Krypton-Suite/Standard-Toolkit/issues/748), Navigator text is removed via designer changes for Navigator tabs
 * Resolved [#739](https://github.com/Krypton-Suite/Standard-Toolkit/issues/739), KryptonButton - Image stretches with increased border rounding 
 * Resolved [#688](https://github.com/Krypton-Suite/Standard-Toolkit/issues/688), KryptonComboBox / KryptonNumericUpDown / KryptonDomainUpDown Anchor Sizing no as expected when anchored Top & Bottom
