@@ -29,26 +29,17 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonDomainUpDown1 = new Krypton.Toolkit.KryptonDomainUpDown();
-            this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
-            this.kryptonNumericUpDown1 = new Krypton.Toolkit.KryptonNumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.kryptonComboBox2 = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonDomainUpDown1);
-            this.kryptonPanel1.Controls.Add(this.kryptonTextBox1);
-            this.kryptonPanel1.Controls.Add(this.kryptonNumericUpDown1);
-            this.kryptonPanel1.Controls.Add(this.label1);
-            this.kryptonPanel1.Controls.Add(this.comboBox1);
-            this.kryptonPanel1.Controls.Add(this.kryptonComboBox2);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton3);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
@@ -57,85 +48,46 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonDomainUpDown1
+            // kryptonButton3
             // 
-            this.kryptonDomainUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonDomainUpDown1.CornerRoundingRadius = -1F;
-            this.kryptonDomainUpDown1.Location = new System.Drawing.Point(480, 379);
-            this.kryptonDomainUpDown1.Name = "kryptonDomainUpDown1";
-            this.kryptonDomainUpDown1.Size = new System.Drawing.Size(210, 26);
-            this.kryptonDomainUpDown1.TabIndex = 8;
-            this.kryptonDomainUpDown1.Text = "kryptonDomainUpDown1";
+            this.kryptonButton3.CornerRoundingRadius = 30F;
+            this.kryptonButton3.Location = new System.Drawing.Point(240, 213);
+            this.kryptonButton3.Name = "kryptonButton3";
+            this.kryptonButton3.Size = new System.Drawing.Size(187, 65);
+            this.kryptonButton3.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.kryptonButton3.StateCommon.Border.Rounding = 30F;
+            this.kryptonButton3.TabIndex = 3;
+            this.kryptonButton3.Values.Image = global::TestForm.Properties.Resources.Main_Icon_128_x_128_Nightly;
+            this.kryptonButton3.Values.Text = "kryptonButton3";
             // 
-            // kryptonTextBox1
+            // kryptonButton2
             // 
-            this.kryptonTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonTextBox1.Location = new System.Drawing.Point(480, 329);
-            this.kryptonTextBox1.Name = "kryptonTextBox1";
-            this.kryptonTextBox1.Size = new System.Drawing.Size(210, 27);
-            this.kryptonTextBox1.TabIndex = 7;
-            this.kryptonTextBox1.Text = "kryptonTextBox1";
-            // 
-            // kryptonNumericUpDown1
-            // 
-            this.kryptonNumericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonNumericUpDown1.Location = new System.Drawing.Point(480, 284);
-            this.kryptonNumericUpDown1.Name = "kryptonNumericUpDown1";
-            this.kryptonNumericUpDown1.Size = new System.Drawing.Size(210, 26);
-            this.kryptonNumericUpDown1.TabIndex = 6;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(483, 203);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(161, 20);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Winform ComboBox \\/";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.Font = new System.Drawing.Font("Segoe Script", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(480, 232);
-            this.comboBox1.MinimumSize = new System.Drawing.Size(150, 0);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(215, 31);
-            this.comboBox1.TabIndex = 4;
-            this.comboBox1.Text = "33333333333333";
-            // 
-            // kryptonComboBox2
-            // 
-            this.kryptonComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonComboBox2.CornerRoundingRadius = -1F;
-            this.kryptonComboBox2.DropDownWidth = 215;
-            this.kryptonComboBox2.IntegralHeight = false;
-            this.kryptonComboBox2.Location = new System.Drawing.Point(480, 149);
-            this.kryptonComboBox2.MinimumSize = new System.Drawing.Size(150, 0);
-            this.kryptonComboBox2.Name = "kryptonComboBox2";
-            this.kryptonComboBox2.Size = new System.Drawing.Size(215, 29);
-            this.kryptonComboBox2.StateCommon.ComboBox.Content.Font = new System.Drawing.Font("Segoe Script", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonComboBox2.TabIndex = 2;
-            this.kryptonComboBox2.Text = "33333333333333";
+            this.kryptonButton2.CornerRoundingRadius = 10F;
+            this.kryptonButton2.Location = new System.Drawing.Point(86, 253);
+            this.kryptonButton2.Name = "kryptonButton2";
+            this.kryptonButton2.Size = new System.Drawing.Size(121, 25);
+            this.kryptonButton2.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.kryptonButton2.StateCommon.Border.Rounding = 10F;
+            this.kryptonButton2.TabIndex = 2;
+            this.kryptonButton2.Values.Image = global::TestForm.Properties.Resources.Main_Icon_128_x_128_Nightly;
+            this.kryptonButton2.Values.Text = "kryptonButton2";
             // 
             // kryptonButton1
             // 
-            this.kryptonButton1.CornerRoundingRadius = -1F;
-            this.kryptonButton1.Location = new System.Drawing.Point(86, 204);
+            this.kryptonButton1.CornerRoundingRadius = 10F;
+            this.kryptonButton1.Location = new System.Drawing.Point(86, 171);
             this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButton1.Size = new System.Drawing.Size(175, 58);
+            this.kryptonButton1.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.kryptonButton1.StateCommon.Border.Rounding = 10F;
             this.kryptonButton1.TabIndex = 1;
+            this.kryptonButton1.Values.Image = global::TestForm.Properties.Resources.Main_Icon_16_x_16_Canary;
             this.kryptonButton1.Values.Text = "kryptonButton1";
             // 
             // Form1
@@ -150,8 +102,6 @@
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
-            this.kryptonPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -160,11 +110,7 @@
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
-        private Krypton.Toolkit.KryptonComboBox kryptonComboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
-        private Krypton.Toolkit.KryptonNumericUpDown kryptonNumericUpDown1;
-        private Krypton.Toolkit.KryptonDomainUpDown kryptonDomainUpDown1;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
+        private Krypton.Toolkit.KryptonButton kryptonButton2;
+        private Krypton.Toolkit.KryptonButton kryptonButton3;
     }
 }
