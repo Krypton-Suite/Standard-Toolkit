@@ -374,7 +374,7 @@ namespace Krypton.Toolkit
                                 rect.left -= borderSize.Width + 1;
 
                                 //////////////////////////////////////////////////////
-                                // Following removed to allow the Draw to always happen, to allow centering etc  
+                                // Following to allow the Draw to always happen, to allow centering etc  
                                 _internalNumericUpDown.TextAlign = 
                                     states.Content.GetContentShortTextH(state) switch
                                     {
