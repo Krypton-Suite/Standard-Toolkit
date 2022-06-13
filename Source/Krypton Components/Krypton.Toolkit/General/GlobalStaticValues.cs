@@ -30,5 +30,10 @@ namespace Krypton.Toolkit
         public const float MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE = 25;
 
         public const float MAXIMUM_SECONDARY_CORNER_ROUNDING_VALUE = 25;
+
+        // Used for fonts
+        public static string DEFAULT_FONT_NAME = "Segoe UI";
+
+        public static float DEFAULT_FONT_SIZE = 9F;
     }
 }
