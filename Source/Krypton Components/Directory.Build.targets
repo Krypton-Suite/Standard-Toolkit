@@ -31,7 +31,7 @@
 
 				<AnalysLevel>preview</AnalysLevel>
 
-				<IncludeSymbols>true</IncludeSymbols>
+				<!--<IncludeSymbols>true</IncludeSymbols>-->
 			</PropertyGroup>
 		</When>
 
@@ -61,8 +61,8 @@
 				<LangVersion>preview</LangVersion>
 				
 				<AnalysLevel>preview</AnalysLevel>
-				
-				<IncludeSymbols>true</IncludeSymbols>
+
+				<!--<IncludeSymbols>true</IncludeSymbols>-->
 			</PropertyGroup>
 		</When>
 
