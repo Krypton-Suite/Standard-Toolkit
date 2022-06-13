@@ -13,7 +13,15 @@
 
 namespace Krypton.Toolkit
 {
-    internal class PaletteOffice365DarkGray
+    public class PaletteOffice365DarkGray : PaletteOffice365Base
     {
+        public PaletteOffice365DarkGray(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours) : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
+        {
+        }
+
+        public override Image GetContextMenuSubMenuImage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
