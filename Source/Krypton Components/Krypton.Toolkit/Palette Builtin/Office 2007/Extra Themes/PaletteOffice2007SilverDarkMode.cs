@@ -107,7 +107,7 @@
                                                                 Color.FromArgb(83, 99, 136),    // FormBorderHeaderActive2
                                                                 Color.FromArgb(119, 132, 161),    // FormBorderHeaderInctive1
                                                                 Color.FromArgb(83, 99, 136),    // FormBorderHeaderInctive2
-                                                                Color.FromArgb( 53, 110, 170),    // FormHeaderShortActive
+                                                                Color.FromArgb(24, 24, 24),    // FormHeaderShortActive
                                                                 Color.FromArgb(138, 138, 138),    // FormHeaderShortInactive
                                                                 Color.FromArgb( 92,  98, 106),    // FormHeaderLongActive
                                                                 Color.FromArgb(138, 138, 138),    // FormHeaderLongInactive
