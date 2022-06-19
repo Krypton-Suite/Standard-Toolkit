@@ -153,6 +153,8 @@ If you are getting scaling problems in high dpi monitors, then please add an app
 
 - [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 5/6 or 7
 
+- .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Designer-Fix.md) for more information
+
 =======
 
 ## Introduction

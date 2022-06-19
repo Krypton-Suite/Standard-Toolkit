@@ -11,8 +11,8 @@ There are currently two types of package that are supported. The table below out
 
 | Version | Status | Latest Release | Latest Release Date | End of Support |
 |---|---|---|---|---|
-| .NET 7.0 | Preview | 7.0.0-preview.5 | May 10, 2022 | TBC |
-| .NET 6.0 | LTS | 6.0.5 | May 10, 2022 | November 12, 2024 |
-| .NET Core 3.1 | LTS | 3.1.25 | May 10, 2022 | December 13, 2022 |
+| .NET 7.0 | Preview | 7.0.0-preview.5 | June 14, 2022 | TBC |
+| .NET 6.0 | LTS | 6.0.6 | June 14, 2022 | November 12, 2024 |
+| .NET Core 3.1 | LTS | 3.1.26 | June 14, 2022 | December 13, 2022 |
 
 Full information can be found [here](https://dotnet.microsoft.com/en-us/download/dotnet)

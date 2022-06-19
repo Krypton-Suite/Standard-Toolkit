@@ -677,6 +677,9 @@ namespace Krypton.Toolkit
         /// Gets and sets the text associated associated with the control.
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+#if NET6_0_OR_GREATER
+        [AllowNull]
+#endif
         public override string Text
         {
             get => _richTextBox.Text;

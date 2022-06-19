@@ -5,6 +5,7 @@
 =======
 
 ## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
+* Implemented [#756](https://github.com/Krypton-Suite/Standard-Toolkit/issues/756), Add `[AllowNull]` to a controls `Text` field
 * Resolved [#738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/738), "Office 2010 - Blue (Dark Mode)": Form title text cannot be read
 * Implemented [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox `States` inline with latest .Net 6 
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
