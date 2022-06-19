@@ -3342,7 +3342,7 @@ namespace Krypton.Toolkit
                                 BinaryFormatter formatter = new();
                                 var old = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
-                                resurect = new Bitmap(old);
+                                resurect = old is Bitmap bitmap ? bitmap : new Bitmap(old);
                             }
 
 
@@ -3517,7 +3517,11 @@ namespace Krypton.Toolkit
                     // Convert the Image into base64 so it can be used in xml
                     using MemoryStream memory = new();
 
-                    entry.Key.Save(memory, entry.Key.RawFormat);
+                    var imageFormat = entry.Key.RawFormat;
+                    if (imageFormat.Equals(ImageFormat.MemoryBmp))
+                        imageFormat = ImageFormat.Bmp;
+
+                    entry.Key.Save(memory, imageFormat);
                     memory.Position = 0;
                     var base64 = Convert.ToBase64String(memory.ToArray());
 
