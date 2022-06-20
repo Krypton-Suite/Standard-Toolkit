@@ -5,6 +5,9 @@
 =======
 
 ## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
+* Resolved `ArgumentNullException` when saving `palette.xml` files with serialized Image objects (thanks to [hopla](https://github.com/hopla))
+    - When the deserialized Image class is of type Bitmap, keep this bitmap, as opposed to painting it on a new in-memory bitmap. This keeps the original Format (as opposed, changing it to MemoryBMP.
+    - When the format of an Image is of Format MemoryBMP, save the image as format BMP.
 * Implemented [#756](https://github.com/Krypton-Suite/Standard-Toolkit/issues/756), Add `[AllowNull]` to a controls `Text` field
 * Resolved [#738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/738), "Office 2010 - Blue (Dark Mode)": Form title text cannot be read
 * Implemented [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox `States` inline with latest .Net 6 

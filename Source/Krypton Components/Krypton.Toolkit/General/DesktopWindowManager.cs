@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Distance for each form edge.</param>
         public static void ExtendFrameIntoClientArea(IntPtr hWnd, Padding padding)
         {
-            Debug.Assert(hWnd != null);
+            Debug.Assert(hWnd != IntPtr.Zero);
 
             // Create structure that contains distances for each edge
             var margins = new PI.MARGINS

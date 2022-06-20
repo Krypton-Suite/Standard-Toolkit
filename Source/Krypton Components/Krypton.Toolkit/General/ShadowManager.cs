@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
 
         internal static void Unregister(IntPtr handle)
         {
-            if (handle != null)
+            if (handle != IntPtr.Zero)
             {
                 _forms.Remove(handle);
             }
@@ -403,7 +403,7 @@ namespace Krypton.Toolkit
         internal static void Unregister(Form f)
         {
             // This will crash if f has been disposed
-            if (f.Handle != null)
+            if (f.Handle != IntPtr.Zero)
             {
                 _forms.Remove(f.Handle);
             }
