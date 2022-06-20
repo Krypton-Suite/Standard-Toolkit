@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly int _paletteVersion = 18;
+        private static readonly int _paletteVersion = 19;
         #endregion
 
         #region Instance Fields

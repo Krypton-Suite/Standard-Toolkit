@@ -1,6 +1,21 @@
-﻿namespace Krypton.Toolkit
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Toolkit
 {
-    public class PaletteOffice2010DarkGray : PaletteOffice2010Base
+    /// <summary>
+    /// Provides the dark gray color scheme variant of the Office 2013 palette.
+    /// </summary>
+    public class PaletteOffice2013DarkGray : PaletteOffice2013Base
     {
         #region Static Fields
 
@@ -283,7 +298,7 @@
         #endregion
 
         #region Identity
-        static PaletteOffice2010DarkGray()
+        static PaletteOffice2013DarkGray()
         {
             _checkBoxList = new ImageList
             {
@@ -309,9 +324,9 @@
         }
 
         /// <summary>
-        /// Initialize a new instance of the PaletteOffice2010DarkGray class.
+        /// Initialize a new instance of the PaletteOffice2013DarkGray class.
         /// </summary>
-        public PaletteOffice2010DarkGray()
+        public PaletteOffice2013DarkGray()
             : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,

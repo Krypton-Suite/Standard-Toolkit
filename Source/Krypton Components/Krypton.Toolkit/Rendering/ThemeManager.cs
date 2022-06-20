@@ -40,6 +40,8 @@ namespace Krypton.Toolkit
 
             "Office 2007 - Blue (Light Mode)",
 
+            "Office 2007 - Dark Gray",
+
             "Office 2007 - Silver",
 
             "Office 2007 - Silver (Dark Mode)",
@@ -58,6 +60,8 @@ namespace Krypton.Toolkit
 
             "Office 2010 - Blue (Light Mode)",
 
+            "Office 2010 - Dark Gray",
+
             "Office 2010 - Silver",
 
             "Office 2010 - Silver (Dark Mode)",
@@ -67,6 +71,8 @@ namespace Krypton.Toolkit
             "Office 2010 - White",
 
             "Office 2013 - White",
+
+            "Office 2013 - Dark Gray",
 
             "Office 365 - Black",
 
@@ -172,6 +178,8 @@ namespace Krypton.Toolkit
                     return PaletteMode.Office2007BlueDarkMode;
                 case PaletteModeManager.Office2007BlueLightMode:
                     return PaletteMode.Office2007BlueLightMode;
+                case PaletteModeManager.Office2007DarkGray:
+                    return PaletteMode.Office2007DarkGray;
                 case PaletteModeManager.Office2007Silver:
                     return PaletteMode.Office2007Silver;
                 case PaletteModeManager.Office2007SilverDarkMode:
@@ -188,12 +196,16 @@ namespace Krypton.Toolkit
                     return PaletteMode.Office2010BlueDarkMode;
                 case PaletteModeManager.Office2010BlueLightMode:
                     return PaletteMode.Office2010BlueLightMode;
+                case PaletteModeManager.Office2010DarkGray:
+                    return PaletteMode.Office2010DarkGray;
                 case PaletteModeManager.Office2010Silver:
                     return PaletteMode.Office2010Silver;
                 case PaletteModeManager.Office2010SilverDarkMode:
                     return PaletteMode.Office2010SilverDarkMode;
                 case PaletteModeManager.Office2010SilverLightMode:
                     return PaletteMode.Office2010SilverLightMode;
+                case PaletteModeManager.Office2013DarkGray:
+                    return PaletteMode.Office2013DarkGray;
                 case PaletteModeManager.Office2010White:
                     return PaletteMode.Office2010White;
                 case PaletteModeManager.Office2013White:
@@ -288,6 +300,9 @@ namespace Krypton.Toolkit
                 case @"Office 2007 - Black (Dark Mode)":
                     ApplyTheme(PaletteModeManager.Office2007BlackDarkMode, manager);
                     break;
+                case @"Office 2007 - Dark Gray":
+                    ApplyTheme(PaletteModeManager.Office2007DarkGray, manager);
+                    break;
                 case @"Office 2010 - Blue":
                     ApplyTheme(PaletteModeManager.Office2010Blue, manager);
                     break;
@@ -314,6 +329,12 @@ namespace Krypton.Toolkit
                     break;
                 case @"Office 2010 - Black (Dark Mode)":
                     ApplyTheme(PaletteModeManager.Office2010BlackDarkMode, manager);
+                    break;
+                case @"Office 2010 - Dark Gray":
+                    ApplyTheme(PaletteModeManager.Office2010DarkGray, manager);
+                    break;
+                case @"Office 2013 - Dark Gray":
+                    ApplyTheme(PaletteModeManager.Office2013DarkGray, manager);
                     break;
                 /*case @"Office 2013":
                     ApplyTheme(PaletteModeManager.Office2013, manager);
@@ -424,6 +445,7 @@ namespace Krypton.Toolkit
                 PaletteModeManager.Office2007White => "Office 2007 - White",
                 PaletteModeManager.Office2007Black => "Office 2007 - Black",
                 PaletteModeManager.Office2007BlackDarkMode => "Office 2007 - Black (Dark Mode)",
+                PaletteModeManager.Office2007DarkGray => "Office 2007 - Dark Gray",
                 PaletteModeManager.Office2010Blue => "Office 2010 - Blue",
                 PaletteModeManager.Office2010BlueDarkMode => "Office 2010 - Blue (Dark Mode)",
                 PaletteModeManager.Office2010BlueLightMode => "Office 2010 - Blue (Light Mode)",
@@ -433,6 +455,8 @@ namespace Krypton.Toolkit
                 PaletteModeManager.Office2010White => "Office 2010 - White",
                 PaletteModeManager.Office2010Black => "Office 2010 - Black",
                 PaletteModeManager.Office2010BlackDarkMode => "Office 2010 - Black (Dark Mode)",
+                PaletteModeManager.Office2010DarkGray => "Office 2010 - Dark Gray",
+                PaletteModeManager.Office2013DarkGray => "Office 2013 - Dark Gray",
                 //PaletteModeManager.Office2013 => "Office 2013",
                 PaletteModeManager.Office2013White => "Office 2013 - White",
                 PaletteModeManager.SparkleBlue => "Sparkle - Blue",

@@ -394,6 +394,7 @@ namespace Krypton.Toolkit
 
         internal static void Unregister(IntPtr handle)
         {
+            // We can't use 'null', since the type of the object is 'IntPtr'. So we need to use 'IntPtr.Zero'.
             if (handle != IntPtr.Zero)
             {
                 _forms.Remove(handle);
@@ -403,6 +404,7 @@ namespace Krypton.Toolkit
         internal static void Unregister(Form f)
         {
             // This will crash if f has been disposed
+            // We can't use 'null', since the type of the object is 'IntPtr'. So we need to use 'IntPtr.Zero'.
             if (f.Handle != IntPtr.Zero)
             {
                 _forms.Remove(f.Handle);

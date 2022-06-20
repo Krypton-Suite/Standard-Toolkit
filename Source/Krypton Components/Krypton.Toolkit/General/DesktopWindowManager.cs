@@ -50,6 +50,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Distance for each form edge.</param>
         public static void ExtendFrameIntoClientArea(IntPtr hWnd, Padding padding)
         {
+            // We can't use 'null', since the type of the object is 'IntPtr'. So we need to use 'IntPtr.Zero'.
             Debug.Assert(hWnd != IntPtr.Zero);
 
             // Create structure that contains distances for each edge
