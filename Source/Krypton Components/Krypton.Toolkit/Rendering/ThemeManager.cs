@@ -86,6 +86,8 @@ namespace Krypton.Toolkit
 
             "Office 365 - Blue (Light Mode)",
 
+            "Office 365 - Dark Gray",
+
             "Office 365 - Silver",
 
             "Office 365 - Silver (Dark Mode)",
@@ -220,6 +222,8 @@ namespace Krypton.Toolkit
                     return PaletteMode.Office365BlueDarkMode;
                 case PaletteModeManager.Office365BlueLightMode:
                     return PaletteMode.Office365BlueLightMode;
+                case PaletteModeManager.Office365DarkGray:
+                    return PaletteMode.Office365DarkGray;
                 case PaletteModeManager.Office365Silver:
                     return PaletteMode.Office365Silver;
                 case PaletteModeManager.Office365SilverDarkMode:
@@ -396,6 +400,9 @@ namespace Krypton.Toolkit
                 case @"Office 365 - Black (Dark Mode)":
                     ApplyTheme(PaletteModeManager.Office365BlackDarkMode, manager);
                     break;
+                case @"Office 365 - Dark Gray":
+                    ApplyTheme(PaletteModeManager.Office365DarkGray, manager);
+                    break;
                 default:
                     throw new ArgumentNullException(nameof(themeName));
             }
@@ -471,6 +478,7 @@ namespace Krypton.Toolkit
                 PaletteModeManager.Office365White => "Office 365 - White",
                 PaletteModeManager.Office365Black => "Office 365 - Black",
                 PaletteModeManager.Office365BlackDarkMode => "Office 365 - Black (Dark Mode)",
+                PaletteModeManager.Office365DarkGray => "Office 365 - Dark Gray",
                 _ => null
             };
         }

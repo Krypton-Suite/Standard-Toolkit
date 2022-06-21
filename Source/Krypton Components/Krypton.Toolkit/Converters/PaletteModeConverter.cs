@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             new(PaletteMode.Office2007BlueLightMode, "Office 2007 - Blue (Light Mode)"),
             // Note: Re-enable when the gray themes are completed
             new(PaletteMode.Office2007DarkGray, "Office 2007 - Dark Gray"),
-            //new(PaletteMode.Office2007LightGray, "Office 2007 - Light Grey"),
+            //new(PaletteMode.Office2007LightGray, "Office 2007 - Light Gray"),
             new(PaletteMode.Office2007Silver, "Office 2007 - Silver"),
             new(PaletteMode.Office2007SilverDarkMode, "Office 2007 - Silver (Dark Mode)"),
             new(PaletteMode.Office2007SilverLightMode, "Office 2007 - Silver (Light Mode)"),
@@ -43,14 +43,14 @@ namespace Krypton.Toolkit
             new(PaletteMode.Office2010BlueLightMode, "Office 2010 - Blue (Light Mode)"),
             // Note: Re-enable when the gray themes are completed
             new(PaletteMode.Office2010DarkGray, "Office 2010 - Dark Gray"),
-            //new(PaletteMode.Office2010LightGray, "Office 2010 - Light Grey"),
+            //new(PaletteMode.Office2010LightGray, "Office 2010 - Light Gray"),
             new(PaletteMode.Office2010Silver, "Office 2010 - Silver"),
             new(PaletteMode.Office2010SilverDarkMode, "Office 2010 - Silver (Dark Mode)"),
             new(PaletteMode.Office2010SilverLightMode, "Office 2010 - Silver (Light Mode)"),
             new(PaletteMode.Office2010White, "Office 2010 - White"),
             // Note: Re-enable when the gray themes are completed
             new(PaletteMode.Office2013DarkGray, "Office 2013 - Dark Gray"),
-            //new(PaletteMode.Office2013LightGray, "Office 2013 - Light Grey"),
+            //new(PaletteMode.Office2013LightGray, "Office 2013 - Light Gray"),
             new(PaletteMode.Office2013White, "Office 2013 - White"),
             new(PaletteMode.Office365Black, "Office 365 - Black"),
             new(PaletteMode.Office365BlackDarkMode, "Office 365 - Black (Dark Mode)"),
@@ -58,8 +58,8 @@ namespace Krypton.Toolkit
             new(PaletteMode.Office365BlueDarkMode, "Office 365 - Blue (Dark Mode)"),
             new(PaletteMode.Office365BlueLightMode, "Office 365 - Blue (Light Mode)"),
             // Note: Re-enable when the gray themes are completed
-            //new(PaletteMode.Office365DarkGray, "Office 365 - Dark Grey"),
-            //new(PaletteMode.Office365LightGray, "Office 365 - Light Grey"),
+            new(PaletteMode.Office365DarkGray, "Office 365 - Dark Gray"),
+            //new(PaletteMode.Office365LightGray, "Office 365 - Light Gray"),
             new(PaletteMode.Office365Silver, "Office 365 - Silver"),
             new(PaletteMode.Office365SilverDarkMode, "Office 365 - Silver (Dark Mode)"),
             new(PaletteMode.Office365SilverLightMode, "Office 365 - Silver (Light Mode)"),

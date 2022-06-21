@@ -89,6 +89,7 @@ namespace Krypton.Toolkit
 
         #region Office 365 Themes
 
+        private static PaletteOffice365DarkGray _paletteOffice365DarkGray;
         private static PaletteOffice365Black _paletteOffice365Black;
         private static PaletteOffice365BlackDarkMode _paletteOffice365BlackDarkMode;
         private static PaletteOffice365Blue _paletteOffice365Blue;
@@ -528,6 +529,8 @@ namespace Krypton.Toolkit
                         return PaletteOffice365BlueDarkMode;
                     case PaletteModeManager.Office365BlueLightMode:
                         return PaletteOffice365BlueLightMode;
+                    case PaletteModeManager.Office365DarkGray:
+                        return PaletteOffice365DarkGray;
                     case PaletteModeManager.Office365Silver:
                         return PaletteOffice365Silver;
                     case PaletteModeManager.Office365SilverDarkMode:
@@ -632,6 +635,8 @@ namespace Krypton.Toolkit
                     return PaletteOffice365BlueLightMode;
                 case PaletteMode.Office365Blue:
                     return PaletteOffice365Blue;
+                case PaletteMode.Office365DarkGray:
+                    return PaletteOffice365DarkGray;
                 case PaletteMode.Office365Silver:
                     return PaletteOffice365Silver;
                 case PaletteMode.Office365SilverDarkMode:
@@ -799,6 +804,11 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the ### palette.
         /// </summary>
         public static PaletteOffice365BlueLightMode PaletteOffice365BlueLightMode => _paletteOffice365BlueLightMode ??= new PaletteOffice365BlueLightMode();
+
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice365DarkGray PaletteOffice365DarkGray => _paletteOffice365DarkGray ??= new PaletteOffice365DarkGray();
 
         /// <summary>
         /// Gets the palette office365 silver.

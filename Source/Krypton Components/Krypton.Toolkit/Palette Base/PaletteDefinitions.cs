@@ -2085,12 +2085,12 @@ namespace Krypton.Toolkit
 
         // Note: Re-enable when the gray themes are completed
         /// <summary>
-        /// Specifies the dark Grey color variant of the Office 2007 appearance.
+        /// Specifies the dark Gray color variant of the Office 2007 appearance.
         /// </summary>
 		Office2007DarkGray,
 		/*
         /// <summary>
-        /// Specifies the light Grey color variant of the Office 2007 appearance.
+        /// Specifies the light Gray color variant of the Office 2007 appearance.
         /// </summary>
 		Office2007LightGray,*/
 
@@ -2141,12 +2141,12 @@ namespace Krypton.Toolkit
 
         // Note: Re-enable when the gray themes are completed
         /// <summary>
-        /// Specifies the dark Grey color variant of the Office 2010 appearance.
+        /// Specifies the dark Gray color variant of the Office 2010 appearance.
         /// </summary>
         Office2010DarkGray,
 		/*
         /// <summary>
-        /// Specifies the light Grey color variant of the Office 2010 appearance.
+        /// Specifies the light Gray color variant of the Office 2010 appearance.
         /// </summary>
         Office2010LightGray,*/
 
@@ -2197,12 +2197,12 @@ namespace Krypton.Toolkit
 
         // Note: Re-enable when the gray themes are completed
         /// <summary>
-        /// Specifies the dark Grey color variant of the Office 2013 appearance.
+        /// Specifies the dark Gray color variant of the Office 2013 appearance.
         /// </summary>
 		Office2013DarkGray,
 		/*
         /// <summary>
-        /// Specifies the light Grey color variant of the Office 2013 appearance.
+        /// Specifies the light Gray color variant of the Office 2013 appearance.
         /// </summary>
 		Office2013LightGray,*/
 
@@ -2212,14 +2212,14 @@ namespace Krypton.Toolkit
         Office2013White,
 
         // Note: Re-enable when the gray themes are completed
-        /*
+        
 		/// <summary>
-		/// Specifies the dark Grey color variant of the Office 365 appearance.
+		/// Specifies the dark Gray color variant of the Office 365 appearance.
 		/// </summary>
 		Office365DarkGray,
-
+		/*
 		/// <summary>
-		/// Specifies the light Grey color variant of the Office 365 appearance.
+		/// Specifies the light Gray color variant of the Office 365 appearance.
 		/// </summary>
 		Office365LightGray,*/
 
@@ -2347,12 +2347,12 @@ namespace Krypton.Toolkit
 
         // Note: Re-enable when the gray themes are completed
 		/// <summary>
-		/// Specifies the dark Grey color variant of the Office 2007 appearance.
+		/// Specifies the dark Gray color variant of the Office 2007 appearance.
 		/// </summary>
 		Office2007DarkGray,
 		/*
 		/// <summary>
-		/// Specifies the light Grey color variant of the Office 2007 appearance.
+		/// Specifies the light Gray color variant of the Office 2007 appearance.
 		/// </summary>
 		Office2007LightGray,*/
 
@@ -2403,12 +2403,12 @@ namespace Krypton.Toolkit
 
         // Note: Re-enable when the gray themes are completed
 		/// <summary>
-		/// Specifies the dark Grey color variant of the Office 2010 appearance.
+		/// Specifies the dark Gray color variant of the Office 2010 appearance.
 		/// </summary>
 		Office2010DarkGray,
 		/*
 		/// <summary>
-		/// Specifies the light Grey color variant of the Office 2010 appearance.
+		/// Specifies the light Gray color variant of the Office 2010 appearance.
 		/// </summary>
 		Office2010LightGray,*/
 
@@ -2459,12 +2459,12 @@ namespace Krypton.Toolkit
 
         // Note: Re-enable when the gray themes are completed
 		/// <summary>
-		/// Specifies the dark Grey color variant of the Office 2013 appearance.
+		/// Specifies the dark Gray color variant of the Office 2013 appearance.
 		/// </summary>
 		Office2013DarkGray,
 		/*
 		/// <summary>
-		/// Specifies the light Grey color variant of the Office 2013 appearance.
+		/// Specifies the light Gray color variant of the Office 2013 appearance.
 		/// </summary>
 		Office2013LightGray,*/
 
@@ -2474,14 +2474,13 @@ namespace Krypton.Toolkit
         Office2013White,
 
         // Note: Re-enable when the gray themes are completed
-        /*
 		/// <summary>
-		/// Specifies the dark Grey color variant of the Office 365 appearance.
+		/// Specifies the dark Gray color variant of the Office 365 appearance.
 		/// </summary>
 		Office365DarkGray,
-
+		/*
 		/// <summary>
-		/// Specifies the light Grey color variant of the Office 365 appearance.
+		/// Specifies the light Gray color variant of the Office 365 appearance.
 		/// </summary>
 		Office365LightGray,*/
 
