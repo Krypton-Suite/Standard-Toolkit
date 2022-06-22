@@ -22,7 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{C2B58A1A-4451-4A21-8487-14DBA720672D}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Documents\Help\Changelog.md = ..\..\Documents\Help\Changelog.md
-		..\..\Documents\Help\Designer Fix.md = ..\..\Documents\Help\Designer Fix.md
+		..\..\Documents\Help\Designer-Fix.md = ..\..\Documents\Help\Designer-Fix.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{6A930598-4EF1-4563-9BD9-CC1C831D86A6}"

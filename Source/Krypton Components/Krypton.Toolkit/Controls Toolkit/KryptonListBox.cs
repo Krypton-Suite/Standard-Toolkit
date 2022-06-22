@@ -642,6 +642,9 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+#if NET6_0_OR_GREATER
+        [AllowNull]
+#endif
         public override string Text
         {
             get => base.Text;
@@ -1217,9 +1220,9 @@ namespace Krypton.Toolkit
         /// Activates the control.
         /// </summary>
         public new void Select() => ListBox?.Select();
-        #endregion
+#endregion
 
-        #region Protected
+#region Protected
         /// <summary>
         /// Force the layout logic to size and position the controls.
         /// </summary>
@@ -1232,9 +1235,9 @@ namespace Krypton.Toolkit
                 _forcedLayout = false;
             }
         }
-        #endregion
+#endregion
 
-        #region Protected Virtual
+#region Protected Virtual
         /// <summary>
         /// Raises the DataSourceChanged event.
         /// </summary>
@@ -1288,9 +1291,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnFormattingEnabledChanged(EventArgs e) => FormattingEnabledChanged?.Invoke(this, e);
-        #endregion
+#endregion
 
-        #region Protected Override
+#region Protected Override
         /// <summary>
         /// Creates a new instance of the control collection for the KryptonListBox.
         /// </summary>
@@ -1497,9 +1500,9 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size DefaultSize => new(120, 96);
 
-        #endregion
+#endregion
 
-        #region Implementation
+#region Implementation
         private void UpdateStateAndPalettes()
         {
             if (!IsDisposed)
@@ -1788,6 +1791,6 @@ namespace Krypton.Toolkit
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
-        #endregion
+#endregion
     }
 }

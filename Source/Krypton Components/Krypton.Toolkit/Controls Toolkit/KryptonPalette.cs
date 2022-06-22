@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly int _paletteVersion = 18;
+        private static readonly int _paletteVersion = 19;
         #endregion
 
         #region Instance Fields
@@ -3518,8 +3518,11 @@ namespace Krypton.Toolkit
                     using MemoryStream memory = new();
 
                     var imageFormat = entry.Key.RawFormat;
+
                     if (imageFormat.Equals(ImageFormat.MemoryBmp))
+                    {
                         imageFormat = ImageFormat.Bmp;
+                    }
 
                     entry.Key.Save(memory, imageFormat);
                     memory.Position = 0;

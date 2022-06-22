@@ -1,19 +1,6 @@
-﻿#region BSD License
-/*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
- *  
- */
-#endregion
-
-
-namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit
 {
-    public class PaletteOffice365DarkGray : PaletteOffice365Base
+    public class PaletteOffice2007DarkGray : PaletteOffice2007Base
     {
         #region Static Fields
 
@@ -24,61 +11,66 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Images
+        #region Image Array
 
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _silverDropDownButton = Office2010Arrows._2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
-        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal_25_x_23;
-        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled_25_x_23;
-        private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010SilverCloseHover_25_x_23;
-        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed_25_x_23;
-        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal_25_x_23;
-        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled_25_x_23;
-        private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010SilverMaximiseHover_25_x_23;
-        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed_25_x_23;
-        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal_25_x_23;
-        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010SilverMinimiseHover_25_x_23;
-        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled_25_x_23;
-        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed_25_x_23;
-        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal_25_x_23;
-        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled_25_x_23;
-        private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010SilverRestoreHover_25_x_23;
-        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.Office2010HelpIconNormal;
-        private static readonly Image _formHelpHover = HelpIconResources.Office2010HelpIconHover;
-        private static readonly Image _formHelpPressed = HelpIconResources.Office2010HelpIconPressed;
-        private static readonly Image _formHelpDisabled = HelpIconResources.Office2010HelpIconDisabled;
+
+        #endregion
+
+        #region Images
+
+        private static readonly Image _silverDropDownButton = GenericImageResources.SilverDropDownButton;
+        private static readonly Image _silverCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseNormal_24_x_24;
+        private static readonly Image _silverCloseHover = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseHover_24_x_24;
+        private static readonly Image _silverCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseDisabled_24_x_24;
+        private static readonly Image _silverClosePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverClosePressed_24_x_24;
+        private static readonly Image _silverMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseNormal_24_x_24;
+        private static readonly Image _silverMaximiseHover = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseHover_24_x_24;
+        private static readonly Image _silverMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseDisabled_24_x_24;
+        private static readonly Image _silverMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximisePressed_24_x_24;
+        private static readonly Image _silverMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseNormal_24_x_24;
+        private static readonly Image _silverMinimiseHover = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseHover_24_x_24;
+        private static readonly Image _silverMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseDisabled_24_x_24;
+        private static readonly Image _silverMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimisePessed_24_x_24;
+        private static readonly Image _silverRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreNormal_24_x_24;
+        private static readonly Image _silverRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreHover_24_x_24;
+        private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreDisabled_24_x_24;
+        private static readonly Image _silverRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverRestorePressed_24_x_24;
+        private static readonly Image _silverHelpNormal = HelpIconResources.Office2007HelpIconNormal;
+        private static readonly Image _silverHelpHover = HelpIconResources.Office2007HelpIconHover;
+        private static readonly Image _silverHelpPressed = HelpIconResources.Office2007HelpIconPressed;
+        private static readonly Image _silverHelpDisabled = HelpIconResources.Office2007HelpIconDisabled;
+        private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
 
         #endregion
 
         #region Colour Arrays
 
-        private static readonly Color[] _trackBarColors = new Color[]
+        private static readonly Color[] _trackBarColours =
         {
-            Color.FromArgb(170, 170, 170), // Tick marks
-            Color.FromArgb(166, 170, 175), // Top track
+            Color.FromArgb(130, 130, 130), // Tick marks
+            Color.FromArgb(156, 160, 165), // Top track
             Color.FromArgb(226, 220, 235), // Bottom track
-            Color.FromArgb(206, 200, 215), // Fill track
+            Color.FromArgb(196, 190, 205), // Fill track
             Color.FromArgb(64, Color.White), // Outside position
             Color.FromArgb(80, 81, 82) // Border (normal) position
         };
 
-        private static readonly Color[] _schemeOfficeColors = new Color[]
+        private static readonly Color[] _schemeOfficeColours =
         {
-            Color.FromArgb(139, 136, 134), // TextLabelControl
-            Color.FromArgb(139, 136, 134), // TextButtonNormal
+            Color.FromArgb(119, 119, 119), // TextLabelControl
+            Color.FromArgb(255, 255, 255), // TextButtonNormal
             Color.Black, // TextButtonChecked
             Color.FromArgb(141, 148, 157), // ButtonNormalBorder1
             Color.FromArgb(131, 138, 147), // ButtonNormalBorder2
-            Color.FromArgb(190, 187, 184), // ButtonNormalBack1
+            Color.FromArgb(212, 212, 212), // ButtonNormalBack1
             Color.FromArgb(222, 222, 222), // ButtonNormalBack2
             Color.FromArgb(186, 185, 206), // ButtonNormalDefaultBack1
             Color.FromArgb(222, 226, 236), // ButtonNormalDefaultBack2
             Color.FromArgb(202, 204, 214), // ButtonNormalNavigatorBack1
             Color.FromArgb(222, 226, 236), // ButtonNormalNavigatorBack2
-            Color.FromArgb(190, 187, 184), // PanelClient
-            Color.FromArgb(102, 102, 102), // PanelAlternative
+            Color.FromArgb(212, 212, 212), // PanelClient
+            Color.FromArgb(51, 51, 51), // PanelAlternative
             Color.FromArgb(111, 112, 116), // ControlBorder
             Color.FromArgb(240, 241, 242), // SeparatorHighBorder1
             Color.FromArgb(195, 200, 206), // SeparatorHighBorder2
@@ -87,22 +79,22 @@ namespace Krypton.Toolkit
             Color.FromArgb(213, 219, 231), // HeaderSecondaryBack1
             Color.FromArgb(213, 219, 231), // HeaderSecondaryBack2
             Color.FromArgb(21, 66, 139), // HeaderText
-            Color.FromArgb(116, 114, 112), // StatusStripText
+            Color.FromArgb(255, 255, 255), // StatusStripText
             Color.FromArgb(155, 163, 167), // ButtonBorder
-            Color.FromArgb(190, 187, 184), // SeparatorLight
-            Color.FromArgb(139, 136, 134), // SeparatorDark
-            Color.FromArgb(190, 187, 184), // GripLight
-            Color.FromArgb(139, 136, 134), // GripDark
+            Color.FromArgb(153, 153, 153), // SeparatorLight
+            Color.FromArgb(101, 101, 101), // SeparatorDark
+            Color.FromArgb(153, 153, 153), // GripLight
+            Color.FromArgb(101, 101, 101), // GripDark
             Color.FromArgb(139, 139, 139), // ToolStripBack
-            Color.FromArgb(190, 187, 184), // StatusStripLight
-            Color.FromArgb(139, 136, 134), // StatusStripDark
+            Color.FromArgb(153, 153, 153), // StatusStripLight
+            Color.FromArgb(101, 101, 101), // StatusStripDark
             Color.FromArgb(239, 239, 239), // ImageMargin
-            Color.FromArgb(190, 187, 184), // ToolStripBegin
+            Color.FromArgb(153, 153, 153), // ToolStripBegin
             Color.FromArgb(126, 126, 126), // ToolStripMiddle
-            Color.FromArgb(139, 136, 134), // ToolStripEnd
-            Color.FromArgb(190, 187, 184), // OverflowBegin
+            Color.FromArgb(101, 101, 101), // ToolStripEnd
+            Color.FromArgb(153, 153, 153), // OverflowBegin
             Color.FromArgb(126, 126, 126), // OverflowMiddle
-            Color.FromArgb(139, 136, 134), // OverflowEnd
+            Color.FromArgb(101, 101, 101), // OverflowEnd
             Color.FromArgb(124, 124, 148), // ToolStripBorder
             Color.FromArgb(114, 120, 128), // FormBorderActive
             Color.FromArgb(180, 185, 192), // FormBorderInactive
@@ -135,9 +127,9 @@ namespace Krypton.Toolkit
             Color.Silver, // LinkNotVisitedOverridePanel
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
-            Color.FromArgb(139, 136, 134), // TextLabelPanel
-            Color.FromArgb(139, 136, 134), // RibbonTabTextNormal
-            Color.FromArgb(139, 136, 134), // RibbonTabTextChecked
+            Color.FromArgb(119, 119, 119), // TextLabelPanel
+            Color.FromArgb(68, 68, 68), // RibbonTabTextNormal
+            Color.FromArgb(68, 68, 68), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(198, 250, 255), // RibbonTabSelected2
             Color.FromArgb(247, 248, 249), // RibbonTabSelected3
@@ -192,7 +184,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(226, 229, 234), // RibbonGroupFrameInside2
             Color.FromArgb(220, 224, 231), // RibbonGroupFrameInside3
             Color.FromArgb(232, 234, 238), // RibbonGroupFrameInside4
-            Color.FromArgb(139, 136, 134), // RibbonGroupCollapsedText         
+            Color.FromArgb(68, 68, 68), // RibbonGroupCollapsedText         
             Color.FromArgb(179, 185, 195), // AlternatePressedBack1
             Color.FromArgb(216, 224, 224), // AlternatePressedBack2
             Color.FromArgb(125, 125, 125), // AlternatePressedBorder1
@@ -254,9 +246,9 @@ namespace Krypton.Toolkit
             Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2
             Color.FromArgb(235, 235, 235), // ContextMenuHeading
-            Color.FromArgb(139, 136, 134), // ContextMenuHeadingText
+            Color.FromArgb(68, 68, 68), // ContextMenuHeadingText
             Color.FromArgb(239, 239, 239), // ContextMenuImageColumn
-            Color.FromArgb(102, 102, 102), // AppButtonBack1
+            Color.FromArgb(51, 51, 51), // AppButtonBack1
             Color.FromArgb(50, 50, 50), // AppButtonBack2
             Color.FromArgb(169, 174, 180), // AppButtonBorder
             Color.FromArgb(207, 212, 217), // AppButtonOuter1
@@ -264,8 +256,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(217, 221, 226), // AppButtonOuter3
             Color.FromArgb(250, 250, 250), // AppButtonInner1
             Color.FromArgb(169, 174, 180), // AppButtonInner2
-            Color.FromArgb(190, 187, 184), // AppButtonMenuDocs
-            Color.FromArgb(139, 136, 134), // AppButtonMenuDocsText
+            Color.FromArgb(153, 153, 153), // AppButtonMenuDocs
+            Color.FromArgb(68, 68, 68), // AppButtonMenuDocsText
             Color.FromArgb(168, 167, 191), // SeparatorHighInternalBorder1
             Color.FromArgb(119, 118, 151), // SeparatorHighInternalBorder2
             Color.FromArgb(169, 177, 184), // RibbonGalleryBorder
@@ -278,59 +270,66 @@ namespace Krypton.Toolkit
             Color.Empty, // RibbonGroupBorder3
             Color.Empty, // RibbonGroupBorder4
             Color.Empty, // RibbonDropArrowLight
-            Color.Empty, // RibbonDropArrowDark
-            Color.FromArgb(237, 242, 248), // HeaderDockInactiveBack1
-            Color.FromArgb(207, 213, 220), // HeaderDockInactiveBack2
-            Color.FromArgb(161, 169, 179), // ButtonNavigatorBorder
-            Color.FromArgb(139, 136, 134), // ButtonNavigatorText
-            Color.FromArgb(207, 213, 220), // ButtonNavigatorTrack1
-            Color.FromArgb(232, 234, 238), // ButtonNavigatorTrack2
-            Color.FromArgb(191, 196, 202), // ButtonNavigatorPressed1
-            Color.FromArgb(225, 226, 230), // ButtonNavigatorPressed2
-            Color.FromArgb(222, 227, 234), // ButtonNavigatorChecked1
-            Color.FromArgb(206, 214, 221), // ButtonNavigatorChecked2
-            Color.FromArgb(221, 221, 221) // ToolTipBottom                                                                      
+            Color.Empty // RibbonDropArrowDark
         };
 
         #endregion
+
         #endregion
 
         #region Identity
-        static PaletteOffice365DarkGray()
+
+        /// <summary>Initializes the <see cref="PaletteOffice2007DarkGray" /> class.</summary>
+        static PaletteOffice2007DarkGray()
         {
             _checkBoxList = new ImageList
             {
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Silver);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2007Silver);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverN,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverTC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverPC};
+            _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
+            _radioButtonArray = new Image[]
+            {
+                Office2007BlueRadioButtonResources.RadioButton2007BlueD,
+                Office2007SilverRadioButtonResources.RadioButton2007SilverN,
+                Office2007SilverRadioButtonResources.RadioButton2007SilverT,
+                Office2007SilverRadioButtonResources.RadioButton2007SilverP,
+                Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
+                Office2007SilverRadioButtonResources.RadioButton2007SilverNC,
+                Office2007SilverRadioButtonResources.RadioButton2007SilverTC,
+                Office2007SilverRadioButtonResources.RadioButton2007SilverPC
+            };
         }
 
-        /// <summary>
-        /// Initialize a new instance of the PaletteOffice365DarkGray class.
-        /// </summary>
-        public PaletteOffice365DarkGray()
-            : base(_schemeOfficeColors,
-                   _checkBoxList,
-                   _galleryButtonList,
-                   _radioButtonArray,
-                   _trackBarColors)
+        /// <summary>Initializes a new instance of the <see cref="PaletteOffice2007DarkGray" /> class.</summary>
+        public PaletteOffice2007DarkGray() : base(_schemeOfficeColours, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColours)
         {
+            
+        }
+
+        #endregion
+
+        #region Back
+        /// <summary>
+        /// Gets the color background drawing style.
+        /// </summary>
+        /// <param name="style">Background style.</param>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color drawing style.</returns>
+        public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
+        {
+            return style switch
+            {
+                PaletteBackStyle.HeaderForm => PaletteColorStyle.Rounding2,
+                _ => base.GetBackColorStyle(style, state)
+            };
         }
         #endregion
 
@@ -356,49 +355,49 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
+        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
         {
             return style switch
             {
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
-                    PaletteState.Tracking => _formCloseHover,
-                    PaletteState.Normal => _formCloseNormal,
-                    PaletteState.Pressed => _formClosePressed,
-                    _ => _formCloseDisabled
+                    PaletteState.Disabled => _silverCloseDisabled,
+                    PaletteState.Tracking => _silverCloseHover,
+                    PaletteState.Pressed => _silverClosePressed,
+                    _ => _silverCloseNormal
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
-                    PaletteState.Normal => _formMinimiseNormal,
-                    PaletteState.Tracking => _formMinimiseHover,
-                    PaletteState.Pressed => _formMinimisePressed,
-                    _ => _formMinimiseDisabled
+                    PaletteState.Disabled => _silverMinimiseDisabled,
+                    PaletteState.Tracking => _silverMinimiseHover,
+                    PaletteState.Pressed => _silverMinimisePressed,
+                    _ => _silverMinimiseNormal
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
-                    PaletteState.Normal => _formMaximiseNormal,
-                    PaletteState.Tracking => _formMaximiseHover,
-                    PaletteState.Pressed => _formMaximisePressed,
-                    _ => _formMaximiseDisabled
+                    PaletteState.Disabled => _silverMaximiseDisabled,
+                    PaletteState.Tracking => _silverMaximiseHover,
+                    PaletteState.Pressed => _silverMaximisePressed,
+                    _ => _silverMaximiseNormal
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
-                    PaletteState.Normal => _formRestoreNormal,
-                    PaletteState.Tracking => _formRestoreHover,
-                    PaletteState.Pressed => _formRestorePressed,
-                    _ => _formRestoreDisabled
+                    PaletteState.Disabled => _silverRestoreDisabled,
+                    PaletteState.Tracking => _silverRestoreHover,
+                    PaletteState.Pressed => _silverRestorePressed,
+                    _ => _silverRestoreNormal
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
-                    PaletteState.Tracking => _formHelpHover,
-                    PaletteState.Pressed => _formHelpPressed,
-                    PaletteState.Normal => _formHelpNormal,
-                    _ => _formHelpDisabled
+                    PaletteState.Disabled => _silverHelpDisabled,
+                    PaletteState.Tracking => _silverHelpHover,
+                    PaletteState.Pressed => _silverHelpPressed,
+                    _ => _silverHelpNormal
                 },
                 _ => base.GetButtonSpecImage(style, state)
             };
         }
-        #endregion
+        #endregion    
+
     }
 }
