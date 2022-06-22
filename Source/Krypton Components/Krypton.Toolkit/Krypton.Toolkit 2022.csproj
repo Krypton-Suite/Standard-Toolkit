@@ -201,6 +201,11 @@
 		<Compile Update="Palette Builtin\Office 2007\Bases\PaletteOffice2007Base.cs">
 			<SubType>Component</SubType>
 		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Rendering\RenderOffice2013.cs">
 			<SubType>Component</SubType>
 		</Compile>
@@ -584,6 +589,10 @@
 		<None Remove="ToolboxBitmaps\KryptonButton.bmp" />
 	</ItemGroup>
 	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>

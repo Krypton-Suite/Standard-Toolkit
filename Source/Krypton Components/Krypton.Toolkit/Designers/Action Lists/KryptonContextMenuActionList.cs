@@ -50,8 +50,8 @@ namespace Krypton.Toolkit
             if (_contextMenu != null)
             {
                 // Add the list of panel specific actions
-                //actions.Add(new DesignerActionHeaderItem(@"Data"));
-                //actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenuCollection", @"Items", @"Data", @"Collection of menu items"));
+                actions.Add(new DesignerActionHeaderItem(@"Data"));
+                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenuCollection", @"Items", @"Data", @"Krypton context menu items."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
