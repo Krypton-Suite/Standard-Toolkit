@@ -5,6 +5,7 @@
 =======
 
 ## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
+* Implemented [#761](https://github.com/Krypton-Suite/Standard-Toolkit/issues/761), Can TFM also include .NET Framework 4.8.1? (**Note:** This only applies to users of Visual Studio 2022)
 * Resolved `ArgumentNullException` when saving `palette.xml` files with serialized Image objects (thanks to [hopla](https://github.com/hopla))
     - When the deserialized Image class is of type Bitmap, keep this bitmap, as opposed to painting it on a new in-memory bitmap. This keeps the original Format (as opposed, changing it to MemoryBMP.
     - When the format of an Image is of Format MemoryBMP, save the image as format BMP.

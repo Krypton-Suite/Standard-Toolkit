@@ -1,4 +1,5 @@
-﻿namespace Krypton.Toolkit
+﻿
+namespace Krypton.Toolkit
 {
     public partial class KryptonStringCollectionEditor : KryptonForm
     {
@@ -32,6 +33,10 @@
             this.bsHelpIcon.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormHelp;
             this.bsHelpIcon.UniqueName = "1dd64653256748d5a5d96bd1e0e66a80";
             // 
+            // kcHelpIconProvider
+            // 
+            this.kcHelpIconProvider.Execute += new System.EventHandler(this.kcHelpIconProvider_Execute);
+            // 
             // KryptonStringCollectionEditor
             // 
             this.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
@@ -63,6 +68,8 @@
         private string _okButtonText;
 
         private string _cancelButtonText;
+        
+        private string _helpText;
 
         private string[] _contents;
 
@@ -95,6 +102,11 @@
         [Category(@"Visuals"), DefaultValue(@"C&ancel"), Description(@"The cancel button text.")]
         public string CancelButtonText { get => _cancelButtonText; set { _cancelButtonText = value; Invalidate(); } }
 
+        /// <summary>Gets or sets the message to display in the messagebox when the user clicks on the help button.</summary>
+        /// <value>The message to display in the messagebox when the user clicks on the help button.</value>
+        [Category(@"Data"), DefaultValue(@"Enables you to view and change the list of strings for controls such as list boxes and combo boxes.\nDisplay this editor from the Properties window by clicking the Ellipsis button next to the Items property of the control."), Description(@"The message to display in the messagebox when the user clicks on the help button.")]
+        public string HelpText { get => _helpText; set => _helpText = value; }
+
         /// <summary>Gets the contents of the text field.</summary>
         /// <value>The contents of the text field.</value>
         [Category(@"Data"), DefaultValue(null), Description(@"The contents of the text field.")]
@@ -105,24 +117,99 @@
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonStringCollectionEditor" /> class.</summary>
-        public KryptonStringCollectionEditor()
+        /// <param name="helpText">The message to display in the messagebox when the user clicks on the help button.</param>
+        public KryptonStringCollectionEditor(string helpText = "")
         {
             InitializeComponent();
 
-            AcceptButton = iksceEditor.OkButton;
+            if (iksceEditor != null)
+            {
+                AcceptButton = iksceEditor.OkButton;
 
-            CancelButton = iksceEditor.CancelButton;
+                CancelButton = iksceEditor.CancelButton;
 
-            // Feed information through
-            iksceEditor.UseRichTextBox = _useRichTextBox;
+                // Feed information through
+                iksceEditor.UseRichTextBox = _useRichTextBox;
 
-            iksceEditor.UseTextBox = _useTextBox;
+                iksceEditor.UseTextBox = _useTextBox;
 
-            iksceEditor.CancelButtonText = _cancelButtonText;
+                iksceEditor.CancelButtonText = _cancelButtonText;
 
-            iksceEditor.OkButtonText = _okButtonText;
+                iksceEditor.OkButtonText = _okButtonText;
 
-            iksceEditor.HeaderText = _headerText;
+                iksceEditor.HeaderText = _headerText;
+            }
+
+            _helpText = helpText ?? @"Enables you to view and change the list of strings for controls such as list boxes and combo boxes.\nDisplay this editor from the Properties window by clicking the Ellipsis button next to the Items property of the control.";
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonStringCollectionEditor" /> class.</summary>
+        /// <param name="useRichTextBox">if set to <c>true</c> [use rich text box].</param>
+        /// <param name="useTextBox">if set to <c>true</c> [use text box].</param>
+        /// <param name="headerText">The header text.</param>
+        /// <param name="okButtonText">The ok button text.</param>
+        /// <param name="cancelButtonText">The cancel button text.</param>
+        /// <param name="contentValues">The content values.</param>
+        /// <param name="helpText">The message to display in the messagebox when the user clicks on the help button.</param>
+        public KryptonStringCollectionEditor(bool useRichTextBox, bool useTextBox = true, string headerText = @"Enter the strings in the collection (one per line):", string okButtonText = @"O&K", string cancelButtonText = @"C&ancel", string[] contentValues = null, string helpText = @"")
+        {
+            InitializeComponent();
+
+            if (iksceEditor != null)
+            {
+                AcceptButton = iksceEditor.OkButton;
+
+                CancelButton = iksceEditor.CancelButton;
+
+                // Feed information through
+                iksceEditor.UseRichTextBox = useRichTextBox;
+
+                iksceEditor.UseTextBox = useTextBox;
+
+                iksceEditor.HeaderText = headerText;
+
+                iksceEditor.OkButtonText = okButtonText;
+
+                iksceEditor.CancelButtonText = cancelButtonText;
+
+                _helpText = helpText ?? @"Enables you to view and change the list of strings for controls such as list boxes and combo boxes.\nDisplay this editor from the Properties window by clicking the Ellipsis button next to the Items property of the control.";
+
+                try
+                {
+                    if (contentValues != null)
+                    {
+                        iksceEditor.SetContentsArray(contentValues);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ExceptionHandler.CaptureException(e);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private void kcHelpIconProvider_Execute(object sender, EventArgs e) => KryptonMessageBox.Show(_helpText, @"Krypton String Collection Editor", MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
+
+        /// <summary>Returns the content strings.</summary>
+        /// <returns>The values of the content array.</returns>
+        public string[] ReturnContentStrings() => Contents;
+
+        #endregion
+
+        #region Protected
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (_contents.Length != 0)
+            {
+                ReturnContentStrings();
+            }
+
+            base.OnClosing(e);
         }
 
         #endregion

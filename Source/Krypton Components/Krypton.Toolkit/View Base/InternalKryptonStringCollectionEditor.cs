@@ -34,6 +34,10 @@
         private KryptonCommand kcTextBoxPaste;
         private KryptonCommand kcRichTextBoxSelectAll;
         private KryptonCommand kcTextBoxSelectAll;
+        private KryptonContextMenuSeparator kryptonContextMenuSeparator5;
+        private KryptonContextMenuItem kryptonContextMenuItem7;
+        private KryptonContextMenuSeparator kryptonContextMenuSeparator6;
+        private KryptonContextMenuItem kryptonContextMenuItem8;
         private KryptonCommand kcRichTextBoxCut;
 
         private void InitializeComponent()
@@ -54,6 +58,9 @@
             this.kryptonContextMenuSeparator2 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kcRichTextBoxPaste = new Krypton.Toolkit.KryptonCommand();
+            this.kryptonContextMenuSeparator5 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItem7 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kcRichTextBoxSelectAll = new Krypton.Toolkit.KryptonCommand();
             this.ktxtStringCollection = new Krypton.Toolkit.KryptonTextBox();
             this.kcmTextBoxMenu = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
@@ -65,10 +72,11 @@
             this.kryptonContextMenuSeparator4 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItem6 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kcTextBoxPaste = new Krypton.Toolkit.KryptonCommand();
+            this.kryptonContextMenuSeparator6 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kcTextBoxSelectAll = new Krypton.Toolkit.KryptonCommand();
             this.klblHeader = new Krypton.Toolkit.KryptonLabel();
             this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kcRichTextBoxSelectAll = new Krypton.Toolkit.KryptonCommand();
-            this.kcTextBoxSelectAll = new Krypton.Toolkit.KryptonCommand();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContent)).BeginInit();
@@ -89,6 +97,7 @@
             // 
             // kbtnOk
             // 
+            this.kbtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnOk.CornerRoundingRadius = -1F;
             this.kbtnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.kbtnOk.Location = new System.Drawing.Point(382, 13);
@@ -100,6 +109,7 @@
             // 
             // kbtnCancel
             // 
+            this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnCancel.CornerRoundingRadius = -1F;
             this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnCancel.Location = new System.Drawing.Point(478, 13);
@@ -151,7 +161,9 @@
             this.kryptonContextMenuSeparator1,
             this.kryptonContextMenuItem2,
             this.kryptonContextMenuSeparator2,
-            this.kryptonContextMenuItem3});
+            this.kryptonContextMenuItem3,
+            this.kryptonContextMenuSeparator5,
+            this.kryptonContextMenuItem7});
             // 
             // kryptonContextMenuItem1
             // 
@@ -186,6 +198,17 @@
             this.kcRichTextBoxPaste.Text = "kryptonCommand1";
             this.kcRichTextBoxPaste.Execute += new System.EventHandler(this.kcRichTextBoxPaste_Execute);
             // 
+            // kryptonContextMenuItem7
+            // 
+            this.kryptonContextMenuItem7.KryptonCommand = this.kcRichTextBoxSelectAll;
+            this.kryptonContextMenuItem7.ShortcutKeyDisplayString = "Ctrl + A";
+            this.kryptonContextMenuItem7.Text = "&Select All";
+            // 
+            // kcRichTextBoxSelectAll
+            // 
+            this.kcRichTextBoxSelectAll.Text = "kryptonCommand1";
+            this.kcRichTextBoxSelectAll.Execute += new System.EventHandler(this.kcRichTextBoxSelectAll_Execute);
+            // 
             // ktxtStringCollection
             // 
             this.ktxtStringCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -211,7 +234,9 @@
             this.kryptonContextMenuSeparator3,
             this.kryptonContextMenuItem5,
             this.kryptonContextMenuSeparator4,
-            this.kryptonContextMenuItem6});
+            this.kryptonContextMenuItem6,
+            this.kryptonContextMenuSeparator6,
+            this.kryptonContextMenuItem8});
             // 
             // kryptonContextMenuItem4
             // 
@@ -246,24 +271,24 @@
             this.kcTextBoxPaste.Text = "kryptonCommand1";
             this.kcTextBoxPaste.Execute += new System.EventHandler(this.kcTextBoxPaste_Execute);
             // 
-            // klblHeader
+            // kryptonContextMenuItem8
             // 
-            this.klblHeader.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
-            this.klblHeader.Location = new System.Drawing.Point(13, 13);
-            this.klblHeader.Name = "klblHeader";
-            this.klblHeader.Size = new System.Drawing.Size(268, 20);
-            this.klblHeader.TabIndex = 0;
-            this.klblHeader.Values.Text = "Enter the strings in the collection (one per line):";
-            // 
-            // kcRichTextBoxSelectAll
-            // 
-            this.kcRichTextBoxSelectAll.Text = "kryptonCommand1";
-            this.kcRichTextBoxSelectAll.Execute += new System.EventHandler(this.kcRichTextBoxSelectAll_Execute);
+            this.kryptonContextMenuItem8.KryptonCommand = this.kcTextBoxSelectAll;
+            this.kryptonContextMenuItem8.ShortcutKeyDisplayString = "Ctrl + A";
+            this.kryptonContextMenuItem8.Text = "&Select All";
             // 
             // kcTextBoxSelectAll
             // 
             this.kcTextBoxSelectAll.Text = "kryptonCommand1";
             this.kcTextBoxSelectAll.Execute += new System.EventHandler(this.kcTextBoxSelectAll_Execute);
+            // 
+            // klblHeader
+            // 
+            this.klblHeader.Location = new System.Drawing.Point(13, 13);
+            this.klblHeader.Name = "klblHeader";
+            this.klblHeader.Size = new System.Drawing.Size(268, 20);
+            this.klblHeader.TabIndex = 0;
+            this.klblHeader.Values.Text = "Enter the strings in the collection (one per line):";
             // 
             // InternalKryptonStringCollectionEditor
             // 
@@ -416,7 +441,7 @@
 
         private void kcTextBoxSelectAll_Execute(object sender, EventArgs e) => ktxtStringCollection.SelectAll();
 
-        public void SetContentsArray(string[] contentArray) => _contents = contentArray;
+        internal void SetContentsArray(string[] contentArray) => _contents = contentArray;
 
         #endregion
 
