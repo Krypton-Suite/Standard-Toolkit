@@ -66,6 +66,23 @@ namespace Krypton.Toolkit
             EnableToolTips = false;
         }
 
+        #region ToolTipShadow
+        /// <summary>
+        /// Gets and sets the tooltip label style.
+        /// </summary>
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip Shadow.")]
+        [DefaultValue(true)]
+        public bool ToolTipShadow { get; set; } = true; // Backward compatible -> "Material Design" suggests this to be false
+
+        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
+
+        private void ResetToolTipShadow()
+        {
+            ToolTipShadow = true;
+        }
+        #endregion
+
         /// <summary>
         /// Gets and sets the EnableToolTips
         /// </summary>

@@ -97,6 +97,12 @@ namespace Krypton.Ribbon
         string GetToolTipBody();
 
         /// <summary>
+        /// Does the tooltip have a shadow?
+        /// </summary>
+        /// <returns></returns>
+        bool GetToolTipShadow();
+
+        /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
         void PerformClick();
