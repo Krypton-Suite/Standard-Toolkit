@@ -29,14 +29,18 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonDomainUpDown1 = new Krypton.Toolkit.KryptonDomainUpDown();
+            this.kryptonListBox1 = new Krypton.Toolkit.KryptonListBox();
+            this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonDomainUpDown1);
+            this.kryptonPanel1.Controls.Add(this.kryptonListBox1);
+            this.kryptonPanel1.Controls.Add(this.kryptonTextBox1);
+            this.kryptonPanel1.Controls.Add(this.textBox1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -44,15 +48,47 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonDomainUpDown1
+            // kryptonListBox1
             // 
-            this.kryptonDomainUpDown1.CornerRoundingRadius = -1F;
-            this.kryptonDomainUpDown1.Location = new System.Drawing.Point(138, 100);
-            this.kryptonDomainUpDown1.Name = "kryptonDomainUpDown1";
-            this.kryptonDomainUpDown1.Size = new System.Drawing.Size(412, 35);
-            this.kryptonDomainUpDown1.StateCommon.Content.Font = new System.Drawing.Font("Segoe Script", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonDomainUpDown1.TabIndex = 0;
-            this.kryptonDomainUpDown1.Text = "kryptonDomainUpDown1";
+            this.kryptonListBox1.Location = new System.Drawing.Point(270, 12);
+            this.kryptonListBox1.Name = "kryptonListBox1";
+            this.kryptonListBox1.Size = new System.Drawing.Size(518, 426);
+            this.kryptonListBox1.TabIndex = 2;
+            // 
+            // kryptonTextBox1
+            // 
+            this.kryptonTextBox1.Location = new System.Drawing.Point(77, 128);
+            this.kryptonTextBox1.Name = "kryptonTextBox1";
+            this.kryptonTextBox1.Size = new System.Drawing.Size(100, 27);
+            this.kryptonTextBox1.TabIndex = 1;
+            this.kryptonTextBox1.Text = "kryptonTextBox1";
+            this.kryptonTextBox1.Click += new System.EventHandler(this.kryptonTextBox1_Click);
+            this.kryptonTextBox1.DoubleClick += new System.EventHandler(this.kryptonTextBox1_DoubleClick);
+            this.kryptonTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.kryptonTextBox1_KeyDown);
+            this.kryptonTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.kryptonTextBox1_KeyPress);
+            this.kryptonTextBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.kryptonTextBox1_KeyUp);
+            this.kryptonTextBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.kryptonTextBox1_MouseClick);
+            this.kryptonTextBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.kryptonTextBox1_MouseDoubleClick);
+            this.kryptonTextBox1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.kryptonTextBox1_PreviewKeyDown);
+            this.kryptonTextBox1.Validating += new System.ComponentModel.CancelEventHandler(this.kryptonTextBox1_Validating);
+            this.kryptonTextBox1.Validated += new System.EventHandler(this.kryptonTextBox1_Validated);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(73, 60);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
+            this.textBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox1_MouseClick);
+            this.textBox1.DoubleClick += new System.EventHandler(this.textBox1_DoubleClick);
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
+            this.textBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox1_MouseDoubleClick);
+            this.textBox1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox1_PreviewKeyDown);
+            this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
+            this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
             // Form1
             // 
@@ -66,6 +102,7 @@
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
+            this.kryptonPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -73,6 +110,8 @@
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonDomainUpDown kryptonDomainUpDown1;
+        private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
+        private System.Windows.Forms.TextBox textBox1;
+        private Krypton.Toolkit.KryptonListBox kryptonListBox1;
     }
 }
