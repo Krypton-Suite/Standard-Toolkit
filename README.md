@@ -155,6 +155,8 @@ If you are getting scaling problems in high dpi monitors, then please add an app
 
 - .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Designer-Fix.md) for more information
 
+- ***URGENT:*** If anyone experiences "Double events" such as the one found [here](https://github.com/Krypton-Suite/Standard-Toolkit/issues/666), please can you report it ASAP, so that they can be investigated. Thanks! 
+
 =======
 
 ## Introduction
