@@ -803,7 +803,7 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-
+                    bool shadow = true;
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = ButtonManager.ButtonSpecFromView(e.Target);
 
@@ -821,6 +821,7 @@ namespace Krypton.Toolkit
                             {
                                 sourceContent = buttonSpecMapping;
                                 toolTipStyle = buttonSpec.ToolTipStyle;
+                                shadow = buttonSpec.ToolTipShadow;
                             }
                         }
                     }
@@ -836,7 +837,8 @@ namespace Krypton.Toolkit
                                                                      Calendar.GetRenderer(),
                                                                      PaletteBackStyle.ControlToolTip,
                                                                      PaletteBorderStyle.ControlToolTip,
-                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle));
+                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
+                                                                     shadow);
 
                         _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 

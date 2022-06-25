@@ -319,6 +319,24 @@ namespace Krypton.Ribbon
 
         #endregion
 
+        #region ToolTipShadow
+        /// <summary>
+        /// Gets and sets the tooltip label style.
+        /// </summary>
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip Shadow.")]
+        [DefaultValue(true)]
+        public bool ToolTipShadow { get; set; } = true; // Backward compatible -> "Material Design" suggests this to be false
+
+        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
+
+        private void ResetToolTipShadow()
+        {
+            ToolTipShadow = true;
+        }
+        #endregion
+
+
         #region AppButtonToolTipImage
         /// <summary>
         /// Gets and sets the image for the item ToolTip.

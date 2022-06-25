@@ -467,6 +467,24 @@ namespace Krypton.Toolkit
         }
         #endregion
 
+        #region ToolTipShadow
+
+        /// <summary>
+        /// Gets and sets the tooltip label style.
+        /// </summary>
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip Shadow.")]
+        [DefaultValue(true)]
+        public bool ToolTipShadow { get; set; } = true;
+
+        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
+
+        private void ResetToolTipShadow()
+        {
+            ToolTipShadow = true;
+        }
+        #endregion
+
         #region UniqueName
         /// <summary>
         /// Gets and sets the unique name of the ButtonSpec.

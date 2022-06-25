@@ -786,6 +786,7 @@ namespace Krypton.Ribbon
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.SuperTip;
+                    bool shadow = true;
                     Rectangle screenRect = new(e.ControlMousePosition, new Size(1, 1));
 
                     // If the target is the application button
@@ -803,6 +804,7 @@ namespace Krypton.Ribbon
 
                                 // Grab the style from the app button settings
                                 toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
+                                shadow = _ribbon.RibbonAppButton.ToolTipShadow;
 
                                 // Display below the mouse cursor
                                 screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
@@ -822,6 +824,7 @@ namespace Krypton.Ribbon
 
                                 // Grab the style from the QAT button settings
                                 toolTipStyle = viewElement1.QATButton.GetToolTipStyle();
+                                shadow = viewElement1.QATButton.GetToolTipShadow();
 
                                 // Display below the mouse cursor
                                 screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
@@ -848,6 +851,7 @@ namespace Krypton.Ribbon
 
                                             // Grab the style from the button spec settings
                                             toolTipStyle = buttonSpec.ToolTipStyle;
+                                            shadow = buttonSpec.ToolTipShadow;
 
                                             // Display below the mouse cursor
                                             screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
@@ -867,6 +871,7 @@ namespace Krypton.Ribbon
 
                                             // Grab the style from the group radio button button settings
                                             toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
+                                            shadow = groupItem.ToolTipValues.ToolTipShadow;
 
                                             // Display below the bottom of the ribbon control
                                             Rectangle ribbonScreenRect = _ribbon.ToolTipScreenRectangle;
@@ -894,7 +899,8 @@ namespace Krypton.Ribbon
                                                                      _ribbon.Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
                                                                      PaletteBorderStyle.ControlToolTip,
-                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle));
+                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
+                                                                     shadow);
 
                         _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 
