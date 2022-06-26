@@ -287,6 +287,23 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public string ToolTipBody { get; set; }
 
+        #region ToolTipShadow
+        /// <summary>
+        /// Gets and sets the tooltip label style.
+        /// </summary>
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip Shadow.")]
+        [DefaultValue(true)]
+        public bool ToolTipShadow { get; set; } = true; // Backward compatible -> "Material Design" suggests this to be false
+
+        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
+
+        private void ResetToolTipShadow()
+        {
+            ToolTipShadow = true;
+        }
+        #endregion
+
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
@@ -437,6 +454,10 @@ namespace Krypton.Ribbon
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public string GetToolTipBody() => ToolTipBody;
+
+        /// <summary>Gets the tool tip shadow value.</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public bool GetToolTipShadow() => ToolTipShadow;
 
         /// <summary>
         /// Generates a Click event for a button.

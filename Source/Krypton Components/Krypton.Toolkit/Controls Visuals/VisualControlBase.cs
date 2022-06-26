@@ -1315,7 +1315,8 @@ namespace Krypton.Toolkit
                         Renderer,
                         PaletteBackStyle.ControlToolTip,
                         PaletteBorderStyle.ControlToolTip,
-                        CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle));
+                        CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle),
+                        ToolTipValues.ToolTipShadow);
 
                     visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
                     visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);

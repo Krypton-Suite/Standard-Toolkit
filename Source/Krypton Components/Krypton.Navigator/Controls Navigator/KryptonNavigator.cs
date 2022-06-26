@@ -2889,6 +2889,8 @@ namespace Krypton.Navigator
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
 
+                    bool shadow = true;
+
                     // Find the page associated with the tooltip request
                     KryptonPage toolTipPage = ViewBuilder.PageFromView(e.Target);
 
@@ -2909,6 +2911,7 @@ namespace Krypton.Navigator
                             {
                                 sourceContent = pageMapping;
                                 toolTipStyle = toolTipPage.ToolTipStyle;
+                                shadow = toolTipPage.ToolTipShadow;
                             }
                         }
                     }
@@ -2931,6 +2934,7 @@ namespace Krypton.Navigator
                                 {
                                     sourceContent = buttonSpecMapping;
                                     toolTipStyle = buttonSpec.ToolTipStyle;
+                                    shadow = buttonSpec.ToolTipShadow;
                                 }
                             }
                         }
@@ -2947,7 +2951,8 @@ namespace Krypton.Navigator
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
                                                                      PaletteBorderStyle.ControlToolTip,
-                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle));
+                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
+                                                                     shadow);
 
                         _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 

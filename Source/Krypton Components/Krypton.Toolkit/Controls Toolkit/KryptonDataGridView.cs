@@ -828,6 +828,25 @@ namespace Krypton.Toolkit
             _restrictColumnsSearch = columnsIndex;
             Invalidate();
         }
+
+        #region ToolTipShadow
+
+        /// <summary>
+        /// Gets and sets the tooltip label style.
+        /// </summary>
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip Shadow.")]
+        [DefaultValue(true)]
+        public bool ToolTipShadow { get; set; } = true;
+
+        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
+
+        private void ResetToolTipShadow()
+        {
+            ToolTipShadow = true;
+        }
+        #endregion
+
         #endregion
 
         #region Protected
@@ -2338,7 +2357,8 @@ namespace Krypton.Toolkit
                                                                  Renderer,
                                                                  PaletteBackStyle.ControlToolTip,
                                                                  PaletteBorderStyle.ControlToolTip,
-                                                                 PaletteContentStyle.LabelToolTip);
+                                                                 PaletteContentStyle.LabelToolTip,
+                                                                 ToolTipShadow);
 
                     _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 

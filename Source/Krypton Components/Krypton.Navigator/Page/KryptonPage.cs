@@ -718,6 +718,23 @@ namespace Krypton.Navigator
         /// </summary>
         public void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
 
+        #region ToolTipShadow
+        /// <summary>
+        /// Gets and sets the tooltip label style.
+        /// </summary>
+        [Category(@"Appearance")]
+        [Description(@"Button tooltip Shadow.")]
+        [DefaultValue(true)]
+        public bool ToolTipShadow { get; set; } = true; // Backward compatible -> "Material Design" suggests this to be false
+
+        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
+
+        private void ResetToolTipShadow()
+        {
+            ToolTipShadow = true;
+        }
+        #endregion
+
         /// <summary>
         /// Gets and sets the unique name of the page.
         /// </summary>
