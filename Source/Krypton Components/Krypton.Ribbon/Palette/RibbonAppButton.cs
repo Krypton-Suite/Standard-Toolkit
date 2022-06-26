@@ -336,7 +336,6 @@ namespace Krypton.Ribbon
         }
         #endregion
 
-
         #region AppButtonToolTipImage
         /// <summary>
         /// Gets and sets the image for the item ToolTip.

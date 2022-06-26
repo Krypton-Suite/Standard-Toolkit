@@ -3050,7 +3050,9 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
+
                     bool shadow = true;
+
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
@@ -3124,7 +3126,7 @@ namespace Krypton.Toolkit
             _toolTip = new VisualPopupToolTip(redirector,
                 new ButtonSpecToContent(redirector, _toolTipSpec), KryptonManager
                     .CurrentGlobalPalette.GetRenderer(),
-                ToolTipValues.ToolTipShadow);
+                    ToolTipValues.ToolTipShadow);
             return _toolTip;
         }
 

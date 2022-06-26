@@ -455,6 +455,8 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public string GetToolTipBody() => ToolTipBody;
 
+        /// <summary>Gets the tool tip shadow value.</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public bool GetToolTipShadow() => ToolTipShadow;
 
         /// <summary>

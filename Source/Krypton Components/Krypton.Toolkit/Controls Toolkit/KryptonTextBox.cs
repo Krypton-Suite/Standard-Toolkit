@@ -1848,9 +1848,15 @@ namespace Krypton.Toolkit
 
         private void OnTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
+        //private void OnTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+
         private void OnTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
         private void OnTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+
+        //private void OnTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
+
+        //private void OnTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
 
         private void OnShowToolTip(object sender, ToolTipEventArgs e)
         {
@@ -1868,7 +1874,9 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    
                     bool shadow = true;
+
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 

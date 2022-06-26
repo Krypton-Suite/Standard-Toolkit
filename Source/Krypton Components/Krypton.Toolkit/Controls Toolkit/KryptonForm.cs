@@ -1620,12 +1620,12 @@ namespace Krypton.Toolkit
 
                         // Create the actual tooltip popup object
                         _visualPopupToolTip = new VisualPopupToolTip(Redirector,
-                                                                     sourceContent,
-                                                                     Renderer,
-                                                                     PaletteBackStyle.ControlToolTip,
-                                                                     PaletteBorderStyle.ControlToolTip,
-                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
-                                                                     shadow);
+                                                                    sourceContent,
+                                                                    Renderer,
+                                                                    PaletteBackStyle.ControlToolTip,
+                                                                    PaletteBorderStyle.ControlToolTip,
+                                                                    CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
+                                                                    shadow);                                                                   
 
                         _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 
