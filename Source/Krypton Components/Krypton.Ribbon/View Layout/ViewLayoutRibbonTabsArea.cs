@@ -805,8 +805,7 @@ namespace Krypton.Ribbon
                                 // Grab the style from the app button settings
                                 toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
                                 shadow = _ribbon.RibbonAppButton.ToolTipShadow;
-
-
+                                
                                 // Display below the mouse cursor
                                 screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
                             }

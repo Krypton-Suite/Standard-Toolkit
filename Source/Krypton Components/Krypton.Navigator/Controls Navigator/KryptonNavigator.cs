@@ -2888,7 +2888,7 @@ namespace Krypton.Navigator
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-
+                    
                     bool shadow = true;
 
                     // Find the page associated with the tooltip request

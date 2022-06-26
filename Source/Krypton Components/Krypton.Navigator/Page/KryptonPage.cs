@@ -734,7 +734,7 @@ namespace Krypton.Navigator
             ToolTipShadow = true;
         }
         #endregion
-
+        
         /// <summary>
         /// Gets and sets the unique name of the page.
         /// </summary>

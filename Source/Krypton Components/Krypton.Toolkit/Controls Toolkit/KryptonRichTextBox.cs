@@ -2213,7 +2213,7 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-
+                    
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request

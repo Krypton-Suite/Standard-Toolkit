@@ -1625,7 +1625,7 @@ namespace Krypton.Toolkit
                                                                     PaletteBackStyle.ControlToolTip,
                                                                     PaletteBorderStyle.ControlToolTip,
                                                                     CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
-                                                                    shadow);
+                                                                    shadow);                                                                   
 
                         _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 

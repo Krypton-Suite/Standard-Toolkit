@@ -846,7 +846,7 @@ namespace Krypton.Toolkit
             ToolTipShadow = true;
         }
         #endregion
-
+        
         #endregion
 
         #region Protected
