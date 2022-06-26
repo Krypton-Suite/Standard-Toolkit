@@ -13,6 +13,7 @@
 * Implemented [#756](https://github.com/Krypton-Suite/Standard-Toolkit/issues/756), Add `[AllowNull]` to a controls `Text` field
 * Resolved [#738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/738), "Office 2010 - Blue (Dark Mode)": Form title text cannot be read
 * Implemented [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox `States` inline with latest .Net 6 
+* Implemented [#703](https://github.com/Krypton-Suite/Standard-Toolkit/issues/703), Can BaseFontSize be moved up to IPalette? (and/or be easily modified in kryptonPalette)
 * Made enumeration `SchemeOfficeColors` public, so they can be used to make external themes
 * Resolved [#689](https://github.com/Krypton-Suite/Standard-Toolkit/issues/689), A way to remove border shadows on `KryptonToolTips`
 * Resolved [#666](https://github.com/Krypton-Suite/Standard-Toolkit/issues/666), KryptonTextBox `Validate` / `Validating` / `KeyUp` events are invoked twice
