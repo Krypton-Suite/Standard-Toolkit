@@ -1068,9 +1068,9 @@ namespace Krypton.Toolkit
 
 		#region BaseFontSize
 
-		/// <summary>Gets or sets the size of the base font.</summary>
-		/// <value>The size of the base font.</value>
-		float BaseFontSize { get; set; } 
+		// <summary>Gets or sets the size of the base font.</summary>
+		// <value>The size of the base font.</value>
+		//float BaseFontSize { get; set; } 
 
         #endregion
     }
