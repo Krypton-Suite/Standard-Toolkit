@@ -34,14 +34,14 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
         public VisualPopupToolTip(PaletteRedirect redirector,
-                                  IContentValues contentValues,
-                                  IRenderer renderer,
-                                  bool shadow)
+            IContentValues contentValues,
+            IRenderer renderer,
+            bool shadow)
             : this(redirector, contentValues, renderer,
-                   PaletteBackStyle.ControlToolTip,
-                   PaletteBorderStyle.ControlToolTip,
-                   PaletteContentStyle.LabelToolTip,
-                   shadow)
+                PaletteBackStyle.ControlToolTip,
+                PaletteBorderStyle.ControlToolTip,
+                PaletteContentStyle.LabelToolTip,
+                shadow)
         {
         }
 
@@ -56,12 +56,12 @@ namespace Krypton.Toolkit
         /// <param name="contentStyle">Style for the tooltip content.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
         public VisualPopupToolTip(PaletteRedirect redirector,
-                                  IContentValues contentValues,
-                                  IRenderer renderer,
-                                  PaletteBackStyle backStyle,
-                                  PaletteBorderStyle borderStyle,
-                                  PaletteContentStyle contentStyle,
-                                  bool shadow)
+                                    IContentValues contentValues,
+                                    IRenderer renderer,
+                                    PaletteBackStyle backStyle,
+                                    PaletteBorderStyle borderStyle,
+                                    PaletteContentStyle contentStyle,
+                                    bool shadow)
             : base(renderer, shadow)
         {
             Debug.Assert(contentValues != null);
