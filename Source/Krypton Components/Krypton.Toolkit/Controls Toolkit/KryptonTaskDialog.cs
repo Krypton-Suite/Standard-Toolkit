@@ -29,11 +29,11 @@ namespace Krypton.Toolkit
         private string _mainInstruction;
         private string _content;
         private Image _customIcon;
-        private MessageBoxIcon _icon;
+        private KryptonMessageBoxIcon _icon;
         private KryptonTaskDialogCommand _defaultRadioButton;
         private TaskDialogButtons _commonButtons;
         private TaskDialogButtons _defaultButton;
-        private MessageBoxIcon _footerIcon;
+        private KryptonMessageBoxIcon _footerIcon;
         private Image _customFooterIcon;
         private string _footerText;
         private string _footerHyperlink;
@@ -163,8 +163,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Predefined icon.")]
-        [DefaultValue(typeof(MessageBoxIcon), "None")]
-        public MessageBoxIcon Icon
+        [DefaultValue(typeof(KryptonMessageBoxIcon), "None")]
+        public KryptonMessageBoxIcon Icon
         {
             get => _icon;
 
@@ -285,8 +285,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Predefined footer icon.")]
-        [DefaultValue(typeof(MessageBoxIcon), "None")]
-        public MessageBoxIcon FooterIcon
+        [DefaultValue(typeof(KryptonMessageBoxIcon), "None")]
+        public KryptonMessageBoxIcon FooterIcon
         {
             get => _footerIcon;
 
@@ -504,7 +504,7 @@ namespace Krypton.Toolkit
         public static DialogResult Show(string windowTitle,
                                         string mainInstruction,
                                         string content,
-                                        MessageBoxIcon icon,
+                                        KryptonMessageBoxIcon icon,
                                         TaskDialogButtons commonButtons)
         {
             // Create a temporary task dialog for storing definition whilst showing

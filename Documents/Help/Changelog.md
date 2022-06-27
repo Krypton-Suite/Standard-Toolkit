@@ -4,7 +4,8 @@
 
 =======
 
-## 2022-11-xx - Build 2211 - November 2022 <!--Possible August or September release?-->
+## 2022-11-xx - Build 2211 - November 2022
+* Updated the `KryptonTaskDialog` to use the `KryptonMessageBoxIcon` instead of the standard `System.Windows.Forms.MessageBoxIcon`
 * Resolved [#764](https://github.com/Krypton-Suite/Standard-Toolkit/issues/764), `Development-Workflow.md` needs to state what the builds are (i.e. nightly)
 * Implemented [#761](https://github.com/Krypton-Suite/Standard-Toolkit/issues/761), Can TFM also include .NET Framework 4.8.1? (**Note:** This only currently applies to users of Visual Studio 2022, until a redistributable becomes available)
 * Resolved `ArgumentNullException` when saving `palette.xml` files with serialized Image objects (thanks to [hopla](https://github.com/hopla))

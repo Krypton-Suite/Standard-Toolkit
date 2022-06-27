@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         public Font Font1 { get; set; }
 
         /// <summary>
-        /// esets the Font1 property to its default value.
+        /// Resets the Font1 property to its default value.
         /// </summary>
         public void ResetFont1()
         {

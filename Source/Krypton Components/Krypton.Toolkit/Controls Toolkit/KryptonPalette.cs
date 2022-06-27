@@ -31,7 +31,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly int _paletteVersion = 19;
+        //private static readonly int _paletteVersion = 19;
+        #endregion
+
+        #region Constants
+
+        private const int CURRENT_PALETTE_VERSION = 19;
+
         #endregion
 
         #region Instance Fields
@@ -3049,9 +3055,9 @@ namespace Krypton.Toolkit
                 // Grab the version number of the format being loaded
                 var version = int.Parse(root.GetAttribute("Version"));
 
-                if (version < _paletteVersion)
+                if (version < CURRENT_PALETTE_VERSION)
                 {
-                    throw new ArgumentException("Version '" + version + "' number is incompatible, only version " + _paletteVersion.ToString() +
+                    throw new ArgumentException("Version '" + version + "' number is incompatible, only version " + CURRENT_PALETTE_VERSION +
                                                 " or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
                 }
 
@@ -3173,7 +3179,7 @@ namespace Krypton.Toolkit
                 // Create a root node with version and the date information, by 
                 // having a version number the loading of older version is easier
                 XmlElement root = doc.CreateElement("KryptonPalette");
-                root.SetAttribute("Version", _paletteVersion.ToString());
+                root.SetAttribute("Version", CURRENT_PALETTE_VERSION.ToString());
                 root.SetAttribute("Generated", DateTime.Now.ToLongDateString() + ", @" + DateTime.Now.ToShortTimeString());
                 doc.AppendChild(root);
 
