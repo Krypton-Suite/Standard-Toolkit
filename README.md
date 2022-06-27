@@ -149,6 +149,9 @@ There are list of changes that have occurred during the development of the V6.##
 ### `dpiAware`
 If you are getting scaling problems in high dpi monitors, then please add an application manifest to your MainForm application, and uncomment the section that covers the `dpiAware` setting.
 
+### `KryptonTaskDialog`
+As of v70.xx, the `KryptonTaskDialog` now uses the built-in `KryptonMessageBoxIcon` instead of the standard `System.Windows.Forms.MessageBoxIcon`. This will cause errors within your project. To resolve, simply replace `MessageBoxIcon` with the `KryptonMessageBoxIcon` equivalent.
+
 ## Known Issues & Workarounds
 
 - [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 5/6 or 7
