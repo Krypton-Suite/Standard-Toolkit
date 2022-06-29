@@ -36,6 +36,42 @@ namespace Krypton.Toolkit
             return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
         }
 
+        /// <summary>Resize the image to the specified width and height. Copied from: https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp</summary>
+        /// <param name="sourceImage">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        internal static Bitmap ScaleImage(Image sourceImage, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+
+                    graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
         public enum IconType
         {
             Warning = 101,

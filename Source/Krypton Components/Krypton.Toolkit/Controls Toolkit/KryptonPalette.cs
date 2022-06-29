@@ -127,6 +127,7 @@ namespace Krypton.Toolkit
             ContextMenu = new KryptonPaletteContextMenu(_redirectCommon, _needPaintDelegate);
             DragDrop = new PaletteDragDrop(_redirectCommon, _needPaintDelegate);
             FormStyles = new KryptonPaletteForms(_redirectCommon, _needPaintDelegate);
+            //Font = new KryptonPaletteFont(_redirectCommon, _needPaintDelegate);
             GridStyles = new KryptonPaletteGrids(_redirectCommon, _needPaintDelegate);
             HeaderStyles = new KryptonPaletteHeaders(_redirectCommon, _needPaintDelegate);
             HeaderGroup = new KryptonPaletteHeaderGroup(_redirector, _needPaintDelegate);
@@ -366,6 +367,22 @@ namespace Krypton.Toolkit
         public KryptonPaletteForms FormStyles { get; set; }
 
         private bool ShouldSerializeFormStyles() => !FormStyles.IsDefault;
+
+        #endregion
+
+        #region Font        
+        /*
+        /// <summary>
+        /// Gets access to defining the font and colour values for text.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides the font and colour values for text.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteFont Font { get; set; }
+
+        //public bool ShouldSerializeFont() => !Font.IsDefault;
+        */
 
         #endregion
 

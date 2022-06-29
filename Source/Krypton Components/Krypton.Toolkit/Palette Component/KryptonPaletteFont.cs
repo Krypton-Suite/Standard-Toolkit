@@ -16,13 +16,22 @@ namespace Krypton.Toolkit
     /// <summary>Storage of user supplied font values, not used by Krypton.</summary>
     public class KryptonPaletteFont : Storage
     {
+        #region Instance Fields
+
+        private KryptonPaletteCommon _paletteCommon;
+
+        #endregion
+
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFont" /> class.</summary>
+        /// <param name="redirector">Palette redirector for sourcing inherited values</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteFont(NeedPaintHandler needPaint)
+        public KryptonPaletteFont(PaletteRedirect redirector, NeedPaintHandler needPaint)
         {
             NeedPaint = needPaint;
+
+            Debug.Assert(redirector != null);
         }
 
         #endregion
@@ -32,11 +41,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (Font1 == new Font("Segoe UI", 9f)) && (Font2 == new Font("Segoe UI", 9f));
+        public override bool IsDefault => (CommonLongTextFont == new Font("Segoe UI", 9f)) && (CommonShortTextFont == new Font("Segoe UI", 9f));
 
         #endregion
 
-        #region Font1
+        #region CommonLongTextFont
         /// <summary>
         /// Gets and sets a user supplied font value.
         /// </summary>
@@ -45,16 +54,15 @@ namespace Krypton.Toolkit
         [Description(@"User supplied font value.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font Font1 { get; set; }
-
+        public Font CommonLongTextFont { get => null; set => _paletteCommon.StateCommon.Content.LongText.Font = value; }
         /// <summary>
-        /// Resets the Font1 property to its default value.
+        /// Resets the CommonLongTextFont property to its default value.
         /// </summary>
-        public void ResetFont1() => Font1 = new Font("Segoe UI", 9f);
+        public void ResetCommonLongTextFont() => CommonLongTextFont = new Font("Segoe UI", 9f);
 
         #endregion
 
-        #region Font2
+        #region CommonShortTextFont
         /// <summary>
         /// Gets and sets a user supplied font value.
         /// </summary>
@@ -63,12 +71,12 @@ namespace Krypton.Toolkit
         [Description(@"User supplied font value.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font Font2 { get; set; }
+        public Font CommonShortTextFont { get => null; set => _paletteCommon.StateCommon.Content.ShortText.Font = value; }
 
         /// <summary>
-        /// Resets the Font2 property to its default value.
+        /// Resets the CommonShortTextFont property to its default value.
         /// </summary>
-        public void ResetFont2() => Font2 = new Font("Segoe UI", 9f);
+        public void ResetCommonShortTextFont() => CommonShortTextFont = new Font("Segoe UI", 9f);
 
         #endregion
     }
