@@ -30,10 +30,6 @@ namespace Krypton.Toolkit
         private class ImageReverseDictionary : Dictionary<string, Bitmap> { }
         #endregion
 
-        #region Static Fields
-        //private static readonly int _paletteVersion = 19;
-        #endregion
-
         #region Constants
 
         private const int CURRENT_PALETTE_VERSION = 19;
