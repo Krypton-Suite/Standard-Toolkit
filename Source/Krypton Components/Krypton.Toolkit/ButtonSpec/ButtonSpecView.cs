@@ -324,58 +324,28 @@ namespace Krypton.Toolkit
                 return null;
             }
 
-            if ( !_cachedImages.ContainsKey(baseImage))
+            if (!_cachedImages.ContainsKey(baseImage))
             {
-                #region Old Code
-
-                /*// Currently the `ViewButton.FactorDpi#`'s do _NOT_ change whilst the app is running
+                // Currently the `ViewButton.FactorDpi#`'s do _NOT_ change whilst the app is running
                 _lastFactorDpiX = ViewButton.FactorDpiX;
                 _lastFactorDpiY = ViewButton.FactorDpiY;
 
                 var targetWidth = 16 * _lastFactorDpiX * 1.25f;
                 var targetHeight = 16 * _lastFactorDpiY * 1.25f;
 
-                if ((targetWidth > baseImage.Width) 
-                    && (targetHeight > baseImage.Height)
-                    )
+                if ((targetWidth > baseImage.Width) && (targetHeight > baseImage.Height))
                 {
                     // Image needs to be regenerated as oversized in order to be scaled back later
                     // $\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Rendering\RenderStandard.cs
                     // line 5779: memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, currentWidth, currentHeight);
-                    var ratio = 1.0f * Math.Min(baseImage.Width, baseImage.Height) /
-                                Math.Max(baseImage.Width, baseImage.Height);
+                    var ratio = 1.0f * Math.Min(baseImage.Width, baseImage.Height) / Math.Max(baseImage.Width, baseImage.Height);
                     _cachedImages[baseImage] =
                         CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * ratio * _lastFactorDpiX, baseImage.Height * ratio * _lastFactorDpiY);
                 }
                 else
                 {
                     _cachedImages[baseImage] = baseImage;
-                }*/
-
-                    #endregion
-
-                // Image needs to be regenerated
-                _lastFactorDpiX = ViewButton.FactorDpiX;
-
-                _lastFactorDpiY = ViewButton.FactorDpiY;
-
-                var currentWidth = baseImage.Width * _lastFactorDpiX;
-
-                var currentHeight = baseImage.Height * _lastFactorDpiY;
-
-                if (Math.Abs(_lastFactorDpiY - 1.00f) < 0.001)
-                {
-                    // Need to workaround the image drawing off the bottom of the title bar when scaling @ 100%
-                    // Has to be even to ensure that horizontal lines are still drawn
-                    currentHeight -= 2;
                 }
-
-                if (currentHeight < 0.75)
-                {
-                    currentHeight = 1;
-                }
-
-                _cachedImages[baseImage] = CommonHelper.ScaleImageForSizedDisplay(baseImage, currentWidth, currentHeight);
             }
 
             return _cachedImages[baseImage];
