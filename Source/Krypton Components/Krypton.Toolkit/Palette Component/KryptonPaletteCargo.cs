@@ -42,6 +42,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IsDefault
+
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
@@ -50,9 +51,9 @@ namespace Krypton.Toolkit
                                           (Color2 == Color.Empty) &&
                                           (Color3 == Color.Empty) &&
                                           (Color4 == Color.Empty) &&
-                                          (Color5 == Color.Empty) &&
-                                          (Font1 == null) &&
-                                          (Font2 == null);
+                                          (Color5 == Color.Empty);
+                                          //(Font1 == null) &&
+                                          //(Font2 == null);
 
         #endregion
 
@@ -156,6 +157,7 @@ namespace Krypton.Toolkit
         }
         #endregion
 
+        /*
         #region Font1
         /// <summary>
         /// Gets and sets a user supplied font value.
@@ -168,7 +170,7 @@ namespace Krypton.Toolkit
         public Font Font1 { get; set; }
 
         /// <summary>
-        /// esets the Font1 property to its default value.
+        /// Resets the Font1 property to its default value.
         /// </summary>
         public void ResetFont1()
         {
@@ -195,5 +197,6 @@ namespace Krypton.Toolkit
             Font2 = null;
         }
         #endregion
+        */
     }
 }

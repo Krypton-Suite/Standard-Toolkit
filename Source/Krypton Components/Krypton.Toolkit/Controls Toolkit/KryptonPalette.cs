@@ -30,8 +30,10 @@ namespace Krypton.Toolkit
         private class ImageReverseDictionary : Dictionary<string, Bitmap> { }
         #endregion
 
-        #region Static Fields
-        private static readonly int _paletteVersion = 19;
+        #region Constants
+
+        private const int CURRENT_PALETTE_VERSION = 19;
+
         #endregion
 
         #region Instance Fields
@@ -121,6 +123,7 @@ namespace Krypton.Toolkit
             ContextMenu = new KryptonPaletteContextMenu(_redirectCommon, _needPaintDelegate);
             DragDrop = new PaletteDragDrop(_redirectCommon, _needPaintDelegate);
             FormStyles = new KryptonPaletteForms(_redirectCommon, _needPaintDelegate);
+            //Font = new KryptonPaletteFont(_redirectCommon, _needPaintDelegate);
             GridStyles = new KryptonPaletteGrids(_redirectCommon, _needPaintDelegate);
             HeaderStyles = new KryptonPaletteHeaders(_redirectCommon, _needPaintDelegate);
             HeaderGroup = new KryptonPaletteHeaderGroup(_redirector, _needPaintDelegate);
@@ -360,6 +363,22 @@ namespace Krypton.Toolkit
         public KryptonPaletteForms FormStyles { get; set; }
 
         private bool ShouldSerializeFormStyles() => !FormStyles.IsDefault;
+
+        #endregion
+
+        #region Font        
+        /*
+        /// <summary>
+        /// Gets access to defining the font and colour values for text.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides the font and colour values for text.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteFont Font { get; set; }
+
+        //public bool ShouldSerializeFont() => !Font.IsDefault;
+        */
 
         #endregion
 
@@ -3049,9 +3068,9 @@ namespace Krypton.Toolkit
                 // Grab the version number of the format being loaded
                 var version = int.Parse(root.GetAttribute("Version"));
 
-                if (version < _paletteVersion)
+                if (version < CURRENT_PALETTE_VERSION)
                 {
-                    throw new ArgumentException("Version '" + version + "' number is incompatible, only version " + _paletteVersion.ToString() +
+                    throw new ArgumentException("Version '" + version + "' number is incompatible, only version " + CURRENT_PALETTE_VERSION +
                                                 " or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
                 }
 
@@ -3173,7 +3192,7 @@ namespace Krypton.Toolkit
                 // Create a root node with version and the date information, by 
                 // having a version number the loading of older version is easier
                 XmlElement root = doc.CreateElement("KryptonPalette");
-                root.SetAttribute("Version", _paletteVersion.ToString());
+                root.SetAttribute("Version", CURRENT_PALETTE_VERSION.ToString());
                 root.SetAttribute("Generated", DateTime.Now.ToLongDateString() + ", @" + DateTime.Now.ToShortTimeString());
                 doc.AppendChild(root);
 

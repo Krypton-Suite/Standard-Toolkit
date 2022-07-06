@@ -136,8 +136,10 @@ Follow the links to see the different objects and layouts that this framework al
 
 <a href="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md"><img src="https://img.shields.io/badge/Version History-Changelog-brightgreen.svg?style=flat-square" /></a>
 
-## Breaking Changes
-There are list of changes that have occurred during the development of the V6.## version
+=======
+
+# Breaking Changes
+There are list of changes that have occurred during the development of the V70.## version
 
 ### Ribbon Tooltips
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/382
@@ -149,7 +151,15 @@ There are list of changes that have occurred during the development of the V6.##
 ### `dpiAware`
 If you are getting scaling problems in high dpi monitors, then please add an application manifest to your MainForm application, and uncomment the section that covers the `dpiAware` setting.
 
-## Known Issues & Workarounds
+## `KryptonTaskDialog`
+As of v70.xx, the `KryptonTaskDialog` now uses the built-in `KryptonMessageBoxIcon` instead of the standard `System.Windows.Forms.MessageBoxIcon`. This will cause errors within your project. To resolve, simply replace `MessageBoxIcon` with the `KryptonMessageBoxIcon` equivalent.
+
+## `KryptonPalette`
+Both ***Font1*** & ***Font2*** have been removed from `Cargo`, as they were not used.
+
+=======
+
+# Known Issues & Workarounds
 
 - [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 5/6 or 7
 
