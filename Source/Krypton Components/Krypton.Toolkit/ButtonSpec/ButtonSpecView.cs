@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
                     // Image needs to be regenerated as oversized in order to be scaled back later
                     // $\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Rendering\RenderStandard.cs
                     // line 5779: memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, currentWidth, currentHeight);
-                    var ratio = 1.0f * Math.Min(baseImage.Width, baseImage.Height) / Math.Max(baseImage.Width, baseImage.Height);
+                    //var ratio = 1.0f * Math.Min(baseImage.Width, baseImage.Height) / Math.Max(baseImage.Width, baseImage.Height);
                     _cachedImages[baseImage] =
                         CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * ratio * _lastFactorDpiX, baseImage.Height * ratio * _lastFactorDpiY);
                 }
