@@ -307,7 +307,6 @@ namespace Krypton.Toolkit
 
         #region IContentValues
 
-        private readonly Dictionary<Image, Image> _cachedImages = new();
         /// <summary>
         /// Gets the content image.
         /// </summary>
