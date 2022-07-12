@@ -307,8 +307,6 @@ namespace Krypton.Toolkit
 
         #region IContentValues
 
-        private float _lastFactorDpiX;
-        private float _lastFactorDpiY;
         private readonly Dictionary<Image, Image> _cachedImages = new();
         /// <summary>
         /// Gets the content image.
