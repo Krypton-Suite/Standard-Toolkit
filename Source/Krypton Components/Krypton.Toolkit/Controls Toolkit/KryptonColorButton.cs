@@ -45,6 +45,7 @@ namespace Krypton.Toolkit
         private bool _useMnemonic;
         private bool _allowFullOpen;
         private bool _clickOverriden;
+        private bool _useCustomPreviewShape;
 
         // Context menu items
         private readonly KryptonContextMenu _kryptonContextMenu;
@@ -824,6 +825,19 @@ namespace Krypton.Toolkit
 
             set => _allowFullOpen = value;
         }
+
+        [DefaultValue(false), Description("")]
+        public bool UseCustomPreviewShape
+        {
+            get => _useCustomPreviewShape;
+
+            set
+            {
+                _useCustomPreviewShape = value;
+
+                Invalidate();
+            }
+        }
         #endregion
 
         #region IContentValues
@@ -995,6 +1009,29 @@ namespace Krypton.Toolkit
                 base.WndProc(ref m);
             }
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (_useCustomPreviewShape)
+            {
+                Values.Image = GenericImageResources.Transparent_16_x_16;
+
+                Values.RoundedCorners = 8;
+
+                Values.SelectedRect = new Rectangle(0, 0, 16, 16);
+            }
+            else
+            {
+                Values.Image = GenericImageResources.ButtonColorImageSmall;
+
+                Values.RoundedCorners = 0;
+
+                Values.SelectedRect = new Rectangle(0, 12, 16, 4);
+            }
+
+            base.OnPaint(e);
+        }
+
         #endregion
 
         #region Protected Virtual
