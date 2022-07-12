@@ -5771,31 +5771,15 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Check for enough space to show all of the image
-                    if ((displayRect.Width < memento.Image.Width)
-                        || (displayRect.Height < memento.Image.Height)
-                       )
+                    if ((displayRect.Width < memento.Image.Width) ||
+                        (displayRect.Height < memento.Image.Height))
                     {
-                        float ratioW = float.MaxValue;
-                        float ratioH = float.MaxValue;
-                        if (displayRect.Width < memento.Image.Width)
-                        {
-                            ratioW = 1.0f * displayRect.Width / memento.Image.Width;
-                        }
+                        var ratio = 1.0f * Math.Min(memento.Image.Width, memento.Image.Height) /
+                                    Math.Max(memento.Image.Width, memento.Image.Height);
+                        // Resize image to fit display area
+                        memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width * ratio, displayRect.Height * ratio);
 
-                        if (displayRect.Height < memento.Image.Height)
-                        {
-                            ratioH = 1.0f * displayRect.Height / memento.Image.Height;
-                        }
-
-                        var useRatio = Math.Min(ratioW, ratioH);
-                        if (useRatio > 0)
-                        {
-                            // Resize image to fit display area
-                            memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image,
-                                memento.Image.Width * useRatio, memento.Image.Height * useRatio);
-                        }
                     }
-
                     // Cache the size of the image
                     memento.ImageRect.Size = memento.Image.Size;
 
