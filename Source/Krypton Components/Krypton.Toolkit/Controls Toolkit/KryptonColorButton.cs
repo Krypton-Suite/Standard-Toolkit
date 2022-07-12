@@ -828,7 +828,7 @@ namespace Krypton.Toolkit
             set => _allowFullOpen = value;
         }
 
-        [DefaultValue(false), Description("")]
+        [DefaultValue(false), Description(@"Allows the configuration of a custom colour preview shape.")]
         public bool UseCustomPreviewShape
         {
             get => _useCustomPreviewShape;
