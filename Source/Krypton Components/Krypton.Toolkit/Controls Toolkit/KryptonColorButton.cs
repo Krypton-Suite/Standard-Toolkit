@@ -217,6 +217,8 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawButton);
+
+            UseCustomPreviewShape = false;
         }
         #endregion
 
