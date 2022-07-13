@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         public virtual void SetFixedState(PaletteState state) => _backGroundPanel.SetFixedState(state);
         #endregion
 
-        #region passmessages to pannel
+        #region Pass Messages to Panel
         /// <inheritdoc />
         protected override void OnEnabledChanged(EventArgs e)
         {
@@ -254,6 +254,12 @@ namespace Krypton.Toolkit
         private Bitmap _bm;
         private void BackGroundPanel_Refreshed()
         {
+            // Fix for #774: https://github.com/Krypton-Suite/Standard-Toolkit/issues/774
+            if (_backGroundPanel.Height == 0 || _backGroundPanel.Width == 0)
+            {
+                return;
+            }
+
             _bm = new Bitmap(_backGroundPanel.Width, _backGroundPanel.Height, PixelFormat.Format32bppRgb);
             _backGroundPanel.DrawToBitmap(_bm,
                 new Rectangle(0, 0, _backGroundPanel.Width, _backGroundPanel.Height));
