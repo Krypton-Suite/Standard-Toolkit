@@ -45,6 +45,7 @@ namespace Krypton.Toolkit
         private bool _useMnemonic;
         private bool _allowFullOpen;
         private bool _clickOverriden;
+        private bool _useCustomPreviewShape;
 
         // Context menu items
         private readonly KryptonContextMenu _kryptonContextMenu;
@@ -216,6 +217,8 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawButton);
+
+            UseCustomPreviewShape = false;
         }
         #endregion
 
@@ -817,12 +820,29 @@ namespace Krypton.Toolkit
             set => base.ImeMode = value;
         }
 
+        /// <summary>Full color dialog.</summary>
         [DefaultValue(true), Description(@"Full color dialog.")]
         public bool AllowFullOpen
         {
             get => _allowFullOpen;
 
             set => _allowFullOpen = value;
+        }
+
+        /// <summary>
+        /// Allows the configuration of a custom colour preview shape.
+        /// </summary>
+        [DefaultValue(false), Description(@"Allows the configuration of a custom colour preview shape.")]
+        public bool UseCustomPreviewShape
+        {
+            get => _useCustomPreviewShape;
+
+            set
+            {
+                _useCustomPreviewShape = value;
+
+                Invalidate();
+            }
         }
         #endregion
 
@@ -995,6 +1015,31 @@ namespace Krypton.Toolkit
                 base.WndProc(ref m);
             }
         }
+
+        /// <summary>Raises the Paint event.</summary>
+        /// <param name="e">A PaintEventArgs that contains the event data.</param>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (_useCustomPreviewShape)
+            {
+                Values.Image = GenericImageResources.Transparent_16_x_16;
+
+                Values.RoundedCorners = 8;
+
+                Values.SelectedRect = new Rectangle(0, 0, 16, 16);
+            }
+            else
+            {
+                Values.Image = GenericImageResources.ButtonColorImageSmall;
+
+                Values.RoundedCorners = 0;
+
+                Values.SelectedRect = new Rectangle(0, 12, 16, 4);
+            }
+
+            base.OnPaint(e);
+        }
+
         #endregion
 
         #region Protected Virtual
