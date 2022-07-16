@@ -200,6 +200,11 @@ namespace Krypton.Toolkit
                         }
                         base.WndProc(ref m);
                         break;
+                    case PI.WM_.CREATE:
+                        _kryptonTreeView._isRecreating = true;
+                        base.WndProc(ref m);
+                        _kryptonTreeView._isRecreating = false;
+                        break;
                     default:
                         base.WndProc(ref m);
                         break;
@@ -325,6 +330,7 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
+        private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
         #endregion
 
         #region Events
@@ -1411,95 +1417,202 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected Virtual
+
         /// <summary>
         /// Raises the AfterCheck event.
         /// </summary>
         /// <param name="e">An TreeViewEventArgs that contains the event data.</param>
-        protected virtual void OnAfterCheck(TreeViewEventArgs e) => AfterCheck?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnAfterCheck(TreeViewEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                AfterCheck?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the AfterCollapse event.
         /// </summary>
         /// <param name="e">An TreeViewEventArgs that contains the event data.</param>
-        protected virtual void OnAfterCollapse(TreeViewEventArgs e) => AfterCollapse?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnAfterCollapse(TreeViewEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                AfterCollapse?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the AfterExpand event.
         /// </summary>
         /// <param name="e">An TreeViewEventArgs that contains the event data.</param>
-        protected virtual void OnAfterExpand(TreeViewEventArgs e) => AfterExpand?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnAfterExpand(TreeViewEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                AfterExpand?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the AfterLabelEdit event.
         /// </summary>
         /// <param name="e">An NodeLabelEditEventArgs that contains the event data.</param>
-        protected virtual void OnAfterLabelEdit(NodeLabelEditEventArgs e) => AfterLabelEdit?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnAfterLabelEdit(NodeLabelEditEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                AfterLabelEdit?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the AfterSelect event.
         /// </summary>
         /// <param name="e">An TreeViewEventArgs that contains the event data.</param>
-        protected virtual void OnAfterSelect(TreeViewEventArgs e) => AfterSelect?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnAfterSelect(TreeViewEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                AfterSelect?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BeforeCheck event.
         /// </summary>
         /// <param name="e">An TreeViewCancelEventArgs that contains the event data.</param>
-        protected virtual void OnBeforeCheck(TreeViewCancelEventArgs e) => BeforeCheck?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnBeforeCheck(TreeViewCancelEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                BeforeCheck?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BeforeCollapse event.
         /// </summary>
         /// <param name="e">An TreeViewCancelEventArgs that contains the event data.</param>
-        protected virtual void OnBeforeCollapse(TreeViewCancelEventArgs e) => BeforeCollapse?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnBeforeCollapse(TreeViewCancelEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                BeforeCollapse?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BeforeExpand event.
         /// </summary>
         /// <param name="e">An TreeViewCancelEventArgs that contains the event data.</param>
-        protected virtual void OnBeforeExpand(TreeViewCancelEventArgs e) => BeforeExpand?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnBeforeExpand(TreeViewCancelEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                BeforeExpand?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BeforeLabelEdit event.
         /// </summary>
         /// <param name="e">An NodeLabelEditEventArgs that contains the event data.</param>
-        protected virtual void OnBeforeLabelEdit(NodeLabelEditEventArgs e) => BeforeLabelEdit?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnBeforeLabelEdit(NodeLabelEditEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                BeforeLabelEdit?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BeforeSelect event.
         /// </summary>
         /// <param name="e">An TreeViewCancelEventArgs that contains the event data.</param>
-        protected virtual void OnBeforeSelect(TreeViewCancelEventArgs e) => BeforeSelect?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnBeforeSelect(TreeViewCancelEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                BeforeSelect?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the ItemDrag event.
         /// </summary>
         /// <param name="e">An ItemDragEventArgs that contains the event data.</param>
-        protected virtual void OnItemDrag(ItemDragEventArgs e) => ItemDrag?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnItemDrag(ItemDragEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                ItemDrag?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the NodeMouseClick event.
         /// </summary>
         /// <param name="e">An TreeNodeMouseClickEventArgs that contains the event data.</param>
-        protected virtual void OnNodeMouseClick(TreeNodeMouseClickEventArgs e) => NodeMouseClick?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnNodeMouseClick(TreeNodeMouseClickEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                NodeMouseClick?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the NodeMouseDoubleClick event.
         /// </summary>
         /// <param name="e">An TreeNodeMouseClickEventArgs that contains the event data.</param>
-        protected virtual void OnNodeMouseDoubleClick(TreeNodeMouseClickEventArgs e) => NodeMouseDoubleClick?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnNodeMouseDoubleClick(TreeNodeMouseClickEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                NodeMouseDoubleClick?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the NodeMouseHover event.
         /// </summary>
         /// <param name="e">An TreeNodeMouseHoverEventArgs that contains the event data.</param>
-        protected virtual void OnNodeMouseHover(TreeNodeMouseHoverEventArgs e) => NodeMouseHover?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnNodeMouseHover(TreeNodeMouseHoverEventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                NodeMouseHover?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the RightToLeftLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnRightToLeftLayoutChanged(EventArgs e) => RightToLeftLayoutChanged?.Invoke(this, e);
+        /// <remarks>If overriden directly, will fire when palette changes</remarks>
+        protected virtual void OnRightToLeftLayoutChanged(EventArgs e)
+        {
+            if (!_isRecreating)
+            {
+                RightToLeftLayoutChanged?.Invoke(this, e);
+            }
+        }
+
         #endregion
 
         #region Protected Override

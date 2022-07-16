@@ -19,6 +19,7 @@
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
 using System.Runtime.Versioning;
+using System.Security.Permissions;
 
 #pragma warning disable 649
 
@@ -1747,6 +1748,10 @@ namespace Krypton.Toolkit
             // </summary>
             INITMENUPOPUP = 0x0117,
             // <summary>
+            // Windows uses WM_SYSTIMER for internal actions like scrolling.
+            // </summary>
+            SYSTIMER = 0x0118,
+            // <summary>
             // The WM_MENUSELECT message is sent to a menu's owner window when the user selects a menu item.
             // </summary>
             MENUSELECT = 0x011F,
@@ -2221,10 +2226,18 @@ namespace Krypton.Toolkit
             // The WM_CPL_LAUNCHED message is sent when a Control Panel application, started by the WM_CPL_LAUNCH message, has closed. The WM_CPL_LAUNCHED message is sent to the window identified by the wParam parameter of the WM_CPL_LAUNCH message that started the application.
             // </summary>
             CPL_LAUNCHED = USER + 0x1001,
-            // <summary>
-            // WM_SYSTIMER is a well-known yet still undocumented message. Windows uses WM_SYSTIMER for internal actions like scrolling.
-            // </summary>
-            SYSTIMER = 0x118,
+            // if ( msg.Msg == PI.WM_.OCM_NOTIFY )
+            //{
+            //    PI.NMHEADER h2 = (PI.NMHEADER)m.GetLParam(typeof(PI.NMHEADER));
+            //      if (h2.nmhdr.hwndFrom == Handle)
+            //    if ( (h2.nmhdr.code == (int)Win32.NM.NM_CUSTOMDRAW))
+            //    {
+            //        Win32.NMCUSTOMDRAW nmcd = (Win32.NMCUSTOMDRAW)msg.GetLParam( typeof( Win32.NMCUSTOMDRAW ) );
+            //        msg.Result = (IntPtr)OnCustomDraw( (int)msg.WParam.ToInt32(), ref nmcd );
+            //        messageHandled = true;
+            //    }
+            //}
+            OCM_NOTIFY = 0x0204E,   // https://wiki.winehq.org/List_Of_Windows_Messages
 
 
             // Following are the ShellProc messages via RegisterShellHookWindow 
@@ -2687,7 +2700,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal static IntPtr MakeLParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         internal static IntPtr MakeWParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
-
+        
         /// <summary>
         /// Is the specified key currently pressed down.
         /// </summary>
@@ -3902,6 +3915,40 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion Static Comdlg32
 
         #region Structures
+        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
+        public struct LVFINDINFO {
+            public int      flags;
+            public string   psz;
+            public IntPtr   lParam;
+            public int      ptX; // was POINT pt
+            public int      ptY;
+            public int      vkDirection;
+        }
+        
+        [StructLayout(LayoutKind.Sequential)]
+        public struct NMLVFINDITEM
+        {
+            public NMHDR hdr;
+            public int iStart;
+            public LVFINDINFO lvfi;
+        }
+    
+        [StructLayout(LayoutKind.Sequential)]
+        public struct NMHDR
+        {
+            public IntPtr hwndFrom;
+            public IntPtr idFrom; //This is declared as UINT_PTR in winuser.h
+            public int code;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public class NMHEADER {
+            public NMHDR nmhdr;
+            public int iItem = 0;
+            public int iButton = 0;
+            public IntPtr pItem = IntPtr.Zero;    // HDITEM*
+        }
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct TV_ITEM
         {
