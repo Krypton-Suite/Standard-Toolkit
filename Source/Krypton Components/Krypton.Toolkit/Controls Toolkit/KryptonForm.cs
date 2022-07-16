@@ -646,6 +646,24 @@ namespace Krypton.Toolkit
             }
         }
 
+#if NET6_0_OR_GREATER
+        /// <summary>Gets or sets the anchoring for minimized MDI children.</summary>
+        /// <value> <c>true</c> to anchor minimized MDI children to the bottom left of the parent form; <c>false</c> to anchor to the top left of the parent form.</value>
+        [Category(@"Window Style")]
+        [Description(@"Gets or sets the anchoring for minimized MDI children.")]
+        [DefaultValue(true)]
+        public new bool MdiChildrenMinimizedAnchorBottom
+        {
+            get => base.MdiChildrenMinimizedAnchorBottom;
+
+            set
+            {
+                base.MdiChildrenMinimizedAnchorBottom = value;
+                throw new NotSupportedException(@"Please use .NET 6 or newer to use this feature.");
+            }
+        }
+#endif
+
         #endregion
 
         #region Public Chrome
@@ -822,6 +840,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected Override
+
         /// <summary>
         /// Create the redirector instance.
         /// </summary>
