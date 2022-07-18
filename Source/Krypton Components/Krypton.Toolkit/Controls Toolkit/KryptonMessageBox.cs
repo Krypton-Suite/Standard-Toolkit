@@ -33,24 +33,23 @@ namespace Krypton.Toolkit
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="buttons" default="MessageBoxButtons.OK">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon" default="MessageBoxIcon.NONE">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
-        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button1">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button4">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options" default="0">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="displayHelpButton" default="false">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text,
             string caption = @"",
             MessageBoxButtons buttons = MessageBoxButtons.OK,
             MessageBoxIcon icon = MessageBoxIcon.None,
-            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
+            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
             MessageBoxOptions options = 0,
             bool displayHelpButton = false,
             bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"")
+            bool? showHelpButton = null)
             =>
-                InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton, helpPath);
+                InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption, buttons, icon, default button, and options.
@@ -59,24 +58,23 @@ namespace Krypton.Toolkit
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon" >One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
-        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button1">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button4">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options" default="0">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="displayHelpButton" default="false">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text,
             string caption,
             MessageBoxButtons buttons,
             KryptonMessageBoxIcon icon,
-            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
+            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
             MessageBoxOptions options = 0,
             bool displayHelpButton = false,
             bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"") 
+            bool? showHelpButton = null) 
             =>
-                InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton, helpPath);
+                InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton);
 
 
         /// <summary>
@@ -87,24 +85,23 @@ namespace Krypton.Toolkit
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="buttons" default="MessageBoxButtons.OK">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon" default="MessageBoxIcon.None">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
-        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button1">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button4">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options" default="0">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="displayHelpButton" default="false">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text,
             string caption = @"",
             MessageBoxButtons buttons = MessageBoxButtons.OK,
             MessageBoxIcon icon = MessageBoxIcon.None,
-            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
+            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
             MessageBoxOptions options = 0,
             bool displayHelpButton = false,
             bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"")
+            bool? showHelpButton = null)
             =>
-                InternalShow(owner, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton, helpPath);
+                InternalShow(owner, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton);
 
         /// <summary>
         /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -114,24 +111,23 @@ namespace Krypton.Toolkit
         /// <param name="caption">The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
-        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button1">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button4">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options" default="0">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="displayHelpButton" default="false">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, 
             string caption, 
             MessageBoxButtons buttons, 
             KryptonMessageBoxIcon icon, 
-            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1, 
+            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4, 
             MessageBoxOptions options=0, 
             bool displayHelpButton = false,
             bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"") 
+            bool? showHelpButton = null) 
             =>
-                InternalShow(owner, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton, helpPath);
+                InternalShow(owner, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton);
 
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption">The text to display in the title bar of the message box. default="string.Empty"</param>
@@ -144,12 +140,11 @@ namespace Krypton.Toolkit
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, 
             MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"")
-            => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton, helpPath);
+            bool? showHelpButton = null)
+            => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton);
 
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" >The text to display in the title bar of the message box. default="string.Empty"</param>
@@ -162,12 +157,11 @@ namespace Krypton.Toolkit
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, 
             MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"")
-            => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton, helpPath);
+            bool? showHelpButton = null)
+            => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
@@ -184,12 +178,11 @@ namespace Krypton.Toolkit
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, 
             MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"")
-            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton, helpPath);
+            bool? showHelpButton = null)
+            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
@@ -206,12 +199,11 @@ namespace Krypton.Toolkit
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
             MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null, string helpPath = @"")
-            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton, helpPath);
+            bool? showHelpButton = null)
+            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton);
         #endregion
 
         #region Implementation
@@ -228,7 +220,6 @@ namespace Krypton.Toolkit
         /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         private static DialogResult InternalShow(IWin32Window owner,
                                                  string text, string caption,
@@ -236,15 +227,14 @@ namespace Krypton.Toolkit
                                                  KryptonMessageBoxIcon icon,
                                                  KryptonMessageBoxDefaultButton defaultButton,
                                                  MessageBoxOptions options,
-                                                 HelpInfo helpInfo, bool? showCtrlCopy,
-                                                 bool? showHelpButton, string helpPath)
+                                                 HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton)
         {
             caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
             IWin32Window showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, showHelpButton, helpPath);
+            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, showHelpButton);
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return kmb.ShowDialog(showOwner);
@@ -264,7 +254,6 @@ namespace Krypton.Toolkit
         /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-        /// <param name="helpPath">The help path to execute when pressing the help button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         private static DialogResult InternalShow(IWin32Window owner,
                                                  string text, string caption,
@@ -272,15 +261,15 @@ namespace Krypton.Toolkit
                                                  MessageBoxIcon icon,
                                                  KryptonMessageBoxDefaultButton defaultButton,
                                                  MessageBoxOptions options,
-                                                 HelpInfo helpInfo, bool? showCtrlCopy,
-                                                 bool? showHelpButton, string helpPath)
+                                                 HelpInfo helpInfo,
+                                                 bool? showCtrlCopy, bool? showHelpButton)
         {
             caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
             IWin32Window showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, showHelpButton, helpPath);
+            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, showHelpButton);
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return kmb.ShowDialog(showOwner);

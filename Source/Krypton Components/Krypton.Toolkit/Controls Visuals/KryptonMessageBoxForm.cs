@@ -21,16 +21,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly bool _showHelpButton;
+
+        private bool _showHelpButton;
         private readonly string _text;
         private readonly string _caption;
-        private readonly string _helpPath;
         private readonly MessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
         private readonly MessageBoxIcon _messageBoxIcon;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
         private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
+
+        private readonly KryptonCommand _helpButtonCommand;
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window _showOwner;
         private readonly HelpInfo _helpInfo;
@@ -49,8 +51,7 @@ namespace Krypton.Toolkit
         internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
                                        MessageBoxButtons buttons, KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-                                       HelpInfo helpInfo, bool? showCtrlCopy,
-                                       bool? showHelpButton, string helpPath)
+                                       HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton)
         {
             // Store incoming values
             _text = text;
@@ -61,7 +62,6 @@ namespace Krypton.Toolkit
             _options = options;
             _helpInfo = helpInfo;
             _showOwner = showOwner;
-            _helpPath = helpPath;
             _showHelpButton = showHelpButton ?? false;
 
             // Create the form contents
@@ -77,9 +77,6 @@ namespace Krypton.Toolkit
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
 
-            // Show the help button?
-            _button5.Visible = _showHelpButton;
-
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
         }
@@ -87,8 +84,7 @@ namespace Krypton.Toolkit
         internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
                                        MessageBoxButtons buttons, MessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-                                       HelpInfo helpInfo, bool? showCtrlCopy,
-                                       bool? showHelpButton, string helpPath)
+                                       HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton)
         {
             // Store incoming values
             _text = text;
@@ -99,7 +95,6 @@ namespace Krypton.Toolkit
             _options = options;
             _helpInfo = helpInfo;
             _showOwner = showOwner;
-            _helpPath = helpPath;
             _showHelpButton = showHelpButton ?? false;
 
             // Create the form contents
@@ -114,9 +109,6 @@ namespace Krypton.Toolkit
             UpdateDefault();
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
-
-            // Show the help button?
-            _button5.Visible = _showHelpButton;
 
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
@@ -351,13 +343,6 @@ namespace Krypton.Toolkit
 #endif
             }
 
-            // Set the text for the "Help" button
-            if (_button5.Visible)
-            {
-                _button5.Text = KryptonManager.Strings.Help;
-                kcmdButton5.Text = KryptonManager.Strings.Help;
-            }
-
             // Do we ignore the Alt+F4 on the buttons?
             if (!ControlBox)
             {
@@ -365,7 +350,6 @@ namespace Krypton.Toolkit
                 _button2.IgnoreAltF4 = true;
                 _button3.IgnoreAltF4 = true;
                 _button4.IgnoreAltF4 = true;
-                _button5.IgnoreAltF4 = true;
             }
         }
 
@@ -373,6 +357,9 @@ namespace Krypton.Toolkit
         {
             switch (_defaultButton)
             {
+                case KryptonMessageBoxDefaultButton.Button1:
+                    _button1.Select();
+                    break;
                 case KryptonMessageBoxDefaultButton.Button2:
                     _button2.Select();
                     break;
@@ -380,10 +367,24 @@ namespace Krypton.Toolkit
                     _button3.Select();
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
-                    _button5.Select();
+                    if (_showHelpButton)
+                    {
+                        _button4.Select();
+                    }
+                    else
+                    {
+                        _button1.Select();
+                    }
                     break;
                 default:
-                    _button5.Select();
+                    if (_showHelpButton)
+                    {
+                        _button4.Select();
+                    }
+                    else
+                    {
+                        _button1.Select();
+                    }
                     break;
             }
         }
@@ -613,21 +614,6 @@ namespace Krypton.Toolkit
 
             Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
             Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
-        }
-
-        private void kcmdButton5_Execute(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(_helpPath))
-                {
-                    Process.Start(_helpPath);
-                }
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
         }
     }
 
