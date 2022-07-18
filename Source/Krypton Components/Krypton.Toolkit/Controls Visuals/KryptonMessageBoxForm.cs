@@ -27,12 +27,10 @@ namespace Krypton.Toolkit
         private readonly string _caption;
         private readonly MessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
-        private readonly MessageBoxIcon _messageBoxIcon;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
         private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
 
-        private readonly KryptonCommand _helpButtonCommand;
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window _showOwner;
         private readonly HelpInfo _helpInfo;
@@ -80,40 +78,6 @@ namespace Krypton.Toolkit
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
         }
-
-        internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
-                                       MessageBoxButtons buttons, MessageBoxIcon icon,
-                                       KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-                                       HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton)
-        {
-            // Store incoming values
-            _text = text;
-            _caption = caption;
-            _buttons = buttons;
-            _messageBoxIcon = icon;
-            _defaultButton = defaultButton;
-            _options = options;
-            _helpInfo = helpInfo;
-            _showOwner = showOwner;
-            _showHelpButton = showHelpButton ?? false;
-
-            // Create the form contents
-            InitializeComponent();
-
-            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
-
-            // Update contents to match requirements
-            UpdateText();
-            UpdateIcon();
-            UpdateButtons();
-            UpdateDefault();
-            UpdateHelp();
-            UpdateTextExtra(showCtrlCopy);
-
-            // Finally calculate and set form sizing
-            UpdateSizing(showOwner);
-
-        }
         #endregion Identity
 
         private void UpdateText()
@@ -135,14 +99,6 @@ namespace Krypton.Toolkit
                 {
                     case KryptonMessageBoxIcon.ERROR:
                     case KryptonMessageBoxIcon.EXCLAMATION:
-                        showCtrlCopy = true;
-                        break;
-                }
-
-                switch (_messageBoxIcon)
-                {
-                    case MessageBoxIcon.Error:
-                    case MessageBoxIcon.Exclamation:
                         showCtrlCopy = true;
                         break;
                 }
@@ -219,39 +175,7 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            switch (_messageBoxIcon)
-            {
-                default:
-                case MessageBoxIcon.None:
-                    // Windows XP and before will Beep, Vista and above do not!
-                    if (OS_MAJOR_VERSION < 6)
-                    {
-                        SystemSounds.Beep.Play();
-                    }
-                    break;
-                case MessageBoxIcon.Question:
-                    _messageIcon.Image = SystemIcons.Question.ToBitmap();
-                    SystemSounds.Question.Play();
-                    break;
-                case MessageBoxIcon.Error:
-                    //case MessageBoxIcon.Hand:
-                    //case MessageBoxIcon.Stop:
-                    _messageIcon.Image = SystemIcons.Error.ToBitmap();
-                    SystemSounds.Hand.Play();
-                    break;
-                case MessageBoxIcon.Warning:
-                    //case MessageBoxIcon.Exclamation:
-                    _messageIcon.Image = SystemIcons.Warning.ToBitmap();
-                    SystemSounds.Exclamation.Play();
-                    break;
-                case MessageBoxIcon.Information:
-                    // case MessageBoxIcon.Asterisk:
-                    _messageIcon.Image = SystemIcons.Information.ToBitmap();
-                    SystemSounds.Asterisk.Play();
-                    break;
-            }
-
-            _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.NONE) || (_messageBoxIcon != MessageBoxIcon.None);
+            _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.NONE);
 
         }
 
