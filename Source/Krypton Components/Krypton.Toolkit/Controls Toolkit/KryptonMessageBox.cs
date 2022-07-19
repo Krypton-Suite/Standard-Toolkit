@@ -26,16 +26,49 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        /// <summary>
+        /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null) =>
+            InternalShow(null, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE,
+                KryptonMessageBoxDefaultButton.Button4,
+                0, null, showCtrlCopy, null);
+
+        /// <summary>
+        /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, bool? showCtrlCopy = null) =>
             InternalShow(null, text, @"", MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE,
                 KryptonMessageBoxDefaultButton.Button4,
                 0, null, showCtrlCopy, false);
 
+        /// <summary>
+        /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null) =>
             InternalShow(owner, text, @"", MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE,
                 KryptonMessageBoxDefaultButton.Button4,
                 0, null, showCtrlCopy, false);
 
+        /// <summary>
+        /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null) =>
             InternalShow(owner, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE,
                 KryptonMessageBoxDefaultButton.Button4,
