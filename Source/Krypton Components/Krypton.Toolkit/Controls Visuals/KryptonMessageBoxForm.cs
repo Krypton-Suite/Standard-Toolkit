@@ -80,6 +80,8 @@ namespace Krypton.Toolkit
         }
         #endregion Identity
 
+        #region Implementation
+
         private void UpdateText()
         {
             Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0];
@@ -97,8 +99,8 @@ namespace Krypton.Toolkit
             {
                 switch (_kryptonMessageBoxIcon)
                 {
-                    case KryptonMessageBoxIcon.ERROR:
-                    case KryptonMessageBoxIcon.EXCLAMATION:
+                    case KryptonMessageBoxIcon.Error:
+                    case KryptonMessageBoxIcon.Exclamation:
                         showCtrlCopy = true;
                         break;
                 }
@@ -115,7 +117,7 @@ namespace Krypton.Toolkit
             switch (_kryptonMessageBoxIcon)
             {
                 default:
-                case KryptonMessageBoxIcon.NONE:
+                case KryptonMessageBoxIcon.None:
                     // Windows XP and before will Beep, Vista and above do not!
                     if (OS_MAJOR_VERSION < 6)
                     {
@@ -123,39 +125,39 @@ namespace Krypton.Toolkit
                     }
 
                     break;
-                case KryptonMessageBoxIcon.QUESTION:
+                case KryptonMessageBoxIcon.Question:
                     _messageIcon.Image = MessageBoxResources.Question;
                     SystemSounds.Question.Play();
                     break;
-                case KryptonMessageBoxIcon.EXCLAMATION:
-                case KryptonMessageBoxIcon.INFORMATION:
+                case KryptonMessageBoxIcon.Exclamation:
+                case KryptonMessageBoxIcon.Information:
                     _messageIcon.Image = MessageBoxResources.Information;
                     SystemSounds.Asterisk.Play();
                     break;
-                case KryptonMessageBoxIcon.WARNING:
+                case KryptonMessageBoxIcon.Warning:
                     _messageIcon.Image = MessageBoxResources.Warning;
                     SystemSounds.Exclamation.Play();
                     break;
-                case KryptonMessageBoxIcon.ERROR:
+                case KryptonMessageBoxIcon.Error:
                     _messageIcon.Image = MessageBoxResources.Critical;
                     SystemSounds.Hand.Play();
                     break;
-                case KryptonMessageBoxIcon.ASTERISK:
+                case KryptonMessageBoxIcon.Asterisk:
                     _messageIcon.Image = MessageBoxResources.Asterisk;
                     SystemSounds.Asterisk.Play();
                     break;
-                case KryptonMessageBoxIcon.HAND:
+                case KryptonMessageBoxIcon.Hand:
                     _messageIcon.Image = MessageBoxResources.Hand;
                     SystemSounds.Hand.Play();
                     break;
-                case KryptonMessageBoxIcon.STOP:
+                case KryptonMessageBoxIcon.Stop:
                     _messageIcon.Image = MessageBoxResources.Stop;
                     SystemSounds.Hand.Play();
                     break;
-                case KryptonMessageBoxIcon.SHIELD:
+                case KryptonMessageBoxIcon.Shield:
                     _messageIcon.Image = SystemIcons.Shield.ToBitmap();
                     break;
-                case KryptonMessageBoxIcon.WINDOWSLOGO:
+                case KryptonMessageBoxIcon.WindowsLogo:
                     // Because Windows 11 displays a generic application icon,
                     // we need to rely on a image instead
                     if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
@@ -175,7 +177,7 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.NONE);
+            _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
 
         }
 
@@ -385,7 +387,7 @@ namespace Krypton.Toolkit
 
             // Size of window is calculated from the client area
             ClientSize = new Size(Math.Max(messageSizing.Width, buttonsSizing.Width),
-                                  messageSizing.Height + buttonsSizing.Height);
+                messageSizing.Height + buttonsSizing.Height);
         }
 
         private Size UpdateMessageSizing(IWin32Window showOwner)
@@ -419,7 +421,7 @@ namespace Krypton.Toolkit
 
             return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right + 
                             _messageText.Margin.Left + _messageText.Margin.Right,
-                            Math.Max(_messageIcon.Height + 10, textSize.Height));
+                Math.Max(_messageIcon.Height + 10, textSize.Height));
         }
 
         private Size UpdateButtonsSizing()
@@ -499,13 +501,13 @@ namespace Krypton.Toolkit
             // Escape key kills the dialog if we allow it to be closed
             if (ControlBox
                 && (e.KeyCode == Keys.Escape)
-                )
+               )
             {
                 Close();
             }
             else if (!e.Control
                      || (e.KeyCode != Keys.C)
-                     )
+                    )
             {
                 return;
             }
@@ -542,6 +544,8 @@ namespace Krypton.Toolkit
             Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
             Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
+
+        #endregion
     }
 
     #region Types

@@ -231,46 +231,46 @@ namespace Krypton.Toolkit
             {
                 switch (_mainIcon)
                 {
-                    case KryptonMessageBoxIcon.NONE:
+                    case KryptonMessageBoxIcon.None:
                         _panelIcon.Visible = false;
                         _panelMainText.Left -= _messageIcon.Right;
                         break;
-                    case KryptonMessageBoxIcon.HAND:
+                    case KryptonMessageBoxIcon.Hand:
                         _messageIcon.Image = VisualTaskDialogImageResources.HandSmall;
                         SystemSounds.Hand.Play();
                         break;
-                    case KryptonMessageBoxIcon.QUESTION:
+                    case KryptonMessageBoxIcon.Question:
                         _messageIcon.Image = VisualTaskDialogImageResources.QuestionSmall;
                         SystemSounds.Question.Play();
                         break;
-                    case KryptonMessageBoxIcon.EXCLAMATION:
+                    case KryptonMessageBoxIcon.Exclamation:
                         _messageIcon.Image = VisualTaskDialogImageResources.WarningSmall;
                         SystemSounds.Exclamation.Play();
                         break;
-                    case KryptonMessageBoxIcon.ASTERISK:
+                    case KryptonMessageBoxIcon.Asterisk:
                         _messageIcon.Image = VisualTaskDialogImageResources.AsteriskSmall;
                         SystemSounds.Asterisk.Play();
                         break;
-                    case KryptonMessageBoxIcon.STOP:
+                    case KryptonMessageBoxIcon.Stop:
                         _messageIcon.Image = VisualTaskDialogImageResources.StopSmall;
                         SystemSounds.Asterisk.Play();
                         break;
-                    case KryptonMessageBoxIcon.INFORMATION:
+                    case KryptonMessageBoxIcon.Information:
                         _messageIcon.Image = VisualTaskDialogImageResources.InformationSmall;
                         SystemSounds.Asterisk.Play();
                         break;
-                    case KryptonMessageBoxIcon.WARNING:
+                    case KryptonMessageBoxIcon.Warning:
                         _messageIcon.Image = VisualTaskDialogImageResources.WarningSmall;
                         SystemSounds.Exclamation.Play();
                         break;
-                    case KryptonMessageBoxIcon.ERROR:
+                    case KryptonMessageBoxIcon.Error:
                         _messageIcon.Image = VisualTaskDialogImageResources.CriticalSmall;
                         SystemSounds.Hand.Play();
                         break;
-                    case KryptonMessageBoxIcon.SHIELD:
+                    case KryptonMessageBoxIcon.Shield:
                         _messageIcon.Image = IconUtilities.ScaleImage(SystemIcons.Shield.ToBitmap(), 16, 16);
                         break;
-                    case KryptonMessageBoxIcon.WINDOWSLOGO:
+                    case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
                         if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
@@ -554,37 +554,37 @@ namespace Krypton.Toolkit
                 // TODO: These icons may need to be 16 x 16
                 switch (_footerIcon)
                 {
-                    case KryptonMessageBoxIcon.NONE:
+                    case KryptonMessageBoxIcon.None:
                         _iconFooter.Visible = false;
                         break;
-                    case KryptonMessageBoxIcon.QUESTION:
+                    case KryptonMessageBoxIcon.Question:
                         _iconFooter.Image = MessageBoxResources.Question;
                         break;
-                    case KryptonMessageBoxIcon.INFORMATION:
+                    case KryptonMessageBoxIcon.Information:
                         _iconFooter.Image = MessageBoxResources.Information;
                         break;
-                    case KryptonMessageBoxIcon.WARNING:
+                    case KryptonMessageBoxIcon.Warning:
                         _iconFooter.Image = MessageBoxResources.Warning;
                         break;
-                    case KryptonMessageBoxIcon.ERROR:
+                    case KryptonMessageBoxIcon.Error:
                         _iconFooter.Image = MessageBoxResources.Critical;
                         break;
-                    case KryptonMessageBoxIcon.HAND:
+                    case KryptonMessageBoxIcon.Hand:
                         _iconFooter.Image = MessageBoxResources.Hand;
                         break;
-                    case KryptonMessageBoxIcon.EXCLAMATION:
+                    case KryptonMessageBoxIcon.Exclamation:
                         _iconFooter.Image = MessageBoxResources.Warning;
                         break;
-                    case KryptonMessageBoxIcon.ASTERISK:
+                    case KryptonMessageBoxIcon.Asterisk:
                         _iconFooter.Image = MessageBoxResources.Asterisk;
                         break;
-                    case KryptonMessageBoxIcon.STOP:
+                    case KryptonMessageBoxIcon.Stop:
                         _iconFooter.Image = MessageBoxResources.Stop;
                         break;
-                    case KryptonMessageBoxIcon.SHIELD:
+                    case KryptonMessageBoxIcon.Shield:
                         _iconFooter.Image = IconUtilities.ScaleImage(SystemIcons.Shield.ToBitmap(), 16, 16);
                         break;
-                    case KryptonMessageBoxIcon.WINDOWSLOGO:
+                    case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
                         if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
@@ -896,7 +896,7 @@ namespace Krypton.Toolkit
                 requiredSize.Height = Math.Max(requiredSize.Height, footerHyperlinkSize.Height);
             }
 
-            if ((_footerIcon != KryptonMessageBoxIcon.NONE) || (_customFooterIcon != null))
+            if ((_footerIcon != KryptonMessageBoxIcon.None) || (_customFooterIcon != null))
             {
                 requiredSize.Width += _iconFooter.Width + BUTTON_GAP;
                 requiredSize.Height = Math.Max(requiredSize.Height, _iconFooter.Size.Height);
@@ -917,7 +917,7 @@ namespace Krypton.Toolkit
                 _panelFooter.Size = requiredSize;
                 var offset = BUTTON_GAP;
 
-                if ((_footerIcon != KryptonMessageBoxIcon.NONE) || (_customFooterIcon != null))
+                if ((_footerIcon != KryptonMessageBoxIcon.None) || (_customFooterIcon != null))
                 {
                     _iconFooter.Location = new Point(offset, (requiredSize.Height - _iconFooter.Height) / 2);
                     offset += _iconFooter.Width + (BUTTON_GAP / 2);
