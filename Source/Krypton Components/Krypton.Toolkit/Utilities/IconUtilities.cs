@@ -18,9 +18,10 @@ namespace Krypton.Toolkit
 
         public enum SystemIconSize
         {
-            SMALL = 0,
-            MEDIUM = 1,
-            LARGE = 2
+            Small = 0,
+            Medium = 1,
+            Large = 2,
+            Custom = 3
         }
 
         /// <summary>
@@ -87,26 +88,26 @@ namespace Krypton.Toolkit
     public enum KryptonMessageBoxIcon
     {
         /// <summary>Specify no icon.</summary>
-        NONE = 0,
+        None = 0,
         /// <summary>Specify a hand icon.</summary>
-        HAND = 1,
+        Hand = 1,
         /// <summary>Specify a question icon.</summary>
-        QUESTION = 2,
+        Question = 2,
         /// <summary>Specify a exclamation icon.</summary>
-        EXCLAMATION = 3,
+        Exclamation = 3,
         /// <summary>Specify a asterisk icon.</summary>
-        ASTERISK = 4,
+        Asterisk = 4,
         /// <summary>Specify a stop icon.</summary>
-        STOP = 5,
+        Stop = 5,
         /// <summary>Specify a error icon.</summary>
-        ERROR = 6,
+        Error = 6,
         /// <summary>Specify a warning icon.</summary>
-        WARNING = 7,
+        Warning = 7,
         /// <summary>Specify a information icon.</summary>
-        INFORMATION = 8,
+        Information = 8,
         /// <summary>Specify a UAC shield icon.</summary>
-        SHIELD = 9,
+        Shield = 9,
         /// <summary>Specify a Windows logo icon.</summary>
-        WINDOWSLOGO = 10
+        WindowsLogo = 10
     }
 }

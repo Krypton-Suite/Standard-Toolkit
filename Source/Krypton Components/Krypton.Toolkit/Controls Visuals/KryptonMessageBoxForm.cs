@@ -21,14 +21,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
+        private bool _showHelpButton;
         private readonly string _text;
         private readonly string _caption;
         private readonly MessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
-        private readonly MessageBoxIcon _messageBoxIcon;
 
-        private readonly MessageBoxDefaultButton _defaultButton;
+        private readonly KryptonMessageBoxDefaultButton _defaultButton;
         private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
+
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window _showOwner;
         private readonly HelpInfo _helpInfo;
@@ -45,9 +47,9 @@ namespace Krypton.Toolkit
 
 
         internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
-            MessageBoxButtons buttons, KryptonMessageBoxIcon icon,
-            MessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-            HelpInfo helpInfo, bool? showCtrlCopy)
+                                       MessageBoxButtons buttons, KryptonMessageBoxIcon icon,
+                                       KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
+                                       HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton)
         {
             // Store incoming values
             _text = text;
@@ -58,6 +60,7 @@ namespace Krypton.Toolkit
             _options = options;
             _helpInfo = helpInfo;
             _showOwner = showOwner;
+            _showHelpButton = showHelpButton ?? false;
 
             // Create the form contents
             InitializeComponent();
@@ -74,41 +77,10 @@ namespace Krypton.Toolkit
 
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
-        }
-
-        internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
-            MessageBoxButtons buttons, MessageBoxIcon icon,
-            MessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-            HelpInfo helpInfo, bool? showCtrlCopy)
-        {
-            // Store incoming values
-            _text = text;
-            _caption = caption;
-            _buttons = buttons;
-            _messageBoxIcon = icon;
-            _defaultButton = defaultButton;
-            _options = options;
-            _helpInfo = helpInfo;
-            _showOwner = showOwner;
-
-            // Create the form contents
-            InitializeComponent();
-
-            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
-
-            // Update contents to match requirements
-            UpdateText();
-            UpdateIcon();
-            UpdateButtons();
-            UpdateDefault();
-            UpdateHelp();
-            UpdateTextExtra(showCtrlCopy);
-
-            // Finally calculate and set form sizing
-            UpdateSizing(showOwner);
-
         }
         #endregion Identity
+
+        #region Implementation
 
         private void UpdateText()
         {
@@ -127,16 +99,8 @@ namespace Krypton.Toolkit
             {
                 switch (_kryptonMessageBoxIcon)
                 {
-                    case KryptonMessageBoxIcon.ERROR:
-                    case KryptonMessageBoxIcon.EXCLAMATION:
-                        showCtrlCopy = true;
-                        break;
-                }
-
-                switch (_messageBoxIcon)
-                {
-                    case MessageBoxIcon.Error:
-                    case MessageBoxIcon.Exclamation:
+                    case KryptonMessageBoxIcon.Error:
+                    case KryptonMessageBoxIcon.Exclamation:
                         showCtrlCopy = true;
                         break;
                 }
@@ -153,7 +117,7 @@ namespace Krypton.Toolkit
             switch (_kryptonMessageBoxIcon)
             {
                 default:
-                case KryptonMessageBoxIcon.NONE:
+                case KryptonMessageBoxIcon.None:
                     // Windows XP and before will Beep, Vista and above do not!
                     if (OS_MAJOR_VERSION < 6)
                     {
@@ -161,39 +125,39 @@ namespace Krypton.Toolkit
                     }
 
                     break;
-                case KryptonMessageBoxIcon.QUESTION:
+                case KryptonMessageBoxIcon.Question:
                     _messageIcon.Image = MessageBoxResources.Question;
                     SystemSounds.Question.Play();
                     break;
-                case KryptonMessageBoxIcon.EXCLAMATION:
-                case KryptonMessageBoxIcon.INFORMATION:
+                case KryptonMessageBoxIcon.Exclamation:
+                case KryptonMessageBoxIcon.Information:
                     _messageIcon.Image = MessageBoxResources.Information;
                     SystemSounds.Asterisk.Play();
                     break;
-                case KryptonMessageBoxIcon.WARNING:
+                case KryptonMessageBoxIcon.Warning:
                     _messageIcon.Image = MessageBoxResources.Warning;
                     SystemSounds.Exclamation.Play();
                     break;
-                case KryptonMessageBoxIcon.ERROR:
+                case KryptonMessageBoxIcon.Error:
                     _messageIcon.Image = MessageBoxResources.Critical;
                     SystemSounds.Hand.Play();
                     break;
-                case KryptonMessageBoxIcon.ASTERISK:
+                case KryptonMessageBoxIcon.Asterisk:
                     _messageIcon.Image = MessageBoxResources.Asterisk;
                     SystemSounds.Asterisk.Play();
                     break;
-                case KryptonMessageBoxIcon.HAND:
+                case KryptonMessageBoxIcon.Hand:
                     _messageIcon.Image = MessageBoxResources.Hand;
                     SystemSounds.Hand.Play();
                     break;
-                case KryptonMessageBoxIcon.STOP:
+                case KryptonMessageBoxIcon.Stop:
                     _messageIcon.Image = MessageBoxResources.Stop;
                     SystemSounds.Hand.Play();
                     break;
-                case KryptonMessageBoxIcon.SHIELD:
+                case KryptonMessageBoxIcon.Shield:
                     _messageIcon.Image = SystemIcons.Shield.ToBitmap();
                     break;
-                case KryptonMessageBoxIcon.WINDOWSLOGO:
+                case KryptonMessageBoxIcon.WindowsLogo:
                     // Because Windows 11 displays a generic application icon,
                     // we need to rely on a image instead
                     if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
@@ -213,39 +177,7 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            switch (_messageBoxIcon)
-            {
-                default:
-                case MessageBoxIcon.None:
-                    // Windows XP and before will Beep, Vista and above do not!
-                    if (OS_MAJOR_VERSION < 6)
-                    {
-                        SystemSounds.Beep.Play();
-                    }
-                    break;
-                case MessageBoxIcon.Question:
-                    _messageIcon.Image = SystemIcons.Question.ToBitmap();
-                    SystemSounds.Question.Play();
-                    break;
-                case MessageBoxIcon.Error:
-                    //case MessageBoxIcon.Hand:
-                    //case MessageBoxIcon.Stop:
-                    _messageIcon.Image = SystemIcons.Error.ToBitmap();
-                    SystemSounds.Hand.Play();
-                    break;
-                case MessageBoxIcon.Warning:
-                    //case MessageBoxIcon.Exclamation:
-                    _messageIcon.Image = SystemIcons.Warning.ToBitmap();
-                    SystemSounds.Exclamation.Play();
-                    break;
-                case MessageBoxIcon.Information:
-                    // case MessageBoxIcon.Asterisk:
-                    _messageIcon.Image = SystemIcons.Information.ToBitmap();
-                    SystemSounds.Asterisk.Play();
-                    break;
-            }
-
-            _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.NONE) || (_messageBoxIcon != MessageBoxIcon.None);
+            _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
 
         }
 
@@ -351,11 +283,37 @@ namespace Krypton.Toolkit
         {
             switch (_defaultButton)
             {
-                case MessageBoxDefaultButton.Button2:
-                    _button2.Select();
+                case KryptonMessageBoxDefaultButton.Button1:
+                    //_button1.Select();
+                    AcceptButton = _button1;
                     break;
-                case MessageBoxDefaultButton.Button3:
-                    _button3.Select();
+                case KryptonMessageBoxDefaultButton.Button2:
+                    //_button2.Select();
+                    AcceptButton = _button2;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button3:
+                    //_button3.Select();
+                    AcceptButton = _button3;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button4:
+                    if (_showHelpButton)
+                    {
+                        AcceptButton = _button4;
+                    }
+                    else
+                    {
+                        AcceptButton = _button1;
+                    }
+                    break;
+                default:
+                    if (_showHelpButton)
+                    {
+                        AcceptButton = _button4;
+                    }
+                    else
+                    {
+                        AcceptButton = _button1;
+                    }
                     break;
             }
         }
@@ -429,7 +387,7 @@ namespace Krypton.Toolkit
 
             // Size of window is calculated from the client area
             ClientSize = new Size(Math.Max(messageSizing.Width, buttonsSizing.Width),
-                                  messageSizing.Height + buttonsSizing.Height);
+                messageSizing.Height + buttonsSizing.Height);
         }
 
         private Size UpdateMessageSizing(IWin32Window showOwner)
@@ -463,7 +421,7 @@ namespace Krypton.Toolkit
 
             return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right + 
                             _messageText.Margin.Left + _messageText.Margin.Right,
-                            Math.Max(_messageIcon.Height + 10, textSize.Height));
+                Math.Max(_messageIcon.Height + 10, textSize.Height));
         }
 
         private Size UpdateButtonsSizing()
@@ -543,13 +501,13 @@ namespace Krypton.Toolkit
             // Escape key kills the dialog if we allow it to be closed
             if (ControlBox
                 && (e.KeyCode == Keys.Escape)
-                )
+               )
             {
                 Close();
             }
             else if (!e.Control
                      || (e.KeyCode != Keys.C)
-                     )
+                    )
             {
                 return;
             }
@@ -587,6 +545,7 @@ namespace Krypton.Toolkit
             Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
+        #endregion
     }
 
     #region Types

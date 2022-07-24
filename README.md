@@ -157,6 +157,9 @@ As of v70.xx, the `KryptonTaskDialog` now uses the built-in `KryptonMessageBoxIc
 ## `KryptonPalette`
 Both ***Font1*** & ***Font2*** have been removed from `Cargo`, as they were not used.
 
+## `KryptonMessageBox`
+The standard `MessageBoxIcon` option has been removed in favor of the built-in `KryptonMessageBoxIcon`. In addition, the `MessageBoxDefaultButton` has also been removed in favor of the built-in `KryptonMessageBoxDefaultButton`.
+
 =======
 
 # Known Issues & Workarounds

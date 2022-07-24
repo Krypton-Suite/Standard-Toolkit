@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <param name="icon">The icon.</param>
         /// <param name="className">Name of the class.</param>
         /// <param name="methodSignature">The method signature.</param>
-        public static void CaptureException(Exception exception, string title = @"Exception Caught", MessageBoxButtons buttons = MessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.ERROR, string className = "", string methodSignature = "")
+        public static void CaptureException(Exception exception, string title = @"Exception Caught", MessageBoxButtons buttons = MessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, string className = "", string methodSignature = "")
         {
             if (className != "")
             {

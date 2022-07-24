@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         // NET 6 & newer
         private const string DEFAULT_CONTINUE = "Co&ntinue";
         private const string DEFAULT_TRY_AGAIN = "&Try Again";
+        
         #endregion
 
         #region Instance Fields

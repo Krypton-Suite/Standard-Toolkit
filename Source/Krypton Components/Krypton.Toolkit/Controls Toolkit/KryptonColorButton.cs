@@ -839,9 +839,12 @@ namespace Krypton.Toolkit
 
             set
             {
-                _useCustomPreviewShape = value;
+                if (_useCustomPreviewShape != value)
+                {
+                    _useCustomPreviewShape = value;
 
-                Invalidate();
+                    Invalidate();
+                }
             }
         }
         #endregion

@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void kcHelpIconProvider_Execute(object sender, EventArgs e) => KryptonMessageBox.Show(_helpText, @"Krypton String Collection Editor", MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
+        private void kcHelpIconProvider_Execute(object sender, EventArgs e) => KryptonMessageBox.Show(_helpText, @"Krypton String Collection Editor", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
 
         /// <summary>Returns the content strings.</summary>
         /// <returns>The values of the content array.</returns>
