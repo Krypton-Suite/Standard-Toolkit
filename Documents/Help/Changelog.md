@@ -5,6 +5,7 @@
 =======
 
 ## 2022-11-xx - Build 2211 - November 2022
+* Removed Visual Studio 2019 solution (*.sln) files, as 2022 is considered to be stable enougth
 * Resolved [#777](https://github.com/Krypton-Suite/Standard-Toolkit/issues/777), KryptonTreeView can throw exception on changing palette via KryptonManager. Note: unknown can still be set when deleting selected node
 * Resolved [#774](https://github.com/Krypton-Suite/Standard-Toolkit/issues/774), `KryptonTableLayoutPanel` throwing exception when a form is minimized (thanks to [ZXBITLES](https://github.com/ZXBITLES))
 * New `UseCustomPreviewShape` property for `KryptonColorButton` to allow configuration of a custom colour preview shape
