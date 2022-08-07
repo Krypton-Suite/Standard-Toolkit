@@ -37,6 +37,10 @@ namespace Krypton.Toolkit
         // NET 6 & newer
         private const string DEFAULT_CONTINUE = "Co&ntinue";
         private const string DEFAULT_TRY_AGAIN = "&Try Again";
+
+        // Custom
+        private const string DEFAULT_COLLAPSE = "C&ollapse";
+        private const string DEFAULT_EXPAND = "E&xpand";
         
         #endregion
 
@@ -79,7 +83,9 @@ namespace Krypton.Toolkit
                                  Today.Equals(DEFAULT_TODAY) &&
                                  Help.Equals(DEFAULT_HELP) &&
                                  Continue.Equals(DEFAULT_CONTINUE) &&
-                                 TryAgain.Equals(DEFAULT_TRY_AGAIN);
+                                 TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
+                                 Collapse.Equals(DEFAULT_COLLAPSE) &&
+                                 Expand.Equals(DEFAULT_EXPAND);
 
         /// <summary>
         /// Reset all strings to default values.
@@ -194,7 +200,7 @@ namespace Krypton.Toolkit
         public string Today { get; set; }
 
         /// <summary>
-        /// Gets and sets the Close string used in calendars.
+        /// Gets and sets the Help string used in message box buttons.
         /// </summary>
         [Localizable(true)]
         [Category(@"Visuals")]
@@ -204,7 +210,7 @@ namespace Krypton.Toolkit
         public string Help { get; set; }
 
         /// <summary>
-        /// Gets and sets the Continue string used in calendars.
+        /// Gets and sets the Continue string used in message box buttons.
         /// </summary>
         [Localizable(true)]
         [Category(@"Visuals")]
@@ -213,13 +219,27 @@ namespace Krypton.Toolkit
         public string Continue { get; set; }
 
         /// <summary>
-        /// Gets and sets the Try Again string used in calendars.
+        /// Gets and sets the Try Again string used in message box buttons.
         /// </summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Try Again string used for Message Box Buttons.")]
         [DefaultValue(DEFAULT_TRY_AGAIN)]
         public string TryAgain { get; set; }
+
+        /// <summary>Gets or sets the collapse string used in expandable footers.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Collapse string used in expandable footers.")]
+        [DefaultValue(DEFAULT_COLLAPSE)]
+        public string Collapse { get; set; }
+
+        /// <summary>Gets or sets the expand string used in expandable footers.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Expand string used in expandable footers.")]
+        [DefaultValue(DEFAULT_EXPAND)]
+        public string Expand { get; set; }
 #endregion
     }
 }
