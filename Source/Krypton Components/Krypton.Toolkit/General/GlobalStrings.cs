@@ -110,6 +110,12 @@ namespace Krypton.Toolkit
             // NET 6 & newer
             Continue = DEFAULT_CONTINUE;
             TryAgain = DEFAULT_TRY_AGAIN;
+
+            // Custom
+            Collapse = DEFAULT_COLLAPSE;
+            Expand = DEFAULT_EXPAND;
+            MoreDetails = DEFAULT_MORE_DETAILS;
+            LessDetails = DEFAULT_LESS_DETAILS;
         }
 
         /// <summary>
