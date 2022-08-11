@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly bool _useOSLanguageStrings;
+        //private readonly bool _useOSLanguageStrings;
 
         #endregion
 

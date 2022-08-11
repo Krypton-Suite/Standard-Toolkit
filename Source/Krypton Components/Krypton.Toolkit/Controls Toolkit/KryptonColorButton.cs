@@ -843,7 +843,7 @@ namespace Krypton.Toolkit
                 {
                     _useCustomPreviewShape = value;
 
-                    Invalidate();
+                    UseCustomShape(value);
                 }
             }
         }
@@ -1019,29 +1019,29 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Raises the Paint event.</summary>
-        /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            if (_useCustomPreviewShape)
-            {
-                Values.Image = GenericImageResources.Transparent_16_x_16;
+        // <summary>Raises the Paint event.</summary>
+        // <param name="e">A PaintEventArgs that contains the event data.</param>
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    if (_useCustomPreviewShape)
+        //    {
+        //        Values.Image = GenericImageResources.Transparent_16_x_16;
 
-                Values.RoundedCorners = 8;
+        //        Values.RoundedCorners = 8;
 
-                Values.SelectedRect = new Rectangle(0, 0, 16, 16);
-            }
-            else
-            {
-                Values.Image = GenericImageResources.ButtonColorImageSmall;
+        //        Values.SelectedRect = new Rectangle(0, 0, 16, 16);
+        //    }
+        //    else
+        //    {
+        //        Values.Image = GenericImageResources.ButtonColorImageSmall;
 
-                Values.RoundedCorners = 0;
+        //        Values.RoundedCorners = 0;
 
-                Values.SelectedRect = new Rectangle(0, 12, 16, 4);
-            }
+        //        Values.SelectedRect = new Rectangle(0, 12, 16, 4);
+        //    }
 
-            base.OnPaint(e);
-        }
+        //    base.OnPaint(e);
+        //}
 
         #endregion
 
@@ -1476,6 +1476,26 @@ namespace Krypton.Toolkit
                 {
                     SelectedColor = cd.Color;
                 }
+            }
+        }
+
+        private void UseCustomShape(bool useCustomShape)
+        {
+            if (useCustomShape)
+            {
+                Values.Image = GenericImageResources.Transparent_16_x_16;
+
+                Values.RoundedCorners = 8;
+
+                Values.SelectedRect = new Rectangle(0, 0, 16, 16);
+            }
+            else
+            {
+                Values.Image = GenericImageResources.ButtonColorImageSmall;
+
+                Values.RoundedCorners = 0;
+
+                Values.SelectedRect = new Rectangle(0, 12, 16, 4);
             }
         }
         #endregion
