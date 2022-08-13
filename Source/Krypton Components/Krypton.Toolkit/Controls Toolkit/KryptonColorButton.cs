@@ -46,6 +46,7 @@ namespace Krypton.Toolkit
         private bool _allowFullOpen;
         private bool _clickOverriden;
         private bool _useCustomPreviewShape;
+        private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
 
         // Context menu items
         private readonly KryptonContextMenu _kryptonContextMenu;
@@ -218,7 +219,7 @@ namespace Krypton.Toolkit
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawButton);
 
-            UseCustomPreviewShape = false;
+            CustomColorPreviewShape = KryptonColorButtonCustomColorPreviewShape.None;
         }
         #endregion
 
@@ -832,18 +833,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Allows the configuration of a custom colour preview shape.
         /// </summary>
-        [DefaultValue(false), Description(@"Allows the configuration of a custom colour preview shape.")]
-        public bool UseCustomPreviewShape
+        [DefaultValue(typeof(KryptonColorButtonCustomColorPreviewShape), "KryptonColorButtonCustomColorPreviewShape.None"), Description(@"Allows the configuration of a custom colour preview shape.")]
+        public KryptonColorButtonCustomColorPreviewShape CustomColorPreviewShape
         {
-            get => _useCustomPreviewShape;
+            get => _customColorPreviewShape;
 
             set
             {
-                if (_useCustomPreviewShape != value)
+                if (_customColorPreviewShape != value)
                 {
-                    _useCustomPreviewShape = value;
+                    _customColorPreviewShape = value;
 
-                    UseCustomShape(value);
+                    SetCustomColorPreviewShape(value);
                 }
             }
         }
@@ -1479,23 +1480,39 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UseCustomShape(bool useCustomShape)
+        private void SetCustomColorPreviewShape(KryptonColorButtonCustomColorPreviewShape customShape)
         {
-            if (useCustomShape)
+             switch (customShape)
             {
-                Values.Image = GenericImageResources.Transparent_16_x_16;
+                case KryptonColorButtonCustomColorPreviewShape.None:
+                    Values.Image = GenericImageResources.ButtonColorImageSmall;
 
-                Values.RoundedCorners = 8;
+                    Values.RoundedCorners = 0;
 
-                Values.SelectedRect = new Rectangle(0, 0, 16, 16);
-            }
-            else
-            {
-                Values.Image = GenericImageResources.ButtonColorImageSmall;
+                    Values.SelectedRect = new Rectangle(0, 12, 16, 4);
+                    break;
+                case KryptonColorButtonCustomColorPreviewShape.Circle:
+                    Values.Image = GenericImageResources.Transparent_16_x_16;
 
-                Values.RoundedCorners = 0;
+                    Values.RoundedCorners = 8;
 
-                Values.SelectedRect = new Rectangle(0, 12, 16, 4);
+                    Values.SelectedRect = new Rectangle(0, 0, 16, 16);
+                    break;
+                case KryptonColorButtonCustomColorPreviewShape.RoundedSquare:
+                    Values.Image = GenericImageResources.Transparent_16_x_16;
+
+                    Values.RoundedCorners = 2;
+
+                    Values.SelectedRect = new Rectangle(0, 0, 16, 16);
+                    break;
+                case KryptonColorButtonCustomColorPreviewShape.Square:
+                    Values.Image = GenericImageResources.Transparent_16_x_16;
+
+                    Values.RoundedCorners = 0;
+
+                    Values.SelectedRect = new Rectangle(0, 0, 16, 16);
+                    break;
+
             }
         }
         #endregion
