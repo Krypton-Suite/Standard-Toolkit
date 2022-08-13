@@ -45,7 +45,6 @@ namespace Krypton.Toolkit
         private bool _useMnemonic;
         private bool _allowFullOpen;
         private bool _clickOverriden;
-        private bool _useCustomPreviewShape;
         private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
 
         // Context menu items
@@ -845,6 +844,8 @@ namespace Krypton.Toolkit
                     _customColorPreviewShape = value;
 
                     SetCustomColorPreviewShape(value);
+
+                    PerformNeedPaint(true);
                 }
             }
         }
