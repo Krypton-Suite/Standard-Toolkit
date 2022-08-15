@@ -302,6 +302,7 @@ namespace Krypton.Toolkit
             {
                 _roundedCorners = (byte)value;
                 _compositeImage = null;
+                PerformNeedPaint(true);
             }
         }
         private bool ShouldSerializeRoundedCorners() => _roundedCorners != 0;

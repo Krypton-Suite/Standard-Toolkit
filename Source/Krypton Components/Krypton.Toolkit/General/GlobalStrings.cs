@@ -41,6 +41,10 @@ namespace Krypton.Toolkit
         // Custom
         private const string DEFAULT_COLLAPSE = "C&ollapse";
         private const string DEFAULT_EXPAND = "E&xpand";
+
+        // Note: The following may not be needed...
+        /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
+        private const string DEFAULT_LESS_DETAILS = "Les&s Details...";*/
         
         #endregion
 
@@ -86,6 +90,9 @@ namespace Krypton.Toolkit
                                  TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
                                  Collapse.Equals(DEFAULT_COLLAPSE) &&
                                  Expand.Equals(DEFAULT_EXPAND);
+                                 // Note: The following may not be needed...
+                                 /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
+                                 LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
 
         /// <summary>
         /// Reset all strings to default values.
@@ -106,6 +113,14 @@ namespace Krypton.Toolkit
             // NET 6 & newer
             Continue = DEFAULT_CONTINUE;
             TryAgain = DEFAULT_TRY_AGAIN;
+
+            // Custom
+            Collapse = DEFAULT_COLLAPSE;
+            Expand = DEFAULT_EXPAND;
+
+            // Note: The following may not be needed...
+            /*MoreDetails = DEFAULT_MORE_DETAILS;
+            LessDetails = DEFAULT_LESS_DETAILS;*/
         }
 
         /// <summary>
@@ -240,6 +255,20 @@ namespace Krypton.Toolkit
         [Description(@"Expand string used in expandable footers.")]
         [DefaultValue(DEFAULT_EXPAND)]
         public string Expand { get; set; }
-#endregion
+
+        // Note: The following may not be needed...
+
+        /*/// <summary>Gets or sets the more details string used in expandable footers.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"More details string used in expandable footers.")]
+        public string MoreDetails { get; set; }
+
+        /// <summary>Gets or sets the less details string used in expandable footers.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Less details string used in expandable footers.")]
+        public string LessDetails { get; set; }*/
+    #endregion
     }
 }

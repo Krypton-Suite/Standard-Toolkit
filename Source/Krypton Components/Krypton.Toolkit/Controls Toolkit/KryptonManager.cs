@@ -127,6 +127,12 @@ namespace Krypton.Toolkit
         public static event EventHandler GlobalAllowFormChromeChanged;
         #endregion
 
+        #region Instance Fields
+
+        //private readonly bool _useOSLanguageStrings;
+
+        #endregion
+
         #region Identity
         static KryptonManager()
         {
