@@ -39,6 +39,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_TRY_AGAIN = "&Try Again";
 
         // Custom
+        private const string DEFAULT_APPLY = "A&pply";
         private const string DEFAULT_COLLAPSE = "C&ollapse";
         private const string DEFAULT_EXPAND = "E&xpand";
 
@@ -88,6 +89,7 @@ namespace Krypton.Toolkit
                                  Help.Equals(DEFAULT_HELP) &&
                                  Continue.Equals(DEFAULT_CONTINUE) &&
                                  TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
+                                 Apply.Equals(DEFAULT_APPLY) &&
                                  Collapse.Equals(DEFAULT_COLLAPSE) &&
                                  Expand.Equals(DEFAULT_EXPAND);
                                  // Note: The following may not be needed...
@@ -115,6 +117,7 @@ namespace Krypton.Toolkit
             TryAgain = DEFAULT_TRY_AGAIN;
 
             // Custom
+            Apply = DEFAULT_APPLY;
             Collapse = DEFAULT_COLLAPSE;
             Expand = DEFAULT_EXPAND;
 
@@ -255,6 +258,15 @@ namespace Krypton.Toolkit
         [Description(@"Expand string used in expandable footers.")]
         [DefaultValue(DEFAULT_EXPAND)]
         public string Expand { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Apply string used in property dialogs.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Apply string used for property dialogs.")]
+        [DefaultValue(DEFAULT_APPLY)]
+        public string Apply { get; set; }
 
         // Note: The following may not be needed...
 
