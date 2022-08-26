@@ -39,6 +39,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_TRY_AGAIN = "&Try Again";
 
         // Custom
+        private const string DEFAULT_APPLY = "A&pply";
         private const string DEFAULT_COLLAPSE = "C&ollapse";
         private const string DEFAULT_EXPAND = "E&xpand";
 
@@ -89,7 +90,8 @@ namespace Krypton.Toolkit
                                  Continue.Equals(DEFAULT_CONTINUE) &&
                                  TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
                                  Collapse.Equals(DEFAULT_COLLAPSE) &&
-                                 Expand.Equals(DEFAULT_EXPAND);
+                                 Expand.Equals(DEFAULT_EXPAND) &&
+                                 Apply.Equals(DEFAULT_APPLY);
                                  // Note: The following may not be needed...
                                  /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
                                  LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
@@ -117,6 +119,7 @@ namespace Krypton.Toolkit
             // Custom
             Collapse = DEFAULT_COLLAPSE;
             Expand = DEFAULT_EXPAND;
+            Apply = DEFAULT_APPLY;
 
             // Note: The following may not be needed...
             /*MoreDetails = DEFAULT_MORE_DETAILS;
@@ -256,6 +259,15 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_EXPAND)]
         public string Expand { get; set; }
 
+        /// <summary>
+        /// Gets and sets the Apply string used in property dialogs.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Apply string used for property dialogs.")]
+        [DefaultValue(DEFAULT_APPLY)]
+        public string Apply { get; set; }
+
         // Note: The following may not be needed...
 
         /*/// <summary>Gets or sets the more details string used in expandable footers.</summary>
@@ -269,6 +281,6 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Less details string used in expandable footers.")]
         public string LessDetails { get; set; }*/
-    #endregion
+        #endregion
     }
 }

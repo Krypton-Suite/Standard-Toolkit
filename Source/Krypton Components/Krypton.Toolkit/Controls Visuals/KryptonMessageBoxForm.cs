@@ -143,7 +143,14 @@ namespace Krypton.Toolkit
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.Asterisk:
-                    _messageIcon.Image = MessageBoxResources.Asterisk;
+                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    {
+                        _messageIcon.Image = MessageBoxResources.Asterisk_Windows_11;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = MessageBoxResources.Asterisk;
+                    }
                     SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.Hand:
@@ -155,7 +162,18 @@ namespace Krypton.Toolkit
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    _messageIcon.Image = SystemIcons.Shield.ToBitmap();
+                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    {
+                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_11;
+                    }
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    {
+                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_10;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_7;
+                    }
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     // Because Windows 11 displays a generic application icon,
