@@ -40,13 +40,18 @@ namespace Krypton.Toolkit
 
         // Custom
         private const string DEFAULT_APPLY = "A&pply";
+        private const string DEFAULT_BACK = "Bac&k";
         private const string DEFAULT_COLLAPSE = "C&ollapse";
         private const string DEFAULT_EXPAND = "E&xpand";
+        private const string DEFAULT_EXIT = "E&xit";
+        private const string DEFAULT_FINISH = "&Finish";
+        private const string DEFAULT_NEXT = "Ne&xt";
+        private const string DEFAULT_PREVIOUS = "Pre&vious";
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
         private const string DEFAULT_LESS_DETAILS = "Les&s Details...";*/
-        
+
         #endregion
 
         #region Instance Fields
@@ -91,7 +96,12 @@ namespace Krypton.Toolkit
                                  TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
                                  Collapse.Equals(DEFAULT_COLLAPSE) &&
                                  Expand.Equals(DEFAULT_EXPAND) &&
-                                 Apply.Equals(DEFAULT_APPLY);
+                                 Apply.Equals(DEFAULT_APPLY) &&
+                                 Back.Equals(DEFAULT_BACK) &&
+                                 Exit.Equals(DEFAULT_EXIT) &&
+                                 Finish.Equals(DEFAULT_FINISH) &&
+                                 Next.Equals(DEFAULT_NEXT) &&
+                                 Previous.Equals(DEFAULT_PREVIOUS);
                                  // Note: The following may not be needed...
                                  /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
                                  LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
@@ -120,6 +130,11 @@ namespace Krypton.Toolkit
             Collapse = DEFAULT_COLLAPSE;
             Expand = DEFAULT_EXPAND;
             Apply = DEFAULT_APPLY;
+            Back = DEFAULT_BACK;
+            Exit = DEFAULT_EXIT;
+            Finish = DEFAULT_FINISH;
+            Next = DEFAULT_NEXT;
+            Previous = DEFAULT_PREVIOUS;
 
             // Note: The following may not be needed...
             /*MoreDetails = DEFAULT_MORE_DETAILS;
@@ -267,6 +282,51 @@ namespace Krypton.Toolkit
         [Description(@"Apply string used for property dialogs.")]
         [DefaultValue(DEFAULT_APPLY)]
         public string Apply { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Back string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Back string used for custom situations.")]
+        [DefaultValue(DEFAULT_BACK)]
+        public string Back { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Exit string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Exit string used for custom situations.")]
+        [DefaultValue(DEFAULT_EXIT)]
+        public string Exit { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Finish string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Finish string used for custom situations.")]
+        [DefaultValue(DEFAULT_FINISH)]
+        public string Finish { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Next string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Next string used for custom situations.")]
+        [DefaultValue(DEFAULT_NEXT)]
+        public string Next { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Previous string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Previous string used for custom situations.")]
+        [DefaultValue(DEFAULT_PREVIOUS)]
+        public string Previous { get; set; }    
 
         // Note: The following may not be needed...
 
