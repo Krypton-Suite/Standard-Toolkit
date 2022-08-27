@@ -94,6 +94,7 @@ namespace Krypton.Toolkit
                                  Help.Equals(DEFAULT_HELP) &&
                                  Continue.Equals(DEFAULT_CONTINUE) &&
                                  TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
+                                 Apply.Equals(DEFAULT_APPLY) &&
                                  Collapse.Equals(DEFAULT_COLLAPSE) &&
                                  Expand.Equals(DEFAULT_EXPAND) &&
                                  Apply.Equals(DEFAULT_APPLY) &&
@@ -127,6 +128,7 @@ namespace Krypton.Toolkit
             TryAgain = DEFAULT_TRY_AGAIN;
 
             // Custom
+            Apply = DEFAULT_APPLY;
             Collapse = DEFAULT_COLLAPSE;
             Expand = DEFAULT_EXPAND;
             Apply = DEFAULT_APPLY;
