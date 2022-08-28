@@ -830,7 +830,7 @@
         private static readonly Color _contextTextColor = Color.White;
         private static readonly Color _todayBorder = Color.FromArgb(187, 85, 3);
         private static readonly Color _toolTipBack1 = Color.FromArgb(10, 10, 10);
-        private static readonly Color _toolTipBack2 = Color.FromArgb(41, 41, 41);
+        private static readonly Color _toolTipBack2 = Color.FromArgb(91, 91, 91);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
         private static readonly Color _contextMenuBack = Color.FromArgb(10, 10, 10);
@@ -934,10 +934,10 @@
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
         protected PaletteOffice2010BlackDarkModeBase(Color[] schemeColors,
-                                     ImageList checkBoxList,
-                                     ImageList galleryButtonList,
-                                     Image[] radioButtonArray,
-                                     Color[] trackBarColors)
+                                                     ImageList checkBoxList,
+                                                     ImageList galleryButtonList, 
+                                                     Image[] radioButtonArray,
+                                                     Color[] trackBarColors)
         {
             Debug.Assert(schemeColors != null);
             Debug.Assert(checkBoxList != null);
@@ -1551,7 +1551,8 @@
                 case PaletteBackStyle.ControlRibbonAppMenu:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack2];
                 case PaletteBackStyle.ControlToolTip:
-                    return _ribbonColours[(int)SchemeOfficeColors.ToolTipBottom];
+                    // Note: It thinks that ToolTipBottom = 224 in the SchemeOfficeColors array, but it's assigned to 225?
+                    return _ribbonColours[225]; //_ribbonColours[(int)SchemeOfficeColors.ToolTipBottom];
                 case PaletteBackStyle.ContextMenuOuter:
                     return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:

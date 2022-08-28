@@ -488,7 +488,7 @@
         private static readonly Color _contextTextColor = Color.White;
         private static readonly Color _todayBorder = Color.FromArgb(187, 85, 3);
         private static readonly Color _toolTipBack1 = Color.FromArgb(230, 239, 249);
-        private static readonly Color _toolTipBack2 = Color.FromArgb(209, 226, 244);
+        private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
         private static readonly Color _contextMenuBack = Color.FromArgb(230, 239, 249);

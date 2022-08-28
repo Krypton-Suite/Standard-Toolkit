@@ -5,6 +5,7 @@
 =======
 
 ## 2022-11-xx - Build 2211 - November 2022
+* Resolved [#809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/809), `Office 2010 - Silver (Light Mode)` - `KryptonDataGridView` throw exception on hover
 * `KryptonMessageBox` using the `KryptonMessageBoxIcon.Shield` will now display the correct image for the version of the OS
 * New `Apply`, `Back`, `Exit`, `Finish`, `Next` & `Previous` strings for custom situations
 * Resolved [#800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/800), `KryptonTextBox` not raising `KeyUp` event

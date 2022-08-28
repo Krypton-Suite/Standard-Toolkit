@@ -286,7 +286,7 @@
             Color.FromArgb(225, 226, 230), // ButtonNavigatorPressed2
             Color.FromArgb(222, 227, 234), // ButtonNavigatorChecked1
             Color.FromArgb(206, 214, 221), // ButtonNavigatorChecked2
-            Color.FromArgb(221, 221, 221) // ToolTipBottom                                                                      
+            Color.FromArgb(221, 221, 221) // ToolTipBottom - 221, 221, 221                                                                      
         };
 
         #endregion
@@ -489,6 +489,7 @@
         private static readonly Color _contextTabSeparator = Color.FromArgb(32, Color.Black);
         private static readonly Color _todayBorder = Color.FromArgb(187, 85, 3);
         private static readonly Color _toolTipBack1 = Color.FromArgb(255, 255, 255);
+        private static readonly Color _toolTipBack2 = Color.FromArgb(221, 221, 221);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
@@ -1229,7 +1230,7 @@
                 case PaletteBackStyle.ControlRibbonAppMenu:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack2];
                 case PaletteBackStyle.ControlToolTip:
-                    return _ribbonColours[(int)SchemeOfficeColors.ToolTipBottom];
+                    return _toolTipBack2;
                 case PaletteBackStyle.ContextMenuOuter:
                     return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:
