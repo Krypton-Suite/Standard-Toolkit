@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null) =>
             InternalShow(null, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, null);
+                0, null, showCtrlCopy, null, null, @"", null);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         public static DialogResult Show(string text, bool? showCtrlCopy = null) =>
             InternalShow(null, text, @"", MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, false);
+                0, null, showCtrlCopy, false, null, @"", null);
 
         /// <summary>
         /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null) =>
             InternalShow(owner, text, @"", MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, false);
+                0, null, showCtrlCopy, false, null, @"", null);
 
         /// <summary>
         /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null) =>
             InternalShow(owner, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, false);
+                0, null, showCtrlCopy, false, null, @"", null);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
@@ -83,7 +83,11 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons,
-            bool? showCtrlCopy = null) => InternalShow(null, text, caption, buttons, KryptonMessageBoxIcon.None, KryptonMessageBoxDefaultButton.Button1, 0, new HelpInfo(@"", 0, null), showCtrlCopy, null);
+            bool? showCtrlCopy = null) =>
+                                       InternalShow(null, text, caption, buttons, KryptonMessageBoxIcon.None, 
+                                           KryptonMessageBoxDefaultButton.Button1, 0,
+                                           new HelpInfo(@"", 0, null), showCtrlCopy,
+                                           null, null, @"", null);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption, buttons, icon, default button, and options.
@@ -97,6 +101,9 @@ namespace Krypton.Toolkit
         /// <param name="displayHelpButton" default="false">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
+        /// <param name="showAcceleratorButton">Shows the optional accelerator button.</param>
+        /// <param name="acceleratorButtonText">The accelerator button text.</param>
+        /// <param name="acceleratorButtonCommand">The <see cref="KryptonCommand"/> attached to the accelerator button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text,
             string caption,
@@ -106,9 +113,15 @@ namespace Krypton.Toolkit
             MessageBoxOptions options = 0,
             bool displayHelpButton = false,
             bool? showCtrlCopy = null,
-            bool? showHelpButton = null) 
+            bool? showHelpButton = null,
+            bool? showAcceleratorButton = null,
+            string acceleratorButtonText = @"",
+            KryptonCommand acceleratorButtonCommand = null) 
             =>
-                InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton);
+                InternalShow(null, text, caption, buttons, icon, defaultButton, options,
+                             displayHelpButton ? new HelpInfo() : null, showCtrlCopy, 
+                             showHelpButton, showAcceleratorButton,
+                             acceleratorButtonText, acceleratorButtonCommand);
 
 
         /// <summary>
@@ -124,19 +137,28 @@ namespace Krypton.Toolkit
         /// <param name="displayHelpButton" default="false">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
+        /// <param name="showAcceleratorButton">Shows the optional accelerator button.</param>
+        /// <param name="acceleratorButtonText">The accelerator button text.</param>
+        /// <param name="acceleratorButtonCommand">The <see cref="KryptonCommand"/> attached to the accelerator button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, 
             string caption, 
             MessageBoxButtons buttons, 
             KryptonMessageBoxIcon icon, 
             KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4, 
-            MessageBoxOptions options=0, 
+            MessageBoxOptions options = 0, 
             bool displayHelpButton = false,
             bool? showCtrlCopy = null,
-            bool? showHelpButton = null) 
+            bool? showHelpButton = null,
+            bool? showAcceleratorButton = null,
+            string acceleratorButtonText = @"",
+            KryptonCommand acceleratorButtonCommand = null) 
             =>
-                InternalShow(owner, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, showHelpButton);
-        
+                InternalShow(owner, text, caption, buttons, icon, defaultButton, options,
+                             displayHelpButton ? new HelpInfo() : null, showCtrlCopy, 
+                             showHelpButton, showAcceleratorButton, acceleratorButtonText,
+                             acceleratorButtonCommand);
+
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" >The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="buttons" >One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
@@ -148,12 +170,21 @@ namespace Krypton.Toolkit
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
+        /// <param name="showAcceleratorButton">Shows the optional accelerator button.</param>
+        /// <param name="acceleratorButtonText">The accelerator button text.</param>
+        /// <param name="acceleratorButtonCommand">The <see cref="KryptonCommand"/> attached to the accelerator button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, 
             MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null)
-            => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton);
-        
+            bool? showHelpButton = null,
+            bool? showAcceleratorButton = null,
+            string acceleratorButtonText = @"",
+            KryptonCommand acceleratorButtonCommand = null)
+            => InternalShow(null, text, caption, buttons, icon, defaultButton, options,
+                            new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
+                            showHelpButton, showAcceleratorButton, acceleratorButtonText,
+                            acceleratorButtonCommand);
+
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
         /// </summary>
@@ -169,11 +200,20 @@ namespace Krypton.Toolkit
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
+        /// <param name="showAcceleratorButton">Shows the optional accelerator button.</param>
+        /// <param name="acceleratorButtonText">The accelerator button text.</param>
+        /// <param name="acceleratorButtonCommand">The <see cref="KryptonCommand"/> attached to the accelerator button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
             MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null)
-            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, showHelpButton);
+            bool? showHelpButton = null,
+            bool? showAcceleratorButton = null,
+            string acceleratorButtonText = @"",
+            KryptonCommand acceleratorButtonCommand = null)
+            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options,
+                            new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, 
+                            showHelpButton, showAcceleratorButton, acceleratorButtonText,
+                            acceleratorButtonCommand);
         #endregion
 
         #region Implementation
@@ -190,6 +230,9 @@ namespace Krypton.Toolkit
         /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
+        /// <param name="showAcceleratorButton">Shows the optional accelerator button.</param>
+        /// <param name="acceleratorButtonText">The accelerator button text.</param>
+        /// <param name="acceleratorButtonCommand">The <see cref="KryptonCommand"/> attached to the accelerator button.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         private static DialogResult InternalShow(IWin32Window owner,
                                                  string text, string caption,
@@ -197,14 +240,17 @@ namespace Krypton.Toolkit
                                                  KryptonMessageBoxIcon icon,
                                                  KryptonMessageBoxDefaultButton defaultButton,
                                                  MessageBoxOptions options,
-                                                 HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton)
+                                                 HelpInfo helpInfo, bool? showCtrlCopy, 
+                                                 bool? showHelpButton,
+                                                 bool? showAcceleratorButton, string acceleratorButtonText,
+                                                 KryptonCommand acceleratorButtonCommand)
         {
             caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
             IWin32Window showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, showHelpButton);
+            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, showHelpButton, showAcceleratorButton, acceleratorButtonText, acceleratorButtonCommand);
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return kmb.ShowDialog(showOwner);

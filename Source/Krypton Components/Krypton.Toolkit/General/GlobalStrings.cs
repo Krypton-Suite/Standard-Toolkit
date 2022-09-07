@@ -42,10 +42,10 @@ namespace Krypton.Toolkit
         private const string DEFAULT_APPLY = "A&pply";
         private const string DEFAULT_BACK = "Bac&k";
         private const string DEFAULT_COLLAPSE = "C&ollapse";
-        private const string DEFAULT_EXPAND = "E&xpand";
+        private const string DEFAULT_EXPAND = "Ex&pand";
         private const string DEFAULT_EXIT = "E&xit";
         private const string DEFAULT_FINISH = "&Finish";
-        private const string DEFAULT_NEXT = "Ne&xt";
+        private const string DEFAULT_NEXT = "Nex&t";
         private const string DEFAULT_PREVIOUS = "Pre&vious";
 
         // Note: The following may not be needed...
