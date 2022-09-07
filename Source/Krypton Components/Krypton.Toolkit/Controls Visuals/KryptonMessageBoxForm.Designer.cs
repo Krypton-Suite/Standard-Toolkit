@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
             this._button5.TabIndex = 3;
             this._button5.Values.Text = "B5";
             this._button5.Visible = false;
-            this._button5.Click += new System.EventHandler(this.AcceleratorButton_Click);
+            this._button5.Click += new System.EventHandler(this.ActionButton_Click);
             // 
             // kryptonPanel1
             // 

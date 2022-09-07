@@ -35,10 +35,10 @@ namespace Krypton.Toolkit
         private readonly IWin32Window _showOwner;
         private readonly HelpInfo _helpInfo;
 
-        // Accelerator button features (aka _button5)
-        private readonly bool _showAcceleratorButton;
-        private readonly string _acceleratorButtonText;
-        private readonly KryptonCommand _acceleratorButtonCommand;
+        // Action button features (aka _button5)
+        private readonly bool _showActionButton;
+        private readonly string _actionButtonText;
+        private readonly KryptonCommand _actionButtonCommand;
 
         #endregion
 
@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
                                        MessageBoxButtons buttons, KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
                                        HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton,
-                                       bool? showAcceleratorButton, string acceleratorButtonText,
-                                       KryptonCommand acceleratorButtonCommand)
+                                       bool? showActionButton, string actionButtonText,
+                                       KryptonCommand actionButtonCommand)
         {
             // Store incoming values
             _text = text;
@@ -68,9 +68,9 @@ namespace Krypton.Toolkit
             _helpInfo = helpInfo;
             _showOwner = showOwner;
             _showHelpButton = showHelpButton ?? false;
-            _showAcceleratorButton = showAcceleratorButton ?? false;
-            _acceleratorButtonText = acceleratorButtonText ?? string.Empty;
-            _acceleratorButtonCommand = acceleratorButtonCommand;
+            _showActionButton = showActionButton ?? false;
+            _actionButtonText = actionButtonText ?? string.Empty;
+            _actionButtonCommand = actionButtonCommand;
 
             // Create the form contents
             InitializeComponent();
@@ -297,12 +297,12 @@ namespace Krypton.Toolkit
 #endif
             }
 
-            if (_showAcceleratorButton)
+            if (_showActionButton)
             {
-                _button5.Text = _acceleratorButtonText;
+                _button5.Text = _actionButtonText;
                 _button5.Visible = true;
                 _button5.Enabled = true;
-                _button5.KryptonCommand = _acceleratorButtonCommand;
+                _button5.KryptonCommand = _actionButtonCommand;
             }
             else
             {
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case KryptonMessageBoxDefaultButton.Button5:
-                    if (_showAcceleratorButton)
+                    if (_showActionButton)
                     {
                         AcceptButton = _button5;
                     }
@@ -513,13 +513,13 @@ namespace Krypton.Toolkit
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
             }
 
-            // If Accelerator button is visible
+            // If Action button is visible
             if (_button5.Enabled)
             {
                 numButtons++;
-                Size acceleratorButtonSize = _button5.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, acceleratorButtonSize.Width + GAP);
-                maxButtonSize.Height = Math.Max(maxButtonSize.Height, acceleratorButtonSize.Height);
+                Size actionButtonSize = _button5.GetPreferredSize(Size.Empty);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, actionButtonSize.Width + GAP);
+                maxButtonSize.Height = Math.Max(maxButtonSize.Height, actionButtonSize.Height);
             }
 
             // Start positioning buttons 10 pixels from right edge
@@ -527,7 +527,7 @@ namespace Krypton.Toolkit
 
             var left = _panelButtons.Left - GAP;
 
-            // If Accelerator button is visible
+            // If Action button is visible
             if (_button5.Enabled)
             {
                 _button5.Location = new Point(left - maxButtonSize.Width, GAP);
@@ -619,13 +619,11 @@ namespace Krypton.Toolkit
             Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
-        #endregion
-
-        private void AcceleratorButton_Click(object sender, EventArgs e)
+        private void ActionButton_Click(object sender, EventArgs e)
         {
             try
             {
-                _acceleratorButtonCommand.PerformExecute();
+                _actionButtonCommand.PerformExecute();
             }
             catch (Exception exception)
             {
@@ -634,6 +632,8 @@ namespace Krypton.Toolkit
                 DialogResult = DialogResult.None;
             }
         }
+
+        #endregion
     }
 
     #region Types
