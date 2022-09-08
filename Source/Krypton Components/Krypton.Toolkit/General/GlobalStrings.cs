@@ -23,30 +23,30 @@ namespace Krypton.Toolkit
     public class GlobalStrings : GlobalId
     {
         #region Static Fields
-        private const string DEFAULT_OK = "O&K";
-        private const string DEFAULT_CANCEL = "Cance&l";
-        private const string DEFAULT_YES = "&Yes";
-        private const string DEFAULT_NO = "N&o";
-        private const string DEFAULT_ABORT = "A&bort";
-        private const string DEFAULT_RETRY = "Ret&ry";
-        private const string DEFAULT_IGNORE = "I&gnore";
-        private const string DEFAULT_CLOSE = "Cl&ose";
-        private const string DEFAULT_TODAY = "T&oday";
-        private const string DEFAULT_HELP = "H&elp";
+        private const string DEFAULT_OK = "O&K"; // Accelerator key - K
+        private const string DEFAULT_CANCEL = "Cance&l"; // Accelerator key - L
+        private const string DEFAULT_YES = "&Yes"; // Accelerator key - Y
+        private const string DEFAULT_NO = "N&o"; // Accelerator key - O
+        private const string DEFAULT_ABORT = "A&bort"; // Accelerator key - B
+        private const string DEFAULT_RETRY = "Ret&ry"; // Accelerator key - R
+        private const string DEFAULT_IGNORE = "I&gnore"; // Accelerator key - G
+        private const string DEFAULT_CLOSE = "Clo&se"; // Accelerator key - S
+        private const string DEFAULT_TODAY = "&Today"; // Accelerator key - T
+        private const string DEFAULT_HELP = "H&elp"; // Accelerator key - E
 
         // NET 6 & newer
-        private const string DEFAULT_CONTINUE = "Co&ntinue";
-        private const string DEFAULT_TRY_AGAIN = "&Try Again";
+        private const string DEFAULT_CONTINUE = "Co&ntinue"; // Accelerator key - N
+        private const string DEFAULT_TRY_AGAIN = "Try Aga&in"; // Accelerator key - I
 
         // Custom
-        private const string DEFAULT_APPLY = "A&pply";
-        private const string DEFAULT_BACK = "Bac&k";
-        private const string DEFAULT_COLLAPSE = "C&ollapse";
-        private const string DEFAULT_EXPAND = "Ex&pand";
-        private const string DEFAULT_EXIT = "E&xit";
-        private const string DEFAULT_FINISH = "&Finish";
-        private const string DEFAULT_NEXT = "&Next";
-        private const string DEFAULT_PREVIOUS = "Pre&vious";
+        private const string DEFAULT_APPLY = "A&pply"; // Accelerator key - P
+        private const string DEFAULT_BACK = "Bac&k"; // Accelerator key - K
+        private const string DEFAULT_COLLAPSE = "C&ollapse"; // Accelerator key - O
+        private const string DEFAULT_EXPAND = "Ex&pand"; // Accelerator key - P
+        private const string DEFAULT_EXIT = "E&xit"; // Accelerator key - X
+        private const string DEFAULT_FINISH = "&Finish"; // Accelerator key - F
+        private const string DEFAULT_NEXT = "&Next"; // Accelerator key - N
+        private const string DEFAULT_PREVIOUS = "Pre&vious"; // Accelerator key - V
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";

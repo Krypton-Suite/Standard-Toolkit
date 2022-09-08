@@ -85,6 +85,8 @@ namespace Krypton.Toolkit
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
 
+            SetupActionButtonUI(_showActionButton);
+
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
         }
@@ -619,18 +621,27 @@ namespace Krypton.Toolkit
             Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
-        private void ActionButton_Click(object sender, EventArgs e)
+        /// <summary>Setups the action button UI.</summary>
+        /// <param name="visible">if set to <c>true</c> [visible].</param>
+        private void SetupActionButtonUI(bool visible)
         {
-            try
-            {
-                _actionButtonCommand.PerformExecute();
-            }
-            catch (Exception exception)
-            {
-                Debug.Assert(true, exception.StackTrace);
+            _button5.Visible = visible;
 
-                DialogResult = DialogResult.None;
-            }
+            _button5.Enabled = visible;
+
+            _button5.Click += (sender, args) =>
+            {
+                try
+                {
+                    _actionButtonCommand.PerformExecute();
+                }
+                catch (Exception e)
+                {
+                    Debug.Assert(true, e.StackTrace);
+
+                    DialogResult = DialogResult.None;
+                }
+            };
         }
 
         #endregion

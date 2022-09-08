@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
             this._button5.CornerRoundingRadius = -1F;
             this._button5.Enabled = false;
             this._button5.IgnoreAltF4 = false;
-            this._button5.Location = new System.Drawing.Point(0, -1);
+            this._button5.Location = new System.Drawing.Point(0, 0);
             this._button5.Margin = new System.Windows.Forms.Padding(0);
             this._button5.MinimumSize = new System.Drawing.Size(38, 21);
             this._button5.Name = "_button5";
@@ -179,7 +179,6 @@ namespace Krypton.Toolkit
             this._button5.TabIndex = 3;
             this._button5.Values.Text = "B5";
             this._button5.Visible = false;
-            this._button5.Click += new System.EventHandler(this.ActionButton_Click);
             // 
             // kryptonPanel1
             // 
