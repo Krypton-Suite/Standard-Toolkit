@@ -23,10 +23,10 @@ namespace Krypton.Toolkit
     public class GlobalStrings : GlobalId
     {
         #region Static Fields
-        private const string DEFAULT_OK = "&OK";
+        private const string DEFAULT_OK = "O&K";
         private const string DEFAULT_CANCEL = "Cance&l";
-        private const string DEFAULT_YES = "Y&es";
-        private const string DEFAULT_NO = "&No";
+        private const string DEFAULT_YES = "&Yes";
+        private const string DEFAULT_NO = "N&o";
         private const string DEFAULT_ABORT = "A&bort";
         private const string DEFAULT_RETRY = "Ret&ry";
         private const string DEFAULT_IGNORE = "I&gnore";
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_EXPAND = "Ex&pand";
         private const string DEFAULT_EXIT = "E&xit";
         private const string DEFAULT_FINISH = "&Finish";
-        private const string DEFAULT_NEXT = "Nex&t";
+        private const string DEFAULT_NEXT = "&Next";
         private const string DEFAULT_PREVIOUS = "Pre&vious";
 
         // Note: The following may not be needed...
