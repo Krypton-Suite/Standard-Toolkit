@@ -5,7 +5,9 @@
 =======
 
 ## 2022-11-xx - Build 2211 - November 2022
-* New `Apply` string for custom situations
+* Resolved [#809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/809), `Office 2010 - Silver (Light Mode)` - `KryptonDataGridView` throw exception on hover
+* `KryptonMessageBox` using the `KryptonMessageBoxIcon.Shield` will now display the correct image for the version of the OS
+* New `Apply`, `Back`, `Exit`, `Finish`, `Next` & `Previous` strings for custom situations
 * Resolved [#800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/800), `KryptonTextBox` not raising `KeyUp` event
 * New `Collapse` & `Expand` strings for use in expandable footers, or in other custom situations
 * Removed Visual Studio 2019 solution (*.sln) files, as 2022 is considered to be stable enough

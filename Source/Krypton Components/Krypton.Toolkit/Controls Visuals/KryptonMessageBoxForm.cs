@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private bool _showHelpButton;
+        private readonly bool _showHelpButton;
         private readonly string _text;
         private readonly string _caption;
         private readonly MessageBoxButtons _buttons;
@@ -34,6 +34,11 @@ namespace Krypton.Toolkit
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window _showOwner;
         private readonly HelpInfo _helpInfo;
+
+        // Action button features (aka _button5)
+        private readonly bool _showActionButton;
+        private readonly string _actionButtonText;
+        private readonly KryptonCommand _actionButtonCommand;
 
         #endregion
 
@@ -49,7 +54,9 @@ namespace Krypton.Toolkit
         internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
                                        MessageBoxButtons buttons, KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-                                       HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton)
+                                       HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton,
+                                       bool? showActionButton, string actionButtonText,
+                                       KryptonCommand actionButtonCommand)
         {
             // Store incoming values
             _text = text;
@@ -61,6 +68,9 @@ namespace Krypton.Toolkit
             _helpInfo = helpInfo;
             _showOwner = showOwner;
             _showHelpButton = showHelpButton ?? false;
+            _showActionButton = showActionButton ?? false;
+            _actionButtonText = actionButtonText ?? string.Empty;
+            _actionButtonCommand = actionButtonCommand;
 
             // Create the form contents
             InitializeComponent();
@@ -74,6 +84,8 @@ namespace Krypton.Toolkit
             UpdateDefault();
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
+
+            SetupActionButtonUI(_showActionButton);
 
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
@@ -143,7 +155,14 @@ namespace Krypton.Toolkit
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.Asterisk:
-                    _messageIcon.Image = MessageBoxResources.Asterisk;
+                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    {
+                        _messageIcon.Image = MessageBoxResources.Asterisk_Windows_11;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = MessageBoxResources.Asterisk;
+                    }
                     SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.Hand:
@@ -155,7 +174,18 @@ namespace Krypton.Toolkit
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    _messageIcon.Image = SystemIcons.Shield.ToBitmap();
+                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    {
+                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_11;
+                    }
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    {
+                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_10;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_7;
+                    }
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     // Because Windows 11 displays a generic application icon,
@@ -269,6 +299,21 @@ namespace Krypton.Toolkit
 #endif
             }
 
+            if (_showActionButton)
+            {
+                _button5.Text = _actionButtonText;
+                _button5.Visible = true;
+                _button5.Enabled = true;
+                _button5.KryptonCommand = _actionButtonCommand;
+            }
+            else
+            {
+                _button5.Text = @"B5";
+                _button5.Visible = false;
+                _button5.Enabled = false;
+                _button5.KryptonCommand = null;
+            }
+
             // Do we ignore the Alt+F4 on the buttons?
             if (!ControlBox)
             {
@@ -276,6 +321,7 @@ namespace Krypton.Toolkit
                 _button2.IgnoreAltF4 = true;
                 _button3.IgnoreAltF4 = true;
                 _button4.IgnoreAltF4 = true;
+                _button5.IgnoreAltF4 = true;
             }
         }
 
@@ -304,6 +350,17 @@ namespace Krypton.Toolkit
                     {
                         AcceptButton = _button1;
                     }
+                    break;
+                case KryptonMessageBoxDefaultButton.Button5:
+                    if (_showActionButton)
+                    {
+                        AcceptButton = _button5;
+                    }
+                    else
+                    {
+                        AcceptButton = _button1;
+                    }
+
                     break;
                 default:
                     if (_showHelpButton)
@@ -458,8 +515,27 @@ namespace Krypton.Toolkit
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
             }
 
+            // If Action button is visible
+            if (_button5.Enabled)
+            {
+                numButtons++;
+                Size actionButtonSize = _button5.GetPreferredSize(Size.Empty);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, actionButtonSize.Width + GAP);
+                maxButtonSize.Height = Math.Max(maxButtonSize.Height, actionButtonSize.Height);
+            }
+
             // Start positioning buttons 10 pixels from right edge
             var right = _panelButtons.Right - GAP;
+
+            var left = _panelButtons.Left - GAP;
+
+            // If Action button is visible
+            if (_button5.Enabled)
+            {
+                _button5.Location = new Point(left - maxButtonSize.Width, GAP);
+                _button5.Size = maxButtonSize;
+                left -= maxButtonSize.Width + GAP;
+            }
 
             // If Button4 is visible
             if (_button4.Enabled)
@@ -543,6 +619,29 @@ namespace Krypton.Toolkit
 
             Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
             Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
+        }
+
+        /// <summary>Setups the action button UI.</summary>
+        /// <param name="visible">if set to <c>true</c> [visible].</param>
+        private void SetupActionButtonUI(bool visible)
+        {
+            _button5.Visible = visible;
+
+            _button5.Enabled = visible;
+
+            _button5.Click += (sender, args) =>
+            {
+                try
+                {
+                    _actionButtonCommand.PerformExecute();
+                }
+                catch (Exception e)
+                {
+                    Debug.Assert(true, e.StackTrace);
+
+                    DialogResult = DialogResult.None;
+                }
+            };
         }
 
         #endregion

@@ -240,6 +240,15 @@
 
     #endregion
 
+    #region Enumeration: SchemeOfficeToolTipColors
+
+    public enum SchemeOfficeToolTipColors
+    {
+        ToolTipBottom = 0
+    }
+
+    #endregion
+
     #region Enumeration: SchemeContextMenuColors
     // Note: Add these to SchemeOfficeColors
     internal enum SchemeContextMenuColors

@@ -23,30 +23,35 @@ namespace Krypton.Toolkit
     public class GlobalStrings : GlobalId
     {
         #region Static Fields
-        private const string DEFAULT_OK = "&OK";
-        private const string DEFAULT_CANCEL = "Cance&l";
-        private const string DEFAULT_YES = "Y&es";
-        private const string DEFAULT_NO = "&No";
-        private const string DEFAULT_ABORT = "A&bort";
-        private const string DEFAULT_RETRY = "Ret&ry";
-        private const string DEFAULT_IGNORE = "I&gnore";
-        private const string DEFAULT_CLOSE = "Cl&ose";
-        private const string DEFAULT_TODAY = "T&oday";
-        private const string DEFAULT_HELP = "H&elp";
+        private const string DEFAULT_OK = "O&K"; // Accelerator key - K
+        private const string DEFAULT_CANCEL = "Cance&l"; // Accelerator key - L
+        private const string DEFAULT_YES = "&Yes"; // Accelerator key - Y
+        private const string DEFAULT_NO = "N&o"; // Accelerator key - O
+        private const string DEFAULT_ABORT = "A&bort"; // Accelerator key - B
+        private const string DEFAULT_RETRY = "Ret&ry"; // Accelerator key - R
+        private const string DEFAULT_IGNORE = "I&gnore"; // Accelerator key - G
+        private const string DEFAULT_CLOSE = "Clo&se"; // Accelerator key - S
+        private const string DEFAULT_TODAY = "&Today"; // Accelerator key - T
+        private const string DEFAULT_HELP = "H&elp"; // Accelerator key - E
 
         // NET 6 & newer
-        private const string DEFAULT_CONTINUE = "Co&ntinue";
-        private const string DEFAULT_TRY_AGAIN = "&Try Again";
+        private const string DEFAULT_CONTINUE = "Co&ntinue"; // Accelerator key - N
+        private const string DEFAULT_TRY_AGAIN = "Try Aga&in"; // Accelerator key - I
 
         // Custom
-        private const string DEFAULT_APPLY = "A&pply";
-        private const string DEFAULT_COLLAPSE = "C&ollapse";
-        private const string DEFAULT_EXPAND = "E&xpand";
+        private const string DEFAULT_APPLY = "A&pply"; // Accelerator key - P
+        private const string DEFAULT_BACK = "Bac&k"; // Accelerator key - K
+        private const string DEFAULT_COLLAPSE = "C&ollapse"; // Accelerator key - O
+        private const string DEFAULT_EXPAND = "Ex&pand"; // Accelerator key - P
+        private const string DEFAULT_EXIT = "E&xit"; // Accelerator key - X
+        private const string DEFAULT_FINISH = "&Finish"; // Accelerator key - F
+        private const string DEFAULT_NEXT = "&Next"; // Accelerator key - N
+        private const string DEFAULT_PREVIOUS = "Pre&vious"; // Accelerator key - V
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
         private const string DEFAULT_LESS_DETAILS = "Les&s Details...";*/
-        
+
         #endregion
 
         #region Instance Fields
@@ -91,7 +96,13 @@ namespace Krypton.Toolkit
                                  TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
                                  Apply.Equals(DEFAULT_APPLY) &&
                                  Collapse.Equals(DEFAULT_COLLAPSE) &&
-                                 Expand.Equals(DEFAULT_EXPAND);
+                                 Expand.Equals(DEFAULT_EXPAND) &&
+                                 Apply.Equals(DEFAULT_APPLY) &&
+                                 Back.Equals(DEFAULT_BACK) &&
+                                 Exit.Equals(DEFAULT_EXIT) &&
+                                 Finish.Equals(DEFAULT_FINISH) &&
+                                 Next.Equals(DEFAULT_NEXT) &&
+                                 Previous.Equals(DEFAULT_PREVIOUS);
                                  // Note: The following may not be needed...
                                  /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
                                  LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
@@ -120,6 +131,12 @@ namespace Krypton.Toolkit
             Apply = DEFAULT_APPLY;
             Collapse = DEFAULT_COLLAPSE;
             Expand = DEFAULT_EXPAND;
+            Apply = DEFAULT_APPLY;
+            Back = DEFAULT_BACK;
+            Exit = DEFAULT_EXIT;
+            Finish = DEFAULT_FINISH;
+            Next = DEFAULT_NEXT;
+            Previous = DEFAULT_PREVIOUS;
 
             // Note: The following may not be needed...
             /*MoreDetails = DEFAULT_MORE_DETAILS;
@@ -268,6 +285,51 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_APPLY)]
         public string Apply { get; set; }
 
+        /// <summary>
+        /// Gets and sets the Back string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Back string used for custom situations.")]
+        [DefaultValue(DEFAULT_BACK)]
+        public string Back { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Exit string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Exit string used for custom situations.")]
+        [DefaultValue(DEFAULT_EXIT)]
+        public string Exit { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Finish string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Finish string used for custom situations.")]
+        [DefaultValue(DEFAULT_FINISH)]
+        public string Finish { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Next string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Next string used for custom situations.")]
+        [DefaultValue(DEFAULT_NEXT)]
+        public string Next { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Previous string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Previous string used for custom situations.")]
+        [DefaultValue(DEFAULT_PREVIOUS)]
+        public string Previous { get; set; }    
+
         // Note: The following may not be needed...
 
         /*/// <summary>Gets or sets the more details string used in expandable footers.</summary>
@@ -281,6 +343,6 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Less details string used in expandable footers.")]
         public string LessDetails { get; set; }*/
-    #endregion
+        #endregion
     }
 }

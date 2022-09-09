@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
             this._button3 = new Krypton.Toolkit.MessageButton();
             this._button1 = new Krypton.Toolkit.MessageButton();
             this._button2 = new Krypton.Toolkit.MessageButton();
+            this._button5 = new Krypton.Toolkit.MessageButton();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).BeginInit();
@@ -81,6 +82,7 @@ namespace Krypton.Toolkit
             this._panelButtons.Controls.Add(this._button3);
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
+            this._panelButtons.Controls.Add(this._button5);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelButtons.Location = new System.Drawing.Point(0, 42);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
@@ -163,6 +165,21 @@ namespace Krypton.Toolkit
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
             // 
+            // _button5
+            // 
+            this._button5.AutoSize = true;
+            this._button5.CornerRoundingRadius = -1F;
+            this._button5.Enabled = false;
+            this._button5.IgnoreAltF4 = false;
+            this._button5.Location = new System.Drawing.Point(0, 0);
+            this._button5.Margin = new System.Windows.Forms.Padding(0);
+            this._button5.MinimumSize = new System.Drawing.Size(38, 21);
+            this._button5.Name = "_button5";
+            this._button5.Size = new System.Drawing.Size(38, 23);
+            this._button5.TabIndex = 3;
+            this._button5.Values.Text = "B5";
+            this._button5.Visible = false;
+            // 
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.tableLayoutPanel1);
@@ -232,5 +249,6 @@ namespace Krypton.Toolkit
         private KryptonBorderEdge _borderEdge;
         private KryptonPanel kryptonPanel1;
         private TableLayoutPanel tableLayoutPanel1;
+        private MessageButton _button5;
     }
 }

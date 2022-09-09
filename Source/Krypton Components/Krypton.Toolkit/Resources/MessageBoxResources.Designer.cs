@@ -73,6 +73,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Asterisk_Windows_11 {
+            get {
+                object obj = ResourceManager.GetObject("Asterisk_Windows_11", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Critical {
             get {
                 object obj = ResourceManager.GetObject("Critical", resourceCulture);
@@ -116,6 +126,36 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap Stop {
             get {
                 object obj = ResourceManager.GetObject("Stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UAC_Shield_Windows_10 {
+            get {
+                object obj = ResourceManager.GetObject("UAC_Shield_Windows_10", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UAC_Shield_Windows_11 {
+            get {
+                object obj = ResourceManager.GetObject("UAC_Shield_Windows_11", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UAC_Shield_Windows_7 {
+            get {
+                object obj = ResourceManager.GetObject("UAC_Shield_Windows_7", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
