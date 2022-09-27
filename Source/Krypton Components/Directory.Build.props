@@ -37,9 +37,9 @@
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
-			<PropertyGroup>
+			<!--<PropertyGroup>
 				<TFMs Condition="'$(TFMs)' == ''">lite</TFMs>
-			</PropertyGroup>
+			</PropertyGroup>-->
 
 			<PropertyGroup>
 				<!-- common package data -->
@@ -51,8 +51,8 @@
 				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
 				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
 
-				<SignAssembly>true</SignAssembly>
-				<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+				<!--<SignAssembly>true</SignAssembly>
+				<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>-->
 			</PropertyGroup>
 		</When>
 

@@ -1,21 +1,27 @@
-:: Last updated: Tuesday 29th March 2022 @ 10:00 AM
+:: Last updated: Tuesday 27th September, 2022 @ 10:00 AM
 
 @echo off
 
 cls
 
+@echo Welcome to the Krypton Toolkit Build system, version: 1.1. Please select an option below.
+
+@echo ==============================================================================================
+
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
 echo 4. Debug project
-echo 5. End
+echo 5. NuGet Tools
+echo 6. End
 
-set /p answer="Enter number (1 - 5): "
+set /p answer="Enter number (1 - 6): "
 if %answer%==1 (goto mainmenuchoice1)
 if %answer%==2 (goto mainmenuchoice2)
 if %answer%==3 (goto mainmenuchoice3)
 if %answer%==4 (goto mainmenuchoice4)
 if %answer%==5 (goto mainmenuchoice5)
+if %answer%==6 (goto mainmenuchoice6)
 
 @echo Invalid input, please try again.
 
@@ -26,20 +32,23 @@ goto mainmenu
 :: ===================================================================================================
 
 :mainmenu
+
 cls
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
 echo 4. Debug project
-echo 5. End
+echo 5. NuGet Tools
+echo 6. End
 
-set /p answer="Enter number (1 - 5): "
+set /p answer="Enter number (1 - 6): "
 if %answer%==1 (goto mainmenuchoice1)
 if %answer%==2 (goto mainmenuchoice2)
 if %answer%==3 (goto mainmenuchoice3)
 if %answer%==4 (goto mainmenuchoice4)
 if %answer%==5 (goto mainmenuchoice5)
+if %answer%==6 (goto mainmenuchoice6)
 
 @echo Invalid input, please try again.
 
@@ -177,6 +186,13 @@ goto packmenu
 goto debugmenu
 
 :mainmenuchoice5
+goto nugettools
+
+:mainmenuchoice6
+@echo Exiting the build system, have a good day. Bye!
+
+pause
+
 exit
 
 :: ===================================================================================================
@@ -524,3 +540,12 @@ cls
 cd Scripts
 
 build-nightly-2022.cmd
+
+:: ===================================================================================================
+
+:nugettools
+cls
+
+cd Scripts
+
+update-nuget.cmd
