@@ -92,7 +92,6 @@ namespace Krypton.Toolkit
         private bool _firstCheckView;
         private bool _lastNotNormal;
         private bool _useDropShadow;
-        private bool _disableCloseButton;
         private StatusStrip _statusStrip;
         private Bitmap _cacheBitmap;
         private Icon _cacheIcon;
@@ -186,9 +185,7 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawDocker);
-
-            //DisableCloseButton = false;
-
+            
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
@@ -402,20 +399,6 @@ namespace Krypton.Toolkit
                 _useDropShadow = value;
 
                 UpdateDropShadowDraw(_useDropShadow);
-            }
-        }
-
-        /// <summary>Gets or sets a value indicating whether [disable close button].</summary>
-        /// <value>
-        ///   <c>true</c> if [disable close button]; otherwise, <c>false</c>.</value>
-        [Category(@"Appearance"), Description(@"Disables the close button."), DefaultValue(false)]
-        public bool DisableCloseButton
-        {
-            get => _disableCloseButton;
-            set
-            {
-                _disableCloseButton = value;
-                UpdateDisableCloseButton(_disableCloseButton);
             }
         }
 
@@ -1706,29 +1689,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Disable Close Button
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        public void UpdateDisableCloseButton(bool value)
-        {
-            if (value)
-            {
-                DisableCloseButtonMethod();
-            }
-
-            Invalidate();
-        }
-
-        private void DisableCloseButtonMethod()
-        {
-            GetCreateParams();
-
-            Invalidate();
-        }
-        #endregion
-
         #region Drop Shadow Methods
         /// <summary>
         /// Calls the method that draws the drop shadow around the form.
@@ -1784,11 +1744,6 @@ namespace Krypton.Toolkit
                     cp.ClassStyle |= CS_DROPSHADOW;
                 }
 #pragma warning restore CS0618 // Type or member is obsolete
-
-                //if (DisableCloseButton)
-                //{
-                //    cp.ClassStyle = cp.ClassStyle | CP_NOCLOSE_BUTTON;
-                //}
 
                 return cp;
             }
