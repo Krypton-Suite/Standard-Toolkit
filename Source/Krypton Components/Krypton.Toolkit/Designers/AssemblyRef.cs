@@ -1,8 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 // Taken from Winforms (5 or 6) Github ($\src\System.Windows.Forms\src\AssemblyRef.cs)
 // And then applied .NetFramework requirements for the designers
