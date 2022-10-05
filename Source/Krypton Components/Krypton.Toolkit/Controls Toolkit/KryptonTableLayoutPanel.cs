@@ -1,13 +1,4 @@
-﻿#region BSD License
-/*
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
- *  
- */
-#endregion
-
-namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit
 {
     /// <inheritdoc />
     [ToolboxBitmap(typeof(TableLayoutPanel)), Description("A Kryptonised version of the TableLayoutPanel. Handles the layout of its components, and arranges them in the format of a table automatically.")]

@@ -1,13 +1,4 @@
-﻿#region BSD License
-/*
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
- *
- */
-#endregion
-
-
-using Krypton.Toolkit.Designers.Action_Lists;
+﻿using Krypton.Toolkit.Designers.Action_Lists;
 
 namespace Krypton.Toolkit.Designers.Designers
 {

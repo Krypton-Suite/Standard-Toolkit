@@ -1,9 +1,4 @@
-﻿// Shamelessly stolen from https://github.com/dotnet/roslyn/blob/master/src/Compilers/Test/Resources/Core/NetFX/ValueTuple/ValueTuple.cs
-// and creatively reworked.
-//
-// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
-
-// ReSharper disable UnusedMember.Global
+﻿// ReSharper disable UnusedMember.Global
 // ReSharper disable SuspiciousTypeConversion.Global
 // ReSharper disable JoinDeclarationAndInitializer
 
