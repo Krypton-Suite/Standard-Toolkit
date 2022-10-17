@@ -498,6 +498,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ButtonFormClose:
                     return state switch
                     {
+                        // TODO: Change disabled colour for all 2010, 2013 & 365 themes
                         PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
                         PaletteState.CheckedNormal => _formCloseChecked1,
                         PaletteState.Tracking => _formCloseTracking1,

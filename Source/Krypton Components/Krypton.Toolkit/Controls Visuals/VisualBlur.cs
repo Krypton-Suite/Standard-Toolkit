@@ -10,8 +10,6 @@
  */
 #endregion
 
-using System.Threading.Tasks;
-
 namespace Krypton.Toolkit
 {
     /// <summary>Creates the blur effect for windows.</summary>
