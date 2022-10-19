@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
                     {
                         _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_11;
                     }
-                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19045 /* RTM - 22H2 */)
                     {
                         _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_10;
                     }
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
                         _messageIcon.Image = MessageBoxResources.Windows11;
                     }
                     // Windows 10
-                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19045 /* RTM - 22H2 */)
                     {
                         _messageIcon.Image = MessageBoxResources.Windows_8_and_10_Logo;
                     }
