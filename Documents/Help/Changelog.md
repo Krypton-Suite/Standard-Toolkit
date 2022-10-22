@@ -4,6 +4,14 @@
 
 =======
 
+## 2023-11-xx - Build 2311 - November 2023
+* Seperate symbols packages for **Canary** & **Nightly** builds
+* Removed support for .NET Core App 3.1 for 'Lite' packages
+* Support for .NET 8
+* Version bump `70.xx.xx.xx` -> `80.xx.xx.xx`
+
+=======
+
 ## 2022-11-01 - Build 2211 - November 2022
 * Removed `DisableCloseButton` option on `KryptonForm`, as feature was not properly implemented
 * Resolved [#809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/809), `Office 2010 - Silver (Light Mode)` - `KryptonDataGridView` throw exception on hover
