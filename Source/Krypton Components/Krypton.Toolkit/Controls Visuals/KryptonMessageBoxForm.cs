@@ -5,11 +5,10 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
-
 
 namespace Krypton.Toolkit
 {
@@ -178,7 +177,7 @@ namespace Krypton.Toolkit
                     {
                         _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_11;
                     }
-                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19045 /* RTM - 22H2 */)
                     {
                         _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_10;
                     }
@@ -195,7 +194,7 @@ namespace Krypton.Toolkit
                         _messageIcon.Image = MessageBoxResources.Windows11;
                     }
                     // Windows 10
-                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19045 /* RTM - 22H2 */)
                     {
                         _messageIcon.Image = MessageBoxResources.Windows_8_and_10_Logo;
                     }

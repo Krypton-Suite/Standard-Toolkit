@@ -83,6 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Miscellaneous Scripts", "Mi
 		..\..\publish.cmd = ..\..\publish.cmd
 		..\..\purge.cmd = ..\..\purge.cmd
 		..\..\run.cmd = ..\..\run.cmd
+		..\..\Scripts\update-nuget.cmd = ..\..\Scripts\update-nuget.cmd
 	EndProjectSection
 EndProject
 Global

@@ -24,6 +24,20 @@
 		</Otherwise>
 	</Choose>
 
+	<Choose>
+		<When Condition="'$(Configuration)' == 'Signed'">
+			<PropertyGroup>
+				<SignAssembly>True</SignAssembly>
+				<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<SignAssembly>False</SignAssembly>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<RootNamespace>Krypton.Toolkit</RootNamespace>
