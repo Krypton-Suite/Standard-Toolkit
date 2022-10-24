@@ -65,20 +65,16 @@ echo 3. Build canary version using Visual Studio 2019
 echo 4. Build canary version using Visual Studio 2022
 echo 5. Build stable version using Visual Studio 2019
 echo 6. Build stable version using Visual Studio 2022
-echo 7. Build signed version using Visual Studio 2019
-echo 8. Build signed version using Visual Studio 2022
-echo 9. Go back to main menu
+echo 7. Go back to main menu
 
-set /p answer="Enter number (1 - 9): "
+set /p answer="Enter number (1 - 7): "
 if %answer%==1 (goto buildnightlyusingvisualstudio2019)
 if %answer%==2 (goto buildnightlyusingvisualstudio2022)
 if %answer%==3 (goto buildcanaryusingvisualstudio2019)
 if %answer%==4 (goto buildcanaryusingvisualstudio2022)
 if %answer%==5 (goto buildstableusingvisualstudio2019)
 if %answer%==6 (goto buildstableusingvisualstudio2022)
-if %answer%==7 (goto buildsignedusingvisualstudio2019)
-if %answer%==8 (goto buildsignedusingvisualstudio2022)
-if %answer%==9 (goto mainmenu)
+if %answer%==7 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -95,20 +91,16 @@ echo 3. Pack canary version using Visual Studio 2019
 echo 4. Pack canary version using Visual Studio 2022
 echo 5. Pack stable version using Visual Studio 2019
 echo 6. Pack stable version using Visual Studio 2022
-echo 7. Pack signed version using Visual Studio 2019
-echo 8. Pack signed version using Visual Studio 2022
-echo 9. Go back to main menu
+echo 7. Go back to main menu
 
-set /p answer="Enter number (1 - 9): "
+set /p answer="Enter number (1 - 7): "
 if %answer%==1 (goto packnightlyusingvisualstudio2019)
 if %answer%==2 (goto packnightlyusingvisualstudio2022)
 if %answer%==3 (goto packcanaryusingvisualstudio2019)
 if %answer%==4 (goto packcanaryusingvisualstudio2022)
 if %answer%==5 (goto packstableusingvisualstudio2019)
 if %answer%==6 (goto packstableusingvisualstudio2022)
-if %answer%==7 (goto packsignedusingvisualstudio2019)
-if %answer%==8 (goto packsignedusingvisualstudio2022)
-if %answer%==9 (goto mainmenu)
+if %answer%==7 (goto mainmenu)
 
 @echo Invalid input, please try again.
 

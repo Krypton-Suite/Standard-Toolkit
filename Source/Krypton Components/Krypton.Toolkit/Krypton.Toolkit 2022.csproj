@@ -24,25 +24,11 @@
 		</Otherwise>
 	</Choose>
 
-	<Choose>
-		<When Condition="'$(Configuration)' == 'Signed'">
-			<PropertyGroup>
-				<SignAssembly>True</SignAssembly>
-				<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-			</PropertyGroup>
-		</When>
-		<Otherwise>
-			<PropertyGroup>
-				<SignAssembly>False</SignAssembly>
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
-
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<RootNamespace>Krypton.Toolkit</RootNamespace>
 		<AssemblyName>Krypton.Toolkit</AssemblyName>
-		<SignAssembly>false</SignAssembly>
+		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
 		<ApplicationIcon>Krypton.ico</ApplicationIcon>
 		<DelaySign>false</DelaySign>
@@ -53,7 +39,7 @@
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
 		<NoWarn>1701;1702</NoWarn>
 		<WarningLevel>5</WarningLevel>
-		<Configurations>Debug;Release;Preview;Installer;Nightly;Canary;Signed</Configurations>
+		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
 	</PropertyGroup>
 
 	<!--<Choose>
