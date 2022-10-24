@@ -231,19 +231,10 @@ cd Scripts
 
 build-installer-2022.cmd
 
-:buildsignedusingvisualstudio2019
 cls
 
 cd Scripts
 
-build-signed-2019.cmd
-
-:buildsignedusingvisualstudio2022
-cls
-
-cd Scripts
-
-build-signed-2022.cmd
 
 :buildstableusingvisualstudio2019
 cls
@@ -302,47 +293,6 @@ cls
 cd Scripts
 
 build-installer-2022.cmd Pack
-
-:packsignedusingvisualstudio2019
-cls
-
-echo 1. Produce 'Lite' signed packages
-echo 2. Produce 'full' signed packages
-echo 3. Produce 'full/lite' signed packages
-echo 4. Go back to main menu
-
-set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packsignedusingvisualstudio2019lite)
-if %answer%==2 (goto packsignedusingvisualstudio2019full)
-if %answer%==3 (goto packsignedusingvisualstudio2019both)
-if %answer%==4 (goto mainmenu)
-
-@echo Invalid input, please try again.
-
-pause
-
-goto packsignedusingvisualstudio2019
-
-:packsignedusingvisualstudio2022
-cls
-
-echo 1. Produce 'Lite' signed packages
-echo 2. Produce 'full' signed packages
-echo 3. Produce 'full/lite' signed packages
-echo 4. Go back to main menu
-
-set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packsignedusingvisualstudio2022lite)
-if %answer%==2 (goto packsignedusingvisualstudio2022full)
-if %answer%==3 (goto packsignedusingvisualstudio2022both)
-if %answer%==4 (goto mainmenu)
-
-@echo Invalid input, please try again.
-
-pause
-
-goto packsignedusingvisualstudio2022
-
 :packstableusingvisualstudio2019
 cls
 
@@ -384,48 +334,6 @@ pause
 goto packstableusingvisualstudio2022
 
 :: ===================================================================================================
-
-:packsignedusingvisualstudio2019lite
-cls
-
-cd Scripts
-
-build-signed-2019.cmd PackLite
-
-:packsignedusingvisualstudio2019full
-cls
-
-cd Scripts
-
-build-signed-2019.cmd PackAll
-
-:packsignedusingvisualstudio2019both
-cls
-
-cd Scripts
-
-build-signed-2019.cmd Pack
-
-:packsignedusingvisualstudio2022lite
-cls
-
-cd Scripts
-
-build-signed-2022.cmd PackLite
-
-:packsignedusingvisualstudio2022full
-cls
-
-cd Scripts
-
-build-signed-2022.cmd PackAll
-
-:packsignedusingvisualstudio2022both
-cls
-
-cd Scripts
-
-build-signed-2022.cmd Pack
 
 :packstableusingvisualstudio2019lite
 cls
