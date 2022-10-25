@@ -31,7 +31,9 @@
 
 				<AnalysLevel>preview</AnalysLevel>
 
-				<!--<IncludeSymbols>true</IncludeSymbols>-->
+				<IncludeSymbols>True</IncludeSymbols>
+
+				<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 			</PropertyGroup>
 		</When>
 
