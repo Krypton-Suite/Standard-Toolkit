@@ -65,20 +65,16 @@ echo 3. Build canary version using Visual Studio 2019
 echo 4. Build canary version using Visual Studio 2022
 echo 5. Build stable version using Visual Studio 2019
 echo 6. Build stable version using Visual Studio 2022
-echo 7. Build signed version using Visual Studio 2019
-echo 8. Build signed version using Visual Studio 2022
-echo 9. Go back to main menu
+echo 7. Go back to main menu
 
-set /p answer="Enter number (1 - 9): "
+set /p answer="Enter number (1 - 7): "
 if %answer%==1 (goto buildnightlyusingvisualstudio2019)
 if %answer%==2 (goto buildnightlyusingvisualstudio2022)
 if %answer%==3 (goto buildcanaryusingvisualstudio2019)
 if %answer%==4 (goto buildcanaryusingvisualstudio2022)
 if %answer%==5 (goto buildstableusingvisualstudio2019)
 if %answer%==6 (goto buildstableusingvisualstudio2022)
-if %answer%==7 (goto buildsignedusingvisualstudio2019)
-if %answer%==8 (goto buildsignedusingvisualstudio2022)
-if %answer%==9 (goto mainmenu)
+if %answer%==7 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -95,20 +91,16 @@ echo 3. Pack canary version using Visual Studio 2019
 echo 4. Pack canary version using Visual Studio 2022
 echo 5. Pack stable version using Visual Studio 2019
 echo 6. Pack stable version using Visual Studio 2022
-echo 7. Pack signed version using Visual Studio 2019
-echo 8. Pack signed version using Visual Studio 2022
-echo 9. Go back to main menu
+echo 7. Go back to main menu
 
-set /p answer="Enter number (1 - 9): "
+set /p answer="Enter number (1 - 7): "
 if %answer%==1 (goto packnightlyusingvisualstudio2019)
 if %answer%==2 (goto packnightlyusingvisualstudio2022)
 if %answer%==3 (goto packcanaryusingvisualstudio2019)
 if %answer%==4 (goto packcanaryusingvisualstudio2022)
 if %answer%==5 (goto packstableusingvisualstudio2019)
 if %answer%==6 (goto packstableusingvisualstudio2022)
-if %answer%==7 (goto packsignedusingvisualstudio2019)
-if %answer%==8 (goto packsignedusingvisualstudio2022)
-if %answer%==9 (goto mainmenu)
+if %answer%==7 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -239,19 +231,10 @@ cd Scripts
 
 build-installer-2022.cmd
 
-:buildsignedusingvisualstudio2019
 cls
 
 cd Scripts
 
-build-signed-2019.cmd
-
-:buildsignedusingvisualstudio2022
-cls
-
-cd Scripts
-
-build-signed-2022.cmd
 
 :buildstableusingvisualstudio2019
 cls
@@ -310,47 +293,6 @@ cls
 cd Scripts
 
 build-installer-2022.cmd Pack
-
-:packsignedusingvisualstudio2019
-cls
-
-echo 1. Produce 'Lite' signed packages
-echo 2. Produce 'full' signed packages
-echo 3. Produce 'full/lite' signed packages
-echo 4. Go back to main menu
-
-set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packsignedusingvisualstudio2019lite)
-if %answer%==2 (goto packsignedusingvisualstudio2019full)
-if %answer%==3 (goto packsignedusingvisualstudio2019both)
-if %answer%==4 (goto mainmenu)
-
-@echo Invalid input, please try again.
-
-pause
-
-goto packsignedusingvisualstudio2019
-
-:packsignedusingvisualstudio2022
-cls
-
-echo 1. Produce 'Lite' signed packages
-echo 2. Produce 'full' signed packages
-echo 3. Produce 'full/lite' signed packages
-echo 4. Go back to main menu
-
-set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packsignedusingvisualstudio2022lite)
-if %answer%==2 (goto packsignedusingvisualstudio2022full)
-if %answer%==3 (goto packsignedusingvisualstudio2022both)
-if %answer%==4 (goto mainmenu)
-
-@echo Invalid input, please try again.
-
-pause
-
-goto packsignedusingvisualstudio2022
-
 :packstableusingvisualstudio2019
 cls
 
@@ -392,48 +334,6 @@ pause
 goto packstableusingvisualstudio2022
 
 :: ===================================================================================================
-
-:packsignedusingvisualstudio2019lite
-cls
-
-cd Scripts
-
-build-signed-2019.cmd PackLite
-
-:packsignedusingvisualstudio2019full
-cls
-
-cd Scripts
-
-build-signed-2019.cmd PackAll
-
-:packsignedusingvisualstudio2019both
-cls
-
-cd Scripts
-
-build-signed-2019.cmd Pack
-
-:packsignedusingvisualstudio2022lite
-cls
-
-cd Scripts
-
-build-signed-2022.cmd PackLite
-
-:packsignedusingvisualstudio2022full
-cls
-
-cd Scripts
-
-build-signed-2022.cmd PackAll
-
-:packsignedusingvisualstudio2022both
-cls
-
-cd Scripts
-
-build-signed-2022.cmd Pack
 
 :packstableusingvisualstudio2019lite
 cls

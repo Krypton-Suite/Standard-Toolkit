@@ -31,7 +31,9 @@
 
 				<AnalysLevel>preview</AnalysLevel>
 
-				<!--<IncludeSymbols>true</IncludeSymbols>-->
+				<IncludeSymbols>True</IncludeSymbols>
+
+				<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 			</PropertyGroup>
 		</When>
 
@@ -65,34 +67,6 @@
 				<IncludeSymbols>True</IncludeSymbols>
 
 				<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-			</PropertyGroup>
-		</When>
-
-		<When Condition="'$(Configuration)' == 'Signed'">
-			<PropertyGroup>
-				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
-				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
-				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
-
-				<!--Version layout schema:
-				80 = Major
-				23 = Minor - Year of release
-				01 = Build - Month of release
-				1 = Revision - Day of release (day of year)
-				-->
-				<LibraryVersion>80.$(Minor).$(Build).$(Revision)</LibraryVersion>
-				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
-
-				<!--Stable/Signed-->
-				<PackageVersion>80.$(Minor).$(Build).$(Revision)</PackageVersion>
-
-				<AssemblyVersion>80.$(Minor).$(Build).$(Revision)</AssemblyVersion>
-
-				<FileVersion>80.$(Minor).$(Build).$(Revision)</FileVersion>
-
-				<LangVersion>preview</LangVersion>
-
-				<AnalysLevel>preview</AnalysLevel>
 			</PropertyGroup>
 		</When>
 
@@ -176,40 +150,6 @@
 					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Help/Changelog.md
 
 					This package is for those who want to try out the latest features before deployment. Please use $(PackageId) or $(PackageId).Signed if deployment is intended.
-				</Description>
-			</PropertyGroup>
-		</When>
-
-		<When Condition="'$(Configuration)' == 'Signed'">
-			<PropertyGroup>
-				<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Signed.Lite</PackageId>
-
-				<Description Condition="'$(TFMs)' == 'lite'">
-					An update to Component factory's krypton toolkit to support .NET Framework 4.8.1, .NET Core 3.1 and .NET 6 - 7. $(Description)
-
-					This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1, .NET 6 - 8.
-					Also, all libraries are included targeting each specific framework version for performance purposes.
-
-					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
-
-					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md
-
-					The binaries contained in this package have been digitally signed.
-				</Description>
-
-				<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>
-
-				<Description Condition="'$(TFMs)' == 'all'">
-					An update to Component factory's krypton toolkit to support .NET Framework 4.6.2 - 4.8.1, .NET Core 3.1 and .NET 6 - 7. $(Description)
-
-					This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1, .NET Core 3.1 and .NET 6 - 7.
-					Also, all libraries are included targeting each specific framework version for performance purposes.
-
-					To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md
-
-					To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md
-
-					The binaries contained in this package have been digitally signed.
 				</Description>
 			</PropertyGroup>
 		</When>

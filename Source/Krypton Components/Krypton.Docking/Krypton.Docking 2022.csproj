@@ -24,20 +24,6 @@
 		</Otherwise>
 	</Choose>
 
-	<Choose>
-		<When Condition="'$(Configuration)' == 'Signed'">
-			<PropertyGroup>
-				<SignAssembly>True</SignAssembly>
-				<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-			</PropertyGroup>
-		</When>
-		<Otherwise>
-			<PropertyGroup>
-				<SignAssembly>False</SignAssembly>
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
-	
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Docking</RootNamespace>
@@ -49,7 +35,7 @@
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-        <Configurations>Debug;Release;Preview;Installer;Nightly;Canary;Signed</Configurations>
+        <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -110,6 +96,8 @@
     </PropertyGroup>
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
+        <SignAssembly>True</SignAssembly>
+        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
    
 </Project>
