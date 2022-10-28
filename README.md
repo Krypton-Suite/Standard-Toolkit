@@ -78,7 +78,7 @@ If you require the full API reference, you can download the latest version by cl
 
 ## Package Support Information
 
-Full information about support can be found [here](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Development/Package-Support-Information.md)
+Full information about support can be found [here](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Package-Support-Information.md)
 
 ### Release Cadence
 
