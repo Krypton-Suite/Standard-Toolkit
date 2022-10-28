@@ -94,12 +94,12 @@ Development of the Krypton Standard Toolkit is supported by these generous organ
 <tr>
 	<td width="200px">
 		<a href="https://www.jetbrains.com/">
-		<img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/jetbrains-logo.png?raw=true" />
+		<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/jetbrains-logo.png?raw=true" /></center>
 		</a>
 	</td>
 	<td width="200px">
 		<a href="https://www.yourkit.com/">
-		<img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true" />
+		<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true" /></center>
 		</a>
 	</td>
 </tr>
