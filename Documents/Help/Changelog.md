@@ -5,6 +5,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/808), Button spacing is too small
 * Seperate symbols packages for **Canary** & **Nightly** builds
 * Removed support for .NET Core App 3.1 for 'Lite' packages
 * Support for .NET 8
