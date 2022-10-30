@@ -1743,6 +1743,10 @@ namespace Krypton.Toolkit
                     cp.ClassStyle |= CS_DROPSHADOW;
                 }
 #pragma warning restore CS0618 // Type or member is obsolete
+                if (!CloseBox)
+                {
+                    cp.ClassStyle |= CP_NOCLOSE_BUTTON;
+                }
 
                 return cp;
             }

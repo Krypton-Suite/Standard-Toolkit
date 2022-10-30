@@ -31,6 +31,7 @@ namespace Krypton.Toolkit
         private bool _windowActive;
         private bool _trackingMouse;
         private bool _applyCustomChrome;
+        private bool _closeBoxVisible;
         private bool _allowComposition;
         private bool _insideUpdateComposition;
         private bool _captured;
@@ -116,6 +117,7 @@ namespace Krypton.Toolkit
 
             // Default the composition height
             _compositionHeight = DEFAULT_COMPOSITION_HEIGHT;
+            _closeBoxVisible = true;
 
             // Create constant target for resolving palette delegates
             Redirector = CreateRedirector();
@@ -288,6 +290,19 @@ namespace Krypton.Toolkit
                     }
                 }
             }
+        }
+
+        /// <summary>Gets or sets a value indicating whether the Close button is displayed in the caption bar of the form.</summary>
+        /// <returns>
+        /// <see langword="true" /> to display a Close button for the form; otherwise, <see langword="false" />. The default is <see langword="true" />.</returns>
+        [Category("Window Style")]
+        [DefaultValue(true)]
+        [Description("Form Close Button Visiblity: This will also Hide the System Menu `Close` and disable the `Alt+F4` action")]
+        public bool CloseBox
+        {
+            [DebuggerStepThrough]
+            get => _closeBoxVisible;
+            set => _closeBoxVisible = value;
         }
 
         /// <summary>
@@ -636,7 +651,7 @@ namespace Krypton.Toolkit
             }
         }
 #endif
-#endregion
+        #endregion
 
         #region Public Chrome
         /// <summary>
@@ -844,8 +859,8 @@ namespace Krypton.Toolkit
 
             base.OnResize(e);
 
-            if (ApplyCustomChrome 
-                && !((MdiParent != null) 
+            if (ApplyCustomChrome
+                && !((MdiParent != null)
                      && CommonHelper.IsFormMaximized(this))
                 )
             {
@@ -959,7 +974,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new(_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.

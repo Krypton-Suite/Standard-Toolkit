@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// <returns>Button enabled state.</returns>
         public override ButtonEnabled GetEnabled(IPalette palette) =>
             // Has the maximize buttons been turned off?
-            !KryptonForm.MaximizeBox ? ButtonEnabled.False : ButtonEnabled.True;
+            KryptonForm.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
