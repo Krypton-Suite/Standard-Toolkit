@@ -79,9 +79,9 @@ namespace Krypton.Toolkit
             #endregion
 
             // We use double buffering to reduce drawing flicker
-            SetStyle(ControlStyles.OptimizedDoubleBuffer |
-                                                                                                     ControlStyles.AllPaintingInWmPaint |
-                                                                                                     ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer 
+                     | ControlStyles.AllPaintingInWmPaint 
+                     | ControlStyles.UserPaint, true);
 
             // We need to repaint entire control whenever resized
             SetStyle(ControlStyles.ResizeRedraw, true);

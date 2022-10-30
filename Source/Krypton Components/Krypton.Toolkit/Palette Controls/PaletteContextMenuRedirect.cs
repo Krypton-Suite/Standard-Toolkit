@@ -65,7 +65,8 @@ namespace Krypton.Toolkit
                                            ItemSplit.IsDefault &&
                                            ItemTextAlternate.IsDefault &&
                                            ItemTextStandard.IsDefault &&
-                                           Separator.IsDefault;
+                                           Separator.IsDefault &&
+                                           !HasShadow;
 
         #endregion
 
@@ -145,6 +146,20 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeControlOuter() => !ControlOuter.IsDefault;
 
         #endregion
+
+
+        #region HasShadow
+        /// <summary>
+        /// Gets access to the outer control window appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [DefaultValue(true)]
+        [Description(@"Should the Context menu have a shadow.")]
+        public bool HasShadow { get; set; } = true;
+
+        private bool ShouldSerializeHasShadow() => !HasShadow;
+        #endregion // HasShadow
 
         #region Heading
         /// <summary>
