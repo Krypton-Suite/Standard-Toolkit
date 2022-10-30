@@ -17,7 +17,7 @@
 * Resolved [#817](https://github.com/Krypton-Suite/Standard-Toolkit/issues/817), DLL files in **Signed** NuGet packages are not signed. By default, all assemblies are now signed, negating the need for `Signed` NuGet packages (**Note:** You may need to sign your assemblies after upgrading. To find out how to do this, click [here](https://learn.microsoft.com/en-us/dotnet/standard/assembly/strong-named).)
 * Removed `DisableCloseButton` option on `KryptonForm`, as feature was not properly implemented
 * Resolved [#809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/809), `Office 2010 - Silver (Light Mode)` - `KryptonDataGridView` throw exception on hover
-* `KryptonMessageBox` using the `KryptonMessageBoxIcon.Shield` will now display the correct image for the version of the OS
+* `KryptonMessageBox` using the `KryptonMessageBoxIcon.Shield` option, will now display the correct image for the version of the OS
 * New `Apply`, `Back`, `Exit`, `Finish`, `Next` & `Previous` strings for custom situations
 * Resolved [#800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/800), `KryptonTextBox` not raising `KeyUp` event
 * New `Collapse` & `Expand` strings for use in expandable footers, or in other custom situations
