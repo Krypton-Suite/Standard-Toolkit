@@ -17,6 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ButtonSpecFormWindowClose : ButtonSpecFormFixed
     {
+        private bool _enabled = true;
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecFormWindowClose class.
@@ -25,7 +27,30 @@ namespace Krypton.Toolkit
         public ButtonSpecFormWindowClose(KryptonForm form)
             : base(form, PaletteButtonSpecStyle.FormClose)
         {
-        }         
+        }
+
+        /// <summary>
+        /// Form Close Button Enabled: This will also Disable the System Menu `Close` BUT NOT the `Alt+F4` key action
+        /// </summary>
+        [Category(@"Appearance")]
+        [DefaultValue(true)]
+        [Description("Form Close Button Enabled: This will also Disable the System Menu `Close` BUT NOT the `Alt+F4` key action")]
+        public bool Enabled
+        {
+            get => _enabled;
+            set { 
+                if (_enabled != value)
+                {
+                    _enabled = value;
+                    IntPtr hSystemMenu = PI.GetSystemMenu(KryptonForm.Handle, false);
+                    if ( hSystemMenu != IntPtr.Zero)
+                    {
+                        PI.EnableMenuItem(hSystemMenu, PI.SC_.CLOSE, _enabled ? PI.MF_.ENABLED:PI.MF_.DISABLED);
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region IButtonSpecValues
@@ -44,7 +69,7 @@ namespace Krypton.Toolkit
             }
 
             // Have all buttons been turned off?
-            return KryptonForm.ControlBox;
+            return KryptonForm.ControlBox && KryptonForm.CloseBox;
         }
 
         /// <summary>
@@ -52,7 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette) => ButtonEnabled.True;
+        public override ButtonEnabled GetEnabled(IPalette palette) => KryptonForm.CloseBox && Enabled ? ButtonEnabled.True: ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.

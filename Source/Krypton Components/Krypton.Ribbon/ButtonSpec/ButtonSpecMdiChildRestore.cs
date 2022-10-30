@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
             }
 
             // Has the maximize button been turned off?
-            return !MdiChild.MaximizeBox ? ButtonEnabled.False : ButtonEnabled.True;
+            return MdiChild.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
         }
 
         /// <summary>

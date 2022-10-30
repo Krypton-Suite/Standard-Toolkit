@@ -10,6 +10,11 @@
 * Support for .NET 8
 * Version bump `70.xx.xx.xx` -> `80.xx.xx.xx`
 * Resolved [#789](https://github.com/Krypton-Suite/Standard-Toolkit/issues/789), Remove shadows for context menus
+* Resolved [#819](https://github.com/Krypton-Suite/Standard-Toolkit/issues/819), 
+KryptonForm Enhancement - A option to disable/enable the close button.
+* Resolved [#808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/808), 
+Ribbon Button Image padding is too small
+
 =======
 
 ## 2022-11-01 - Build 2211 - November 2022
