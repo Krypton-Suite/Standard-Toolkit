@@ -65,6 +65,10 @@ namespace Krypton.Ribbon
             _needPaint = needPaint;
             _currentSize = GroupButton.ItemSizeCurrent;
 
+            _largeImagePadding = new Padding((int)(3 * FactorDpiX), (int)(2 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
+            _smallImagePadding = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
+
+
             // Associate this view with the source component (required for design time selection)
             Component = GroupButton;
 
@@ -80,8 +84,6 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon button definition
             GroupButton.PropertyChanged += OnButtonPropertyChanged;
-            _largeImagePadding = new Padding((int)(3 * FactorDpiX), (int)(2 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
-            _smallImagePadding = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
         }
 
         /// <summary>
