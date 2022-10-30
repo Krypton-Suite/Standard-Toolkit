@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette) => /*KryptonForm.CloseBox && ? ButtonEnabled.True:*/ ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(IPalette palette) => KryptonForm.CloseBox && Enabled ? ButtonEnabled.True: ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
