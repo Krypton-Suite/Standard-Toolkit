@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         public VisualContextMenu(IContextMenuProvider provider,
                                  KryptonContextMenuCollection items,
                                  bool keyboardActivated)
-            : base(true)
+            : base(provider.ProviderStateCommon.HasShadow)
         {
             Redirector = provider.ProviderRedirector;
 
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
                                  KryptonContextMenuCollection items,
                                  bool enabled,
                                  bool keyboardActivated)
-            : base(true)
+            : base(contextMenu.StateCommon.HasShadow)
         {
             _contextMenu = contextMenu;
             Redirector = redirector;
