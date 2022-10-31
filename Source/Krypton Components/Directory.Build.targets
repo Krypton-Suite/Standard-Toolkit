@@ -34,9 +34,6 @@
 				<IncludeSymbols>True</IncludeSymbols>
 
 				<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-			
-				<!--Disables NETSDK1138 warning-->
-				<CheckEolFrameworkTarget>False</CheckEolFrameworkTarget>
 			</PropertyGroup>
 		</When>
 
@@ -70,9 +67,6 @@
 				<IncludeSymbols>True</IncludeSymbols>
 
 				<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-			
-				<!--Disables NETSDK1138 warning-->
-				<CheckEolFrameworkTarget>False</CheckEolFrameworkTarget>
 			</PropertyGroup>
 		</When>
 
@@ -100,9 +94,6 @@
 				<LangVersion>preview</LangVersion>
 
 				<AnalysLevel>preview</AnalysLevel>
-
-				<!--Disables NETSDK1138 warning-->
-				<CheckEolFrameworkTarget>False</CheckEolFrameworkTarget>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
@@ -130,9 +121,6 @@
 				<LangVersion>preview</LangVersion>
 				
 				<AnalysLevel>preview</AnalysLevel>
-
-				<!--Disables NETSDK1138 warning-->
-				<CheckEolFrameworkTarget>False</CheckEolFrameworkTarget>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

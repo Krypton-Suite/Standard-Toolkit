@@ -28,6 +28,8 @@
 		<OutputType>Library</OutputType>
 		<RootNamespace>Krypton.Toolkit</RootNamespace>
 		<AssemblyName>Krypton.Toolkit</AssemblyName>
+		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
 		<ApplicationIcon>Krypton.ico</ApplicationIcon>
