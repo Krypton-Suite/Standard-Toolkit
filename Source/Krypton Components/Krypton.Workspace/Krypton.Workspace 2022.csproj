@@ -37,6 +37,8 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<!--Disables NETSDK1138 warning-->
+		<CheckEolFrameworkTarget>false</CheckEolFrameworkTarget>
 		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
 	</PropertyGroup>
 

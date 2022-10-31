@@ -36,6 +36,8 @@
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+        <!--Disables NETSDK1138 warning-->
+		<CheckEolFrameworkTarget>false</CheckEolFrameworkTarget>
     </PropertyGroup>
 
     <PropertyGroup>
