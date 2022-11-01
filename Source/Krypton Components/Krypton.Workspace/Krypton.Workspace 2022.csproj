@@ -15,7 +15,7 @@
 				</When>
 				<Otherwise>
 					<PropertyGroup>
-						<TargetFrameworks>net48;net481;netcoreapp3.1;net6.0-windows;net7.0-windows</TargetFrameworks>
+						<TargetFrameworks>net48;net481;net6.0-windows;net7.0-windows</TargetFrameworks>
 
 						<TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows</TargetFrameworks>
 					</PropertyGroup>
@@ -28,6 +28,8 @@
 		<OutputType>Library</OutputType>
 		<RootNamespace>Krypton.Workspace</RootNamespace>
 		<AssemblyName>Krypton.Workspace</AssemblyName>
+		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
 		<ApplicationIcon>Krypton.ico</ApplicationIcon>

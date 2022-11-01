@@ -1,27 +1,29 @@
-:: Last updated: Tuesday 27th September, 2022 @ 10:00 AM
+:: Last updated: Monday 31st October, 2022 @ 19:00
 
 @echo off
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.1. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.5. Please select an option below.
 
 @echo ==============================================================================================
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Debug project
-echo 5. NuGet Tools
-echo 6. End
+echo 4. Build & create NuGet packages
+echo 5. Debug project
+echo 6. NuGet Tools
+echo 7. End
 
-set /p answer="Enter number (1 - 6): "
-if %answer%==1 (goto mainmenuchoice1)
-if %answer%==2 (goto mainmenuchoice2)
-if %answer%==3 (goto mainmenuchoice3)
-if %answer%==4 (goto mainmenuchoice4)
-if %answer%==5 (goto mainmenuchoice5)
-if %answer%==6 (goto mainmenuchoice6)
+set /p answer="Enter number (1 - 7): "
+if %answer%==1 (goto cleanproject)
+if %answer%==2 (goto buildproject)
+if %answer%==3 (goto createnugetpackages)
+if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==5 (goto debugproject)
+if %answer%==6 (goto nugettools)
+if %answer%==7 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -38,17 +40,19 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Debug project
-echo 5. NuGet Tools
-echo 6. End
+echo 4. Build & create NuGet packages
+echo 5. Debug project
+echo 6. NuGet Tools
+echo 7. End
 
-set /p answer="Enter number (1 - 6): "
-if %answer%==1 (goto mainmenuchoice1)
-if %answer%==2 (goto mainmenuchoice2)
-if %answer%==3 (goto mainmenuchoice3)
-if %answer%==4 (goto mainmenuchoice4)
-if %answer%==5 (goto mainmenuchoice5)
-if %answer%==6 (goto mainmenuchoice6)
+set /p answer="Enter number (1 - 7): "
+if %answer%==1 (goto cleanproject)
+if %answer%==2 (goto buildproject)
+if %answer%==3 (goto createnugetpackages)
+if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==5 (goto debugproject)
+if %answer%==6 (goto nugettools)
+if %answer%==7 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -165,22 +169,22 @@ goto mainmenu
 
 :: ===================================================================================================
 
-:mainmenuchoice1
+:cleanproject
 goto cleanproject
 
-:mainmenuchoice2
+:buildproject
 goto buildmenu
 
-:mainmenuchoice3
+:createnugetpackages
 goto packmenu
 
-:mainmenuchoice4
+:debugproject
 goto debugmenu
 
-:mainmenuchoice5
+:nugettools
 goto nugettools
 
-:mainmenuchoice6
+:exitbuildsystem
 @echo Exiting the build system, have a good day. Bye!
 
 pause
