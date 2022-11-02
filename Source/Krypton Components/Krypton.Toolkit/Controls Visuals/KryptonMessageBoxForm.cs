@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.Asterisk:
-                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    if (OSUtilities.IsWindowsEleven)
                     {
                         _messageIcon.Image = MessageBoxResources.Asterisk_Windows_11;
                     }
@@ -173,11 +173,11 @@ namespace Krypton.Toolkit
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    if (OSUtilities.IsWindowsEleven)
                     {
                         _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_11;
                     }
-                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19045 /* RTM - 22H2 */)
+                    else if (OSUtilities.IsWindowsTen)
                     {
                         _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_10;
                     }

@@ -96,6 +96,8 @@ namespace Krypton.Toolkit
         private Icon _cacheIcon;
         private float _cornerRoundingRadius;
         private Control _activeControl;
+        private KryptonFormTitleStyle _titleStyle;
+
         #endregion
 
         #region Identity
@@ -187,6 +189,8 @@ namespace Krypton.Toolkit
             
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _titleStyle = KryptonFormTitleStyle.Inherit;
 
             // Disable 'UseDropShadow' on creation
 #pragma warning disable CS0618
@@ -627,6 +631,11 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Arranges the current window title alignment.</summary>
+        /// <value>The current window title alignment.</value>
+        [Category(@"Appearance"), DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"), Description(@"Arranges the current window title alignment.")]
+        public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
 
         #endregion
 
@@ -1686,6 +1695,25 @@ namespace Krypton.Toolkit
                 UpdateCustomChromeDecision();
             }
         }
+
+        /// <summary>Updates the title style.</summary>
+        /// <param name="titleStyle">The title style.</param>
+        private void UpdateTitleStyle(KryptonFormTitleStyle titleStyle)
+        {
+            switch (titleStyle)
+            {
+                case KryptonFormTitleStyle.Inherit:
+                    FormTitleAlign = PaletteRelativeAlign.Inherit;
+                    break;
+                case KryptonFormTitleStyle.Classic:
+                    FormTitleAlign = PaletteRelativeAlign.Near;
+                    break;
+                case KryptonFormTitleStyle.Modern:
+                    FormTitleAlign = PaletteRelativeAlign.Center;
+                    break;
+            }
+        }
+
         #endregion
 
         #region Drop Shadow Methods
