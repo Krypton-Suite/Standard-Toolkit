@@ -18,6 +18,9 @@ namespace Krypton.Toolkit
     public abstract class PaletteOffice2007Base : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader2 = new(2, 1, 2, 1);
@@ -54,6 +57,11 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarTabs = new(0);
         private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
+
+        #endregion
+
+        #region Images
+
         private static readonly Image _treePlus = TreeItemImageResources.TreePlusBox;
         private static readonly Image _treeMinus = TreeItemImageResources.TreeMinusBox;
 
@@ -78,6 +86,10 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecRibbonExpand = MDIImageResources.MdiRibbonExpand;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
+
+        #endregion
+
+        #region Colours
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
@@ -116,24 +128,27 @@ namespace Krypton.Toolkit
         private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(212, 212, 212), // Button, Disabled, Border
-                                                                           Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
-                                                                           Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
-                                                                           Color.FromArgb(147, 125,  90), // Button, Pressed, Border 1
-                                                                           Color.FromArgb(255, 196,  68), // Button, Pressed, Border 2
-                                                                           Color.FromArgb(158, 130,  85), // Button, Checked, Border 1
-                                                                           Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
-                                                                         };
+            Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
+            Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
+            Color.FromArgb(147, 125,  90), // Button, Pressed, Border 1
+            Color.FromArgb(255, 196,  68), // Button, Pressed, Border 2
+            Color.FromArgb(158, 130,  85), // Button, Checked, Border 1
+            Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
+        };
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
-                                                                         Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
-                                                                         Color.FromArgb(255, 213,  77), // Button, Tracking, Back 1
-                                                                         Color.FromArgb(255, 239, 177), // Button, Tracking, Back 2
-                                                                         Color.FromArgb(235, 122,   5), // Button, Pressed, Back 1
-                                                                         Color.FromArgb(254, 195, 108), // Button, Pressed, Back 2
-                                                                         Color.FromArgb(254, 175,  77), // Button, Checked, Back 1
-                                                                         Color.FromArgb(254, 230, 136), // Button, Checked, Back 2
-                                                                         Color.FromArgb(232, 142,  49), // Button, Checked Tracking, Back 1
-                                                                         Color.FromArgb(252, 207, 100)  // Button, Checked Tracking, Back 2
-                                                                       };
+            Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
+            Color.FromArgb(255, 213,  77), // Button, Tracking, Back 1
+            Color.FromArgb(255, 239, 177), // Button, Tracking, Back 2
+            Color.FromArgb(235, 122,   5), // Button, Pressed, Back 1
+            Color.FromArgb(254, 195, 108), // Button, Pressed, Back 2
+            Color.FromArgb(254, 175,  77), // Button, Checked, Back 1
+            Color.FromArgb(254, 230, 136), // Button, Checked, Back 2
+            Color.FromArgb(232, 142,  49), // Button, Checked Tracking, Back 1
+            Color.FromArgb(252, 207, 100)  // Button, Checked Tracking, Back 2
+        };
+
+        #endregion
+
         #endregion
 
         #region Instance Fields
@@ -161,22 +176,25 @@ namespace Krypton.Toolkit
         private Font _calendarFont;
         private Font _calendarBoldFont;
         private string _baseFontName;
+        private string _themeName;
         #endregion
 
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2007Base class.
         /// </summary>
+        /// <param name="themeName">The name of the theme.</param>
         /// <param name="schemeColors">Array of palette specific colors.</param>
         /// <param name="checkBoxList">List of images for check box.</param>
         /// <param name="galleryButtonList">List of images for gallery buttons.</param>
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
-        protected PaletteOffice2007Base(Color[] schemeColors,
-                                     ImageList checkBoxList,
-                                     ImageList galleryButtonList,
-                                     Image[] radioButtonArray,
-                                     Color[] trackBarColors)
+        protected PaletteOffice2007Base(string themeName,
+                                        Color[] schemeColors,
+                                        ImageList checkBoxList,
+                                        ImageList galleryButtonList,
+                                        Image[] radioButtonArray,
+                                        Color[] trackBarColors)
         {
             Debug.Assert(schemeColors != null);
             Debug.Assert(checkBoxList != null);
@@ -184,6 +202,7 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButtonArray != null);
 
             // Remember incoming sets of values
+            _themeName = themeName;
             _ribbonColors = schemeColors;
             _checkBoxList = checkBoxList;
             _galleryButtonList = galleryButtonList;
@@ -3688,6 +3707,12 @@ namespace Krypton.Toolkit
                 _ => _galleryButtonList.Images[0]
             };
         }
+        #endregion
+
+        #region ThemeName
+
+        public string ThemeName { get => _themeName; set => _themeName = value; }
+
         #endregion
 
         #region ButtonSpec

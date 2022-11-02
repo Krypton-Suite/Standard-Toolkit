@@ -296,11 +296,12 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2007Blue class.
         /// </summary>
         public PaletteOffice2007Blue()
-            : base(_schemeOfficeColors,
-                   _checkBoxList,
-                   _galleryButtonList,
-                   _radioButtonArray,
-                   _trackBarColors)
+            : base("Office 2007 - Blue",
+                    _schemeOfficeColors,
+                    _checkBoxList,
+                    _galleryButtonList,
+                    _radioButtonArray,
+                    _trackBarColors)
         {
         }
         #endregion

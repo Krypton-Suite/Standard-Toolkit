@@ -874,9 +874,9 @@ namespace Krypton.Toolkit
         Office2013,
 
         /// <summary>
-        /// Specifies the RenderOffice365 be used.
+        /// Specifies the RenderMicrosoft365 be used.
         /// </summary>
-        Office365,
+        Microsoft365,
 
         /// <summary>
         /// Specifies the RenderProfessional be used.

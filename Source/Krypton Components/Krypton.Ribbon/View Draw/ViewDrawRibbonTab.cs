@@ -283,7 +283,7 @@ namespace Krypton.Ribbon
                 {
                     PaletteRibbonShape.Office2010 => _preferredBorder2010,
                     PaletteRibbonShape.Office2013 => _preferredBorder2010,
-                    PaletteRibbonShape.Office365 => _preferredBorder2010,
+                    PaletteRibbonShape.Microsoft365 => _preferredBorder2010,
                     _ => _preferredBorder2007
                 };
             }
@@ -302,7 +302,7 @@ namespace Krypton.Ribbon
                 {
                     PaletteRibbonShape.Office2010 => _layoutBorder2010,
                     PaletteRibbonShape.Office2013 => _layoutBorder2010,
-                    PaletteRibbonShape.Office365 => _layoutBorder2010,
+                    PaletteRibbonShape.Microsoft365 => _layoutBorder2010,
                     _ => _layoutBorder2007
                 };
             }
@@ -406,7 +406,7 @@ namespace Krypton.Ribbon
             {
                 default:
                 case PaletteRibbonShape.Office2013:
-                case PaletteRibbonShape.Office365:
+                case PaletteRibbonShape.Microsoft365:
                 case PaletteRibbonShape.Office2007:
                     if (cts != null)
                     {

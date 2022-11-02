@@ -150,22 +150,16 @@
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Update="Palette Builtin\Office 2013\Official Themes\PaletteOffice2013White.cs" />
-		<Compile Update="Palette Builtin\Office 365\Bases\PaletteOffice365Base.cs">
+		<Compile Update="Palette Builtin\Microsoft 365\Bases\PaletteMicrosoft365Base.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Update="Palette Builtin\Office 365\Non Official Themes\PaletteOffice365AccessLegacy.cs">
 			<SubType>Component</SubType>
 		</Compile>
-		<Compile Update="Palette Builtin\Office 365\Non Official Themes\PaletteOffice365Blue.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Update="Palette Builtin\Office 365\Official Themes\PaletteOffice365Black.cs" />
-		<Compile Update="Palette Builtin\Office 365\Official Themes\PaletteOffice365Silver.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Update="Palette Builtin\Office 365\Official Themes\PaletteOffice365White.cs">
-			<SubType>Component</SubType>
-		</Compile>
+		<Compile Update="Palette Builtin\Microsoft 365\Non Official Themes\PaletteOffice365Blue.cs" />
+		<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteMicrosoft365Black.cs" />
+		<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteOffice365Silver.cs" />
+		<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteOffice365White.cs" />
 		<Compile Update="Palette Builtin\PaletteVisualStudio2020Base.cs">
 			<SubType>Component</SubType>
 		</Compile>
@@ -211,7 +205,7 @@
 		<Compile Update="Rendering\RenderOffice2013.cs">
 			<SubType>Component</SubType>
 		</Compile>
-		<Compile Update="Rendering\RenderOffice365.cs">
+		<Compile Update="Rendering\RenderMicrosoft365.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Update="Rendering\RenderOffice2007.cs">

@@ -12,8 +12,8 @@
 
 namespace Krypton.Toolkit
 {
-    #region Class: PaletteOffice365BlueLightMode
-    public class PaletteOffice365BlueLightMode : PaletteOffice365BlueLightModeBase
+    #region Class: PaletteMicrosoft365BlueLightMode
+    public class PaletteMicrosoft365BlueLightMode : PaletteMicrosoft365BlueLightModeBase
     {
         #region Static Fields
 
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365BlueLightMode()
+        static PaletteMicrosoft365BlueLightMode()
         {
             _checkBoxList = new ImageList
             {
@@ -324,9 +324,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initializes a new instance of the PaletteOffice365BlueLightMode class.
+        /// Initializes a new instance of the PaletteMicrosoft365BlueLightMode class.
         /// </summary>
-        public PaletteOffice365BlueLightMode() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteMicrosoft365BlueLightMode() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }
@@ -405,12 +405,12 @@ namespace Krypton.Toolkit
     }
     #endregion
 
-    #region Class: PaletteOffice365BlueLightModeBase
+    #region Class: PaletteMicrosoft365BlueLightModeBase
     /// <summary>
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteOffice365BlueLightModeBase : PaletteBase
+    public abstract class PaletteMicrosoft365BlueLightModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -624,14 +624,14 @@ namespace Krypton.Toolkit
 
         #region Constructor        
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365BlueLightModeBase"/> class.
+        /// Initializes a new instance of the <see cref="PaletteMicrosoft365BlueLightModeBase"/> class.
         /// </summary>
         /// <param name="schemeColours">The scheme colours.</param>
         /// <param name="checkBoxList">The check box list.</param>
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        protected PaletteOffice365BlueLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        protected PaletteMicrosoft365BlueLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
@@ -670,7 +670,7 @@ namespace Krypton.Toolkit
         /// <returns>
         /// Renderer to use for drawing palette settings.
         /// </returns>
-        public override IRenderer GetRenderer() => KryptonManager.RenderOffice365;
+        public override IRenderer GetRenderer() => KryptonManager.RenderMicrosoft365;
 
         #endregion
 
@@ -4050,7 +4050,7 @@ namespace Krypton.Toolkit
         /// Gets the ribbon shape that should be used.
         /// </summary>
         /// <returns>Ribbon shape value.</returns>
-        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Office365;
+        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Microsoft365;
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.

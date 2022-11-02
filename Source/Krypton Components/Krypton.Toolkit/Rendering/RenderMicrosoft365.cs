@@ -13,10 +13,10 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Extends the professional renderer to provide Office365 style additions.
+    /// Extends the professional renderer to provide Microsoft 365 style additions.
     /// </summary>
     /// <seealso cref="RenderOffice2010" />
-    public class RenderOffice365 : RenderOffice2010
+    public class RenderMicrosoft365 : RenderOffice2010
     {
         #region Static Variables
         private static readonly float BORDER_PERCENT = 0.6f;
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructor
-        static RenderOffice365()
+        static RenderMicrosoft365()
         {
 
         }
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(colourPalette));
             }
 
-            KryptonOffice365Renderer renderer = new(colourPalette.ColorTable)
+            KryptoMicrosoft365Renderer renderer = new(colourPalette.ColorTable)
             {
                 RoundedEdges = colourPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };

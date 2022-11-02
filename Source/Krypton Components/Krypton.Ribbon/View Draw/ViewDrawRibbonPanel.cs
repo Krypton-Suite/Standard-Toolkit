@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         {
             // If we are rendering using desktop window composition and using the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chromw
-            if (DrawOnComposition && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365))
+            if (DrawOnComposition && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365))
             {
                 var tabsHeight = _ribbon.TabsArea.ClientHeight;
 
@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
             if (DrawOnComposition 
                 && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 
                     || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 
-                    || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
+                    || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365)
                 )
             {
                 if (edges)
@@ -131,7 +131,7 @@ namespace Krypton.Ribbon
                     using SolidBrush backBrush = new(Color.White);
                     g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                 }
-                else if (_ribbon.RibbonShape == PaletteRibbonShape.Office365)
+                else if (_ribbon.RibbonShape == PaletteRibbonShape.Microsoft365)
                 {
                     using SolidBrush backBrush = new(Color.White);
                     g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));

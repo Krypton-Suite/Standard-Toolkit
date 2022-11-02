@@ -106,17 +106,17 @@ namespace Krypton.Ribbon
                 case PaletteModeManager.Office2013White:
                     manager.GlobalPaletteMode = PaletteModeManager.Office2013White;
                     break;
-                case PaletteModeManager.Office365Black:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365Black;
+                case PaletteModeManager.Microsoft365Black:
+                    manager.GlobalPaletteMode = PaletteModeManager.Microsoft365Black;
                     break;
-                case PaletteModeManager.Office365Blue:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365Blue;
+                case PaletteModeManager.Microsoft365Blue:
+                    manager.GlobalPaletteMode = PaletteModeManager.Microsoft365Blue;
                     break;
-                case PaletteModeManager.Office365Silver:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365Silver;
+                case PaletteModeManager.Microsoft365Silver:
+                    manager.GlobalPaletteMode = PaletteModeManager.Microsoft365Silver;
                     break;
-                case PaletteModeManager.Office365White:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365White;
+                case PaletteModeManager.Microsoft365White:
+                    manager.GlobalPaletteMode = PaletteModeManager.Microsoft365White;
                     break;
                 case PaletteModeManager.SparkleBlue:
                     manager.GlobalPaletteMode = PaletteModeManager.SparkleBlue;
@@ -194,17 +194,17 @@ namespace Krypton.Ribbon
                 case "Sparkle - Purple":
                     ApplyTheme(PaletteModeManager.SparklePurple, manager);
                     break;
-                case "Office 365 - Black":
-                    ApplyTheme(PaletteModeManager.Office365Black, manager);
+                case "Microsoft 365 - Black":
+                    ApplyTheme(PaletteModeManager.Microsoft365Black, manager);
                     break;
-                case "Office 365 - Blue":
-                    ApplyTheme(PaletteModeManager.Office365Blue, manager);
+                case "Microsoft 365 - Blue":
+                    ApplyTheme(PaletteModeManager.Microsoft365Blue, manager);
                     break;
-                case "Office 365 - Silver":
-                    ApplyTheme(PaletteModeManager.Office365Silver, manager);
+                case "Microsoft 365 - Silver":
+                    ApplyTheme(PaletteModeManager.Microsoft365Silver, manager);
                     break;
-                case "Office 365 - White":
-                    ApplyTheme(PaletteModeManager.Office365White, manager);
+                case "Microsoft 365 - White":
+                    ApplyTheme(PaletteModeManager.Microsoft365White, manager);
                     break;
                 default:
                     throw new ArgumentNullException(nameof(themeName));
@@ -281,13 +281,13 @@ namespace Krypton.Ribbon
 
                 if (manager.GlobalPaletteMode == PaletteModeManager.SparklePurple) result = "Sparkle - Purple";
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Blue) result = "Office 365 - Blue";
+                if (manager.GlobalPaletteMode == PaletteModeManager.Microsoft365Blue) result = "Microsoft 365 - Blue";
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Silver) result = "Office 365 - Silver";
+                if (manager.GlobalPaletteMode == PaletteModeManager.Microsoft365Silver) result = "Microsoft 365 - Silver";
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365White) result = "Office 365 - White";
+                if (manager.GlobalPaletteMode == PaletteModeManager.Microsoft365White) result = "Microsoft 365 - White";
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Black) result = "Office 365 - Black";
+                if (manager.GlobalPaletteMode == PaletteModeManager.Microsoft365Black) result = "Microsoft 365 - Black";
             }
             else
             {
@@ -323,13 +323,13 @@ namespace Krypton.Ribbon
 
                 if (paletteModeManager == PaletteModeManager.SparklePurple) result = "Sparkle - Purple";
 
-                if (paletteModeManager == PaletteModeManager.Office365Blue) result = "Office 365 - Blue";
+                if (paletteModeManager == PaletteModeManager.Microsoft365Blue) result = "Microsoft 365 - Blue";
 
-                if (paletteModeManager == PaletteModeManager.Office365Silver) result = "Office 365 - Silver";
+                if (paletteModeManager == PaletteModeManager.Microsoft365Silver) result = "Microsoft 365 - Silver";
 
-                if (paletteModeManager == PaletteModeManager.Office365White) result = "Office 365 - White";
+                if (paletteModeManager == PaletteModeManager.Microsoft365White) result = "Microsoft 365 - White";
 
-                if (paletteModeManager == PaletteModeManager.Office365Black) result = "Office 365 - Black";
+                if (paletteModeManager == PaletteModeManager.Microsoft365Black) result = "Microsoft 365 - Black";
             }
 
             return result;
@@ -378,13 +378,13 @@ namespace Krypton.Ribbon
 
             if (paletteMode == PaletteMode.SparklePurple) result = "Sparkle - Purple";
 
-            if (paletteMode == PaletteMode.Office365Blue) result = "Office 365 - Blue";
+            if (paletteMode == PaletteMode.Microsoft365Blue) result = "Microsoft 365 - Blue";
 
-            if (paletteMode == PaletteMode.Office365Silver) result = "Office 365 - Silver";
+            if (paletteMode == PaletteMode.Microsoft365Silver) result = "Microsoft 365 - Silver";
 
-            if (paletteMode == PaletteMode.Office365White) result = "Office 365 - White";
+            if (paletteMode == PaletteMode.Microsoft365White) result = "Microsoft 365 - White";
 
-            if (paletteMode == PaletteMode.Office365Black) result = "Office 365 - Black";
+            if (paletteMode == PaletteMode.Microsoft365Black) result = "Microsoft 365 - Black";
 
             return result;
         }

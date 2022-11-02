@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
                 {
                     PaletteRibbonShape.Office2010 => _borderPadding2010,
                     PaletteRibbonShape.Office2013 => _borderPadding2013,
-                    PaletteRibbonShape.Office365 => _borderPadding365,
+                    PaletteRibbonShape.Microsoft365 => _borderPadding365,
                     _ => _borderPadding2007
                 };
             }
