@@ -19,9 +19,11 @@ namespace Krypton.Toolkit
     public abstract class PaletteBase : Component, IPalette
     {
         #region Instance Fields
+        private BasePaletteType _basePaletteType;
         private float? _baseFontSize;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
+        private string _themeName;
         #endregion
 
         #region Events
@@ -62,6 +64,8 @@ namespace Krypton.Toolkit
 
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
+
+            _themeName = null;
         }
         #endregion
 
@@ -1194,6 +1198,11 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        public string ThemeName { get => _themeName; set => _themeName = value; }
+
+        public BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
+
         #endregion
 
         #region Protected
