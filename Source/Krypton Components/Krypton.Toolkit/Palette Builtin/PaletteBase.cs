@@ -54,9 +54,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteBase class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
         protected PaletteBase()
         {
             // We need to notice when system color settings change
@@ -1199,9 +1197,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        public string ThemeName { get => _themeName; set => _themeName = value; }
+        public virtual string ThemeName { get => _themeName; set => _themeName = value; }
 
-        public BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
+        public virtual BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
 
         #endregion
 
