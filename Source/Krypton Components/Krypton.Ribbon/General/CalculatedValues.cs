@@ -76,7 +76,7 @@ namespace Krypton.Ribbon
                         _groupsHeightModifier = 0;
                         break;
                     case PaletteRibbonShape.Office2013:
-                    case PaletteRibbonShape.Office365:
+                    case PaletteRibbonShape.Microsoft365:
                     case PaletteRibbonShape.Office2010:
                         _groupHeightModifier = -3;
                         _groupsHeightModifier = -3;

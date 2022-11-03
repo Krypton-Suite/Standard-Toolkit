@@ -11,7 +11,7 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Build & create NuGet packages
+echo 4. Build and create NuGet packages
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. End

@@ -12,7 +12,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class PaletteOffice365DarkGray : PaletteOffice365Base
+    public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
     {
         #region Static Fields
 
@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice365DarkGray()
+        static PaletteMicrosoft365DarkGray()
         {
             _checkBoxList = new ImageList
             {
@@ -321,9 +321,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initialize a new instance of the PaletteOffice365DarkGray class.
+        /// Initialize a new instance of the PaletteMicrosoft365DarkGray class.
         /// </summary>
-        public PaletteOffice365DarkGray()
+        public PaletteMicrosoft365DarkGray()
             : base(_schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,

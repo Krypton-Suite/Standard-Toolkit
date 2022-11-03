@@ -94,8 +94,8 @@ namespace Krypton.Toolkit
             _needPaintDelegate = OnNeedPaint;
 
             // Set the default palette/palette mode
-            _basePalette = KryptonManager.GetPaletteForMode(PaletteMode.Office365Blue);
-            _basePaletteMode = PaletteMode.Office365Blue;
+            _basePalette = KryptonManager.GetPaletteForMode(PaletteMode.Microsoft365Blue);
+            _basePaletteMode = PaletteMode.Microsoft365Blue;
 
             // Set the default renderer
             _baseRenderer = null;
@@ -2646,9 +2646,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != PaletteMode.Office365Blue;
+        private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != PaletteMode.Microsoft365Blue;
 
-        private void ResetBasePaletteMode() => BasePaletteMode = PaletteMode.Office365Blue;
+        private void ResetBasePaletteMode() => BasePaletteMode = PaletteMode.Microsoft365Blue;
 
         /// <summary>
         /// Gets and sets the KryptonPalette used to inherit from.
@@ -2670,7 +2670,7 @@ namespace Krypton.Toolkit
                     IPalette tempPalette = _basePalette;
 
                     // Find the new palette mode based on the incoming value
-                    _basePaletteMode = value == null ? PaletteMode.Office365Blue : PaletteMode.Custom;
+                    _basePaletteMode = value == null ? PaletteMode.Microsoft365Blue : PaletteMode.Custom;
                     _basePalette = value;
 
                     // If the new value creates a circular reference

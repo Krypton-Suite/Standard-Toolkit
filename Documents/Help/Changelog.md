@@ -5,6 +5,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Renamed `Office 365` to `Microsoft 365` to fall in line with naming schemes
 * Seperate symbols packages for **Canary** & **Nightly** builds
 * Removed support for .NET Core App 3.1 for 'Lite' packages
 * Support for .NET 8

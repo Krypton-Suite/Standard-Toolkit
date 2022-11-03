@@ -297,7 +297,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2007Black class.
         /// </summary>
         public PaletteOffice2007Black()
-            : base(_schemeOfficeColors,
+            : base("Office 2007 - Black",
+                   _schemeOfficeColors,
                    _checkBoxList,
                    _galleryButtonList,
                    _radioButtonArray,

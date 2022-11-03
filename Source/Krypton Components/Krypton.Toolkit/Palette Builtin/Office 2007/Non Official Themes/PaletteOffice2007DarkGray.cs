@@ -287,6 +287,8 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        private static readonly string _themeName;
+
         #endregion
 
         #region Identity
@@ -321,7 +323,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteOffice2007DarkGray" /> class.</summary>
-        public PaletteOffice2007DarkGray() : base(_schemeOfficeColours, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColours)
+        public PaletteOffice2007DarkGray() : base(_themeName, _schemeOfficeColours, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColours)
         {
             
         }

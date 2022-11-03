@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteOffice365Black : PaletteOffice365BlackThemeBase
+    public class PaletteMicrosoft365Black : PaletteMicrosoft365BlackThemeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365Black()
+        static PaletteMicrosoft365Black()
         {
             _checkBoxList = new ImageList
             {
@@ -317,9 +317,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365Black"/> class.
+        /// Initializes a new instance of the <see cref="PaletteMicrosoft365Black"/> class.
         /// </summary>
-        public PaletteOffice365Black() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteMicrosoft365Black() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }
@@ -402,13 +402,13 @@ namespace Krypton.Toolkit
         #endregion
     }
 
-    #region Class: PaletteOffice365BlackThemeBase
+    #region Class: PaletteMicrosoft365BlackThemeBase
 
     /// <summary>
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteOffice365BlackThemeBase : PaletteBase
+    public abstract class PaletteMicrosoft365BlackThemeBase : PaletteBase
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
@@ -602,14 +602,14 @@ namespace Krypton.Toolkit
 
         #region Constructor        
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365BlackThemeBase"/> class.
+        /// Initializes a new instance of the <see cref="PaletteMicrosoft365BlackThemeBase"/> class.
         /// </summary>
         /// <param name="schemeColours">The scheme colours.</param>
         /// <param name="checkBoxList">The check box list.</param>
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        protected PaletteOffice365BlackThemeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        protected PaletteMicrosoft365BlackThemeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
@@ -648,7 +648,7 @@ namespace Krypton.Toolkit
         /// <returns>
         /// Renderer to use for drawing palette settings.
         /// </returns>
-        public override IRenderer GetRenderer() => KryptonManager.RenderOffice365;
+        public override IRenderer GetRenderer() => KryptonManager.RenderMicrosoft365;
 
         #endregion
 
@@ -3952,11 +3952,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RibbonGeneral
+
         /// <summary>
         /// Gets the ribbon shape that should be used.
         /// </summary>
         /// <returns>Ribbon shape value.</returns>
-        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Office365;
+        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Microsoft365;
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.

@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
                                                             "Office 2010 - White",
                                                             //"Office 2013",
                                                             "Office 2013 - White",
-                                                            "Office 365 - Black",
-                                                            "Office 365 - Blue",
-                                                            "Office 365 - Silver",
-                                                            "Office 365 - White",
+                                                            "Microsoft 365 - Black",
+                                                            "Microsoft 365 - Blue",
+                                                            "Microsoft 365 - Silver",
+                                                            "Microsoft 365 - White",
                                                             "Sparkle - Blue",
                                                             "Sparkle - Orange",
                                                             "Sparkle - Purple" };
@@ -111,21 +111,21 @@ namespace Krypton.Toolkit
             {
                 paletteMode = PaletteModeManager.Office2013White;
             }
-            else if (themeName.Equals("Office 365 - Black"))
+            else if (themeName.Equals("Microsoft 365 - Black"))
             {
-                paletteMode = PaletteModeManager.Office365Black;
+                paletteMode = PaletteModeManager.Microsoft365Black;
             }
-            else if (themeName.Equals("Office 365 - Blue"))
+            else if (themeName.Equals("Microsoft 365 - Blue"))
             {
-                paletteMode = PaletteModeManager.Office365Blue;
+                paletteMode = PaletteModeManager.Microsoft365Blue;
             }
-            else if (themeName.Equals("Office 365 - Silver"))
+            else if (themeName.Equals("Microsoft 365 - Silver"))
             {
-                paletteMode = PaletteModeManager.Office365Silver;
+                paletteMode = PaletteModeManager.Microsoft365Silver;
             }
-            else if (themeName.Equals("Office 365 - White"))
+            else if (themeName.Equals("Microsoft 365 - White"))
             {
-                paletteMode = PaletteModeManager.Office365White;
+                paletteMode = PaletteModeManager.Microsoft365White;
             }
             else if (themeName.Equals("Sparkle - Blue"))
             {
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         /// <param name="manager">The manager.</param>
         /// <param name="paletteMode">The palette mode.</param>
         /// <param name="customThemePath">The custom theme path.</param>
-        public static void ApplyTheme(KryptonManager manager, PaletteModeManager paletteMode = PaletteModeManager.Office365Blue, string customThemePath = "")
+        public static void ApplyTheme(KryptonManager manager, PaletteModeManager paletteMode = PaletteModeManager.Microsoft365Blue, string customThemePath = "")
         {
             manager.GlobalPaletteMode = paletteMode;
 

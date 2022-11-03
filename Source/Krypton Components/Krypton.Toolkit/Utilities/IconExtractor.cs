@@ -26,8 +26,27 @@ namespace Krypton.Toolkit
     /// <exception cref="System.PlatformNotSupportedException"></exception>
     public static Icon LoadIcon(IconType type, Size size)
     {
-     IntPtr hIcon = ImageNativeMethods.LoadImage(IntPtr.Zero, "#" + (int)type, 1, size.Width, size.Height, 0);
-     return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
+        IntPtr hIcon = ImageNativeMethods.LoadImage(IntPtr.Zero, "#" + (int)type, 1, size.Width, size.Height, 0);
+        return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
+    }
+
+    /// <summary>Returns an icon representation of an image that is contained in the specified file.</summary>
+    /// <param name="executablePath"></param>
+    /// <returns></returns>
+    public static Icon ExtractIconFromFilePath(string executablePath)
+    {
+        Icon result = (Icon) null;
+
+        try
+        {
+            result = Icon.ExtractAssociatedIcon(executablePath);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Unable to extract the icon from the binary");
+        }
+
+        return result;
     }
 
     public enum IconType

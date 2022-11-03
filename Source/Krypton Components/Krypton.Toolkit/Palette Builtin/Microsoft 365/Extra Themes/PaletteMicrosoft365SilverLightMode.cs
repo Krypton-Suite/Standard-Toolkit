@@ -12,8 +12,8 @@
 
 namespace Krypton.Toolkit
 {
-    #region Class: PaletteOffice365SilverLightMode
-    public class PaletteOffice365SilverLightMode : PaletteOffice365SilverLightModeBase
+    #region Class: PaletteMicrosoft365SilverLightMode
+    public class PaletteMicrosoft365SilverLightMode : PaletteMicrosoft365SilverLightModeBase
     {
         #region Static Fields
 
@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365SilverLightMode()
+        static PaletteMicrosoft365SilverLightMode()
         {
             _checkBoxList = new ImageList
             {
@@ -325,9 +325,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365SilverLightMode"/> class.
+        /// Initializes a new instance of the <see cref="PaletteMicrosoft365SilverLightMode"/> class.
         /// </summary>
-        public PaletteOffice365SilverLightMode() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteMicrosoft365SilverLightMode() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }
@@ -406,12 +406,12 @@ namespace Krypton.Toolkit
     }
     #endregion
 
-    #region Class: PaletteOffice365SilverLightModeBase
+    #region Class: PaletteMicrosoft365SilverLightModeBase
     /// <summary>
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteOffice365SilverLightModeBase : PaletteBase
+    public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -614,14 +614,14 @@ namespace Krypton.Toolkit
 
         #region Constructor        
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365SilverLightModeBase"/> class.
+        /// Initializes a new instance of the <see cref="PaletteMicrosoft365SilverLightModeBase"/> class.
         /// </summary>
         /// <param name="schemeColours">The scheme colours.</param>
         /// <param name="checkBoxList">The check box list.</param>
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        protected PaletteOffice365SilverLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        protected PaletteMicrosoft365SilverLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
         /// <returns>
         /// Renderer to use for drawing palette settings.
         /// </returns>
-        public override IRenderer GetRenderer() => KryptonManager.RenderOffice365;
+        public override IRenderer GetRenderer() => KryptonManager.RenderMicrosoft365;
 
         #endregion
 
@@ -4041,7 +4041,7 @@ namespace Krypton.Toolkit
         /// Gets the ribbon shape that should be used.
         /// </summary>
         /// <returns>Ribbon shape value.</returns>
-        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Office365;
+        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Microsoft365;
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.

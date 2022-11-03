@@ -211,26 +211,26 @@ namespace Krypton.Toolkit
                     return PaletteMode.Office2010White;
                 case PaletteModeManager.Office2013White:
                     return PaletteMode.Office2013White;
-                case PaletteModeManager.Office365Black:
-                    return PaletteMode.Office365Black;
-                case PaletteModeManager.Office365BlackDarkMode:
-                    return PaletteMode.Office365BlackDarkMode;
-                case PaletteModeManager.Office365Blue:
-                    return PaletteMode.Office365Blue;
-                case PaletteModeManager.Office365BlueDarkMode:
-                    return PaletteMode.Office365BlueDarkMode;
-                case PaletteModeManager.Office365BlueLightMode:
-                    return PaletteMode.Office365BlueLightMode;
-                case PaletteModeManager.Office365DarkGray:
-                    return PaletteMode.Office365DarkGray;
-                case PaletteModeManager.Office365Silver:
-                    return PaletteMode.Office365Silver;
-                case PaletteModeManager.Office365SilverDarkMode:
-                    return PaletteMode.Office365SilverDarkMode;
-                case PaletteModeManager.Office365SilverLightMode:
-                    return PaletteMode.Office365SilverLightMode;
-                case PaletteModeManager.Office365White:
-                    return PaletteMode.Office365White;
+                case PaletteModeManager.Microsoft365Black:
+                    return PaletteMode.Microsoft365Black;
+                case PaletteModeManager.Microsoft365BlackDarkMode:
+                    return PaletteMode.Microsoft365BlackDarkMode;
+                case PaletteModeManager.Microsoft365Blue:
+                    return PaletteMode.Microsoft365Blue;
+                case PaletteModeManager.Microsoft365BlueDarkMode:
+                    return PaletteMode.Microsoft365BlueDarkMode;
+                case PaletteModeManager.Microsoft365BlueLightMode:
+                    return PaletteMode.Microsoft365BlueLightMode;
+                case PaletteModeManager.Microsoft365DarkGray:
+                    return PaletteMode.Microsoft365DarkGray;
+                case PaletteModeManager.Microsoft365Silver:
+                    return PaletteMode.Microsoft365Silver;
+                case PaletteModeManager.Microsoft365SilverDarkMode:
+                    return PaletteMode.Microsoft365SilverDarkMode;
+                case PaletteModeManager.Microsoft365SilverLightMode:
+                    return PaletteMode.Microsoft365SilverLightMode;
+                case PaletteModeManager.Microsoft365White:
+                    return PaletteMode.Microsoft365White;
                 case PaletteModeManager.ProfessionalOffice2003:
                     return PaletteMode.ProfessionalOffice2003;
                 case PaletteModeManager.ProfessionalSystem:
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
                 case PaletteModeManager.SparklePurpleLightMode:
                     return PaletteMode.SparklePurpleLightMode;
                 default:
-                    return PaletteMode.Office365Blue;
+                    return PaletteMode.Microsoft365Blue;
             }
         }
 
@@ -373,34 +373,34 @@ namespace Krypton.Toolkit
                     ApplyTheme(PaletteModeManager.SparklePurpleLightMode, manager);
                     break;
                 case @"Office 365 - Blue":
-                    ApplyTheme(PaletteModeManager.Office365Blue, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365Blue, manager);
                     break;
                 case @"Office 365 - Blue (Dark Mode)":
-                    ApplyTheme(PaletteModeManager.Office365BlueDarkMode, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365BlueDarkMode, manager);
                     break;
                 case @"Office 365 - Blue (Light Mode)":
-                    ApplyTheme(PaletteModeManager.Office365BlueLightMode, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365BlueLightMode, manager);
                     break;
                 case @"Office 365 - Silver":
-                    ApplyTheme(PaletteModeManager.Office365Silver, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365Silver, manager);
                     break;
                 case @"Office 365 - Silver (Dark Mode)":
-                    ApplyTheme(PaletteModeManager.Office365SilverDarkMode, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365SilverDarkMode, manager);
                     break;
                 case @"Office 365 - Silver (Light Mode)":
-                    ApplyTheme(PaletteModeManager.Office365SilverLightMode, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365SilverLightMode, manager);
                     break;
                 case @"Office 365 - White":
-                    ApplyTheme(PaletteModeManager.Office365White, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365White, manager);
                     break;
                 case @"Office 365 - Black":
-                    ApplyTheme(PaletteModeManager.Office365Black, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365Black, manager);
                     break;
                 case @"Office 365 - Black (Dark Mode)":
-                    ApplyTheme(PaletteModeManager.Office365BlackDarkMode, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365BlackDarkMode, manager);
                     break;
                 case @"Office 365 - Dark Gray":
-                    ApplyTheme(PaletteModeManager.Office365DarkGray, manager);
+                    ApplyTheme(PaletteModeManager.Microsoft365DarkGray, manager);
                     break;
                 default:
                     throw new ArgumentNullException(nameof(themeName));
@@ -468,16 +468,16 @@ namespace Krypton.Toolkit
                 PaletteModeManager.SparkleBlue => "Sparkle - Blue",
                 PaletteModeManager.SparkleOrange => "Sparkle - Orange",
                 PaletteModeManager.SparklePurple => "Sparkle - Purple",
-                PaletteModeManager.Office365Blue => "Office 365 - Blue",
-                PaletteModeManager.Office365BlueDarkMode => "Office 365 - Blue (Dark Mode)",
-                PaletteModeManager.Office365BlueLightMode => "Office 365 - Blue (Light Mode)",
-                PaletteModeManager.Office365Silver => "Office 365 - Silver",
-                PaletteModeManager.Office365SilverDarkMode => "Office 365 - Silver (Dark Mode)",
-                PaletteModeManager.Office365SilverLightMode => "Office 365 - Silver (Light Mode)",
-                PaletteModeManager.Office365White => "Office 365 - White",
-                PaletteModeManager.Office365Black => "Office 365 - Black",
-                PaletteModeManager.Office365BlackDarkMode => "Office 365 - Black (Dark Mode)",
-                PaletteModeManager.Office365DarkGray => "Office 365 - Dark Gray",
+                PaletteModeManager.Microsoft365Blue => "Office 365 - Blue",
+                PaletteModeManager.Microsoft365BlueDarkMode => "Office 365 - Blue (Dark Mode)",
+                PaletteModeManager.Microsoft365BlueLightMode => "Office 365 - Blue (Light Mode)",
+                PaletteModeManager.Microsoft365Silver => "Office 365 - Silver",
+                PaletteModeManager.Microsoft365SilverDarkMode => "Office 365 - Silver (Dark Mode)",
+                PaletteModeManager.Microsoft365SilverLightMode => "Office 365 - Silver (Light Mode)",
+                PaletteModeManager.Microsoft365White => "Office 365 - White",
+                PaletteModeManager.Microsoft365Black => "Office 365 - Black",
+                PaletteModeManager.Microsoft365BlackDarkMode => "Office 365 - Black (Dark Mode)",
+                PaletteModeManager.Microsoft365DarkGray => "Office 365 - Dark Gray",
                 _ => null
             };
         }

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// 
     /// </summary>
     /// <seealso cref="KryptonProfessionalRenderer" />
-    public class KryptonOffice365Renderer : KryptonProfessionalRenderer
+    public class KryptoMicrosoft365Renderer : KryptonProfessionalRenderer
     {
         #region GradientItemColors
         private abstract class GradientItemColors
@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static KryptonOffice365Renderer()
+        static KryptoMicrosoft365Renderer()
         {
             _stripBlend = new Blend
             {
@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
         /// Initialise a new instance of the KryptonOffice2010Renderer class.
         /// </summary>
         /// <param name="kct">Source for text colors.</param>
-        public KryptonOffice365Renderer(KryptonColorTable kct)
+        public KryptoMicrosoft365Renderer(KryptonColorTable kct)
             : base(kct)
         {
         }

@@ -1250,7 +1250,7 @@ namespace Krypton.Ribbon
                 var newAllowIconDisplay = !_integrated
                                            || !_ribbon.RibbonAppButton.AppButtonVisible
                                            || (_ribbon.RibbonAppButton.AppButtonVisible
-                                               && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
+                                               && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365)
                                            )
                                             ;
                 if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
