@@ -12,12 +12,50 @@
 
 namespace Krypton.Toolkit
 {
-    internal class IconUtilities
+    /// <summary>Allows the manipulation of graphics.</summary>
+    public static class GraphicsExtensions
     {
-        /// <summary>Initializes a new instance of the <see cref="IconUtilities" /> class.</summary>
-        public IconUtilities()
-        {
+        #region Identity
 
+        static GraphicsExtensions()
+        {
+            
+        }
+
+        #endregion
+
+        #region Implementation
+
+        /// <summary>Loads the icon.</summary>
+        /// <param name="type">The type of icon.</param>
+        /// <param name="size">The size.</param>
+        /// <returns>The icon.</returns>
+        /// <exception cref="System.PlatformNotSupportedException"></exception>
+        public static Icon LoadIcon(IconType type, Size size)
+        {
+            IntPtr hIcon = ImageNativeMethods.LoadImage(IntPtr.Zero, "#" + (int)type, 1, size.Width, size.Height, 0);
+            return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
+        }
+
+        /// <summary>Returns an icon representation of an image that is contained in the specified file.</summary>
+        /// <param name="executablePath"></param>
+        /// <returns></returns>
+        public static Icon ExtractIconFromFilePath(string executablePath)
+        {
+            Icon result = (Icon)null;
+
+            try
+            {
+                result = Icon.ExtractAssociatedIcon(executablePath);
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine("Unable to extract the icon from the binary");
+
+                ExceptionHandler.CaptureException(e);
+            }
+
+            return result;
         }
 
         public enum SystemIconSize
@@ -28,6 +66,7 @@ namespace Krypton.Toolkit
             Custom = 3
         }
 
+        /*
         /// <summary>
         /// Loads the icon.
         /// </summary>
@@ -40,17 +79,17 @@ namespace Krypton.Toolkit
             IntPtr hIcon = PI.LoadImage(IntPtr.Zero, "#" + (int)type, 1, size.Width, size.Height, 0);
             return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
         }
+        */
 
         /// <summary>Resize the image to the specified width and height. Copied from: https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp</summary>
         /// <param name="sourceImage">The image to resize.</param>
-        /// <param name="width">The width to resize to.</param>
-        /// <param name="height">The height to resize to.</param>
+        /// <param name="imageSize">The size that you want to resize the image to.</param>
         /// <returns>The resized image.</returns>
-        internal static Bitmap ScaleImage(Image sourceImage, int width, int height)
+        public static Bitmap ScaleImage(Image sourceImage, Size imageSize)
         {
-            var destRect = new Rectangle(0, 0, width, height);
+            var destRect = new Rectangle(0, 0, imageSize.Width, imageSize.Height);
 
-            var destImage = new Bitmap(width, height);
+            var destImage = new Bitmap(imageSize.Width, imageSize.Height);
 
             destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
 
@@ -114,4 +153,15 @@ namespace Krypton.Toolkit
         /// <summary>Specify a Windows logo icon.</summary>
         WindowsLogo = 10
     }
+
+    public enum IconType
+        {
+            Warning = 101,
+            Help = 102,
+            Error = 103,
+            Info = 104,
+            Shield = 106
+        }
+
+        #endregion
 }

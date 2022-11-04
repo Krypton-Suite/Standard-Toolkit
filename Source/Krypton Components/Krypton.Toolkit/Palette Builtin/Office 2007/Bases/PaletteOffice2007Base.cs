@@ -3711,7 +3711,7 @@ namespace Krypton.Toolkit
 
         #region ThemeName
 
-        public string ThemeName { get => _themeName; set => _themeName = value; }
+        public new virtual string ThemeName { get => _themeName; set => _themeName = value; }
 
         #endregion
 

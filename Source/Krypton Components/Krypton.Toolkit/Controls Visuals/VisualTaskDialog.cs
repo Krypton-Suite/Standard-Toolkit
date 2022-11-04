@@ -267,23 +267,23 @@ namespace Krypton.Toolkit
                         SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
-                        _messageIcon.Image = IconUtilities.ScaleImage(SystemIcons.Shield.ToBitmap(), 16, 16);
+                        _messageIcon.Image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(16, 16));
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
-                        if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                        if (OSUtilities.IsWindowsEleven)
                         {
                             _messageIcon.Image = VisualTaskDialogImageResources.Windows_11_Small;
                         }
                         // Windows 10
-                        else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                        else if (OSUtilities.IsWindowsTen)
                         {
                             _messageIcon.Image = VisualTaskDialogImageResources.Windows_8_and_10_Logo_Small;
                         }
                         else
                         {
-                            _messageIcon.Image = IconUtilities.ScaleImage(SystemIcons.WinLogo.ToBitmap(), 16, 16);
+                            _messageIcon.Image = GraphicsExtensions.ScaleImage(SystemIcons.WinLogo.ToBitmap(), new Size(16, 16));
                         }
                         break;
                 }
@@ -581,17 +581,17 @@ namespace Krypton.Toolkit
                         _iconFooter.Image = MessageBoxResources.Stop;
                         break;
                     case KryptonMessageBoxIcon.Shield:
-                        _iconFooter.Image = IconUtilities.ScaleImage(SystemIcons.Shield.ToBitmap(), 16, 16);
+                        _iconFooter.Image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(16, 16));
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
-                        if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                        if (OSUtilities.IsWindowsEleven)
                         {
                             _iconFooter.Image = MessageBoxResources.Windows11;
                         }
                         // Windows 10
-                        else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                        else if (OSUtilities.IsWindowsTen)
                         {
                             _iconFooter.Image = MessageBoxResources.Windows_8_and_10_Logo;
                         }

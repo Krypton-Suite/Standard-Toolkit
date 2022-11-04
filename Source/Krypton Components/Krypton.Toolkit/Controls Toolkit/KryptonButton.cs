@@ -762,11 +762,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Shows the UAC shield.</summary>
+        /// <param name="showUACShield">if set to <c>true</c> [show UAC shield].</param>
         private void ShowUACShield(bool showUACShield)
         {
             if (showUACShield)
             {
-                Values.Image = IconExtractor.LoadIcon(IconExtractor.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
+                Values.Image = GraphicsExtensions.LoadIcon(GraphicsExtensions.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
 
                 Invalidate();
             }
