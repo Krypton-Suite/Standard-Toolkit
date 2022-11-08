@@ -1,0 +1,47 @@
+﻿[*Assembly*.cs]
+#Warning	CS0105	The using directive for 'System' appeared previously in this namespace	Krypton.Toolkit 2019 (net5.0-windows)
+dotnet_diagnostic.CS0105.severity = None
+
+[PlatformInvoke.cs]
+#Message	CA1069	The enum member 'LINELEFT' has the same constant value '0' as member 'LINEUP'
+dotnet_diagnostic.CA1069.severity = None
+
+[*.cs]
+# Sort System.* using directives alphabetically, and place them before other using directives
+dotnet_sort_system_directives_first = true
+#Place a blank line between using directive groups.
+dotnet_separate_import_directive_groups = true
+dotnet_code_quality.enable_platform_analyzer_on_pre_net5_target=true
+
+# 	Indexing can be simplified	Krypton.Toolkit 2022 (net5.0-windows), Krypton.Toolkit 2022 (net6.0-windows), Krypton.Toolkit 2022 (netcoreapp3.1)	
+dotnet_diagnostic.IDE0056.severity = silent
+
+# 	Substring can be simplified	Krypton.Workspace 2022 (net5.0-windows), Krypton.Workspace 2022 (net6.0-windows), Krypton.Workspace 2022 (netcoreapp3.1)
+dotnet_diagnostic.IDE0057.severity = silent
+
+# 	Naming rule violation: These words must begin with upper case characters: textBoxResponse_KeyDown
+dotnet_diagnostic.IDE1006.severity = silent
+
+#	Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = silent
+
+#warning CA1416: This call site is reachable on all platforms. 'KryptonRibbonGroupButton.Checked' is only supported on: 'Windows' 7.0 and later.
+dotnet_diagnostic.CA1416.severity = None
+
+# UpdateShadowLayer calls ReleaseDC but does not use the HRESULT or error code that the method returns. This could lead to unexpected behavior in error conditions or low-resource situations. Use the result in a conditional statement, assign the result to a variable, or pass it as an argument to another method.	
+dotnet_diagnostic.CA1806.severity = silent	
+
+# 	Member 'ShouldSerializeValue' does not access instance data and can be marked as static	
+dotnet_diagnostic.CA1822.severity = None
+
+#Warning	CS8618	Non-nullable field '_panelMessage' must contain a non-null value when exiting constructor. Consider declaring the field as nullable.	
+dotnet_diagnostic.CS8618.severity = None
+
+# CS8073:  The result of the expression is always 'true' or 'null'
+dotnet_diagnostic.CS8073.severity = None
+
+dotnet_diagnostic.CS0649.severity = None
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = suggestion
+
