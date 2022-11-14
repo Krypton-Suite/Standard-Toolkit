@@ -5,8 +5,9 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Added full license information to NuGet packages
 * Renamed `Office 365` to `Microsoft 365` to fall in line with naming schemes
-* Seperate symbols packages for **Canary** & **Nightly** builds
+* Separate symbols packages for **Canary** & **Nightly** builds
 * Removed support for .NET Core App 3.1 for 'Lite' packages
 * Support for .NET 8
 * Version bump `70.xx.xx.xx` -> `80.xx.xx.xx`

@@ -81,6 +81,7 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonDockableWorkspace.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonDockingManager.bmp" />
     </ItemGroup>
+    
     <ItemGroup>
         <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
         <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
@@ -100,6 +101,8 @@
         <NoWarn>1701;1702</NoWarn>
         <SignAssembly>True</SignAssembly>
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+        <PackageLicenseFile>License.md</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     </PropertyGroup>
    
 </Project>
