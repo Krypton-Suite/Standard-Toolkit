@@ -23,30 +23,35 @@ namespace Krypton.Toolkit
     public class GlobalStrings : GlobalId
     {
         #region Static Fields
-        private const string DEFAULT_OK = "O&K"; // Accelerator key - K
-        private const string DEFAULT_CANCEL = "Cance&l"; // Accelerator key - L
-        private const string DEFAULT_YES = "&Yes"; // Accelerator key - Y
-        private const string DEFAULT_NO = "N&o"; // Accelerator key - O
-        private const string DEFAULT_ABORT = "A&bort"; // Accelerator key - B
-        private const string DEFAULT_RETRY = "Ret&ry"; // Accelerator key - R
-        private const string DEFAULT_IGNORE = "I&gnore"; // Accelerator key - G
-        private const string DEFAULT_CLOSE = "Clo&se"; // Accelerator key - S
-        private const string DEFAULT_TODAY = "&Today"; // Accelerator key - T
-        private const string DEFAULT_HELP = "H&elp"; // Accelerator key - E
+        private const string DEFAULT_OK = @"O&K"; // Accelerator key - K
+        private const string DEFAULT_CANCEL = @"Cance&l"; // Accelerator key - L
+        private const string DEFAULT_YES = @"&Yes"; // Accelerator key - Y
+        private const string DEFAULT_NO = @"N&o"; // Accelerator key - O
+        private const string DEFAULT_ABORT = @"A&bort"; // Accelerator key - B
+        private const string DEFAULT_RETRY = @"Ret&ry"; // Accelerator key - R
+        private const string DEFAULT_IGNORE = @"I&gnore"; // Accelerator key - G
+        private const string DEFAULT_CLOSE = @"Clo&se"; // Accelerator key - S
+        private const string DEFAULT_TODAY = @"&Today"; // Accelerator key - T
+        private const string DEFAULT_HELP = @"H&elp"; // Accelerator key - E
 
         // NET 6 & newer
-        private const string DEFAULT_CONTINUE = "Co&ntinue"; // Accelerator key - N
-        private const string DEFAULT_TRY_AGAIN = "Try Aga&in"; // Accelerator key - I
+        private const string DEFAULT_CONTINUE = @"Co&ntinue"; // Accelerator key - N
+        private const string DEFAULT_TRY_AGAIN = @"Try Aga&in"; // Accelerator key - I
 
         // Custom
-        private const string DEFAULT_APPLY = "A&pply"; // Accelerator key - P
-        private const string DEFAULT_BACK = "Bac&k"; // Accelerator key - K
-        private const string DEFAULT_COLLAPSE = "C&ollapse"; // Accelerator key - O
-        private const string DEFAULT_EXPAND = "Ex&pand"; // Accelerator key - P
-        private const string DEFAULT_EXIT = "E&xit"; // Accelerator key - X
-        private const string DEFAULT_FINISH = "&Finish"; // Accelerator key - F
-        private const string DEFAULT_NEXT = "&Next"; // Accelerator key - N
+        private const string DEFAULT_APPLY = @"A&pply"; // Accelerator key - P
+        private const string DEFAULT_BACK = @"Bac&k"; // Accelerator key - K
+        private const string DEFAULT_COLLAPSE = @"C&ollapse"; // Accelerator key - O
+        private const string DEFAULT_EXPAND = @"Ex&pand"; // Accelerator key - P
+        private const string DEFAULT_EXIT = @"E&xit"; // Accelerator key - X
+        private const string DEFAULT_FINISH = @"&Finish"; // Accelerator key - F
+        private const string DEFAULT_NEXT = @"&Next"; // Accelerator key - N
         private const string DEFAULT_PREVIOUS = "Pre&vious"; // Accelerator key - V
+        private const string DEFAULT_CUT = @"C&ut"; // Accelerator key - U
+        private const string DEFAULT_COPY = @"&Copy"; // Accelerator key - C
+        private const string DEFAULT_PASTE = @"Pas&te"; // Accelerator key - T
+        private const string DEFAULT_SELECT_ALL = @"Sel&ect All"; // Accelerator key - E
+        private const string DEFAULT_CLEAR_CLIPBOARD = @"Clear Clipboa&rd"; // Accelerator key - R
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
@@ -102,10 +107,15 @@ namespace Krypton.Toolkit
                                  Exit.Equals(DEFAULT_EXIT) &&
                                  Finish.Equals(DEFAULT_FINISH) &&
                                  Next.Equals(DEFAULT_NEXT) &&
-                                 Previous.Equals(DEFAULT_PREVIOUS);
-                                 // Note: The following may not be needed...
-                                 /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
-                                 LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
+                                 Previous.Equals(DEFAULT_PREVIOUS) &&
+                                 Cut.Equals(DEFAULT_CUT) &&
+                                 Copy.Equals(DEFAULT_COPY) &&
+                                 Paste.Equals(DEFAULT_PASTE) &&
+                                 SelectAll.Equals(DEFAULT_SELECT_ALL) &&
+                                 ClearClipboard.Equals(DEFAULT_CLEAR_CLIPBOARD);
+        // Note: The following may not be needed...
+        /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
+        LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
 
         /// <summary>
         /// Reset all strings to default values.
@@ -137,6 +147,11 @@ namespace Krypton.Toolkit
             Finish = DEFAULT_FINISH;
             Next = DEFAULT_NEXT;
             Previous = DEFAULT_PREVIOUS;
+            Cut = DEFAULT_CUT;
+            Copy = DEFAULT_COPY;
+            Paste = DEFAULT_PASTE;
+            SelectAll = DEFAULT_SELECT_ALL;
+            ClearClipboard = DEFAULT_CLEAR_CLIPBOARD;
 
             // Note: The following may not be needed...
             /*MoreDetails = DEFAULT_MORE_DETAILS;
@@ -328,7 +343,52 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Previous string used for custom situations.")]
         [DefaultValue(DEFAULT_PREVIOUS)]
-        public string Previous { get; set; }    
+        public string Previous { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Cut string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Cut string used for custom situations.")]
+        [DefaultValue(DEFAULT_CUT)]
+        public string Cut { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Copy string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Copy string used for custom situations.")]
+        [DefaultValue(DEFAULT_COPY)]
+        public string Copy { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Paste string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Paste string used for custom situations.")]
+        [DefaultValue(DEFAULT_PASTE)]
+        public string Paste { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Select All string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Select All string used for custom situations.")]
+        [DefaultValue(DEFAULT_SELECT_ALL)]
+        public string SelectAll { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Clear Clipboard string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Clear Clipboard string used for custom situations.")]
+        [DefaultValue(DEFAULT_CLEAR_CLIPBOARD)]
+        public string ClearClipboard { get; set; }
 
         // Note: The following may not be needed...
 
