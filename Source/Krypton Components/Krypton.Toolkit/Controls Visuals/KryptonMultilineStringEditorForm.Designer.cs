@@ -90,6 +90,7 @@
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
             this.kbtnOk.TabIndex = 2;
             this.kbtnOk.Values.Text = "O&K";
+            this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
             // 
             // kbtnCancel
             // 
@@ -176,6 +177,7 @@
             // kcRichTextBoxCut
             // 
             this.kcRichTextBoxCut.Text = "kryptonCommand1";
+            this.kcRichTextBoxCut.Execute += new System.EventHandler(this.kcRichTextBoxCut_Execute);
             // 
             // kryptonContextMenuItem2
             // 
@@ -186,6 +188,7 @@
             // kcRichTextBoxCopy
             // 
             this.kcRichTextBoxCopy.Text = "kryptonCommand1";
+            this.kcRichTextBoxCopy.Execute += new System.EventHandler(this.kcRichTextBoxCopy_Execute);
             // 
             // kryptonContextMenuItem3
             // 
@@ -196,6 +199,7 @@
             // kcRichTextBoxPaste
             // 
             this.kcRichTextBoxPaste.Text = "kryptonCommand1";
+            this.kcRichTextBoxPaste.Execute += new System.EventHandler(this.kcRichTextBoxPaste_Execute);
             // 
             // kryptonContextMenuItem7
             // 
@@ -206,6 +210,7 @@
             // kcRichTextBoxSelectAll
             // 
             this.kcRichTextBoxSelectAll.Text = "kryptonCommand1";
+            this.kcRichTextBoxSelectAll.Execute += new System.EventHandler(this.kcRichTextBoxSelectAll_Execute);
             // 
             // kcmTextBoxMenu
             // 
@@ -232,6 +237,7 @@
             // kcTextBoxCut
             // 
             this.kcTextBoxCut.Text = "kryptonCommand1";
+            this.kcTextBoxCut.Execute += new System.EventHandler(this.kcTextBoxCut_Execute);
             // 
             // kryptonContextMenuItem5
             // 
@@ -242,6 +248,7 @@
             // kcTextBoxCopy
             // 
             this.kcTextBoxCopy.Text = "kryptonCommand1";
+            this.kcTextBoxCopy.Execute += new System.EventHandler(this.kcTextBoxCopy_Execute);
             // 
             // kryptonContextMenuItem6
             // 
@@ -252,6 +259,7 @@
             // kcTextBoxPaste
             // 
             this.kcTextBoxPaste.Text = "kryptonCommand1";
+            this.kcTextBoxPaste.Execute += new System.EventHandler(this.kcTextBoxPaste_Execute);
             // 
             // kryptonContextMenuItem8
             // 
@@ -262,16 +270,24 @@
             // kcTextBoxSelectAll
             // 
             this.kcTextBoxSelectAll.Text = "kryptonCommand1";
+            this.kcTextBoxSelectAll.Execute += new System.EventHandler(this.kcTextBoxSelectAll_Execute);
             // 
             // KryptonMultilineStringEditorForm
             // 
+            this.AcceptButton = this.kbtnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.kpnlContent);
             this.Controls.Add(this.kpnlButtons);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "KryptonMultilineStringEditorForm";
-            this.Text = "KryptonMultilineStringEditorForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "String Collection Editor";
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
             this.kpnlButtons.ResumeLayout(false);
             this.kpnlButtons.PerformLayout();
