@@ -5,6 +5,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Applied toolbox images to `KryptonColorDialog`, `KryptonFontDialog` & `KryptonPrintDialog`
 * New `Cut`, `Copy`, `Paste`, `Select All` & `Clear Clipboard` strings
 * Added full license information to NuGet packages
 * Renamed `Office 365` to `Microsoft 365` to fall in line with naming schemes

@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
     /// This may go into the extended toolkit as a "Full replacement" if it is deemed necessary.
     /// </remarks>
     [DefaultProperty(nameof(Document))]
-    [ToolboxBitmap(typeof(PrintDialog))]
+    [ToolboxBitmap(typeof(PrintDialog), "ToolboxBitmaps.KryptonPrintDialog.png")]
     [Description(@"PrintDialog")]
     [Designer("System.Windows.Forms.Design.PrintDialogDesigner, " + AssemblyRef.SystemDesign)]
     public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
