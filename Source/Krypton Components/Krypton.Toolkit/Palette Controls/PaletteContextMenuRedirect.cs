@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
                                            ItemTextAlternate.IsDefault &&
                                            ItemTextStandard.IsDefault &&
                                            Separator.IsDefault &&
-                                           !HasShadow;
+                                           HasShadow;
 
         #endregion
 
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the outer control window appearance entries.
         /// </summary>
-        [KryptonPersist]
+        //[KryptonPersist]
         [Category(@"Visuals")]
         [DefaultValue(true)]
         [Description(@"Should the Context menu have a shadow.")]
