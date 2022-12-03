@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Controller used to manage keyboard and mouse interaction withe a check box.
+    /// Controller used to manage keyboard and mouse interaction with a check box.
     /// </summary>
     public class CheckBoxController : GlobalId,
                                       IMouseController,

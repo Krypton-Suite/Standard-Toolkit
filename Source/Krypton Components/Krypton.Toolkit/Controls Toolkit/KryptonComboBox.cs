@@ -1196,6 +1196,8 @@ namespace Krypton.Toolkit
             set => StateCommon.ComboBox.Border.Rounding = value;
         }
 
+        private bool ShouldSerializeCornerRoundingRadius() => StateCommon.ComboBox.Border.Rounding != -1;
+
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
