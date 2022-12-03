@@ -89,6 +89,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{80
 		..\..\Documents\License\License.md = ..\..\Documents\License\License.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForm", "TestForm\TestForm.csproj", "{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -148,6 +150,16 @@ Global
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Canary|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Canary|Any CPU.Build.0 = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Installer|Any CPU.Build.0 = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Nightly|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Nightly|Any CPU.Build.0 = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

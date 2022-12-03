@@ -3,6 +3,9 @@
 <!--* Added the ability to control the `CueHint` values through `KryptonPalette`-->
 
 =======
+## 2023-11-xx - Build 2312 - December 2023
+* Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), [Feature Request]: A way to set the textbox / combobox / RichTextBox Cue font Rendering hint style
+
 
 ## 2023-11-xx - Build 2311 - November 2023
 * Applied toolbox images to `KryptonColorDialog`, `KryptonFontDialog` & `KryptonPrintDialog`
