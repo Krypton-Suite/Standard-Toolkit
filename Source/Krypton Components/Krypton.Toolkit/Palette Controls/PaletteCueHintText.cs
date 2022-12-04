@@ -83,7 +83,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-
         public override bool IsDefault =>
              (Font == null) &&
              (Color1 == Color.Empty) &&
@@ -91,7 +90,7 @@ namespace Krypton.Toolkit
              && (TextH == PaletteRelativeAlign.Near) // <- This is not the same as the base
              && string.IsNullOrWhiteSpace(CueHintText)
              && (_shortTextV == PaletteRelativeAlign.Center)
-            && !ShouldSerializeHint();
+             && !ShouldSerializeHint();
 
         /// <summary>
         /// Gets the actual content draw value.
@@ -124,8 +123,8 @@ namespace Krypton.Toolkit
 
         internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect, SolidBrush backBrush)
         {
-            using var old = new GraphicsHint( g, PaletteGraphicsHint.HighQuality);
-            using var old1 = new GraphicsTextHint( g, CommonHelper.PaletteTextHintToRenderingHint( _contentTextHint) );
+            using var old = new GraphicsHint(g, PaletteGraphicsHint.HighQuality);
+            using var old1 = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
             // Define the string formatting requirements
             var stringFormat = new StringFormat
             {
