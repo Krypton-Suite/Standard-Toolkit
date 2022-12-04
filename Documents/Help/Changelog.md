@@ -5,6 +5,11 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385), [Feature Request:] `KryptonColorButton` Modify Recent Colors
+* Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), [Feature Request]: A way to set the TextBox / ComboBox / RichTextBox Cue font Rendering hint style
+* Resolved [#789](https://github.com/Krypton-Suite/Standard-Toolkit/issues/789), Remove shadows for context menus
+* Resolved [#819](https://github.com/Krypton-Suite/Standard-Toolkit/issues/819), KryptonForm Enhancement - A option to disable/enable the close button.
+* Resolved [#808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/808), Ribbon Button Image padding is too small
 * Applied toolbox images to `KryptonColorDialog`, `KryptonFontDialog` & `KryptonPrintDialog`
 * New `Cut`, `Copy`, `Paste`, `Select All` & `Clear Clipboard` strings
 * Added full license information to NuGet packages
@@ -13,11 +18,6 @@
 * Removed support for .NET Core App 3.1 for 'Lite' packages
 * Support for .NET 8
 * Version bump `70.xx.xx.xx` -> `80.xx.xx.xx`
-* Resolved [#789](https://github.com/Krypton-Suite/Standard-Toolkit/issues/789), Remove shadows for context menus
-* Resolved [#819](https://github.com/Krypton-Suite/Standard-Toolkit/issues/819), 
-KryptonForm Enhancement - A option to disable/enable the close button.
-* Resolved [#808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/808), 
-Ribbon Button Image padding is too small
 
 =======
 

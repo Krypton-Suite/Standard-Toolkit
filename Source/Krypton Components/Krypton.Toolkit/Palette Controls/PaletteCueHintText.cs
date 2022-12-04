@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Identity
         internal PaletteRelativeAlign _shortTextV;
+        private PaletteTextHint _contentTextHint;
 
         /// <summary>
         /// Initialize a new instance of the PaletteCueHintText class.
@@ -49,6 +50,37 @@ namespace Krypton.Toolkit
         /// </summary>
         private void ResetCueHintText() => CueHintText = string.Empty;
 
+        #region Hint
+        /// <summary>
+        /// Gets the text rendering hint for the text.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Text rendering hint for the content text. (No `Inherit`)")]
+        [DefaultValue(typeof(PaletteTextHint), "AntiAlias")]
+        [RefreshProperties(RefreshProperties.All)]
+        public virtual PaletteTextHint Hint
+        {
+            get => _contentTextHint;
+
+            set
+            {
+                if (_contentTextHint != value)
+                {
+                    _contentTextHint = value == PaletteTextHint.Inherit ? PaletteTextHint.AntiAlias : value;
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        private bool ShouldSerializeHint() => _contentTextHint != PaletteTextHint.Inherit;
+
+        /// <summary>
+        /// Resets the Image property to its default value.
+        /// </summary>
+        private void ResetHint() => _contentTextHint = PaletteTextHint.Inherit;
+
+        #endregion
 
         public override bool IsDefault =>
              (Font == null) &&
@@ -56,7 +88,8 @@ namespace Krypton.Toolkit
              Padding.Equals(Padding.Empty)      // <- This is not the same as the base
              && (TextH == PaletteRelativeAlign.Near) // <- This is not the same as the base
              && string.IsNullOrWhiteSpace(CueHintText)
-             && (_shortTextV == PaletteRelativeAlign.Center);
+             && (_shortTextV == PaletteRelativeAlign.Center)
+             && !ShouldSerializeHint();
 
         /// <summary>
         /// Gets the actual content draw value.
@@ -89,8 +122,8 @@ namespace Krypton.Toolkit
 
         internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect, SolidBrush backBrush)
         {
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            using var old = new GraphicsHint(g, PaletteGraphicsHint.HighQuality);
+            using var old1 = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
             // Define the string formatting requirements
             var stringFormat = new StringFormat
             {

@@ -535,12 +535,12 @@ namespace Krypton.Toolkit
         private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(212, 212, 212), // Button, Disabled, Border
-                                                                Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
-                                                                Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
-                                                                Color.FromArgb(147, 125,  90), // Button, Pressed, Border 1
-                                                                Color.FromArgb(255, 196,  68), // Button, Pressed, Border 2
-                                                                Color.FromArgb(158, 130,  85), // Button, Checked, Border 1
-                                                                Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
+                                                                Color.FromArgb(163, 179, 220), // Button, Tracking, Border 1
+                                                                Color.FromArgb(128, 141, 173), // Button, Tracking, Border 2
+                                                                Color.FromArgb(90, 99, 122), // Button, Pressed, Border 1
+                                                                Color.FromArgb(118, 130, 160), // Button, Pressed, Border 2
+                                                                Color.FromArgb(136, 150, 185), // Button, Checked, Border 1
+                                                                Color.FromArgb(174, 192, 236)  // Button, Checked, Border 2
         };
         private static readonly Color[] _buttonBackColors = {   Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
                                                                 Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
