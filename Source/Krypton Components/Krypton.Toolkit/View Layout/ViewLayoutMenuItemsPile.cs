@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         private void UpdateImageColumnWidth(IRenderer renderer)
         {
             // If there is an image column then we will have a entry for index 0
-            if (_columnToWidth.ContainsKey(0))
+            if (_columnToWidth.TryGetValue(0, out var imageColumnWidth))
             {
                 // Find the border padding that is applied to the content of the menu item
                 Padding borderPadding = renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteItemHighlight.Border,
@@ -212,7 +212,6 @@ namespace Krypton.Toolkit
                                                                                               VisualOrientation.Top);
 
                 // Add double the left edge to the right edge of the image background coumn
-                var imageColumnWidth = _columnToWidth[0];
                 imageColumnWidth += borderPadding.Left * 3;
 
                 // Add double the metric padding that occurs outside the item highlight

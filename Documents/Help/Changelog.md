@@ -4,6 +4,7 @@
 
 =======
 ## 2023-11-xx - Build 2312 - December 2023
+_ Fixed [#848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/848), KryptonTreeView Font Issues
 * Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385),
 [Feature Request]: KryptonColorButton Modify Recent Colors
 * Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), [Feature Request]: A way to set the textbox / combobox / RichTextBox Cue font Rendering hint style

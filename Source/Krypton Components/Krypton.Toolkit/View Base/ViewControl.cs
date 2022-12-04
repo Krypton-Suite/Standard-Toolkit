@@ -178,11 +178,8 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
-                {
-                    // Use the root controls view manager to process the event
-                    GetViewManager().DoubleClick(PointToClient(MousePosition));
-                }
+                // Use the root controls view manager to process the event
+                GetViewManager()?.DoubleClick(PointToClient(MousePosition));
             }
 
             // Let base class fire events
@@ -296,11 +293,8 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
-                {
-                    // Use the root controls view manager to process the event
-                    GetViewManager().MouseLeave(e);
-                }
+                // Use the root controls view manager to process the event
+                GetViewManager()?.MouseLeave(e);
             }
 
             // Let base class fire events
@@ -317,10 +311,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
-                {
-                    GetViewManager().KeyDown(e);
-                }
+                GetViewManager()?.KeyDown(e);
             }
 
             // Let base class fire events
@@ -337,10 +328,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
-                {
-                    GetViewManager().KeyPress(e);
-                }
+                GetViewManager()?.KeyPress(e);
             }
 
             // Let base class fire events
@@ -357,10 +345,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
-                {
-                    GetViewManager().KeyUp(e);
-                }
+                GetViewManager()?.KeyUp(e);
             }
 
             // Let base class fire events
