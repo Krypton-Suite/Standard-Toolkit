@@ -57,13 +57,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMD Files", "CMD Files", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{8B44A4AE-79FA-4C8E-ADDF-7EBFDC8E7352}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\Scripts\build-canary-2019.cmd = ..\..\Scripts\build-canary-2019.cmd
 		..\..\Scripts\build-canary-2022.cmd = ..\..\Scripts\build-canary-2022.cmd
-		..\..\Scripts\build-installer-2019.cmd = ..\..\Scripts\build-installer-2019.cmd
 		..\..\Scripts\build-installer-2022.cmd = ..\..\Scripts\build-installer-2022.cmd
-		..\..\Scripts\build-nightly-2019.cmd = ..\..\Scripts\build-nightly-2019.cmd
 		..\..\Scripts\build-nightly-2022.cmd = ..\..\Scripts\build-nightly-2022.cmd
-		..\..\Scripts\build-stable-2019.cmd = ..\..\Scripts\build-stable-2019.cmd
 		..\..\Scripts\build-stable-2022.cmd = ..\..\Scripts\build-stable-2022.cmd
 	EndProjectSection
 EndProject
