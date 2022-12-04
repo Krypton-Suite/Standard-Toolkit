@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Drawing;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -1329,8 +1331,7 @@ namespace Krypton.Toolkit
         {
             foreach (Color color in colors
                          .Where(static color => (color != null) && !color.Equals(Color.Empty))
-                         .Where(color => !Enumerable.Contains(_recentColors, color))
-                    )
+                         .Where(color => !Enumerable.Contains(_recentColors, color)))
             {
                 // Add to start of the list
                 _recentColors.Insert(0, color);

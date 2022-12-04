@@ -31,6 +31,7 @@ namespace Krypton.Toolkit
             _padding = Padding.Empty;
             _shortTextV = PaletteRelativeAlign.Center;
             _shortTextH = PaletteRelativeAlign.Near;
+            _contentTextHint = PaletteTextHint.AntiAlias;
         }
 
         #endregion
