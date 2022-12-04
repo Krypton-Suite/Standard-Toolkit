@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Drawing;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -1315,6 +1317,31 @@ namespace Krypton.Toolkit
                         columns.SelectedColorChanged -= OnColumnsSelectedColorChanged;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Add or update the recent colours to display.
+        /// Notes:
+        ///   - If number to display > MaxRecentColors(10) then the earliest ones will be removed
+        ///   - Colours will appear in reverse order to those passed in. 
+        /// </summary>
+        /// <param name="colors"></param>
+        public void AddUpdateRecentColors(IList<Color> colors)
+        {
+            foreach (Color color in colors
+                         .Where(static color => (color != null) && !color.Equals(Color.Empty))
+                         .Where(color => !Enumerable.Contains(_recentColors, color))
+                     )
+            {
+                // Add to start of the list
+                _recentColors.Insert(0, color);
+            }
+
+            // Enforce the maximum number of recent colors
+            if (_recentColors.Count > MaxRecentColors)
+            {
+                _recentColors.RemoveRange(MaxRecentColors, _recentColors.Count - MaxRecentColors);
             }
         }
 
