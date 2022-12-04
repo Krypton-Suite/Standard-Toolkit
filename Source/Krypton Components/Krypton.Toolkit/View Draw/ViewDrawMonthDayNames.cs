@@ -109,10 +109,7 @@ namespace Krypton.Toolkit
                 // Define text to be drawn
                 _drawText = _months.DayNames[day % 7];
 
-                if (_dayMementos[i] != null)
-                {
-                    _dayMementos[i].Dispose();
-                }
+                _dayMementos[i]?.Dispose();
 
                 _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this, 
                                                                                        VisualOrientation.Top, state, false,false);

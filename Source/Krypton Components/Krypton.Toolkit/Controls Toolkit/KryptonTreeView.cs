@@ -1911,7 +1911,7 @@ namespace Krypton.Toolkit
             {
                 // Get the text string for the item
                 _contentValues.ShortText = @"A";
-                _contentValues.LongText = @"A";
+                _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
                 _contentValues.ImageTransparentColor = Color.Empty;
             }
@@ -1940,6 +1940,8 @@ namespace Krypton.Toolkit
 
                 _treeView.ViewDrawPanel.ElementState = state;
                 _drawDockerOuter.ElementState = state;
+                _treeView.Font = StateCommon.Node.Content.ShortText.Font;
+
             }
         }
 
