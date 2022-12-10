@@ -5,6 +5,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#861](
 * Implemented [#854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/854), Please remove "2019" from the build sequence etc. 
 * Resolved [#848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/848), KryptonTreeView Font Issues
 * Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385),
