@@ -173,6 +173,7 @@ The Krypton Suite contains user interface components designed to make it quick a
 - All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
 - New, major versions are released annually, with patches if needed released throughout that period. Version 80 is expected to release in November 2023.
+- For tips on how to build the toolkit for yourself, please read the following [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Build.md).
 
 ## Individual Components
 
