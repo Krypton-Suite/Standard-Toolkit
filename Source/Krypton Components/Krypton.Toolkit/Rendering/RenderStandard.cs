@@ -6409,7 +6409,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        RadioButtonState DiscoverRadioButtonState(bool enabled,
+        private RadioButtonState DiscoverRadioButtonState(bool enabled,
                                                   bool checkState,
                                                   bool tracking,
                                                   bool pressed)

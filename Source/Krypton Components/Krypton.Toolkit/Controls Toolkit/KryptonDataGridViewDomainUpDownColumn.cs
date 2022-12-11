@@ -29,10 +29,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDataGridViewDomainUpDownColumn class.
         /// </summary>
         public KryptonDataGridViewDomainUpDownColumn()
-            : base(new KryptonDataGridViewDomainUpDownCell())
-        {
+            : base(new KryptonDataGridViewDomainUpDownCell()) =>
             Items = new StringCollection();
-        }
 
         /// <summary>
         /// Returns a standard compact string representation of the column.

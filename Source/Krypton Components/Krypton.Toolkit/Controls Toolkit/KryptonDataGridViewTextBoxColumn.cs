@@ -31,10 +31,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDataGridViewTextBoxColumn class.
         /// </summary>
         public KryptonDataGridViewTextBoxColumn()
-            : base(new KryptonDataGridViewTextBoxCell())
-        {
+            : base(new KryptonDataGridViewTextBoxCell()) =>
             SortMode = DataGridViewColumnSortMode.Automatic;
-        }
 
         /// <summary>
         /// Returns a String that represents the current Object.
@@ -78,7 +76,7 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-        
+
         #endregion
 
         #region Public

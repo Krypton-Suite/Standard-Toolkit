@@ -915,7 +915,7 @@ namespace Krypton.Toolkit
             ContextMenuClosed();
         }
 
-        void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)

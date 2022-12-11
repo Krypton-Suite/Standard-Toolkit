@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         //    //return ret;// || _commonDialogHandler._T;
         //}
 
-        const int CLR_COMBOBOX_ID = 1139;
+        private const int CLR_COMBOBOX_ID = 1139;
         private IntPtr clrComboBoxHwnd;
         /// <inheritdoc />
         protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)

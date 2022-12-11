@@ -3570,7 +3570,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             }
 
             // Values designating how Flip3D treats a given window.
-            enum DWMFLIP3DWINDOWPOLICY : uint
+            private enum DWMFLIP3DWINDOWPOLICY : uint
             {
                 Default, // Hide or include the window in Flip3D based on window style and visibility.
                 ExcludeBelow, // Display the window under Flip3D and disabled.

@@ -128,14 +128,19 @@ Follow the links to see the different objects and layouts that this framework al
 =======
 
 # Breaking Changes
+## V80.## (2023-11-xx - Build 2311 - November 2023)
+There are list of changes that have occurred during the development of the V70.## version
+### KryptonMessageBoxButtons
+- https://github.com/Krypton-Suite/Standard-Toolkit/issues/728:  
+Bring MessageBox States inline with latest .Net 6 by using a new `KryptonMessageBoxButtons` type, which is effectively the same as .Net6 enum version of `MessageBoxButtons` but backward compatible with .net4.6.x onwards
+
+## V70.## (2022-11-08 - Build 2211 - November 2022)
 There are list of changes that have occurred during the development of the V70.## version
 
 ### Ribbon Tooltips
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/382
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/511
 ![][image_ref_tnqwpvc0]### Ribbon Tooltips
-
-## Be Aware
 
 ### `dpiAware`
 If you are getting scaling problems in high dpi monitors, then please add an application manifest to your MainForm application, and uncomment the section that covers the `dpiAware` setting.

@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Cue Hint
-        
+
         /// <summary>Gets or sets the cue hint text.</summary>
         /// <value>The cue hint text.</value>
         [KryptonPersist]
@@ -332,8 +332,8 @@ namespace Krypton.Toolkit
         [Description(@"Cue hint values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHintText { get; }
-        
-        public bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
+
+        private bool ShouldSerializeCueHintText() => !CueHintText.IsDefault;
 
         #endregion
 
@@ -2070,7 +2070,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show("Reset of palette is completed.",
                                     "Palette Reset",
-                                    MessageBoxButtons.OK);
+                                    KryptonMessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
@@ -2079,7 +2079,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
                                     "Palette Reset",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
             }
@@ -2112,7 +2112,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show("Relevant values have been populated.",
                                     "Populate Values",
-                                    MessageBoxButtons.OK);
+                                    KryptonMessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
@@ -2121,7 +2121,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
                                     "Populate Values",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
             }
@@ -2198,7 +2198,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show($"Import from file '{filename}' completed.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -2207,7 +2207,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show($"Import from file '{filename}' failed.\n\n Error:{ex.Message}",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
 
@@ -2254,7 +2254,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -2263,7 +2263,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
                                     @"Palette Import",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
 
@@ -2308,7 +2308,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -2317,7 +2317,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
                                     @"Palette Import",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
 
@@ -2393,7 +2393,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show($"Export to file '{filename}' completed.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -2402,7 +2402,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show($"Export to file '{filename}' failed.\n\n Error:{ex.Message}",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
 
@@ -2452,7 +2452,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Export completed with success.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -2461,7 +2461,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
                                     @"Palette Export",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
 
@@ -2508,7 +2508,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Export completed with success.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -2517,7 +2517,7 @@ namespace Krypton.Toolkit
                 {
                     KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
                                     @"Palette Export",
-                                    MessageBoxButtons.OK,
+                                    KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
                 }
 
@@ -3653,7 +3653,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        static readonly Dictionary<Type, string> _typeTests = new()
+        private static readonly Dictionary<Type, string> _typeTests = new()
         {
             [typeof(int)] = @"Int", //nameof(Int32),
             [typeof(string)] = nameof(String),

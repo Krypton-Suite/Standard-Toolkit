@@ -28,10 +28,7 @@ namespace Krypton.Toolkit
 
         #region Constructor
 
-        public KryptonProgressBar()
-        {
-            _useKrypton = true;
-        }
+        public KryptonProgressBar() => _useKrypton = true;
 
         #endregion
 
@@ -54,7 +51,7 @@ namespace Krypton.Toolkit
 
             base.OnPaint(e);
         }
-        
+
 
         #endregion
     }

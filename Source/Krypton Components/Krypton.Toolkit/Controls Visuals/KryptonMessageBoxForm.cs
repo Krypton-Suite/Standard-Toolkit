@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private readonly bool _showHelpButton;
         private readonly string _text;
         private readonly string _caption;
-        private readonly MessageBoxButtons _buttons;
+        private readonly KryptonMessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
 
 
         internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
-                                       MessageBoxButtons buttons, KryptonMessageBoxIcon icon,
+                                       KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
                                        HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton,
                                        bool? showActionButton, string actionButtonText,
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             _options = options;
             _helpInfo = helpInfo;
             _showOwner = showOwner;
-            _showHelpButton = showHelpButton ?? false;
+            _showHelpButton = showHelpButton ?? (helpInfo!=null);
             _showActionButton = showActionButton ?? false;
             _actionButtonText = actionButtonText ?? string.Empty;
             _actionButtonCommand = actionButtonCommand;
@@ -214,13 +214,13 @@ namespace Krypton.Toolkit
         {
             switch (_buttons)
             {
-                case MessageBoxButtons.OK:
+                case KryptonMessageBoxButtons.OK:
                     _button1.Text = KryptonManager.Strings.OK;
                     _button1.DialogResult = DialogResult.OK;
                     _button1.Visible = true;
                     _button1.Enabled = true;
                     break;
-                case MessageBoxButtons.OKCancel:
+                case KryptonMessageBoxButtons.OKCancel:
                     _button1.Text = KryptonManager.Strings.OK;
                     _button2.Text = KryptonManager.Strings.Cancel;
                     _button1.DialogResult = DialogResult.OK;
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
                     _button2.Visible = true;
                     _button2.Enabled = true;
                     break;
-                case MessageBoxButtons.YesNo:
+                case KryptonMessageBoxButtons.YesNo:
                     _button1.Text = KryptonManager.Strings.Yes;
                     _button2.Text = KryptonManager.Strings.No;
                     _button1.DialogResult = DialogResult.Yes;
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
                     _button2.Enabled = true;
                     ControlBox = false;
                     break;
-                case MessageBoxButtons.YesNoCancel:
+                case KryptonMessageBoxButtons.YesNoCancel:
                     _button1.Text = KryptonManager.Strings.Yes;
                     _button2.Text = KryptonManager.Strings.No;
                     _button3.Text = KryptonManager.Strings.Cancel;
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
                     _button3.Visible = true;
                     _button3.Enabled = true;
                     break;
-                case MessageBoxButtons.RetryCancel:
+                case KryptonMessageBoxButtons.RetryCancel:
                     _button1.Text = KryptonManager.Strings.Retry;
                     _button2.Text = KryptonManager.Strings.Cancel;
                     _button1.DialogResult = DialogResult.Retry;
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                     _button2.Visible = true;
                     _button2.Enabled = true;
                     break;
-                case MessageBoxButtons.AbortRetryIgnore:
+                case KryptonMessageBoxButtons.AbortRetryIgnore:
                     _button1.Text = KryptonManager.Strings.Abort;
                     _button2.Text = KryptonManager.Strings.Retry;
                     _button3.Text = KryptonManager.Strings.Ignore;
@@ -280,14 +280,18 @@ namespace Krypton.Toolkit
                     _button3.Enabled = true;
                     ControlBox = false;
                     break;
-#if NET6_0_OR_GREATER
-                case MessageBoxButtons.CancelTryContinue:
+                case KryptonMessageBoxButtons.CancelTryContinue:
                     _button1.Text = KryptonManager.Strings.Cancel;
                     _button2.Text = KryptonManager.Strings.TryAgain;
                     _button3.Text = KryptonManager.Strings.Continue;
                     _button1.DialogResult = DialogResult.Cancel;
+#if NET6_0_OR_GREATER
                     _button2.DialogResult = DialogResult.TryAgain;
                     _button3.DialogResult = DialogResult.Continue;
+#else
+                    _button2.DialogResult = (DialogResult)10;
+                    _button3.DialogResult = (DialogResult)11;
+#endif
                     _button1.Visible = true;
                     _button1.Enabled = true;
                     _button2.Visible = true;
@@ -295,7 +299,6 @@ namespace Krypton.Toolkit
                     _button3.Visible = true;
                     _button3.Enabled = true;
                     break;
-#endif
             }
 
             if (_showActionButton)
@@ -304,13 +307,6 @@ namespace Krypton.Toolkit
                 _button5.Visible = true;
                 _button5.Enabled = true;
                 _button5.KryptonCommand = _actionButtonCommand;
-            }
-            else
-            {
-                _button5.Text = @"B5";
-                _button5.Visible = false;
-                _button5.Enabled = false;
-                _button5.KryptonCommand = null;
             }
 
             // Do we ignore the Alt+F4 on the buttons?
@@ -341,51 +337,30 @@ namespace Krypton.Toolkit
                     AcceptButton = _button3;
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
-                    if (_showHelpButton)
-                    {
-                        AcceptButton = _button4;
-                    }
-                    else
-                    {
-                        AcceptButton = _button1;
-                    }
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
                 case KryptonMessageBoxDefaultButton.Button5:
-                    if (_showActionButton)
-                    {
-                        AcceptButton = _button5;
-                    }
-                    else
-                    {
-                        AcceptButton = _button1;
-                    }
+                    AcceptButton = _showActionButton ? _button5 : _button1;
 
                     break;
                 default:
-                    if (_showHelpButton)
-                    {
-                        AcceptButton = _button4;
-                    }
-                    else
-                    {
-                        AcceptButton = _button1;
-                    }
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
             }
         }
 
         private void UpdateHelp()
         {
-            if (_helpInfo == null)
+            if (!_showHelpButton)
             {
                 return;
             }
 
             MessageButton helpButton = _buttons switch
             {
-                MessageBoxButtons.OK => _button2,
-                MessageBoxButtons.OKCancel or MessageBoxButtons.YesNo or MessageBoxButtons.RetryCancel => _button3,
-                MessageBoxButtons.AbortRetryIgnore or MessageBoxButtons.YesNoCancel => _button4,
+                KryptonMessageBoxButtons.OK => _button2,
+                KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
+                KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel => _button4,
                 _ => throw new ArgumentOutOfRangeException()
             };
             if (helpButton != null)
@@ -412,18 +387,21 @@ namespace Krypton.Toolkit
                 MethodInfo mInfoMethod = control.GetType().GetMethod(@"OnHelpRequested", BindingFlags.Instance | BindingFlags.NonPublic,
                     Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null);
                 mInfoMethod?.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
-                if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
+                if (_helpInfo != null)
                 {
-                    return;
-                }
+                    if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
+                    {
+                        return;
+                    }
 
-                if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
-                {
-                    Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
-                }
-                else
-                {
-                    Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Navigator, _helpInfo.Param);
+                    if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
+                    {
+                        Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
+                    }
+                    else
+                    {
+                        Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Navigator, _helpInfo.Param);
+                    }
                 }
             }
             catch
@@ -472,7 +450,7 @@ namespace Krypton.Toolkit
                 textSize = Size.Ceiling(messageSize);
             }
 
-            return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right + 
+            return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right +
                             _messageText.Margin.Left + _messageText.Margin.Right,
                 Math.Max(_messageIcon.Height + 10, textSize.Height));
         }

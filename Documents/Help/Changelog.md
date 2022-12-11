@@ -5,6 +5,9 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#867](https://github.com/Krypton-Suite/Standard-Toolkit/issues/867), KryptonMessageBox does not show help button
+* Resolved [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), 
+Bring MessageBox States inline with latest .Net 6
 * Resolved [#861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/861), Ribbon QAT Button downscaled when disabling HiDPI
 * Implemented [#854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/854), Please remove "2019" from the build sequence etc. 
 * Resolved [#848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/848), KryptonTreeView Font Issues
