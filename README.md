@@ -67,7 +67,11 @@ Full information about support can be found [here](https://github.com/Krypton-Su
 
 ### Release Cadence
 
-See [Krypton Toolkit release cadence](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Development/Development-Workflow.md)
+See [Krypton Toolkit release cadence](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/Package-Version-Descriptions.md)
+
+### Package Descriptions
+
+To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/Package-Version-Descriptions.md).
 
 =======
 
@@ -101,7 +105,7 @@ Development of the Krypton Standard Toolkit is supported by these generous organ
 =======
 
 ## Toolkit Example images
-Follow the links to see the different objects and layouts that this framework allows you to do: https://github.com/Krypton-Suite/Standard-Toolkit-Demos
+Follow the links to see the different objects and layouts that this framework allows you to do: [Toolkit Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos)
 
 =======
 
