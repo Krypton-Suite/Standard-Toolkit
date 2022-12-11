@@ -585,19 +585,19 @@ namespace Krypton.Toolkit
         private static readonly Color[] _appButtonTrack =
                                                             {
                                                                 Color.FromArgb(255, 251, 230), 
-                                                                Color.FromArgb(248, 230, 143), 
-                                                                Color.FromArgb(238, 213, 126), 
-                                                                Color.FromArgb(254, 247, 129), 
-                                                                Color.FromArgb(240, 201, 41)
+                                                                Color.FromArgb(180, 210, 255), 
+                                                                Color.FromArgb(96, 147, 235), 
+                                                                Color.FromArgb(110, 150, 240), 
+                                                                Color.FromArgb(115, 155, 245)
                                                             };
 
         private static readonly Color[] _appButtonPressed =
                                                             {
-                                                                Color.FromArgb(235, 227, 196),
-                                                                Color.FromArgb(228, 198, 149),
-                                                                Color.FromArgb(166, 97, 7), 
-                                                                Color.FromArgb(242, 155, 57),
-                                                                Color.FromArgb(236, 136, 9)
+                                                                Color.FromArgb(185, 215, 250),
+                                                                Color.FromArgb(190, 220, 245),
+                                                                Color.FromArgb(98, 155, 230), 
+                                                                Color.FromArgb(110, 160, 225),
+                                                                Color.FromArgb(120, 175, 240)
                                                             };
 
         private static readonly Color[] _buttonBorderColors = 
@@ -5491,13 +5491,13 @@ namespace Krypton.Toolkit
         private static readonly Color _menuItemSelectedBegin = Color.FromArgb(141, 168, 203);
         private static readonly Color _menuItemSelectedEnd = Color.FromArgb(95, 127, 169);
         private static readonly Color _contextMenuBackground = Color.FromArgb(134, 179, 236);
-        private static readonly Color _checkBackground = Color.FromArgb(255, 227, 149);
+        private static readonly Color _checkBackground = Color.FromArgb(145, 183, 248);
         private static readonly Color _buttonSelectedBegin = Color.FromArgb(141, 168, 203);
         private static readonly Color _buttonSelectedEnd = Color.FromArgb(95, 127, 169);
-        private static readonly Color _buttonPressedBegin = Color.FromArgb(253, 164, 97);
-        private static readonly Color _buttonPressedEnd = Color.FromArgb(252, 143, 61);
-        private static readonly Color _buttonCheckedBegin = Color.FromArgb(252, 180, 100);
-        private static readonly Color _buttonCheckedEnd = Color.FromArgb(252, 161, 54);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(142, 171, 248);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(100, 130, 165);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(145, 171, 207);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(98, 125, 165);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion

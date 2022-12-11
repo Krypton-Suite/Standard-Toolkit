@@ -727,17 +727,17 @@ namespace Krypton.Toolkit
                                                             };
 
         private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230),
-                                                            Color.FromArgb(248, 230, 143),
-                                                            Color.FromArgb(238, 213, 126),
-                                                            Color.FromArgb(254, 247, 129),
-                                                            Color.FromArgb(240, 201, 41)
+                                                            Color.FromArgb(178, 178, 178),
+                                                            Color.FromArgb(176, 176, 176),
+                                                            Color.FromArgb(179, 179, 179),
+                                                            Color.FromArgb(160, 160, 160)
                                                           };
 
         private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
-                                                              Color.FromArgb(228, 198, 149),
-                                                              Color.FromArgb(166, 97, 7),
-                                                              Color.FromArgb(242, 155, 57),
-                                                              Color.FromArgb(236, 136, 9)
+                                                              Color.FromArgb(185, 185, 185),
+                                                              Color.FromArgb(35, 35, 35),
+                                                              Color.FromArgb(50, 50, 50),
+                                                              Color.FromArgb(100, 100, 100)
                                                             };
 
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border

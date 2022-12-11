@@ -247,11 +247,12 @@ namespace Krypton.Ribbon
                 var sourceImage = QATButton.GetImage();
                 var currentWidth = sourceImage.Width * FactorDpiX;
                 var currentHeight = sourceImage.Height * FactorDpiY;
-                if ((int)currentHeight == sourceImage.Height)
+                /*if ((int)currentHeight == sourceImage.Height)
                 {
                     // Need to workaround the image drawing off the bottom of the form title bar when scaling @ 100%
                     currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
                 }
+                */
 
                 _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight);
             }
