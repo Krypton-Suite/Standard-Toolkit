@@ -67,7 +67,11 @@ Full information about support can be found [here](https://github.com/Krypton-Su
 
 ### Release Cadence
 
-See [Krypton Toolkit release cadence](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Development/Development-Workflow.md)
+See [Krypton Toolkit release cadence](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/Package-Version-Descriptions.md)
+
+### Package Descriptions
+
+To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/Package-Version-Descriptions.md).
 
 =======
 
@@ -101,7 +105,7 @@ Development of the Krypton Standard Toolkit is supported by these generous organ
 =======
 
 ## Toolkit Example images
-Follow the links to see the different objects and layouts that this framework allows you to do: https://github.com/Krypton-Suite/Standard-Toolkit-Demos
+Follow the links to see the different objects and layouts that this framework allows you to do: [Toolkit Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos)
 
 =======
 
@@ -148,6 +152,10 @@ The standard `MessageBoxIcon` option has been removed in favour of the built-in 
 ## Strong Named Assemblies
 After updating to v70, you may need to sign your assemblies for a successful build. To find out how to do this, click [here](https://learn.microsoft.com/en-us/dotnet/standard/assembly/strong-named).
 
+## Management of `using` Statements
+
+As of version 60, all `using` statements are contained in one file per project unless otherwise. For details, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Manage-Using-Statements.md).
+
 =======
 
 # Known Issues & Workarounds
@@ -169,6 +177,7 @@ The Krypton Suite contains user interface components designed to make it quick a
 - All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
 - New, major versions are released annually, with patches if needed released throughout that period. Version 80 is expected to release in November 2023.
+- For tips on how to build the toolkit for yourself, please read the following [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Build.md).
 
 ## Individual Components
 
