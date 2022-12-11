@@ -21,6 +21,7 @@
 * Renamed `Office 365` to `Microsoft 365` to fall in line with naming schemes
 * Separate symbols packages for **Canary** & **Nightly** builds
 * Removed support for .NET Core App 3.1 for 'Lite' packages
+* Removed support for .NET 5, in accordance with its official release cadence
 * Support for .NET 8
 * Version bump `70.xx.xx.xx` -> `80.xx.xx.xx`
 

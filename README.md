@@ -152,7 +152,7 @@ After updating to v70, you may need to sign your assemblies for a successful bui
 
 # Known Issues & Workarounds
 
-- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 5/6 or 7
+- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 6 or 7
 
 - .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Designer-Fix.md) for more information
 
@@ -166,8 +166,9 @@ The Krypton Suite contains user interface components designed to make it quick a
 ## What is this Repository About?
 - Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV) have been fixing and adding more capabilities to this toolkit.
 - There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more, please head to this [link](https://github.com/Krypton-Suite/Extended-Toolkit)
-- All .Net Versions from 4.6.2 are catered for
+- All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
+- New, major versions are released annually, with patches if needed released throughout that period. Version 80 is expected to release in November 2023.
 
 ## Individual Components
 
