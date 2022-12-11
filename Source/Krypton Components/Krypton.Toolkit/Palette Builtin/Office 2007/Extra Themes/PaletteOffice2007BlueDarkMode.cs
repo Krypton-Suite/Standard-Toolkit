@@ -5491,13 +5491,13 @@ namespace Krypton.Toolkit
         private static readonly Color _menuItemSelectedBegin = Color.FromArgb(141, 168, 203);
         private static readonly Color _menuItemSelectedEnd = Color.FromArgb(95, 127, 169);
         private static readonly Color _contextMenuBackground = Color.FromArgb(134, 179, 236);
-        private static readonly Color _checkBackground = Color.FromArgb(255, 227, 149);
+        private static readonly Color _checkBackground = Color.FromArgb(145, 183, 248);
         private static readonly Color _buttonSelectedBegin = Color.FromArgb(141, 168, 203);
         private static readonly Color _buttonSelectedEnd = Color.FromArgb(95, 127, 169);
-        private static readonly Color _buttonPressedBegin = Color.FromArgb(253, 164, 97);
-        private static readonly Color _buttonPressedEnd = Color.FromArgb(252, 143, 61);
-        private static readonly Color _buttonCheckedBegin = Color.FromArgb(252, 180, 100);
-        private static readonly Color _buttonCheckedEnd = Color.FromArgb(252, 161, 54);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(142, 171, 248);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(100, 130, 165);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(145, 171, 207);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(98, 125, 165);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion
