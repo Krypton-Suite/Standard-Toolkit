@@ -152,7 +152,7 @@ The standard `MessageBoxIcon` option has been removed in favour of the built-in 
 ## Strong Named Assemblies
 After updating to v70, you may need to sign your assemblies for a successful build. To find out how to do this, click [here](https://learn.microsoft.com/en-us/dotnet/standard/assembly/strong-named).
 
-## `using` Statements
+## Management of `using` Statements
 
 As of version 60, all `using` statements are contained in one file per project unless otherwise. For details, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Manage-Using-Statements.md).
 
