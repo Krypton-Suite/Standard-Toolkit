@@ -12,7 +12,7 @@
 
 namespace Krypton.Toolkit
 {
-    class KryptonFormActionList
+    internal class KryptonFormActionList
     {
     }
 }

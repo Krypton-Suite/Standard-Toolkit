@@ -12,6 +12,9 @@
 
 // ReSharper disable MemberCanBePrivate.Global
 
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -576,7 +579,24 @@ namespace Krypton.Toolkit
             if (owner != null)
             {
                 // Update owner with our dialog result setting
-                owner.DialogResult = DialogResult;
+                try
+                {
+                    owner.DialogResult = DialogResult;
+                }
+                catch (InvalidEnumArgumentException )
+                {
+                    // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
+                    if (owner is KryptonMessageBoxForm)
+                    {
+                        // need to gain access to `dialogResult` and set it forcefully
+                        FieldInfo fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
+                        fi.SetValue(owner, DialogResult);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
 
             // Let base class fire standard event
