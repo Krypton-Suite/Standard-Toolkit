@@ -12,9 +12,6 @@
 
 // ReSharper disable MemberCanBePrivate.Global
 
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
