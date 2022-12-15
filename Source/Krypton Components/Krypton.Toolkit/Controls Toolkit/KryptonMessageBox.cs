@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null) =>
-            InternalShow(null, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+            ShowCore(null, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                          KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy,
                          null, null, @"", null, null);
 
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, bool? showCtrlCopy = null) =>
-            InternalShow(null, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+            ShowCore(null, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                          KryptonMessageBoxDefaultButton.Button4, 0, 
                          null, showCtrlCopy, false, null, @"", null, null);
 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null) =>
-            InternalShow(owner, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+            ShowCore(owner, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy, false, null, @"", null, null);
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null) =>
-            InternalShow(owner, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+            ShowCore(owner, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4,
                 0, null, showCtrlCopy, false, null, @"", null, null);
 
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
             bool? showCtrlCopy = null) =>
-                                       InternalShow(null, text, caption, buttons, KryptonMessageBoxIcon.None,
+                                       ShowCore(null, text, caption, buttons, KryptonMessageBoxIcon.None,
                                            KryptonMessageBoxDefaultButton.Button1, 0,
                                            new HelpInfo(@"", 0, null), showCtrlCopy,
                                            null, null, @"", null, null);
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
             string actionButtonText = @"",
             KryptonCommand actionButtonCommand = null, Image applicationImage = null)
             =>
-                InternalShow(null, text, caption, buttons, icon, defaultButton, options,
+                ShowCore(null, text, caption, buttons, icon, defaultButton, options,
                              displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
                              showHelpButton, showActionButton,
                              actionButtonText, actionButtonCommand, applicationImage);
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             string actionButtonText = @"",
             KryptonCommand actionButtonCommand = null, Image applicationImage = null)
             =>
-                InternalShow(owner, text, caption, buttons, icon, defaultButton, options,
+                ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
                              displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
                              showHelpButton, showActionButton, actionButtonText,
                              actionButtonCommand, applicationImage);
@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
             bool? showActionButton = null,
             string actionButtonText = @"",
             KryptonCommand actionButtonCommand = null, Image applicationImage = null)
-            => InternalShow(null, text, caption, buttons, icon, defaultButton, options,
+            => ShowCore(null, text, caption, buttons, icon, defaultButton, options,
                             new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
                             showHelpButton, showActionButton, actionButtonText,
                             actionButtonCommand, applicationImage);
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             bool? showActionButton = null,
             string actionButtonText = @"",
             KryptonCommand actionButtonCommand = null, Image applicationImage = null)
-            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options,
+            => ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
                             new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
                             showHelpButton, showActionButton, actionButtonText,
                             actionButtonCommand, applicationImage);
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
         /// <param name="actionButtonCommand">The <see cref="KryptonCommand"/> attached to the action button.</param>
         /// <param name="applicationImage">The image of the application.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        private static DialogResult InternalShow(IWin32Window owner,
+        private static DialogResult ShowCore(IWin32Window owner,
                                                  string text, string caption,
                                                  KryptonMessageBoxButtons buttons,
                                                  KryptonMessageBoxIcon icon,
