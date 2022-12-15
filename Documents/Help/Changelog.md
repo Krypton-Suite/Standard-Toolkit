@@ -1,13 +1,14 @@
-# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
+# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit - ChangeLog
 
 <!--* Added the ability to control the `CueHint` values through `KryptonPalette`-->
 
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#866](https://github.com/Krypton-Suite/Standard-Toolkit/issues/866), `KryptonMessageBox` Option to use system icons
+* New `Application``KryptonMessageBoxIcon` type, specify your application icon to show in the `KryptonMessageBox` (recommended image size is 32 x 32)
 * Resolved [#867](https://github.com/Krypton-Suite/Standard-Toolkit/issues/867), KryptonMessageBox does not show help button
-* Resolved [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), 
-Bring MessageBox States inline with latest .Net 6
+* Resolved [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox States inline with latest .Net 6
 * Resolved [#861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/861), Ribbon QAT Button downscaled when disabling HiDPI
 * Implemented [#854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/854), Please remove "2019" from the build sequence etc. 
 * Resolved [#848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/848), KryptonTreeView Font Issues
