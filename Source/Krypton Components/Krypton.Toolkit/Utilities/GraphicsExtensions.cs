@@ -58,6 +58,9 @@ namespace Krypton.Toolkit
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public enum SystemIconSize
         {
             Small = 0,
@@ -128,62 +131,5 @@ namespace Krypton.Toolkit
         public static Image SetIcon(Image image, Size size) => (Image)new Bitmap(image, size);
     }
 
-    /// <summary>Specifies the icon type for <see cref="KryptonMessageBox"/>.</summary>
-    [Flags]
-    public enum KryptonMessageBoxIcon
-    {
-        /// <summary>Specify no icon.</summary>
-        None = 0,
-        /// <summary>Specify a hand icon.</summary>
-        Hand = 1,
-        /// <summary>Specify the system hand icon.</summary>
-        SystemHand = MessageBoxIcon.Hand,
-        /// <summary>Specify a question icon.</summary>
-        Question = 2,
-        /// <summary>Specify the system question icon.</summary>
-        SystemQuestion = MessageBoxIcon.Question,
-        /// <summary>Specify a exclamation icon.</summary>
-        Exclamation = 3,
-        /// <summary>Specify the system exclamation icon.</summary>
-        SystemExclamation = MessageBoxIcon.Exclamation,
-        /// <summary>Specify a asterisk icon.</summary>
-        Asterisk = 4,
-        /// <summary>Specify the system asterisk icon.</summary>
-        SystemAsterisk = MessageBoxIcon.Asterisk,
-        /// <summary>Specify a stop icon.</summary>
-        Stop = 5,
-        /// <summary>Specify the system stop icon.</summary>
-        SystemStop = MessageBoxIcon.Stop,
-        /// <summary>Specify a error icon.</summary>
-        Error = 6,
-        /// <summary>Specify the system error icon.</summary>
-        SystemError = MessageBoxIcon.Error,
-        /// <summary>Specify a warning icon.</summary>
-        Warning = 7,
-        /// <summary>Specify the system warning icon.</summary>
-        SystemWarning = MessageBoxIcon.Warning,
-        /// <summary>Specify a information icon.</summary>
-        Information = 8,
-        /// <summary>Specify the system information icon.</summary>
-        SystemInformation = MessageBoxIcon.Information,
-        /// <summary>Specify a UAC shield icon.</summary>
-        Shield = 9,
-        /// <summary>Specify a Windows logo icon.</summary>
-        WindowsLogo = 10,
-        /// <summary>Specify your application icon.</summary>
-        Application = 11,
-        /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
-        SystemApplication = 12
-    }
-
-    public enum IconType
-        {
-            Warning = 101,
-            Help = 102,
-            Error = 103,
-            Info = 104,
-            Shield = 106
-        }
-
-        #endregion
+    #endregion
 }
