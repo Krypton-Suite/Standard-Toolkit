@@ -1,9 +1,6 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
@@ -19,7 +16,7 @@ namespace Krypton.Toolkit
 
         static GraphicsExtensions()
         {
-            
+
         }
 
         #endregion
@@ -58,6 +55,9 @@ namespace Krypton.Toolkit
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public enum SystemIconSize
         {
             Small = 0,
@@ -128,40 +128,5 @@ namespace Krypton.Toolkit
         public static Image SetIcon(Image image, Size size) => (Image)new Bitmap(image, size);
     }
 
-    public enum KryptonMessageBoxIcon
-    {
-        /// <summary>Specify no icon.</summary>
-        None = 0,
-        /// <summary>Specify a hand icon.</summary>
-        Hand = 1,
-        /// <summary>Specify a question icon.</summary>
-        Question = 2,
-        /// <summary>Specify a exclamation icon.</summary>
-        Exclamation = 3,
-        /// <summary>Specify a asterisk icon.</summary>
-        Asterisk = 4,
-        /// <summary>Specify a stop icon.</summary>
-        Stop = 5,
-        /// <summary>Specify a error icon.</summary>
-        Error = 6,
-        /// <summary>Specify a warning icon.</summary>
-        Warning = 7,
-        /// <summary>Specify a information icon.</summary>
-        Information = 8,
-        /// <summary>Specify a UAC shield icon.</summary>
-        Shield = 9,
-        /// <summary>Specify a Windows logo icon.</summary>
-        WindowsLogo = 10
-    }
-
-    public enum IconType
-        {
-            Warning = 101,
-            Help = 102,
-            Error = 103,
-            Info = 104,
-            Shield = 106
-        }
-
-        #endregion
+    #endregion
 }
