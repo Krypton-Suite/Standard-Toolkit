@@ -24,6 +24,7 @@ namespace Krypton.Toolkit
         private readonly bool _showHelpButton;
         private readonly string _text;
         private readonly string _caption;
+        private readonly string _applicationPath;
         private readonly KryptonMessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
         private readonly Image _applicationImage;
@@ -56,7 +57,7 @@ namespace Krypton.Toolkit
                                        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
                                        HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton,
                                        bool? showActionButton, string actionButtonText,
-                                       KryptonCommand actionButtonCommand, Image applicationImage)
+                                       KryptonCommand actionButtonCommand, Image applicationImage, string applicationPath)
         {
             // Store incoming values
             _text = text;
@@ -72,6 +73,7 @@ namespace Krypton.Toolkit
             _actionButtonText = actionButtonText ?? string.Empty;
             _actionButtonCommand = actionButtonCommand;
             _applicationImage = applicationImage;
+            _applicationPath = applicationPath ?? @"";
 
             // Create the form contents
             InitializeComponent();
@@ -173,7 +175,7 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonMessageBoxIcon.SystemAsterisk:
                     _messageIcon.Image = SystemIcons.Asterisk.ToBitmap();
-                    SystemSounds.Asterisk.Play();
+                    PlayAsteriskSound();
                     break;
                 case KryptonMessageBoxIcon.Stop:
                     _messageIcon.Image = MessageBoxResources.Stop;
@@ -226,6 +228,13 @@ namespace Krypton.Toolkit
                     if (_applicationImage != null)
                     {
                         _messageIcon.Image = _applicationImage;
+                    }
+                    else if (!string.IsNullOrEmpty(_applicationPath))
+                    {
+                        Image sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath).ToBitmap();
+                        Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+
+                        _messageIcon.Image = scaledImage;
                     }
                     else
                     {
