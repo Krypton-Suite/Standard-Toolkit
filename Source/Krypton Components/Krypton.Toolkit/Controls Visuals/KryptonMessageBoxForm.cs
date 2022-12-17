@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonMessageBoxIcon.Hand:
                     _messageIcon.Image = MessageBoxResources.Hand;
-                    PlayHandSound();
+                    SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemHand:
                     _messageIcon.Image = SystemIcons.Hand.ToBitmap();
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonMessageBoxIcon.Question:
                     _messageIcon.Image = MessageBoxResources.Question;
-                    PlayQuestionSound();
+                    SystemSounds.Question.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemQuestion:
                     _messageIcon.Image = SystemIcons.Question.ToBitmap();
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonMessageBoxIcon.Exclamation:
                     _messageIcon.Image = MessageBoxResources.Warning;
-                    PlayExclamationSound();
+                    SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemExclamation:
                     _messageIcon.Image = SystemIcons.Warning.ToBitmap();
@@ -171,27 +171,27 @@ namespace Krypton.Toolkit
                     {
                         _messageIcon.Image = MessageBoxResources.Asterisk;
                     }
-                    PlayAsteriskSound();
+                    SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemAsterisk:
                     _messageIcon.Image = SystemIcons.Asterisk.ToBitmap();
-                    PlayAsteriskSound();
+                    SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.Stop:
                     _messageIcon.Image = MessageBoxResources.Stop;
-                    PlayStopSound();
+                    SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.Error:
                     _messageIcon.Image = MessageBoxResources.Critical;
-                    PlayStopSound();
+                    SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.Warning:
                     _messageIcon.Image = MessageBoxResources.Warning;
-                    PlayExclamationSound();
+                    SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Information:
                     _messageIcon.Image = MessageBoxResources.Information;
-                    PlayAsteriskSound();
+                    SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
                     if (OSUtilities.IsWindowsEleven)
@@ -250,16 +250,6 @@ namespace Krypton.Toolkit
             _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
 
         }
-
-        private static void PlayStopSound() => SystemSounds.Hand.Play();
-
-        private static void PlayAsteriskSound() => SystemSounds.Asterisk.Play();
-
-        private static void PlayExclamationSound() => SystemSounds.Exclamation.Play();
-
-        private static void PlayQuestionSound() => SystemSounds.Question.Play();
-
-        private static void PlayHandSound() => SystemSounds.Hand.Play();
 
         private void UpdateButtons()
         {
