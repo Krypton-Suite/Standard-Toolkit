@@ -41,7 +41,7 @@
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />
-			
+
 				<None Include="..\..\..\Documents\License\License.md">
 					<Pack>True</Pack>
 					<PackagePath>\</PackagePath>
