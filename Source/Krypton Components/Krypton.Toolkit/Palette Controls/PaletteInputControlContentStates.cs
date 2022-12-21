@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (Font == null) &&
-                                           (Color1 == Color.Empty) &&
+                                           (Color1.IsEmpty) &&
                                            Padding.Equals(CommonHelper.InheritPadding)
                                            && (TextH == PaletteRelativeAlign.Inherit)
                                             ;
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
         [Description(@"Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(PaletteRelativeAlign.Inherit)]
-        public virtual PaletteRelativeAlign TextH
+        public PaletteRelativeAlign TextH
         {
             get => _shortTextH;
 
@@ -286,7 +286,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor1(PaletteState state) => _color1 != Color.Empty ? _color1 : Inherit.GetContentShortTextColor1(state);
+        public Color GetContentShortTextColor1(PaletteState state) => !_color1.IsEmpty ? _color1 : Inherit.GetContentShortTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the short text.

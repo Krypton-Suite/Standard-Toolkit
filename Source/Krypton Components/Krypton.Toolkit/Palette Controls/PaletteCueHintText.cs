@@ -28,9 +28,7 @@ namespace Krypton.Toolkit
             NeedPaintHandler needPaint)
             : base(new PaletteContentInheritRedirect(redirect, PaletteContentStyle.InputControlStandalone), needPaint)
         {
-            _padding = Padding.Empty;
             _shortTextV = PaletteRelativeAlign.Center;
-            _shortTextH = PaletteRelativeAlign.Near;
             _contentTextHint = PaletteTextHint.AntiAlias;
         }
 
@@ -58,7 +56,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Text rendering hint for the content text. (No `Inherit`)")]
-        [DefaultValue(typeof(PaletteTextHint), "AntiAlias")]
+        [DefaultValue(PaletteTextHint.AntiAlias)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
         {
@@ -74,20 +72,17 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeHint() => _contentTextHint != PaletteTextHint.Inherit;
+        private bool ShouldSerializeHint() => _contentTextHint != PaletteTextHint.AntiAlias;
 
         /// <summary>
         /// Resets the Image property to its default value.
         /// </summary>
-        private void ResetHint() => _contentTextHint = PaletteTextHint.Inherit;
+        private void ResetHint() => _contentTextHint = PaletteTextHint.AntiAlias;
 
         #endregion
 
-        public override bool IsDefault =>
-             (Font == null) &&
-             (Color1 == Color.Empty) &&
-             Padding.Equals(Padding.Empty)      // <- This is not the same as the base
-             && (TextH == PaletteRelativeAlign.Near) // <- This is not the same as the base
+        /// <inheritdoc/>
+        public override bool IsDefault => base.IsDefault
              && string.IsNullOrWhiteSpace(CueHintText)
              && (_shortTextV == PaletteRelativeAlign.Center)
              && !ShouldSerializeHint();
@@ -119,7 +114,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public new Color GetContentShortTextColor1(PaletteState state) => Color1 != Color.Empty ? Color1 : ControlPaint.Light(Inherit.GetContentShortTextColor1(state));
+        public new Color GetContentShortTextColor1(PaletteState state) => !Color1.IsEmpty ? Color1 : ControlPaint.Light(Inherit.GetContentShortTextColor1(state));
 
         internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect, SolidBrush backBrush)
         {
@@ -203,64 +198,11 @@ namespace Krypton.Toolkit
         private void ResetTextV() => _shortTextV = PaletteRelativeAlign.Center;
 
         /// <summary>
-        /// Gets and sets the horizontal Content text alignment for the text.
-        /// </summary>
-        [KryptonPersist(false)]
-        [Category(@"Visuals")]
-        [Description(@"Relative horizontal Content text alignment")]
-        [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(PaletteRelativeAlign.Near)]
-        public override PaletteRelativeAlign TextH
-        {
-            get => _shortTextH;
-
-            set
-            {
-                if (value != _shortTextH)
-                {
-                    _shortTextH = value;
-                    PerformNeedPaint();
-                }
-            }
-        }
-        private bool ShouldSerializeTextH() => _shortTextH != PaletteRelativeAlign.Near;
-
-        private void ResetTextH() => _shortTextH = PaletteRelativeAlign.Near;
-
-        /// <summary>
         /// Gets the actual content short text vertical alignment value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _shortTextV != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextV(state);
-
-        #endregion
-
-        #region Padding
-        /// <summary>
-        /// Gets the padding between the border and content drawing.
-        /// </summary>
-        [KryptonPersist(false)]
-        [Category(@"Visuals")]
-        [Description(@"Padding between the border and content drawing.")]
-        [DefaultValue(typeof(Padding), "0")]
-        public new Padding Padding
-        {
-            get => _padding;
-
-            set
-            {
-                if (!value.Equals(_padding))
-                {
-                    _padding = value;
-                    PerformNeedPaint(true);
-                }
-            }
-        }
-
-        private bool ShouldSerializePadding() => !_padding.Equals(Padding.Empty);
-
-        private void ResetPadding() => _padding = Padding.Empty;
 
         // Use the base class
         //protected virtual Padding GetContentPadding(PaletteState state) => !_padding.Equals(CommonHelper.InheritPadding) ? _padding : Inherit.GetContentPadding(state);

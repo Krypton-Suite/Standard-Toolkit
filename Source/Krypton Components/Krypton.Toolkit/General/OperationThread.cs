@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public int State
         {
-            get 
+            get
             {
                 int ret;
 
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
                     ret = _state;
                 }
 
-                return ret; 
+                return ret;
             }
         }
 
@@ -82,18 +82,18 @@ namespace Krypton.Toolkit
                 Result = _op(_parameter);
 
                 // Success
-                lock(this)
+                lock (this)
                 {
                     _state = 1;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // Remember the exception details
                 Exception = ex;
 
                 // Failed with exception
-                lock(this)
+                lock (this)
                 {
                     _state = 2;
                 }
