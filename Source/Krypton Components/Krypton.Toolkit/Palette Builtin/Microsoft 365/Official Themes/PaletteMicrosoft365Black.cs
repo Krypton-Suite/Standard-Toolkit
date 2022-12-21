@@ -18,9 +18,22 @@ namespace Krypton.Toolkit
     public class PaletteMicrosoft365Black : PaletteMicrosoft365BlackThemeBase
     {
         #region Static Fields
+
+        #region ImageLists
+
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
+
+        #endregion
+
+        #region Image Array
+
         private static readonly Image[] _radioButtonArray;
+
+        #endregion
+
+        #region Images
+
         private static readonly Image _blackDropDownButton = Office2010Arrows._2010BlackDropDownButton;
         private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlackContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal_25_x_23;
@@ -48,6 +61,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
         private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010Black;
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
+
+        #endregion
         //private static readonly Color _disabledRibbonText = Color.White; // Color.FromArgb(205, 205, 205);
         private static readonly Color[] _trackBarColors = { Color.FromArgb( 17,  17,  17),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
@@ -56,7 +71,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb/*(76,  83,  92)*/(255, 255, 255),    // TextLabelControl
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb(76,  83,  92)/*(255, 255, 255)*/,    // TextLabelControl
                                                                       Color.Black,                      // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
