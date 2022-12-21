@@ -2590,7 +2590,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false, false)]
         [Category(@"Visuals")]
         [Description(@"Base palette used to inherit from.")]
-        [DefaultValue(typeof(PaletteMode), "Office365Blue")]
+        [DefaultValue(typeof(PaletteMode), "Microsoft365Blue")]
         public PaletteMode BasePaletteMode
         {
             get => _basePaletteMode;

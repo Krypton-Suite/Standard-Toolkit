@@ -20,24 +20,33 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly List<string> _supportedThemesList;
-
         private int _selectedIndex;
-
-        private PaletteModeManager _paletteModeManager;
         #endregion
 
         #region Properties
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public List<string> SupportedThemesList => _supportedThemesList;
 
-        [DefaultValue(22)]
+        /// <summary>
+        /// Gets and sets the ThemeSelectedIndex.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
+        [DefaultValue(25)]
         public int ThemeSelectedIndex
         {
             get => _selectedIndex;
 
-            set => _selectedIndex = value;
+            set => SelectedIndex = value;
         }
 
+        private void ResetThemeSelectedIndex() => _selectedIndex = 25;
+
+        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != 25;
+
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public KryptonManager Manager
         {
             get;
@@ -53,9 +62,8 @@ namespace Krypton.Toolkit
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
 
-            ThemeSelectedIndex = 22;
-
             _supportedThemesList = ThemeManager.PropagateSupportedThemeList();
+            _selectedIndex = 25;
         }
         #endregion
 
@@ -73,17 +81,9 @@ namespace Krypton.Toolkit
 
         protected override void OnCreateControl()
         {
-            if (!DesignMode)
-            {
-                Items.AddRange(ThemeManager.ReturnThemeArray());
-            }
-
-            Text = Manager.GlobalPaletteMode.ToString();
-
-
-            _paletteModeManager = Manager.GlobalPaletteMode;
-
             base.OnCreateControl();
+            Items.AddRange(ThemeManager.ReturnThemeArray());
+            SelectedIndex = _selectedIndex;
         }
 
         protected override void OnSelectedIndexChanged(EventArgs e)
@@ -96,5 +96,59 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+
+        #region Removed Designer visibility
+        /// <summary>
+        /// Gets and sets the text associated associated with the control.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override string Text
+        {
+            get => base.Text;
+            set => base.Text = value;
+        }
+
+        /// <summary>
+        /// Gets and sets the appearance and functionality of the KryptonComboBox.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ComboBoxStyle DropDownStyle
+        {
+            get => base.DropDownStyle;
+            set => base.DropDownStyle = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the items in the KryptonComboBox.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ComboBox.ObjectCollection Items => base.Items;
+
+        /// <summary>Gets or sets the draw mode of the combobox.</summary>
+        /// <value>The draw mode of the combobox.</value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new DrawMode DrawMode
+        {
+            get => base.DrawMode;
+            set => base.DrawMode = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteStringCollection AutoCompleteCustomSource
+        {
+            get => base.AutoCompleteCustomSource;
+            set => base.AutoCompleteCustomSource = value;
+        }
+
+        #endregion
     }
+
 }
