@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         private static PaletteProfessionalOffice2003 _paletteProfessionalOffice2003;
         private static PaletteProfessionalSystem _paletteProfessionalSystem;
 
-        private static IPalette _customPalette;
+        private static PaletteBase _customPalette;
 
         #region Office 2007 Themes
 
@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
                         default:
                             // Cache the new values
                             PaletteModeManager tempMode = InternalGlobalPaletteMode;
-                            IPalette tempPalette = InternalGlobalPalette;
+                            PaletteBase tempPalette = InternalGlobalPalette;
 
                             // Use the new value
                             InternalGlobalPaletteMode = value;
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Global custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette GlobalPalette
+        public PaletteBase GlobalPalette
         {
             get => InternalGlobalPalette;
 
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
                 {
                     // Cache the current values
                     PaletteModeManager tempMode = InternalGlobalPaletteMode;
-                    IPalette tempPalette = InternalGlobalPalette;
+                    PaletteBase tempPalette = InternalGlobalPalette;
 
                     // Use the new values
                     InternalGlobalPaletteMode = (value == null) ? PaletteModeManager.Microsoft365Blue : PaletteModeManager.Custom;
@@ -393,14 +393,22 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteManager CustomPaletteManager { get => _customPaletteManager; set => _customPaletteManager = value; }
+        public KryptonCustomPaletteManager CustomPaletteManager 
+        { 
+            get => _customPaletteManager; 
+            set => _customPaletteManager = value; 
+        }
 
         /// <summary>Specify a custom palette outside the existing palettes.</summary>
         /// <value>A custom palette.</value>
         [Category(@"Visuals")]
         [Description(@"Specify a custom palette outside the existing palettes.")]
         [DefaultValue(null)]
-        public IPalette CustomPalette { get => _customPalette; set => _customPalette = value; }
+        public PaletteBase CustomPalette 
+        { 
+            get => _customPalette; 
+            set => _customPalette = value; 
+        }
 
         #endregion
 
@@ -469,7 +477,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the current global palette instance given the manager settings.
         /// </summary>
-        public static IPalette CurrentGlobalPalette
+        public static PaletteBase CurrentGlobalPalette
         {
             get
             {
@@ -584,8 +592,8 @@ namespace Krypton.Toolkit
         /// Gets the implementation for the requested palette mode.
         /// </summary>
         /// <param name="mode">Requested palette mode.</param>
-        /// <returns>IPalette reference is available; otherwise false.</returns>
-        public static IPalette GetPaletteForMode(PaletteMode mode)
+        /// <returns>PaletteBase reference is available; otherwise false.</returns>
+        public static PaletteBase GetPaletteForMode(PaletteMode mode)
         {
             switch (mode)
             {
@@ -596,7 +604,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007Blue:
                     return PaletteOffice2007Blue;
                 case PaletteMode.Office2007Custom:
-                    // Note: Do something...
+                // Note: Do something...
                 case PaletteMode.Office2007DarkGray:
                     return PaletteOffice2007DarkGray;
                 case PaletteMode.Office2007BlueDarkMode:
@@ -918,7 +926,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteSparklePurpleLightMode PaletteSparklePurpleLightMode => _paletteSparklePurpleLightMode ??= new PaletteSparklePurpleLightMode();
 
-        //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase();
+        //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
         /// <summary>
         /// Gets the implementation for the requested renderer mode.
@@ -992,14 +1000,14 @@ namespace Krypton.Toolkit
         #region Static Internal
         internal static PaletteModeManager InternalGlobalPaletteMode { get; private set; } = PaletteModeManager.Microsoft365Blue;
 
-        internal static IPalette InternalGlobalPalette { get; private set; } = CurrentGlobalPalette;
+        internal static PaletteBase InternalGlobalPalette { get; private set; } = CurrentGlobalPalette;
 
         internal static bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
-            var paletteSet = new Dictionary<IPalette, bool>();
+            var paletteSet = new Dictionary<PaletteBase, bool>();
 
-            IPalette palette = null;
+            PaletteBase palette = null;
 
             // Get the next palette up in hierarchy
             if (InternalGlobalPaletteMode == PaletteModeManager.Custom)
@@ -1022,7 +1030,7 @@ namespace Krypton.Toolkit
                     // Cast to correct type
 
                     // If this is a KryptonPalette instance
-                    if (palette is KryptonPalette owner)
+                    if (palette is KryptonCustomPaletteBase owner)
                     {
                         // Get the next palette up in hierarchy
                         palette = owner.BasePaletteMode switch
@@ -1101,7 +1109,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void SetPalette(IPalette globalPalette)
+        private static void SetPalette(PaletteBase globalPalette)
         {
             if (globalPalette != InternalGlobalPalette)
             {

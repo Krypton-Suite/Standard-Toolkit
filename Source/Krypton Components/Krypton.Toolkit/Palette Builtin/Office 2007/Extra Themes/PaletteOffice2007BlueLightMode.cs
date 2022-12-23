@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007BlueLightModeBase : PaletteBase
+    public abstract class PaletteOffice2007BlueLightModeBase : PaletteBase 
     {
         #region Static Fields
 
@@ -5991,7 +5991,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Associated palette instance.</param>
         public KryptonColorTable2007BlueLightMode(Color[] colours,
                                      InheritBool roundedEdges,
-                                     IPalette palette)
+                                     PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colours != null);

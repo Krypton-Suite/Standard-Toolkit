@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
     public class KryptonListView : ListView
     {
         #region Variables
-        private IPalette _localPalette;
-        private IPalette _palette;
+        private PaletteBase _localPalette;
+        private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
         private bool _refreshAll;
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase Palette
         {
             [DebuggerStepThrough] get => this._localPalette;
             set
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                 if (value == null)
                 {
                     _paletteMode = PaletteMode.Global;
-                    _localPalette = (IPalette) null;
+                    _localPalette = null;
                     CacheNewPalette(KryptonManager.GetPaletteForMode(this._paletteMode));
                 }
                 else
@@ -775,7 +775,7 @@ namespace Krypton.Toolkit
 
                 // Unhook from the static events, otherwise we cannot be garbage collected
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-                this._localPalette = (IPalette) null;
+                _localPalette = null;
             }
 
             base.Dispose(disposing);
@@ -1068,7 +1068,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        private void CacheNewPalette(IPalette palette)
+        private void CacheNewPalette(PaletteBase palette)
         {
             if (palette != _palette)
             {

@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to use.
         /// </summary>
-        public IPalette Palette { get; set; }
+        public PaletteBase Palette { get; set; }
 
         #endregion
 

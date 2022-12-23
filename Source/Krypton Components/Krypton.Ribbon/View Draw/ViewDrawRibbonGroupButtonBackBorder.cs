@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             // Get that basic drawing state that does not reflect checked state
             PaletteState drawState = State;
@@ -477,7 +477,7 @@ namespace Krypton.Ribbon
             Rectangle splitRectangle = Controller.SplitRectangle;
             Rectangle beforeSplitRect = new(ClientLocation, new Size(splitRectangle.X - ClientLocation.X, ClientHeight));
             Rectangle splitterRect = new(splitRectangle.Location, new Size(1, ClientHeight));
-            Rectangle afterSplitRect = new(splitRectangle.X, ClientLocation.Y , splitRectangle.Width, ClientHeight);
+            Rectangle afterSplitRect = new(splitRectangle.X, ClientLocation.Y, splitRectangle.Width, ClientHeight);
 
             var splitWithFading = SplitWithFading(drawState);
             switch (drawState)
@@ -509,7 +509,7 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height); 
+                        Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height);
                         using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
@@ -675,7 +675,7 @@ namespace Krypton.Ribbon
 
         private void DrawBackground(IPaletteBack paletteBack,
                                     RenderContext context,
-                                    Rectangle rect, 
+                                    Rectangle rect,
                                     PaletteState state)
         {
             // Do we need to draw the background?
@@ -710,7 +710,7 @@ namespace Krypton.Ribbon
 
         private bool SplitWithFading(PaletteState drawState)
         {
-            IPalette palette = _ribbon.GetRedirector();
+            var palette = _ribbon.GetRedirector();
             return palette.GetMetricBool(drawState, PaletteMetricBool.SplitWithFading) == InheritBool.True;
         }
 
@@ -726,7 +726,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            // Remove any popups that result from an action occuring
+            // Remove any popups that result from an action occurring
             if ((_ribbon != null) && fireAction)
             {
                 _ribbon.Actionoccurred();

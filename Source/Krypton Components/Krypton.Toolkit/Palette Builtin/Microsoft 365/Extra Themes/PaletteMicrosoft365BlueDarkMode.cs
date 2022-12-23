@@ -404,7 +404,7 @@ namespace Krypton.Toolkit
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
+    public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase 
     {
         #region Static Fields
 
@@ -5156,7 +5156,7 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTable365BlueDarkMode(Color[] colors, InheritBool roundedEdges, IPalette palette) : base(palette)
+        public KryptonColorTable365BlueDarkMode(Color[] colors, InheritBool roundedEdges, PaletteBase palette) : base(palette)
         {
             Debug.Assert(colors != null);
             _colors = colors;

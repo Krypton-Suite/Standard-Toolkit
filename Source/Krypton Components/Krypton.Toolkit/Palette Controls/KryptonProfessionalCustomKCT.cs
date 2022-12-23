@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         public KryptonProfessionalCustomKCT(Color[] headerColors,
                                             Color[] colorTableColors,
                                             bool useSystemColors,
-                                            IPalette palette)
+                                            PaletteBase palette)
             : base(headerColors, useSystemColors, palette) =>
             _colors = colorTableColors;
 

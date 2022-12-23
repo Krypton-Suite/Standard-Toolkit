@@ -20,12 +20,12 @@ namespace Krypton.Toolkit
             if (lineNumber > 0)
             {
                 KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report at: https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}\nLine Number: {lineNumber}", 
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemError);
             }
             else
             {
                 KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report at: https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}", 
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemError);
             }
         }
         #endregion

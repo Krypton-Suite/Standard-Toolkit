@@ -416,7 +416,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a base for Office 2010 palettes.
     /// </summary>
-    public abstract class PaletteOffice2010SilverLightModeBase : PaletteBase
+    public abstract class PaletteOffice2010SilverLightModeBase : PaletteBase 
     {
         #region Static Fields
 
@@ -5224,7 +5224,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Associated palette instance.</param>
         public KryptonColorTable2010SilverLightMode(Color[] colors,
                                      InheritBool roundedEdges,
-                                     IPalette palette)
+                                     PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);

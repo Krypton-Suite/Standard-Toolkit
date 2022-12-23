@@ -42,15 +42,15 @@ namespace Krypton.Navigator
 
             // Default other properties
             _location = HeaderLocation.PrimaryHeader;
-        }      
-        #endregion   
+        }
+        #endregion
 
         #region IsDefault
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault && 
+        public override bool IsDefault => (base.IsDefault &&
                                            (HeaderLocation == HeaderLocation.PrimaryHeader));
 
         #endregion
@@ -83,7 +83,7 @@ namespace Krypton.Navigator
                 if (_location != value)
                 {
                     _location = value;
-                    OnButtonSpecPropertyChanged("Location");
+                    OnButtonSpecPropertyChanged(@"Location");
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        public override HeaderLocation GetLocation(IPalette palette) =>
+        public override HeaderLocation GetLocation(PaletteBase palette) =>
             // Ask the view builder to recover the correct location
             Navigator.ViewBuilder.GetFixedButtonLocation(this);
 

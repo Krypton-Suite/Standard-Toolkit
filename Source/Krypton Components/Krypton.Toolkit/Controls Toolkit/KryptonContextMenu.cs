@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase Palette
         {
             [DebuggerStepThrough]
             get;
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">True is menu was keyboard initiated.</param>
         /// <returns>VisualContextMenu reference.</returns>
         protected virtual VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
-                                                              IPalette palette,
+                                                              PaletteBase palette,
                                                               PaletteMode paletteMode,
                                                               PaletteRedirect redirector,
                                                               PaletteRedirectContextMenu redirectorImages,

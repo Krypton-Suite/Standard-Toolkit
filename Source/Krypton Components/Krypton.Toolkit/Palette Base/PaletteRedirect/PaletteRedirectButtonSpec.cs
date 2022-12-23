@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="inherit">Redirection button spec requests.</param>
-        public PaletteRedirectButtonSpec(IPalette target, IPaletteButtonSpec inherit)
+        public PaletteRedirectButtonSpec(PaletteBase target, IPaletteButtonSpec inherit)
             : base(target) =>
             _inherit = inherit;
 

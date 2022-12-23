@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new IPalette Palette
+        public new PaletteBase Palette
         {
             get => base.Palette;
             set => base.Palette = value;

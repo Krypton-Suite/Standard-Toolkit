@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// Provides a base for Visual Studio 2020 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteVisualStudioBase : PaletteBase
+    public abstract class PaletteVisualStudioBase : PaletteBase 
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);

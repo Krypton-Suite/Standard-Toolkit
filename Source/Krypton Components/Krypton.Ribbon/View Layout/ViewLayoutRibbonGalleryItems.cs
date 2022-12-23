@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
         /// <param name="buttonUp">Reference to the up button.</param>
         /// <param name="buttonDown">Reference to the down button.</param>
         /// <param name="buttonContext">Reference to the context button.</param>
-        public ViewLayoutRibbonGalleryItems(IPalette palette,
+        public ViewLayoutRibbonGalleryItems(PaletteBase palette,
                                             KryptonGallery gallery,
                                             NeedPaintHandler needPaint,
                                             ViewDrawRibbonGalleryButton buttonUp,

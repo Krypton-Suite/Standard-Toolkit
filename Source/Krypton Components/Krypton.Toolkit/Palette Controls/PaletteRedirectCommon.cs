@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="others">Redirection for all other state requests.</param>
-        public PaletteRedirectCommon(IPalette target,
+        public PaletteRedirectCommon(PaletteBase target,
                                      IPaletteTriple disabled,
                                      IPaletteTriple others)
             : base(target)

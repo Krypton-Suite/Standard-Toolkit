@@ -58,7 +58,7 @@ namespace Krypton.Ribbon
         public AppButtonMenuProvider(ViewContextMenuManager viewManager,
                                      KryptonContextMenuItemCollection menuCollection,
                                      ViewLayoutStack viewColumns,
-                                     IPalette palette,
+                                     PaletteBase palette,
                                      PaletteMode paletteMode,
                                      PaletteRedirect redirector,
                                      NeedPaintHandler needPaintDelegate)
@@ -184,8 +184,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        public ToolStripDropDownCloseReason? ProviderCloseReason 
-        { 
+        public ToolStripDropDownCloseReason? ProviderCloseReason
+        {
             get => _parent?.ProviderCloseReason ?? _closeReason;
 
             set
@@ -254,7 +254,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public IPalette ProviderPalette { get; }
+        public PaletteBase ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.

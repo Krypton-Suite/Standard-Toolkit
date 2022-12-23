@@ -14,48 +14,18 @@ namespace Krypton.Toolkit
 {
     public class PaletteTools
     {
-        #region Variables
-        private static readonly string[] _themeList = new string[] { "Custom",
-                                                            "Professional - System",
-                                                            "Professional - Office 2003",
-                                                            "Office 2007 - Black",
-                                                            "Office 2007 - Blue",
-                                                            "Office 2007 - Silver",
-                                                            "Office 2007 - White",
-                                                            "Office 2010 - Black",
-                                                            "Office 2010 - Blue",
-                                                            "Office 2010 - Silver",
-                                                            "Office 2010 - White",
-                                                            //"Office 2013",
-                                                            "Office 2013 - White",
-                                                            "Microsoft 365 - Black",
-                                                            "Microsoft 365 - Blue",
-                                                            "Microsoft 365 - Silver",
-                                                            "Microsoft 365 - White",
-                                                            "Sparkle - Blue",
-                                                            "Sparkle - Orange",
-                                                            "Sparkle - Purple" };
-        #endregion
-
         #region Properties
         /// <summary>Gets the theme list.</summary>
         /// <value>The theme list.</value>
-        public static string[] ThemeList => _themeList;
+        public static List<string> ThemeList1 => ThemeManager.SupportedInternalThemeNames.ToList();
 
-        #endregion
-
-        #region Constructor
-        public PaletteTools()
-        {
-
-        }
         #endregion
 
         #region Methods
         /// <summary>Links the type of the palette to the correct theme style.</summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns></returns>
-        public PaletteModeManager LinkPaletteType(string themeName)
+        public PaletteModeManager LinkPaletteType1(string themeName)
         {
             PaletteModeManager paletteMode = new();
 
@@ -153,7 +123,7 @@ namespace Krypton.Toolkit
 
             if (!string.IsNullOrWhiteSpace(customThemePath))
             {
-                KryptonPalette palette = new();
+                KryptonCustomPaletteBase palette = new();
 
                 palette.Import(customThemePath);
 

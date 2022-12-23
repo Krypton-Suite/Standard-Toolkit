@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
-        public PaletteTripleToPalette(IPalette palette,
+        public PaletteTripleToPalette(PaletteBase palette,
                                       PaletteBackStyle backStyle,
                                       PaletteBorderStyle borderStyle,
                                       PaletteContentStyle contentStyle)

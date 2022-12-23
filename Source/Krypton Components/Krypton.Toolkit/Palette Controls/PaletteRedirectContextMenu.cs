@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of context menu images.</param>
-        public PaletteRedirectContextMenu(IPalette target,
+        public PaletteRedirectContextMenu(PaletteBase target,
                                           ContextMenuImages images)
             : base(target)
         {

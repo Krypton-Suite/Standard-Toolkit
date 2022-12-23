@@ -412,7 +412,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a base for Office 2010 palettes.
     /// </summary>
-    public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
+    public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase 
     {
         #region Static Fields
 
@@ -5189,7 +5189,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Associated palette instance.</param>
         public KryptonColorTable2010BlueLightMode(Color[] colors,
                                      InheritBool roundedEdges,
-                                     IPalette palette)
+                                     PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);

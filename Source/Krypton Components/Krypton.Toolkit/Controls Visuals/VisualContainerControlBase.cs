@@ -30,8 +30,8 @@ namespace Krypton.Toolkit
         private bool _refreshAll;
         private bool _paintTransparent;
         private bool _evalTransparent;
-        private IPalette _localPalette;
-        private IPalette _palette;
+        private PaletteBase _localPalette;
+        private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    IPalette old = _localPalette;
+                    PaletteBase old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -426,7 +426,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette() => _palette;
+        public PaletteBase GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets and sets the dirty palette counter.
@@ -1081,7 +1081,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void SetPalette(IPalette palette)
+        private void SetPalette(PaletteBase palette)
         {
             if (palette != _palette)
             {

@@ -167,7 +167,7 @@ namespace Krypton.Navigator
         public KryptonPage(string text, Bitmap imageSmall, string uniqueName)
             : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
-            
+
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new IPalette Palette
+        public new PaletteBase Palette
         {
             [DebuggerStepThrough]
             get => base.Palette;
@@ -733,7 +733,7 @@ namespace Krypton.Navigator
             ToolTipShadow = true;
         }
         #endregion
-        
+
         /// <summary>
         /// Gets and sets the unique name of the page.
         /// </summary>

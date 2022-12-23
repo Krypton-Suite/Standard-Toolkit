@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// Provides base class implementation for palettes.
     /// </summary>
     [ToolboxItem(false)]
-    public abstract class PaletteBase : Component, IPalette
+    public abstract class PaletteBase : Component
     {
         #region Instance Fields
         private BasePaletteType _basePaletteType;
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
-        protected PaletteBase()
+        protected PaletteBase ()
         {
             // We need to notice when system color settings change
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;

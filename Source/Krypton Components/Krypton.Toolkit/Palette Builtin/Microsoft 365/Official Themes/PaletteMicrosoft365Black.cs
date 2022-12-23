@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteMicrosoft365BlackThemeBase : PaletteBase
+    public abstract class PaletteMicrosoft365BlackThemeBase : PaletteBase 
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);

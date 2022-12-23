@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectRibbonDouble class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectRibbonDouble(IPalette target)
+        public PaletteRedirectRibbonDouble(PaletteBase target)
             : this(target, 
                    null, null, null, null, null, null,
                    null, null, null, null, null, null)
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <param name="trackingText">Redirection for text tracking state requests.</param>
         /// <param name="selectedText">Redirection for text selected states requests.</param>
         /// <param name="focusOverrideText">Redirection for text focus override state requests.</param>
-        public PaletteRedirectRibbonDouble(IPalette target,
+        public PaletteRedirectRibbonDouble(PaletteBase target,
                                            IPaletteRibbonBack disabledBack,
                                            IPaletteRibbonBack normalBack,
                                            IPaletteRibbonBack pressedBack,

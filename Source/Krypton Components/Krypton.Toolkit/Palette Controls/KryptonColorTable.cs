@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private IPalette _palette;
+        private PaletteBase _palette;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Creates a new instance of the KryptonColorTable class.
         /// </summary>
         /// <param name="palette">Reference to associated palette.</param>
-        public KryptonColorTable(IPalette palette) => Palette = palette;
+        public KryptonColorTable(PaletteBase palette) => Palette = palette;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the associated palette instance.
         /// </summary>
-        public IPalette Palette { get; }
+        public PaletteBase Palette { get; }
 
         #endregion
 

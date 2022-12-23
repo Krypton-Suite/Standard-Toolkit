@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="plusMinusImages">Reference to source of tree view images.</param>
         /// <param name="checkboxImages">Reference to source of check box images.</param>
-        public PaletteRedirectTreeView(IPalette target,
+        public PaletteRedirectTreeView(PaletteBase target,
                                        TreeViewImages plusMinusImages,
                                        CheckBoxImages checkboxImages)
             : base(target)

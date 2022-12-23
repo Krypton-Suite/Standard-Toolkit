@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a base for Office 2013 palettes.
     /// </summary>
-    public abstract class PaletteOffice2013Base : PaletteBase
+    public abstract class PaletteOffice2013Base : PaletteBase 
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
