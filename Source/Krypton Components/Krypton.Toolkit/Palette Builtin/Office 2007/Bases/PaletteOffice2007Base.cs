@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007Base : PaletteBase
+    public abstract class PaletteOffice2007Base : PaletteBase 
     {
         #region Static Fields
 

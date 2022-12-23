@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a base for Office 2010 palettes.
     /// </summary>
-    public abstract class PaletteOffice2010Base : PaletteBase
+    public abstract class PaletteOffice2010Base : PaletteBase 
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);

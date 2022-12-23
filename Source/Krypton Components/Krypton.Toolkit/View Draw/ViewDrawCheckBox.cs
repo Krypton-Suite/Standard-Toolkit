@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewDrawCheckBox : ViewLeaf
     {
         #region Instance Fields
-        private readonly IPalette _palette;
+        private readonly PaletteBase _palette;
         private bool _tracking;
 
         #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewDrawCheckBox class.
         /// </summary>
         /// <param name="palette">Palette for source of drawing values.</param>
-        public ViewDrawCheckBox(IPalette palette)
+        public ViewDrawCheckBox(PaletteBase palette)
         {
             Debug.Assert(palette != null);
             _palette = palette;

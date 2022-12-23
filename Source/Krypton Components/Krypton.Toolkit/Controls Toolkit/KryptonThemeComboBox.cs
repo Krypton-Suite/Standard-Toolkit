@@ -19,14 +19,17 @@ namespace Krypton.Toolkit
     public class KryptonThemeComboBox : KryptonComboBox
     {
         #region Instance Fields
-        private readonly List<string> _supportedThemesList;
+        private readonly ICollection<string> _supportedThemesNames;
         private int _selectedIndex;
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Helper, to return a new list of names
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string> SupportedThemesList => _supportedThemesList;
+        public List<string> SupportedThemesList => _supportedThemesNames.ToList();
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
@@ -62,7 +65,7 @@ namespace Krypton.Toolkit
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
 
-            _supportedThemesList = ThemeManager.PropagateSupportedThemeList();
+            _supportedThemesNames = ThemeManager.SupportedInternalThemeNames;
             _selectedIndex = 25;
         }
         #endregion
@@ -79,13 +82,15 @@ namespace Krypton.Toolkit
 
         #region Protected Overrides
 
+        /// <inheritdoc />
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
-            Items.AddRange(ThemeManager.ReturnThemeArray());
+            Items.AddRange(_supportedThemesNames.ToArray());
             SelectedIndex = _selectedIndex;
         }
 
+        /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             ThemeManager.ApplyTheme(Text, Manager);

@@ -25,7 +25,7 @@ namespace Krypton.Navigator
         public ButtonSpecNavClose(KryptonNavigator navigator)
             : base(navigator, PaletteButtonSpecStyle.Close)
         {
-        }         
+        }
         #endregion
 
         #region IButtonSpecValues
@@ -33,8 +33,8 @@ namespace Krypton.Navigator
         /// Gets the button visible value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(IPalette palette)
+        /// <returns>Button visibility.</returns>
+        public override bool GetVisible(PaletteBase palette)
         {
             switch (Navigator.Button.CloseButtonDisplay)
             {
@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
+        public override ButtonEnabled GetEnabled(PaletteBase palette)
         {
             switch (Navigator.Button.CloseButtonDisplay)
             {
@@ -85,10 +85,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette) =>
+        public override ButtonCheckState GetChecked(PaletteBase palette) =>
             // Close button is never shown as checked
             ButtonCheckState.NotCheckButton;
 
-        #endregion    
+        #endregion
     }
 }

@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">Was the context menu activate by a keyboard action.</param>
         /// <param name="dropScreenRect">Screen rectangle of the drop down button.</param>
         public VisualContextMenuDTP(KryptonContextMenu contextMenu,
-                                    IPalette palette,
+                                    PaletteBase palette,
                                     PaletteMode paletteMode,
                                     PaletteRedirect redirector,
                                     PaletteRedirectContextMenu redirectorImages,

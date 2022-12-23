@@ -127,7 +127,7 @@ namespace Krypton.Navigator
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
         /// <param name="remapTarget">Target for remapping the color onto.</param>
-        public ButtonSpecNavRemap(IPalette target,
+        public ButtonSpecNavRemap(PaletteBase target,
                                   ButtonSpec buttonSpec,
                                   ButtonSpecRemapTarget remapTarget)
             : base(target)

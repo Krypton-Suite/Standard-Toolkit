@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase
+    public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase 
     {
         #region Static Fields
 
@@ -5972,7 +5972,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Associated palette instance.</param>
         public KryptonColorTable2007SilverDarkMode(Color[] colors,
                                      InheritBool roundedEdges,
-                                     IPalette palette)
+                                     PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);

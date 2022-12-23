@@ -391,7 +391,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public abstract class PaletteOffice2013WhiteBase : PaletteBase
+    public abstract class PaletteOffice2013WhiteBase : PaletteBase 
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);

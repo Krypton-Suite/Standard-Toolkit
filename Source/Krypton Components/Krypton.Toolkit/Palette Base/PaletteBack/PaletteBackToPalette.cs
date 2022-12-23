@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteBackToPalette : IPaletteBack
     {
         #region Instance Fields
-        private readonly IPalette _palette;
+        private readonly PaletteBase _palette;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Source for getting all values.</param>
         /// <param name="style">Style of values required.</param>
-        public PaletteBackToPalette(IPalette palette, PaletteBackStyle style)
+        public PaletteBackToPalette(PaletteBase palette, PaletteBackStyle style)
         {
             // Remember source palette
             _palette = palette;

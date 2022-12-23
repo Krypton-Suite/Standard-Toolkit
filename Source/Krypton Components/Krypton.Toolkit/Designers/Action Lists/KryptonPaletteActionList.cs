@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonPaletteActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonPalette _palette;
+        private readonly KryptonCustomPaletteBase _palette;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the panel instance
-            _palette = owner.Component as KryptonPalette;
+            _palette = owner.Component as KryptonCustomPaletteBase;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));

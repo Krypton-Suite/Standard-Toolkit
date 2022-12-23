@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
-        protected ButtonSpecRemapByContentBase(IPalette target,
+        protected ButtonSpecRemapByContentBase(PaletteBase target,
                                             ButtonSpec buttonSpec)
             : base(target)
         {

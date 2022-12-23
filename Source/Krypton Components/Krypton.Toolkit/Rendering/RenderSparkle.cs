@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override ToolStripRenderer RenderToolStrip(IPalette colorPalette)
+        public override ToolStripRenderer RenderToolStrip(PaletteBase colorPalette)
         {
             Debug.Assert(colorPalette != null);
 

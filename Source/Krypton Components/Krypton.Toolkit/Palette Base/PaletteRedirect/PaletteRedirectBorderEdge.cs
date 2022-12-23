@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectBorderEdge class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectBorderEdge(IPalette target)
+        public PaletteRedirectBorderEdge(PaletteBase target)
             : this(target, null, null)
         {
         }
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectBorderEdge(IPalette target,
+        public PaletteRedirectBorderEdge(PaletteBase target,
                                          PaletteBorderEdge disabled,
                                          PaletteBorderEdge normal)
             : base(target)

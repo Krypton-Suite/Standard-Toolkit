@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a fixed blue variation on the sparkle appearance.
     /// </summary>
-    public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
+    public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase 
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);

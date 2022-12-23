@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Reference to associated palette.</param>
         public KryptonProfessionalKCT(Color[] colors, 
                                       bool useSystemColors,
-                                      IPalette palette)
+                                      PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);

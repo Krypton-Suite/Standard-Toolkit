@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         #region Instance Fields
-        private readonly IPalette _palette;
+        private readonly PaletteBase _palette;
         private readonly GalleryImages _images;
         private readonly GalleryButtonController _controller;
         private readonly PaletteRibbonGalleryButton _button;
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         /// <param name="button">Button content to display.</param>
         /// <param name="images">Button images.</param>
         /// <param name="needPaint">Paint event delegate.</param>
-        public ViewDrawRibbonGalleryButton(IPalette palette,
+        public ViewDrawRibbonGalleryButton(PaletteBase palette,
                                            PaletteRelativeAlign alignment,
                                            PaletteRibbonGalleryButton button,
                                            GalleryImages images,
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
             _paletteContent = new PaletteContentToPalette(palette, PaletteContentStyle.ButtonGallery);
             _controller = new GalleryButtonController(this, needPaint, alignment != PaletteRelativeAlign.Far);
             _controller.Click += OnButtonClick;
-            MouseController = _controller;
+            base.MouseController = _controller;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Krypton.Ribbon
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            // Dispose of any current memnto
+            // Dispose of any current memento
             if (_mementoContent != null)
             {
                 _mementoContent.Dispose();
@@ -260,26 +260,25 @@ namespace Krypton.Ribbon
 
             // Get image based on state
             Image image = null;
-            switch (State)
+            if (images != null)
             {
-                case PaletteState.Disabled:
-                    image = images.Disabled;
-                    break;
-                case PaletteState.Normal:
-                    image = images.Normal;
-                    break;
-                case PaletteState.Tracking:
-                    image = images.Tracking;
-                    break;
-                case PaletteState.Pressed:
-                    image = images.Pressed;
-                    break;
-            }
-
-            // If no image then get the common image
-            if (image == null)
-            {
-                image = images.Common;
+                switch (State)
+                {
+                    case PaletteState.Disabled:
+                        image = images.Disabled;
+                        break;
+                    case PaletteState.Normal:
+                        image = images.Normal;
+                        break;
+                    case PaletteState.Tracking:
+                        image = images.Tracking;
+                        break;
+                    case PaletteState.Pressed:
+                        image = images.Pressed;
+                        break;
+                }
+                // If no image then get the common image
+                image ??= images.Common;
             }
 
             // If still no image then get is from the palette

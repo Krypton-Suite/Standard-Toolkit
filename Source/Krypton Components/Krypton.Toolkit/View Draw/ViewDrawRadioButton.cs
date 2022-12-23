@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewDrawRadioButton : ViewLeaf
     {
         #region Instance Fields
-        private readonly IPalette _palette;
+        private readonly PaletteBase _palette;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewDrawRadioButton class.
         /// </summary>
         /// <param name="palette">Palette for source of drawing values.</param>
-        public ViewDrawRadioButton(IPalette palette)
+        public ViewDrawRadioButton(PaletteBase palette)
         {
             Debug.Assert(palette != null);
             _palette = palette;

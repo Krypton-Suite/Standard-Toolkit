@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Associated palette instance.</param>
         public KryptonColorTable2010(Color[] colors,
                                      InheritBool roundedEdges,
-                                     IPalette palette)
+                                     PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);

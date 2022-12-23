@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <param name="baseKCT">Initial base KCT to inherit values from.</param>
         /// <param name="palette">Reference to associated palette.</param>
         public KryptonInternalKCT(KryptonColorTable baseKCT,
-                                  IPalette palette)
+                                  PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(baseKCT != null);

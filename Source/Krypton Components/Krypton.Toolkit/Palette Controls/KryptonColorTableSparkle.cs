@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         public KryptonColorTableSparkle(Color[] colors,
                                         Color[] sparkleColors,
                                         InheritBool roundedEdges,
-                                        IPalette palette)
+                                        PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);

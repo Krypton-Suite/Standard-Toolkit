@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
     public class KryptonWebBrowser : WebBrowser
     {
         #region Instance Fields
-        private IPalette _palette;
+        private PaletteBase _palette;
         private readonly PaletteMode _paletteMode = PaletteMode.Global;
         private KryptonContextMenu _kryptonContextMenu;
         private IRenderer _renderer;
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Sets the palette being used.</summary>
         /// <param name="palette">The chosen palette.</param>
-        private void SetPalette(IPalette palette)
+        private void SetPalette(PaletteBase palette)
         {
             if (palette != _palette)
             {
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette() => _palette;
+        public PaletteBase GetResolvedPalette() => _palette;
 
         #endregion Palette Controls
     }

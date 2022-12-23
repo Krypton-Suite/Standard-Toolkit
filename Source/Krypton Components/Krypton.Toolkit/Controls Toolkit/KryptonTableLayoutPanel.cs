@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase Palette
         {
             [DebuggerStepThrough]
             get => _backGroundPanel.Palette;

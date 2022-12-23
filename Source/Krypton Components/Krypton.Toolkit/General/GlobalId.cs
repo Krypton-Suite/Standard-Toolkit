@@ -12,10 +12,20 @@
 
 namespace Krypton.Toolkit
 {
+    public interface IGlobalId
+    {
+        #region Id
+        /// <summary>
+        /// Gets the unique identifier of the object.
+        /// </summary>
+        int Id { get; }
+        #endregion
+    }
+
     /// <summary>
     /// Contains a global identifier that is unique among objects.
     /// </summary>
-    public class GlobalId
+    public class GlobalId : IGlobalId
     {
         #region Instance Fields
 

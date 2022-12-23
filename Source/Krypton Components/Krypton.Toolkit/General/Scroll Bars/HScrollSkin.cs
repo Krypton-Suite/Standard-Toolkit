@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
 
         private HScrollBar HSB;
 
-        private static IPalette _palette;
+        private static PaletteBase _palette;
         private readonly PaletteRedirect _paletteRedirect;
         #endregion
 

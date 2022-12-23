@@ -15,7 +15,7 @@ namespace Krypton.Navigator
     /// <summary>
     /// Specialise the generic collection with type specific rules for item accessor.
     /// </summary>
-    public class DragTargetProviderCollection : TypedCollection<IDragTargetProvider> {}
+    public class DragTargetProviderCollection : TypedCollection<IDragTargetProvider> { }
 
     /// <summary>
     /// Manage a dragging operation.
@@ -29,8 +29,8 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private IPalette _dragPalette;
-        private IPalette _localPalette;
+        private PaletteBase _dragPalette;
+        private PaletteBase _localPalette;
         private IRenderer _dragRenderer;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
@@ -137,7 +137,7 @@ namespace Krypton.Navigator
         {
             get => _paletteMode;
 
-            set 
+            set
             {
                 if (_paletteMode != value)
                 {
@@ -158,11 +158,11 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        public IPalette Palette
+        public PaletteBase Palette
         {
             get => _localPalette;
 
-            set 
+            set
             {
                 if (_localPalette != value)
                 {
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         public DragTargetProviderCollection DragTargetProviders { get; }
 
         /// <summary>
-        /// Gets a value indicating if dragging is currently occuring.
+        /// Gets a value indicating if dragging is currently occurring.
         /// </summary>
         public bool IsDragging { get; private set; }
 
@@ -189,7 +189,7 @@ namespace Krypton.Navigator
         {
             get => _documentCursor;
 
-            set 
+            set
             {
                 if (IsDragging)
                 {
@@ -207,7 +207,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="screenPt">Mouse screen point at start of drag.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
-        /// <returns>True if dragging waas started; otherwise false.</returns>
+        /// <returns>True if dragging was started; otherwise false.</returns>
         public virtual bool DragStart(Point screenPt, PageDragEndData dragEndData)
         {
             if (IsDisposed)
@@ -222,7 +222,7 @@ namespace Krypton.Navigator
 
             if (dragEndData == null)
             {
-                throw new ArgumentNullException(nameof(dragEndData), "Cannot provide a null DragEndData.");
+                throw new ArgumentNullException(nameof(dragEndData), @"Cannot provide a null DragEndData.");
             }
 
             // Generate drag targets from the set of target provides
@@ -273,7 +273,7 @@ namespace Krypton.Navigator
                 throw new InvalidOperationException("Cannot DragMove when DragStart has not been called.");
             }
 
-            // Different feedback objects implement visual feeback differently and so only the feedback
+            // Different feedback objects implement visual feedback differently and so only the feedback
             // instance knows the correct target to use for the given screen point and drag data.
             _currentTarget = _dragFeedback.Feedback(screenPt, _currentTarget);
 
@@ -298,7 +298,7 @@ namespace Krypton.Navigator
                 throw new InvalidOperationException("Cannot DragEnd when DragStart has not been called.");
             }
 
-            // Different feedback objects implement visual feeback differently and so only the feedback
+            // Different feedback objects implement visual feedback differently and so only the feedback
             // instance knows the correct target to use for the given screen point and drag data.
             _currentTarget = _dragFeedback.Feedback(screenPt, _currentTarget);
 
@@ -456,7 +456,7 @@ namespace Krypton.Navigator
             if (dragFeedback == PaletteDragFeedback.Rounded)
             {
                 // Rounded feedback uses a per-pixel alpha blending and so we need to be on a machine that supports
-                // more than 256 colors and also allows the layered windows feature. If not then revert to sqaures
+                // more than 256 colors and also allows the layered windows feature. If not then revert to squares
                 if ((OSFeature.Feature.GetVersionPresent(OSFeature.LayeredWindows) == null) || (CommonHelper.ColorDepth() <= 8))
                 {
                     dragFeedback = PaletteDragFeedback.Square;

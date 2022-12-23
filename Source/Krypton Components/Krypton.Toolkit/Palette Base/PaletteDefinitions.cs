@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
 	/// <summary>
 	/// Exposes a palette for drawing.
 	/// </summary>
-	public interface IPalette
+	public interface IPalette1
 	{
 		#region Events
 		/// <summary>

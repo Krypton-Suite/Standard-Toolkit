@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectBreadCrumb class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectBreadCrumb(IPalette target)
+        public PaletteRedirectBreadCrumb(PaletteBase target)
             : base(target)
         {
             Left = false;

@@ -43,8 +43,8 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the PaletteRedirectRibbonDouble class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectRibbonTabContent(IPalette target)
-            : this(target, 
+        public PaletteRedirectRibbonTabContent(PaletteBase target)
+            : this(target,
                    null, null, null, null, null, null,
                    null, null, null, null, null, null,
                    null, null, null, null, null, null)
@@ -73,7 +73,7 @@ namespace Krypton.Navigator
         /// <param name="trackingContent">Redirection for content tracking state requests.</param>
         /// <param name="selectedContent">Redirection for content selected states requests.</param>
         /// <param name="focusOverrideContent">Redirection for content focus override state requests.</param>
-        public PaletteRedirectRibbonTabContent(IPalette target,
+        public PaletteRedirectRibbonTabContent(PaletteBase target,
                                                IPaletteRibbonBack disabledBack,
                                                IPaletteRibbonBack normalBack,
                                                IPaletteRibbonBack pressedBack,

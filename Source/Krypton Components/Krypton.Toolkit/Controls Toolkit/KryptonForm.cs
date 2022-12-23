@@ -823,7 +823,7 @@ namespace Krypton.Toolkit
         {
             private readonly KryptonForm _kryptonForm;
 
-            public FormPaletteRedirect(IPalette palette, KryptonForm kryptonForm)
+            public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
                 : base(palette) =>
                 _kryptonForm = kryptonForm;
 

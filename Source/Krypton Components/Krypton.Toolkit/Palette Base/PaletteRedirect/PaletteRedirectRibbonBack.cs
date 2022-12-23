@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectRibbonBack class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectRibbonBack(IPalette target)
+        public PaletteRedirectRibbonBack(PaletteBase target)
             : this(target, null, null, null, null, null, null)
         {
         }
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabledBack">Redirection for back disabled state requests.</param>
         /// <param name="normalBack">Redirection for back normal state requests.</param>
-        public PaletteRedirectRibbonBack(IPalette target,
+        public PaletteRedirectRibbonBack(PaletteBase target,
                                          IPaletteRibbonBack disabledBack,
                                          IPaletteRibbonBack normalBack)
             : this(target, disabledBack, normalBack, null, null, null, null)
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// <param name="trackingBack">Redirection for back tracking state requests.</param>
         /// <param name="selectedBack">Redirection for selected states requests.</param>
         /// <param name="focusOverrideBack">Redirection for back focus override state requests.</param>
-        public PaletteRedirectRibbonBack(IPalette target,
+        public PaletteRedirectRibbonBack(PaletteBase target,
                                          IPaletteRibbonBack disabledBack,
                                          IPaletteRibbonBack normalBack,
                                          IPaletteRibbonBack pressedBack,
