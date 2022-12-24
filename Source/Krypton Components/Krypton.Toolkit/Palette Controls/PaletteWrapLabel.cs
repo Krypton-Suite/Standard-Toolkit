@@ -22,6 +22,7 @@ namespace Krypton.Toolkit
         private Color _textColor;
         private PaletteTextHint _hint;
         private readonly KryptonWrapLabel _wrapLabel;
+        private readonly KryptonLinkWrapLabel _linkWrapLabel;
         #endregion
 
         #region Identity
@@ -36,6 +37,17 @@ namespace Krypton.Toolkit
             _textColor = Color.Empty;
             _hint = PaletteTextHint.Inherit;
         }
+
+        /// <summary>Initializes a new instance of the <see cref="PaletteWrapLabel" /> class.</summary>
+        /// <param name="linkWrapLabel">The link wrap label.</param>
+        public PaletteWrapLabel(KryptonLinkWrapLabel linkWrapLabel)
+        {
+            _linkWrapLabel = linkWrapLabel;
+            _font = null;
+            _textColor = Color.Empty;
+            _hint = PaletteTextHint.Inherit;
+        }
+
         #endregion
 
         #region IsDefault
