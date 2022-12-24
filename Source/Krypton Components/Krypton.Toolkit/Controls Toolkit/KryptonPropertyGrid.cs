@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
 
             HelpForeColor = _palette.ColorTable.StatusStripText;
 
-            if (KryptonManager.InternalGlobalPaletteMode == PaletteModeManager.Office2007BlackDarkMode)
+            if (KryptonManager.InternalGlobalPaletteMode == PaletteMode.Office2007BlackDarkMode)
             {
                 LineColor = Color.Silver;
             }

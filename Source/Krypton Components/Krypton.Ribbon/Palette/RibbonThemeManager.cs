@@ -47,8 +47,8 @@ namespace Krypton.Ribbon
         /// Gets the current palette mode.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        /// <returns>The current <see cref="PaletteModeManager"/>.</returns>
-        public static PaletteModeManager GetCurrentPaletteMode(KryptonManager manager) => manager.GlobalPaletteMode;
+        /// <returns>The current <see cref="PaletteMode"/>.</returns>
+        public static PaletteMode GetCurrentPaletteMode(KryptonManager manager) => manager.GlobalPaletteMode;
 
         /// <summary>
         /// Sets the theme.
@@ -63,100 +63,28 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Returns the palette mode manager as string.
         /// </summary>
-        /// <param name="paletteModeManager">The palette mode manager.</param>
+        /// <param name="paletteMode">The palette mode manager.</param>
         /// <param name="manager">The manager.</param>
-        /// <returns>The current <see cref="PaletteModeManager"/> as a string.</returns>
-        public static string ReturnPaletteModeManagerAsString(PaletteModeManager paletteModeManager, KryptonManager manager = null)
-        {
-            return ThemeManager.ReturnPaletteModeManagerAsString(paletteModeManager, manager);
-        }
-
-        /// <summary>
-        /// Returns the palette mode as string.
-        /// </summary>
-        /// <param name="paletteMode">The palette mode.</param>
         /// <returns>The current <see cref="PaletteMode"/> as a string.</returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode)
+        public static string ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager manager = null)
         {
-            string result = null;
-
-            if (paletteMode == PaletteMode.Custom) result = "Custom";
-
-            if (paletteMode == PaletteMode.Global) result = "Global";
-
-            if (paletteMode == PaletteMode.ProfessionalSystem) result = "Professional - System";
-
-            if (paletteMode == PaletteMode.ProfessionalOffice2003) result = "Professional - Office 2003";
-
-            if (paletteMode == PaletteMode.Office2007Blue) result = "Office 2007 - Blue";
-
-            if (paletteMode == PaletteMode.Office2007Silver) result = "Office 2007 - Silver";
-
-            if (paletteMode == PaletteMode.Office2007White) result = "Office 2007 - White";
-
-            if (paletteMode == PaletteMode.Office2007Black) result = "Office 2007 - Black";
-
-            if (paletteMode == PaletteMode.Office2010Blue) result = "Office 2010 - Blue";
-
-            if (paletteMode == PaletteMode.Office2010Silver) result = "Office 2010 - Silver";
-
-            if (paletteMode == PaletteMode.Office2010White) result = "Office 2010 - White";
-
-            if (paletteMode == PaletteMode.Office2010Black) result = "Office 2010 - Black";
-
-            //if (paletteMode == PaletteMode.Office2013) result = "Office 2013";
-
-            if (paletteMode == PaletteMode.Office2013White) result = "Office 2013 - White";
-
-            if (paletteMode == PaletteMode.SparkleBlue) result = "Sparkle - Blue";
-
-            if (paletteMode == PaletteMode.SparkleOrange) result = "Sparkle - Orange";
-
-            if (paletteMode == PaletteMode.SparklePurple) result = "Sparkle - Purple";
-
-            if (paletteMode == PaletteMode.Microsoft365Blue) result = "Microsoft 365 - Blue";
-
-            if (paletteMode == PaletteMode.Microsoft365Silver) result = "Microsoft 365 - Silver";
-
-            if (paletteMode == PaletteMode.Microsoft365White) result = "Microsoft 365 - White";
-
-            if (paletteMode == PaletteMode.Microsoft365Black) result = "Microsoft 365 - Black";
-
-            return result;
+            return ThemeManager.ReturnPaletteModeAsString(paletteMode, manager);
         }
 
         /// <summary>
         /// Applies the global theme.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        /// <param name="paletteModeManager">The palette mode manager.</param>
-        private static void ApplyGlobalTheme(KryptonManager manager, PaletteModeManager paletteModeManager)
+        /// <param name="paletteMode">The palette mode manager.</param>
+        private static void ApplyGlobalTheme(KryptonManager manager, PaletteMode paletteMode)
         {
             try
             {
-                manager.GlobalPaletteMode = paletteModeManager;
+                manager.GlobalPaletteMode = paletteMode;
             }
             catch
             {
-
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Applies the global theme.
-        /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <param name="mode">The theme mode.</param>
-        private static void ApplyGlobalTheme(KryptonManager manager, PaletteMode mode)
-        {
-            try
-            {
-                manager.GlobalPaletteMode = (PaletteModeManager)mode;
-            }
-            catch
-            {
-
+                // TODO: Used DebugUtilities
                 throw;
             }
         }
@@ -177,10 +105,10 @@ namespace Krypton.Ribbon
         /// Applies the theme manager mode.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
-        /// <returns>The <see cref="PaletteModeManager"/> equivalent.</returns>
-        public static PaletteModeManager ApplyThemeManagerMode(string themeName)
+        /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
+        public static PaletteMode ApplyThemeManagerMode(string themeName)
         {
-            PaletteModeManager modeManager = (PaletteModeManager)Enum.Parse(typeof(PaletteModeManager), themeName);
+            PaletteMode modeManager = (PaletteMode)Enum.Parse(typeof(PaletteMode), themeName);
 
             return modeManager;
         }

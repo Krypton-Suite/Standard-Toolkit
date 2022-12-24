@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global palette mode.
         /// </summary>
-        public PaletteModeManager GlobalPaletteMode
+        public PaletteMode GlobalPaletteMode
         {
             get => _manager.GlobalPaletteMode;
 
