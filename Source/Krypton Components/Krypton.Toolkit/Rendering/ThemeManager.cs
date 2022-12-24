@@ -24,53 +24,53 @@ namespace Krypton.Toolkit
         /// The supported themes
         /// </summary>
         /// TODO: this should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
-        private static readonly BiDictionary<string, PaletteModeManager> _supportedThemes = new(new Dictionary<string, PaletteModeManager>
+        private static readonly BiDictionary<string, PaletteMode> _supportedThemes = new(new Dictionary<string, PaletteMode>
             {
-                { @"Professional - System", PaletteModeManager.ProfessionalSystem },
-                { @"Professional - Office 2003", PaletteModeManager.ProfessionalOffice2003 },
-                { @"Office 2007 - Blue", PaletteModeManager.Office2007Blue },
-                { @"Office 2007 - Blue (Dark Mode)", PaletteModeManager.Office2007BlueDarkMode },
-                { @"Office 2007 - Blue (Light Mode)", PaletteModeManager.Office2007BlueLightMode },
-                { @"Office 2007 - Silver", PaletteModeManager.Office2007Silver },
-                { @"Office 2007 - Silver (Dark Mode)", PaletteModeManager.Office2007SilverDarkMode },
-                { @"Office 2007 - Silver (Light Mode)", PaletteModeManager.Office2007SilverLightMode },
-                { @"Office 2007 - White", PaletteModeManager.Office2007White },
-                { @"Office 2007 - Black", PaletteModeManager.Office2007Black },
-                { @"Office 2007 - Black (Dark Mode)", PaletteModeManager.Office2007BlackDarkMode },
-                { @"Office 2007 - Dark Gray", PaletteModeManager.Office2007DarkGray },
-                { @"Office 2010 - Blue", PaletteModeManager.Office2010Blue },
-                { @"Office 2010 - Blue (Dark Mode)", PaletteModeManager.Office2010BlueDarkMode },
-                { @"Office 2010 - Blue (Light Mode)", PaletteModeManager.Office2010BlueLightMode },
-                { @"Office 2010 - Silver", PaletteModeManager.Office2010Silver },
-                { @"Office 2010 - Silver (Dark Mode)", PaletteModeManager.Office2010SilverDarkMode },
-                { @"Office 2010 - Silver (Light Mode)", PaletteModeManager.Office2010SilverLightMode },
-                { @"Office 2010 - White", PaletteModeManager.Office2010White },
-                { @"Office 2010 - Black", PaletteModeManager.Office2010Black },
-                { @"Office 2010 - Black (Dark Mode)", PaletteModeManager.Office2010BlackDarkMode },
-                { @"Office 2010 - Dark Gray", PaletteModeManager.Office2010DarkGray },
-                { @"Office 2013 - Dark Gray", PaletteModeManager.Office2013DarkGray },
-                //{ @"Office 2013", PaletteModeManager.Office2013 },
-                { @"Office 2013 - White", PaletteModeManager.Office2013White },
-                { @"Sparkle - Blue", PaletteModeManager.SparkleBlue },
-                { @"Sparkle - Blue (Dark Mode)", PaletteModeManager.SparkleBlueDarkMode },
-                { @"Sparkle - Blue (Light Mode)", PaletteModeManager.SparkleBlueLightMode },
-                { @"Sparkle - Orange", PaletteModeManager.SparkleOrange },
-                { @"Sparkle - Orange (Dark Mode)", PaletteModeManager.SparkleOrangeDarkMode },
-                { @"Sparkle - Orange (Light Mode)", PaletteModeManager.SparkleOrangeLightMode },
-                { @"Sparkle - Purple", PaletteModeManager.SparklePurple },
-                { @"Sparkle - Purple (Dark Mode)", PaletteModeManager.SparklePurpleDarkMode },
-                { @"Sparkle - Purple (Light Mode)", PaletteModeManager.SparklePurpleLightMode },
-                { @"Office 365 - Blue", PaletteModeManager.Microsoft365Blue },
-                { @"Office 365 - Blue (Dark Mode)", PaletteModeManager.Microsoft365BlueDarkMode },
-                { @"Office 365 - Blue (Light Mode)", PaletteModeManager.Microsoft365BlueLightMode },
-                { @"Office 365 - Silver", PaletteModeManager.Microsoft365Silver },
-                { @"Office 365 - Silver (Dark Mode)", PaletteModeManager.Microsoft365SilverDarkMode },
-                { @"Office 365 - Silver (Light Mode)", PaletteModeManager.Microsoft365SilverLightMode },
-                { @"Office 365 - White", PaletteModeManager.Microsoft365White },
-                { @"Office 365 - Black", PaletteModeManager.Microsoft365Black },
-                { @"Office 365 - Black (Dark Mode)", PaletteModeManager.Microsoft365BlackDarkMode },
-                { @"Office 365 - Dark Gray", PaletteModeManager.Microsoft365DarkGray },
-                { @"Custom", PaletteModeManager.Custom }
+                { @"Professional - System", PaletteMode.ProfessionalSystem },
+                { @"Professional - Office 2003", PaletteMode.ProfessionalOffice2003 },
+                { @"Office 2007 - Blue", PaletteMode.Office2007Blue },
+                { @"Office 2007 - Blue (Dark Mode)", PaletteMode.Office2007BlueDarkMode },
+                { @"Office 2007 - Blue (Light Mode)", PaletteMode.Office2007BlueLightMode },
+                { @"Office 2007 - Silver", PaletteMode.Office2007Silver },
+                { @"Office 2007 - Silver (Dark Mode)", PaletteMode.Office2007SilverDarkMode },
+                { @"Office 2007 - Silver (Light Mode)", PaletteMode.Office2007SilverLightMode },
+                { @"Office 2007 - White", PaletteMode.Office2007White },
+                { @"Office 2007 - Black", PaletteMode.Office2007Black },
+                { @"Office 2007 - Black (Dark Mode)", PaletteMode.Office2007BlackDarkMode },
+                { @"Office 2007 - Dark Gray", PaletteMode.Office2007DarkGray },
+                { @"Office 2010 - Blue", PaletteMode.Office2010Blue },
+                { @"Office 2010 - Blue (Dark Mode)", PaletteMode.Office2010BlueDarkMode },
+                { @"Office 2010 - Blue (Light Mode)", PaletteMode.Office2010BlueLightMode },
+                { @"Office 2010 - Silver", PaletteMode.Office2010Silver },
+                { @"Office 2010 - Silver (Dark Mode)", PaletteMode.Office2010SilverDarkMode },
+                { @"Office 2010 - Silver (Light Mode)", PaletteMode.Office2010SilverLightMode },
+                { @"Office 2010 - White", PaletteMode.Office2010White },
+                { @"Office 2010 - Black", PaletteMode.Office2010Black },
+                { @"Office 2010 - Black (Dark Mode)", PaletteMode.Office2010BlackDarkMode },
+                { @"Office 2010 - Dark Gray", PaletteMode.Office2010DarkGray },
+                { @"Office 2013 - Dark Gray", PaletteMode.Office2013DarkGray },
+                //{ @"Office 2013", PaletteMode.Office2013 },
+                { @"Office 2013 - White", PaletteMode.Office2013White },
+                { @"Sparkle - Blue", PaletteMode.SparkleBlue },
+                { @"Sparkle - Blue (Dark Mode)", PaletteMode.SparkleBlueDarkMode },
+                { @"Sparkle - Blue (Light Mode)", PaletteMode.SparkleBlueLightMode },
+                { @"Sparkle - Orange", PaletteMode.SparkleOrange },
+                { @"Sparkle - Orange (Dark Mode)", PaletteMode.SparkleOrangeDarkMode },
+                { @"Sparkle - Orange (Light Mode)", PaletteMode.SparkleOrangeLightMode },
+                { @"Sparkle - Purple", PaletteMode.SparklePurple },
+                { @"Sparkle - Purple (Dark Mode)", PaletteMode.SparklePurpleDarkMode },
+                { @"Sparkle - Purple (Light Mode)", PaletteMode.SparklePurpleLightMode },
+                { @"Office 365 - Blue", PaletteMode.Microsoft365Blue },
+                { @"Office 365 - Blue (Dark Mode)", PaletteMode.Microsoft365BlueDarkMode },
+                { @"Office 365 - Blue (Light Mode)", PaletteMode.Microsoft365BlueLightMode },
+                { @"Office 365 - Silver", PaletteMode.Microsoft365Silver },
+                { @"Office 365 - Silver (Dark Mode)", PaletteMode.Microsoft365SilverDarkMode },
+                { @"Office 365 - Silver (Light Mode)", PaletteMode.Microsoft365SilverLightMode },
+                { @"Office 365 - White", PaletteMode.Microsoft365White },
+                { @"Office 365 - Black", PaletteMode.Microsoft365Black },
+                { @"Office 365 - Black (Dark Mode)", PaletteMode.Microsoft365BlackDarkMode },
+                { @"Office 365 - Dark Gray", PaletteMode.Microsoft365DarkGray },
+                { @"Custom", PaletteMode.Custom }
             });
 
         #endregion
@@ -96,14 +96,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="mode">The mode.</param>
         /// <param name="manager">The manager.</param>
-        private static void ApplyTheme(PaletteModeManager mode, KryptonManager manager) => manager.GlobalPaletteMode = mode;
-
-        /// <summary>
-        /// Gets the palette mode manager.
-        /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <returns>The current <see cref="PaletteModeManager"/> mode.</returns>
-        public static PaletteModeManager GetPaletteModeManager(KryptonManager manager) => manager.GlobalPaletteMode;
+        private static void ApplyTheme(PaletteMode mode, KryptonManager manager) => manager.GlobalPaletteMode = mode;
 
         /// <summary>Gets the palette mode.</summary>
         /// <param name="manager">The manager.</param>
@@ -117,103 +110,11 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Returns the palette mode.</summary>
-        /// <param name="paletteModeManager">The palette mode manager.</param>
+        /// <param name="paletteMode">The palette mode manager.</param>
         /// <returns>The selected <see cref="PaletteMode"/>.</returns>
-        private static PaletteMode ReturnPaletteMode(PaletteModeManager paletteModeManager)
+        private static PaletteMode ReturnPaletteMode(PaletteMode paletteMode)
         {
-            switch (paletteModeManager)
-            {
-                case PaletteModeManager.Custom:
-                    return PaletteMode.Custom;
-                case PaletteModeManager.Office2007Black:
-                    return PaletteMode.Office2007Black;
-                case PaletteModeManager.Office2007White:
-                    return PaletteMode.Office2007White;
-                case PaletteModeManager.Office2007BlackDarkMode:
-                    return PaletteMode.Office2007BlackDarkMode;
-                case PaletteModeManager.Office2007Blue:
-                    return PaletteMode.Office2007Blue;
-                case PaletteModeManager.Office2007BlueDarkMode:
-                    return PaletteMode.Office2007BlueDarkMode;
-                case PaletteModeManager.Office2007BlueLightMode:
-                    return PaletteMode.Office2007BlueLightMode;
-                case PaletteModeManager.Office2007DarkGray:
-                    return PaletteMode.Office2007DarkGray;
-                case PaletteModeManager.Office2007Silver:
-                    return PaletteMode.Office2007Silver;
-                case PaletteModeManager.Office2007SilverDarkMode:
-                    return PaletteMode.Office2007SilverDarkMode;
-                case PaletteModeManager.Office2007SilverLightMode:
-                    return PaletteMode.Office2007SilverLightMode;
-                case PaletteModeManager.Office2010Black:
-                    return PaletteMode.Office2010Black;
-                case PaletteModeManager.Office2010BlackDarkMode:
-                    return PaletteMode.Office2010BlackDarkMode;
-                case PaletteModeManager.Office2010Blue:
-                    return PaletteMode.Office2010Blue;
-                case PaletteModeManager.Office2010BlueDarkMode:
-                    return PaletteMode.Office2010BlueDarkMode;
-                case PaletteModeManager.Office2010BlueLightMode:
-                    return PaletteMode.Office2010BlueLightMode;
-                case PaletteModeManager.Office2010DarkGray:
-                    return PaletteMode.Office2010DarkGray;
-                case PaletteModeManager.Office2010Silver:
-                    return PaletteMode.Office2010Silver;
-                case PaletteModeManager.Office2010SilverDarkMode:
-                    return PaletteMode.Office2010SilverDarkMode;
-                case PaletteModeManager.Office2010SilverLightMode:
-                    return PaletteMode.Office2010SilverLightMode;
-                case PaletteModeManager.Office2013DarkGray:
-                    return PaletteMode.Office2013DarkGray;
-                case PaletteModeManager.Office2010White:
-                    return PaletteMode.Office2010White;
-                case PaletteModeManager.Office2013White:
-                    return PaletteMode.Office2013White;
-                case PaletteModeManager.Microsoft365Black:
-                    return PaletteMode.Microsoft365Black;
-                case PaletteModeManager.Microsoft365BlackDarkMode:
-                    return PaletteMode.Microsoft365BlackDarkMode;
-                case PaletteModeManager.Microsoft365Blue:
-                    return PaletteMode.Microsoft365Blue;
-                case PaletteModeManager.Microsoft365BlueDarkMode:
-                    return PaletteMode.Microsoft365BlueDarkMode;
-                case PaletteModeManager.Microsoft365BlueLightMode:
-                    return PaletteMode.Microsoft365BlueLightMode;
-                case PaletteModeManager.Microsoft365DarkGray:
-                    return PaletteMode.Microsoft365DarkGray;
-                case PaletteModeManager.Microsoft365Silver:
-                    return PaletteMode.Microsoft365Silver;
-                case PaletteModeManager.Microsoft365SilverDarkMode:
-                    return PaletteMode.Microsoft365SilverDarkMode;
-                case PaletteModeManager.Microsoft365SilverLightMode:
-                    return PaletteMode.Microsoft365SilverLightMode;
-                case PaletteModeManager.Microsoft365White:
-                    return PaletteMode.Microsoft365White;
-                case PaletteModeManager.ProfessionalOffice2003:
-                    return PaletteMode.ProfessionalOffice2003;
-                case PaletteModeManager.ProfessionalSystem:
-                    return PaletteMode.ProfessionalSystem;
-                case PaletteModeManager.SparkleBlue:
-                    return PaletteMode.SparkleBlue;
-                case PaletteModeManager.SparkleBlueDarkMode:
-                    return PaletteMode.SparkleBlueDarkMode;
-                case PaletteModeManager.SparkleBlueLightMode:
-                    return PaletteMode.SparkleBlueLightMode;
-                case PaletteModeManager.SparkleOrange:
-                    return PaletteMode.SparkleOrange;
-                case PaletteModeManager.SparkleOrangeDarkMode:
-                    return PaletteMode.SparkleOrangeDarkMode;
-                case PaletteModeManager.SparkleOrangeLightMode:
-                    return PaletteMode.SparkleOrangeLightMode;
-                case PaletteModeManager.SparklePurple:
-                    return PaletteMode.SparklePurple;
-                case PaletteModeManager.SparklePurpleDarkMode:
-                    return PaletteMode.SparklePurpleDarkMode;
-                case PaletteModeManager.SparklePurpleLightMode:
-                    return PaletteMode.SparklePurpleLightMode;
-                default:
-                    return PaletteMode.Microsoft365Blue;
-            }
+            return paletteMode;
         }
 
         /// <summary>
@@ -237,7 +138,7 @@ namespace Krypton.Toolkit
             {
                 ApplyTheme(themeName, manager);
 
-                ApplyGlobalTheme(manager, GetPaletteModeManager(manager));
+                ApplyGlobalTheme(manager, GetPaletteMode(manager));
             }
             catch (Exception exc)
             {
@@ -248,12 +149,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the palette mode manager as string.
         /// </summary>
-        /// <param name="paletteModeManager">The palette mode manager.</param>
+        /// <param name="PaletteMode">The palette mode manager.</param>
         /// <param name="manager">The manager.</param>
         /// <returns>The chosen theme as a string.</returns>
-        public static string ReturnPaletteModeManagerAsString(PaletteModeManager paletteModeManager, KryptonManager manager = null)
+        public static string ReturnPaletteModeAsString(PaletteMode PaletteMode, KryptonManager manager = null)
         {
-            var paletteMode = manager?.GlobalPaletteMode ?? paletteModeManager;
+            var paletteMode = manager?.GlobalPaletteMode ?? PaletteMode;
 
             return _supportedThemes.GetBySecond(paletteMode);
         }
@@ -294,7 +195,7 @@ namespace Krypton.Toolkit
                 // Set manager
                 manager.GlobalPalette = palette;
 
-                ApplyTheme(PaletteModeManager.Custom, manager);
+                ApplyTheme(PaletteMode.Custom, manager);
             }
             catch (Exception exc)
             {
@@ -318,29 +219,12 @@ namespace Krypton.Toolkit
         /// Applies the global theme.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        /// <param name="paletteModeManager">The palette mode manager.</param>
-        public static void ApplyGlobalTheme(KryptonManager manager, PaletteModeManager paletteModeManager)
+        /// <param name="PaletteMode">The palette mode manager.</param>
+        public static void ApplyGlobalTheme(KryptonManager manager, PaletteMode PaletteMode)
         {
             try
             {
-                manager.GlobalPaletteMode = paletteModeManager;
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
-        }
-
-        /// <summary>
-        /// Applies the global theme.
-        /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <param name="mode">The theme mode.</param>
-        public static void ApplyGlobalTheme(KryptonManager manager, PaletteMode mode)
-        {
-            try
-            {
-                manager.GlobalPaletteMode = (PaletteModeManager)mode;
+                manager.GlobalPaletteMode = PaletteMode;
             }
             catch (Exception exc)
             {
@@ -413,18 +297,11 @@ namespace Krypton.Toolkit
         public static void PropagateThemeSelector(ToolStripComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
-        /// Applies the theme mode.
-        /// </summary>
-        /// <param name="themeName">Name of the theme.</param>
-        /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode ApplyThemeMode(string themeName) => (PaletteMode)Enum.Parse(typeof(PaletteMode), themeName);
-
-        /// <summary>
         /// Applies the theme manager mode.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
-        /// <returns>The <see cref="PaletteModeManager"/> equivalent.</returns>
-        public static PaletteModeManager ApplyThemeManagerMode(string themeName) => (PaletteModeManager)Enum.Parse(typeof(PaletteModeManager), themeName);
+        /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
+        public static PaletteMode GetThemeManagerMode(string themeName) => _supportedThemes.GetByFirst(themeName);
         #endregion
     }
 }

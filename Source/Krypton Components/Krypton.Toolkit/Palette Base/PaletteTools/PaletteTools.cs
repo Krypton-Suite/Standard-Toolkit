@@ -25,89 +25,89 @@ namespace Krypton.Toolkit
         /// <summary>Links the type of the palette to the correct theme style.</summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns></returns>
-        public PaletteModeManager LinkPaletteType1(string themeName)
+        public PaletteMode LinkPaletteType1(string themeName)
         {
-            PaletteModeManager paletteMode = new();
+            PaletteMode paletteMode = new();
 
             if (themeName.Equals("Custom"))
             {
-                paletteMode = PaletteModeManager.Custom;
+                paletteMode = PaletteMode.Custom;
             }
             else if (themeName.Equals("Professional - System"))
             {
-                paletteMode = PaletteModeManager.ProfessionalSystem;
+                paletteMode = PaletteMode.ProfessionalSystem;
             }
             else if (themeName.Equals("Professional - Office 2003"))
             {
-                paletteMode = PaletteModeManager.ProfessionalOffice2003;
+                paletteMode = PaletteMode.ProfessionalOffice2003;
             }
             else if (themeName.Equals("Office 2007 - Black"))
             {
-                paletteMode = PaletteModeManager.Office2007Black;
+                paletteMode = PaletteMode.Office2007Black;
             }
             else if (themeName.Equals("Office 2007 - Blue"))
             {
-                paletteMode = PaletteModeManager.Office2007Blue;
+                paletteMode = PaletteMode.Office2007Blue;
             }
             else if (themeName.Equals("Office 2007 - Silver"))
             {
-                paletteMode = PaletteModeManager.Office2007Silver;
+                paletteMode = PaletteMode.Office2007Silver;
             }
             else if (themeName.Equals("Office 2007 - White"))
             {
-                paletteMode = PaletteModeManager.Office2007White;
+                paletteMode = PaletteMode.Office2007White;
             }
             else if (themeName.Equals("Office 2010 - Black"))
             {
-                paletteMode = PaletteModeManager.Office2010Black;
+                paletteMode = PaletteMode.Office2010Black;
             }
             else if (themeName.Equals("Office 2010 - Blue"))
             {
-                paletteMode = PaletteModeManager.Office2010Blue;
+                paletteMode = PaletteMode.Office2010Blue;
             }
             else if (themeName.Equals("Office 2010 - Silver"))
             {
-                paletteMode = PaletteModeManager.Office2010Silver;
+                paletteMode = PaletteMode.Office2010Silver;
             }
             else if (themeName.Equals("Office 2010 - White"))
             {
-                paletteMode = PaletteModeManager.Office2010White;
+                paletteMode = PaletteMode.Office2010White;
             }
             /*else if (themeName.Equals("Office 2013"))
             {
-                paletteMode = PaletteModeManager.Office2013;
+                paletteMode = PaletteMode.Office2013;
             }*/
             else if (themeName.Equals("Office 2013 - White"))
             {
-                paletteMode = PaletteModeManager.Office2013White;
+                paletteMode = PaletteMode.Office2013White;
             }
             else if (themeName.Equals("Microsoft 365 - Black"))
             {
-                paletteMode = PaletteModeManager.Microsoft365Black;
+                paletteMode = PaletteMode.Microsoft365Black;
             }
             else if (themeName.Equals("Microsoft 365 - Blue"))
             {
-                paletteMode = PaletteModeManager.Microsoft365Blue;
+                paletteMode = PaletteMode.Microsoft365Blue;
             }
             else if (themeName.Equals("Microsoft 365 - Silver"))
             {
-                paletteMode = PaletteModeManager.Microsoft365Silver;
+                paletteMode = PaletteMode.Microsoft365Silver;
             }
             else if (themeName.Equals("Microsoft 365 - White"))
             {
-                paletteMode = PaletteModeManager.Microsoft365White;
+                paletteMode = PaletteMode.Microsoft365White;
             }
             else if (themeName.Equals("Sparkle - Blue"))
             {
-                paletteMode = PaletteModeManager.SparkleBlue;
+                paletteMode = PaletteMode.SparkleBlue;
             }
             else if (themeName.Equals("Sparkle - Orange"))
             {
-                paletteMode = PaletteModeManager.SparkleOrange;
+                paletteMode = PaletteMode.SparkleOrange;
             }
             else if (themeName.Equals("Sparkle - Purple"))
             {
-                paletteMode = PaletteModeManager.SparklePurple;
+                paletteMode = PaletteMode.SparklePurple;
             }
 
             return paletteMode;
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// <param name="manager">The manager.</param>
         /// <param name="paletteMode">The palette mode.</param>
         /// <param name="customThemePath">The custom theme path.</param>
-        public static void ApplyTheme(KryptonManager manager, PaletteModeManager paletteMode = PaletteModeManager.Microsoft365Blue, string customThemePath = "")
+        public static void ApplyTheme(KryptonManager manager, PaletteMode paletteMode = PaletteMode.Microsoft365Blue, string customThemePath = "")
         {
             manager.GlobalPaletteMode = paletteMode;
 
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
 
                 manager.GlobalPalette = palette;
 
-                manager.GlobalPaletteMode = PaletteModeManager.Custom;
+                manager.GlobalPaletteMode = PaletteMode.Custom;
             }
         }
         #endregion
