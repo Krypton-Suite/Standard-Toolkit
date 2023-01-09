@@ -85,11 +85,13 @@ namespace Krypton.Toolkit
         /// <param name="sourceImage">The image to resize.</param>
         /// <param name="imageSize">The size that you want to resize the image to.</param>
         /// <returns>The resized image.</returns>
-        public static Bitmap ScaleImage(Image sourceImage, Size imageSize)
+        public static Bitmap ScaleImage(Image sourceImage, Size? imageSize)
         {
-            var destRect = new Rectangle(0, 0, imageSize.Width, imageSize.Height);
+            Size tmpSize = imageSize ?? new Size(16, 16);
 
-            var destImage = new Bitmap(imageSize.Width, imageSize.Height);
+            var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
+
+            var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
 
             destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
 

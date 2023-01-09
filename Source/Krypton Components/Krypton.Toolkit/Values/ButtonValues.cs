@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         /// Create the storage for the image states.
         /// </summary>
         /// <returns>Storage object.</returns>
-        protected virtual ButtonImageStates CreateImageStates() => new ();
+        protected virtual ButtonImageStates CreateImageStates() => new();
 
         #endregion
 
