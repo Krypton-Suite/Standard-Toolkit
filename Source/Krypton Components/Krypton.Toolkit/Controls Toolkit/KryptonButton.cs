@@ -28,6 +28,7 @@ namespace Krypton.Toolkit
     public class KryptonButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields
+
         private readonly ViewDrawButton _drawButton;
         private ButtonStyle _style;
         private readonly ButtonController _buttonController;
@@ -37,7 +38,14 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
-        private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled, _useAsUACElevationButton;
+        private bool _useAsDialogButton;
+        private bool _isDefault;
+        private bool _useMnemonic;
+        private bool _wasEnabled;
+        private bool _useAsUACElevationButton;
+        private Size _customUACShieldSize;
+        private UACShieldIconSize _uacShieldIconSize;
+
         #endregion
 
         #region Events
@@ -116,8 +124,12 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawButton);
 
             _useAsDialogButton = false;
-            
+
             _useAsUACElevationButton = false;
+
+            _customUACShieldSize = new Size(16, 16);
+
+            _uacShieldIconSize = UACShieldIconSize.ExtraSmall;
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
@@ -237,25 +249,31 @@ namespace Krypton.Toolkit
             ButtonStyle = ButtonStyle.Standalone;
         }
 
-        [DefaultValue(false), 
+        [DefaultValue(false),
          Description(@"If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
-        public bool UseAsADialogButton 
-        { 
-            get => _useAsDialogButton; 
-            set => _useAsDialogButton = value; 
+        public bool UseAsADialogButton
+        {
+            get => _useAsDialogButton;
+            set => _useAsDialogButton = value;
         }
 
-        [DefaultValue(false), 
+        [DefaultValue(false),
          Description(@"Transforms the button into a UAC elevated button.")]
-        public bool UseAsUACElevationButton 
-        { 
-            get => _useAsUACElevationButton; 
-            set 
-            { 
-                _useAsUACElevationButton = value; 
-                ShowUACShield(value); 
-            } 
+        public bool UseAsUACElevationButton
+        {
+            get => _useAsUACElevationButton;
+            set
+            {
+                _useAsUACElevationButton = value;
+                ShowUACShield(value);
+            }
         }
+
+        [DefaultValue(null), Description(@"")]
+        public Size CustomUACShieldSize { get => _customUACShieldSize; set { _customUACShieldSize = value; UpdateShieldCustomSize(value); } }
+
+        [DefaultValue(typeof(UACShieldIconSize), @"UACShieldIconSize.ExtraSmall"), Description(@"")]
+        public UACShieldIconSize UACShieldIconSize { get => _uacShieldIconSize; set { _uacShieldIconSize = value; UpdateShieldSize(value); } }
 
         /// <summary>
         /// Gets access to the button content.
@@ -266,6 +284,11 @@ namespace Krypton.Toolkit
         public ButtonValues Values { get; }
 
         private bool ShouldSerializeValues() => !Values.IsDefault;
+
+        //[Category(@"Visuals"), Description(@"UAC Shield Values"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public UACShieldValues UACShieldValues { get; }
+
+        //private bool ShouldSerializeUACShieldValues() => !UACShieldValues.IsDefault;
 
         /// <summary>
         /// Gets access to the common button appearance that other states can override.
@@ -580,7 +603,7 @@ namespace Krypton.Toolkit
                 {
                     owner.DialogResult = DialogResult;
                 }
-                catch (InvalidEnumArgumentException )
+                catch (InvalidEnumArgumentException)
                 {
                     // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
                     if (owner is KryptonMessageBoxForm)
@@ -710,7 +733,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new (needPaint);
+        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new(needPaint);
 
         /// <summary>
         /// Raises the KryptonCommandChanged event.
@@ -794,6 +817,34 @@ namespace Krypton.Toolkit
                 Values.Image = null;
             }
         }
+
+        private void UpdateShieldCustomSize(Size value) => UpdateShieldSize(UACShieldIconSize.Custom, value);
+
+        private void UpdateShieldSize(UACShieldIconSize value, Size? customSize = null)
+        {
+            switch (value)
+            {
+                case UACShieldIconSize.Custom:
+                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, customSize);
+                    break;
+                case UACShieldIconSize.ExtraSmall:
+                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(16, 16));
+                    break;
+                case UACShieldIconSize.Small:
+                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(32, 32));
+                    break;
+                case UACShieldIconSize.Medium:
+                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(64, 64));
+                    break;
+                case UACShieldIconSize.Large:
+                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(128, 128));
+                    break;
+                case UACShieldIconSize.ExtraLarge:
+                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(255, 255));
+                    break;
+            }
+        }
+
         #endregion
     }
 }
