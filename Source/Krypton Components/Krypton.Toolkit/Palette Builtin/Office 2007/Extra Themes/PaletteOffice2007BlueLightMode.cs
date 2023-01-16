@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007BlueLightModeBase : PaletteBase 
+    public abstract class PaletteOffice2007BlueLightModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -1249,7 +1249,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        return _ribbonColours[(int) SchemeOfficeColors.PanelClient];
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                     }
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:

@@ -436,7 +436,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase 
+    public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -547,47 +547,47 @@ namespace Krypton.Toolkit
 
         #region Colour Arrays
 
-        private static readonly Color[] _ribbonGroupCollapsedBackContext = {   
-                                                                                Color.FromArgb(48, 255, 255, 255), 
-                                                                                Color.FromArgb(235, 235, 235)    
+        private static readonly Color[] _ribbonGroupCollapsedBackContext = {
+                                                                                Color.FromArgb(48, 255, 255, 255),
+                                                                                Color.FromArgb(235, 235, 235)
                                                                             };
         private static readonly Color[] _ribbonGroupCollapsedBackContextTracking =
                                                                                     {
-                                                                                        Color.FromArgb(48, 255, 255, 255), 
+                                                                                        Color.FromArgb(48, 255, 255, 255),
                                                                                         Color.FromArgb(235, 235, 235)
                                                                                     };
 
         private static readonly Color[] _ribbonGroupCollapsedBorderContext =
                                                                             {
                                                                                 Color.FromArgb(128, 199, 199, 199),
-                                                                                Color.FromArgb(199, 199, 199), 
-                                                                                Color.FromArgb(48, 255, 255, 255), 
+                                                                                Color.FromArgb(199, 199, 199),
+                                                                                Color.FromArgb(48, 255, 255, 255),
                                                                                 Color.FromArgb(235, 235, 235)
                                                                             };
 
         private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking =
                                                                                     {
                                                                                         Color.FromArgb(128, 168, 184, 196),
-                                                                                        Color.FromArgb(168, 184, 196), 
-                                                                                        Color.FromArgb(48, 255, 255, 255), 
+                                                                                        Color.FromArgb(168, 184, 196),
+                                                                                        Color.FromArgb(48, 255, 255, 255),
                                                                                         Color.FromArgb(192, 207, 220)
                                                                                     };
 
         private static readonly Color[] _appButtonNormal =
                                                             {
-                                                                Color.FromArgb(243, 245, 248), 
-                                                                Color.FromArgb(214, 220, 231), 
-                                                                Color.FromArgb(188, 198, 211), 
+                                                                Color.FromArgb(243, 245, 248),
+                                                                Color.FromArgb(214, 220, 231),
+                                                                Color.FromArgb(188, 198, 211),
                                                                 Color.FromArgb(254, 254, 255),
                                                                 Color.FromArgb(206, 213, 225)
                                                             };
 
         private static readonly Color[] _appButtonTrack =
                                                             {
-                                                                Color.FromArgb(255, 251, 230), 
-                                                                Color.FromArgb(180, 210, 255), 
-                                                                Color.FromArgb(96, 147, 235), 
-                                                                Color.FromArgb(110, 150, 240), 
+                                                                Color.FromArgb(255, 251, 230),
+                                                                Color.FromArgb(180, 210, 255),
+                                                                Color.FromArgb(96, 147, 235),
+                                                                Color.FromArgb(110, 150, 240),
                                                                 Color.FromArgb(115, 155, 245)
                                                             };
 
@@ -595,13 +595,13 @@ namespace Krypton.Toolkit
                                                             {
                                                                 Color.FromArgb(185, 215, 250),
                                                                 Color.FromArgb(190, 220, 245),
-                                                                Color.FromArgb(98, 155, 230), 
+                                                                Color.FromArgb(98, 155, 230),
                                                                 Color.FromArgb(110, 160, 225),
                                                                 Color.FromArgb(120, 175, 240)
                                                             };
 
-        private static readonly Color[] _buttonBorderColors = 
-                                                                { 
+        private static readonly Color[] _buttonBorderColors =
+                                                                {
                                                                     Color.FromArgb(212, 212, 212), // Button, Disabled, Border
                                                                     Color.FromArgb(179, 209, 255), // Button, Tracking, Border 1
                                                                     Color.FromArgb(179, 209, 249), // Button, Tracking, Border 2
@@ -1011,7 +1011,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
-                    } 
+                    }
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:

@@ -754,7 +754,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a base for Office 2010 palettes.
     /// </summary>
-    public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase 
+    public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -863,7 +863,7 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
 
         #endregion
-        
+
 
         private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
                                                              Color.FromArgb(214, 220, 231),
@@ -873,18 +873,18 @@ namespace Krypton.Toolkit
                                                             };
 
         private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230),
-                                                            Color.FromArgb(248, 230, 143),
-                                                            Color.FromArgb(238, 213, 126),
-                                                            Color.FromArgb(254, 247, 129),
-                                                            Color.FromArgb(240, 201, 41)
+                                                            Color.FromArgb(178, 178, 178),
+                                                            Color.FromArgb(176, 176, 176),
+                                                            Color.FromArgb(179, 179, 179),
+                                                            Color.FromArgb(160, 160, 160)
                                                           };
 
         private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
-                                                              Color.FromArgb(228, 198, 149),
-                                                              Color.FromArgb(166, 97, 7),
-                                                              Color.FromArgb(242, 155, 57),
-                                                              Color.FromArgb(236, 136, 9)
-                                                            };
+            Color.FromArgb(185, 185, 185),
+            Color.FromArgb(35, 35, 35),
+            Color.FromArgb(50, 50, 50),
+            Color.FromArgb(100, 100, 100)
+        };
 
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
                                                                 Color.FromArgb(187, 186, 186),  // Button, Tracking, Border 1
@@ -947,7 +947,7 @@ namespace Krypton.Toolkit
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
         protected PaletteOffice2010BlackDarkModeBase(Color[] schemeColors,
                                                      ImageList checkBoxList,
-                                                     ImageList galleryButtonList, 
+                                                     ImageList galleryButtonList,
                                                      Image[] radioButtonArray,
                                                      Color[] trackBarColors)
         {

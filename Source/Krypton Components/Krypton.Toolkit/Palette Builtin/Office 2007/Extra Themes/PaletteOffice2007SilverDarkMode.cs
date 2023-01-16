@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase 
+    public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -842,7 +842,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.GridDataCellCustom2:
                 case PaletteBackStyle.GridDataCellCustom3:
                     return state == PaletteState.CheckedNormal
-                        ? _ribbonColours[(int) SchemeOfficeColors.GridDataCellSelected] : _ribbonColours[(int) SchemeOfficeColors.PanelAlternative];
+                        ? _ribbonColours[(int)SchemeOfficeColors.GridDataCellSelected] : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
 
                 case PaletteBackStyle.GridDataCellSheet:
                     return state == PaletteState.CheckedNormal ? _buttonBackColors[6] : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
