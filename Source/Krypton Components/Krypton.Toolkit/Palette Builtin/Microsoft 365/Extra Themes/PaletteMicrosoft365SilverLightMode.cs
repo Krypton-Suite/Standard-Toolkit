@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase 
+    public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -556,12 +556,12 @@ namespace Krypton.Toolkit
         private static readonly Color[] _buttonBorderColors =
         {
             Color.FromArgb(212, 212, 212), // Button, Disabled, Border
-            Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
-            Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
-            Color.FromArgb(147, 125, 90), // Button, Pressed, Border 1
-            Color.FromArgb(255, 196, 68), // Button, Pressed, Border 2
-            Color.FromArgb(158, 130, 85), // Button, Checked, Border 1
-            Color.FromArgb(254, 218, 144) // Button, Checked, Border 2
+            Color.FromArgb(232, 234, 244), // Button, Tracking, Border 1
+            Color.FromArgb(183, 185, 193), // Button, Tracking, Border 2
+            Color.FromArgb(134, 136, 142), // Button, Pressed, Border 1
+            Color.FromArgb(146, 148, 155), // Button, Pressed, Border 2
+            Color.FromArgb(121, 123, 129), // Button, Checked, Border 1
+            Color.FromArgb(170, 172, 181) // Button, Checked, Border 2
         };
 
         private static readonly Color[] _buttonBackColors =
