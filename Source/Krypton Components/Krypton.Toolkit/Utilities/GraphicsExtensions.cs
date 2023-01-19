@@ -93,7 +93,10 @@ namespace Krypton.Toolkit
 
             var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
 
-            destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
+            if (sourceImage != null)
+            {
+                destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
+            }
 
             using (var graphics = Graphics.FromImage(destImage))
             {
