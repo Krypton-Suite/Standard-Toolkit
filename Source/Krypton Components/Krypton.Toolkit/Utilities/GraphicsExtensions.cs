@@ -143,11 +143,7 @@ namespace Krypton.Toolkit
             Shield = 106
         }
 
-        /// <summary>Sets the icon.</summary>
-        /// <param name="image">The image.</param>
-        /// <param name="size">The size.</param>
-        /// <returns>The image, with the specified size.</returns>
-        public static Image SetIcon(Image image, Size size) => new Bitmap(image, size);
+        public static Image SetIcon(Image image, Size size) => (Image)new Bitmap(image, size);
     }
 
     #endregion
