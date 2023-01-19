@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public static Icon ExtractIconFromFilePath(string executablePath)
         {
-            Icon result = (Icon)null;
+            Icon result = null;
 
             try
             {
@@ -87,38 +87,51 @@ namespace Krypton.Toolkit
         /// <returns>The resized image.</returns>
         public static Bitmap ScaleImage(Image sourceImage, Size? imageSize)
         {
-            Size tmpSize = imageSize ?? new Size(16, 16);
-
-            var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
-
-            var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
-
-            if (sourceImage != null)
+            try
             {
-                destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
-            }
+                Size tmpSize = imageSize ?? new Size(16, 16);
 
-            using (var graphics = Graphics.FromImage(destImage))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
+                var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
 
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
 
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
+                if (sourceImage != null)
                 {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-
-                    graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height, GraphicsUnit.Pixel, wrapMode);
+                    destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
                 }
-            }
 
-            return destImage;
+                using (var graphics = Graphics.FromImage(destImage))
+                {
+                    graphics.CompositingMode = CompositingMode.SourceCopy;
+
+                    graphics.CompositingQuality = CompositingQuality.HighQuality;
+
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                    using (var wrapMode = new ImageAttributes())
+                    {
+                        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+
+                        if (sourceImage != null)
+                        {
+                            graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height,
+                                GraphicsUnit.Pixel, wrapMode);
+                        }
+                    }
+                }
+
+                return destImage;
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+
+                return null;
+            }
         }
 
         public enum IconType
@@ -130,7 +143,11 @@ namespace Krypton.Toolkit
             Shield = 106
         }
 
-        public static Image SetIcon(Image image, Size size) => (Image)new Bitmap(image, size);
+        /// <summary>Sets the icon.</summary>
+        /// <param name="image">The image.</param>
+        /// <param name="size">The size.</param>
+        /// <returns>The image, with the specified size.</returns>
+        public static Image SetIcon(Image image, Size size) => new Bitmap(image, size);
     }
 
     #endregion
