@@ -73,6 +73,10 @@ See [Krypton Toolkit release cadence](https://github.com/Krypton-Suite/Documenta
 
 To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/Package-Version-Descriptions.md).
 
+### Installing Pre-Release Versions
+
+To find out how to install either `Canary` or `Nightly` versions, please check out this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/How-to-Install-Pre-Release-Packages.md).
+
 =======
 
 ## Supporters
