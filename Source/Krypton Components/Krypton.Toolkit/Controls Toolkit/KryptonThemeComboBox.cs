@@ -48,6 +48,13 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != 25;
 
+        /// <summary>
+        /// Gets and sets the ThemeSelectedIndex.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Custom Theme to use when `Custom` is selected")]
+        [DefaultValue(null)]
+        public KryptonCustomPaletteBase KryptonCustomPalette { get; set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public KryptonManager Manager
@@ -98,6 +105,12 @@ namespace Krypton.Toolkit
             ThemeSelectedIndex = SelectedIndex;
 
             base.OnSelectedIndexChanged(e);
+            if ((ThemeManager.GetThemeManagerMode(Text) == PaletteMode.Custom)
+                && (KryptonCustomPalette != null)
+               )
+            {
+                Manager.GlobalPalette = KryptonCustomPalette;
+            }
         }
 
         #endregion

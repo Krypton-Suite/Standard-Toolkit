@@ -2704,7 +2704,7 @@ namespace Krypton.Toolkit
 
         protected override void DefineFonts()
         {
-            throw new NotImplementedException();
+            // This class has no font fields
         }
 
         /// <summary>
