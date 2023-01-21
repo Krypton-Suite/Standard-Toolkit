@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase 
+    public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase
     {
         #region Static Fields
 

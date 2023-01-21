@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public static Icon ExtractIconFromFilePath(string executablePath)
         {
-            Icon result = (Icon)null;
+            Icon result = null;
 
             try
             {
@@ -87,35 +87,51 @@ namespace Krypton.Toolkit
         /// <returns>The resized image.</returns>
         public static Bitmap ScaleImage(Image sourceImage, Size? imageSize)
         {
-            Size tmpSize = imageSize ?? new Size(16, 16);
-
-            var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
-
-            var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
-
-            destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
+            try
             {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
+                Size tmpSize = imageSize ?? new Size(16, 16);
 
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
 
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
 
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
+                if (sourceImage != null)
                 {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-
-                    graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height, GraphicsUnit.Pixel, wrapMode);
+                    destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
                 }
-            }
 
-            return destImage;
+                using (var graphics = Graphics.FromImage(destImage))
+                {
+                    graphics.CompositingMode = CompositingMode.SourceCopy;
+
+                    graphics.CompositingQuality = CompositingQuality.HighQuality;
+
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                    using (var wrapMode = new ImageAttributes())
+                    {
+                        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+
+                        if (sourceImage != null)
+                        {
+                            graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height,
+                                GraphicsUnit.Pixel, wrapMode);
+                        }
+                    }
+                }
+
+                return destImage;
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+
+                return null;
+            }
         }
 
         public enum IconType

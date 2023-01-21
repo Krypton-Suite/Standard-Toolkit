@@ -590,7 +590,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase 
+    public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
     {
         #region Static Fields
 
@@ -695,13 +695,13 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _ribbonGroupCollapsedBackContext =
                                                                             {
-                                                                               Color.FromArgb(48, 255, 255, 255), 
+                                                                               Color.FromArgb(48, 255, 255, 255),
                                                                                Color.FromArgb(235, 235, 235)
                                                                             };
 
         private static readonly Color[] _ribbonGroupCollapsedBackContextTracking =
                                                                                     {
-                                                                                       Color.FromArgb(48, 255, 255, 255), 
+                                                                                       Color.FromArgb(48, 255, 255, 255),
                                                                                        Color.FromArgb(235, 235, 235)
                                                                                     };
 
@@ -1145,7 +1145,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        return _ribbonColours[(int) SchemeOfficeColors.PanelClient];
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                     }
                 case PaletteBackStyle.PanelRibbonInactive:
                 case PaletteBackStyle.PanelCustom1:
@@ -1184,7 +1184,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        return _ribbonColours[(int) SchemeOfficeColors.PanelClient];
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                     }
                 case PaletteBackStyle.ControlAlternate:
                     // Note: Alter these to control the backgrounds
@@ -1273,7 +1273,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        return _ribbonColours[(int) SchemeOfficeColors.PanelClient];
+                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                     }
                 case PaletteBackStyle.ButtonCluster:
                 case PaletteBackStyle.ButtonNavigatorStack:
@@ -6632,7 +6632,7 @@ namespace Krypton.Toolkit
         /// <value>
         /// The color of the property grid help back.
         /// </value>
-        public override Color PropertyGridHelpBackColor => _propertyGridColors[(int) KryptonPropertyGridColors.HelpBackColor];
+        public override Color PropertyGridHelpBackColor => _propertyGridColors[(int)KryptonPropertyGridColors.HelpBackColor];
 
         /// <summary>
         /// Gets the color of the property grid help fore.
@@ -6640,7 +6640,7 @@ namespace Krypton.Toolkit
         /// <value>
         /// The color of the property grid help fore.
         /// </value>
-        public override Color PropertyGridHelpForeColor => _propertyGridColors[(int) KryptonPropertyGridColors.HelpForeColor];
+        public override Color PropertyGridHelpForeColor => _propertyGridColors[(int)KryptonPropertyGridColors.HelpForeColor];
 
         /// <summary>
         /// Gets the color of the property grid category fore.
@@ -6648,7 +6648,7 @@ namespace Krypton.Toolkit
         /// <value>
         /// The color of the property grid category fore.
         /// </value>
-        public override Color PropertyGridCategoryForeColor => _propertyGridColors[(int) KryptonPropertyGridColors.CategoryForeColor];
+        public override Color PropertyGridCategoryForeColor => _propertyGridColors[(int)KryptonPropertyGridColors.CategoryForeColor];
 
         /// <summary>
         /// Gets the color of the property grid line.
@@ -6656,7 +6656,7 @@ namespace Krypton.Toolkit
         /// <value>
         /// The color of the property grid line.
         /// </value>
-        public override Color PropertyGridLineColor => _propertyGridColors[(int) KryptonPropertyGridColors.LineColor];
+        public override Color PropertyGridLineColor => _propertyGridColors[(int)KryptonPropertyGridColors.LineColor];
 
         #endregion
 
