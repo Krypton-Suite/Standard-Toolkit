@@ -5,6 +5,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Complete [#827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/827),Expose IPalette / PaletteBase as a public interface in KryptonManager
 * Fixed the display of the initial selected theme in the "ThemeSelection ComboBox"
 * Resolved [#876](https://github.com/Krypton-Suite/Standard-Toolkit/issues/876), `Office 365 - Black` does not display text correctly
 * Resolved [#874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/874), 80.xx Canary Nuget text is incorrrect
