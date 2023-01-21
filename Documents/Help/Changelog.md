@@ -15,7 +15,7 @@
 * Resolved [#876](https://github.com/Krypton-Suite/Standard-Toolkit/issues/876), `Office 365 - Black` does not display text correctly
 * Resolved [#874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/874), 80.xx Canary NuGet text is incorrect
 * Implemented [#866](https://github.com/Krypton-Suite/Standard-Toolkit/issues/866), `KryptonMessageBox` Option to use system icons
-* New `Application``KryptonMessageBoxIcon` type, specify your application icon to show in the `KryptonMessageBox` (recommended image size is 32 x 32)
+* New `Application` `KryptonMessageBoxIcon` type, specify your application icon to show in the `KryptonMessageBox` (recommended image size is 32 x 32)
 * Resolved [#867](https://github.com/Krypton-Suite/Standard-Toolkit/issues/867), KryptonMessageBox does not show help button
 * Resolved [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox States inline with latest .Net 6
 * Resolved [#861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/861), Ribbon QAT Button downscaled when disabling HiDPI
