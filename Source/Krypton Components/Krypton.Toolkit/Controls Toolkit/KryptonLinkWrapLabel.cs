@@ -1,9 +1,6 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
@@ -16,20 +13,21 @@ namespace Krypton.Toolkit
     /// Display a windows forms label but with Krypton palette text and font settings.
     /// </summary>
     [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(KryptonWrapLabel), "ToolboxBitmaps.KryptonWrapLabel.bmp")]
-    [DefaultEvent("Click")]
+    [ToolboxBitmap(typeof(KryptonLinkWrapLabel), "ToolboxBitmaps.KryptonWrapLabel.bmp")]
+    [DefaultEvent("LinkClicked")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
+    [Designer("Krypton.Toolkit.KryptonLinkWrapLabelDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Displays descriptive information.")]
-    public sealed class KryptonWrapLabel : Label
+    public sealed class KryptonLinkWrapLabel : LinkLabel
     {
         #region Static Field
         private static MethodInfo _miPTB;
         #endregion
 
         #region Instance Fields
+
         private PaletteBase _localPalette;
         private PaletteBase _palette;
         private PaletteMode _paletteMode;
@@ -51,10 +49,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonWrapLabel class.
-        /// </summary>
-        public KryptonWrapLabel()
+
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonLinkWrapLabel" /> class.</summary>
+        public KryptonLinkWrapLabel()
         {
             // We use double buffering to reduce drawing flicker
             SetStyle(ControlStyles.OptimizedDoubleBuffer |
