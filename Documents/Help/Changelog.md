@@ -5,7 +5,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
-* Implement [#904](https://github.com/Krypton-Suite/Standard-Toolkit/issues/904), `*.Nightly` builds are no longer visible in Visual Studio
+* Resolved [#885](https://github.com/Krypton-Suite/Standard-Toolkit/issues/885), Why does the "alpha" branch think it is behind "master"
+* Implemented [#904](https://github.com/Krypton-Suite/Standard-Toolkit/issues/904), `*.Nightly` builds are no longer visible in Visual Studio
 * Resolved [#905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/905), NuGet description for `Lite` versions is incorrect
 * Implemented [#813](https://github.com/Krypton-Suite/Standard-Toolkit/issues/813), Border colours need to match the themes
 * Complete [#827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/827),Expose IPalette / PaletteBase as a public interface in KryptonManager
