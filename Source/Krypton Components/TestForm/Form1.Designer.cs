@@ -34,6 +34,7 @@
             this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -42,6 +43,7 @@
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.kryptonListBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonTextBox1);
@@ -117,6 +119,16 @@
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(121, 21);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 4;
+            // kryptonButton1
+            // 
+            this.kryptonButton1.CornerRoundingRadius = -1F;
+            this.kryptonButton1.CustomUACShieldSize = new System.Drawing.Size(0, 0);
+            this.kryptonButton1.Location = new System.Drawing.Point(55, 231);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButton1.TabIndex = 5;
+            this.kryptonButton1.UACShieldIconSize = Krypton.Toolkit.UACShieldIconSize.Custom;
+            this.kryptonButton1.Values.Text = "kryptonButton1";
             // 
             // Form1
             // 
@@ -144,5 +156,6 @@
         private Krypton.Toolkit.KryptonListBox kryptonListBox1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
+        private Krypton.Toolkit.KryptonButton kryptonButton1;
     }
 }

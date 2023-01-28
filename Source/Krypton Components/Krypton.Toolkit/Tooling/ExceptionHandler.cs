@@ -37,19 +37,19 @@ namespace Krypton.Toolkit
         {
             if (className != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.\n\nError in class: '{ className }.cs'.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.", title, buttons, icon);
             }
             else if (methodSignature != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.\n\nError in method: '{ methodSignature }'.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
             }
             else if (className != "" && methodSignature != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.\n\nError in class: '{ className }.cs'.\n\nError in method: '{ methodSignature }'.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
             }
             else
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.", title, buttons, icon);
             }
         }
 

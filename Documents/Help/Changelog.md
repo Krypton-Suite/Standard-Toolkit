@@ -6,6 +6,7 @@
 
 ## 2023-11-xx - Build 2311 - November 2023
 * Resolved [#923](https://github.com/Krypton-Suite/Standard-Toolkit/issues/923), The default theme is set to `Sparkle - Blue`
+* Resolved [#915](https://github.com/Krypton-Suite/Standard-Toolkit/issues/915), Button Designer adds values it shouldn't
 * Resolved [#885](https://github.com/Krypton-Suite/Standard-Toolkit/issues/885), Why does the "alpha" branch think it is behind "master"
 * Implemented [#904](https://github.com/Krypton-Suite/Standard-Toolkit/issues/904), `*.Nightly` builds are no longer visible in Visual Studio
 * Resolved [#905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/905), NuGet description for `Lite` versions is incorrect
