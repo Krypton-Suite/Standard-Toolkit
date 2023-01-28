@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
-        [DefaultValue(25)]
+        [DefaultValue(33)]
         public int ThemeSelectedIndex
         {
             get => _selectedIndex;
@@ -44,9 +44,9 @@ namespace Krypton.Toolkit
             set => SelectedIndex = value;
         }
 
-        private void ResetThemeSelectedIndex() => _selectedIndex = 25;
+        private void ResetThemeSelectedIndex() => _selectedIndex = 33;
 
-        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != 25;
+        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != 33;
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
             DropDownStyle = ComboBoxStyle.DropDownList;
 
             _supportedThemesNames = ThemeManager.SupportedInternalThemeNames;
-            _selectedIndex = 25;
+            _selectedIndex = 33;
         }
         #endregion
 
