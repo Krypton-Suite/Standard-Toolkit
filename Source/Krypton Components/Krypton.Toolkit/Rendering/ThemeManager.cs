@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The supported themes
         /// </summary>
-        /// TODO: this should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
+        /// TODO: This should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
         private static readonly BiDictionary<string, PaletteMode> _supportedThemes = new(new Dictionary<string, PaletteMode>
             {
                 { @"Professional - System", PaletteMode.ProfessionalSystem },

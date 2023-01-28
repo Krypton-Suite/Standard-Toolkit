@@ -30,9 +30,9 @@ namespace Krypton.Ribbon
 
         private readonly string[] _themeArray = new[]
         {
-            "Professional - System",
+            @"Professional - System",
 
-            "Professional - Office 2003",
+            @"Professional - Office 2003",
 
             @"Office 2007 - Black",
 
