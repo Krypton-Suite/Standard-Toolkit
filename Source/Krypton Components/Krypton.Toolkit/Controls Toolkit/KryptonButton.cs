@@ -43,8 +43,9 @@ namespace Krypton.Toolkit
         private bool _useMnemonic;
         private bool _wasEnabled;
         private bool _useAsUACElevationButton;
-        private Size _customUACShieldSize;
-        private UACShieldIconSize _uacShieldIconSize;
+        //private bool _useOSUACShieldIcon;
+        //private Size _customUACShieldSize;
+        //private UACShieldIconSize _uacShieldIconSize;
 
         #endregion
 
@@ -127,9 +128,11 @@ namespace Krypton.Toolkit
 
             _useAsUACElevationButton = false;
 
-            _customUACShieldSize = new Size(16, 16);
+            //_useOSUACShieldIcon = false;
 
-            _uacShieldIconSize = UACShieldIconSize.ExtraSmall;
+            //_customUACShieldSize = new Size(16, 16);
+
+            //_uacShieldIconSize = UACShieldIconSize.ExtraSmall;
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
@@ -269,11 +272,16 @@ namespace Krypton.Toolkit
             }
         }
 
+        /*
+        [DefaultValue(false), Description(@"Use the operating system UAC shield icon image.")]
+        public bool UseOSUACShieldIcon { get => _useOSUACShieldIcon; set { _useOSUACShieldIcon = value; UpdateOSUACShieldIcon(); } }
+
         [DefaultValue(null), Description(@"")]
         public Size CustomUACShieldSize { get => _customUACShieldSize; set { _customUACShieldSize = value; UpdateShieldCustomSize(value); } }
 
         [DefaultValue(typeof(UACShieldIconSize), @"UACShieldIconSize.ExtraSmall"), Description(@"")]
         public UACShieldIconSize UACShieldIconSize { get => _uacShieldIconSize; set { _uacShieldIconSize = value; UpdateShieldSize(value); } }
+        */
 
         /// <summary>
         /// Gets access to the button content.
@@ -802,13 +810,36 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Shows the UAC shield.</summary>
-        /// <param name="showUACShield">if set to <c>true</c> [show UAC shield].</param>
-        private void ShowUACShield(bool showUACShield)
+        #region UAC Stuff
+
+        /// <summary>Shows the uac shield.</summary>
+        /// <param name="showUACShield">if set to <c>true</c> [show uac shield].</param>
+        /// <param name="shieldIconSize">Size of the shield icon.</param>
+        /// <param name="iconSize">Size of the icon.</param>
+        private void ShowUACShield(bool showUACShield, UACShieldIconSize? shieldIconSize = null, Size? iconSize = null)
         {
+            Size? internalIconSize = iconSize ?? SystemInformation.SmallIconSize;
+
             if (showUACShield)
             {
+                //if (_useOSUACShieldIcon)
+                //{
+                //    if (shieldIconSize != null)
+                //    {
+                //        UpdateShieldSize(shieldIconSize);
+                //    }
+                //    else
+                //    {
+                //        if (iconSize != null)
+                //        {
+                //            UpdateShieldSize(UACShieldIconSize.Custom, iconSize);
+                //        }
+                //    }
+                //}
+                //else
+                //{
                 Values.Image = GraphicsExtensions.LoadIcon(GraphicsExtensions.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
+                //}
 
                 Invalidate();
             }
@@ -820,30 +851,105 @@ namespace Krypton.Toolkit
 
         private void UpdateShieldCustomSize(Size value) => UpdateShieldSize(UACShieldIconSize.Custom, value);
 
-        private void UpdateShieldSize(UACShieldIconSize value, Size? customSize = null)
+        private void UpdateShieldSize(UACShieldIconSize? value, Size? customSize = null, Image uacShieldImage = null)
         {
-            switch (value)
+            if (customSize != null)
             {
-                case UACShieldIconSize.Custom:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, customSize);
-                    break;
-                case UACShieldIconSize.ExtraSmall:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(16, 16));
-                    break;
-                case UACShieldIconSize.Small:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(32, 32));
-                    break;
-                case UACShieldIconSize.Medium:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(64, 64));
-                    break;
-                case UACShieldIconSize.Large:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(128, 128));
-                    break;
-                case UACShieldIconSize.ExtraLarge:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(255, 255));
-                    break;
+                switch (value)
+                {
+                    case UACShieldIconSize.Custom:
+                        Image customImage = GraphicsExtensions.ScaleImage(uacShieldImage, customSize);
+
+                        Values.Image = customImage;
+
+                        ShowUACShield(true, UACShieldIconSize.Custom, customSize);
+                        break;
+                    case UACShieldIconSize.ExtraSmall:
+                        Image extraSmallImage = GraphicsExtensions.ScaleImage(uacShieldImage, new Size(16, 16));
+
+                        Values.Image = extraSmallImage;
+
+                        ShowUACShield(true, UACShieldIconSize.ExtraSmall);
+                        break;
+                    case UACShieldIconSize.Small:
+                        Image smallImage = GraphicsExtensions.ScaleImage(uacShieldImage, new Size(32, 32));
+
+                        Values.Image = smallImage;
+
+                        ShowUACShield(true, UACShieldIconSize.Small);
+                        break;
+                    case UACShieldIconSize.Medium:
+                        Image mediumImage = GraphicsExtensions.ScaleImage(uacShieldImage, new Size(64, 64));
+
+                        Values.Image = mediumImage;
+
+                        ShowUACShield(true, UACShieldIconSize.Medium);
+                        break;
+                    case UACShieldIconSize.Large:
+                        Image largeImage = GraphicsExtensions.ScaleImage(uacShieldImage, new Size(128, 128));
+
+                        Values.Image = largeImage;
+
+                        ShowUACShield(true, UACShieldIconSize.Large);
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        Image extraLargeImage = GraphicsExtensions.ScaleImage(uacShieldImage, new Size(256, 256));
+
+                        Values.Image = extraLargeImage;
+
+                        ShowUACShield(true, UACShieldIconSize.ExtraLarge);
+                        break;
+                }
             }
         }
+
+        /// <summary>Updates the UAC shield icon.</summary>
+        /// <param name="iconSize">Size of the icon.</param>
+        /// <param name="customSize">Size of the custom.</param>
+        private void UpdateOSUACShieldIcon(UACShieldIconSize? iconSize = null, Size? customSize = null)
+        {
+            if (OSUtilities.IsWindowsEleven)
+            {
+                Image windowsElevenUacShieldImage = UACShieldIconResources.UACShieldWindows11;
+
+                if (iconSize == UACShieldIconSize.Custom)
+                {
+                    UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsElevenUacShieldImage);
+                }
+                else
+                {
+                    UpdateShieldSize(iconSize, null, windowsElevenUacShieldImage);
+                }
+            }
+            else if (OSUtilities.IsWindowsTen)
+            {
+                Image windowsTenUacShieldImage = UACShieldIconResources.UACShieldWindows10;
+
+                if (iconSize == UACShieldIconSize.Custom)
+                {
+                    UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsTenUacShieldImage);
+                }
+                else
+                {
+                    UpdateShieldSize(iconSize, null, windowsTenUacShieldImage);
+                }
+            }
+            else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
+            {
+                Image windowsEightUacShieldImage = UACShieldIconResources.UACShieldWindows7881;
+
+                if (iconSize == UACShieldIconSize.Custom)
+                {
+                    UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsEightUacShieldImage);
+                }
+                else
+                {
+                    UpdateShieldSize(iconSize, null, windowsEightUacShieldImage);
+                }
+            }
+        }
+
+        #endregion
 
         #endregion
     }

@@ -198,9 +198,9 @@
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Rendering\RenderOffice2013.cs">
 			<SubType>Component</SubType>
@@ -411,6 +411,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>TreeItemImageResources.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Resources\UACShieldIconResources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>UACShieldIconResources.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\VisualTaskDialogImageResources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -586,8 +591,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">
-		  <Generator>ResXFileCodeGenerator</Generator>
-		  <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
@@ -724,6 +729,10 @@
 		<EmbeddedResource Update="Resources\TreeItemImageResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>TreeItemImageResources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\UACShieldIconResources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>UACShieldIconResources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\VisualTaskDialogImageResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
