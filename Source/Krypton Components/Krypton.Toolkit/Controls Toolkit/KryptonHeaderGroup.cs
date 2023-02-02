@@ -45,6 +45,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
         private HeaderStyle _style1;
         private HeaderStyle _style2;
         private VisualOrientation _position1;
@@ -66,6 +67,10 @@ namespace Krypton.Toolkit
         private bool _collapsed;
         private readonly bool _ignoreLayout;
         private bool _layingOut;
+        private float _cornerRoundingRadius;
+        private float _headerPrimaryCornerRoundingRadius;
+        private float _headerSecondaryCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -196,6 +201,12 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _headerPrimaryCornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _headerSecondaryCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -233,6 +244,43 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the header primary corner rounding radius.</summary>
+        /// <value>The header primary corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the header primary corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float HeaderPrimaryCornerRoundingRadius
+        {
+            get => _headerPrimaryCornerRoundingRadius;
+
+            set => SetHeaderPrimaryCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the header secondary corner rounding radius.</summary>
+        /// <value>The header secondary corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float HeaderSecondaryCornerRoundingRadius
+        {
+            get => _headerSecondaryCornerRoundingRadius;
+
+            set => SetHeaderSecondaryCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -1310,6 +1358,28 @@ namespace Krypton.Toolkit
             _drawHeading1.Visible = primaryVisible;
             _drawHeading2.Visible = secondaryVisible;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetHeaderPrimaryCornerRoundingRadius(float? radius)
+        {
+            _headerPrimaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _headerPrimaryCornerRoundingRadius;
+        }
+
+        private void SetHeaderSecondaryCornerRoundingRadius(float? radius)
+        {
+            _headerSecondaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _headerSecondaryCornerRoundingRadius;
+        }
+
         #endregion
 
         #region Implementation Static

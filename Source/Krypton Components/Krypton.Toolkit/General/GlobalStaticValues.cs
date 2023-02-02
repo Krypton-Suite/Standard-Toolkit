@@ -34,5 +34,9 @@ namespace Krypton.Toolkit
         public static string DEFAULT_FONT_NAME = "Segoe UI";
 
         public static float DEFAULT_FONT_SIZE = 9F;
+
+        public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
+
+        public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new(16, 16);
     }
 }

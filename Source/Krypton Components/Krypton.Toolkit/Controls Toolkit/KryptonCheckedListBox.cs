@@ -519,7 +519,7 @@ namespace Krypton.Toolkit
             /// Creates a new instance of the item collection.
             /// </summary>
             /// <returns>A ListBox.ObjectCollection that represents the new item collection.</returns>
-            protected override ObjectCollection CreateItemCollection() => new (this);
+            protected override ObjectCollection CreateItemCollection() => new(this);
 
             /// <summary>
             /// Raises the KeyPress event.
@@ -957,6 +957,9 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
+        private float _cornerRoundingRadius;
+        private float _itemCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -1193,9 +1196,9 @@ namespace Krypton.Toolkit
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
 
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            ItemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnCheckedListClick(object sender, EventArgs e) =>
@@ -1222,24 +1225,24 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>Gets or sets the item corner rounding radius.</summary>
         /// <value>The item corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the item corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
         public float ItemCornerRoundingRadius
         {
-            get => StateCommon.Item.Border.Rounding;
+            get => _itemCornerRoundingRadius;
 
-            set => StateCommon.Item.Border.Rounding = value;
+            set => SetItemCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -2429,6 +2432,21 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetItemCornerRoundingRadius(float? radius)
+        {
+            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
+        }
+
         #endregion
     }
 }

@@ -324,7 +324,9 @@ namespace Krypton.Toolkit
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
+        private float _cornerRoundingRadius;
         private int _cachedHeight;
+
         #endregion
 
         #region Events
@@ -518,6 +520,8 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_maskedTextBox);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -540,6 +544,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
         public string Hint { get => _maskedTextBox.Hint; set => _maskedTextBox.Hint = value; }
 
         private bool ShouldSerializeHint() => !string.IsNullOrWhiteSpace(Hint);
@@ -1853,7 +1870,7 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
+
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
@@ -1938,6 +1955,14 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }
