@@ -5,6 +5,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#916](https://github.com/Krypton-Suite/Standard-Toolkit/issues/916), After a designer "Reset click" on the `CornerRoundingRadius`, it is still showing as a modified value, and still being written out into the designer file
+* Resolved [#877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/877), `CornerRoundingRadius` needs to have proper designer code to prevent it showing up as modified all the time
 * Resolved [#923](https://github.com/Krypton-Suite/Standard-Toolkit/issues/923), The default theme is set to `Sparkle - Blue`
 * Resolved [#915](https://github.com/Krypton-Suite/Standard-Toolkit/issues/915), Button Designer adds values it shouldn't
 * Resolved [#885](https://github.com/Krypton-Suite/Standard-Toolkit/issues/885), Why does the "alpha" branch think it is behind "master"
@@ -20,12 +22,10 @@
 * Implemented [#866](https://github.com/Krypton-Suite/Standard-Toolkit/issues/866), `KryptonMessageBox` Option to use system icons
 * New `Application` `KryptonMessageBoxIcon` type, specify your application icon to show in the `KryptonMessageBox` (recommended image size is 32 x 32)
 * Resolved [#867](https://github.com/Krypton-Suite/Standard-Toolkit/issues/867), KryptonMessageBox does not show help button
-* Resolved [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox States inline with latest .Net 6
+* Resolved [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox States in-line with latest .Net 6
 * Resolved [#861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/861), Ribbon QAT Button downscaled when disabling HiDPI
 * Implemented [#854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/854), Please remove "2019" from the build sequence etc. 
 * Resolved [#848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/848), KryptonTreeView Font Issues
-* Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385),[Feature Request]: KryptonColorButton Modify Recent Colors
-* Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), [Feature Request]: A way to set the textbox / combobox / RichTextBox Cue font Rendering hint style
 * Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385), [Feature Request:] `KryptonColorButton` Modify Recent Colors
 * Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), [Feature Request]: A way to set the TextBox / ComboBox / RichTextBox Cue font Rendering hint style
 * Resolved [#789](https://github.com/Krypton-Suite/Standard-Toolkit/issues/789), Remove shadows for context menus

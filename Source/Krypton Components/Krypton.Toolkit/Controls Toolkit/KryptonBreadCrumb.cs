@@ -47,6 +47,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _dropDownNavigaton;
+        private float _cornerRoundingRadius;
         private readonly ViewDrawDocker _drawDocker;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip _visualPopupToolTip;
@@ -137,6 +138,8 @@ namespace Krypton.Toolkit
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -188,6 +191,18 @@ namespace Krypton.Toolkit
 
             // Raise event to show control is now initialized
             OnInitialized(EventArgs.Empty);
+        }
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -756,6 +771,14 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

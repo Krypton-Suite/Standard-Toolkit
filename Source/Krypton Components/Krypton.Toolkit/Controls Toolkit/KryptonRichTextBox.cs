@@ -316,6 +316,8 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private bool _firstPaint;
+        private float _cornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -534,6 +536,8 @@ namespace Krypton.Toolkit
             {
                 _richTextBox.Font = StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Tracking);
             }
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -556,6 +560,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+            set => SetCornerRoundingRadius(value);
+        }
+
         [Category(@"Visuals")]
         [Description(@"Set a watermark/prompt message for the user.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -2099,6 +2113,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+
         private void UpdateStateAndPalettes()
         {
             // Get the correct palette settings to use
@@ -2212,7 +2227,7 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
+
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
@@ -2276,6 +2291,14 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

@@ -385,12 +385,12 @@ namespace Krypton.Toolkit
                                     _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, rect, backBrush);
                                 }
                                 else
-                                    ////////////////////////////////////////////////////////
-                                    //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards  
-                                    //// Draw Over is tracked here
-                                    ////  https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
-                                    //// If not enabled or not the dropDown Style then we can draw over the text area
-                                    ////if (!_kryptonComboBox.Enabled || _kryptonComboBox.DropDownStyle != ComboBoxStyle.DropDown)
+                                ////////////////////////////////////////////////////////
+                                //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards  
+                                //// Draw Over is tracked here
+                                ////  https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
+                                //// If not enabled or not the dropDown Style then we can draw over the text area
+                                ////if (!_kryptonComboBox.Enabled || _kryptonComboBox.DropDownStyle != ComboBoxStyle.DropDown)
                                 {
                                     g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
 
@@ -826,6 +826,7 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private int _cachedHeight;
         private int _hoverIndex;
+        private float _cornerRoundingRadius;
         #endregion
 
         #region Events
@@ -1152,7 +1153,7 @@ namespace Krypton.Toolkit
             AutoCompleteSource = AutoCompleteSource.None;
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -1188,15 +1189,15 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.ComboBox.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.ComboBox.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
-        private bool ShouldSerializeCornerRoundingRadius() => StateCommon.ComboBox.Border.Rounding != -1;
+        private bool ShouldSerializeCornerRoundingRadius() => _cornerRoundingRadius != GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
@@ -3146,6 +3147,14 @@ namespace Krypton.Toolkit
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.ComboBox.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

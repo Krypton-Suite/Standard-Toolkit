@@ -18,8 +18,8 @@
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
+
 using System.Runtime.Versioning;
-using System.Security.Permissions;
 
 #pragma warning disable 649
 
@@ -2507,7 +2507,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// https://docs.microsoft.com/en-gb/windows/win32/winmsg/extended-window-styles
         /// </summary>
         internal struct WS_EX_
-        {   
+        {
             public const uint
                 None = 0,
                 DLGMODALFRAME = 0x00000001,
@@ -2539,44 +2539,44 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 PALETTEWINDOW = WINDOWEDGE + TOOLWINDOW + TOPMOST;
         }
 
-        internal enum MF_ : uint 
+        internal enum MF_ : uint
         {
-            INSERT       =0x00000000,
-            CHANGE       =0x00000080,
-            APPEND       =0x00000100,
-            DELETE       =0x00000200,
-            REMOVE       =0x00001000,
+            INSERT = 0x00000000,
+            CHANGE = 0x00000080,
+            APPEND = 0x00000100,
+            DELETE = 0x00000200,
+            REMOVE = 0x00001000,
 
-            BYCOMMAND    =0x00000000,
-            BYPOSITION   =0x00000400,
+            BYCOMMAND = 0x00000000,
+            BYPOSITION = 0x00000400,
 
-            SEPARATOR    =0x00000800,
+            SEPARATOR = 0x00000800,
 
-            ENABLED      =0x00000000,
-            GRAYED       =0x00000001,
-            DISABLED     =0x00000002,
+            ENABLED = 0x00000000,
+            GRAYED = 0x00000001,
+            DISABLED = 0x00000002,
 
-            UNCHECKED    =0x00000000,
-            CHECKED      =0x00000008,
-            USECHECKBITMAPS=0x00000200,
+            UNCHECKED = 0x00000000,
+            CHECKED = 0x00000008,
+            USECHECKBITMAPS = 0x00000200,
 
-            STRING       =0x00000000,
-            BITMAP       =0x00000004,
-            OWNERDRAW    =0x00000100,
+            STRING = 0x00000000,
+            BITMAP = 0x00000004,
+            OWNERDRAW = 0x00000100,
 
-            POPUP        =0x00000010,
-            MENUBARBREAK =0x00000020,
-            MENUBREAK    =0x00000040,
+            POPUP = 0x00000010,
+            MENUBARBREAK = 0x00000020,
+            MENUBREAK = 0x00000040,
 
-            UNHILITE     =0x00000000,
-            HILITE       =0x00000080,
+            UNHILITE = 0x00000000,
+            HILITE = 0x00000080,
 
-            DEFAULT      =0x00001000,
-            SYSMENU      =0x00002000,
-            HELP         =0x00004000,
-            RIGHTJUSTIFY =0x00004000,
+            DEFAULT = 0x00001000,
+            SYSMENU = 0x00002000,
+            HELP = 0x00004000,
+            RIGHTJUSTIFY = 0x00004000,
 
-            MOUSESELECT  =0x00008000
+            MOUSESELECT = 0x00008000
         }
 
         internal enum SC_
@@ -2740,7 +2740,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal static IntPtr MakeLParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         internal static IntPtr MakeWParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
-        
+
         /// <summary>
         /// Is the specified key currently pressed down.
         /// </summary>
@@ -3218,7 +3218,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DllImport("user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int EnableMenuItem(IntPtr hMenu, SC_ targetId, MF_ state);
-        
+
         [DllImport("user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr RemoveMenu(IntPtr hMenu, uint nPosition, MF_ wFlags);
@@ -3963,16 +3963,17 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion Static Comdlg32
 
         #region Structures
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
-        public struct LVFINDINFO {
-            public int      flags;
-            public string   psz;
-            public IntPtr   lParam;
-            public int      ptX; // was POINT pt
-            public int      ptY;
-            public int      vkDirection;
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct LVFINDINFO
+        {
+            public int flags;
+            public string psz;
+            public IntPtr lParam;
+            public int ptX; // was POINT pt
+            public int ptY;
+            public int vkDirection;
         }
-        
+
         [StructLayout(LayoutKind.Sequential)]
         public struct NMLVFINDITEM
         {
@@ -3980,7 +3981,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public int iStart;
             public LVFINDINFO lvfi;
         }
-    
+
         [StructLayout(LayoutKind.Sequential)]
         public struct NMHDR
         {
@@ -3990,7 +3991,8 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public class NMHEADER {
+        public class NMHEADER
+        {
             public NMHDR nmhdr;
             public int iItem = 0;
             public int iButton = 0;

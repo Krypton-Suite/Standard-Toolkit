@@ -330,6 +330,9 @@ namespace Krypton.Toolkit
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
         private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
+        private float _cornerRoundingRadius;
+        private float _nodeCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -661,6 +664,10 @@ namespace Krypton.Toolkit
 
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_treeView);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _nodeCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnTreeClick(object sender, EventArgs e) => OnClick(e);
@@ -680,6 +687,25 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the node corner rounding radius.</summary>
+        /// <value>The node corner rounding radius.</value>
+        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE), Description(@"Defines the node corner roundness on the current window (-1 is the default look).")]
+        public float NodeCornerRoundingRadius
+        {
+            get => _nodeCornerRoundingRadius;
+            set => SetNodeCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets access to the contained TreeView instance.
         /// </summary>
@@ -1857,6 +1883,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+
         private void UpdateItemHeight()
         {
             if (!IsDisposed && !Disposing)
@@ -2369,6 +2396,20 @@ namespace Krypton.Toolkit
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetNodeCornerRoundingRadius(float? radius)
+        {
+            _nodeCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Node.Border.Rounding = _nodeCornerRoundingRadius;
+        }
 
         #endregion
 

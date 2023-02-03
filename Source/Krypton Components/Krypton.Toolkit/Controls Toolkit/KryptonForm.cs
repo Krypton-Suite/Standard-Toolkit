@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             _titleStyle = KryptonFormTitleStyle.Inherit;
 
@@ -600,15 +600,11 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
-        [DefaultValue(-1), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
         public float CornerRoundingRadius
         {
             get => _cornerRoundingRadius;
-            set
-            {
-                _cornerRoundingRadius = value;
-                Invalidate();
-            }
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
@@ -1712,6 +1708,13 @@ namespace Krypton.Toolkit
                     FormTitleAlign = PaletteRelativeAlign.Center;
                     break;
             }
+        }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
         }
 
         #endregion
