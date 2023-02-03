@@ -5,6 +5,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Add `AllowFormIntegrate` option to `KryptonRibbon`s action list, for easier access
+* Resolved [#929](https://github.com/Krypton-Suite/Standard-Toolkit/issues/929), `KryptonRibbon` 'disappears' while running the application
 * Resolved [#916](https://github.com/Krypton-Suite/Standard-Toolkit/issues/916), After a designer "Reset click" on the `CornerRoundingRadius`, it is still showing as a modified value, and still being written out into the designer file
 * Resolved [#877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/877), `CornerRoundingRadius` needs to have proper designer code to prevent it showing up as modified all the time
 * Resolved [#923](https://github.com/Krypton-Suite/Standard-Toolkit/issues/923), The default theme is set to `Sparkle - Blue`

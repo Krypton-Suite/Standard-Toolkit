@@ -206,6 +206,8 @@ namespace Krypton.Ribbon
             // Snoop windows messages to handle command keys such as CTRL+F1 to 
             // toggle minimized mode and also when to exit keyboard access mode
             Application.AddMessageFilter(this);
+
+            _allowFormIntegrate = true;
         }
 
         /// <summary>
@@ -431,10 +433,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the AllowFormIntegrate property to its default value.
         /// </summary>
-        public void ResetAllowFormIntegrate()
-        {
-            _allowFormIntegrate = false;
-        }
+        public void ResetAllowFormIntegrate() => _allowFormIntegrate = true; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/929
 
 
         /// <summary>
@@ -1456,7 +1455,7 @@ namespace Krypton.Ribbon
             }
 
             // Check for toggling keyboard access to the ribbon
-            if ((RibbonShortcuts.ToggleKeyboardAccess1 == keyData) 
+            if ((RibbonShortcuts.ToggleKeyboardAccess1 == keyData)
                 || (RibbonShortcuts.ToggleKeyboardAccess2 == keyData)
                 )
             {
@@ -1481,7 +1480,7 @@ namespace Krypton.Ribbon
             }
 
             // Check for toggling minimized mode key combination (default = Ctrl+F1)
-            if ((RibbonShortcuts.ToggleMinimizeMode == keyData) 
+            if ((RibbonShortcuts.ToggleMinimizeMode == keyData)
                 && AllowMinimizedChange
                 )
             {
@@ -1509,11 +1508,11 @@ namespace Krypton.Ribbon
             }
 
             // Check each quick access toolbar button
-            foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons 
-                     where qatButton.GetVisible() && qatButton.GetEnabled() 
-                     let shortcut = qatButton.GetShortcutKeys() 
-                     where (shortcut != Keys.None) && (shortcut == keyData) 
-                     select qatButton)
+            foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
+                                                            where qatButton.GetVisible() && qatButton.GetEnabled()
+                                                            let shortcut = qatButton.GetShortcutKeys()
+                                                            where (shortcut != Keys.None) && (shortcut == keyData)
+                                                            select qatButton)
             {
                 // Click the button and finish processing
                 qatButton.PerformClick();
@@ -2670,7 +2669,8 @@ namespace Krypton.Ribbon
             ShowMinimizeButton = true;
             QATLocation = QATLocation.Above;
             QATUserChange = true;
-            ResetAllowFormIntegrate();
+            _allowFormIntegrate = true;
+            //ResetAllowFormIntegrate();
             LostFocusLosesKeyboard = true;
 
             BackStyle = PaletteBackStyle.PanelClient;

@@ -29,14 +29,12 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonDomainUpDown1 = new Krypton.Toolkit.KryptonDomainUpDown();
-            this.kryptonDateTimePicker1 = new Krypton.Toolkit.KryptonDateTimePicker();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonListBox1 = new Krypton.Toolkit.KryptonListBox();
             this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -44,11 +42,9 @@
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonDomainUpDown1);
-            this.kryptonPanel1.Controls.Add(this.kryptonDateTimePicker1);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
-            this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.kryptonListBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonTextBox1);
             this.kryptonPanel1.Controls.Add(this.textBox1);
@@ -58,21 +54,6 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(600, 366);
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kryptonDomainUpDown1
-            // 
-            this.kryptonDomainUpDown1.Location = new System.Drawing.Point(25, 318);
-            this.kryptonDomainUpDown1.Name = "kryptonDomainUpDown1";
-            this.kryptonDomainUpDown1.Size = new System.Drawing.Size(120, 22);
-            this.kryptonDomainUpDown1.TabIndex = 7;
-            this.kryptonDomainUpDown1.Text = "kryptonDomainUpDown1";
-            // 
-            // kryptonDateTimePicker1
-            // 
-            this.kryptonDateTimePicker1.Location = new System.Drawing.Point(55, 282);
-            this.kryptonDateTimePicker1.Name = "kryptonDateTimePicker1";
-            this.kryptonDateTimePicker1.Size = new System.Drawing.Size(75, 21);
-            this.kryptonDateTimePicker1.TabIndex = 6;
             // 
             // kryptonThemeComboBox1
             // 
@@ -94,15 +75,6 @@
             this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton1.TabIndex = 5;
             this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
-            // 
-            // kryptonLabel1
-            // 
-            this.kryptonLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
-            this.kryptonLabel1.Location = new System.Drawing.Point(58, 164);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(88, 20);
-            this.kryptonLabel1.TabIndex = 3;
-            this.kryptonLabel1.Values.Text = "kryptonLabel1";
             // 
             // kryptonListBox1
             // 
@@ -149,6 +121,15 @@
             this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
             this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
+            // kryptonButton2
+            // 
+            this.kryptonButton2.Location = new System.Drawing.Point(55, 263);
+            this.kryptonButton2.Name = "kryptonButton2";
+            this.kryptonButton2.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButton2.TabIndex = 6;
+            this.kryptonButton2.Values.Text = "Ribbon";
+            this.kryptonButton2.Click += new System.EventHandler(this.kryptonButton2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -173,10 +154,8 @@
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
         private System.Windows.Forms.TextBox textBox1;
         private Krypton.Toolkit.KryptonListBox kryptonListBox1;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
-        private Krypton.Toolkit.KryptonDateTimePicker kryptonDateTimePicker1;
-        private Krypton.Toolkit.KryptonDomainUpDown kryptonDomainUpDown1;
+        private Krypton.Toolkit.KryptonButton kryptonButton2;
     }
 }
