@@ -18,7 +18,8 @@ namespace Krypton.Toolkit
     [Designer(@"Krypton.Toolkit.KryptonScrollBarDesigner, Krypton.Toolkit")]
     [DefaultEvent("Scroll")]
     [DefaultProperty("Value")]
-    [ToolboxBitmap(typeof(VScrollBar))]
+    [ToolboxBitmap(typeof(VScrollBar), "ToolboxBitmaps.KryptonScrollBar.bmp")]
+    [DesignerCategory(@"code")]
     public class KryptonScrollBar : Control
     {
         #region fields
@@ -201,7 +202,7 @@ namespace Krypton.Toolkit
                 }
 
                 _minimum = value;
-                
+
                 // current value less than new minimum value - adjust
                 if (_minimum < value)
                 {
@@ -258,7 +259,7 @@ namespace Krypton.Toolkit
                 }
 
                 SetUpScrollBar();
-                
+
                 // is current value greater than new maximum value - adjust
                 if (_value > value)
                 {
