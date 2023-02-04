@@ -136,5 +136,12 @@ namespace TestForm
 
             form2.ShowDialog();
         }
+
+        private void kryptonButton2_Click(object sender, System.EventArgs e)
+        {
+            Form3 form3 = new Form3();
+
+            form3.ShowDialog();
+        }
     }
 }

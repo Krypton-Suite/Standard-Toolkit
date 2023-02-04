@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the KryptonRibbonActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonRibbonActionList(KryptonRibbonDesigner owner) 
+        public KryptonRibbonActionList(KryptonRibbonDesigner owner)
             : base(owner.Component)
         {
             // Remember the ribbon instance
@@ -36,8 +36,17 @@ namespace Krypton.Ribbon
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
+
+        /// <summary>Gets or sets a value indicating whether [allow form integrate].</summary>
+        /// <value><c>true</c> if [allow form integrate]; otherwise, <c>false</c>.</value>
+        public bool AllowFormIntegrate
+        {
+            get => _ribbon.AllowFormIntegrate;
+            set => _ribbon.AllowFormIntegrate = value;
+        }
+
         /// <summary>
         /// Gets and sets use of design time helpers.
         /// </summary>
@@ -82,9 +91,10 @@ namespace Krypton.Ribbon
                 actions.Add(new DesignerActionHeaderItem("Design"));
                 actions.Add(new DesignerActionPropertyItem("InDesignHelperMode", "Design Helpers", "Design", "Show design time helpers for creating items."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
+                actions.Add(new DesignerActionPropertyItem("AllowFormIntegrate", "Allow Form Integration", "Visuals", "Integrate with operating system chrome instead of Krypton Palette."));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion
