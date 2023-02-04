@@ -668,11 +668,11 @@ namespace Krypton.Toolkit
             settings.PrintRange = (PrintRange)(flags & printRangeMask);
         }
 
-        [DllImport(@"comdlg32.dll", EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(Libraries.Comdlg32, EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern PI.BOOL PrintDlg_32([In, Out] PRINTDLG_32 lppd);
 
-        [DllImport(@"comdlg32.dll", EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(Libraries.Comdlg32, EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern PI.BOOL PrintDlg_64([In, Out] PRINTDLG_64 lppd);
 
@@ -696,7 +696,7 @@ namespace Krypton.Toolkit
             throw new InvalidOperationException($"Expected {nameof(PRINTDLG_64)} data struct");
         }
 
-        //[DllImport(@"comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        //[DllImport(Libraries.Comdlg32, CharSet = CharSet.Auto, SetLastError = true)]
         //[DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         //internal static extern PI.HRESULT PrintDlgEx([In, Out] PRINTDLGEX lppdex);
 

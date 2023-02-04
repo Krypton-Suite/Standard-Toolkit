@@ -42,6 +42,11 @@
 		<NoWarn>1701;1702</NoWarn>
 		<WarningLevel>5</WarningLevel>
 		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
+        <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+        <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<!--<Choose>
@@ -739,12 +744,5 @@
 			<LastGenOutput>VisualTaskDialogImageResources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
-	<PropertyGroup>
-		<DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
-		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
-		<NeutralLanguage>en</NeutralLanguage>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
 
 </Project>
