@@ -18,7 +18,6 @@
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
-using System.Runtime.ConstrainedExecution;
 using System.Runtime.Versioning;
 
 using Microsoft.Win32.SafeHandles;
@@ -3970,8 +3969,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             GPTR = FIXED | ZEROINIT
         }
 
-        [DllImport(Libraries.Kernel32, SetLastError = true),
-         ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+        [DllImport(Libraries.Kernel32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool FreeLibrary([In] IntPtr hModule);

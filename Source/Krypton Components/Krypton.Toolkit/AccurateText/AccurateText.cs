@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
                         else if (Application.RenderWithVisualStyles && composition)
                         {
                             //Check if correct in all cases
-                            SolidBrush tmpBrush = brush as SolidBrush;
+                            SolidBrush? tmpBrush = brush as SolidBrush;
                             Color tmpColor = tmpBrush?.Color ?? SystemColors.ActiveCaptionText;
 
                             DrawCompositionText(g, memento.Text, memento.Font, rect, state,
