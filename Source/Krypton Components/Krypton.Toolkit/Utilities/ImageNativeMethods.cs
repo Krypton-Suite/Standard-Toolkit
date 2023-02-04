@@ -11,7 +11,7 @@ namespace Krypton.Toolkit
 {
     internal class ImageNativeMethods
     {
-        private const string USER32 = @"user32.dll";
+        private const string USER32 = Libraries.User32;
 
         [DllImport(USER32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
