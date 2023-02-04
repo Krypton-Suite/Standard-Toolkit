@@ -88,6 +88,7 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _userSetDateTime;
         private bool _dropDownMonthChanged;
+        private float _cornerRoundingRadius;
         private object _rawDateTime;
         private int _cachedHeight;
         #endregion
@@ -307,7 +308,7 @@ namespace Krypton.Toolkit
             UpdateForRightToLeft();
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -334,12 +335,12 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -2093,7 +2094,7 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
+
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
@@ -2345,6 +2346,14 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 

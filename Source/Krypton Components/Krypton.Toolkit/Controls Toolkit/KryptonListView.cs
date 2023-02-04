@@ -32,6 +32,8 @@ namespace Krypton.Toolkit
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
         private bool _refreshAll;
+        private float _cornerRoundingRadius;
+        private float _itemCornerRoundingRadius;
         private readonly IntPtr _screenDC;
 
         private readonly PaletteTripleOverride _overrideNormal;
@@ -67,7 +69,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Constructor
+        #region Identity
         public KryptonListView()
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint
@@ -207,6 +209,9 @@ namespace Krypton.Toolkit
             StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
             StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
 
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -245,7 +250,31 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region public
+        #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the item corner rounding radius.</summary>
+        /// <value>The item corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the item corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float ItemCornerRoundingRadius
+        {
+            get => _itemCornerRoundingRadius;
+
+            set => SetItemCornerRoundingRadius(value);
+        }
 
         /// <summary>Gets and sets the custom palette implementation.</summary>
         [Category(@"Visuals")]
@@ -253,10 +282,11 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public PaletteBase Palette
         {
-            [DebuggerStepThrough] get => this._localPalette;
+            [DebuggerStepThrough]
+            get => _localPalette;
             set
             {
-                if (this._localPalette == value)
+                if (_localPalette == value)
                 {
                     return;
                 }
@@ -266,7 +296,7 @@ namespace Krypton.Toolkit
                 {
                     _paletteMode = PaletteMode.Global;
                     _localPalette = null;
-                    CacheNewPalette(KryptonManager.GetPaletteForMode(this._paletteMode));
+                    CacheNewPalette(KryptonManager.GetPaletteForMode(_paletteMode));
                 }
                 else
                 {
@@ -278,7 +308,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Resets the Palette property to its default value.</summary>
-        public void ResetPalette() => this.PaletteMode = PaletteMode.Global;
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
@@ -633,7 +663,6 @@ namespace Krypton.Toolkit
         }
 
         #endregion
-
 
         #region Others Overrides
         protected override void OnSelectedIndexChanged(EventArgs e)
@@ -1052,7 +1081,7 @@ namespace Krypton.Toolkit
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
-            if (this.PaletteMode != PaletteMode.Global)
+            if (PaletteMode != PaletteMode.Global)
             {
                 return;
             }
@@ -1216,6 +1245,24 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void ContextMenuClosed()
         {
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetItemCornerRoundingRadius(float? radius)
+        {
+            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
         }
 
         #endregion

@@ -335,6 +335,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
@@ -356,6 +357,9 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
+        private float _cornerRoundingRadius;
+        private float _itemCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -596,6 +600,10 @@ namespace Krypton.Toolkit
 
             // Add list box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnListBoxClick(object sender, EventArgs e) =>
@@ -618,6 +626,31 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the item corner rounding radius.</summary>
+        /// <value>The item corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the item corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float ItemCornerRoundingRadius
+        {
+            get => _itemCornerRoundingRadius;
+
+            set => SetItemCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets access to the contained ListBox instance.
         /// </summary>
@@ -1219,9 +1252,9 @@ namespace Krypton.Toolkit
         /// Activates the control.
         /// </summary>
         public new void Select() => ListBox?.Select();
-#endregion
+        #endregion
 
-#region Protected
+        #region Protected
         /// <summary>
         /// Force the layout logic to size and position the controls.
         /// </summary>
@@ -1234,9 +1267,9 @@ namespace Krypton.Toolkit
                 _forcedLayout = false;
             }
         }
-#endregion
+        #endregion
 
-#region Protected Virtual
+        #region Protected Virtual
         /// <summary>
         /// Raises the DataSourceChanged event.
         /// </summary>
@@ -1290,9 +1323,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnFormattingEnabledChanged(EventArgs e) => FormattingEnabledChanged?.Invoke(this, e);
-#endregion
+        #endregion
 
-#region Protected Override
+        #region Protected Override
         /// <summary>
         /// Creates a new instance of the control collection for the KryptonListBox.
         /// </summary>
@@ -1499,9 +1532,9 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size DefaultSize => new(120, 96);
 
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         private void UpdateStateAndPalettes()
         {
             if (!IsDisposed)
@@ -1790,6 +1823,20 @@ namespace Krypton.Toolkit
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
-#endregion
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetItemCornerRoundingRadius(float? radius)
+        {
+            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
+        }
+
+        #endregion
     }
 }

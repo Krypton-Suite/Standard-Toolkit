@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The supported themes
         /// </summary>
-        /// TODO: this should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
+        // TODO: This should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
         private static readonly BiDictionary<string, PaletteMode> _supportedThemes = new(new Dictionary<string, PaletteMode>
             {
                 { @"Professional - System", PaletteMode.ProfessionalSystem },
@@ -60,16 +60,16 @@ namespace Krypton.Toolkit
                 { @"Sparkle - Purple", PaletteMode.SparklePurple },
                 { @"Sparkle - Purple (Dark Mode)", PaletteMode.SparklePurpleDarkMode },
                 { @"Sparkle - Purple (Light Mode)", PaletteMode.SparklePurpleLightMode },
-                { @"Office 365 - Blue", PaletteMode.Microsoft365Blue },
-                { @"Office 365 - Blue (Dark Mode)", PaletteMode.Microsoft365BlueDarkMode },
-                { @"Office 365 - Blue (Light Mode)", PaletteMode.Microsoft365BlueLightMode },
-                { @"Office 365 - Silver", PaletteMode.Microsoft365Silver },
-                { @"Office 365 - Silver (Dark Mode)", PaletteMode.Microsoft365SilverDarkMode },
-                { @"Office 365 - Silver (Light Mode)", PaletteMode.Microsoft365SilverLightMode },
-                { @"Office 365 - White", PaletteMode.Microsoft365White },
-                { @"Office 365 - Black", PaletteMode.Microsoft365Black },
-                { @"Office 365 - Black (Dark Mode)", PaletteMode.Microsoft365BlackDarkMode },
-                { @"Office 365 - Dark Gray", PaletteMode.Microsoft365DarkGray },
+                { @"Microsoft 365 - Blue", PaletteMode.Microsoft365Blue },
+                { @"Microsoft 365 - Blue (Dark Mode)", PaletteMode.Microsoft365BlueDarkMode },
+                { @"Microsoft 365 - Blue (Light Mode)", PaletteMode.Microsoft365BlueLightMode },
+                { @"Microsoft 365 - Silver", PaletteMode.Microsoft365Silver },
+                { @"Microsoft 365 - Silver (Dark Mode)", PaletteMode.Microsoft365SilverDarkMode },
+                { @"Microsoft 365 - Silver (Light Mode)", PaletteMode.Microsoft365SilverLightMode },
+                { @"Microsoft 365 - White", PaletteMode.Microsoft365White },
+                { @"Microsoft 365 - Black", PaletteMode.Microsoft365Black },
+                { @"Microsoft 365 - Black (Dark Mode)", PaletteMode.Microsoft365BlackDarkMode },
+                { @"Microsoft 365 - Dark Gray", PaletteMode.Microsoft365DarkGray },
                 { @"Custom", PaletteMode.Custom }
             });
 

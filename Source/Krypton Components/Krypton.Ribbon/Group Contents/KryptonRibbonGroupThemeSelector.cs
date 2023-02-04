@@ -22,97 +22,97 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupComboBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("SelectedTextChanged")]
+    [DefaultEvent(@"SelectedTextChanged")]
     [DefaultProperty("Text")]
     public class KryptonRibbonGroupThemeSelector : KryptonRibbonGroupComboBox
     {
         #region Instance Fields
 
-        private readonly string[] _themeArray = new string[]
+        private readonly string[] _themeArray = new[]
         {
-            "Professional - System",
+            @"Professional - System",
 
-            "Professional - Office 2003",
+            @"Professional - Office 2003",
 
-            "Office 2007 - Black",
+            @"Office 2007 - Black",
 
-            "Office 2007 - Black (Dark Mode)",
+            @"Office 2007 - Black (Dark Mode)",
 
-            //"Office 2007 - Black (Light Mode)",
+            //@"Office 2007 - Black (Light Mode)",
 
-            "Office 2007 - Blue",
+            @"Office 2007 - Blue",
 
-            "Office 2007 - Blue (Dark Mode)",
+            @"Office 2007 - Blue (Dark Mode)",
 
-            "Office 2007 - Blue (Light Mode)",
+            @"Office 2007 - Blue (Light Mode)",
 
-            "Office 2007 - Silver",
+            @"Office 2007 - Silver",
 
-            "Office 2007 - Silver (Dark Mode)",
+            @"Office 2007 - Silver (Dark Mode)",
 
-            "Office 2007 - Silver (Light Mode)",
+            @"Office 2007 - Silver (Light Mode)",
 
-            "Office 2010 - Black",
+            @"Office 2010 - Black",
 
-            "Office 2010 - Black (Dark Mode)",
+            @"Office 2010 - Black (Dark Mode)",
 
-            //"Office 2010 - Black (Light Mode)",
+            //@"Office 2010 - Black (Light Mode)",
 
-            "Office 2010 - Blue",
+            @"Office 2010 - Blue",
 
-            "Office 2010 - Blue (Dark Mode)",
+            @"Office 2010 - Blue (Dark Mode)",
 
-            "Office 2010 - Blue (Light Mode)",
+            @"Office 2010 - Blue (Light Mode)",
 
-            "Office 2010 - Silver",
+            @"Office 2010 - Silver",
 
-            "Office 2010 - Silver (Dark Mode)",
+            @"Office 2010 - Silver (Dark Mode)",
 
-            "Office 2010 - Silver (Light Mode)",
+            @"Office 2010 - Silver (Light Mode)",
 
-            "Office 2010 - White",
+            @"Office 2010 - White",
 
-            "Office 2013",
+            @"Office 2013",
 
-            "Office 365 - Black",
+            @"Microsoft 365 - Black",
 
-            "Office 365 - Black (Dark Mode)",
+            @"Microsoft 365 - Black (Dark Mode)",
 
-            //"Office 365 - Black (Light Mode)",
+            //@"Microsoft 365 - Black (Light Mode)",
 
-            "Office 365 - Blue",
+            @"Microsoft 365 - Blue",
 
-            "Office 365 - Blue (Dark Mode)",
+            @"Microsoft 365 - Blue (Dark Mode)",
 
-            "Office 365 - Blue (Light Mode)",
+            @"Microsoft 365 - Blue (Light Mode)",
 
-            "Office 365 - Silver",
+            @"Microsoft 365 - Silver",
 
-            "Office 365 - Silver (Dark Mode)",
+            @"Microsoft 365 - Silver (Dark Mode)",
 
-            "Office 365 - Silver (Light Mode)",
+            @"Microsoft 365 - Silver (Light Mode)",
 
-            "Office 365 - White",
+            @"Microsoft 365 - White",
 
-            "Sparkle - Blue",
+            @"Sparkle - Blue",
 
-            "Sparkle - Blue (Dark Mode)",
+            @"Sparkle - Blue (Dark Mode)",
 
-            "Sparkle - Blue (Light Mode)",
+            @"Sparkle - Blue (Light Mode)",
 
-            "Sparkle - Orange",
+            @"Sparkle - Orange",
 
-            "Sparkle - Orange (Dark Mode)",
+            @"Sparkle - Orange (Dark Mode)",
 
-            "Sparkle - Orange (Light Mode)",
+            @"Sparkle - Orange (Light Mode)",
 
-            "Sparkle - Purple",
+            @"Sparkle - Purple",
 
-            "Sparkle - Purple (Dark Mode)",
+            @"Sparkle - Purple (Dark Mode)",
 
-            "Sparkle - Purple (Light Mode)",
+            @"Sparkle - Purple (Light Mode)",
 
-            "Custom"
+            @"Custom"
         };
 
         #endregion

@@ -27,6 +27,7 @@ namespace Krypton.Toolkit
                                         IKryptonMonthCalendar
     {
         #region Instance Fields
+
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewLayoutMonths _drawMonths;
         private readonly PaletteTripleOverride _boldedDisabled;
@@ -59,6 +60,10 @@ namespace Krypton.Toolkit
         private int _maxSelectionCount;
         private int _scrollChange;
         private bool _hasFocus;
+        private float _cornerRoundingRadius;
+        private float _dayCornerRoundingRadius;
+        private float _dayOfWeekCornerRoundingRadius;
+        private float _headerCornerRoundingRadius;
 
         #endregion
 
@@ -235,10 +240,67 @@ namespace Krypton.Toolkit
             BoldedDatesList = new DateTimeList();
             _scrollChange = 0;
             _todayFormat = "d";
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _dayCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            _dayOfWeekCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            _headerCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the day corner rounding radius.</summary>
+        /// <value>The day corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the day corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float DayCornerRoundingRadius
+        {
+            get => _dayCornerRoundingRadius;
+
+            set => SetDayCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the day of week corner rounding radius.</summary>
+        /// <value>The day of week corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the day of week corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float DayOfWeekCornerRoundingRadius
+        {
+            get => _dayOfWeekCornerRoundingRadius;
+
+            set => SetDayOfWeekCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the header corner rounding radius.</summary>
+        /// <value>The header corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the header corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float HeaderCornerRoundingRadius
+        {
+            get => _headerCornerRoundingRadius;
+
+            set => SetHeaderCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets or sets the text associated with this control.
         /// </summary>
@@ -1787,6 +1849,38 @@ namespace Krypton.Toolkit
         }
 
         private void UpdateFocusOverride(bool focus) => _hasFocus = focus;
+        #endregion
+
+        #region Implementation
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetDayCornerRoundingRadius(float? radius)
+        {
+            _dayCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Day.Border.Rounding = _dayCornerRoundingRadius;
+        }
+
+        private void SetDayOfWeekCornerRoundingRadius(float? radius)
+        {
+            _dayOfWeekCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.DayOfWeek.Border.Rounding = _dayOfWeekCornerRoundingRadius;
+        }
+
+        private void SetHeaderCornerRoundingRadius(float? radius)
+        {
+            _headerCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Header.Border.Rounding = _headerCornerRoundingRadius;
+        }
+
         #endregion
     }
 }

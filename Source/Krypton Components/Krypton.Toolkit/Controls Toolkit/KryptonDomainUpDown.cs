@@ -365,12 +365,12 @@ namespace Krypton.Toolkit
 
                                 //////////////////////////////////////////////////////
                                 // Following to allow the Draw to always happen, to allow centering etc  
-                                _internalDomainUpDown.TextAlign = 
+                                _internalDomainUpDown.TextAlign =
                                     states.Content.GetContentShortTextH(state) switch
                                     {
                                         PaletteRelativeAlign.Center => HorizontalAlignment.Center,
-                                        PaletteRelativeAlign.Far    => HorizontalAlignment.Right,
-                                        _                           => HorizontalAlignment.Left
+                                        PaletteRelativeAlign.Far => HorizontalAlignment.Right,
+                                        _ => HorizontalAlignment.Left
                                     };
 
                                 // Let base implementation draw the actual text area
@@ -709,6 +709,7 @@ namespace Krypton.Toolkit
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
+        private float _cornerRoundingRadius;
         private int _cachedHeight;
         #endregion
 
@@ -867,7 +868,7 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_domainUpDown);
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -897,12 +898,12 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -1950,9 +1951,9 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
+
                     bool shadow = true;
-                    
+
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
@@ -2041,6 +2042,14 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

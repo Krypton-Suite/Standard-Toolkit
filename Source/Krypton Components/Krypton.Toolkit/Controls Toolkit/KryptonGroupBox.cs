@@ -38,6 +38,7 @@ namespace Krypton.Toolkit
         private bool _captionVisible;
         private readonly bool _ignoreLayout;
         private bool _layingOut;
+        private float _cornerRoundingRadius;
         #endregion
 
         #region Identity
@@ -103,6 +104,8 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -131,6 +134,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -785,6 +801,14 @@ namespace Krypton.Toolkit
         }
 
         private void ReapplyVisible() => _drawContent.Visible = _captionVisible;
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
 
         #region Implementation Static

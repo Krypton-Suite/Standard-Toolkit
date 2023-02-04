@@ -129,5 +129,19 @@ namespace TestForm
             AddEvent("textBox1_KeyUp");
 
         }
+
+        private void kryptonButton1_Click(object sender, System.EventArgs e)
+        {
+            Form2 form2 = new Form2();
+
+            form2.ShowDialog();
+        }
+
+        private void kryptonButton2_Click(object sender, System.EventArgs e)
+        {
+            Form3 form3 = new Form3();
+
+            form3.ShowDialog();
+        }
     }
 }

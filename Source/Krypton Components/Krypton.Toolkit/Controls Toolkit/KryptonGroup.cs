@@ -26,10 +26,13 @@ namespace Krypton.Toolkit
     public class KryptonGroup : VisualControlContainment
     {
         #region Instance Fields
+
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewLayoutFill _layoutFill;
         private bool _forcedLayout;
         private bool _layingOut;
+        private float _cornerRoundingRadius;
+
         #endregion
 
         #region Identity
@@ -70,10 +73,25 @@ namespace Krypton.Toolkit
 
             // Add panel to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -450,6 +468,14 @@ namespace Krypton.Toolkit
                 PerformNeedPaint(true);
             }
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

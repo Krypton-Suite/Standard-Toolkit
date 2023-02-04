@@ -43,6 +43,8 @@ namespace Krypton.Toolkit
         private bool _useMnemonic;
         private bool _wasEnabled;
         private bool _useAsUACElevationButton;
+        //private bool _useOSUACShieldIcon;
+        private float _cornerRoundingRadius;
         private Size _customUACShieldSize;
         private UACShieldIconSize _uacShieldIconSize;
 
@@ -127,12 +129,14 @@ namespace Krypton.Toolkit
 
             _useAsUACElevationButton = false;
 
-            _customUACShieldSize = new Size(16, 16);
+            _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
 
-            _uacShieldIconSize = UACShieldIconSize.ExtraSmall;
+            //_useOSUACShieldIcon = false;
+
+            _customUACShieldSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE;
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
@@ -141,12 +145,12 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -265,15 +269,52 @@ namespace Krypton.Toolkit
             set
             {
                 _useAsUACElevationButton = value;
-                ShowUACShield(value);
+
+                //if (_customUACShieldSize.Height > 0 && _customUACShieldSize.Width > 0)
+                //{
+                //    ShowUACShield(value, UACShieldIconSize.Custom, _customUACShieldSize.Width, _customUACShieldSize.Height);
+                //}
+                //else if (_uacShieldIconSize != UACShieldIconSize.Custom)
+                //{
+                //    ShowUACShield(value, _uacShieldIconSize);
+                //}
+                if (_uacShieldIconSize == UACShieldIconSize.ExtraSmall)
+                {
+                    ShowUACShield(value, UACShieldIconSize.ExtraSmall);
+                }
+                else if (_uacShieldIconSize == UACShieldIconSize.Small)
+                {
+                    ShowUACShield(value, UACShieldIconSize.Small);
+                }
+                else if (_uacShieldIconSize == UACShieldIconSize.Medium)
+                {
+                    ShowUACShield(value, UACShieldIconSize.Medium);
+                }
+                else if (_uacShieldIconSize == UACShieldIconSize.Large)
+                {
+                    ShowUACShield(value, UACShieldIconSize.Large);
+                }
+                else if (_uacShieldIconSize == UACShieldIconSize.ExtraLarge)
+                {
+                    ShowUACShield(value, UACShieldIconSize.ExtraLarge);
+                }
+                else
+                {
+                    ShowUACShield(value, UACShieldIconSize.ExtraSmall);
+                }
             }
         }
 
+        /*
+        [DefaultValue(false), Description(@"Use the operating system UAC shield icon image.")]
+        public bool UseOSUACShieldIcon { get => _useOSUACShieldIcon; set { _useOSUACShieldIcon = value; UpdateOSUACShieldIcon(); } }
+        
         [DefaultValue(null), Description(@"")]
-        public Size CustomUACShieldSize { get => _customUACShieldSize; set { _customUACShieldSize = value; UpdateShieldCustomSize(value); } }
+        public Size CustomUACShieldSize { get => _customUACShieldSize; set { _customUACShieldSize = value; ShowUACShield(_useAsUACElevationButton, UACShieldIconSize.Custom, value.Width, value.Height); } }
+        */
 
-        [DefaultValue(typeof(UACShieldIconSize), @"UACShieldIconSize.ExtraSmall"), Description(@"")]
-        public UACShieldIconSize UACShieldIconSize { get => _uacShieldIconSize; set { _uacShieldIconSize = value; UpdateShieldSize(value); } }
+        [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"")]
+        public UACShieldIconSize UACShieldIconSize { get => _uacShieldIconSize; set { _uacShieldIconSize = value; ShowUACShield(_useAsUACElevationButton, value); } }
 
         /// <summary>
         /// Gets access to the button content.
@@ -802,13 +843,52 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Shows the UAC shield.</summary>
-        /// <param name="showUACShield">if set to <c>true</c> [show UAC shield].</param>
-        private void ShowUACShield(bool showUACShield)
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        #region UAC Stuff
+
+        /// <summary>Shows the uac shield.</summary>
+        /// <param name="showUACShield">if set to <c>true</c> [show uac shield].</param>
+        /// <param name="shieldIconSize">Size of the shield icon.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        private void ShowUACShield(bool showUACShield, UACShieldIconSize? shieldIconSize = null, int? width = null, int? height = null)
         {
             if (showUACShield)
             {
-                Values.Image = GraphicsExtensions.LoadIcon(GraphicsExtensions.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
+                int h = height ?? 16, w = width ?? 16;
+
+                Image shield = SystemIcons.Shield.ToBitmap();
+
+                switch (shieldIconSize)
+                {
+                    //case UACShieldIconSize.Custom:
+                    //    Values.Image = GraphicsExtensions.ScaleImage(shield, w, h);
+                    //    break;
+                    case UACShieldIconSize.ExtraSmall:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
+                        break;
+                    case UACShieldIconSize.Small:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 32, 32);
+                        break;
+                    case UACShieldIconSize.Medium:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 64, 64);
+                        break;
+                    case UACShieldIconSize.Large:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 256, 256);
+                        break;
+                    case null:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
+                        break;
+                }
 
                 Invalidate();
             }
@@ -818,32 +898,53 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UpdateShieldCustomSize(Size value) => UpdateShieldSize(UACShieldIconSize.Custom, value);
-
-        private void UpdateShieldSize(UACShieldIconSize value, Size? customSize = null)
+        /// <summary>Updates the UAC shield icon.</summary>
+        /// <param name="iconSize">Size of the icon.</param>
+        /// <param name="customSize">Size of the custom.</param>
+        private void UpdateOSUACShieldIcon(UACShieldIconSize? iconSize = null, Size? customSize = null)
         {
-            switch (value)
-            {
-                case UACShieldIconSize.Custom:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, customSize);
-                    break;
-                case UACShieldIconSize.ExtraSmall:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(16, 16));
-                    break;
-                case UACShieldIconSize.Small:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(32, 32));
-                    break;
-                case UACShieldIconSize.Medium:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(64, 64));
-                    break;
-                case UACShieldIconSize.Large:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(128, 128));
-                    break;
-                case UACShieldIconSize.ExtraLarge:
-                    Values.Image = GraphicsExtensions.ScaleImage(Values.Image, new Size(255, 255));
-                    break;
-            }
+            //if (OSUtilities.IsWindowsEleven)
+            //{
+            //    Image windowsElevenUacShieldImage = UACShieldIconResources.UACShieldWindows11;
+
+            //    if (iconSize == UACShieldIconSize.Custom)
+            //    {
+            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsElevenUacShieldImage);
+            //    }
+            //    else
+            //    {
+            //        UpdateShieldSize(iconSize, null, windowsElevenUacShieldImage);
+            //    }
+            //}
+            //else if (OSUtilities.IsWindowsTen)
+            //{
+            //    Image windowsTenUacShieldImage = UACShieldIconResources.UACShieldWindows10;
+
+            //    if (iconSize == UACShieldIconSize.Custom)
+            //    {
+            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsTenUacShieldImage);
+            //    }
+            //    else
+            //    {
+            //        UpdateShieldSize(iconSize, null, windowsTenUacShieldImage);
+            //    }
+            //}
+            //else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
+            //{
+            //    Image windowsEightUacShieldImage = UACShieldIconResources.UACShieldWindows7881;
+
+            //    if (iconSize == UACShieldIconSize.Custom)
+            //    {
+            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsEightUacShieldImage);
+            //    }
+            //    else
+            //    {
+            //        UpdateShieldSize(iconSize, null, windowsEightUacShieldImage);
+            //    }
+            //}
         }
+
+        #endregion
 
         #endregion
     }

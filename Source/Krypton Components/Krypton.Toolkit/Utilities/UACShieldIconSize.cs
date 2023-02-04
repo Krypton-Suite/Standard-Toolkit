@@ -12,8 +12,8 @@ namespace Krypton.Toolkit
     /// <summary>Defines the UAC shield image size for a <see cref="KryptonButton"/>.</summary>
     public enum UACShieldIconSize
     {
-        /// <summary>A custom image size.</summary>
-        Custom = 0,
+        // <summary>A custom image size.</summary>
+        // Custom = 0,
         /// <summary>The extra small image size (16 x 16).</summary>
         ExtraSmall = 1,
         /// <summary>The small image size (32 x 32).</summary>

@@ -50,6 +50,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewDrawContent _drawContent;
         private readonly ButtonSpecManagerDraw _buttonManager;
+        private float _cornerRoundingRadius;
         private VisualPopupToolTip _visualPopupToolTip;
 
         #endregion
@@ -105,6 +106,8 @@ namespace Krypton.Toolkit
             // We want to be auto sized by default, but not the property default!
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -127,6 +130,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets and sets the automatic resize of the control to fit contents.
         /// </summary>
@@ -531,9 +547,9 @@ namespace Krypton.Toolkit
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
+
                     bool shadow = true;
-                    
+
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
@@ -595,6 +611,14 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }
