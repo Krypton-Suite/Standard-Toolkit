@@ -1,4 +1,4 @@
-# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit
+# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit
 
 =======
 
@@ -175,7 +175,7 @@ As of version 60, all `using` statements are contained in one file per project u
 
 # Known Issues & Workarounds
 
-- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 6 or 7
+- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET 6 or 7
 
 - .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Designer-Fix.md) for more information
 
