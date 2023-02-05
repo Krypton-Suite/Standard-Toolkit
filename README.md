@@ -141,7 +141,7 @@ There are list of changes that have occurred during the development of the V80.#
 Bring MessageBox States inline with latest .Net 6 by using a new `KryptonMessageBoxButtons` type, which is effectively the same as .Net6 enum version of `MessageBoxButtons` but backward compatible with .net4.6.x onwards.
 
 ### Palette usages
--`KryptonPalette` has become `KryptonCustomPaletteBase` to better signify it's usage.
+- `KryptonPalette` has become `KryptonCustomPaletteBase` to better signify it's usage.
 - `IPalette` has been removed, and the usage of `PaletteBase` throughout the toolkit is used; to ensure consistent usage.
 
 ## V70.## (2022-11-08 - Build 2211 - November 2022)
