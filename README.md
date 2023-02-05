@@ -134,7 +134,7 @@ Follow the links to see the different objects and layouts that this framework al
 # Breaking Changes
 
 ## V80.## (2023-11-xx - Build 2311 - November 2023)
-There are list of changes that have occurred during the development of the V70.## version
+There are list of changes that have occurred during the development of the V80.## version
 
 ### KryptonMessageBoxButtons
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/728:  
