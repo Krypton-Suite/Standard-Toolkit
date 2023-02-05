@@ -136,6 +136,9 @@ Follow the links to see the different objects and layouts that this framework al
 ## V80.## (2023-11-xx - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version
 
+### Support for .NET Core 3.1 and .NET 5
+As of V80.##, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
+
 ### KryptonMessageBoxButtons
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/728:  
 Bring MessageBox States inline with latest .Net 6 by using a new `KryptonMessageBoxButtons` type, which is effectively the same as .Net6 enum version of `MessageBoxButtons` but backward compatible with .net4.6.x onwards.
