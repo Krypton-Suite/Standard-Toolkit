@@ -1,4 +1,4 @@
-# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit
+# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit
 
 =======
 
@@ -134,14 +134,17 @@ Follow the links to see the different objects and layouts that this framework al
 # Breaking Changes
 
 ## V80.## (2023-11-xx - Build 2311 - November 2023)
-There are list of changes that have occurred during the development of the V70.## version
+There are list of changes that have occurred during the development of the V80.## version
+
+### Support for .NET Core 3.1 and .NET 5
+As of V80.##, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
 
 ### KryptonMessageBoxButtons
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/728:  
 Bring MessageBox States inline with latest .Net 6 by using a new `KryptonMessageBoxButtons` type, which is effectively the same as .Net6 enum version of `MessageBoxButtons` but backward compatible with .net4.6.x onwards.
 
 ### Palette usages
--`KryptonPalette` has become `KryptonCustomPaletteBase` to better signify it's usage.
+- `KryptonPalette` has become `KryptonCustomPaletteBase` to better signify it's usage.
 - `IPalette` has been removed, and the usage of `PaletteBase` throughout the toolkit is used; to ensure consistent usage.
 
 ## V70.## (2022-11-08 - Build 2211 - November 2022)
@@ -175,7 +178,7 @@ As of version 60, all `using` statements are contained in one file per project u
 
 # Known Issues & Workarounds
 
-- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` to your `<TargetFrameworks>` if using .NET Core 3.1 or .NET 6 or 7
+- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` or `net481` to your `<TargetFrameworks>` if using .NET 6 or 7
 
 - .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Designer-Fix.md) for more information
 
