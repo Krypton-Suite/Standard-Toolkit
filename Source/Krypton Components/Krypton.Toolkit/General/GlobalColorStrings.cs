@@ -41,9 +41,49 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        public bool IsDefault;
+        [Browsable(false)]
+        public bool IsDefault => Color.Equals(DEFAULT_COLOR) && Color.Equals(DEFAULT_COLORS) &&
+                                 MoreColors.Equals(DEFAULT_MORE_COLORS) && NoColor.Equals(DEFAULT_NO_COLOR);
 
-        public void Reset() { }
+        public void Reset()
+        {
+            Color = DEFAULT_COLOR;
+            Colors = DEFAULT_COLORS;
+            MoreColors = DEFAULT_MORE_COLORS;
+            NoColor = DEFAULT_NO_COLOR;
+        }
+
+        /// <summary>Gets or sets the color string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Localised color string.")]
+        [DefaultValue(DEFAULT_COLOR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Color { get; set; }
+
+        /// <summary>Gets or sets the colors string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Localised colors string.")]
+        [DefaultValue(DEFAULT_COLORS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Colors { get; set; }
+
+        /// <summary>Gets or sets the more colors string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Localised more colors string.")]
+        [DefaultValue(DEFAULT_MORE_COLORS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string MoreColors { get; set; }
+
+        /// <summary>Gets or sets the no color string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Localised no color string.")]
+        [DefaultValue(DEFAULT_NO_COLOR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string NoColor { get; set; }
 
         #endregion
     }
