@@ -1160,7 +1160,7 @@ namespace Krypton.Toolkit
                 // Raise event to indicate it was a mouse activated click
                 OnMouseClick(e);
             }
-            
+
             // If not showing a context menu then perform cleanup straight away
             if (!showingContextMenu)
             {
@@ -1506,7 +1506,7 @@ namespace Krypton.Toolkit
 
         private void SetCustomColorPreviewShape(KryptonColorButtonCustomColorPreviewShape customShape)
         {
-             switch (customShape)
+            switch (customShape)
             {
                 case KryptonColorButtonCustomColorPreviewShape.None:
                     Values.Image = GenericImageResources.ButtonColorImageSmall;

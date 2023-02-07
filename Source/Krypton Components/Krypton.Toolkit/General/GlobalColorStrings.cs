@@ -23,7 +23,10 @@ namespace Krypton.Toolkit
 
         private const string DEFAULT_COLOR = @"Color";
         private const string DEFAULT_COLORS = @"Colors";
-        private const string DEFAULT_MORE_COLORS = @"More Colors";
+        private const string DEFAULT_MORE_COLORS = @"More Colors ...";
+        private const string DEFAULT_THEME_COLORS = @"Theme Colors";
+        private const string DEFAULT_STANDARD_COLORS = @"Standard Colors";
+        private const string DEFAULT_RECENT_COLORS = @"Recent Colors";
         private const string DEFAULT_NO_COLOR = @"No Color";
 
         #endregion
