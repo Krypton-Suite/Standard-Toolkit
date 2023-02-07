@@ -19,7 +19,14 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class GlobalColorStrings : GlobalId
     {
+        #region Static Fields
 
+        private const string DEFAULT_COLOR = @"Color";
+        private const string DEFAULT_COLORS = @"Colors";
+        private const string DEFAULT_MORE_COLORS = @"More Colors";
+        private const string DEFAULT_NO_COLOR = @"No Color";
+
+        #endregion
 
         #region Public
 
