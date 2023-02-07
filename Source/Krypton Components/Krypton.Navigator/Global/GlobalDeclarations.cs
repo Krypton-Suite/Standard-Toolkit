@@ -33,7 +33,9 @@ global using System.Windows.Forms.Design;
 
 global using Krypton.Toolkit;
 
-using System.Runtime.CompilerServices;
+global using System.Runtime.CompilerServices;
+
+global using Krypton.Navigator.Resources;
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]

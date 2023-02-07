@@ -48,12 +48,12 @@ namespace Krypton.Navigator
         /// </summary>
         static DragManager()
         {
-            using (MemoryStream ms = new(Properties.Resources.DocumentValid))
+            using (MemoryStream ms = new(CursorResources.DocumentValid))
             {
                 _validCursor = new Cursor(ms);
             }
 
-            using (MemoryStream ms = new(Properties.Resources.DocumentInvalid))
+            using (MemoryStream ms = new(CursorResources.DocumentInvalid))
             {
                 _invalidCursor = new Cursor(ms);
             }
