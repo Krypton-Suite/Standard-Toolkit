@@ -439,11 +439,11 @@ namespace Krypton.Ribbon
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move DateTimePicker First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move DateTimePicker Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move DateTimePicker Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move DateTimePicker Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteDateTimePickerMenu = new ToolStripMenuItem("Delete DateTimePicker", Properties.Resources.delete2, OnDeleteDateTimePicker);
+                    _moveFirstMenu = new ToolStripMenuItem("Move DateTimePicker First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move DateTimePicker Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move DateTimePicker Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move DateTimePicker Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteDateTimePickerMenu = new ToolStripMenuItem("Delete DateTimePicker", GenericImageResources.Delete, OnDeleteDateTimePicker);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

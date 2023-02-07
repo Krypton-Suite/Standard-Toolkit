@@ -439,11 +439,11 @@ namespace Krypton.Ribbon
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move TrackBar First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move TrackBar Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move TrackBar Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move TrackBar Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteTrackBarMenu = new ToolStripMenuItem("Delete TrackBar", Properties.Resources.delete2, OnDeleteTrackBar);
+                    _moveFirstMenu = new ToolStripMenuItem("Move TrackBar First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move TrackBar Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move TrackBar Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move TrackBar Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteTrackBarMenu = new ToolStripMenuItem("Delete TrackBar", GenericImageResources.Delete, OnDeleteTrackBar);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

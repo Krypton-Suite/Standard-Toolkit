@@ -37,7 +37,9 @@ global using System.Windows.Forms.VisualStyles;
 
 global using Krypton.Toolkit;
 
-using System.Runtime.CompilerServices;
+global using Krypton.Ribbon.Resources;
+
+global using System.Runtime.CompilerServices;
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]

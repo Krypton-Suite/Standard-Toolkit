@@ -27,8 +27,8 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = Properties.Resources.ButtonImageSmall;
-        private static readonly Image _defaultButtonImageLarge = Properties.Resources.ButtonImageLarge;
+        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonImageSmall;
+        private static readonly Image _defaultButtonImageLarge = GenericImageResources.ButtonImageLarge;
         #endregion
 
         #region Instance Fields

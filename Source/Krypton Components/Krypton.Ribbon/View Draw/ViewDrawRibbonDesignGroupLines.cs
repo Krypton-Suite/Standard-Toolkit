@@ -37,21 +37,24 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]{Properties.Resources.KryptonRibbonGroupButton,
-                                                   Properties.Resources.KryptonRibbonGroupColorButton,
-                                                   Properties.Resources.KryptonRibbonGroupCheckBox,
-                                                   Properties.Resources.KryptonRibbonGroupRadioButton,
-                                                   Properties.Resources.KryptonRibbonGroupLabel,
-                                                   Properties.Resources.KryptonRibbonGroupCustomControl,
-                                                   Properties.Resources.KryptonRibbonGroupCluster,
-                                                   Properties.Resources.KryptonRibbonGroupTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupRichTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupComboBox,
-                                                   Properties.Resources.KryptonRibbonGroupMaskedTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupNumericUpDown,
-                                                   Properties.Resources.KryptonRibbonGroupDomainUpDown,
-                                                   Properties.Resources.KryptonRibbonGroupDateTimePicker,
-                                                   Properties.Resources.KryptonRibbonGroupTrackBar});
+            _imageList.Images.AddRange(new Image[]
+            {
+                GenericImageResources.KryptonRibbonGroupButton,
+                GenericImageResources.KryptonRibbonGroupColorButton,
+                GenericImageResources.KryptonRibbonGroupCheckBox,
+                GenericImageResources.KryptonRibbonGroupRadioButton,
+                GenericImageResources.KryptonRibbonGroupLabel,
+                GenericImageResources.KryptonRibbonGroupCustomControl,
+                GenericImageResources.KryptonRibbonGroupCluster,
+                GenericImageResources.KryptonRibbonGroupTextBox,
+                GenericImageResources.KryptonRibbonGroupRichTextBox,
+                GenericImageResources.KryptonRibbonGroupComboBox,
+                GenericImageResources.KryptonRibbonGroupMaskedTextBox,
+                GenericImageResources.KryptonRibbonGroupNumericUpDown,
+                GenericImageResources.KryptonRibbonGroupDomainUpDown,
+                GenericImageResources.KryptonRibbonGroupDateTimePicker,
+                GenericImageResources.KryptonRibbonGroupTrackBar
+            });
         }
 
         /// <summary>
@@ -71,7 +74,7 @@ namespace Krypton.Ribbon
 
             _ribbonLines = ribbonLines;
             CurrentSize = currentSize;
-             _padding = new Padding(0, (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(4 * FactorDpiY));
+            _padding = new Padding(0, (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(4 * FactorDpiY));
         }
 
         /// <summary>
