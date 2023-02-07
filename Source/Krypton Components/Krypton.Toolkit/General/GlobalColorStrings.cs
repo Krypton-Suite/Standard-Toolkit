@@ -41,10 +41,17 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        /// <summary>
+        /// Gets a value indicating if all the strings are default values.
+        /// </summary>
+        /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
         public bool IsDefault => Color.Equals(DEFAULT_COLOR) && Color.Equals(DEFAULT_COLORS) &&
                                  MoreColors.Equals(DEFAULT_MORE_COLORS) && NoColor.Equals(DEFAULT_NO_COLOR);
 
+        /// <summary>
+        /// Reset all strings to default values.
+        /// </summary>
         public void Reset()
         {
             Color = DEFAULT_COLOR;
