@@ -390,6 +390,20 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetGlobalStrings() => Strings.Reset();
 
+        /// <summary>
+        /// Gets a set of global color strings used by Krypton that can be localized.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Collection of global color strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public GlobalColorStrings GlobalColorStrings => ColorStrings;
+
+        private bool ShouldSerializeGlobalColorStrings() => !ColorStrings.IsDefault;
+
+        public void ResetGlobalColorStrings() => ColorStrings.Reset();
+
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(null)]
@@ -470,6 +484,11 @@ namespace Krypton.Toolkit
         /// Gets access to the set of global strings.
         /// </summary>
         public static GlobalStrings Strings { get; } = new();
+
+        /// <summary>
+        /// Gets access to the set of global color strings.
+        /// </summary>
+        public static GlobalColorStrings ColorStrings { get; } = new();
 
         #endregion
 

@@ -19,5 +19,14 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class GlobalColorStrings : GlobalId
     {
+
+
+        #region Public
+
+        public bool IsDefault;
+
+        public void Reset() { }
+
+        #endregion
     }
 }
