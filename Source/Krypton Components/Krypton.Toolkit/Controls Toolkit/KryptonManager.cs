@@ -198,6 +198,7 @@ namespace Krypton.Toolkit
                                    || ShouldSerializeGlobalApplyToolstrips()
                                    || ShouldSerializeGlobalAllowFormChrome()
                                    || ShouldSerializeGlobalStrings()
+                                   || ShouldSerializeGlobalColorStrings()
                                 );
 
         /// <summary>
@@ -210,6 +211,7 @@ namespace Krypton.Toolkit
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
             ResetGlobalStrings();
+            ResetGlobalColorStrings();
 
             _customPalette = null;
         }
@@ -402,6 +404,9 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeGlobalColorStrings() => !ColorStrings.IsDefault;
 
+        /// <summary>
+        /// Resets the GlobalColorStrings property to its default value.
+        /// </summary>
         public void ResetGlobalColorStrings() => ColorStrings.Reset();
 
         [Category(@"Visuals")]
