@@ -6,7 +6,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Ribbon
 {
     /// <summary>
     /// Taken and then modified from

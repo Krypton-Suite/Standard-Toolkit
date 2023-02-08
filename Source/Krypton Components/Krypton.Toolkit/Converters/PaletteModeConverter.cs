@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that PaletteMode values appear as neat text at design time.
     /// </summary>
-    internal class PaletteModeConverter : StringLookupConverter
+    public class PaletteModeConverter : StringLookupConverter
     {
         #region Static Fields
 
