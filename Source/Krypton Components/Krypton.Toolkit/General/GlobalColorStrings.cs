@@ -50,7 +50,9 @@ namespace Krypton.Toolkit
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
         public bool IsDefault => Color.Equals(DEFAULT_COLOR) && Color.Equals(DEFAULT_COLORS) &&
-                                 MoreColors.Equals(DEFAULT_MORE_COLORS) && NoColor.Equals(DEFAULT_NO_COLOR);
+                                 MoreColors.Equals(DEFAULT_MORE_COLORS) && ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+                                 StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
+                                 RecentColors.Equals(DEFAULT_RECENT_COLORS) && NoColor.Equals(DEFAULT_NO_COLOR);
 
         /// <summary>
         /// Reset all strings to default values.
@@ -60,6 +62,9 @@ namespace Krypton.Toolkit
             Color = DEFAULT_COLOR;
             Colors = DEFAULT_COLORS;
             MoreColors = DEFAULT_MORE_COLORS;
+            ThemeColors = DEFAULT_THEME_COLORS;
+            StandardColors = DEFAULT_STANDARD_COLORS;
+            RecentColors = DEFAULT_RECENT_COLORS;
             NoColor = DEFAULT_NO_COLOR;
         }
 
@@ -86,6 +91,30 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_MORE_COLORS)]
         [RefreshProperties(RefreshProperties.All)]
         public string MoreColors { get; set; }
+
+        /// <summary>Gets or sets the theme colors string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Localised theme colors string.")]
+        [DefaultValue(DEFAULT_THEME_COLORS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ThemeColors { get; set; }
+
+        /// <summary>Gets or sets the standard colors string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Localised standard colors string.")]
+        [DefaultValue(DEFAULT_STANDARD_COLORS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string StandardColors { get; set; }
+
+        /// <summary>Gets or sets the recent colors string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Localised recent colors string.")]
+        [DefaultValue(DEFAULT_RECENT_COLORS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string RecentColors { get; set; }
 
         /// <summary>Gets or sets the no color string.</summary>
         [Localizable(true)]

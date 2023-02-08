@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private bool _mouseDown;
         private bool _fixedPressed;
         private bool _hasFocus;
-        private readonly System.Windows.Forms.Timer _updateTimer;
+        private readonly Timer _updateTimer;
         #endregion
 
         #region Events
@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
         public AppButtonController(KryptonRibbon ribbon)
         {
             _ribbon = ribbon;
-            _updateTimer = new System.Windows.Forms.Timer
+            _updateTimer = new Timer
             {
                 Interval = 1
             };

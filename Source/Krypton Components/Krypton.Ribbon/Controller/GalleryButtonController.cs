@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         private bool _pressed;
         private bool _mouseOver;
         private NeedPaintHandler _needPaint;
-        private readonly System.Windows.Forms.Timer _repeatTimer;
+        private readonly Timer _repeatTimer;
         #endregion
 
         #region Events
@@ -53,7 +53,7 @@ namespace Krypton.Ribbon
 
             if (repeatTimer)
             {
-                _repeatTimer = new System.Windows.Forms.Timer
+                _repeatTimer = new Timer
                 {
                     Interval = 250
                 };

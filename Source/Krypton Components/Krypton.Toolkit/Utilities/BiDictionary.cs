@@ -32,7 +32,7 @@ namespace Krypton.Toolkit.Utilities
 
             foreach (KeyValuePair<TFirst, TSecond> keyValuePair in dictionary)
             {
-                this.Add(keyValuePair.Key, keyValuePair.Value);
+                Add(keyValuePair.Key, keyValuePair.Value);
             }
         }
 

@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         private int _trackingIndex;
         private int _cacheTrackingIndex;
         private int _eventTrackingIndex;
-        private readonly System.Windows.Forms.Timer _trackingEventTimer;
+        private readonly Timer _trackingEventTimer;
         private KryptonContextMenu _dropMenu;
         private EventHandler _finishDelegate;
         #endregion
@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
             _dropMinItemWidth = 3;
 
             // Timer used to generate tracking change event
-            _trackingEventTimer = new System.Windows.Forms.Timer
+            _trackingEventTimer = new Timer
             {
                 Interval = 120
             };
