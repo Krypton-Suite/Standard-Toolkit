@@ -38,14 +38,15 @@ namespace Krypton.Toolkit
         public bool Enabled
         {
             get => _enabled;
-            set { 
+            set
+            {
                 if (_enabled != value)
                 {
                     _enabled = value;
                     IntPtr hSystemMenu = PI.GetSystemMenu(KryptonForm.Handle, false);
-                    if ( hSystemMenu != IntPtr.Zero)
+                    if (hSystemMenu != IntPtr.Zero)
                     {
-                        PI.EnableMenuItem(hSystemMenu, PI.SC_.CLOSE, _enabled ? PI.MF_.ENABLED:PI.MF_.DISABLED);
+                        PI.EnableMenuItem(hSystemMenu, PI.SC_.CLOSE, _enabled ? PI.MF_.ENABLED : PI.MF_.DISABLED);
                     }
                 }
             }
@@ -77,7 +78,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase palette) => KryptonForm.CloseBox && Enabled ? ButtonEnabled.True: ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => KryptonForm.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
