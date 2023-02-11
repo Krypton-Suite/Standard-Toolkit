@@ -2092,7 +2092,7 @@ namespace Krypton.Navigator
                 }
 
                 // Create a list of the pages being dragged
-                _dragPages = page != null ? new [] { page } : (from KryptonPage p in Pages select p).ToArray();
+                _dragPages = page != null ? new[] { page } : (from KryptonPage p in Pages select p).ToArray();
 
                 // Do any of the dragging pages have a flag set saying they can be dragged?
                 var allowPageDrag = _dragPages.Any(p => p.AreFlagsSet(KryptonPageFlags.AllowPageDrag));
@@ -2887,7 +2887,7 @@ namespace Krypton.Navigator
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
+
                     bool shadow = true;
 
                     // Find the page associated with the tooltip request

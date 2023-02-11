@@ -13,6 +13,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="Krypton.Navigator">
+	    <HintPath>..\Krypton.Navigator\obj\Debug\net48\Krypton.Navigator.dll</HintPath>
+	  </Reference>
+	  <Reference Include="System.Design" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>

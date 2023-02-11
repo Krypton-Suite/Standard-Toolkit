@@ -49,7 +49,7 @@ namespace Krypton.Navigator
                                NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
-            
+
             // Remember back reference
             _navigator = navigator;
 
@@ -65,12 +65,20 @@ namespace Krypton.Navigator
             NextButton = new ButtonSpecNavNext(_navigator);
             ContextButton = new ButtonSpecNavContext(_navigator);
             CloseButton = new ButtonSpecNavClose(_navigator);
+            FormCloseButton = new ButtonSpecNavFormClose(_navigator);
+            FormMaximizeButton = new ButtonSpecNavFormMaximize(_navigator);
+            FormRestoreButton = new ButtonSpecNavFormRestore(_navigator);
+            FormMinimizeButton = new ButtonSpecNavFormMinimize(_navigator);
 
             // Hook into the click events for the buttons
             PreviousButton.Click += OnPreviousClick;
             NextButton.Click += OnNextClick;
             ContextButton.Click += OnContextClick;
             CloseButton.Click += OnCloseClick;
+            FormCloseButton.Click += OnCloseButtonClick;
+            FormMinimizeButton.Click += OnMinimizeButtonClick;
+            FormMaximizeButton.Click += OnMaximizeButtonClick;
+            FormRestoreButton.Click += OnRestoreButtonClick;
 
             // Add fixed buttons into the display collection
             FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
@@ -463,6 +471,62 @@ namespace Krypton.Navigator
         }
         #endregion
 
+        #region FormCloseButton
+
+        /// <summary>
+        /// Gets access to the form close button specification.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Form close button specification.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonSpecNavFormClose FormCloseButton { get; }
+
+        private bool ShouldSerializeFormCloseButton() => !FormCloseButton.IsDefault;
+
+        #endregion
+
+        #region FormMaximizeButton
+
+        /// <summary>
+        /// Gets access to the form maximize button specification.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Form maximize button specification.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonSpecNavFormMaximize FormMaximizeButton { get; }
+
+        private bool ShouldSerializeFormMaximizeButton() => !FormMaximizeButton.IsDefault;
+
+        #endregion
+
+        #region FormMinimizeButton
+
+        /// <summary>
+        /// Gets access to the form minimize button specification.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Form minimize button specification.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonSpecNavFormMinimize FormMinimizeButton { get; }
+
+        private bool ShouldSerializeFormMinimizeButton() => !FormMinimizeButton.IsDefault;
+
+        #endregion
+
+        #region FormRestoreButton
+
+        /// <summary>
+        /// Gets access to the form restore button specification.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Form restore button specification.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonSpecNavFormRestore FormRestoreButton { get; }
+
+        private bool ShouldSerializeFormRestoreButton() => !FormRestoreButton.IsDefault;
+
+        #endregion
+
         #region ButtonDisplayLogic
         /// <summary>
         /// Gets and sets the logic used to control button display.
@@ -517,6 +581,26 @@ namespace Krypton.Navigator
         private void OnCloseClick(object sender, EventArgs e)
         {
             _navigator.PerformCloseAction();
+        }
+
+        private void OnRestoreButtonClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnMaximizeButtonClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnMinimizeButtonClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnCloseButtonClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
