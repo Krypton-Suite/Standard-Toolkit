@@ -28,6 +28,7 @@ global using System.Xml;
 
 global using Krypton.Navigator;
 global using Krypton.Toolkit;
+global using Krypton.Workspace.Resources;
 
 using System.Runtime.CompilerServices;
 

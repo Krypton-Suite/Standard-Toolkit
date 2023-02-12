@@ -19,9 +19,10 @@ namespace Krypton.Toolkit
                                      IContentValues
     {
         #region Static Fields
-        private const string _defaultText = "&Color";
+
+        private string _defaultText = KryptonManager.ColorStrings.Color;
         private static readonly string _defaultExtraText = string.Empty;
-        private static readonly Image _defaultImage = Resources.GenericImageResources.ButtonColorImageSmall;
+        private static readonly Image _defaultImage = GenericImageResources.ButtonColorImageSmall;
         #endregion
 
         #region Instance Fields
@@ -323,7 +324,7 @@ namespace Krypton.Toolkit
         /// Create the storage for the image states.
         /// </summary>
         /// <returns>Storage object.</returns>
-        protected virtual ButtonImageStates CreateImageStates() => new ();
+        protected virtual ButtonImageStates CreateImageStates() => new();
 
         #endregion
 

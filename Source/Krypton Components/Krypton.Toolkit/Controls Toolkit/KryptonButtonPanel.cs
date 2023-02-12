@@ -19,39 +19,39 @@ namespace Krypton.Toolkit
         private KryptonBorderEdge kbeTopDivider;
         private void InitializeComponent()
         {
-            this.kpnlContainer = new Krypton.Toolkit.KryptonPanel();
-            this.kbeTopDivider = new Krypton.Toolkit.KryptonBorderEdge();
-            ((System.ComponentModel.ISupportInitialize)(this.kpnlContainer)).BeginInit();
-            this.kpnlContainer.SuspendLayout();
-            this.SuspendLayout();
+            kpnlContainer = new KryptonPanel();
+            kbeTopDivider = new KryptonBorderEdge();
+            ((ISupportInitialize)(kpnlContainer)).BeginInit();
+            kpnlContainer.SuspendLayout();
+            SuspendLayout();
             //
             // kpnlContainer
             //
-            this.kpnlContainer.Controls.Add(this.kbeTopDivider);
-            this.kpnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpnlContainer.Location = new System.Drawing.Point(0, 0);
-            this.kpnlContainer.Name = nameof(kpnlContainer);
-            this.kpnlContainer.Size = new System.Drawing.Size(280, 50);
-            this.kpnlContainer.TabIndex = 0;
+            kpnlContainer.Controls.Add(kbeTopDivider);
+            kpnlContainer.Dock = DockStyle.Fill;
+            kpnlContainer.Location = new Point(0, 0);
+            kpnlContainer.Name = "kpnlContainer";
+            kpnlContainer.Size = new Size(280, 50);
+            kpnlContainer.TabIndex = 0;
             //
             // kbeTopDivider
             //
-            this.kbeTopDivider.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
-            this.kbeTopDivider.Dock = System.Windows.Forms.DockStyle.Top;
-            this.kbeTopDivider.Location = new System.Drawing.Point(0, 0);
-            this.kbeTopDivider.Name = nameof(kbeTopDivider);
-            this.kbeTopDivider.Size = new System.Drawing.Size(280, 1);
-            this.kbeTopDivider.Text = nameof(kbeTopDivider);
+            kbeTopDivider.BorderStyle = PaletteBorderStyle.HeaderPrimary;
+            kbeTopDivider.Dock = DockStyle.Top;
+            kbeTopDivider.Location = new Point(0, 0);
+            kbeTopDivider.Name = "kbeTopDivider";
+            kbeTopDivider.Size = new Size(280, 1);
+            kbeTopDivider.Text = "kbeTopDivider";
             // 
             // KryptonButtonPanel
             // 
-            this.Controls.Add(kpnlContainer);
-            this.Name = nameof(KryptonButtonPanel);
-            this.Size = new System.Drawing.Size(247, 50);
-            ((System.ComponentModel.ISupportInitialize)(this.kpnlContainer)).EndInit();
-            this.kpnlContainer.ResumeLayout(false);
-            this.kpnlContainer.PerformLayout();
-            this.ResumeLayout(false);
+            Controls.Add(kpnlContainer);
+            Name = "KryptonButtonPanel";
+            Size = new Size(247, 50);
+            ((ISupportInitialize)(kpnlContainer)).EndInit();
+            kpnlContainer.ResumeLayout(false);
+            kpnlContainer.PerformLayout();
+            ResumeLayout(false);
 
         }
     }

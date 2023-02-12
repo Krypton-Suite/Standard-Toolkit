@@ -392,11 +392,11 @@ namespace Krypton.Ribbon
                     _autoCheckMenu = new ToolStripMenuItem("AutoCheck", null, OnAutoCheck);
                     _checkedMenu = new ToolStripMenuItem("Checked", null, OnChecked);
                     _threeStateMenu = new ToolStripMenuItem("ThreeState", null, OnThreeState);
-                    _moveFirstMenu = new ToolStripMenuItem("Move CheckBox First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move CheckBox Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move CheckBox Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move CheckBox Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteCheckBoxMenu = new ToolStripMenuItem("Delete CheckBox", Properties.Resources.delete2, OnDeleteCheckBox);
+                    _moveFirstMenu = new ToolStripMenuItem("Move CheckBox First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move CheckBox Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move CheckBox Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move CheckBox Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteCheckBoxMenu = new ToolStripMenuItem("Delete CheckBox", GenericImageResources.Delete, OnDeleteCheckBox);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, _enabledMenu, _autoCheckMenu, _checkedMenu, _threeStateMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

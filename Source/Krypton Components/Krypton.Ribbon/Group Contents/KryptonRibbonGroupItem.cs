@@ -154,10 +154,10 @@ namespace Krypton.Ribbon
         [Category(@"ToolTip")]
         [Description(@"Control ToolTip Text")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public abstract ToolTipValues ToolTipValues 
-        { 
+        public abstract ToolTipValues ToolTipValues
+        {
             // Return base objects tooltip
-             get;
+            get;
         }
 
         private bool ShouldSerializeToolTipValues() => !ToolTipValues.IsDefault;
@@ -228,4 +228,4 @@ namespace Krypton.Ribbon
 
         #endregion
     }
-    }
+}

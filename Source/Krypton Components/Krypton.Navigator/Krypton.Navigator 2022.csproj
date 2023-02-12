@@ -3,21 +3,21 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<TargetFrameworks>net462;net47;net471;net472;net48;net481;netcoreapp3.1;net6.0-windows;net7.0-windows</TargetFrameworks>
+				<TargetFrameworks>net462;net47;net471;net472;net48;net481;net6.0-windows;net7.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<Choose>
 				<When Condition="'$(Configuration)' == 'Canary'">
 					<PropertyGroup>
-						<TargetFrameworks>net462;net47;net471;net472;net48;net481;netcoreapp3.1;net6.0-windows;net7.0-windows</TargetFrameworks>
+						<TargetFrameworks>net462;net47;net471;net472;net48;net481;net6.0-windows;net7.0-windows</TargetFrameworks>
 					</PropertyGroup>
 				</When>
 				<Otherwise>
 					<PropertyGroup>
 						<TargetFrameworks>net48;net481;net6.0-windows;net7.0-windows</TargetFrameworks>
 
-						<TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;netcoreapp3.1;net6.0-windows;net7.0-windows</TargetFrameworks>
+						<TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;net6.0-windows;net7.0-windows</TargetFrameworks>
 					</PropertyGroup>
 				</Otherwise>
 			</Choose>
@@ -115,6 +115,16 @@
 		<Compile Update="ButtonSpecs\ButtonSpecNavPrevious.cs" />
 		<Compile Update="ButtonSpecs\ButtonSpecNavNext.cs" />
 		<Compile Update="ButtonSpecs\ButtonSpecNavContext.cs" />
+		<Compile Update="Resources\CursorResources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>CursorResources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\GeneralImageResources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>GeneralImageResources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonNavigator.bmp" />
@@ -122,17 +132,22 @@
 	<ItemGroup>
 		<Content Include="Krypton.ico" Pack="false" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonPage.bmp" />
-		<EmbeddedResource Include="Resources\PageLarge.png" />
-		<EmbeddedResource Include="Resources\PageMedium.png" />
-		<EmbeddedResource Include="Resources\PageSmall.png" />
-		<EmbeddedResource Include="Resources\BlueDown.bmp" />
-		<EmbeddedResource Include="Resources\BlueUp.bmp" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Palette\PaletteNavigatorOtherOverride.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\CursorResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>CursorResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\GeneralImageResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>GeneralImageResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 	<PropertyGroup>
 		<DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Navigator.xml</DocumentationFile>

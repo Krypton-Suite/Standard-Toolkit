@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private bool _mouseOver;
         private readonly ViewBase _target;
         private NeedPaintHandler _needPaint;
-        private readonly System.Windows.Forms.Timer _repeatTimer;
+        private readonly Timer _repeatTimer;
         #endregion
 
         #region Events
@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
-            _repeatTimer = new System.Windows.Forms.Timer
+            _repeatTimer = new Timer
             {
                 Interval = 50
             };

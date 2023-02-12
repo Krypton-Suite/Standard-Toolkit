@@ -545,8 +545,8 @@ namespace Krypton.Workspace
                 {
                     get => _item.SelectedPage;
 
-                    set 
-                    { 
+                    set
+                    {
                         // Check that the target cell allows selected tabs
                         if (_item.AllowTabSelect)
                         {
@@ -809,6 +809,7 @@ namespace Krypton.Workspace
             #endregion
 
             #region Instance Fields
+            // TODO: Use Krypton
             private readonly KryptonWorkspaceCollectionEditor _editor;
             private DictItemBase _beforeItems;
             private readonly TreeView treeView;
@@ -873,7 +874,7 @@ namespace Krypton.Workspace
                 // buttonMoveUp
                 // 
                 buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.Image = Properties.Resources.arrow_up_blue;
+                buttonMoveUp.Image = GeneralImageResources.arrow_up_blue;
                 buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonMoveUp.Location = new Point(272, 32);
                 buttonMoveUp.Name = nameof(buttonMoveUp);
@@ -888,7 +889,7 @@ namespace Krypton.Workspace
                 // buttonMoveDown
                 // 
                 buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.Image = Properties.Resources.arrow_down_blue;
+                buttonMoveDown.Image = GeneralImageResources.arrow_down_blue;
                 buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonMoveDown.Location = new Point(272, 66);
                 buttonMoveDown.Name = nameof(buttonMoveDown);
@@ -903,7 +904,7 @@ namespace Krypton.Workspace
                 // buttonDelete
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.Image = Properties.Resources.delete2;
+                buttonDelete.Image = GeneralImageResources.Delete;
                 buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 234);
                 buttonDelete.Name = nameof(buttonDelete);
@@ -948,7 +949,7 @@ namespace Krypton.Workspace
                 // buttonAddPage
                 // 
                 buttonAddPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddPage.Image = Properties.Resources.add;
+                buttonAddPage.Image = GeneralImageResources.add;
                 buttonAddPage.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonAddPage.Location = new Point(272, 114);
                 buttonAddPage.Name = nameof(buttonAddPage);
@@ -963,7 +964,7 @@ namespace Krypton.Workspace
                 // buttonAddCell
                 // 
                 buttonAddCell.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddCell.Image = Properties.Resources.add;
+                buttonAddCell.Image = GeneralImageResources.add;
                 buttonAddCell.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonAddCell.Location = new Point(272, 148);
                 buttonAddCell.Name = nameof(buttonAddCell);
@@ -978,7 +979,7 @@ namespace Krypton.Workspace
                 // buttonAddSequence
                 // 
                 buttonAddSequence.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddSequence.Image = Properties.Resources.add;
+                buttonAddSequence.Image = GeneralImageResources.add;
                 buttonAddSequence.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonAddSequence.Location = new Point(272, 182);
                 buttonAddSequence.Name = nameof(buttonAddSequence);
@@ -1024,7 +1025,7 @@ namespace Krypton.Workspace
             protected override void OnEditValueChanged()
             {
                 if (EditValue != null)
-                {                    
+                {
                     // Need to link the property browser to a site otherwise Image properties cannot be
                     // edited because it cannot navigate to the owning project for its resources
                     propertyGrid.Site = new PropertyGridSite(Context, propertyGrid);
@@ -1564,7 +1565,7 @@ namespace Krypton.Workspace
 
                     // Found no reason not the accept the found node
                     break;
-                
+
                 } while (returnNode != null);
 
                 return returnNode;
@@ -1600,7 +1601,7 @@ namespace Krypton.Workspace
 
                     // Found no reason not the accept the found node
                     break;
-                
+
                 } while (returnNode != null);
 
                 return returnNode;
@@ -1610,7 +1611,7 @@ namespace Krypton.Workspace
                                            TreeNode target,
                                            ref bool found,
                                            bool findPage,
-                                           bool findCell, 
+                                           bool findCell,
                                            bool findSequence,
                                            bool forward)
             {

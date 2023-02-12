@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     public class RibbonAppButton : Storage
     {
         #region Static Fields
-        private static readonly Image _defaultAppImage = Properties.Resources.AppButtonDefault;
-        private const string DEFAULT_APP_TEXT = nameof(File);
+        private static readonly Image _defaultAppImage = GenericImageResources.AppButtonDefault;
+        private const string DEFAULT_APP_TEXT = @"File";
         private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
         private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
         #endregion
@@ -30,8 +30,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Collection for managing ButtonSpecAppMenu instances.
         /// </summary>
-        public class AppMenuButtonSpecCollection : ButtonSpecCollection<ButtonSpecAppMenu> 
-        { 
+        public class AppMenuButtonSpecCollection : ButtonSpecCollection<ButtonSpecAppMenu>
+        {
             #region Identity
             /// <summary>
             /// Initialize a new instance of the AppMenuButtonSpecCollection class.
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
         {
             get => _appButtonBaseColorDark;
 
-            set 
+            set
             {
                 if (_appButtonBaseColorDark != Color.Empty)
                 {
@@ -180,7 +180,7 @@ namespace Krypton.Ribbon
         {
             get => _appButtonBaseColorLight;
 
-            set 
+            set
             {
                 if (_appButtonBaseColorLight != Color.Empty)
                 {
@@ -204,7 +204,7 @@ namespace Krypton.Ribbon
         {
             get => _appButtonTextColor;
 
-            set 
+            set
             {
                 if (_appButtonTextColor != Color.Empty)
                 {
@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
         {
             get => _appButtonText;
 
-            set 
+            set
             {
                 if (_appButtonText != null)
                 {

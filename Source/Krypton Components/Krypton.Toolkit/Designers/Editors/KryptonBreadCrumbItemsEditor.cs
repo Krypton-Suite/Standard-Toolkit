@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
                 // buttonMoveUp
                 // 
                 buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.Image = Resources.BlueArrowResources.arrow_up_blue;
+                buttonMoveUp.Image = BlueArrowResources.arrow_up_blue;
                 buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.Location = new Point(272, 32);
                 buttonMoveUp.Name = nameof(buttonMoveUp);
@@ -307,7 +307,7 @@ namespace Krypton.Toolkit
                 // buttonMoveDown
                 // 
                 buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.Image = Resources.BlueArrowResources.arrow_down_blue;
+                buttonMoveDown.Image = BlueArrowResources.arrow_down_blue;
                 buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.Location = new Point(272, 66);
                 buttonMoveDown.Name = nameof(buttonMoveDown);

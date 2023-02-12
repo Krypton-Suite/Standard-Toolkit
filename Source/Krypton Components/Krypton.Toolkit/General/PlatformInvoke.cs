@@ -3775,10 +3775,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                     var accentSize = Marshal.SizeOf(accPolicy);
                     accentPtr = Marshal.AllocHGlobal(accentSize);
                     Marshal.StructureToPtr(accPolicy, accentPtr, false);
-                    var data = new PI.WindowCompositionAttribData(WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                    var data = new WindowCompositionAttribData(WindowCompositionAttribute.WCA_ACCENT_POLICY,
                         accentPtr, accentSize);
 
-                    PI.SetWindowCompositionAttribute(hWnd, ref data);
+                    SetWindowCompositionAttribute(hWnd, ref data);
                 }
                 finally
                 {
@@ -3798,7 +3798,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 return result == 0;
             }
 
-            public static bool WindowExtendIntoClientArea(IntPtr hWnd, PI.MARGINS Margins)
+            public static bool WindowExtendIntoClientArea(IntPtr hWnd, MARGINS Margins)
             {
                 // Extend frame on the bottom of client area
                 var result = DwmExtendFrameIntoClientArea(hWnd, ref Margins);

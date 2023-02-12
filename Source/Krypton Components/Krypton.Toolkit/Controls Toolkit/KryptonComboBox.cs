@@ -2681,7 +2681,7 @@ namespace Krypton.Toolkit
                     // If we found a child then it is the edit class
                     if (childPtr != IntPtr.Zero)
                     {
-                        if (this.DropDownStyle == ComboBoxStyle.Simple)
+                        if (DropDownStyle == ComboBoxStyle.Simple)
                         {
                             //this.childListBox = new ComboBox.ComboBoxChildNativeWindow(this, ComboBox.ChildWindowType.ListBox);
                             //this.childListBox.AssignHandle(window);

@@ -5,6 +5,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Removed .NET Core 3.1 and .NET 5 references from NuGet package descriptions
 * Add `AllowFormIntegrate` option to `KryptonRibbon`s action list, for easier access
 * Resolved [#929](https://github.com/Krypton-Suite/Standard-Toolkit/issues/929), `KryptonRibbon` 'disappears' while running the application
 * Resolved [#916](https://github.com/Krypton-Suite/Standard-Toolkit/issues/916), After a designer "Reset click" on the `CornerRoundingRadius`, it is still showing as a modified value, and still being written out into the designer file
@@ -38,7 +39,7 @@
 * Added full license information to NuGet packages
 * Renamed `Office 365` to `Microsoft 365` to fall in line with naming schemes
 * Separate symbols packages for **Canary** & **Nightly** builds
-* Removed support for .NET Core App 3.1 for 'Lite' packages
+* Removed support for .NET Core 3.1, in accordance with its official release cadence
 * Removed support for .NET 5, in accordance with its official release cadence
 * Support for .NET 8
 * Version bump `70.xx.xx.xx` -> `80.xx.xx.xx`

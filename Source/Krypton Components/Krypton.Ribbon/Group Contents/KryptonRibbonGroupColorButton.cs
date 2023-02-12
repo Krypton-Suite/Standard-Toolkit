@@ -27,8 +27,8 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = Properties.Resources.ButtonColorImageSmall;
-        private static readonly Image _defaultButtonImageLarge = Properties.Resources.ButtonColorImageLarge;
+        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
+        private static readonly Image _defaultButtonImageLarge = GenericImageResources.ButtonColorImageLarge;
         #endregion
 
         #region Instance Fields
@@ -178,7 +178,7 @@ namespace Krypton.Ribbon
             _headingRecent = new KryptonContextMenuHeading("Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem("&No Color", Properties.Resources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem("&No Color", GenericImageResources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();

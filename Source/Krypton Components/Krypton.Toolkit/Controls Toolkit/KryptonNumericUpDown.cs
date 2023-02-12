@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
 
             public void SetChangingText(bool value)
             {
-                base.ChangingText = value;
+                ChangingText = value;
             }
 
             #endregion

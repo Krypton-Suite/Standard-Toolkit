@@ -438,12 +438,12 @@ namespace Krypton.Ribbon
                 {
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
-                    _visibleMenu = new ToolStripMenuItem(nameof(Visible), null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move RichTextBox First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move RichTextBox Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move RichTextBox Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move RichTextBox Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteRichTextBoxMenu = new ToolStripMenuItem("Delete RichTextBox", Properties.Resources.delete2, OnDeleteTextBox);
+                    _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
+                    _moveFirstMenu = new ToolStripMenuItem("Move RichTextBox First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move RichTextBox Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move RichTextBox Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move RichTextBox Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteRichTextBoxMenu = new ToolStripMenuItem("Delete RichTextBox", GenericImageResources.Delete, OnDeleteTextBox);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

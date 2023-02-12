@@ -438,12 +438,12 @@ namespace Krypton.Ribbon
                 {
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
-                    _visibleMenu = new ToolStripMenuItem(nameof(Visible), null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move TextBox First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move TextBox Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move TextBox Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move TextBox Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteTextBoxMenu = new ToolStripMenuItem("Delete TextBox", Properties.Resources.delete2, OnDeleteTextBox);
+                    _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
+                    _moveFirstMenu = new ToolStripMenuItem("Move TextBox First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move TextBox Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move TextBox Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move TextBox Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteTextBoxMenu = new ToolStripMenuItem("Delete TextBox", GenericImageResources.Delete, OnDeleteTextBox);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

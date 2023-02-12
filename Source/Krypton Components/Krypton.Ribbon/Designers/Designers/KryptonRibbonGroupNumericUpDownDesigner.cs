@@ -437,12 +437,12 @@ namespace Krypton.Ribbon
                 {
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
-                    _visibleMenu = new ToolStripMenuItem(nameof(Visible), null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move NumericUpDown First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move NumericUpDown Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move NumericUpDown Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move NumericUpDown Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteNumericUpDownMenu = new ToolStripMenuItem("Delete NumericUpDown", Properties.Resources.delete2, OnDeleteNumericUpDown);
+                    _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
+                    _moveFirstMenu = new ToolStripMenuItem("Move NumericUpDown First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move NumericUpDown Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move NumericUpDown Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move NumericUpDown Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteNumericUpDownMenu = new ToolStripMenuItem("Delete NumericUpDown", GenericImageResources.Delete, OnDeleteNumericUpDown);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

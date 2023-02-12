@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         {
             get;
 
-        } = new KryptonManager();
+        } = new();
 
         #endregion
 
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         /// <returns>
         ///   <br />
         /// </returns>
-        public PaletteMode ReturnPaletteMode() => (PaletteMode)Manager.GlobalPaletteMode;
+        public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
 
         #endregion
 

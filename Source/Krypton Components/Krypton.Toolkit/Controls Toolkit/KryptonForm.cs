@@ -1197,7 +1197,7 @@ namespace Krypton.Toolkit
                     // TODO: Use `GetSystemMenu` to obtain the system menu and convert into a KryptonContextMenu with the correct theming !
 
                     // Make this work for the offset Application Icon when ButtonSpecs are left aligned
-                    PI.PostMessage(this.Handle, PI.WM_.CONTEXTMENU, this.Handle, m.LParam);
+                    PI.PostMessage(Handle, PI.WM_.CONTEXTMENU, Handle, m.LParam);
                     return true;
                 }
             }
@@ -1496,7 +1496,7 @@ namespace Krypton.Toolkit
         private void UpdateBorderRegion(Region newRegion)
         {
             if ((newRegion != null)
-                && (newRegion.IsEmpty(this.CreateGraphics()))
+                && (newRegion.IsEmpty(CreateGraphics()))
                 )
             {
                 return;

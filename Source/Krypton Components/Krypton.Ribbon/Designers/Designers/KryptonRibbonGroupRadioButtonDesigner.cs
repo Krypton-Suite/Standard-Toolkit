@@ -370,11 +370,11 @@ namespace Krypton.Ribbon
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
                     _enabledMenu = new ToolStripMenuItem("Enabled", null, OnEnabled);
                     _checkedMenu = new ToolStripMenuItem("Checked", null, OnChecked);
-                    _moveFirstMenu = new ToolStripMenuItem("Move RadioButton First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move RadioButton Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move RadioButton Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move RadioButton Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteRadioButtonMenu = new ToolStripMenuItem("Delete RadioButton", Properties.Resources.delete2, OnDeleteRadioButton);
+                    _moveFirstMenu = new ToolStripMenuItem("Move RadioButton First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move RadioButton Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move RadioButton Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move RadioButton Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteRadioButtonMenu = new ToolStripMenuItem("Delete RadioButton", GenericImageResources.Delete, OnDeleteRadioButton);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, _enabledMenu, _checkedMenu,  new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
                                           IQuickAccessToolbarButton
     {
         #region Static Fields
-        private static readonly Image _defaultImage = Properties.Resources.QATButtonDefault;
+        private static readonly Image _defaultImage = GenericImageResources.QATButtonDefault;
         #endregion
 
         #region Instance Fields
@@ -504,7 +504,7 @@ namespace Krypton.Ribbon
                 }
             }
         }
-        
+
         /// <summary>
         /// Raises the Click event.
         /// </summary>

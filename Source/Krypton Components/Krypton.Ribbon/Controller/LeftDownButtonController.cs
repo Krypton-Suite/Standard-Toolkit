@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private bool _mouseOver;
         private bool _mouseDown;
         private readonly NeedPaintHandler _needPaint;
-        private readonly System.Windows.Forms.Timer _updateTimer;
+        private readonly Timer _updateTimer;
         #endregion
 
         #region Events
@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
             Target = target;
             _needPaint = needPaint;
 
-            _updateTimer = new System.Windows.Forms.Timer
+            _updateTimer = new Timer
             {
                 Interval = 1
             };
