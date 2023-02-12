@@ -16,10 +16,6 @@ namespace Krypton.Ribbon
 {
     internal class RibbonToContent : IPaletteContent
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the RibbonToContent class.
@@ -193,7 +189,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public virtual Image GetContentShortTextImage(PaletteState state) => null;
+        public virtual Image? GetContentShortTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style.
@@ -312,7 +308,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public virtual Image GetContentLongTextImage(PaletteState state) => null;
+        public virtual Image? GetContentLongTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style for the long text.

@@ -20,8 +20,8 @@ namespace Krypton.Toolkit
     [Designer(@"Krypton.Toolkit.KryptonContextMenuItemDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
-    [DefaultEvent(@"Click")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(Click))]
     public class KryptonContextMenuItem : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -34,12 +34,12 @@ namespace Krypton.Toolkit
         private string _text;
         private string _extraText;
         private string _shortcutKeyDisplayString;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private CheckState _checkState;
         private Keys _shortcutKeys;
         private readonly PaletteContextMenuItemStateRedirect _stateRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         #endregion
 
         #region Events
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <param name="initialText">Initial text string.</param>
         /// <param name="clickHandler">Click handler.</param>
         public KryptonContextMenuItem(string initialText,
-                                      EventHandler clickHandler)
+                                      EventHandler? clickHandler)
             : this(initialText, null, clickHandler, Keys.None)
         {
         }
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         /// <param name="clickHandler">Click handler.</param>
         /// <param name="shortcut">Shortcut key combination.</param>
         public KryptonContextMenuItem(string initialText,
-                                      EventHandler clickHandler,
+                                      EventHandler? clickHandler,
                                       Keys shortcut)
             : this(initialText, null, clickHandler, shortcut)
         {
@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
         /// <param name="initialImage">Initial image.</param>
         /// <param name="clickHandler">Click handler.</param>
         public KryptonContextMenuItem(string initialText,
-                                      Image initialImage,
-                                      EventHandler clickHandler)
+                                      Image? initialImage,
+                                      EventHandler? clickHandler)
             : this(initialText, initialImage, clickHandler, Keys.None)
         {
         }
@@ -128,8 +128,8 @@ namespace Krypton.Toolkit
         /// <param name="clickHandler">Click handler.</param>
         /// <param name="shortcut">Shortcut key combination.</param>
         public KryptonContextMenuItem(string initialText,
-                                      Image initialImage,
-                                      EventHandler clickHandler,
+                                      Image? initialImage,
+                                      EventHandler? clickHandler,
                                       Keys shortcut)
         {
             // Initial values
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         [Localizable(true)]
         [Bindable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -314,7 +314,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
+        private void ResetImageTransparentColor() => _imageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets and sets the shortcut key combination associated with the menu item.
@@ -621,7 +622,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu item.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 

@@ -33,19 +33,19 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="path">Comma separated list of names to resolve.</param>
         /// <returns>IDockingElement reference if path was resolved with success; otherwise null.</returns>
-        IDockingElement ResolvePath(string path);
+        IDockingElement? ResolvePath(string path);
 
         /// <summary>
         /// Gets and sets access to the parent docking element.
         /// </summary>
-        IDockingElement Parent { get; set; }
+        IDockingElement? Parent { get; set; }
 
         /// <summary>
         /// Propagates an action request down the hierarchy of docking elements.
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        void PropogateAction(DockingPropogateAction action, string[] uniqueNames);
+        void PropogateAction(DockingPropogateAction action, string[]? uniqueNames);
 
         /// <summary>
         /// Propagates an action request down the hierarchy of docking elements.
@@ -82,7 +82,7 @@ namespace Krypton.Docking
         /// <param name="floatingWindow">Reference to window being dragged.</param>
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
-        void PropogateDragTargets(KryptonFloatingWindow floatingWindow,
+        void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
                                   PageDragEndData dragData,
                                   DragTargetList targets);
 
@@ -92,7 +92,7 @@ namespace Krypton.Docking
         /// <param name="state">Request that should result in a page reference if found.</param>
         /// <param name="uniqueName">Unique name of the page the request relates to.</param>
         /// <returns>Reference to page that matches the request; otherwise null.</returns>
-        KryptonPage PropogatePageState(DockingPropogatePageState state, string uniqueName);
+        KryptonPage? PropogatePageState(DockingPropogatePageState state, string uniqueName);
 
         /// <summary>
         /// Propagates a page list request down the hierarchy of docking elements.
@@ -120,7 +120,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        IDockingElement FindPageElement(string uniqueName);
+        IDockingElement? FindPageElement(string uniqueName);
 
         /// <summary>
         /// Find the docking element that contains the location specific store page for the named page.
@@ -128,42 +128,42 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="uniqueName">Unique name of the page to be found.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        IDockingElement FindStorePageElement(DockingLocation location, string uniqueName);
+        IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName);
 
         /// <summary>
         /// Find a floating docking element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
         /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
-        KryptonDockingFloating FindDockingFloating(string uniqueName);
+        KryptonDockingFloating? FindDockingFloating(string uniqueName);
 
         /// <summary>
         /// Find a edge docked element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
         /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
-        KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName);
+        KryptonDockingEdgeDocked? FindDockingEdgeDocked(string uniqueName);
 
         /// <summary>
         /// Find a edge auto hidden element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
         /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
-        KryptonDockingEdgeAutoHidden FindDockingEdgeAutoHidden(string uniqueName);
+        KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName);
 
         /// <summary>
         /// Find a workspace element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
         /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
-        KryptonDockingWorkspace FindDockingWorkspace(string uniqueName);
+        KryptonDockingWorkspace? FindDockingWorkspace(string uniqueName);
 
         /// <summary>
         /// Find a navigator element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable navigator element is required.</param>
         /// <returns>KryptonDockingNavigator reference if found; otherwise false.</returns>
-        KryptonDockingNavigator FindDockingNavigator(string uniqueName);
+        KryptonDockingNavigator? FindDockingNavigator(string uniqueName);
         
         /// <summary>
         /// Saves docking configuration information using a provider xml writer.
@@ -188,14 +188,14 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="index">Index.</param>
         /// <returns>Docking element at specified index.</returns>
-        IDockingElement this[int index] { get; }
+        IDockingElement? this[int index] { get; }
 
         /// <summary>
         /// Gets the docking element with the specified name.
         /// </summary>
         /// <param name="name">Name of element.</param>
         /// <returns>Docking element with specified name.</returns>
-        IDockingElement this[string name] { get; }
+        IDockingElement? this[string name] { get; }
     }
     #endregion
 

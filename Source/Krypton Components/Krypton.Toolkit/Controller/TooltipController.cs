@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public void MouseLeave(Control c, ViewBase next)
+        public void MouseLeave(Control c, ViewBase? next)
         {
             _manager.MouseLeave(_targetElement, c, next);
 

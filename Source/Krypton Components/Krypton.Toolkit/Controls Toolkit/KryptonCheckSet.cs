@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckSet), "ToolboxBitmaps.KryptonCheckSet.bmp")]
-    [DefaultEvent(@"CheckedButtonChanged")]
-    [DefaultProperty(@"CheckButtons")]
+    [DefaultEvent(nameof(CheckedButtonChanged))]
+    [DefaultProperty(nameof(CheckButtons))]
     [DesignerCategory(@"code")]
     [Designer(@"Krypton.Toolkit.KryptonCheckSetDesigner, Krypton.Toolkit")]
     [Description(@"Provide exclusive checked logic for a set of KryptonCheckButton controls.")]
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
         private bool _initializing;
         private bool _checkedChanged;
         private bool _ignoreEvents;
-        private KryptonCheckButton _checkedButton;
+        private KryptonCheckButton? _checkedButton;
 
         #endregion
 
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(KryptonCheckedButtonConverter))]
         [DefaultValue(null)]
-        public KryptonCheckButton CheckedButton
+        public KryptonCheckButton? CheckedButton
         {
             get => _checkedButton;
 

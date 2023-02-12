@@ -27,19 +27,19 @@ namespace Krypton.Toolkit
         private readonly string _applicationPath;
         private readonly KryptonMessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
-        private readonly Image _applicationImage;
+        private readonly Image? _applicationImage;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
         private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
 
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
-        private readonly IWin32Window _showOwner;
-        private readonly HelpInfo _helpInfo;
+        private readonly IWin32Window? _showOwner;
+        private readonly HelpInfo? _helpInfo;
 
         // Action button features (aka _button5)
         private readonly bool _showActionButton;
         private readonly string _actionButtonText;
-        private readonly KryptonCommand _actionButtonCommand;
+        private readonly KryptonCommand? _actionButtonCommand;
 
         #endregion
 
@@ -52,12 +52,12 @@ namespace Krypton.Toolkit
         }
 
 
-        internal KryptonMessageBoxForm(IWin32Window showOwner, string text, string caption,
+        internal KryptonMessageBoxForm(IWin32Window? showOwner, string text, string caption,
                                        KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-                                       HelpInfo helpInfo, bool? showCtrlCopy, bool? showHelpButton,
-                                       bool? showActionButton, string actionButtonText,
-                                       KryptonCommand actionButtonCommand, Image applicationImage, string applicationPath)
+                                       HelpInfo? helpInfo, bool? showCtrlCopy, bool? showHelpButton,
+                                       bool? showActionButton, string? actionButtonText,
+                                       KryptonCommand? actionButtonCommand, Image? applicationImage, string? applicationPath)
         {
             // Store incoming values
             _text = text;
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
             _actionButtonText = actionButtonText ?? string.Empty;
             _actionButtonCommand = actionButtonCommand;
             _applicationImage = applicationImage;
-            _applicationPath = applicationPath ?? @"";
+            _applicationPath = applicationPath ?? string.Empty;
 
             // Create the form contents
             InitializeComponent();
@@ -163,14 +163,9 @@ namespace Krypton.Toolkit
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Asterisk:
-                    if (OSUtilities.IsWindowsEleven)
-                    {
-                        _messageIcon.Image = MessageBoxResources.Asterisk_Windows_11;
-                    }
-                    else
-                    {
-                        _messageIcon.Image = MessageBoxResources.Asterisk;
-                    }
+                    _messageIcon.Image = OSUtilities.IsWindowsEleven 
+                        ? MessageBoxResources.Asterisk_Windows_11 
+                        : MessageBoxResources.Asterisk;
                     SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemAsterisk:
@@ -231,8 +226,8 @@ namespace Krypton.Toolkit
                     }
                     else if (!string.IsNullOrEmpty(_applicationPath))
                     {
-                        Image sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath).ToBitmap();
-                        Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                        Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
+                        Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                         _messageIcon.Image = scaledImage;
                     }
@@ -425,7 +420,7 @@ namespace Krypton.Toolkit
             {
                 Control control = FromHandle(_showOwner.Handle);
 
-                MethodInfo mInfoMethod = control.GetType().GetMethod(@"OnHelpRequested", BindingFlags.Instance | BindingFlags.NonPublic,
+                MethodInfo mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
                     Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null);
                 mInfoMethod?.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                 if (_helpInfo != null)
@@ -452,7 +447,7 @@ namespace Krypton.Toolkit
 
         }
 
-        private void UpdateSizing(IWin32Window showOwner)
+        private void UpdateSizing(IWin32Window? showOwner)
         {
             Size messageSizing = UpdateMessageSizing(showOwner);
             Size buttonsSizing = UpdateButtonsSizing();
@@ -462,7 +457,7 @@ namespace Krypton.Toolkit
                 messageSizing.Height + buttonsSizing.Height);
         }
 
-        private Size UpdateMessageSizing(IWin32Window showOwner)
+        private Size UpdateMessageSizing(IWin32Window? showOwner)
         {
             // Update size of the message label but with a maximum width
             Size textSize;
@@ -648,7 +643,7 @@ namespace Krypton.Toolkit
             {
                 try
                 {
-                    _actionButtonCommand.PerformExecute();
+                    _actionButtonCommand?.PerformExecute();
                 }
                 catch (Exception e)
                 {
@@ -665,10 +660,6 @@ namespace Krypton.Toolkit
     #region Types
     internal class HelpInfo
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
 
         /// <summary>
@@ -676,10 +667,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="helpFilePath">Value for HelpFilePath.</param>
         /// <param name="keyword">Value for Keyword</param>
-        public HelpInfo(string helpFilePath = null, string keyword = null)
+        public HelpInfo(string? helpFilePath = null, string? keyword = null)
         : this(helpFilePath, keyword, !string.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
         {
-
         }
 
         /// <summary>
@@ -688,10 +678,9 @@ namespace Krypton.Toolkit
         /// <param name="helpFilePath">Value for HelpFilePath.</param>
         /// <param name="navigator">Value for Navigator</param>
         /// <param name="param"></param>
-        public HelpInfo(string helpFilePath, HelpNavigator navigator, object param = null)
+        public HelpInfo(string? helpFilePath, HelpNavigator navigator, object? param = null)
             : this(helpFilePath, null, navigator, param)
         {
-
         }
 
         /// <summary>
@@ -701,10 +690,10 @@ namespace Krypton.Toolkit
         /// <param name="navigator">Value for Navigator</param>
         /// <param name="keyword">Value for Keyword</param>
         /// <param name="param"></param>
-        private HelpInfo(string helpFilePath, string keyword, HelpNavigator navigator, object param)
+        private HelpInfo(string? helpFilePath, string? keyword, HelpNavigator navigator, object? param)
         {
-            HelpFilePath = helpFilePath;
-            Keyword = keyword;
+            HelpFilePath = helpFilePath ?? string.Empty;
+            Keyword = keyword ?? string.Empty;
             Navigator = navigator;
             Param = param;
         }
@@ -729,7 +718,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the Param property.
         /// </summary>
-        public object Param { get; }
+        public object? Param { get; }
 
         #endregion
     }
@@ -740,11 +729,6 @@ namespace Krypton.Toolkit
     [DesignTimeVisible(false)]
     internal class MessageButton : KryptonButton
     {
-
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         public MessageButton()
         {

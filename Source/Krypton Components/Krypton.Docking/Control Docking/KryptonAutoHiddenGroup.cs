@@ -47,7 +47,7 @@ namespace Krypton.Docking
             Button.CloseButtonDisplay = ButtonDisplay.Hide;
             NavigatorMode = NavigatorMode.BarTabOnly;
 
-            // Edge dependant values
+            // Edge dependent values
             switch (edge)
             {
                 case DockingEdge.Left:
@@ -83,6 +83,7 @@ namespace Krypton.Docking
             var uniqueNames = new List<string>();
 
             // Create a list of pages that have not yet store placeholders
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach(KryptonPage page in Pages)
             {
                 if (page is not KryptonStorePage)
@@ -98,13 +99,18 @@ namespace Krypton.Docking
         /// Convert the named pages into store placeholders.
         /// </summary>
         /// <param name="uniqueNames">Array of page names.</param>
-        public void StorePages(string[] uniqueNames)
+        public void StorePages(string[]? uniqueNames)
         {
+            if (uniqueNames == null)
+            {
+                return;
+            }
+
             foreach (var uniqueName in uniqueNames)
             {
                 // If a matching page exists and it is not a store placeholder already
-                KryptonPage page = Pages[uniqueName];
-                if ((page != null) && page is not KryptonStorePage)
+                KryptonPage? page = Pages[uniqueName];
+                if ((page is { } and not KryptonStorePage))
                 {
                     // Notify that we are storing a page, so handlers can ensure it will be unique to the auto hidden location
                     OnStoringPage(new UniqueNameEventArgs(page.UniqueName));
@@ -126,7 +132,7 @@ namespace Krypton.Docking
             foreach (KryptonPage page in pages)
             {
                 // If a matching page exists and it is not a store placeholder already
-                KryptonPage storePage = Pages[page.UniqueName];
+                KryptonPage? storePage = Pages[page.UniqueName];
                 if (storePage is KryptonStorePage)
                 {
                     // Replace the existing placeholder with the actual page

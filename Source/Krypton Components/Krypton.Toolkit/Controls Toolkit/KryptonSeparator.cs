@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonSeparator), "ToolboxBitmaps.KryptonSeparator.bmp")]
-    [DefaultEvent("SplitterMoved")]
-    [DefaultProperty("Orientation")]
+    [DefaultEvent(nameof(SplitterMoved))]
+    [DefaultProperty(nameof(Orientation))]
     [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonSeparatorDesigner, Krypton.Toolkit")]
     [Description(@"Display a separator generated events to operation.")]
@@ -200,6 +200,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -362,7 +363,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(@"SplitterWidth", @"Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
                     }
 
                     // Use new width of the splitter area
@@ -657,7 +658,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal (Design Time Support)
-        internal Cursor DesignGetHitTest(Point pt)
+        internal Cursor? DesignGetHitTest(Point pt)
         {
             // Is the cursor inside the splitter area or if currently moving the splitter
             if (_drawSeparator.ClientRectangle.Contains(pt) || _separatorController.IsMoving)

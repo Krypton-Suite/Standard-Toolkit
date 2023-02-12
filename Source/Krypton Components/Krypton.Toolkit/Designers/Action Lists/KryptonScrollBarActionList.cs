@@ -108,12 +108,12 @@ namespace Krypton.Toolkit
 
             if (_scrollBar != null)
             {
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"The appearance of the scrollbar."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"The appearance of the scrollbar."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Maximum", @"Maximum", @"Values", @"The maximum value that the scrollbar can accept."));
-                actions.Add(new DesignerActionPropertyItem(@"Minimum", @"Minimum", @"Values", @"The minimum value that the scrollbar can accept."));
-                actions.Add(new DesignerActionPropertyItem(@"Value", @"Value", @"Values", @"The current value of the scrollbar."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Maximum), nameof(Maximum), @"Values", @"The maximum value that the scrollbar can accept."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Minimum), nameof(Minimum), @"Values", @"The minimum value that the scrollbar can accept."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Value), nameof(Value), @"Values", @"The current value of the scrollbar."));
 
             }
 

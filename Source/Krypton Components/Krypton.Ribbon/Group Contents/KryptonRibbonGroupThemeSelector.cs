@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent(@"SelectedTextChanged")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupThemeSelector : KryptonRibbonGroupComboBox
     {
         #region Instance Fields

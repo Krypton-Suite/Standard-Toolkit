@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
                 if (_piButtonState == null)
                 {
                     // Cache access to the internal get property 'ButtonState'
-                    _piButtonState = typeof(DataGridViewCheckBoxCell).GetProperty(@"ButtonState", BindingFlags.Instance |
+                    _piButtonState = typeof(DataGridViewCheckBoxCell).GetProperty(nameof(ButtonState), BindingFlags.Instance |
                                                                                                  BindingFlags.NonPublic |
                                                                                                  BindingFlags.GetField);
 

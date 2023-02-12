@@ -27,7 +27,7 @@ namespace Krypton.Docking
         #region Instance Fields
 
         private ObscureControl _obscure;
-        private IDockingElement _innerElement;
+        private IDockingElement? _innerElement;
         private Size _innerMinimum;
         private int _updateCount;
         #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
         /// <param name="control">Reference to control derived instance.</param>
-        public KryptonDockingControl(string name, Control control)
+        public KryptonDockingControl(string name, [DisallowNull] Control control)
             : base(name)
         {
             if (control == null)
@@ -55,7 +55,7 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="control">Reference to control derived instance.</param>
         /// <param name="navigator">Inner space occupied by a KryptonDockingNavigator.</param>
-        public KryptonDockingControl(string name, Control control, KryptonDockingNavigator navigator)
+        public KryptonDockingControl(string name, [DisallowNull] Control control, [DisallowNull] KryptonDockingNavigator navigator)
             : base(name)
         {
             if (control == null)
@@ -77,7 +77,7 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="control">Reference to control derived instance.</param>
         /// <param name="workspace">Inner space occupied by a KryptonDockingNavigator.</param>
-        public KryptonDockingControl(string name, Control control, KryptonDockingWorkspace workspace)
+        public KryptonDockingControl(string name, [DisallowNull] Control control, [DisallowNull] KryptonDockingWorkspace workspace)
             : base(name)
         {
             if (control == null)
@@ -122,7 +122,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             switch (action)
             {
@@ -214,7 +214,7 @@ namespace Krypton.Docking
                     // Find the inner rectangle after taking docked controls into account 
                     Size tl = Size.Empty;
                     Size br = Control.ClientSize;
-                    foreach (Control c in Control.Controls.Cast<Control>().Where(c => c.Visible))
+                    foreach (Control c in Control.Controls.Cast<Control>().Where(static c => c.Visible))
                     {
                         switch (c.Dock)
                         {
@@ -235,7 +235,7 @@ namespace Krypton.Docking
 
                     // If there is inner space available
                     Rectangle innerRect = new(tl.Width, tl.Height, br.Width - tl.Width, br.Height - tl.Height);
-                    if ((innerRect.Width > 0) && (innerRect.Height > 0))
+                    if (innerRect is { Width: > 0, Height: > 0 })
                     {
                         Rectangle innerScreenRect = Control.RectangleToScreen(innerRect);
                         var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
@@ -251,7 +251,7 @@ namespace Krypton.Docking
 
                     // If there is inner space available
                     Rectangle innerScreenRect = dockingNavigator.DockableNavigatorControl.RectangleToScreen(dockingNavigator.DockableNavigatorControl.ClientRectangle);
-                    if ((innerScreenRect.Width > 0) && (innerScreenRect.Height > 0))
+                    if (innerScreenRect is { Width: > 0, Height: > 0 })
                     {
                         var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
                         var innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
@@ -303,7 +303,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void Construct(Control control, IDockingElement innerElement)
+        private void Construct(Control control, IDockingElement? innerElement)
         {
             _innerElement = innerElement;
             _innerMinimum = INNER_MINIMUM;
@@ -339,7 +339,7 @@ namespace Krypton.Docking
         {
             if (!Control.Size.IsEmpty)
             {
-                Form ownerForm = Control.FindForm();
+                Form? ownerForm = Control.FindForm();
 
                 // When the control is inside a minimized form we do not enforce the minimum
                 if ((ownerForm != null) && (ownerForm.WindowState != FormWindowState.Minimized))
@@ -407,20 +407,14 @@ namespace Krypton.Docking
                 var delta = Math.Max(1, remove / controls.Count);
 
                 // Try and remove delta from each control
-                int dockDelta;
                 for (var i = controls.Count - 1; i >= 0; i--)
                 {
                     KryptonDockspace dockspace = controls[i];
 
                     // Find how much we can subtract from the dockspace without violating the minimum size
-                    if (orientation == Orientation.Horizontal)
-                    {
-                        dockDelta = dockspace.Width - Math.Max(dockspace.MinimumSize.Width, dockspace.Width - delta);
-                    }
-                    else
-                    {
-                        dockDelta = dockspace.Height - Math.Max(dockspace.MinimumSize.Height, dockspace.Height - delta);
-                    }
+                    int dockDelta = orientation == Orientation.Horizontal
+                        ? dockspace.Width - Math.Max(dockspace.MinimumSize.Width, dockspace.Width - delta)
+                        : dockspace.Height - Math.Max(dockspace.MinimumSize.Height, dockspace.Height - delta);
 
                     // We cannot remove any more from the dockspace control, then we are done with that control
                     if (dockDelta == 0)

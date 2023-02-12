@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="item">Page effected by event.</param>
         /// <param name="index">Index of page in the owning collection.</param>
-        public KryptonPageEventArgs(KryptonPage item, int index)
+        public KryptonPageEventArgs(KryptonPage? item, int index)
             : base(item, index)
         {
         }
@@ -46,35 +46,26 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="name">Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonPage this[string name]
+        public override KryptonPage? this[string name]
         {
             get
             {
                 // First priority is the UniqueName
-                foreach (KryptonPage page in this)
+                foreach (KryptonPage page in this.Where(page => page.UniqueName == name))
                 {
-                    if (page.UniqueName == name)
-                    {
-                        return page;
-                    }
+                    return page;
                 }
 
                 // Second priority is the design time Name
-                foreach (KryptonPage page in this)
+                foreach (KryptonPage page in this.Where(page => page.Name == name))
                 {
-                    if (page.Name == name)
-                    {
-                        return page;
-                    }
+                    return page;
                 }
 
                 // Third priority is the Text of the page
-                foreach (KryptonPage page in this)
+                foreach (KryptonPage page in this.Where(page => page.Text == name))
                 {
-                    if (page.Text == name)
-                    {
-                        return page;
-                    }
+                    return page;
                 }
 
                 // Let base class perform standard processing

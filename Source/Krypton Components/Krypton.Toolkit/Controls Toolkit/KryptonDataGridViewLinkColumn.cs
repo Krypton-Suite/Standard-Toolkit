@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private string _text;
+        private string? _text;
         private LabelStyle _labelStyle;
         #endregion
 
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(null)]
-        public string Text
+        public string? Text
         {
             get => _text;
             set
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
             if (_piTrackVisitedStateInternal == null)
             {
                 // Cache access to the internal property sette 'TrackVisitedStateInternal'
-                _piTrackVisitedStateInternal = typeof(DataGridViewLinkCell).GetProperty(@"TrackVisitedStateInternal", BindingFlags.Instance |
+                _piTrackVisitedStateInternal = typeof(DataGridViewLinkCell).GetProperty(nameof(TrackVisitedStateInternal), BindingFlags.Instance |
                                                                                                                      BindingFlags.NonPublic |
                                                                                                                      BindingFlags.SetProperty);
 

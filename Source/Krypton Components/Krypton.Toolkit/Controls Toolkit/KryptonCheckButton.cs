@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckButton), "ToolboxBitmaps.KryptonCheckButton.bmp")]
-    [DefaultEvent(@"Click")]
-    [DefaultProperty(@"Text")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
     [Designer(@"Krypton.Toolkit.KryptonCheckButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Toggles checked state when user clicks button.")]
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the check button.")]
         [DefaultValue(null)]
-        public override IKryptonCommand KryptonCommand
+        public override IKryptonCommand? KryptonCommand
         {
             get => base.KryptonCommand;
 
@@ -260,7 +260,7 @@ namespace Krypton.Toolkit
         {
             Checked = e.PropertyName switch
             {
-                "CheckState" => KryptonCommand.Checked,
+                nameof(CheckState) => KryptonCommand.Checked,
                 _ => Checked
             };
 

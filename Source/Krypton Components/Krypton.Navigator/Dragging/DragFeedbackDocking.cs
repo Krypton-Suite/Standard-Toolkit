@@ -110,7 +110,7 @@ namespace Krypton.Navigator
             /// </summary>
             /// <param name="screenPt">Latest mouse screen position.</param>
             /// <param name="dragFeedback">Type of drag feedback required.</param>
-            public DragTarget Feedback(Point screenPt, PaletteDragFeedback dragFeedback)
+            public DragTarget? Feedback(Point screenPt, PaletteDragFeedback dragFeedback)
             {
                 if (ScreenRect.Contains(screenPt))
                 {
@@ -313,7 +313,7 @@ namespace Krypton.Navigator
             return _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster.ScreenRect.Equals(target.ScreenRect));
         }
 
-        private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData) =>
+        private DragTarget? FindTarget(Point screenPt, PageDragEndData dragEndData) =>
             // Nothing matches
             null;
 

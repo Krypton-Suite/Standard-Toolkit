@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBackImage(PaletteState state) => null;
+        public Image? GetBackImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style.
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state) => null;
+        public Image? GetBorderImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the border image style.

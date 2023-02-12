@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             public float BorderColorAngle;
             public int BorderWidth;
             public float BorderRounding;
-            public Image BorderImage;
+            public Image? BorderImage;
             public PaletteImageStyle BorderImageStyle;
             public PaletteRectangleAlign BorderImageAlign;
 
@@ -652,7 +652,7 @@ namespace Krypton.Toolkit
         [Description(@"Border image.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _storage?.BorderImage;
 
@@ -687,7 +687,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state) => Image ?? _inherit.GetBorderImage(state);
+        public Image? GetBorderImage(PaletteState state) => Image ?? _inherit.GetBorderImage(state);
         #endregion
 
         #region ImageStyle

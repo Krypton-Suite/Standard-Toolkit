@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteState state) => _redirect.GetBackImage(Style, state);
+        public override Image? GetBackImage(PaletteState state) => _redirect.GetBackImage(Style, state);
 
         /// <summary>
         /// Gets the background image style from the redirector.

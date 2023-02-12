@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual IPaletteBorder PaletteBorder => Border;
+        public virtual IPaletteBorder? PaletteBorder => Border;
 
         /// <summary>
         /// Gets and sets the border palette style.

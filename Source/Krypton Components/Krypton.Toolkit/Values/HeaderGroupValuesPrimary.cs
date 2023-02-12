@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class HeaderGroupValuesPrimary : HeaderValuesBase
     {
         #region Static Fields
-        private const string _defaultHeading = "Heading";
+        private const string _defaultHeading = nameof(Heading);
         #endregion
 
         #region Identity
@@ -51,7 +51,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header text.
         /// </summary>
-        [DefaultValue(@"Heading")]
+        [DefaultValue(nameof(Heading))]
+        [AllowNull]
         public override string Heading
         {
             get => base.Heading;

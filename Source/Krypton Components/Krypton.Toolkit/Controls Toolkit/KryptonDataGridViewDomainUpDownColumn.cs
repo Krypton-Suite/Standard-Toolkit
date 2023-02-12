@@ -19,11 +19,6 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
     public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
     {
-        #region Instance Fields
-
-        #endregion
-
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewDomainUpDownColumn class.

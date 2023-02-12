@@ -23,10 +23,6 @@ namespace Krypton.Toolkit
     [Docking(DockingBehavior.Never)]
     public sealed class KryptonSplitterPanel : KryptonPanel
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when the value of the AutoSize property changes.

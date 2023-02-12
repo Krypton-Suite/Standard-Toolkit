@@ -19,8 +19,8 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonRibbon), "ToolboxBitmaps.KryptonRibbon.bmp")]
-    [DefaultEvent("SelectedTabChanged")]
-    [DefaultProperty("RibbonTabs")]
+    [DefaultEvent(nameof(SelectedTabChanged))]
+    [DefaultProperty(nameof(RibbonTabs))]
     [Designer("Krypton.Ribbon.KryptonRibbonDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [Description(@"Ribbon control presents a tabbed set of user options.")]
@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         // Private
         private NeedPaintHandler _needPaintGroups;
-        private VisualPopupMinimized _minimizedPopup;
+        private VisualPopupMinimized? _minimizedPopup;
         private KryptonContextMenu _kcm;
         private EventHandler _kcmFinishDelegate;
         private IntPtr _keyboardFocusWindow;
@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
         private PaletteBackStyle _backStyle;
         private PaletteBackStyle _backInactiveStyle;
         private KryptonRibbonTab _minSelectedTab;
-        private KryptonRibbonTab _selectedTab;
+        private KryptonRibbonTab? _selectedTab;
 
         #endregion
 
@@ -311,7 +311,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
             set => base.ContextMenuStrip = value;
@@ -403,6 +403,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -605,7 +606,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Values")]
         [Description(@"Currently selected ribbon tab.")]
-        public KryptonRibbonTab SelectedTab
+        public KryptonRibbonTab? SelectedTab
         {
             get => _selectedTab;
 
@@ -1226,7 +1227,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
+        public Component? DesignerComponentFromPoint(Point pt)
         {
             // Ignore call as view builder is already destructed
             if (IsDisposed)
@@ -2231,7 +2232,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal ViewBase GetFirstQATView()
+        internal ViewBase? GetFirstQATView()
         {
             switch (QATLocation)
             {
@@ -2248,7 +2249,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal ViewBase GetLastQATView()
+        internal ViewBase? GetLastQATView()
         {
             switch (QATLocation)
             {
@@ -2265,9 +2266,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal ViewBase GetNextQATView(ViewBase qatView, bool tab)
+        internal ViewBase? GetNextQATView(ViewBase qatView, bool tab)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             switch (QATLocation)
             {
@@ -2329,7 +2330,7 @@ namespace Krypton.Ribbon
             return view;
         }
 
-        internal ViewBase GetPreviousQATView(ViewBase qatView)
+        internal ViewBase? GetPreviousQATView(ViewBase qatView)
         {
             ViewBase view = null;
 
@@ -3148,7 +3149,7 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                     // Update selection to match ribbon settings
                     ValidateSelectedTab();
 

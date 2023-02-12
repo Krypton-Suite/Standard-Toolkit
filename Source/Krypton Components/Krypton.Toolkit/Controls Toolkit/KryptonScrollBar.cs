@@ -16,8 +16,8 @@ namespace Krypton.Toolkit
     /// A custom scrollbar control.
     /// </summary>
     [Designer(@"Krypton.Toolkit.KryptonScrollBarDesigner, Krypton.Toolkit")]
-    [DefaultEvent("Scroll")]
-    [DefaultProperty("Value")]
+    [DefaultEvent(nameof(Scroll))]
+    [DefaultProperty(nameof(Value))]
     [ToolboxBitmap(typeof(VScrollBar), "ToolboxBitmaps.KryptonScrollBar.bmp")]
     [DesignerCategory(@"code")]
     public class KryptonScrollBar : Control
@@ -1382,8 +1382,8 @@ namespace Krypton.Toolkit
         {
             if (_orientation == ScrollBarOrientation.Vertical)
             {
-                _tsmiTop.Text = "Top";
-                _tsmiBottom.Text = "Bottom";
+                _tsmiTop.Text = nameof(Top);
+                _tsmiBottom.Text = nameof(Bottom);
                 _tsmiLargeDown.Text = "Page down";
                 _tsmiLargeUp.Text = "Page up";
                 _tsmiSmallDown.Text = "Scroll down";
@@ -1392,8 +1392,8 @@ namespace Krypton.Toolkit
             }
             else
             {
-                _tsmiTop.Text = "Left";
-                _tsmiBottom.Text = "Right";
+                _tsmiTop.Text = nameof(Left);
+                _tsmiBottom.Text = nameof(Right);
                 _tsmiLargeDown.Text = "Page left";
                 _tsmiLargeUp.Text = "Page right";
                 _tsmiSmallDown.Text = "Scroll right";
@@ -1439,47 +1439,47 @@ namespace Krypton.Toolkit
             _toolStripSeparator3,
             _tsmiSmallUp,
             _tsmiSmallDown});
-            _contextMenu.Name = "_contextMenu";
+            _contextMenu.Name = nameof(_contextMenu);
             _contextMenu.Size = new Size(151, 176);
             // 
             // tsmiScrollHere
             // 
             _tsmiScrollHere.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiScrollHere.Name = "_tsmiScrollHere";
+            _tsmiScrollHere.Name = nameof(_tsmiScrollHere);
             _tsmiScrollHere.Size = new Size(150, 22);
             _tsmiScrollHere.Text = "Scroll here";
             _tsmiScrollHere.Click += ScrollHereClick;
             // 
             // toolStripSeparator1
             // 
-            _toolStripSeparator1.Name = "_toolStripSeparator1";
+            _toolStripSeparator1.Name = nameof(_toolStripSeparator1);
             _toolStripSeparator1.Size = new Size(147, 6);
             // 
             // tsmiTop
             // 
             _tsmiTop.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiTop.Name = "_tsmiTop";
+            _tsmiTop.Name = nameof(_tsmiTop);
             _tsmiTop.Size = new Size(150, 22);
-            _tsmiTop.Text = "Top";
+            _tsmiTop.Text = nameof(Top);
             _tsmiTop.Click += TopClick;
             // 
             // tsmiBottom
             // 
             _tsmiBottom.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiBottom.Name = "_tsmiBottom";
+            _tsmiBottom.Name = nameof(_tsmiBottom);
             _tsmiBottom.Size = new Size(150, 22);
-            _tsmiBottom.Text = "Bottom";
+            _tsmiBottom.Text = nameof(Bottom);
             _tsmiBottom.Click += BottomClick;
             // 
             // toolStripSeparator2
             // 
-            _toolStripSeparator2.Name = "_toolStripSeparator2";
+            _toolStripSeparator2.Name = nameof(_toolStripSeparator2);
             _toolStripSeparator2.Size = new Size(147, 6);
             // 
             // tsmiLargeUp
             // 
             _tsmiLargeUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiLargeUp.Name = "_tsmiLargeUp";
+            _tsmiLargeUp.Name = nameof(_tsmiLargeUp);
             _tsmiLargeUp.Size = new Size(150, 22);
             _tsmiLargeUp.Text = "Page up";
             _tsmiLargeUp.Click += LargeUpClick;
@@ -1487,20 +1487,20 @@ namespace Krypton.Toolkit
             // tsmiLargeDown
             // 
             _tsmiLargeDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiLargeDown.Name = "_tsmiLargeDown";
+            _tsmiLargeDown.Name = nameof(_tsmiLargeDown);
             _tsmiLargeDown.Size = new Size(150, 22);
             _tsmiLargeDown.Text = "Page down";
             _tsmiLargeDown.Click += LargeDownClick;
             // 
             // toolStripSeparator3
             // 
-            _toolStripSeparator3.Name = "_toolStripSeparator3";
+            _toolStripSeparator3.Name = nameof(_toolStripSeparator3);
             _toolStripSeparator3.Size = new Size(147, 6);
             // 
             // tsmiSmallUp
             // 
             _tsmiSmallUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiSmallUp.Name = "_tsmiSmallUp";
+            _tsmiSmallUp.Name = nameof(_tsmiSmallUp);
             _tsmiSmallUp.Size = new Size(150, 22);
             _tsmiSmallUp.Text = "Scroll up";
             _tsmiSmallUp.Click += SmallUpClick;
@@ -1508,7 +1508,7 @@ namespace Krypton.Toolkit
             // tsmiSmallDown
             // 
             _tsmiSmallDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiSmallDown.Name = "_tsmiSmallDown";
+            _tsmiSmallDown.Name = nameof(_tsmiSmallDown);
             _tsmiSmallDown.Size = new Size(150, 22);
             _tsmiSmallDown.Text = "Scroll down";
             _tsmiSmallDown.Click += SmallDownClick;

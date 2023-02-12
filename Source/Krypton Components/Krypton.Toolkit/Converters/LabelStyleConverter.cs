@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
             new(LabelStyle.ItalicPanel, "Italic (Panel)"),
             new(LabelStyle.TitlePanel, "Title (Panel)"),
             new(LabelStyle.GroupBoxCaption, "Caption (Panel)"),
-            new(LabelStyle.ToolTip, "ToolTip"),
+            new(LabelStyle.ToolTip, nameof(ToolTip)),
             new(LabelStyle.SuperTip, "SuperTip"),
             new(LabelStyle.KeyTip, "KeyTip"),
             new(LabelStyle.Custom1, "Custom1"),

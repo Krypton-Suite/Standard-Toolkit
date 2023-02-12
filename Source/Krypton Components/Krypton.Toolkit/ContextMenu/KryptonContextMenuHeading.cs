@@ -19,13 +19,13 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuHeading), "ToolboxBitmaps.KryptonContextMenuHeading.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
+    [DefaultProperty(nameof(Text))]
     public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private string _text;
-        private string _extraText;
-        private Image _image;
+        private string? _extraText;
+        private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteRedirectTriple _redirectHeading;
         #endregion
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -139,9 +139,10 @@ namespace Krypton.Toolkit
         [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(null)]
+        [AllowNull]
         public string ExtraText
         {
-            get => _extraText;
+            get => _extraText ?? string.Empty;
 
             set 
             {
@@ -161,7 +162,7 @@ namespace Krypton.Toolkit
         [Description(@"Heading menu item image.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 

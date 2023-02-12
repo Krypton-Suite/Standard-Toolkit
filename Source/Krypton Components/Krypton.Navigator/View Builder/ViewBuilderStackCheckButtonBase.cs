@@ -25,7 +25,7 @@ namespace Krypton.Navigator
         protected ViewLayoutPageShow _oldRoot;
         protected ViewLayoutDocker _viewLayout;
         protected ViewLayoutScrollViewport _viewScrollViewport;
-        private PageToNavCheckButton _pageLookup;
+        private PageToNavCheckButton? _pageLookup;
         private PageToButtonEdge _buttonEdgeLookup;
         private bool _hasFocus;
         private bool _events;
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element)
+        public override KryptonPage? PageFromView(ViewBase element)
         {
             if (_pageLookup != null)
             {
@@ -90,22 +90,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Check each page level button spec
-            if (_pageLookup != null)
-            {
-                foreach (var pair in _pageLookup)
-                {
-                    ButtonSpec bs = pair.Value.ButtonSpecFromView(element);
-                    if (bs != null)
-                    {
-                        return bs;
-                    }
-                }
-            }
-
-            return null;
+            return _pageLookup?.Select(pair => pair.Value.ButtonSpecFromView(element)).FirstOrDefault(static bs => bs != null);
         }
 
         /// <summary>
@@ -521,12 +509,12 @@ namespace Krypton.Navigator
         /// Create the mode specific view hierarchy.
         /// </summary>
         /// <returns>View element to use as base of hierarchy.</returns>
-        protected virtual ViewBase CreateStackCheckButtonView()
+        protected virtual ViewBase? CreateStackCheckButtonView()
         {
             // Set the initial preferred direction for the selected page
             _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
 
-            // Derived class should return something more usefull!
+            // Derived class should return something more useful!
             return null;
         }
 

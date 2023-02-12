@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class HeaderValues : HeaderValuesBase
     {
         #region Static Fields
-        private const string _defaultHeading = "Heading";
-        private const string _defaultDescription = "Description";
+        private const string _defaultHeading = nameof(Heading);
+        private const string _defaultDescription = nameof(Description);
         #endregion
 
         #region Identity

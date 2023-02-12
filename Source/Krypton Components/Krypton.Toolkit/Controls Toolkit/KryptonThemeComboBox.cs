@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom Theme to use when `Custom` is selected")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteBase KryptonCustomPalette { get; set; }
+        public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public KryptonManager Manager
@@ -121,6 +121,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;

@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the drawing font.
         /// </summary>
-        public Font Font { get; set; }
+        public Font? Font { get; set; }
 
         /// <summary>
         /// Gets the pixel size of the text area.

@@ -50,7 +50,7 @@ namespace Krypton.Navigator
 
         #region Instance Fields
         private InternalStorage _storage;
-        private IPaletteContent _inherit;
+        private IPaletteContent? _inherit;
         #endregion
 
         #region Identity
@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavContent(IPaletteContent inherit,
+        public PaletteNavContent([DisallowNull] IPaletteContent inherit,
                                  NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -93,7 +93,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteContent inherit)
+        public void SetInherit(IPaletteContent? inherit)
         {
             _inherit = inherit;
         }
@@ -231,7 +231,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteContentImage Image { get; }
+        public PaletteContentImage? Image { get; }
 
         private bool ShouldSerializeImage() => !Image.IsDefault;
 
@@ -425,7 +425,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) =>
+        public Image? GetContentShortTextImage(PaletteState state) =>
             ShortText.Image ?? _inherit.GetContentShortTextImage(state);
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) =>
+        public Image? GetContentLongTextImage(PaletteState state) =>
             LongText.Image ?? _inherit.GetContentLongTextImage(state);
 
         /// <summary>

@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
-        [DefaultValue("File")]
+        [DefaultValue(nameof(File))]
         [Localizable(true)]
         public string AppButtonText
         {
@@ -346,7 +346,7 @@ namespace Krypton.Ribbon
         [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image AppButtonToolTipImage { get; set; }
+        public Image? AppButtonToolTipImage { get; set; }
 
         #endregion
 

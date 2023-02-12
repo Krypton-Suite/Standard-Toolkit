@@ -14,7 +14,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <typeparam name="TFirst"></typeparam>
     /// <typeparam name="TSecond"></typeparam>
-    internal class BiDictionary<TFirst, TSecond>
+    internal class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
     {
         private static readonly IList<TFirst> _emptyFirstList = Array.Empty<TFirst>();
         private static readonly IList<TSecond> _emptySecondList = Array.Empty<TSecond>();
@@ -44,16 +44,18 @@ namespace Krypton.Toolkit
 
         // Note potential ambiguity using indexers (e.g. mapping from int to int)
         // Hence the methods as well...
-        public TSecond this[TFirst first] => GetByFirst(first);
+        public TSecond this[TFirst first] => GetByFirst(first)!;
 
-        public TFirst this[TSecond second] => GetBySecond(second);
+        public TFirst this[TSecond second] => GetBySecond(second)!;
 
+        [return: MaybeNull]
         public TSecond GetByFirst(TFirst first)
         {
             _firstToSecond.TryGetValue(first, out var second);
             return second;
         }
 
+        [return: MaybeNull]
         public TFirst GetBySecond(TSecond second)
         {
             _secondToFirst.TryGetValue(second, out var first);

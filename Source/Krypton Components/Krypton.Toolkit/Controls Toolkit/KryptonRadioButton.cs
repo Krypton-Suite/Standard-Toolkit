@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckBox), "ToolboxBitmaps.KryptonRadioButton.bmp")]
-    [DefaultEvent("CheckedChanged")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Checked")]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Checked))]
     [Designer("Krypton.Toolkit.KryptonRadioButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Allow user to set or clear the associated option.")]
@@ -203,6 +203,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -226,7 +227,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -253,7 +254,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual position of the radio button.")]
-        [DefaultValue(typeof(VisualOrientation), "Left")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Left))]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
         {

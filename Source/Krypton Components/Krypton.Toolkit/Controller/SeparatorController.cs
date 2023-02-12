@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public override void MouseLeave(Control c, ViewBase next)
+        public override void MouseLeave(Control c, ViewBase? next)
         {
             // If leaving when currently moving, then abort the movement
             if (_moving)

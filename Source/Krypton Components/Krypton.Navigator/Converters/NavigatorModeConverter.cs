@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class NavigatorModeConverter : StringLookupConverter
     {
-        #region Static Fields
-
-        #endregion
-                                             
         #region Identity
         /// <summary>
         /// Initialize a new instance of the NavigatorMode class.
@@ -51,7 +47,7 @@ namespace Krypton.Navigator
             new(NavigatorMode.StackCheckButtonHeaderGroup,    "Stack - CheckButton - HeaderGroup"),
             new(NavigatorMode.OutlookFull,                    "Outlook - Full"),
             new(NavigatorMode.OutlookMini,                    "Outlook - Mini"),
-            new(NavigatorMode.Panel,                          "Panel"),
+            new(NavigatorMode.Panel,                          nameof(Panel)),
             new(NavigatorMode.Group,                          "Group"),
             new(NavigatorMode.HeaderGroup,                    "HeaderGroup"),
             new(NavigatorMode.HeaderGroupTab,                 "HeaderGroup - Tab") };

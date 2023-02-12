@@ -89,7 +89,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Syle for buttons inside groups.")]
-        [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
+        [DefaultValue(typeof(ButtonStyle), nameof(ButtonSpec))]
         public ButtonStyle GroupButtonStyle
         {
             get => _ribbon.GroupButtonStyle;
@@ -131,7 +131,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Dialog box launcher button style inside groups.")]
-        [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
+        [DefaultValue(typeof(ButtonStyle), nameof(ButtonSpec))]
         public ButtonStyle GroupDialogButtonStyle
         {
             get => _ribbon.GroupDialogButtonStyle;
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Quick access toolbar button style.")]
-        [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
+        [DefaultValue(typeof(ButtonStyle), nameof(ButtonSpec))]
         public ButtonStyle QATButtonStyle
         {
             get => _ribbon.QATButtonStyle;

@@ -90,9 +90,9 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            if (c is VisualPopupQATOverflow)
+            if (c is VisualPopupQATOverflow overflow)
             {
-                KeyDownPopupOverflow(c as VisualPopupQATOverflow, e);
+                KeyDownPopupOverflow(overflow, e);
             }
             else
             {

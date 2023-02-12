@@ -19,13 +19,13 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuImageSelect), "ToolboxBitmaps.KryptonContextMenuImageSelect.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"ImageList")]
-    [DefaultEvent(@"SelectedIndexChanged")]
+    [DefaultProperty(nameof(ImageList))]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
     public class KryptonContextMenuImageSelect : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private Padding _padding;
-        private ImageList _imageList;
+        private ImageList? _imageList;
         private ButtonStyle _style;
         private bool _autoClose;
         private int _selectedIndex;
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Collection of images for display and selection.")]
         [DefaultValue(null)]
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             get => _imageList;
 

@@ -28,14 +28,10 @@ namespace Krypton.Docking
         /// </summary>
         protected class CachedCellState
         {
-            #region Instance Fields
-
-            #endregion
-
             /// <summary>
             /// Gets and sets the workspace cell for which this state relates.
             /// </summary>
-            public KryptonWorkspaceCell Cell { get; set; }
+            public KryptonWorkspaceCell? Cell { get; set; }
 
             /// <summary>
             /// Gets and sets the focus state of the cell.
@@ -45,22 +41,22 @@ namespace Krypton.Docking
             /// <summary>
             /// Gets and sets the selected page.
             /// </summary>
-            public KryptonPage SelectedPage { get; set; }
+            public KryptonPage? SelectedPage { get; set; }
 
             /// <summary>
             /// Gets and sets the button spec used to represent a close button.
             /// </summary>
-            public ButtonSpecNavigator CloseButtonSpec { get; set; }
+            public ButtonSpecNavigator? CloseButtonSpec { get; set; }
 
             /// <summary>
             /// Gets and sets the button spec used to represent a pin button.
             /// </summary>
-            public ButtonSpecNavigator PinButtonSpec { get; set; }
+            public ButtonSpecNavigator? PinButtonSpec { get; set; }
 
             /// <summary>
             /// Gets and sets the button spec used to represent a drop down button.
             /// </summary>
-            public ButtonSpecNavigator DropDownButtonSpec { get; set; }
+            public ButtonSpecNavigator? DropDownButtonSpec { get; set; }
         }
         #endregion
 
@@ -280,13 +276,13 @@ namespace Krypton.Docking
         /// <param name="uniqueName">Unique name of page being loaded.</param>
         /// <param name="existingPages">Set of existing pages.</param>
         /// <returns>Reference to page to be added into the workspace cell.</returns>
-        public override KryptonPage ReadPageElement(XmlReader xmlReader,
+        public override KryptonPage? ReadPageElement(XmlReader xmlReader,
                                                     string uniqueName,
                                                     UniqueNameToPage existingPages)
         {
             // If a matching page with the unique name already exists then use it, 
             // otherwise we need to create an entirely new page instance.
-            if (existingPages.TryGetValue(uniqueName, out KryptonPage page))
+            if (existingPages.TryGetValue(uniqueName, out KryptonPage? page))
             {
                 existingPages.Remove(uniqueName);
             }
@@ -644,7 +640,7 @@ namespace Krypton.Docking
             if (ApplyDockingAppearance)
             {
                 CheckPerformLayout(false);
-                KryptonWorkspaceCell cell = FirstCell();
+                KryptonWorkspaceCell? cell = FirstCell();
                 while (cell != null)
                 {
                     // Use focus dependent header style
@@ -682,7 +678,7 @@ namespace Krypton.Docking
             if (ApplyDockingVisibility)
             {
                 var visibleChanged = false;
-                KryptonWorkspaceCell cell = FirstCell();
+                KryptonWorkspaceCell? cell = FirstCell();
                 while (cell != null)
                 {
                     // Cell if only visible if it has at least 1 visible page
@@ -760,8 +756,8 @@ namespace Krypton.Docking
             // Should we apply docking specific change of focus when the primary header is clicked?
             if (ApplyDockingAppearance)
             {
-                KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
-                if (cell.SelectedPage != null)
+                KryptonWorkspaceCell? cell = sender as KryptonWorkspaceCell;
+                if (cell?.SelectedPage != null)
                 {
                     // Set the focus into the active page
                     cell.SelectedPage.SelectNextControl(cell.SelectedPage, true, true, true, false);
@@ -813,7 +809,7 @@ namespace Krypton.Docking
         {
             if (ApplyDockingAppearance)
             {
-                KryptonWorkspaceCell cell = FirstVisibleCell();
+                KryptonWorkspaceCell? cell = FirstVisibleCell();
                 while (cell != null)
                 {
                     // Cell display mode depends on the number of tabs in the cell
@@ -844,7 +840,7 @@ namespace Krypton.Docking
             if (ApplyDockingCloseAction || ApplyDockingPinAction)
             {
                 // Get access to the cached state for this cell
-                KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
+                KryptonWorkspaceCell? cell = sender as KryptonWorkspaceCell;
                 CachedCellState cellState = _lookupCellState[cell];
 
                 // Remove events on the old selected page
@@ -871,8 +867,8 @@ namespace Krypton.Docking
             {
                 // Only need to process the change in flags if the page in question is a selected page
                 KryptonPage page = (KryptonPage)sender;
-                KryptonWorkspaceCell cell = CellForPage(page);
-                if (cell.SelectedPage == page)
+                KryptonWorkspaceCell? cell = CellForPage(page);
+                if (cell?.SelectedPage == page)
                 {
                     UpdateCellActions(cell, _lookupCellState[cell]);
                 }
@@ -887,7 +883,7 @@ namespace Krypton.Docking
                 ButtonSpec buttonSpec = (ButtonSpec)sender;
                 foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.CloseButtonSpec == buttonSpec))
                 {
-                    if (cellState.Cell.SelectedPage != null)
+                    if (cellState.Cell?.SelectedPage != null)
                     {
                         OnPageCloseClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
                     }
@@ -905,7 +901,7 @@ namespace Krypton.Docking
                 ButtonSpec buttonSpec = (ButtonSpec)sender;
                 foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.PinButtonSpec == buttonSpec))
                 {
-                    if (cellState.Cell.SelectedPage != null)
+                    if (cellState.Cell?.SelectedPage != null)
                     {
                         OnPageAutoHiddenClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
                     }
@@ -925,7 +921,7 @@ namespace Krypton.Docking
                                         && (cellState.DropDownButtonSpec.KryptonContextMenu == kcm))
                          )
                 {
-                    if (cellState.Cell.SelectedPage != null)
+                    if (cellState.Cell?.SelectedPage != null)
                     {
                         OnPageDropDownClicked(new CancelDropDownEventArgs(cellState.DropDownButtonSpec.KryptonContextMenu, cellState.Cell.SelectedPage));
                     }

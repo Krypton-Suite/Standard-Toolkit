@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ContextMenuArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ContextMenuArgs class.
@@ -65,12 +61,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu strip instance.
         /// </summary>
-        public ContextMenuStrip ContextMenuStrip { get; }
+        public ContextMenuStrip? ContextMenuStrip { get; }
 
         /// <summary>
         /// Gets access to the KryptonContextMenu instance.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         #endregion
     }

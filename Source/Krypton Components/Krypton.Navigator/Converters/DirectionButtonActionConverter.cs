@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class DirectionButtonActionConverter : StringLookupConverter
     {
-        #region Static Fields
-
-        #endregion
-                                             
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DirectionButtonActionConverter class.

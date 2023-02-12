@@ -19,10 +19,6 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewLayoutRibbonTitle: ViewLayoutDocker
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewLayoutRibbonTitle class.

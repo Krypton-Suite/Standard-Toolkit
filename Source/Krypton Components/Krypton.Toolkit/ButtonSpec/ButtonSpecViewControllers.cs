@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ButtonSpecViewControllers
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecViewControllers class.
@@ -46,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the mouse controller reference.
         /// </summary>
-        public IMouseController MouseController { get; }
+        public IMouseController? MouseController { get; }
 
         /// <summary>
         /// Gets the mouse controller reference.

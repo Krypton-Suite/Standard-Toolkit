@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumb.bmp")]
-    [DefaultEvent("SelectedItemChanged")]
-    [DefaultProperty("RootItem")]
+    [DefaultEvent(nameof(SelectedItemChanged))]
+    [DefaultProperty(nameof(RootItem))]
     [Designer("Krypton.Toolkit.KryptonBreadCrumbDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Flat navigation of hierarchical data.")]
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDocker _drawDocker;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip _visualPopupToolTip;
-        private KryptonBreadCrumbItem _selectedItem;
+        private KryptonBreadCrumbItem? _selectedItem;
         private readonly ViewLayoutCrumbs _layoutCrumbs;
         private ButtonStyle _buttonStyle;
         #endregion
@@ -237,6 +237,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -416,7 +417,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Currently selected bread crumb item.")]
         [DefaultValue(null)]
-        public KryptonBreadCrumbItem SelectedItem
+        public KryptonBreadCrumbItem? SelectedItem
         {
             get => _selectedItem;
 
@@ -705,13 +706,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
 
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

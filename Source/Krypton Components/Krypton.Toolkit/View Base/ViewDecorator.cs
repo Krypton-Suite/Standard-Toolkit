@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool ContainsRecurse(ViewBase item) => _child.ContainsRecurse(item);
+        public override bool ContainsRecurse(ViewBase? item) => _child.ContainsRecurse(item);
 
         /// <summary>
         /// Copies views to specified array starting at particular index.
@@ -268,7 +268,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated mouse controller.
         /// </summary>
-        public override IMouseController MouseController
+        public override IMouseController? MouseController
         {
             get => _child.MouseController;
             set => _child.MouseController = value;
@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
         /// Mouse has left the view.
         /// </summary>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public override void MouseLeave(ViewBase next) =>
+        public override void MouseLeave(ViewBase? next) =>
             // Bubble event up to the parent
             Parent?.MouseLeave(next);
 
@@ -450,7 +450,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase ViewFromPoint(Point pt) => _child.ViewFromPoint(pt);
+        public override ViewBase? ViewFromPoint(Point pt) => _child.ViewFromPoint(pt);
 
         #endregion
     }

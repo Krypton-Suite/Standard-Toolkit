@@ -43,7 +43,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the control this element is managing.
         /// </summary>
-        public KryptonFloatspace FloatspaceControl => (KryptonFloatspace)SpaceControl;
+        public KryptonFloatspace FloatspaceControl => ((KryptonFloatspace)SpaceControl)!;
 
         /// <summary>
         /// Propagates a request for drag targets down the hierarchy of docking elements.
@@ -51,7 +51,7 @@ namespace Krypton.Docking
         /// <param name="floatingWindow">Reference to window being dragged.</param>
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
-        public override void PropogateDragTargets(KryptonFloatingWindow floatingWindow,
+        public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
                                                   PageDragEndData dragData, 
                                                   DragTargetList targets)
         {
@@ -83,7 +83,7 @@ namespace Krypton.Docking
         /// <returns>Enumeration value indicating docking location.</returns>
         public override DockingLocation FindPageLocation(string uniqueName)
         {
-            KryptonPage page = FloatspaceControl.PageForUniqueName(uniqueName);
+            KryptonPage? page = FloatspaceControl.PageForUniqueName(uniqueName);
             if ((page != null) && page is not KryptonStorePage)
             {
                 return DockingLocation.Floating;
@@ -99,9 +99,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        public override IDockingElement FindPageElement(string uniqueName)
+        public override IDockingElement? FindPageElement(string uniqueName)
         {
-            KryptonPage page = FloatspaceControl.PageForUniqueName(uniqueName);
+            KryptonPage? page = FloatspaceControl.PageForUniqueName(uniqueName);
             if ((page != null) && page is not KryptonStorePage)
             {
                 return this;
@@ -118,11 +118,11 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="uniqueName">Unique name of the page to be found.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public override IDockingElement FindStorePageElement(DockingLocation location, string uniqueName)
+        public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
         {
             if (location == DockingLocation.Floating)
             {
-                KryptonPage page = FloatspaceControl.PageForUniqueName(uniqueName);
+                KryptonPage? page = FloatspaceControl.PageForUniqueName(uniqueName);
                 if (page is KryptonStorePage)
                 {
                     return this;
@@ -135,7 +135,7 @@ namespace Krypton.Docking
 
         #region Protected
         /// <summary>
-        /// Gets the proprogate action used to clear a store page for this implementation.
+        /// Gets the Propogate action used to clear a store page for this implementation.
         /// </summary>
         protected override DockingPropogateAction ClearStoreAction => DockingPropogateAction.ClearFloatingStoredPages;
 
@@ -148,7 +148,7 @@ namespace Krypton.Docking
         {
             // Remove any store page for the unique name of this page being added. In either case of adding a store
             // page or a regular page we want to ensure there does not exist a store page for that same unique name.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 if (e.Item is KryptonStorePage page)
@@ -168,12 +168,12 @@ namespace Krypton.Docking
         }
 
         /// <summary>
-        /// Raises the type specific space control removed event determinated by the derived class.
+        /// Raises the type specific space control removed event determined by the derived class.
         /// </summary>
         protected override void RaiseRemoved()
         {
             // Generate event so the any floatspace customization can be reversed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 FloatspaceEventArgs args = new(FloatspaceControl, this);
@@ -185,13 +185,13 @@ namespace Krypton.Docking
         }
 
         /// <summary>
-        /// Raises the type specific cell adding event determinated by the derived class.
+        /// Raises the type specific cell adding event determined by the derived class.
         /// </summary>
-        /// <param name="cell">Referecence to new cell being added.</param>
+        /// <param name="cell">Reference to new cell being added.</param>
         protected override void RaiseCellAdding(KryptonWorkspaceCell cell)
         {
             // Generate event so the floatspace cell customization can be performed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
@@ -200,13 +200,13 @@ namespace Krypton.Docking
         }
 
         /// <summary>
-        /// Raises the type specific cell removed event determinated by the derived class.
+        /// Raises the type specific cell removed event determined by the derived class.
         /// </summary>
-        /// <param name="cell">Referecence to an existing cell being removed.</param>
+        /// <param name="cell">Reference to an existing cell being removed.</param>
         protected override void RaiseCellRemoved(KryptonWorkspaceCell cell)
         {
             // Generate event so the floatspace cell customization can be reversed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
@@ -222,7 +222,7 @@ namespace Krypton.Docking
         protected override void RaiseSpacePageDrop(object sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a workspace and allow it to be cancelled
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
@@ -260,7 +260,7 @@ namespace Krypton.Docking
         private void OnFloatspacePageCloseClicked(object sender, UniqueNameEventArgs e)
         {
             // Generate event so that the close action is handled for the named page
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(new[]{ e.UniqueName });
         }
 
@@ -271,15 +271,15 @@ namespace Krypton.Docking
             // all pages to be removed into another window which would be pointless.
             if (e.UniqueNames.Count < FloatspaceControl.PageVisibleCount)
             {
-                KryptonDockingManager dockingManager = DockingManager;
+                KryptonDockingManager? dockingManager = DockingManager;
                 dockingManager?.SwitchFloatingToFloatingWindowRequest(e.UniqueNames);
             }
         }
 
         private void OnFloatspaceDropDownClicked(object sender, CancelDropDownEventArgs e)
         {
-            // Generate event so that the appropriate context menu options are preseted and actioned
-            KryptonDockingManager dockingManager = DockingManager;
+            // Generate event so that the appropriate context menu options are presented and actioned
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
@@ -294,15 +294,15 @@ namespace Krypton.Docking
             // Only need to start docking dragging if we have some valid pages
             if (pages.Count != 0)
             {
-                KryptonDockingManager dockingManager = DockingManager;
+                KryptonDockingManager? dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
                     // If there is just a single visible cell
                     if (FloatspaceControl.CellVisibleCount == 1)
                     {
                         // And that visible cell has all the pages being dragged
-                        KryptonWorkspaceCell cell = FloatspaceControl.FirstVisibleCell();
-                        if (cell.Pages.VisibleCount == pages.Count)
+                        KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
+                        if (cell?.Pages.VisibleCount == pages.Count)
                         {
                             // Get the owning floating window element
                             if (GetParentType(typeof(KryptonDockingFloatingWindow)) is KryptonDockingFloatingWindow window)
@@ -318,7 +318,7 @@ namespace Krypton.Docking
                     }
 
                     // Add a placeholder for the cell that contains the dragged page, so the cell is not removed during dragging
-                    KryptonWorkspaceCell firstCell = FloatspaceControl.CellForPage(e.Pages[0]);
+                    KryptonWorkspaceCell? firstCell = FloatspaceControl.CellForPage(e.Pages[0]);
                     firstCell?.Pages.Add(new KryptonStorePage("TemporaryPage", "Floating"));
 
                     // Ask the docking manager for a IDragPageNotify implementation to handle the dragging operation

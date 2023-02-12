@@ -23,7 +23,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonDockableWorkspace class.
         /// </summary>
         public KryptonDockableWorkspace()
-            : base("Workspace") =>
+            : base(nameof(Workspace)) =>
             // Override the base class and allow the workspace context menu for the tab to be shown
             ContextMenus.ShowContextMenu = true;
 
@@ -77,7 +77,7 @@ namespace Krypton.Docking
         protected override void OnActiveCellChanged(ActiveCellChangedEventArgs e)
         {
             // Ensure all but the newly selected cell have a lower profile appearance
-            KryptonWorkspaceCell cell = FirstCell();
+            KryptonWorkspaceCell? cell = FirstCell();
             while (cell != null)
             {
                 if (e.NewCell != cell)

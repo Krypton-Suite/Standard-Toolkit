@@ -152,11 +152,11 @@ namespace Krypton.Workspace
                     Component comp = _workspace.Root.Children[i] as Component;
 
                     // If the component is a control...
-                    if (comp is Control)
+                    if (comp is Control control)
                     {
                         // We need to manually remove it from the workspace controls collection
                         KryptonReadOnlyControls readOnlyControls = (KryptonReadOnlyControls)_workspace.Controls;
-                        readOnlyControls.RemoveInternal(comp as Control);
+                        readOnlyControls.RemoveInternal(control);
                     }
 
                     host.DestroyComponent(comp);

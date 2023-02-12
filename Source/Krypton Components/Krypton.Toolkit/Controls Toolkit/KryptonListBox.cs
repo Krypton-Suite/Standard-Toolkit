@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonListBox), "ToolboxBitmaps.KryptonListBox.bmp")]
-    [DefaultEvent("SelectedIndexChanged")]
-    [DefaultProperty("Items")]
-    [DefaultBindingProperty("SelectedValue")]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
+    [DefaultProperty(nameof(Items))]
+    [DefaultBindingProperty(nameof(SelectedValue))]
     [Designer("Krypton.Toolkit.KryptonListBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Represents a list box control that allows single or multiple item selection.")]
@@ -674,9 +674,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-#if NET6_0_OR_GREATER
         [AllowNull]
-#endif
         public override string Text
         {
             get => base.Text;
@@ -758,7 +756,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [DefaultValue(null)]
-        public object SelectedValue
+        public object? SelectedValue
         {
             get => _listBox.SelectedValue;
             set => _listBox.SelectedValue = value;
@@ -911,7 +909,7 @@ namespace Krypton.Toolkit
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public virtual object DataSource
+        public virtual object? DataSource
         {
             get => _listBox.DataSource;
             set => _listBox.DataSource = value;

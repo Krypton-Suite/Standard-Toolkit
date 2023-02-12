@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerGlyph : Glyph
     {
         #region Instance Fields
-        private readonly KryptonSplitContainer _splitContainer;
+        private readonly KryptonSplitContainer? _splitContainer;
         private readonly ISelectionService _selectionService;
         private readonly BehaviorService _behaviorService; 
         private readonly Adorner _adorner;
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">A point to hit-test.</param>
         /// <returns> A Cursor if the Glyph is associated with p; otherwise, a null reference.</returns>
-        public override Cursor GetHitTest(Point pt)
+        public override Cursor? GetHitTest(Point pt)
         {
             if (_splitContainer != null)
             {

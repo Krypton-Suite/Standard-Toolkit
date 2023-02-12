@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         [Category(@"ToolMenuStatus")]
         [Description(@"Font to draw text on the StatusStrip.")]
         [DefaultValue(null)]
-        public Font StatusStripFont
+        public Font? StatusStripFont
         {
             get => InternalKCT.InternalStatusStripFont;
 

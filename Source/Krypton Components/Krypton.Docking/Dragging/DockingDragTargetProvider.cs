@@ -13,14 +13,14 @@
 namespace Krypton.Docking
 {
     /// <summary>
-    /// Provides the set of drag targets relevent to the set of pages being moved.
+    /// Provides the set of drag targets relevant to the set of pages being moved.
     /// </summary>
     public class DockingDragTargetProvider : IDragTargetProvider
     {
         #region Instance Fields
         private readonly KryptonDockingManager _manager;
         private readonly KryptonPageCollection _pages;
-        private readonly KryptonFloatingWindow _floatingWindow;
+        private readonly KryptonFloatingWindow? _floatingWindow;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Docking
         /// <param name="floatingWindow">Reference to window being dragged.</param>
         /// <param name="pages">Reference to collection of pages to drag.</param>
         public DockingDragTargetProvider(KryptonDockingManager manager, 
-                                         KryptonFloatingWindow floatingWindow,
+                                         KryptonFloatingWindow? floatingWindow,
                                          KryptonPageCollection pages)
         {
             _manager = manager;

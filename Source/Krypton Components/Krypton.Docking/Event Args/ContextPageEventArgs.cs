@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class ContextPageEventArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ContextPageEventArgs class.
@@ -47,7 +43,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets access to context menu that can be customized.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         #endregion
     }

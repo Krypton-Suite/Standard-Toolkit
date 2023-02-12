@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterButtonDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("Click")]
-    [DefaultProperty("ButtonType")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(ButtonType))]
     public class KryptonRibbonGroupClusterButton : KryptonRibbonGroupItem
     {
         #region Static Fields
@@ -40,10 +40,10 @@ namespace Krypton.Ribbon
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private GroupButtonType _buttonType;
-        private ContextMenuStrip _contextMenuStrip;
-        private KryptonContextMenu _kryptonContextMenu;
+        private ContextMenuStrip? _contextMenuStrip;
+        private KryptonContextMenu? _kryptonContextMenu;
         private EventHandler _kcmFinishDelegate;
 
         #endregion
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Context menu strip to be shown when the button is pressed.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => _contextMenuStrip;
 
@@ -325,7 +325,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the button is pressed.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -345,7 +345,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the cluster button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -528,13 +528,13 @@ namespace Krypton.Ribbon
                 case "Text":
                     OnPropertyChanged(nameof(TextLine));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
+                case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
                 default:

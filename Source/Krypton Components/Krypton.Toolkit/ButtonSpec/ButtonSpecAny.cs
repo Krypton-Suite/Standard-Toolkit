@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines the button enabled state.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(ButtonEnabled), "Container")]
+        [DefaultValue(typeof(ButtonEnabled), nameof(Container))]
         public ButtonEnabled Enabled
         {
             get => _enabled;
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
         [Description(@"Command associated with the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public override KryptonCommand KryptonCommand
+        public override KryptonCommand? KryptonCommand
         {
             get => base.KryptonCommand;
 
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
             {
                 switch (propertyName)
                 {
-                    case @"KryptonCommand":
+                    case nameof(KryptonCommand):
                         if (Checked != ButtonCheckState.NotCheckButton)
                         {
                             Checked = KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
 
                         Enabled = KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False;
                         break;
-                    case @"Checked":
+                    case nameof(Checked):
                         KryptonCommand.Checked = Checked == ButtonCheckState.Checked;
                         break;
                 }
@@ -309,11 +309,11 @@ namespace Krypton.Toolkit
 
             switch (e.PropertyName)
             {
-                case @"Checked":
-                    Checked = KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
+                case nameof(Checked):
+                    Checked = KryptonCommand?.Checked == true ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
                     break;
-                case @"Enabled":
-                    Enabled = KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+                case nameof(Enabled):
+                    Enabled = KryptonCommand?.Enabled == true ? ButtonEnabled.True : ButtonEnabled.False;
                     break;
             }
         }

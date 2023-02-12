@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ImageSelectEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ImageSelectEventArgs class.
@@ -38,7 +34,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the image list.
         /// </summary>
-        public ImageList ImageList { get; }
+        public ImageList? ImageList { get; }
 
         /// <summary>
         /// Gets the image index.

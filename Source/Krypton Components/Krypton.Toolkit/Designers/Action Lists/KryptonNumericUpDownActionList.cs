@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         #region Public
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _numericUpDown.KryptonContextMenu;
 
@@ -188,17 +188,17 @@ namespace Krypton.Toolkit
             if (_numericUpDown != null)
             {
                 // Add the list of label specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"NumericUpDown display style."));
-                actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"The numeric up down font."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
+                actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"NumericUpDown display style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"The numeric up down font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Data"));
-                actions.Add(new DesignerActionPropertyItem(@"Increment", @"Increment", @"Data", @"NumericUpDown increment value."));
-                actions.Add(new DesignerActionPropertyItem(@"Maximum", @"Maximum", @"Data", @"NumericUpDown maximum value."));
-                actions.Add(new DesignerActionPropertyItem(@"Minimum", @"Minimum", @"Data", @"NumericUpDown minimum value."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Increment), nameof(Increment), @"Data", @"NumericUpDown increment value."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Maximum), nameof(Maximum), @"Data", @"NumericUpDown maximum value."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Minimum), nameof(Minimum), @"Data", @"NumericUpDown minimum value."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

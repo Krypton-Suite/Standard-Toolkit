@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class PageDragEndEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PageDragEndEventArgs class.
@@ -28,7 +24,7 @@ namespace Krypton.Navigator
         /// <param name="dropped">True if a drop was performed; otherwise false.</param>
         /// <param name="pages">Array of event associated pages.</param>
         public PageDragEndEventArgs(bool dropped,
-                                    KryptonPage[] pages)
+                                    KryptonPage[]? pages)
         {
             Dropped = dropped;
             Pages = new KryptonPageCollection();

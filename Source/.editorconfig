@@ -25,6 +25,9 @@ dotnet_diagnostic.IDE1006.severity = silent
 #	Remove unnecessary suppression
 dotnet_diagnostic.IDE0079.severity = silent
 
+# Warning	CS0436	The type 'AllowNullAttribute' in 'Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Utilities\AllowNullAttribute.cs' conflicts with the imported type 'AllowNullAttribute' in 'System.Runtime, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'. Using the type defined in 'Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Utilities\AllowNullAttribute.cs'.	Krypton.Toolkit 2022 (net48), Krypton.Toolkit 2022 (net7.0-windows)	Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Controls Toolkit\KryptonRadioButton.cs	206	Active
+dotnet_diagnostic.CS0436.severity = None
+
 #warning CA1416: This call site is reachable on all platforms. 'KryptonRibbonGroupButton.Checked' is only supported on: 'Windows' 7.0 and later.
 dotnet_diagnostic.CA1416.severity = None
 

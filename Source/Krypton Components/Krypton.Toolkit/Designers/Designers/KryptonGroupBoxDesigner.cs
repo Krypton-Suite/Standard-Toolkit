@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             // Let the internal panel in the container be designable
             if (_groupBox != null)
             {
-                EnableDesignMode(_groupBox.Panel, "Panel");
+                EnableDesignMode(_groupBox.Panel, nameof(Panel));
             }
         }
 
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="internalControlIndex">A specified index to select the internal control designer. This index is zero-based.</param>
         /// <returns>A ControlDesigner at the specified index.</returns>
-        public override ControlDesigner InternalControlDesigner(int internalControlIndex) =>
+        public override ControlDesigner? InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
             (_groupBox != null) && (internalControlIndex == 0) 
                 ? (ControlDesigner)_designerHost.GetDesigner(_groupBox.Panel) 

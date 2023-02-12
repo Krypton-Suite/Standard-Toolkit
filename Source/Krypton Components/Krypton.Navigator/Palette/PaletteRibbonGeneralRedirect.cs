@@ -19,7 +19,7 @@ namespace Krypton.Navigator
                                                    IPaletteRibbonGeneral
     {
         #region Instance Fields
-        private Font _textFont;
+        private Font? _textFont;
         private PaletteTextHint _textHint;
         private readonly PaletteRibbonGeneralInheritRedirect _inherit;
         #endregion
@@ -234,7 +234,7 @@ namespace Krypton.Navigator
         [Description(@"Font for the ribbon text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font TextFont
+        public Font? TextFont
         {
             get => _textFont;
 

@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual IPaletteBorder PaletteBorder => Border;
+        public virtual IPaletteBorder? PaletteBorder => Border;
 
         #endregion
 

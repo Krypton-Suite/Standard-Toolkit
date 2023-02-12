@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
 
             // Setup the array of properties we override
             var attributes = Array.Empty<Attribute>();
-            string[] strArray = { "Visible", "Enabled" };
+            string[] strArray = { nameof(Visible), nameof(Enabled) };
 
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
@@ -404,7 +404,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonComboBox?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonComboBox)[@"Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonComboBox)[nameof(Enabled)];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonComboBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonComboBox, null, oldValue, newValue);
@@ -416,7 +416,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonComboBox?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonComboBox)[@"Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonComboBox)[nameof(Visible)];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonComboBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonComboBox, null, oldValue, newValue);
@@ -470,7 +470,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private TypedRestrictCollection<KryptonRibbonGroupItem> ParentItems
+        private TypedRestrictCollection<KryptonRibbonGroupItem>? ParentItems
         {
             get
             {

@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         private int _compositionHeight;
         private int _ignoreCount;
         private ViewBase _capturedElement;
-        private PaletteBase _localPalette;
+        private PaletteBase? _localPalette;
         private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private readonly IntPtr _screenDC;
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -465,7 +465,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -511,7 +511,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -1149,7 +1149,7 @@ namespace Krypton.Toolkit
                             // Is this the command for closing the form?
                             if (sc == PI.SC_.CLOSE)
                             {
-                                PropertyInfo pi = typeof(Form).GetProperty(@"CloseReason",
+                                PropertyInfo pi = typeof(Form).GetProperty(nameof(CloseReason),
                                     BindingFlags.Instance |
                                     BindingFlags.SetProperty |
                                     BindingFlags.NonPublic);

@@ -16,10 +16,6 @@ namespace Krypton.Ribbon
 {
     internal class ItemSizeWidth
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ItemSizeWidth class.
@@ -68,10 +64,6 @@ namespace Krypton.Ribbon
 
     internal class GroupSizeWidth
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the GroupSizeWidth class.

@@ -22,9 +22,9 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupCheckBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("CheckedChanged")]
-    [DefaultProperty("Checked")]
-    [DefaultBindingProperty("CheckState")]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Checked))]
+    [DefaultBindingProperty(nameof(CheckState))]
     public class KryptonRibbonGroupCheckBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         #endregion
 
         #region Events
@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
             _checkState = CheckState.Unchecked;
             _autoCheck = true;
             ShortcutKeys = Keys.None;
-            _textLine1 = "CheckBox";
+            _textLine1 = nameof(CheckBox);
             _textLine2 = string.Empty;
             _keyTip = "C";
             _itemSizeMax = GroupItemSize.Large;
@@ -112,7 +112,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Check box display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("CheckBox")]
+        [DefaultValue(nameof(CheckBox))]
         public string TextLine1
         {
             get => _textLine1;
@@ -122,7 +122,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "CheckBox";
+                    value = nameof(CheckBox);
                 }
 
                 if (value != _textLine1)
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the check box.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -504,17 +504,17 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "TextLine1":
+                case nameof(TextLine1):
                     OnPropertyChanged(nameof(TextLine1));
                     break;
-                case "TextLine2":
+                case nameof(TextLine2):
                     OnPropertyChanged(nameof(TextLine2));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
-                case "CheckState":
+                case nameof(Checked):
+                case nameof(CheckState):
                     OnPropertyChanged(nameof(CheckState));
                     break;
             }

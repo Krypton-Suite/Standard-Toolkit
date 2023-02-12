@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuColorColumns), "ToolboxBitmaps.KryptonContextMenuColorColumns.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("ColorScheme")]
-    [DefaultEvent("SelectedColorChanged")]
+    [DefaultProperty(nameof(ColorScheme))]
+    [DefaultEvent(nameof(SelectedColorChanged))]
     public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         #region Static Fields
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.

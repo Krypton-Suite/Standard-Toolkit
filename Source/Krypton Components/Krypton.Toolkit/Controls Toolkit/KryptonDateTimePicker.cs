@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDateTimePicker), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
-    [DefaultBindingProperty("Value")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
+    [DefaultBindingProperty(nameof(Value))]
     [Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Enables the user to select a date and time, and to display that date and time in a specified format.")]
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         private bool _userSetDateTime;
         private bool _dropDownMonthChanged;
         private float _cornerRoundingRadius;
-        private object _rawDateTime;
+        private object? _rawDateTime;
         private int _cachedHeight;
         #endregion
 
@@ -397,6 +397,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Bindable(false)]
+        [AllowNull]
         public override string Text
         {
             get => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _drawText.ToString();
@@ -612,7 +613,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Alignment of the drop-down calendar on the KryptonDateTimePicker control.")]
-        [DefaultValue(typeof(LeftRightAlignment), "Left")]
+        [DefaultValue(typeof(LeftRightAlignment), nameof(Left))]
         [Localizable(true)]
         public LeftRightAlignment DropDownAlign { get; set; }
 
@@ -624,7 +625,7 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(DateTimeNullableConverter))]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
-        public object ValueNullable
+        public object? ValueNullable
         {
             get => _rawDateTime;
 
@@ -1122,7 +1123,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals - DateTimePicker")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public new PaletteBase Palette
+        public new PaletteBase? Palette
         {
             get => base.Palette;
             set => base.Palette = value;
@@ -1408,7 +1409,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.

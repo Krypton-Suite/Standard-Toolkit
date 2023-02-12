@@ -18,15 +18,15 @@ namespace Krypton.Toolkit
     public class PaletteRedirectTriple : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteTriple _disabled;
-        private IPaletteTriple _normal;
-        private IPaletteTriple _pressed;
-        private IPaletteTriple _tracking;
-        private IPaletteTriple _checkedNormal;
-        private IPaletteTriple _checkedPressed;
-        private IPaletteTriple _checkedTracking;
-        private IPaletteTriple _focusOverride;
-        private IPaletteTriple _normalDefaultOverride;
+        private IPaletteTriple? _disabled;
+        private IPaletteTriple? _normal;
+        private IPaletteTriple? _pressed;
+        private IPaletteTriple? _tracking;
+        private IPaletteTriple? _checkedNormal;
+        private IPaletteTriple? _checkedPressed;
+        private IPaletteTriple? _checkedTracking;
+        private IPaletteTriple? _focusOverride;
+        private IPaletteTriple? _normalDefaultOverride;
         #endregion
 
         #region Identity
@@ -110,16 +110,16 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public PaletteRedirectTriple(PaletteBase target,
-                                     IPaletteTriple disabled,
-                                     IPaletteTriple normal,
-                                     IPaletteTriple pressed,
-                                     IPaletteTriple tracking,
-                                     IPaletteTriple checkedNormal,
-                                     IPaletteTriple checkedPressed,
-                                     IPaletteTriple checkedTracking,
-                                     IPaletteTriple focusOverride,
-                                     IPaletteTriple normalDefaultOverride)
+        public PaletteRedirectTriple(PaletteBase? target,
+                                     IPaletteTriple? disabled,
+                                     IPaletteTriple? normal,
+                                     IPaletteTriple? pressed,
+                                     IPaletteTriple? tracking,
+                                     IPaletteTriple? checkedNormal,
+                                     IPaletteTriple? checkedPressed,
+                                     IPaletteTriple? checkedTracking,
+                                     IPaletteTriple? focusOverride,
+                                     IPaletteTriple? normalDefaultOverride)
             : base(target)
         {
             // Remember state specific inheritance
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
                                               IPaletteTriple checkedPressed,
                                               IPaletteTriple checkedTracking,
                                               IPaletteTriple focusOverride,
-                                              IPaletteTriple normalDefaultOverride)
+                                              IPaletteTriple? normalDefaultOverride)
         {
             _disabled = disabled;
             _normal = normal;
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -469,7 +469,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -780,7 +780,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -1000,7 +1000,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -1065,7 +1065,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteTriple GetInherit(PaletteState state)
+        private IPaletteTriple? GetInherit(PaletteState state)
         {
             switch (state)
             {

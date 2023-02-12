@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCommand), "ToolboxBitmaps.KryptonCommand.bmp")]
     [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonCommandDesigner, Krypton.Toolkit")]
     [Description(@"Defines state and events for a single command.")]
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command small image.")]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command large image.")]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Generates a Execute event for a button.
@@ -401,7 +401,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="name">Name to find.</param>
         /// <returns>Item with matching name.</returns>
-        public override KryptonCommand this[string name]
+        public override KryptonCommand? this[string name]
         {
             get
             {

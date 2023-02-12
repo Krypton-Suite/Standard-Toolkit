@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupDesigner, Krypton.Ribbon")]
-    [DefaultEvent("DialogBoxLauncherClick")]
-    [DefaultProperty("TextLine1")]
+    [DefaultEvent(nameof(DialogBoxLauncherClick))]
+    [DefaultProperty(nameof(TextLine1))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonGroup : Component
@@ -297,7 +297,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Group image when collapsed.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 

@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteMetric GetInherit(PaletteState state)
+        private IPaletteMetric? GetInherit(PaletteState state)
         {
             switch (state)
             {

@@ -256,7 +256,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
+        public ButtonSpec? ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
 
         /// <summary>
         /// Gets access to the button spec manager used for this button.
@@ -380,7 +380,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Bar.BarMapImage);
+        public Image? GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Bar.BarMapImage);
 
         /// <summary>
         /// Gets the image color that should be transparent.

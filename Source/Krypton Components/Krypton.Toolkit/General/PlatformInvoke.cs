@@ -3641,7 +3641,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 Default, // Hide or include the window in Flip3D based on window style and visibility.
                 ExcludeBelow, // Display the window under Flip3D and disabled.
                 ExcludeAbove, // Display the window above Flip3D and enabled.
-            };
+            }
 
             [StructLayout(LayoutKind.Sequential)]
             public struct DWM_BLURBEHIND

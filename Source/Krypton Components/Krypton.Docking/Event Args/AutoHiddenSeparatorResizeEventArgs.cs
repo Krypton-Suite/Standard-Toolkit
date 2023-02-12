@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class AutoHiddenSeparatorResizeEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the AutoHiddenSeparatorResizeEventArgs class.
@@ -31,7 +27,7 @@ namespace Krypton.Docking
         /// <param name="resizeRect">Initial resizing rectangle.</param>
         public AutoHiddenSeparatorResizeEventArgs(KryptonSeparator separator,
                                                   KryptonDockspace dockspace,
-                                                  KryptonPage page,
+                                                  KryptonPage? page,
                                                   Rectangle resizeRect)
         {
             SeparatorControl = separator;
@@ -55,7 +51,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets a reference to the KryptonPage instance.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets and sets the rectangle that limits resizing of the dockspace using the separator.

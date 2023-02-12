@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
         #region Type Definitions
         private class ListEntry
         {
-            #region Instance Fields
-
-            #endregion
-
             #region Identity
             /// <summary>
             /// Initialize a new instance of the ListEntry class.

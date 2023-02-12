@@ -125,7 +125,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ImageSmall
+                public Bitmap? ImageSmall
                 {
                     get => _item.ImageSmall;
                     set => _item.ImageSmall = value;
@@ -136,7 +136,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ImageMedium
+                public Bitmap? ImageMedium
                 {
                     get => _item.ImageMedium;
                     set => _item.ImageMedium = value;
@@ -147,7 +147,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ImageLarge
+                public Bitmap? ImageLarge
                 {
                     get => _item.ImageLarge;
                     set => _item.ImageLarge = value;
@@ -158,7 +158,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ToolTipImage
+                public Bitmap? ToolTipImage
                 {
                     get => _item.ToolTipImage;
                     set => _item.ToolTipImage = value;
@@ -203,7 +203,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the tooltip label style.
                 /// </summary>
                 [Category(@"Appearance")]
-                [DefaultValue(typeof(LabelStyle), "ToolTip")]
+                [DefaultValue(typeof(LabelStyle), nameof(ToolTip))]
                 public LabelStyle ToolTipStyle
                 {
                     get => _item.ToolTipStyle;
@@ -247,7 +247,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Behavior")]
                 [DefaultValue(null)]
-                public KryptonContextMenu KryptonContextMenu
+                public KryptonContextMenu? KryptonContextMenu
                 {
                     get => _item.KryptonContextMenu;
                     set => _item.KryptonContextMenu = value;
@@ -292,7 +292,7 @@ namespace Krypton.Workspace
                 [Category(@"Data")]
                 [TypeConverter(typeof(StringConverter))]
                 [DefaultValue(null)]
-                public object Tag
+                public object? Tag
                 {
                     get => _item.Tag;
                     set => _item.Tag = value;
@@ -560,7 +560,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Behavior")]
                 [DefaultValue(null)]
-                public KryptonContextMenu KryptonContextMenu
+                public KryptonContextMenu? KryptonContextMenu
                 {
                     get => _item.KryptonContextMenu;
                     set => _item.KryptonContextMenu = value;
@@ -583,7 +583,7 @@ namespace Krypton.Workspace
                 [Category(@"Data")]
                 [TypeConverter(typeof(StringConverter))]
                 [DefaultValue(null)]
-                public object Tag
+                public object? Tag
                 {
                     get => _item.Tag;
                     set => _item.Tag = value;
@@ -652,10 +652,6 @@ namespace Krypton.Workspace
             {
                 #region Static Fields
                 private static int _id = 1;
-                #endregion
-
-                #region Instance Fields
-
                 #endregion
 
                 #region Identity
@@ -743,7 +739,7 @@ namespace Krypton.Workspace
             {
                 #region Instance Fields
 
-                private readonly IServiceProvider _serviceProvider;
+                private readonly IServiceProvider? _serviceProvider;
                 private bool _inGetService;
                 #endregion
 
@@ -767,7 +763,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 /// <param name="t">An object that specifies the type of service object to get. </param>
                 /// <returns>A service object of type serviceType; or null reference if there is no service object of type serviceType.</returns>
-                public object GetService(Type t)
+                public object? GetService(Type t)
                 {
                     if (!_inGetService && (_serviceProvider != null))
                     {
@@ -788,7 +784,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public IComponent Component { get; }
+                public IComponent? Component { get; }
 
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
@@ -856,7 +852,7 @@ namespace Krypton.Workspace
                 buttonOK.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
                 buttonOK.DialogResult = DialogResult.OK;
                 buttonOK.Location = new Point(547, 382);
-                buttonOK.Name = "buttonOK";
+                buttonOK.Name = nameof(buttonOK);
                 buttonOK.Size = new Size(75, 23);
                 buttonOK.TabIndex = 8;
                 buttonOK.Text = "OK";
@@ -869,7 +865,7 @@ namespace Krypton.Workspace
                                    | AnchorStyles.Left)
                                   | AnchorStyles.Right;
                 treeView.Location = new Point(12, 32);
-                treeView.Name = "treeView";
+                treeView.Name = nameof(treeView);
                 treeView.Size = new Size(251, 339);
                 treeView.TabIndex = 1;
                 treeView.HideSelection = false;
@@ -881,7 +877,7 @@ namespace Krypton.Workspace
                 buttonMoveUp.Image = GeneralImageResources.arrow_up_blue;
                 buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonMoveUp.Location = new Point(272, 32);
-                buttonMoveUp.Name = "buttonMoveUp";
+                buttonMoveUp.Name = nameof(buttonMoveUp);
                 buttonMoveUp.Size = new Size(95, 28);
                 buttonMoveUp.TabIndex = 2;
                 buttonMoveUp.Text = " Move Up";
@@ -896,7 +892,7 @@ namespace Krypton.Workspace
                 buttonMoveDown.Image = GeneralImageResources.arrow_down_blue;
                 buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonMoveDown.Location = new Point(272, 66);
-                buttonMoveDown.Name = "buttonMoveDown";
+                buttonMoveDown.Name = nameof(buttonMoveDown);
                 buttonMoveDown.Size = new Size(95, 28);
                 buttonMoveDown.TabIndex = 3;
                 buttonMoveDown.Text = " Move Down";
@@ -911,7 +907,7 @@ namespace Krypton.Workspace
                 buttonDelete.Image = GeneralImageResources.Delete;
                 buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 234);
-                buttonDelete.Name = "buttonDelete";
+                buttonDelete.Name = nameof(buttonDelete);
                 buttonDelete.Size = new Size(95, 28);
                 buttonDelete.TabIndex = 5;
                 buttonDelete.Text = " Delete Item";
@@ -926,7 +922,7 @@ namespace Krypton.Workspace
                                       | AnchorStyles.Right;
                 propertyGrid.HelpVisible = false;
                 propertyGrid.Location = new Point(376, 32);
-                propertyGrid.Name = "propertyGrid";
+                propertyGrid.Name = nameof(propertyGrid);
                 propertyGrid.Size = new Size(246, 339);
                 propertyGrid.TabIndex = 7;
                 propertyGrid.ToolbarVisible = false;
@@ -936,7 +932,7 @@ namespace Krypton.Workspace
                 labelItemProperties.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 labelItemProperties.AutoSize = true;
                 labelItemProperties.Location = new Point(370, 13);
-                labelItemProperties.Name = "labelItemProperties";
+                labelItemProperties.Name = nameof(labelItemProperties);
                 labelItemProperties.Size = new Size(81, 13);
                 labelItemProperties.TabIndex = 6;
                 labelItemProperties.Text = "Item Properties";
@@ -945,7 +941,7 @@ namespace Krypton.Workspace
                 // 
                 labelWorkspaceCollection.AutoSize = true;
                 labelWorkspaceCollection.Location = new Point(12, 13);
-                labelWorkspaceCollection.Name = "labelWorkspaceCollection";
+                labelWorkspaceCollection.Name = nameof(labelWorkspaceCollection);
                 labelWorkspaceCollection.Size = new Size(142, 13);
                 labelWorkspaceCollection.TabIndex = 0;
                 labelWorkspaceCollection.Text = "Workspace Collection";
@@ -956,7 +952,7 @@ namespace Krypton.Workspace
                 buttonAddPage.Image = GeneralImageResources.add;
                 buttonAddPage.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonAddPage.Location = new Point(272, 114);
-                buttonAddPage.Name = "buttonAddPage";
+                buttonAddPage.Name = nameof(buttonAddPage);
                 buttonAddPage.Size = new Size(95, 28);
                 buttonAddPage.TabIndex = 4;
                 buttonAddPage.Text = " Page";
@@ -971,7 +967,7 @@ namespace Krypton.Workspace
                 buttonAddCell.Image = GeneralImageResources.add;
                 buttonAddCell.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonAddCell.Location = new Point(272, 148);
-                buttonAddCell.Name = "buttonAddCell";
+                buttonAddCell.Name = nameof(buttonAddCell);
                 buttonAddCell.Size = new Size(95, 28);
                 buttonAddCell.TabIndex = 9;
                 buttonAddCell.Text = " Cell";
@@ -986,7 +982,7 @@ namespace Krypton.Workspace
                 buttonAddSequence.Image = GeneralImageResources.add;
                 buttonAddSequence.ImageAlign = ContentAlignment.MiddleLeft;
                 buttonAddSequence.Location = new Point(272, 182);
-                buttonAddSequence.Name = "buttonAddSequence";
+                buttonAddSequence.Name = nameof(buttonAddSequence);
                 buttonAddSequence.Size = new Size(95, 28);
                 buttonAddSequence.TabIndex = 9;
                 buttonAddSequence.Text = " Sequence";
@@ -1014,7 +1010,7 @@ namespace Krypton.Workspace
                 VisibleChanged += OnVisibleChanged;
                 Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 MinimumSize = new Size(501, 344);
-                Name = "KryptonWorkspaceCollectionForm";
+                Name = nameof(KryptonWorkspaceCollectionForm);
                 StartPosition = FormStartPosition.CenterScreen;
                 Text = "Workspace Collection Editor";
                 ResumeLayout(false);
@@ -1540,7 +1536,7 @@ namespace Krypton.Workspace
                 return false;
             }
 
-            private TreeNode NextNode(TreeNode currentNode)
+            private TreeNode? NextNode(TreeNode? currentNode)
             {
                 if (currentNode == null)
                 {
@@ -1549,7 +1545,7 @@ namespace Krypton.Workspace
 
                 var found = false;
                 NodeToType(currentNode, out var isPage, out var isCell, out var isSequence);
-                TreeNode returnNode = currentNode;
+                TreeNode? returnNode = currentNode;
 
                 do
                 {
@@ -1575,7 +1571,7 @@ namespace Krypton.Workspace
                 return returnNode;
             }
 
-            private TreeNode PreviousNode(TreeNode currentNode)
+            private TreeNode? PreviousNode(TreeNode? currentNode)
             {
                 if (currentNode == null)
                 {
@@ -1584,7 +1580,7 @@ namespace Krypton.Workspace
 
                 var found = false;
                 NodeToType(currentNode, out var isPage, out var isCell, out var isSequence);
-                TreeNode returnNode = currentNode;
+                TreeNode? returnNode = currentNode;
 
                 do
                 {
@@ -1611,7 +1607,7 @@ namespace Krypton.Workspace
                 return returnNode;
             }
 
-            private TreeNode RecursiveFind(TreeNodeCollection nodes,
+            private TreeNode? RecursiveFind(TreeNodeCollection nodes,
                                            TreeNode target,
                                            ref bool found,
                                            bool findPage,
@@ -1641,7 +1637,7 @@ namespace Krypton.Workspace
                     if (!(isSequence && findSequence && found && forward))
                     {
                         // Searching the child collection of nodes
-                        TreeNode findNode = RecursiveFind(node.Nodes, target, ref found, findPage, findCell, findSequence, forward);
+                        TreeNode? findNode = RecursiveFind(node.Nodes, target, ref found, findPage, findCell, findSequence, forward);
 
                         // If we found a node to return then return it now
                         if (findNode != null)

@@ -20,10 +20,6 @@ namespace Krypton.Toolkit
     public abstract class VisualControl : VisualControlBase, 
                                           ISupportInitializeNotification
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when the control is initialized.

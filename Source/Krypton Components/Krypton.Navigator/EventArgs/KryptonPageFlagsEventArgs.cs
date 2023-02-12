@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class KryptonPageFlagsEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonPageFlagsEventArgs class.

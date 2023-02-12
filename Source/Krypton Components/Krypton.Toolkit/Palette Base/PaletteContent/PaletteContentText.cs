@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         #region Internal Classes
         private class InternalStorage
         {
-            public Font ContentTextFont;
+            public Font? ContentTextFont;
             public PaletteTextHint ContentTextHint;
             public PaletteTextTrim ContentTextTrim;
             public PaletteTextHotkeyPrefix ContentTextPrefix;
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
             public PaletteColorStyle ContentTextColorStyle;
             public PaletteRectangleAlign ContentTextColorAlign;
             public float ContentTextColorAngle;
-            public Image ContentTextImage;
+            public Image? ContentTextImage;
             public PaletteImageStyle ContentTextImageStyle;
             public PaletteRectangleAlign ContentTextImageAlign;
 
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         #endregion
 
         #region Events
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for drawing the content text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Font Font
+        public virtual Font? Font
         {
             get => _storage?.ContentTextFont;
 
@@ -643,7 +643,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for the text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Image Image
+        public virtual Image? Image
         {
             get => _storage?.ContentTextImage;
 

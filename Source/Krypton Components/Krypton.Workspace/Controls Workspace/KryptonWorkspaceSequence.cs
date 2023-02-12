@@ -21,7 +21,7 @@ namespace Krypton.Workspace
     [Designer("Krypton.Workspace.KryptonWorkspaceSequenceDesigner, Krypton.Workspace")]
     [DesignTimeVisible(false)]
     [DesignerCategory(@"code")]
-    [DefaultProperty("Children")]
+    [DefaultProperty(nameof(Children))]
     public class KryptonWorkspaceSequence : Component,
                                             IWorkspaceItem
     {

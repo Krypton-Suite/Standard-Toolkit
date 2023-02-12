@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDropButton), "ToolboxBitmaps.KryptonDropButton.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
     [Designer("Krypton.Toolkit.KryptonDropButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Raises an event when the user clicks it.")]
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private bool _isDefault;
         private bool _useMnemonic;
         private bool _wasEnabled;
@@ -164,6 +164,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -187,7 +188,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public VisualOrientation ButtonOrientation
         {
             get => _drawButton.Orientation;
@@ -207,7 +208,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Position of the drop arrow within the button.")]
-        [DefaultValue(typeof(VisualOrientation), "Right")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Right))]
         public VisualOrientation DropDownPosition
         {
             get => _drawButton.DropDownPosition;
@@ -227,7 +228,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Orientation of the drop arrow within the button.")]
-        [DefaultValue(typeof(VisualOrientation), "Bottom")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Bottom))]
         public VisualOrientation DropDownOrientation
         {
             get
@@ -409,7 +410,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the drop button.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -553,7 +554,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -739,10 +740,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Enabled":
+                case nameof(Enabled):
                     Enabled = KryptonCommand.Enabled;
                     break;
-                case @"Text":
+                case nameof(Text):
                 case @"ExtraText":
                 case @"ImageSmall":
                 case @"ImageTransparentColor":

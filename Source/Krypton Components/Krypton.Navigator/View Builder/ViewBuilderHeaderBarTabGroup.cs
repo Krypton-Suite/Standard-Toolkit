@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
             _buttonManager.ButtonSpecFromView(element);
 
@@ -147,7 +147,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Our mode appropriate action is always to select a page
             if (action == DirectionButtonAction.ModeAppropriateAction)
@@ -181,7 +181,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Our mode appropriate action is always to select a page
             if (action == DirectionButtonAction.ModeAppropriateAction)
@@ -455,7 +455,7 @@ namespace Krypton.Navigator
                 case @"NextButtonAction":
                 case @"ContextButtonDisplay":
                 case @"CloseButtonDisplay":
-                case @"ButtonDisplayLogic":
+                case nameof(ButtonDisplayLogic):
                     _buttonManager.RecreateButtons();
                     break;
             }

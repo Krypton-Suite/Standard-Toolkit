@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     internal class PaletteNavButtonSpecStyleConverter : StringLookupConverter
     {
-        #region Static Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteNavButtonSpecStyleConverter class.

@@ -36,9 +36,9 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to owning navigator control.</param>
         /// <param name="page">Reference to page for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupPage(KryptonNavigator navigator,
-                               KryptonPage page,
-                               IRenderer renderer)
+        public VisualPopupPage([DisallowNull] KryptonNavigator navigator,
+            [DisallowNull] KryptonPage page,
+                               IRenderer? renderer)
             : base(renderer, true)
         {
             Debug.Assert(navigator != null);
@@ -158,7 +158,7 @@ namespace Krypton.Navigator
             Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
 
             // Get the resolved position for the popup page
-            PopupPagePosition position = _navigator.ResolvePopupPagePosition();
+            PopupPagePosition? position = _navigator.ResolvePopupPagePosition();
 
             // Find the size and position relative to the parent screen rect
             switch (position)
@@ -265,7 +265,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private Control GetControlWithFocus(Control control)
+        private Control? GetControlWithFocus(Control control)
         {
             // Does the provided control have the focus?
             if (control.Focused)

@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class PaletteNavigator : PaletteDoubleMetric
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorNormabled class.
@@ -118,7 +114,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override IPaletteBorder PaletteBorder => base.PaletteBorder;
+        public override IPaletteBorder? PaletteBorder => base.PaletteBorder;
 
         #endregion
 

@@ -1,9 +1,5 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
@@ -18,6 +14,7 @@ global using System.Collections.Generic;
 global using System.ComponentModel;
 global using System.ComponentModel.Design;
 global using System.Diagnostics;
+global using System.Diagnostics.CodeAnalysis;
 global using System.Drawing;
 global using System.Drawing.Design;
 global using System.Globalization;
@@ -37,7 +34,8 @@ using System.Runtime.CompilerServices;
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
-[assembly: Dependency("System", LoadHint.Always)]
+[assembly: Dependency(nameof(System), LoadHint.Always)]
 [assembly: Dependency("System.Drawing", LoadHint.Always)]
 [assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
 [assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]
+[assembly: Dependency("Krypton.Navigator", LoadHint.Always)]

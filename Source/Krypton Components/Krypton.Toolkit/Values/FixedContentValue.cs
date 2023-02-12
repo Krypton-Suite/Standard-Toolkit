@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class FixedContentValue : IContentValues
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the FixedContentValue class.
@@ -84,7 +80,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Image associated with item.")]
         [Localizable(true)]
-        public Image Image { get; set; }
+        public Image? Image { get; set; }
 
         private bool ShouldSerializeImage() => Image != null;
 
@@ -115,7 +111,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Image;
+        public Image? GetImage(PaletteState state) => Image;
 
         /// <summary>
         /// Gets the image color that should be transparent.

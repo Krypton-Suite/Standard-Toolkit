@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonMonthCalendar), "ToolboxBitmaps.KryptonMonthCalendar.bmp")]
-    [DefaultEvent("DateChanged")]
-    [DefaultProperty("SelectionRange")]
-    [DefaultBindingProperty("SelectionRange")]
+    [DefaultEvent(nameof(DateChanged))]
+    [DefaultProperty(nameof(SelectionRange))]
+    [DefaultBindingProperty(nameof(SelectionRange))]
     [Designer("Krypton.Toolkit.KryptonMonthCalendarDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Select a date using a visual monthly calendar display.")]
@@ -308,6 +308,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Bindable(false)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;

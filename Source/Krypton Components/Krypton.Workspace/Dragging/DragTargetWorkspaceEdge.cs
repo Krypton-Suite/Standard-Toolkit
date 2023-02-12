@@ -17,10 +17,6 @@ namespace Krypton.Workspace
     /// </summary>
     public class DragTargetWorkspaceEdge : DragTargetWorkspace
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DragTargetWorkspaceEdge class.

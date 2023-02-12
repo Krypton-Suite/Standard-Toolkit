@@ -118,7 +118,7 @@ namespace Krypton.Docking
         /// </summary>
        /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
         /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
-        public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName) => this;
+        public override KryptonDockingEdgeDocked? FindDockingEdgeDocked(string uniqueName) => this;
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace Krypton.Docking
         /// <param name="child">Optional reference to existing child docking element.</param>
         protected override void LoadChildDockingElement(XmlReader xmlReader,
                                                         KryptonPageCollection pages,
-                                                        IDockingElement child)
+                                                        IDockingElement? child)
         {
             if (child != null)
             {
@@ -154,7 +154,7 @@ namespace Krypton.Docking
                 }
 
                 // Create a new dockspace and then reload it
-                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute(@"N"), dockspaceSize);
+                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute(@"N")??string.Empty, dockspaceSize);
                 dockspace.LoadElementFromXml(xmlReader, pages);
             }
         }
@@ -182,7 +182,7 @@ namespace Krypton.Docking
             _lookupDockspace.Add(dockspaceElement, separatorControl);
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers
@@ -204,9 +204,11 @@ namespace Krypton.Docking
             }
             else
             {
-                KryptonDockingDockspace target = this[index + 1] as KryptonDockingDockspace;
-                InsertAfter(dockspaceElement.DockspaceControl, target.DockspaceControl);
-                InsertAfter(separatorControl, target.DockspaceControl);
+                if (this[index + 1] is KryptonDockingDockspace target)
+                {
+                    InsertAfter(dockspaceElement.DockspaceControl, target.DockspaceControl);
+                    InsertAfter(separatorControl, target.DockspaceControl);
+                }
             }
 
             return dockspaceElement;
@@ -230,7 +232,7 @@ namespace Krypton.Docking
             KryptonDockingDockspace dockspaceElement = _lookupSeparator[separatorControl];
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the movement rectangle to be modified by event handlers
@@ -242,7 +244,7 @@ namespace Krypton.Docking
             if (GetParentType(typeof(KryptonDockingControl)) is KryptonDockingControl c)
             {
                 // Inform our owning control that an update is starting, this will prevent drawing of the control area
-                c.PropogateAction(DockingPropogateAction.StartUpdate, (string[])null);
+                c.PropogateAction(DockingPropogateAction.StartUpdate, null as string[]);
                 _update = true;
             }
         }
@@ -273,8 +275,8 @@ namespace Krypton.Docking
             if (_update)
             {
                 // Inform our owning control that the update has ended, allowing the client area to be drawn
-                KryptonDockingControl c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
-                c.PropogateAction(DockingPropogateAction.EndUpdate, (string[])null);
+                KryptonDockingControl? c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
+                c?.PropogateAction(DockingPropogateAction.EndUpdate, null as string[]);
                 _update = false;
             }
         }
@@ -284,8 +286,8 @@ namespace Krypton.Docking
             if (_update)
             {
                 // Inform our owning control that the update has ended, allowing the client area to be drawn
-                KryptonDockingControl c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
-                c.PropogateAction(DockingPropogateAction.EndUpdate, (string[])null);
+                KryptonDockingControl? c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
+                c?.PropogateAction(DockingPropogateAction.EndUpdate, null as string[]);
                 _update = false;
             }
         }
@@ -333,7 +335,7 @@ namespace Krypton.Docking
             separatorControl.Disposed -= OnDockspaceSeparatorDisposed;
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers

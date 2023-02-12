@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the background image.
         /// </summary>
         [Browsable(false)]
-        public new Image Image
+        public new Image? Image
         {
             get => base.Image;
             set => base.Image = value;

@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialise a new instance of the KryptonProfessionalRenderer class.

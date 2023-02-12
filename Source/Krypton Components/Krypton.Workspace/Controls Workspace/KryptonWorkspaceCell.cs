@@ -22,7 +22,7 @@ namespace Krypton.Workspace
     [Designer("Krypton.Workspace.KryptonWorkspaceCellDesigner, Krypton.Workspace")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Pages")]
+    [DefaultProperty(nameof(Pages))]
     public class KryptonWorkspaceCell : KryptonNavigator,
                                         IWorkspaceItem
     {
@@ -443,7 +443,7 @@ namespace Krypton.Workspace
         {
             // Load the cell details and return the unique name of the selected page for the cell
             var selectedPageUniqueName = workspace.ReadCellElement(xmlReader, this);
-            KryptonPage selectedPage = null;
+            KryptonPage? selectedPage = null;
 
             // If the cell contains nothing then exit immediately
             if (!xmlReader.IsEmptyElement)
@@ -466,7 +466,7 @@ namespace Krypton.Workspace
                     {
                         // Load the page details and optionally recreate the page
                         var uniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
-                        KryptonPage page = workspace.ReadPageElement(xmlReader, uniqueName, existingPages);
+                        KryptonPage? page = workspace.ReadPageElement(xmlReader, uniqueName, existingPages);
 
                         if (xmlReader.Name != @"CPD")
                         {
@@ -641,7 +641,7 @@ namespace Krypton.Workspace
             // a change in pages might cause compacting to perform extra actions.
             if (_events)
             {
-                OnPropertyChanged(@"Pages");
+                OnPropertyChanged(nameof(Pages));
             }
         }
 

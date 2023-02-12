@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
                 {
                     if ((value < Minimum) || (value > Maximum))
                     {
-                        throw new ArgumentOutOfRangeException(@"Value", @"Provided value is out of the Minimum to Maximum range of values.");
+                        throw new ArgumentOutOfRangeException(nameof(Value), @"Provided value is out of the Minimum to Maximum range of values.");
                     }
 
                     _value = value;
@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(@"SmallChange", @"SmallChange cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(SmallChange), @"SmallChange cannot be less than zero.");
                 }
 
                 _smallChange = value;
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(@"LargeChange", @"LargeChange cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(LargeChange), @"LargeChange cannot be less than zero.");
                 }
 
                 _largeChange = value;

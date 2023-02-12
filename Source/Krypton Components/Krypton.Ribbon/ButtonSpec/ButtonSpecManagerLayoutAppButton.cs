@@ -19,10 +19,6 @@ namespace Krypton.Ribbon
     /// </summary>
     public class ButtonSpecManagerLayoutAppButton : ButtonSpecManagerLayout
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecManagerLayoutAppButton class.

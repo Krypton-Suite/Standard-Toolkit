@@ -186,19 +186,19 @@ namespace Krypton.Toolkit
                 _visible2 = new DesignerVerb(_text2, OnVisibleClick);
 
                 // Add the list of panel specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"GroupBackStyle", @"Back style", @"Appearance", @"Background style"));
-                actions.Add(new DesignerActionPropertyItem(@"GroupBorderStyle", @"Border style", @"Appearance", @"Border style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(GroupBackStyle), @"Back style", nameof(Appearance), @"Background style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(GroupBorderStyle), @"Border style", nameof(Appearance), @"Border style"));
                 actions.Add(new DesignerActionHeaderItem(@"Primary Header"));
                 actions.Add(new KryptonDesignerActionItem(_visible1, "Primary Header"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderStylePrimary", @"Style", @"Primary Header", @"Primary header style"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderPositionPrimary", @"Position", @"Primary Header", @"Primary header position"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderStylePrimary), @"Style", @"Primary Header", @"Primary header style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderPositionPrimary), @"Position", @"Primary Header", @"Primary header position"));
                 actions.Add(new DesignerActionHeaderItem(@"Secondary Header"));
                 actions.Add(new KryptonDesignerActionItem(_visible2, "Secondary Header"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderStyleSecondary", @"Style", @"Secondary Header", @"Secondary header style"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderPositionSecondary", @"Position", @"Secondary Header", @"Secondary header position"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderStyleSecondary), @"Style", @"Secondary Header", @"Secondary header style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderPositionSecondary), @"Position", @"Secondary Header", @"Secondary header position"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteBack inherit = GetInheritBack(style, state);
 
@@ -304,7 +304,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             IPaletteBorder inherit = GetInheritBorder(style, state);
 
@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetInheritContent(style, state);
 
@@ -787,7 +787,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetInheritContent(style, state);
 
@@ -848,7 +848,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteBack GetInheritBack(PaletteBackStyle style, PaletteState state)
+        private IPaletteBack? GetInheritBack(PaletteBackStyle style, PaletteState state)
         {
             switch (state)
             {
@@ -974,7 +974,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private IPaletteBorder GetInheritBorder(PaletteBorderStyle style, PaletteState state)
+        private IPaletteBorder? GetInheritBorder(PaletteBorderStyle style, PaletteState state)
         {
             switch (state)
             {
@@ -1088,7 +1088,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private IPaletteContent GetInheritContent(PaletteContentStyle style, PaletteState state)
+        private IPaletteContent? GetInheritContent(PaletteContentStyle style, PaletteState state)
         {
             switch (state)
             {

@@ -20,10 +20,6 @@ namespace Krypton.Docking
     [DesignTimeVisible(false)]
     public class KryptonDockingFloating : DockingElementClosedCollection
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDockingFloating class.
@@ -55,21 +51,21 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <returns>Reference to docking element that handles the new workspace.</returns>
-        public KryptonDockingFloatingWindow AddFloatingWindow(string name) => CreateFloatingWindow(name);
+        public KryptonDockingFloatingWindow AddFloatingWindow(string? name) => CreateFloatingWindow(name);
 
         /// <summary>
         /// Find a floating docking element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
         /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
-        public override KryptonDockingFloating FindDockingFloating(string uniqueName) => this;
+        public override KryptonDockingFloating? FindDockingFloating(string uniqueName) => this;
 
         /// <summary>
         /// Return the floating window element that contains a placeholder for the named page.
         /// </summary>
         /// <param name="uniqueName">Unique name for search.</param>
         /// <returns>Reference to KryptonDockingFloatingWindow if placeholder found; otherwise null.</returns>
-        public KryptonDockingFloatingWindow FloatingWindowForStorePage(string uniqueName)
+        public KryptonDockingFloatingWindow? FloatingWindowForStorePage(string uniqueName)
         {
             // Search all the child docking elements
             foreach (IDockingElement child in this)
@@ -77,7 +73,7 @@ namespace Krypton.Docking
                 // Only interested in floating window elements
                 if (child is KryptonDockingFloatingWindow floatingWindow)
                 {
-                    var ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
+                    bool? ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
                     if (ret.HasValue && ret.Value)
                     {
                         return floatingWindow;
@@ -108,7 +104,7 @@ namespace Krypton.Docking
         /// <param name="child">Optional reference to existing child docking element.</param>
         protected override void LoadChildDockingElement(XmlReader xmlReader,
                                                         KryptonPageCollection pages,
-                                                        IDockingElement child)
+                                                        IDockingElement? child)
         {
             if (child != null)
             {
@@ -124,7 +120,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private KryptonDockingFloatingWindow CreateFloatingWindow(string name)
+        private KryptonDockingFloatingWindow CreateFloatingWindow(string? name)
         {
             // Create a floatspace and floating window for hosting the floatspace
             var floatSpaceElement = new KryptonDockingFloatspace(@"Floatspace");
@@ -133,7 +129,7 @@ namespace Krypton.Docking
             InternalAdd(floatingWindowElement);
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Generate events so the floating window/dockspace appearance can be customized

@@ -22,9 +22,9 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
-    [DefaultBindingProperty("Value")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
+    [DefaultBindingProperty(nameof(Value))]
     public class KryptonRibbonGroupDateTimePicker : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -351,7 +351,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => DateTimePicker.ContextMenuStrip;
             set => DateTimePicker.ContextMenuStrip = value;
@@ -363,7 +363,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the date time picker is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => DateTimePicker.KryptonContextMenu;
             set => DateTimePicker.KryptonContextMenu = value;

@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class MapKryptonPageImageConverter : StringLookupConverter
     {
-        #region Static Fields
-
-        #endregion
-                                             
         #region Identity
         /// <summary>
         /// Initialize a new instance of the MapKryptonPageImageConverter class.
@@ -46,7 +42,7 @@ namespace Krypton.Navigator
             new(MapKryptonPageImage.Large,            "Large"),
             new(MapKryptonPageImage.LargeMedium,      "Large - Medium"),
             new(MapKryptonPageImage.LargeMediumSmall, "Large - Medium - Small"),
-            new(MapKryptonPageImage.ToolTip,          "ToolTip") };
+            new(MapKryptonPageImage.ToolTip,          nameof(ToolTip)) };
 
         #endregion
     }

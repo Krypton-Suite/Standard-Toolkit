@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private IPaletteBack _inherit;
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         #endregion
 
         #region Events
@@ -477,7 +477,7 @@ namespace Krypton.Toolkit
         [Description(@"Background image.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _storage?.BackImage;
 
@@ -512,7 +512,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBackImage(PaletteState state) => Image ?? _inherit.GetBackImage(state);
+        public Image? GetBackImage(PaletteState state) => Image ?? _inherit.GetBackImage(state);
         #endregion
 
         #region ImageStyle

@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => _palette.GetContentShortTextImage(ContentStyle, state);
+        public Image? GetContentShortTextImage(PaletteState state) => _palette.GetContentShortTextImage(ContentStyle, state);
 
         /// <summary>
         /// Gets the image style for the short text.
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => _palette.GetContentLongTextImage(ContentStyle, state);
+        public Image? GetContentLongTextImage(PaletteState state) => _palette.GetContentLongTextImage(ContentStyle, state);
 
         /// <summary>
         /// Gets the image style for the long text.

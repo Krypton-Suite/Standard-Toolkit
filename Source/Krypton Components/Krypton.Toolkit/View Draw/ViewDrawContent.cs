@@ -18,12 +18,12 @@ namespace Krypton.Toolkit
     public class ViewDrawContent : ViewLeaf
     {
         #region Static Fields
-        private static PropertyInfo _pi = null;
+        private static PropertyInfo? _pi;
         #endregion
 
         #region Instance Fields
-        internal IPaletteContent _paletteContent;
-        private IDisposable _memento;
+        internal IPaletteContent? _paletteContent;
+        private IDisposable? _memento;
 
         #endregion
 
@@ -34,8 +34,8 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Palette source for the content.</param>
         /// <param name="values">Reference to actual content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawContent(IPaletteContent paletteContent, 
-                               IContentValues values,
+        public ViewDrawContent(IPaletteContent? paletteContent, 
+                               IContentValues? values,
                                VisualOrientation orientation)
         {
             // Cache the starting values
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="composition">Draw on composition.</param>
         /// <param name="glowing">If composition, should glowing be drawn.</param>
-        public ViewDrawContent(IPaletteContent paletteContent,
+        public ViewDrawContent(IPaletteContent? paletteContent,
                                IContentValues values,
                                VisualOrientation orientation,
                                bool composition,
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the source for values.
         /// </summary>
-        public IContentValues Values { get; set; }
+        public IContentValues? Values { get; set; }
 
         #endregion
 
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         /// Update the source palette for drawing.
         /// </summary>
         /// <param name="paletteContent">Palette source for the content.</param>
-        public void SetPalette(IPaletteContent paletteContent)
+        public void SetPalette([DisallowNull] IPaletteContent paletteContent)
         {
             Debug.Assert(paletteContent != null);
 
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         /// Gets the source palette used for drawing.
         /// </summary>
         /// <returns>Palette source for the content.</returns>
-        public IPaletteContent GetPalette() => _paletteContent;
+        public IPaletteContent? GetPalette() => _paletteContent;
 
         #endregion
 
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
             var isDisplayed = false;
 
             // If we have some content to investigate
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent?.GetContentDraw(State) == InheritBool.True)
             {
                 isDisplayed = context.Renderer.RenderStandardContent.GetContentImageDisplayed(_memento);
             }
@@ -416,9 +416,9 @@ namespace Krypton.Toolkit
         {
             if (_pi == null)
             {
-                _pi = typeof(Control).GetProperty(@"ShowFocusCues", BindingFlags.Instance |
-                                                                   BindingFlags.GetProperty |
-                                                                   BindingFlags.NonPublic);
+                _pi = typeof(Control).GetProperty(nameof(ShowFocusCues), BindingFlags.Instance |
+                                                                         BindingFlags.GetProperty |
+                                                                         BindingFlags.NonPublic);
             }
 
             return (bool)_pi.GetValue(c, null);

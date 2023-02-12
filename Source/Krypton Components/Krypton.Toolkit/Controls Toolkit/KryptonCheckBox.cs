@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckBox), "ToolboxBitmaps.KryptonCheckBox.bmp")]
-    [DefaultEvent("CheckedChanged")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("CheckState")]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(CheckState))]
     [Designer("Krypton.Toolkit.KryptonCheckBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Allow user to set or clear the associated option.")]
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         private readonly PaletteContentInheritRedirect _paletteCommonRedirect;
         private readonly PaletteRedirectCheckBox _paletteCheckBoxImages;
         private readonly PaletteContentInheritOverride _overrideNormal;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private VisualOrientation _checkPosition;
         private CheckState _checkState;
         private CheckState _wasCheckState;
@@ -223,6 +223,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -246,7 +247,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -273,7 +274,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual position of the check box.")]
-        [DefaultValue(typeof(VisualOrientation), "Left")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Left))]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
         {
@@ -495,7 +496,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the check button.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -571,7 +572,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -672,13 +673,13 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Enabled":
+                case nameof(Enabled):
                     Enabled = KryptonCommand.Enabled;
                     break;
-                case @"CheckState":
+                case nameof(CheckState):
                     CheckState = KryptonCommand.CheckState;
                     break;
-                case @"Text":
+                case nameof(Text):
                 case @"ExtraText":
                 case @"ImageSmall":
                 case @"ImageTransparentColor":

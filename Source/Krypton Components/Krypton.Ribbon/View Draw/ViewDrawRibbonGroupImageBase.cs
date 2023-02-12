@@ -20,10 +20,6 @@ namespace Krypton.Ribbon
     internal abstract class ViewDrawRibbonGroupImageBase : ViewLeaf
                                               
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewDrawRibbonGroupImageBase class.

@@ -12,15 +12,6 @@ namespace Krypton.Toolkit
     /// <summary>Allows the manipulation of graphics.</summary>
     public static class GraphicsExtensions
     {
-        #region Identity
-
-        static GraphicsExtensions()
-        {
-
-        }
-
-        #endregion
-
         #region Implementation
 
         /// <summary>Loads the icon.</summary>
@@ -28,7 +19,7 @@ namespace Krypton.Toolkit
         /// <param name="size">The size.</param>
         /// <returns>The icon.</returns>
         /// <exception cref="System.PlatformNotSupportedException"></exception>
-        public static Icon LoadIcon(IconType type, Size size)
+        public static Icon? LoadIcon(IconType type, Size size)
         {
             IntPtr hIcon = ImageNativeMethods.LoadImage(IntPtr.Zero, "#" + (int)type, 1, size.Width, size.Height, 0);
             return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
@@ -37,9 +28,9 @@ namespace Krypton.Toolkit
         /// <summary>Returns an icon representation of an image that is contained in the specified file.</summary>
         /// <param name="executablePath"></param>
         /// <returns></returns>
-        public static Icon ExtractIconFromFilePath(string executablePath)
+        public static Icon? ExtractIconFromFilePath(string? executablePath)
         {
-            Icon result = null;
+            Icon? result = null;
 
             try
             {
@@ -85,84 +76,46 @@ namespace Krypton.Toolkit
         /// <param name="sourceImage">The image to resize.</param>
         /// <param name="imageSize">The size that you want to resize the image to.</param>
         /// <returns>The resized image.</returns>
-        public static Bitmap ScaleImage(Image sourceImage, Size? imageSize)
+        public static Bitmap? ScaleImage(Image? sourceImage, Size? imageSize)
         {
             try
             {
                 Size tmpSize = imageSize ?? new Size(16, 16);
-
-                var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
 
                 var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
 
                 if (sourceImage != null)
                 {
                     destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
-                }
 
-                using (var graphics = Graphics.FromImage(destImage))
-                {
+                    using var graphics = Graphics.FromImage(destImage);
                     graphics.CompositingMode = CompositingMode.SourceCopy;
-
                     graphics.CompositingQuality = CompositingQuality.HighQuality;
-
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    using var wrapMode = new ImageAttributes();
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
 
-                    using (var wrapMode = new ImageAttributes())
-                    {
-                        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-
-                        if (sourceImage != null)
-                        {
-                            graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height,
-                                GraphicsUnit.Pixel, wrapMode);
-                        }
-                    }
+                    var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
+                    graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height,
+                        GraphicsUnit.Pixel, wrapMode);
                 }
 
                 return destImage;
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: @"GraphicsExtensions", methodSignature: @"ScaleImage(Image sourceImage, Size? imageSize)");
+                ExceptionHandler.CaptureException(e, className: nameof(GraphicsExtensions), methodSignature: @"ScaleImage(Image sourceImage, Size? imageSize)");
 
                 return null;
             }
         }
 
-        public static Bitmap ScaleImage(Image image, int width, int height)
+        public static Bitmap? ScaleImage(Image? image, int width, int height)
         {
-            var destRect = new Rectangle(0, 0, width, height);
-
-            var destImage = new Bitmap(width, height);
-
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
-                {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-                }
-            }
-
-            return destImage;
+            return ScaleImage(image, new Size(width, height));
         }
 
         public enum IconType

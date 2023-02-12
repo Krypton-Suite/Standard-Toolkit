@@ -17,9 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public partial class KryptonContextMenuCollectionEditor : CollectionEditor
     {
-        #region Classes
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuCollectionEditor class.

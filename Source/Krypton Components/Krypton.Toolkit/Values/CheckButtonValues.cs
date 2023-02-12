@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state)
+        public override Image? GetImage(PaletteState state)
         {
             // Try and get a state specific image
             Image image = state switch

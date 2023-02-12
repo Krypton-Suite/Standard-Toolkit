@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Image associated with item.")]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         #endregion
 
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => _image;
+        public Image? GetImage(PaletteState state) => _image;
 
         /// <summary>
         /// Gets the image color that should be transparent.

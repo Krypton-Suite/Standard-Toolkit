@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>Reference if inside a group; otherwise null.</returns>
-        public ViewDrawRibbonGroup ViewGroupFromPoint(Point pt)
+        public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // There can only be groups showing for the currently selected tab
             if (Ribbon.SelectedTab != null && _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -70,13 +70,13 @@ namespace Krypton.Ribbon
                 ViewLayoutRibbonScrollPort viewScrollPort = _tabToView[Ribbon.SelectedTab];
 
                 // The first child of the scroll port is always the view control
-                ViewLayoutControl viewControl = viewScrollPort[0] as ViewLayoutControl;
+                ViewLayoutControl? viewControl = viewScrollPort[0] as ViewLayoutControl;
 
                 // The first child of the view control is always the ribbon groups
-                ViewLayoutRibbonGroups viewGroups = viewControl.ChildView as ViewLayoutRibbonGroups;
+                ViewLayoutRibbonGroups? viewGroups = viewControl?.ChildView as ViewLayoutRibbonGroups;
 
                 // Ask the view groups to find a matching group
-                return viewGroups.ViewGroupFromPoint(pt);
+                return viewGroups?.ViewGroupFromPoint(pt);
             }
 
             return null;
@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -139,7 +139,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current)
+        public ViewBase? GetNextFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current)
+        public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))

@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette for sourcing information.</param>
         /// <param name="buttonSpec">Source button spec instance.</param>
-        public ButtonSpecToContent(PaletteBase palette,
-                                   ButtonSpec buttonSpec)
+        public ButtonSpecToContent([DisallowNull] PaletteBase palette,
+            [DisallowNull] ButtonSpec buttonSpec)
         {
             Debug.Assert(palette != null);
             Debug.Assert(buttonSpec != null);
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => _buttonSpec.ToolTipImage;
+        public Image? GetImage(PaletteState state) => _buttonSpec.ToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.

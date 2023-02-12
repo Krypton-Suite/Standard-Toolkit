@@ -113,7 +113,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Sets the image list to use for the source of the image.
         /// </summary>
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             set 
             {
@@ -190,7 +190,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
+        public virtual Image? GetImage(PaletteState state)
         {
            // Cache image so we do not copy it every time it is requested
            if ((_image == null) && (_imageList != null) && (_imageIndex >= 0))

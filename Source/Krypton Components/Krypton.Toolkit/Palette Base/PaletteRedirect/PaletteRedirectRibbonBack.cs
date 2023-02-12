@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteRibbonBack GetBackInherit(PaletteState state)
+        private IPaletteRibbonBack? GetBackInherit(PaletteState state)
         {
             switch (state)
             {

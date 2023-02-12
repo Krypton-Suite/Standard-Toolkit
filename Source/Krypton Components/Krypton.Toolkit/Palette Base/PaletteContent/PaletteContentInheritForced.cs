@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to inherit from.
         /// </summary>
-        public void SetInherit(IPaletteContent paletteContent)
+        public void SetInherit([DisallowNull] IPaletteContent paletteContent)
         {
             Debug.Assert(paletteContent != null);
             _inherit = paletteContent;
@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteState state) => _inherit.GetContentShortTextImage(state);
+        public override Image? GetContentShortTextImage(PaletteState state) => _inherit.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the background image style.
@@ -330,7 +330,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteState state) => _inherit.GetContentLongTextImage(state);
+        public override Image? GetContentLongTextImage(PaletteState state) => _inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the background image style for the long text.

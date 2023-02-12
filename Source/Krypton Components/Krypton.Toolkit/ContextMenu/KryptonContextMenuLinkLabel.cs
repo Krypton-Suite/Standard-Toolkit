@@ -19,14 +19,14 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuLinkLabel), "ToolboxBitmaps.KryptonLinkLabel.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
-    [DefaultEvent(@"Click")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(Click))]
     public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private bool _autoClose;
         private string _text;
-        private string _extraText;
+        private string? _extraText;
         private Image _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateNormalRedirect;
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuLinkLabel class.
         /// </summary>
         public KryptonContextMenuLinkLabel()
-            : this(@"LinkLabel")
+            : this(nameof(LinkLabel))
         {
         }
 
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Main link label text.")]
-        [DefaultValue(@"LinkLabel")]
+        [DefaultValue(nameof(LinkLabel))]
         [Localizable(true)]
         public string Text
         {
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
         [Description(@"Link label extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public string ExtraText
+        public string? ExtraText
         {
             get => _extraText;
 
@@ -281,7 +281,7 @@ namespace Krypton.Toolkit
         [Description(@"Link label image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -380,7 +380,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 

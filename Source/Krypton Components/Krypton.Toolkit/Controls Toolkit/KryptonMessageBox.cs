@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null) =>
+        public static DialogResult Show(IWin32Window? owner, string text, bool? showCtrlCopy = null) =>
             ShowCore(owner, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy, false, null, @"", null, null, @"");
 
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null) =>
+        public static DialogResult Show(IWin32Window? owner, string text, string caption, bool? showCtrlCopy = null) =>
             ShowCore(owner, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                 KryptonMessageBoxDefaultButton.Button4,
                 0, null, showCtrlCopy, false, null, @"", null, null, @"");
@@ -115,9 +115,10 @@ namespace Krypton.Toolkit
             bool? showCtrlCopy = null,
             bool? showHelpButton = null,
             bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null, Image applicationImage = null,
-            string applicationPath = @"")
+            string? actionButtonText = @"",
+            KryptonCommand? actionButtonCommand = null, 
+            Image? applicationImage = null,
+            string? applicationPath = @"")
             =>
                 ShowCore(null, text, caption, buttons, icon, defaultButton, options,
                              displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -144,7 +145,7 @@ namespace Krypton.Toolkit
         /// <param name="applicationImage">The image of the application.</param>
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text,
+        public static DialogResult Show(IWin32Window? owner, string text,
             string caption,
             KryptonMessageBoxButtons buttons,
             KryptonMessageBoxIcon icon,
@@ -154,9 +155,9 @@ namespace Krypton.Toolkit
             bool? showCtrlCopy = null,
             bool? showHelpButton = null,
             bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null, Image applicationImage = null,
-            string applicationPath = @"")
+            string? actionButtonText = @"",
+            KryptonCommand? actionButtonCommand = null, Image? applicationImage = null,
+            string? applicationPath = @"")
             =>
                 ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
                              displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -181,11 +182,11 @@ namespace Krypton.Toolkit
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
-            MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
+            MessageBoxOptions options, string? helpFilePath, HelpNavigator navigator, object? param, bool? showCtrlCopy = null,
             bool? showHelpButton = null,
             bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null, Image applicationImage = null, string applicationPath = @"")
+            string? actionButtonText = @"",
+            KryptonCommand? actionButtonCommand = null, Image? applicationImage = null, string? applicationPath = @"")
             => ShowCore(null, text, caption, buttons, icon, defaultButton, options,
                             new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
                             showHelpButton, showActionButton, actionButtonText,
@@ -212,12 +213,12 @@ namespace Krypton.Toolkit
         /// <param name="applicationImage">The image of the application.</param>
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
-            MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
+        public static DialogResult Show(IWin32Window? owner, string text, string caption, KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
+            MessageBoxOptions options, string? helpFilePath, HelpNavigator navigator, object? param, bool? showCtrlCopy = null,
             bool? showHelpButton = null,
             bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null, Image applicationImage = null, string applicationPath = @"")
+            string? actionButtonText = @"",
+            KryptonCommand? actionButtonCommand = null, Image? applicationImage = null, string? applicationPath = @"")
             => ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
                             new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
                             showHelpButton, showActionButton, actionButtonText,
@@ -244,21 +245,21 @@ namespace Krypton.Toolkit
         /// <param name="applicationImage">The image of the application.</param>
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        private static DialogResult ShowCore(IWin32Window owner,
+        private static DialogResult ShowCore(IWin32Window? owner,
                                                  string text, string caption,
                                                  KryptonMessageBoxButtons buttons,
                                                  KryptonMessageBoxIcon icon,
                                                  KryptonMessageBoxDefaultButton defaultButton,
                                                  MessageBoxOptions options,
-                                                 HelpInfo helpInfo, bool? showCtrlCopy,
+                                                 HelpInfo? helpInfo, bool? showCtrlCopy,
                                                  bool? showHelpButton,
-                                                 bool? showActionButton, string actionButtonText,
-                                                 KryptonCommand actionButtonCommand,
-                                                 Image applicationImage, string applicationPath)
+                                                 bool? showActionButton, string? actionButtonText,
+                                                 KryptonCommand? actionButtonCommand,
+                                                 Image? applicationImage, string? applicationPath)
         {
             caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
-            IWin32Window showOwner = ValidateOptions(owner, options, helpInfo);
+            IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it afterwards
             using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options,
@@ -270,7 +271,7 @@ namespace Krypton.Toolkit
         }
 
         #region WinForm Compatibility
-        private static IWin32Window ValidateOptions(IWin32Window owner, MessageBoxOptions options, HelpInfo helpInfo)
+        private static IWin32Window? ValidateOptions(IWin32Window? owner, MessageBoxOptions options, HelpInfo? helpInfo)
         {
             // Check if trying to show a message box from a non-interactive process, this is not possible
             if (!SystemInformation.UserInteractive &&
@@ -293,7 +294,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
             }
 
-            IWin32Window showOwner = null;
+            IWin32Window? showOwner = null;
             if ((helpInfo != null) ||
                 ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
             {

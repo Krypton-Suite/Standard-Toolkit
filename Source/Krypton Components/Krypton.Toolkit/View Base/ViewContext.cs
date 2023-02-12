@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the renderer provider.
         /// </summary>
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;

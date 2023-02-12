@@ -22,7 +22,7 @@ namespace Krypton.Docking
     {
         #region Instance Fields
 
-        private IDockingElement _parent;
+        private IDockingElement? _parent;
         #endregion
 
         #region Identity
@@ -30,7 +30,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the DockingElement class.
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
-        protected DockingElement(string name) =>
+        protected DockingElement(string? name) =>
             // Do not allow null, use empty string instead
             Name = name ?? string.Empty;
 
@@ -41,6 +41,7 @@ namespace Krypton.Docking
         /// Gets and sets the name of the docking element.
         /// </summary>
         [Browsable(false)]
+        [DisallowNull]
         public string Name { get; }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Krypton.Docking
             {
                 StringBuilder path = new();
 
-                IDockingElement element = this;
+                IDockingElement? element = this;
                 while (element != null)
                 {
                     // Need to comma separate element names
@@ -78,7 +79,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="path">Comma separated list of names to resolve.</param>
         /// <returns>IDockingElement reference if path was resolved with success; otherwise null.</returns>
-        public virtual IDockingElement ResolvePath(string path)
+        public virtual IDockingElement? ResolvePath(string path)
         {
             // Cannot resolve a null reference
             if (path == null)
@@ -122,7 +123,7 @@ namespace Krypton.Docking
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual IDockingElement Parent
+        public virtual IDockingElement? Parent
         {
             get => _parent;
 
@@ -143,13 +144,14 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public virtual void PropogateAction(DockingPropogateAction action, string[] uniqueNames)
+        public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
+            int countToUse = Math.Min(Count, uniqueNames?.Length ?? 0);
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (var i = Count - 1; i >= 0; i--)
+            for (var i = countToUse - 1; i >= 0; i--)
             {
-                this[i].PropogateAction(action, uniqueNames);
+                this[i]!.PropogateAction(action, uniqueNames);
             }
         }
 
@@ -164,7 +166,7 @@ namespace Krypton.Docking
             // (use reverse order so if element removes itself we still have a valid loop)
             for (var i = Count - 1; i >= 0; i--)
             {
-                this[i].PropogateAction(action, pages);
+                this[i]?.PropogateAction(action, pages);
             }
         }
 
@@ -179,7 +181,7 @@ namespace Krypton.Docking
             // (use reverse order so if element removes itself we still have a valid loop)
             for (var i = Count - 1; i >= 0; i--)
             {
-                this[i].PropogateAction(action, value);
+                this[i]?.PropogateAction(action, value);
             }
         }
 
@@ -195,7 +197,7 @@ namespace Krypton.Docking
             for (var i = 0; i < Count; i++)
             {
                 // If the child knows the exact answer then return it now
-                var ret = this[i].PropogateBoolState(state, uniqueName);
+                var ret = this[i]?.PropogateBoolState(state, uniqueName);
                 if (ret.HasValue)
                 {
                     return ret;
@@ -215,7 +217,7 @@ namespace Krypton.Docking
             // Propagate the request to all the child elements
             for (var i = Count - 1; i >= 0; i--)
             {
-                this[i].PropogateIntState(state, ref value);
+                this[i]?.PropogateIntState(state, ref value);
             }
         }
 
@@ -225,13 +227,13 @@ namespace Krypton.Docking
         /// <param name="state">Request that should result in a page reference if found.</param>
         /// <param name="uniqueName">Unique name of the page the request relates to.</param>
         /// <returns>Reference to page that matches the request; otherwise null.</returns>
-        public virtual KryptonPage PropogatePageState(DockingPropogatePageState state, string uniqueName)
+        public virtual KryptonPage? PropogatePageState(DockingPropogatePageState state, string uniqueName)
         {
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
                 // If the child knows the answer then return it now
-                KryptonPage page = this[i].PropogatePageState(state, uniqueName);
+                KryptonPage? page = this[i]?.PropogatePageState(state, uniqueName);
                 if (page != null)
                 {
                     return page;
@@ -252,7 +254,7 @@ namespace Krypton.Docking
             // (use reverse order so if element removes itself we still have a valid loop)
             for (var i = Count - 1; i >= 0; i--)
             {
-                this[i].PropogatePageList(state, pages);
+                this[i]?.PropogatePageList(state, pages);
             }
         }
 
@@ -267,7 +269,7 @@ namespace Krypton.Docking
             // (use reverse order so if element removes itself we still have a valid loop)
             for (var i = Count - 1; i >= 0; i--)
             {
-                this[i].PropogateCellList(state, cells);
+                this[i]?.PropogateCellList(state, cells);
             }
         }
 
@@ -277,7 +279,7 @@ namespace Krypton.Docking
         /// <param name="floatingWindow">Reference to window being dragged.</param>
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
-        public virtual void PropogateDragTargets(KryptonFloatingWindow floatingWindow,
+        public virtual void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
                                                  PageDragEndData dragData,
                                                  DragTargetList targets)
         {
@@ -301,7 +303,7 @@ namespace Krypton.Docking
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                location = this[i].FindPageLocation(uniqueName);
+                location = this[i]?.FindPageLocation(uniqueName) ?? DockingLocation.None;
                 if (location != DockingLocation.None)
                 {
                     break;
@@ -316,15 +318,15 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        public virtual IDockingElement FindPageElement(string uniqueName)
+        public virtual IDockingElement? FindPageElement(string uniqueName)
         {
             // Default to not finding the element
-            IDockingElement dockingElement = null;
+            IDockingElement? dockingElement = null;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                dockingElement = this[i].FindPageElement(uniqueName);
+                dockingElement = this[i]?.FindPageElement(uniqueName);
                 if (dockingElement != null)
                 {
                     break;
@@ -340,15 +342,15 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="uniqueName">Unique name of the page to be found.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public virtual IDockingElement FindStorePageElement(DockingLocation location, string uniqueName)
+        public virtual IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
         {
             // Default to not finding the element
-            IDockingElement dockingElement = null;
+            IDockingElement? dockingElement = null;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                dockingElement = this[i].FindStorePageElement(location, uniqueName);
+                dockingElement = this[i]?.FindStorePageElement(location, uniqueName);
                 if (dockingElement != null)
                 {
                     break;
@@ -363,15 +365,15 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
         /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
-        public virtual KryptonDockingFloating FindDockingFloating(string uniqueName)
+        public virtual KryptonDockingFloating? FindDockingFloating(string uniqueName)
         {
             // Default to not finding the element
-            KryptonDockingFloating floatingElement = null;
+            KryptonDockingFloating? floatingElement = null;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                floatingElement = this[i].FindDockingFloating(uniqueName);
+                floatingElement = this[i]?.FindDockingFloating(uniqueName);
                 if (floatingElement != null)
                 {
                     break;
@@ -386,15 +388,15 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
         /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
-        public virtual KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName)
+        public virtual KryptonDockingEdgeDocked? FindDockingEdgeDocked(string uniqueName)
         {
             // Default to not finding the element
-            KryptonDockingEdgeDocked edgeDockedElement = null;
+            KryptonDockingEdgeDocked? edgeDockedElement = null;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                edgeDockedElement = this[i].FindDockingEdgeDocked(uniqueName);
+                edgeDockedElement = this[i]?.FindDockingEdgeDocked(uniqueName);
                 if (edgeDockedElement != null)
                 {
                     break;
@@ -409,15 +411,15 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
         /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
-        public virtual KryptonDockingEdgeAutoHidden FindDockingEdgeAutoHidden(string uniqueName)
+        public virtual KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName)
         {
             // Default to not finding the element
-            KryptonDockingEdgeAutoHidden edgeAutoHiddenElement = null;
+            KryptonDockingEdgeAutoHidden? edgeAutoHiddenElement = null;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                edgeAutoHiddenElement = this[i].FindDockingEdgeAutoHidden(uniqueName);
+                edgeAutoHiddenElement = this[i]?.FindDockingEdgeAutoHidden(uniqueName);
                 if (edgeAutoHiddenElement != null)
                 {
                     break;
@@ -432,15 +434,15 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
         /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
-        public virtual KryptonDockingWorkspace FindDockingWorkspace(string uniqueName)
+        public virtual KryptonDockingWorkspace? FindDockingWorkspace(string uniqueName)
         {
             // Default to not finding the element
-            KryptonDockingWorkspace workspaceElement = null;
+            KryptonDockingWorkspace? workspaceElement = null;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                workspaceElement = this[i].FindDockingWorkspace(uniqueName);
+                workspaceElement = this[i]?.FindDockingWorkspace(uniqueName);
                 if (workspaceElement != null)
                 {
                     break;
@@ -455,15 +457,15 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable navigator element is required.</param>
         /// <returns>KryptonDockingNavigator reference if found; otherwise false.</returns>
-        public virtual KryptonDockingNavigator FindDockingNavigator(string uniqueName)
+        public virtual KryptonDockingNavigator? FindDockingNavigator(string uniqueName)
         {
             // Default to not finding the element
-            KryptonDockingNavigator navigatorElement = null;
+            KryptonDockingNavigator? navigatorElement = null;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)
             {
-                navigatorElement = this[i].FindDockingNavigator(uniqueName);
+                navigatorElement = this[i]?.FindDockingNavigator(uniqueName);
                 if (navigatorElement != null)
                 {
                     break;
@@ -508,8 +510,8 @@ namespace Krypton.Docking
             }
 
             // Grab the element attributes
-            var elementName = xmlReader.GetAttribute(@"N");
-            var elementCount = xmlReader.GetAttribute(@"C");
+            var elementName = xmlReader.GetAttribute(@"N") ?? string.Empty;
+            var elementCount = xmlReader.GetAttribute(@"C") ?? string.Empty;
 
             // Check the name matches up
             if (elementName != Name)
@@ -533,10 +535,13 @@ namespace Krypton.Docking
                     }
 
                     // Find a child docking element with the matching name
-                    IDockingElement child = this[xmlReader.GetAttribute(@"N")];
+                    IDockingElement? child = this[xmlReader.GetAttribute(@"N")!];
 
-                    // Let derived class perform child element specific processing
-                    LoadChildDockingElement(xmlReader, pages, child);
+                    if (child != null)
+                    {
+                        // Let derived class perform child element specific processing
+                        LoadChildDockingElement(xmlReader, pages, child);
+                    }
                 }
             }
 
@@ -551,13 +556,15 @@ namespace Krypton.Docking
         /// Checks that the provided set of pages are not already present in the docking hierarchy.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void DemandPagesNotBePresent(KryptonPage[] pages)
+        public void DemandPagesNotBePresent(KryptonPage[]? pages)
         {
             // We need a docking manager in order to perform testing
             DemandDockingManager();
 
             // We always allow store pages but check that others are not already present in the docking hierarchy
-            if (pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)))
+            if ( pages != null 
+                 && DockingManager != null
+                 && pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)) )
             {
                 throw new ArgumentOutOfRangeException(nameof(pages), @"Cannot perform operation with a page that is already present inside docking hierarchy");
             }
@@ -585,12 +592,12 @@ namespace Krypton.Docking
         /// Finds the KryptonDockingManager instance that owns this part of the docking hierarchy.
         /// </summary>
         [Browsable(false)]
-        public KryptonDockingManager DockingManager
+        public KryptonDockingManager? DockingManager
         {
             get
             {
                 // Searching from this element upwards
-                IDockingElement parent = this;
+                IDockingElement? parent = this;
                 while (parent != null)
                 {
                     // If we find a match then we are done
@@ -613,10 +620,10 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="findType">Type of the instance we are searching for.</param>
         /// <returns>Object reference if found and it implements IDockingElement; otherwise null.</returns>
-        public IDockingElement GetParentType(Type findType)
+        public IDockingElement? GetParentType(Type findType)
         {
             // Searching from this element upwards
-            IDockingElement parent = this;
+            IDockingElement? parent = this;
             while (parent != null)
             {
                 // If we find a match then we are done
@@ -644,14 +651,14 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="index">Index.</param>
         /// <returns>Docking element at specified index.</returns>
-        public virtual IDockingElement this[int index] => null;
+        public virtual IDockingElement? this[int index] => null;
 
         /// <summary>
         /// Gets the docking element with the specified name.
         /// </summary>
         /// <param name="name">Name of element.</param>
         /// <returns>Docking element with specified name.</returns>
-        public virtual IDockingElement this[string name] => null;
+        public virtual IDockingElement? this[string name] => null;
 
         /// <summary>
         /// Shallow enumerate over child docking elements.
@@ -693,7 +700,7 @@ namespace Krypton.Docking
         /// <param name="child">Optional reference to existing child docking element.</param>
         protected virtual void LoadChildDockingElement(XmlReader xmlReader,
                                                        KryptonPageCollection pages,
-                                                       IDockingElement child)
+                                                       IDockingElement? child)
         {
             if (child != null)
             {

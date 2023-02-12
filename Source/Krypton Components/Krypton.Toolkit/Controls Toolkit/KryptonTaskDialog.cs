@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTaskDialog), "ToolboxBitmaps.KryptonTaskDialog.bmp")]
-    [DefaultEvent("PropertyChanged")]
+    [DefaultEvent(nameof(PropertyChanged))]
     [DesignerCategory(@"code")]
     [Description(@"Displays a task dialog for presenting different options to the user.")]
     public class KryptonTaskDialog : Component, INotifyPropertyChanged
@@ -27,13 +27,13 @@ namespace Krypton.Toolkit
         private string _windowTitle;
         private string _mainInstruction;
         private string _content;
-        private Image _customIcon;
+        private Image? _customIcon;
         private KryptonMessageBoxIcon _icon;
         private KryptonTaskDialogCommand _defaultRadioButton;
         private TaskDialogButtons _commonButtons;
         private TaskDialogButtons _defaultButton;
         private KryptonMessageBoxIcon _footerIcon;
-        private Image _customFooterIcon;
+        private Image? _customFooterIcon;
         private string _footerText;
         private string _footerHyperlink;
         private string _checkboxText;
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Custom icon.")]
         [DefaultValue(null)]
-        public Image CustomIcon
+        public Image? CustomIcon
         {
             get => _customIcon;
 
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Custom footer icon.")]
         [DefaultValue(null)]
-        public Image CustomFooterIcon
+        public Image? CustomFooterIcon
         {
             get => _customFooterIcon;
 

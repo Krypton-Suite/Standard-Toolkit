@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public abstract class KryptonPaletteTMSBase : Storage
     {
-        #region Instance Fields
-
-        #endregion
-        
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteKCTBase class.

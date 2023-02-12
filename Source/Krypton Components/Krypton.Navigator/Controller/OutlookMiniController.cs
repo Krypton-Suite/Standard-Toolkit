@@ -40,7 +40,7 @@ namespace Krypton.Navigator
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public OutlookMiniController(ViewBase target,
-                                     NeedPaintHandler needPaint)
+            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(needPaint != null);
 
@@ -172,7 +172,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Mouse is no longer over the target
             _mouseOver = false;
@@ -209,7 +209,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -253,7 +253,7 @@ namespace Krypton.Navigator
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -304,6 +304,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
+        [AllowNull]
         public NeedPaintHandler NeedPaint
         {
             get => _needPaint;
@@ -338,7 +339,7 @@ namespace Krypton.Navigator
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Owning control.</param>
-        protected void UpdateTargetState(Control c)
+        protected void UpdateTargetState(Control? c)
         {
             if ((c == null) || c.IsDisposed)
             {

@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border palette.
         /// </summary>
-        public IPaletteBorder PaletteBorder => _overrideBorder;
+        public IPaletteBorder? PaletteBorder => _overrideBorder;
 
         #endregion
     }

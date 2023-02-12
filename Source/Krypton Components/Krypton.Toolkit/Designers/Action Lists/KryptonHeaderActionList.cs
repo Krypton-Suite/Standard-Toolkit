@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _header.Values.Image;
 
@@ -153,15 +153,15 @@ namespace Krypton.Toolkit
             if (_header != null)
             {
                 // Add the list of header specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderStyle", @"Style", @"Appearance", @"Header style"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Header orientation"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderStyle), @"Style", nameof(Appearance), @"Header style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"Header orientation"));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Heading", @"Heading", @"Values", @"Heading text"));
-                actions.Add(new DesignerActionPropertyItem(@"Description", @"Description", @"Values", @"Header description text"));
-                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Heading image"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Heading), nameof(Heading), @"Values", @"Heading text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Description), nameof(Description), @"Values", @"Header description text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Heading image"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
             
             return actions;

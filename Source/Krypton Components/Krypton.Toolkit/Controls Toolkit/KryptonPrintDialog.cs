@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
     /// </remarks>
     [DefaultProperty(nameof(Document))]
     [ToolboxBitmap(typeof(PrintDialog), "ToolboxBitmaps.KryptonPrintDialog.png")]
-    [Description(@"PrintDialog")]
+    [Description(nameof(PrintDialog))]
     [Designer("System.Windows.Forms.Design.PrintDialogDesigner, " + AssemblyRef.SystemDesign)]
     public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     {
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
 
         // If PrintDocument != null, settings == printDocument.PrinterSettings
         private PrinterSettings settings;
-        private PrintDocument printDocument;
+        private PrintDocument? printDocument;
 
         //private bool _useExDialog;
 
@@ -201,8 +201,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [DefaultValue(null)]
-        [Description(@"Document")]
-        public PrintDocument Document
+        [Description(nameof(Document))]
+        public PrintDocument? Document
         {
             get => printDocument;
             set
@@ -221,7 +221,6 @@ namespace Krypton.Toolkit
         ///  dialog box will be modifying.
         /// </summary>
         [Category(@"Data")]
-        [DefaultValue(null)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Description(@"Printer Settings")]
@@ -668,11 +667,11 @@ namespace Krypton.Toolkit
             settings.PrintRange = (PrintRange)(flags & printRangeMask);
         }
 
-        [DllImport(Libraries.Comdlg32, EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(Libraries.Comdlg32, EntryPoint = nameof(PrintDlg), CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern PI.BOOL PrintDlg_32([In, Out] PRINTDLG_32 lppd);
 
-        [DllImport(Libraries.Comdlg32, EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(Libraries.Comdlg32, EntryPoint = nameof(PrintDlg), CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern PI.BOOL PrintDlg_64([In, Out] PRINTDLG_64 lppd);
 

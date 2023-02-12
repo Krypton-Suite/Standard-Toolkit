@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class PaletteNavigatorOther : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorOther class.

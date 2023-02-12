@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupColorButtonDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("SelectedColorChanged")]
-    [DefaultProperty("SelectedColor")]
+    [DefaultEvent(nameof(SelectedColorChanged))]
+    [DefaultProperty(nameof(SelectedColor))]
     public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     {
         #region Static Fields
@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
         private GroupItemSize _itemSizeCurrent;
         private ColorScheme _schemeThemes;
         private ColorScheme _schemeStandard;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private int _maxRecentColors;
         private readonly List<Color> _recentColors;
 
@@ -150,7 +150,7 @@ namespace Krypton.Ribbon
             ShortcutKeys = Keys.None;
             _imageSmall = _defaultButtonImageSmall;
             _imageLarge = _defaultButtonImageLarge;
-            _textLine1 = "Color";
+            _textLine1 = nameof(Color);
             _textLine2 = string.Empty;
             _keyTip = "B";
             _selectedColor = Color.Red;
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small color button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -306,7 +306,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large color button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -330,7 +330,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Color button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("Color")]
+        [DefaultValue(nameof(Color))]
         public string TextLine1
         {
             get => _textLine1;
@@ -732,7 +732,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the color button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -884,22 +884,22 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "TextLine1":
+                case nameof(TextLine1):
                     OnPropertyChanged(nameof(TextLine1));
                     break;
                 case "ExtraText":
                     OnPropertyChanged(nameof(TextLine2));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "ImageLarge":
+                case nameof(ImageLarge):
                     OnPropertyChanged(nameof(ImageLarge));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
+                case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
                 default:

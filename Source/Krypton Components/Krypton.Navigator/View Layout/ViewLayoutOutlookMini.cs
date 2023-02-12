@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     internal class ViewLayoutOutlookMini : ViewLayoutDocker
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewLayoutOutlookMini class.

@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public abstract KryptonContextMenuItemBase this[int index] { get; }
+        public abstract KryptonContextMenuItemBase? this[int index] { get; }
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         [Bindable(true)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Gets and sets if the item is visible in the context menu.

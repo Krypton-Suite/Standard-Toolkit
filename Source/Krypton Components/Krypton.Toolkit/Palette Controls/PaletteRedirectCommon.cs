@@ -134,7 +134,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteBack.GetBackImage(state) : base.GetBackImage(style, state);
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteBorder.GetBorderImage(state) : base.GetBorderImage(style, state);
@@ -554,7 +554,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteContent.GetContentShortTextImage(state) : base.GetContentShortTextImage(style, state);
@@ -750,7 +750,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteContent.GetContentLongTextImage(state) : base.GetContentLongTextImage(style, state);
@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteTriple GetInherit(PaletteState state)
+        private IPaletteTriple? GetInherit(PaletteState state)
         {
             // Do not inherit the override states
             if (CommonHelper.IsOverrideState(state))

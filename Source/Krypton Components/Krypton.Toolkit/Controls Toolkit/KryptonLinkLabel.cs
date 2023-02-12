@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonLinkLabel), "ToolboxBitmaps.KryptonLinkLabel.bmp")]
-    [DefaultEvent("LinkClicked")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
+    [DefaultEvent(nameof(LinkClicked))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
     [Designer("Krypton.Toolkit.KryptonLinkLabelDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Displays descriptive information as a hyperlink.")]
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Control Target
+        public override Control? Target
         {
             get => base.Target;
             set => base.Target = value;

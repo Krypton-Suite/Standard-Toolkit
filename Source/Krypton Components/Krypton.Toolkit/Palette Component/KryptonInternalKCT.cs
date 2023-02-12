@@ -640,7 +640,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets and sets the internal MenuStripFont value.
         /// </summary>
-        public Font InternalMenuStripFont { get; set; }
+        [DefaultValue(null)]
+        public Font? InternalMenuStripFont { get; set; }
 
         #endregion
 
@@ -1003,7 +1004,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets and sets the internal StatusStripFont value.
         /// </summary>
-        public Font InternalStatusStripFont { get; set; }
+        [DefaultValue(null)]
+        public Font? InternalStatusStripFont { get; set; }
 
         #endregion
         
@@ -1075,7 +1077,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets and sets the internal ToolStripFont value.
         /// </summary>
-        public Font InternalToolStripFont { get; set; }
+        [DefaultValue(null)]
+        public Font? InternalToolStripFont { get; set; }
 
         #endregion
 

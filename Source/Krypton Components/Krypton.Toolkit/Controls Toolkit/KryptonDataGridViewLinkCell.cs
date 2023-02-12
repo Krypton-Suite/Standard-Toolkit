@@ -388,7 +388,7 @@ namespace Krypton.Toolkit
                 if (_piLinkState == null)
                 {
                     // Cache access to the internal get property 'LinkState'
-                    _piLinkState = typeof(DataGridViewLinkCell).GetProperty(@"LinkState", BindingFlags.Instance |
+                    _piLinkState = typeof(DataGridViewLinkCell).GetProperty(nameof(LinkState), BindingFlags.Instance |
                                                                                          BindingFlags.NonPublic |
                                                                                          BindingFlags.GetField);
 

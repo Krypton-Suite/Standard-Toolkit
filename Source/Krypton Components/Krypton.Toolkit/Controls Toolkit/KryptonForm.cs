@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         private Bitmap _cacheBitmap;
         private Icon _cacheIcon;
         private float _cornerRoundingRadius;
-        private Control _activeControl;
+        private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
 
         #endregion
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Header style for a main form.")]
-        [DefaultValue(typeof(HeaderStyle), "Form")]
+        [DefaultValue(typeof(HeaderStyle), nameof(Form))]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;
@@ -411,7 +411,8 @@ namespace Krypton.Toolkit
         /// <value>
         ///   <c>true</c> if this instance is in administrator mode; otherwise, <c>false</c>.
         /// </value>
-        [Category(@"Appearance"), Description(@"Is the user currently an administrator.")]
+        [Category(@"Appearance")]
+        [Description(@"Is the user currently an administrator.")]
         public bool IsInAdministratorMode { get => _isInAdministratorMode; private set => _isInAdministratorMode = value; }
 
         /// <summary>
@@ -609,7 +610,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null), Description(@"Defines an active control for this window.")]
-        public new Control ActiveControl
+        public new Control? ActiveControl
         {
             get => _activeControl;
 
@@ -630,7 +631,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Arranges the current window title alignment.</summary>
         /// <value>The current window title alignment.</value>
-        [Category(@"Appearance"), DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"), Description(@"Arranges the current window title alignment.")]
+        [Category(@"Appearance")]
+        [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"), Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
 
         #endregion
@@ -720,7 +722,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Form state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
+        public Image? GetImage(PaletteState state)
         {
             Icon displayIcon = GetDefinedIcon();
 
@@ -1225,7 +1227,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private Icon GetDefinedIcon()
+        private Icon? GetDefinedIcon()
         {
             // Are we allowed to try and show an icon?
             if (AllowIconDisplay)

@@ -180,19 +180,18 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             if (_viewLarge.Visible)
             {
-                if (GroupGallery.Visible && GroupGallery.Enabled)
+                if (GroupGallery is { Visible: true, Enabled: true })
                 {
                     return _viewLarge;
                 }
             }
             else
             {
-                if (GroupGallery.Visible &&
-                    GroupGallery.LastGallery is { CanSelect: true })
+                if (GroupGallery is { Visible: true, LastGallery: { CanSelect: true } })
                 {
                     return this;
                 }
@@ -207,7 +206,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             if (_viewLarge.Visible)
             {
@@ -236,7 +235,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             matched = (current == this) || (current == _viewLarge);
             return null;
@@ -250,7 +249,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             matched = (current == this) || (current == _viewLarge);
             return null;
@@ -633,7 +632,7 @@ namespace Krypton.Ribbon
                     updateLayout = true;
                     break;
                 case "ImageLarge":
-                case "ImageList":
+                case nameof(ImageList):
                 case "LargeItemCount":
                 case "MediumItemCount":
                 case "ItemSizeMinimum":
@@ -641,10 +640,10 @@ namespace Krypton.Ribbon
                 case "ItemSizeCurrent":
                     updateLayout = true;
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabled(LastGallery);
                     break;
-                case "Visible":
+                case nameof(Visible):
                     UpdateVisible(LastGallery);
                     updateLayout = true;
                     break;

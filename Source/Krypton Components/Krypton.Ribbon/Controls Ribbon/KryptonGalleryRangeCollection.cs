@@ -25,17 +25,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="heading">Heading of the gallery range instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonGalleryRange this[string heading]
+        public override KryptonGalleryRange? this[string heading]
         {
             get
             {
                 // Search for a gallery range with the same heading as that requested.
-                foreach (KryptonGalleryRange range in this)
+                foreach (KryptonGalleryRange range in this.Where(range => range.Heading == heading))
                 {
-                    if (range.Heading == heading)
-                    {
-                        return range;
-                    }
+                    return range;
                 }
 
                 // Let base class perform standard processing

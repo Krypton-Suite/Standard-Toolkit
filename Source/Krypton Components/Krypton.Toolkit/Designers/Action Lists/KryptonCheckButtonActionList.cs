@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             if (_checkButton != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor checkedProp = TypeDescriptor.GetProperties(_checkButton)[@"Checked"];
+                PropertyDescriptor checkedProp = TypeDescriptor.GetProperties(_checkButton)[nameof(Checked)];
 
                 // If we succeeded in getting the property
                 if (checkedProp != null)
@@ -83,16 +83,16 @@ namespace Krypton.Toolkit
             if (_checkButton != null)
             {
                 // Add the list of button specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnCheckedClick), "Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ButtonStyle", @"Style", @"Appearance", @"Button style"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Button orientation"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnCheckedClick), nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(ButtonStyle), @"Style", nameof(Appearance), @"Button style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"Button orientation"));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Button text"));
-                actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Button extra text"));
-                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Button image"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Button text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Button extra text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Button image"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
                 _action = isChecked ? "Uncheck the button" : "Check the button";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor checkedProp = TypeDescriptor.GetProperties(_checkButton)[@"Checked"];
+                PropertyDescriptor checkedProp = TypeDescriptor.GetProperties(_checkButton)[nameof(Checked)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

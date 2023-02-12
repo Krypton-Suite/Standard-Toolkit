@@ -21,15 +21,15 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [DesignTimeVisible(false)]
     [ToolboxBitmap(typeof(ButtonSpec), "ToolboxBitmaps.KryptonButtonSpec.bmp")]
-    [DefaultEvent(@"Click")]
-    [DefaultProperty(@"Style")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Style))]
     public abstract class ButtonSpec : Component,
                                        IButtonSpecValues,
                                        ICloneable
     {
         #region Instance Fields
-        private Image _image;
-        private Image _toolTipImage;
+        private Image? _image;
+        private Image? _toolTipImage;
         private Color _colorMap;
         private Color _imageTransparentColor;
         private Color _toolTipImageTransparentColor;
@@ -41,8 +41,8 @@ namespace Krypton.Toolkit
         private bool _allowInheritText;
         private bool _allowInheritExtraText;
         private bool _allowInheritToolTipTitle;
-        private ViewBase _buttonSpecView;
-        private KryptonCommand _command;
+        private ViewBase? _buttonSpecView;
+        private KryptonCommand? _command;
         private PaletteButtonStyle _style;
         private PaletteButtonOrientation _orientation;
         private PaletteRelativeEdgeAlign _edge;
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Button image.")]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -195,10 +195,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Image property to its default value.
         /// </summary>
-        public void ResetImage()
-        {
-            Image = null;
-        }
+        public void ResetImage() => Image = null;
+
         #endregion
 
         #region ImageTransparentColor
@@ -228,10 +226,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor()
-        {
-            ImageTransparentColor = Color.Empty;
-        }
+        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+
         #endregion
 
         #region ImageStates
@@ -274,10 +270,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public void ResetText()
-        {
-            Text = string.Empty;
-        }
+        public void ResetText() => Text = string.Empty;
         #endregion
 
         #region ExtraText
@@ -307,10 +300,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ExtraText property to its default value.
         /// </summary>
-        public void ResetExtraText()
-        {
-            ExtraText = string.Empty;
-        }
+        public void ResetExtraText() => ExtraText = string.Empty;
+
         #endregion
 
         #region ToolTipImage
@@ -321,7 +312,7 @@ namespace Krypton.Toolkit
         [Category(@"ToolTip")]
         [Description(@"Button tooltip image.")]
         [DefaultValue(null)]
-        public Image ToolTipImage
+        public Image? ToolTipImage
         {
             get => _toolTipImage;
 
@@ -340,10 +331,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipImage property to its default value.
         /// </summary>
-        public void ResetToolTipImage()
-        {
-            ToolTipImage = null;
-        }
+        public void ResetToolTipImage() => ToolTipImage = null;
+
         #endregion
 
         #region ToolTipImageTransparentColor
@@ -373,10 +362,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetToolTipImageTransparentColor()
-        {
-            ToolTipImageTransparentColor = Color.Empty;
-        }
+        public void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
+
         #endregion
 
         #region ToolTipTitle
@@ -407,10 +394,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipTitle property to its default value.
         /// </summary>
-        public void ResetToolTipTitle()
-        {
-            ToolTipTitle = string.Empty;
-        }
+        public void ResetToolTipTitle() => ToolTipTitle = string.Empty;
+
         #endregion
 
         #region ToolTipBody
@@ -441,10 +426,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipBody property to its default value.
         /// </summary>
-        public void ResetToolTipBody()
-        {
-            ToolTipBody = string.Empty;
-        }
+        public void ResetToolTipBody() => ToolTipBody = string.Empty;
+
         #endregion
 
         #region ToolTipStyle
@@ -461,10 +444,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
         /// </summary>
-        public void ResetToolTipStyle()
-        {
-            ToolTipStyle = LabelStyle.ToolTip;
-        }
+        public void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
+
         #endregion
 
         #region ToolTipShadow
@@ -479,10 +460,8 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
+
         #endregion
 
         #region UniqueName
@@ -496,10 +475,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UniqueName property to its default value.
         /// </summary>
-        public void ResetUniqueName()
-        {
-            UniqueName = CommonHelper.UniqueString;
-        }
+        public void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
+
         #endregion
 
         #region AllowInheritImage
@@ -527,10 +504,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the AllowInheritImage property to its default value.
         /// </summary>
-        public void ResetAllowInheritImage()
-        {
-            AllowInheritImage = true;
-        }
+        public void ResetAllowInheritImage() => AllowInheritImage = true;
+
         #endregion
 
         #region AllowInheritText
@@ -558,10 +533,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the AllowInheritText property to its default value.
         /// </summary>
-        public void ResetAllowInheritText()
-        {
-            AllowInheritText = true;
-        }
+        public void ResetAllowInheritText() => AllowInheritText = true;
+
         #endregion
 
         #region AllowInheritExtraText
@@ -589,10 +562,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the AllowInheritExtraText property to its default value.
         /// </summary>
-        public void ResetAllowInheritExtraText()
-        {
-            AllowInheritExtraText = true;
-        }
+        public void ResetAllowInheritExtraText() => AllowInheritExtraText = true;
+
         #endregion
 
         #region AllowInheritToolTipTitle
@@ -620,10 +591,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the AllowInheritToolTipTitle property to its default value.
         /// </summary>
-        public void ResetAllowInheritToolTipTitle()
-        {
-            AllowInheritToolTipTitle = true;
-        }
+        public void ResetAllowInheritToolTipTitle() => AllowInheritToolTipTitle = true;
+
         #endregion
 
         #region AllowComponent
@@ -663,10 +632,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ColorMap property to its default value.
         /// </summary>
-        public void ResetColorMap()
-        {
-            ColorMap = Color.Empty;
-        }
+        public void ResetColorMap() => ColorMap = Color.Empty;
+
         #endregion
 
         #region Style
@@ -726,10 +693,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Orientation property to its default value.
         /// </summary>
-        public void ResetOrientation()
-        {
-            Orientation = PaletteButtonOrientation.Inherit;
-        }
+        public void ResetOrientation() => Orientation = PaletteButtonOrientation.Inherit;
+
         #endregion
 
         #region Edge
@@ -756,10 +721,8 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeEdge() => Edge != PaletteRelativeEdgeAlign.Inherit;
 
-        private void ResetEdge()
-        {
-            Edge = PaletteRelativeEdgeAlign.Inherit;
-        }
+        private void ResetEdge() => Edge = PaletteRelativeEdgeAlign.Inherit;
+
         #endregion
 
         #region ContextMenuStrip
@@ -771,7 +734,7 @@ namespace Krypton.Toolkit
         [Description(@"ContextMenuStrip to show when the button is pressed.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip { get; set; }
+        public ContextMenuStrip? ContextMenuStrip { get; set; }
 
         #endregion
 
@@ -784,7 +747,7 @@ namespace Krypton.Toolkit
         [Description(@"KryptonContextMenu to show when the button is pressed.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu { get; set; }
+        public KryptonContextMenu? KryptonContextMenu { get; set; }
 
         #endregion
 
@@ -796,7 +759,7 @@ namespace Krypton.Toolkit
         [Description(@"Command associated with the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -839,7 +802,7 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         #endregion
 
@@ -888,9 +851,9 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <param name="state">State for which an image is needed.</param>
         /// <returns>Button image.</returns>
-        public virtual Image GetImage(PaletteBase palette, PaletteState state)
+        public virtual Image? GetImage(PaletteBase palette, PaletteState state)
         {
-            Image image = null;
+            Image? image = null;
 
             // Prefer to get image from the command first
             if (KryptonCommand != null)
@@ -982,8 +945,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
         public virtual ButtonStyle GetStyle(PaletteBase palette) =>
-            ConvertToButtonStyle(
-                Style != PaletteButtonStyle.Inherit ? Style : palette.GetButtonSpecStyle(ProtectedType));
+            ConvertToButtonStyle( Style != PaletteButtonStyle.Inherit ? Style : palette.GetButtonSpecStyle(ProtectedType));
 
         /// <summary>
         /// Gets the button orientation.
@@ -1029,7 +991,7 @@ namespace Krypton.Toolkit
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        public virtual ViewBase GetView() => _buttonSpecView;
+        public virtual ViewBase? GetView() => _buttonSpecView;
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.
@@ -1096,10 +1058,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Text":
-                case @"ExtraText":
+                case nameof(Text):
+                case nameof(ExtraText):
                 case @"ImageSmall":
-                case @"ImageTransparentColor":
+                case nameof(ImageTransparentColor):
                     OnButtonSpecPropertyChanged(e.PropertyName);
                     break;
             }

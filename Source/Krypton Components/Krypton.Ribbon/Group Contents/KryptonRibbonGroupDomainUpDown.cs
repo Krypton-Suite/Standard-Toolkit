@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupDomainUpDownDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("SelectedItemChanged")]
-    [DefaultProperty("Items")]
+    [DefaultEvent(nameof(SelectedItemChanged))]
+    [DefaultProperty(nameof(Items))]
     public class KryptonRibbonGroupDomainUpDown : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -452,7 +452,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => DomainUpDown.ContextMenuStrip;
             set => DomainUpDown.ContextMenuStrip = value;
@@ -464,7 +464,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the domain up down is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => DomainUpDown.KryptonContextMenu;
             set => DomainUpDown.KryptonContextMenu = value;

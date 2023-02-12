@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class CancelUniqueNameEventArgs : UniqueNameEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the CancelUniqueNameEventArgs class.

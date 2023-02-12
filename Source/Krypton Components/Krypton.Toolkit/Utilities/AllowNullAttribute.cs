@@ -7,7 +7,19 @@ namespace System.Diagnostics.CodeAnalysis
     /// THIS FILE WILL BE CONDITIONALLY REMOVED VIA THE `CSPROJ` FILE
     /// <summary>Specifies that <see langword="null" /> is allowed as an input even if the corresponding type disallows it.</summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, Inherited = false)]
-    public sealed class AllowNullAttribute : Attribute
+    internal sealed class AllowNullAttribute : Attribute
+    {
+    }
+
+    /// <summary>Specifies that <see langword="null" /> is disallowed as an input even if the corresponding type allows it.</summary>
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, Inherited = false)]
+    internal sealed class DisallowNullAttribute : Attribute
+    {
+    }
+
+    /// <summary>Specifies that an output may be <see langword="null" /> even if the corresponding type disallows it.</summary>
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue, Inherited = false)]
+    public sealed class MaybeNullAttribute : Attribute
     {
     }
 #endif

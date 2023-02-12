@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupButtonDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("Click")]
-    [DefaultProperty("ButtonType")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(ButtonType))]
     public class KryptonRibbonGroupButton : KryptonRibbonGroupItem
     {
         #region Static Fields
@@ -41,13 +41,13 @@ namespace Krypton.Ribbon
         private string _textLine2;
         private string _keyTip;
         private GroupButtonType _buttonType;
-        private ContextMenuStrip _contextMenuStrip;
-        private KryptonContextMenu _kryptonContextMenu;
+        private ContextMenuStrip? _contextMenuStrip;
+        private KryptonContextMenu? _kryptonContextMenu;
         private EventHandler _kcmFinishDelegate;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         #endregion
 
         #region Events
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
             ShortcutKeys = Keys.None;
             _imageSmall = _defaultButtonImageSmall;
             _imageLarge = _defaultButtonImageLarge;
-            _textLine1 = "Button";
+            _textLine1 = nameof(Button);
             _textLine2 = string.Empty;
             _keyTip = "B";
             _buttonType = GroupButtonType.Push;
@@ -114,7 +114,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -162,7 +162,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("Button")]
+        [DefaultValue(nameof(Button))]
         public string TextLine1
         {
             get => _textLine1;
@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Button";
+                    value = nameof(Button);
                 }
 
                 if (value != _textLine1)
@@ -362,7 +362,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Context menu strip to be shown when the button is pressed.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => _contextMenuStrip;
 
@@ -382,7 +382,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the button is pressed.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -402,7 +402,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the group button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -554,22 +554,22 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "TextLine1":
+                case nameof(TextLine1):
                     OnPropertyChanged(nameof(TextLine1));
                     break;
-                case "TextLine2":
+                case nameof(TextLine2):
                     OnPropertyChanged(nameof(TextLine2));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "ImageLarge":
+                case nameof(ImageLarge):
                     OnPropertyChanged(nameof(ImageLarge));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
+                case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
             }

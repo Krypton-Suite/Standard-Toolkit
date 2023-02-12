@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public Image GetImage(PaletteState state) => null;
+            public Image? GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
         private bool _paintTransparent;
         private bool _evalTransparent;
         private Size _lastLayoutSize;
-        private PaletteBase _localPalette;
+        private PaletteBase? _localPalette;
         private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private ViewDrawPanel _drawPanel;
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         private string _toolTipText;
         private byte _oldLocation;
         private DataGridViewCell _oldCell;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
 
         //Seb
         private string _searchString;
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             [DebuggerStepThrough]
             get => base.ContextMenuStrip;
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
-        public virtual KryptonContextMenu KryptonContextMenu
+        public virtual KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -488,7 +488,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -548,7 +548,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
                                                   int columnIndex,
                                                   out IPaletteBack paletteBack,
                                                   out IPaletteBorder paletteBorder,
-                                                  out IPaletteContent paletteContent)
+                                                  out IPaletteContent? paletteContent)
         {
             PaletteState retState;
 
@@ -789,7 +789,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ViewManager GetViewManager() => ViewManager;
+        public ViewManager? GetViewManager() => ViewManager;
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
@@ -986,7 +986,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the control reference that is the parent for transparent drawing.
         /// </summary>
-        protected virtual Control TransparentParent => Parent;
+        protected virtual Control? TransparentParent => Parent;
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1161,7 +1161,7 @@ namespace Krypton.Toolkit
                                                e.ColumnIndex,
                                                out IPaletteBack paletteBack,
                                                out IPaletteBorder paletteBorder,
-                                               out IPaletteContent paletteContent);
+                                               out IPaletteContent? paletteContent);
 
             try
             {
@@ -1369,7 +1369,7 @@ namespace Krypton.Toolkit
 
                                 //Seb Search highlight 
                                 //Empty _restrictColumnsSearch means highlight everywhere
-                                if (!string.IsNullOrEmpty(_searchString) && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 && _restrictColumnsSearch.Contains(e.ColumnIndex))) && e.FormattedValue.GetType().Name != "Bitmap")
+                                if (!string.IsNullOrEmpty(_searchString) && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 && _restrictColumnsSearch.Contains(e.ColumnIndex))) && e.FormattedValue.GetType().Name != nameof(Bitmap))
                                 {
                                     var val = (string)e.FormattedValue;
                                     var sindx = val.ToLower().IndexOf(_searchString.ToLower());
@@ -1619,7 +1619,7 @@ namespace Krypton.Toolkit
                 if (_piRTL == null)
                 {
                     // Cache access to the internal get property 'RightToLeftInternal'
-                    _piRTL = typeof(DataGridView).GetProperty(@"RightToLeftInternal", BindingFlags.Instance |
+                    _piRTL = typeof(DataGridView).GetProperty(nameof(RightToLeftInternal), BindingFlags.Instance |
                                                                                      BindingFlags.NonPublic |
                                                                                      BindingFlags.GetField);
 
@@ -2373,7 +2373,7 @@ namespace Krypton.Toolkit
             if (_miGCI == null)
             {
                 // Cache access to the internal method 'GetCellInternal'
-                _miGCI = typeof(DataGridView).GetMethod(@"GetCellInternal", BindingFlags.Instance |
+                _miGCI = typeof(DataGridView).GetMethod(nameof(GetCellInternal), BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
                                                                            BindingFlags.GetField);
             }
@@ -2387,7 +2387,7 @@ namespace Krypton.Toolkit
             if (_miGTTT == null)
             {
                 // Cache access to the internal get property 'GetToolTipText'
-                _miGTTT = typeof(DataGridViewCell).GetMethod(@"GetToolTipText", BindingFlags.Instance |
+                _miGTTT = typeof(DataGridViewCell).GetMethod(nameof(GetToolTipText), BindingFlags.Instance |
                                                                                BindingFlags.NonPublic |
                                                                                BindingFlags.GetField);
             }
@@ -2408,7 +2408,7 @@ namespace Krypton.Toolkit
             if (_miGET == null)
             {
                 // Cache access to the internal get property 'GetErrorText'
-                _miGET = typeof(DataGridViewCell).GetMethod(@"GetErrorText", BindingFlags.Instance |
+                _miGET = typeof(DataGridViewCell).GetMethod(nameof(GetErrorText), BindingFlags.Instance |
                                                                             BindingFlags.NonPublic |
                                                                             BindingFlags.GetField);
             }
@@ -2429,7 +2429,7 @@ namespace Krypton.Toolkit
             if (_piCML == null)
             {
                 // Cache access to the internal get property 'CurrentMouseLocation'
-                _piCML = typeof(DataGridViewCell).GetProperty(@"CurrentMouseLocation", BindingFlags.Instance |
+                _piCML = typeof(DataGridViewCell).GetProperty(nameof(CurrentMouseLocation), BindingFlags.Instance |
                                                                                       BindingFlags.NonPublic |
                                                                                       BindingFlags.GetField);
             }
@@ -2533,7 +2533,7 @@ namespace Krypton.Toolkit
                 if (_miPTB == null)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
-                    _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
+                    _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },

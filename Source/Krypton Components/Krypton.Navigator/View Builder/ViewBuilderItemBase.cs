@@ -197,7 +197,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element) => 
+        public override KryptonPage? PageFromView(ViewBase element) => 
             _pageLookup != null 
                 ? (from pair in _pageLookup where pair.Value.View == element select pair.Key).FirstOrDefault() 
                 : null;
@@ -207,7 +207,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Check the set of navigator level button specs
             ButtonSpec bs = (_buttonManager?.ButtonSpecFromView(element));
@@ -402,7 +402,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Our mode appropriate action is always to move the bar position
             if (action == DirectionButtonAction.ModeAppropriateAction)
@@ -456,7 +456,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Our mode appropriate action is always to move the bar position
             if (action == DirectionButtonAction.ModeAppropriateAction)
@@ -879,7 +879,7 @@ namespace Krypton.Navigator
                     _layoutBar.BarMinimumHeight = Navigator.Bar.BarMinimumHeight;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case @"BarMultiline":
+                case nameof(BarMultiline):
                     _layoutBar.BarMultiline = Navigator.Bar.BarMultiline;
                     Navigator.PerformNeedPaint(true);
                     break;
@@ -911,7 +911,7 @@ namespace Krypton.Navigator
                 case @"NextButtonAction":
                 case @"ContextButtonDisplay":
                 case @"CloseButtonDisplay":
-                case @"ButtonDisplayLogic":
+                case nameof(ButtonDisplayLogic):
                     _buttonManager?.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;

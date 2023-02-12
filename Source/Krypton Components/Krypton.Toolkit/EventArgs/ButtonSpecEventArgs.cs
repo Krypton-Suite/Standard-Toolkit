@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ButtonSpecEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecEventArgs class.

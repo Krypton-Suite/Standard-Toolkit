@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
 
         private string _cancelButtonText;
 
-        private string[] _contents;
+        private string[]? _contents;
 
         #endregion
 
@@ -364,8 +364,14 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the contents of the text field.</summary>
         /// <value>The contents of the text field.</value>
-        [Category(@"Data"), DefaultValue(null), Description(@"The contents of the text field.")]
-        public string[] Contents { get => _contents; private set => _contents = value; }
+        [Category(@"Data"), 
+         DefaultValue(null), 
+         Description(@"The contents of the text field.")]
+        public string[]? Contents 
+        { 
+            get => _contents; 
+            private set => _contents = value; 
+        }
 
         /// <summary>Gets the ok button.</summary>
         /// <value>The ok button.</value>
@@ -377,8 +383,10 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the owner.</summary>
         /// <value>The owner.</value>
-        [Category(@"Data"), DefaultValue(null), Description(@"")]
-        public KryptonForm Owner { get; set; }
+        [Category(@"Data"), 
+         DefaultValue(null), 
+         Description(@"")]
+        public KryptonForm? Owner { get; set; }
 
         #endregion
 

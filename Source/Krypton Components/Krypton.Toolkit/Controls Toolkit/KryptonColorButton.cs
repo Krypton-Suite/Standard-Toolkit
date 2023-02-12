@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonColorButton), "ToolboxBitmaps.KryptonColorButton.bmp")]
-    [DefaultEvent(@"SelectedColorChanged")]
-    [DefaultProperty(@"SelectedColor")]
+    [DefaultEvent(nameof(SelectedColorChanged))]
+    [DefaultProperty(nameof(SelectedColor))]
     [Designer(@"Krypton.Toolkit.KryptonColorButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Raises an event when the user clicks it.")]
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private Rectangle _selectedRect;
         private Color _selectedColor;
         private Color _emptyBorderColor;
@@ -274,6 +274,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -298,7 +299,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => null;
             set { }
@@ -310,7 +311,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonContextMenu KryptonContextMenu
+        public override KryptonContextMenu? KryptonContextMenu
         {
             get => null;
             set { }
@@ -459,7 +460,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public virtual VisualOrientation ButtonOrientation
         {
             get => _drawButton.Orientation;
@@ -479,7 +480,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Position of the drop arrow within the color button.")]
-        [DefaultValue(typeof(VisualOrientation), "Right")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Right))]
         public virtual VisualOrientation DropDownPosition
         {
             get => _drawButton.DropDownPosition;
@@ -499,7 +500,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Orientation of the drop arrow within the color button.")]
-        [DefaultValue(typeof(VisualOrientation), "Bottom")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Bottom))]
         public virtual VisualOrientation DropDownOrientation
         {
             get
@@ -692,7 +693,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the color button.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -868,7 +869,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -1099,14 +1100,14 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Enabled":
+                case nameof(Enabled):
                     Enabled = KryptonCommand.Enabled;
                     break;
                 case @"ImageSmall":
                     Values.Image = KryptonCommand.ImageSmall;
                     PerformNeedPaint(true);
                     break;
-                case @"Text":
+                case nameof(Text):
                 case @"ExtraText":
                 case @"ImageTransparentColor":
                     PerformNeedPaint(true);

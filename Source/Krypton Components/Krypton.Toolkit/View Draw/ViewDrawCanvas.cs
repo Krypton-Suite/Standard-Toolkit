@@ -19,11 +19,11 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         internal IPaletteBack _paletteBack;
-        internal IPaletteBorder _paletteBorder;
-        internal IPaletteMetric _paletteMetric;
+        internal IPaletteBorder? _paletteBorder;
+        internal IPaletteMetric? _paletteMetric;
         internal PaletteMetricPadding _metricPadding;
-        private IDisposable _mementoBack;
-        private PaletteBorderInheritForced _borderForced;
+        private IDisposable? _mementoBack;
+        private PaletteBorderInheritForced? _borderForced;
         private Region _clipRegion;
 
         #endregion
@@ -52,11 +52,11 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
         /// <param name="paletteMetric">Palette source for metric values.</param>
-        /// <param name="metricPadding">Matric used to get padding values.</param>
+        /// <param name="metricPadding">Metric used to get padding values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawCanvas(IPaletteBack paletteBack,
                               IPaletteBorder paletteBorder,
-                              IPaletteMetric paletteMetric,
+                              IPaletteMetric? paletteMetric,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
         {
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used border palette.
         /// </summary>
-        public IPaletteBorder PaletteBorder
+        public IPaletteBorder? PaletteBorder
         {
             [DebuggerStepThrough]
             get => _paletteBorder;
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric PaletteMetric
+        public IPaletteMetric? PaletteMetric
         {
             [DebuggerStepThrough]
             get => _paletteMetric;
@@ -148,9 +148,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
         /// <param name="paletteMetric">Palette source for the metric.</param>
-        public virtual void SetPalettes(IPaletteBack paletteBack, 
-                                        IPaletteBorder paletteBorder,
-                                        IPaletteMetric paletteMetric)
+        public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
+            [DisallowNull]IPaletteBorder paletteBorder,
+                                        IPaletteMetric? paletteMetric)
         {
             Debug.Assert(paletteBorder != null);
             Debug.Assert(paletteBack != null);
@@ -317,11 +317,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Context used by the renderer.</param>
         /// <returns>Path instance.</returns>
-        public GraphicsPath GetOuterBorderPath(RenderContext context)
+        public GraphicsPath? GetOuterBorderPath(RenderContext context)
         {
             if (_paletteBorder != null)
             {
-                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
+                return context.Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
                                                                                   _paletteBorder, Orientation,
                                                                                   State);
             }
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
+        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -460,7 +460,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
             Debug.Assert(context != null);
 
@@ -537,7 +537,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderAfter(RenderContext context)
+        public override void RenderAfter([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -570,7 +570,7 @@ namespace Krypton.Toolkit
         /// Draw the canvas border.
         /// </summary>
         /// <param name="context"></param>
-        public virtual void RenderBorder(RenderContext context)
+        public virtual void RenderBorder([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 

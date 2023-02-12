@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         /// Gets the renderer to use for this palette.
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
-        public abstract IRenderer GetRenderer();
+        public abstract IRenderer? GetRenderer();
         #endregion
 
         #region Back
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public abstract Image GetBackImage(PaletteBackStyle style, PaletteState state);
+        public abstract Image? GetBackImage(PaletteBackStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the background image style.
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public abstract Image GetBorderImage(PaletteBorderStyle style, PaletteState state);
+        public abstract Image? GetBorderImage(PaletteBorderStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the border image style.
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public abstract Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state);
+        public abstract Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the background image style.
@@ -590,7 +590,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public abstract Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state);
+        public abstract Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the background image style for the long text.
@@ -659,7 +659,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image GetTreeViewImage(bool expanded);
+        public abstract Image? GetTreeViewImage(bool expanded);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -669,7 +669,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed);
+        public abstract Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -679,31 +679,31 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed);
+        public abstract Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed);
 
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public abstract Image GetDropDownButtonImage(PaletteState state);
+        public abstract Image? GetDropDownButtonImage(PaletteState state);
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image GetContextMenuCheckedImage();
+        public abstract Image? GetContextMenuCheckedImage();
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image GetContextMenuIndeterminateImage();
+        public abstract Image? GetContextMenuIndeterminateImage();
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image GetContextMenuSubMenuImage();
+        public abstract Image? GetContextMenuSubMenuImage();
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -711,7 +711,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state);
+        public abstract Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state);
         #endregion
 
         #region ButtonSpec
@@ -720,7 +720,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Icon value.</returns>
-        public abstract Icon GetButtonSpecIcon(PaletteButtonSpecStyle style);
+        public abstract Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -728,7 +728,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public abstract Image GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state);
+        public abstract Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the image transparent color.
@@ -742,14 +742,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public abstract string GetButtonSpecShortText(PaletteButtonSpecStyle style);
+        public abstract string? GetButtonSpecShortText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public abstract string GetButtonSpecLongText(PaletteButtonSpecStyle style);
+        public abstract string? GetButtonSpecLongText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
@@ -779,7 +779,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.FormRestore:
                     return "Restore";
                 case PaletteButtonSpecStyle.FormHelp:
-                    return "Help";
+                    return nameof(Help);
                 case PaletteButtonSpecStyle.RibbonMinimize:
                     return "Minimize";
                 case PaletteButtonSpecStyle.RibbonExpand:

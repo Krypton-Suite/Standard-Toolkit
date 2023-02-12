@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonPanel), "ToolboxBitmaps.KryptonPanel.bmp")]
-    [DefaultEvent("Paint")]
+    [DefaultEvent(nameof(Paint))]
     [DefaultProperty("PanelStyle")]
     [Designer("Krypton.Toolkit.KryptonPanelDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]

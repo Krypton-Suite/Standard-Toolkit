@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>Reference if inside a group; otherwise null.</returns>
-        public ViewDrawRibbonGroup ViewGroupFromPoint(Point pt)
+        public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // Parent element should be a view layout
             ViewLayoutControl layoutControl = (ViewLayoutControl)Parent;
@@ -182,7 +182,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the groups.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             ViewBase view = null;
 
@@ -205,7 +205,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the groups.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             ViewBase view = null;
 
@@ -232,7 +232,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current)
+        public ViewBase? GetNextFocusItem(ViewBase current)
         {
             ViewBase view = null;
             var matched = false;
@@ -260,7 +260,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current)
+        public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
             ViewBase view = null;
             var matched = false;

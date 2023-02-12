@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage()
+        public override Image? GetContextMenuCheckedImage()
         {
             Image retImage = _images.Checked ?? Target.GetContextMenuCheckedImage();
 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage()
+        public override Image? GetContextMenuIndeterminateImage()
         {
             Image retImage = _images.Indeterminate ?? Target.GetContextMenuIndeterminateImage();
 
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage()
+        public override Image? GetContextMenuSubMenuImage()
         {
             Image retImage = _images.SubMenu ?? Target.GetContextMenuSubMenuImage();
 

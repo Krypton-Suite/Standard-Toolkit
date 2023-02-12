@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
         /// <param name="img">The image.</param>
         /// <param name="scaleFactor">The scale factor.</param>
         /// <returns>A scaled image, based on the scaleFactor.</returns>
-        private static Image GetScaledImage(Image img, SizeF scaleFactor)
+        private static Image? GetScaledImage(Image? img, SizeF scaleFactor)
         {
             if (img == null)
             {

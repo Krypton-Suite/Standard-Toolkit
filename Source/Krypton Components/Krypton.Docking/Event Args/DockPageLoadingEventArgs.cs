@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class DockPageLoadingEventArgs : DockGlobalLoadingEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DockPageLoadingEventArgs class.
@@ -30,7 +26,7 @@ namespace Krypton.Docking
         /// <param name="page">Reference to page being loaded.</param>
         public DockPageLoadingEventArgs(KryptonDockingManager manager,
                                         XmlReader xmlReading,
-                                        KryptonPage page)
+                                        KryptonPage? page)
             : base(manager, xmlReading) =>
             Page = page;
 
@@ -40,7 +36,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the loading page reference.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         #endregion
     }

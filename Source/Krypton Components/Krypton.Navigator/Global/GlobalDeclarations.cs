@@ -39,7 +39,7 @@ global using Krypton.Navigator.Resources;
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
-[assembly: Dependency("System", LoadHint.Always)]
+[assembly: Dependency(nameof(System), LoadHint.Always)]
 [assembly: Dependency("System.Drawing", LoadHint.Always)]
 [assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
 [assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]

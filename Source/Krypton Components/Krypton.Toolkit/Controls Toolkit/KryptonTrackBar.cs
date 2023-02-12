@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTrackBar), "ToolboxBitmaps.KryptonTrackBar.bmp")]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
     [Designer("Krypton.Toolkit.KryptonTrackBarDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Allow user to scroll between a range of values.")]
@@ -91,6 +91,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;

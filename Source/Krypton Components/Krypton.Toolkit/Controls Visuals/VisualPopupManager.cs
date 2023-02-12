@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the current visual popup being tracked.
         /// </summary>
-        public VisualPopup CurrentPopup
+        public VisualPopup? CurrentPopup
         {
             [DebuggerStepThrough]
             get;
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="t">Type to find.</param>
         /// <returns>Matching instance; otherwise null.</returns>
-        public Control TrackingByType(Type t)
+        public Control? TrackingByType(Type t)
         {
             if (IsTracking)
             {

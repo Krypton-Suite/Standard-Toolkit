@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state) => _palette.GetBorderImage(BorderStyle, state);
+        public Image? GetBorderImage(PaletteState state) => _palette.GetBorderImage(BorderStyle, state);
 
         #endregion
 

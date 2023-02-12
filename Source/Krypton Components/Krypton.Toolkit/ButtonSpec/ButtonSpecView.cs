@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
             var changed = false;
 
             // Remember the initial state
-            ViewBase newDependant;
+            ViewBase? newDependant;
             bool newEnabled;
 
             switch (ButtonSpec.GetEnabled(_redirector))
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
+        public Image? GetImage(PaletteState state)
         {
             // Get value from button spec passing inheritance redirector
             var baseImage = ButtonSpec.GetImage(_redirector, state);
@@ -421,10 +421,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Image":
+                case nameof(Image):
                 case @"Text":
                 case @"ExtraText":
-                case @"ColorMap":
+                case nameof(ColorMap):
                     PerformNeedPaint(true);
                     break;
                 case @"Style":

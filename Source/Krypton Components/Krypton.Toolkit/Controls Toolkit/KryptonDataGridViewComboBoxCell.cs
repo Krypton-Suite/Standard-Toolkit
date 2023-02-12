@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         private AutoCompleteSource _autoCompleteSource;
         private string _displayMember;
         private string _valueMember;
-        private object _dataSource;
+        private object? _dataSource;
 
         #endregion
 
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
             {
                 if (value == ComboBoxStyle.Simple)
                 {
-                    throw new ArgumentOutOfRangeException(@"DropDownStyle", ComboBoxStyle.Simple, @"The DropDownStyle property does not support the Simple style.");
+                    throw new ArgumentOutOfRangeException(nameof(DropDownStyle), ComboBoxStyle.Simple, @"The DropDownStyle property does not support the Simple style.");
                 }
 
                 if (_dropDownStyle != value)
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public object DataSource
+        public object? DataSource
         {
             get => _dataSource;
             set

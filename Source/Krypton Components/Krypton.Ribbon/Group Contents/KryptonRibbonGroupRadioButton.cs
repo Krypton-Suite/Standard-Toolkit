@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupRadioButtonDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("CheckedChanged")]
-    [DefaultProperty("Checked")]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Checked))]
     public class KryptonRibbonGroupRadioButton : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
             _checked = false;
             _autoCheck = true;
             ShortcutKeys = Keys.None;
-            _textLine1 = "RadioButton";
+            _textLine1 = nameof(RadioButton);
             _textLine2 = string.Empty;
             _keyTip = "R";
             _itemSizeMax = GroupItemSize.Large;
@@ -101,7 +101,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Radio button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("RadioButton")]
+        [DefaultValue(nameof(RadioButton))]
         public string TextLine1
         {
             get => _textLine1;
@@ -111,7 +111,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "RadioButton";
+                    value = nameof(RadioButton);
                 }
 
                 if (value != _textLine1)

@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBackImage(PaletteState state) => Inherit.GetBackImage(state);
+        public Image? GetBackImage(PaletteState state) => Inherit.GetBackImage(state);
 
         #endregion
 

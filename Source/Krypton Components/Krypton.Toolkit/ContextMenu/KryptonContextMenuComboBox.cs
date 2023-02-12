@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
     {
         public override int ItemChildCount { get; }
 
-        public override KryptonContextMenuItemBase this[int index] => throw new NotImplementedException();
+        public override KryptonContextMenuItemBase? this[int index] => throw new NotImplementedException();
 
         public override bool ProcessShortcut(Keys keyData)
         {

@@ -25,10 +25,6 @@ namespace Krypton.Toolkit
         [ToolboxItem(false)]
         public class MessageButton : KryptonButton
         {
-            #region Instance Fields
-
-            #endregion
-
             #region Identity
             /// <summary>
             /// Gets and sets the ignoring of Alt+F4

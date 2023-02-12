@@ -1,5 +1,8 @@
 ﻿namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
     public static class KryptonInputBox
@@ -22,7 +25,7 @@
             string defaultResponse = @"",
             string cueText = @"",
             Color cueColour = new(),
-            Font cueTypeface = null,
+            Font? cueTypeface = null,
             bool usePasswordOption = false)
             =>  InternalShow(null, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
 
@@ -43,7 +46,7 @@
             string defaultResponse = @"",
             string cueText = @"",
             Color cueColour = new(),
-            Font cueTypeface = null,
+            Font? cueTypeface = null,
             bool usePasswordOption = false)
             => InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
 
@@ -51,13 +54,13 @@
 
         #region Implementation
 
-        private static string InternalShow(IWin32Window owner,
+        private static string InternalShow(IWin32Window? owner,
             string prompt,
             string caption,
             string defaultResponse,
             string cueText,
             Color cueColour,
-            Font cueTypeface,
+            Font? cueTypeface,
             bool usePasswordOption) =>
             KryptonInputBoxForm.InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour,
                 cueTypeface, usePasswordOption);
