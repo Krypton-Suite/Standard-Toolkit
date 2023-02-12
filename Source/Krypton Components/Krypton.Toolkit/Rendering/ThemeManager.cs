@@ -106,20 +106,14 @@ namespace Krypton.Toolkit
         /// <summary>Returns the palette mode.</summary>
         /// <param name="paletteMode">The palette mode manager.</param>
         /// <returns>The selected <see cref="PaletteMode"/>.</returns>
-        private static PaletteMode ReturnPaletteMode(PaletteMode paletteMode)
-        {
-            return paletteMode;
-        }
+        private static PaletteMode ReturnPaletteMode(PaletteMode paletteMode) => paletteMode;
 
         /// <summary>
         /// Applies the theme.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        public static void ApplyTheme(string themeName, KryptonManager manager)
-        {
-            ApplyTheme(_supportedThemes.GetByFirst(themeName), manager);
-        }
+        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(_supportedThemes.GetByFirst(themeName), manager);
 
         /// <summary>
         /// Sets the theme.
@@ -143,14 +137,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the palette mode manager as string.
         /// </summary>
-        /// <param name="PaletteMode">The palette mode manager.</param>
+        /// <param name="paletteMode">The palette mode manager.</param>
         /// <param name="manager">The manager.</param>
         /// <returns>The chosen theme as a string.</returns>
-        public static string? ReturnPaletteModeAsString(PaletteMode PaletteMode, KryptonManager? manager = null)
+        public static string ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager? manager)
         {
-            var paletteMode = manager?.GlobalPaletteMode ?? PaletteMode;
+            var mode = manager?.GlobalPaletteMode ?? paletteMode;
 
-            return _supportedThemes.GetBySecond(paletteMode);
+            return _supportedThemes.GetBySecond(mode);
         }
 
         /// <summary>
@@ -213,12 +207,12 @@ namespace Krypton.Toolkit
         /// Applies the global theme.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        /// <param name="PaletteMode">The palette mode manager.</param>
-        public static void ApplyGlobalTheme(KryptonManager manager, PaletteMode PaletteMode)
+        /// <param name="paletteMode">The palette mode manager.</param>
+        public static void ApplyGlobalTheme(KryptonManager manager, PaletteMode paletteMode)
         {
             try
             {
-                manager.GlobalPaletteMode = PaletteMode;
+                manager.GlobalPaletteMode = paletteMode;
             }
             catch (Exception exc)
             {
@@ -231,10 +225,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials)
-        {
-            AddToCollection(target.Items, excludePartials);
-        }
+        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         private static void AddToCollection(IList target, string[] excludes)
         {

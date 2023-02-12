@@ -29,7 +29,6 @@ namespace Krypton.Navigator
 
         #region Implementation
 
-        /*
         /// <summary>
         /// Form Close Button Enabled: This will also Disable the System Menu `Close` BUT NOT the `Alt+F4` key action
         /// </summary>
@@ -44,7 +43,7 @@ namespace Krypton.Navigator
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    IntPtr hSystemMenu = PI.GetSystemMenu(KryptonForm.Handle, false);
+                    IntPtr hSystemMenu = PI.GetSystemMenu(Navigator.Owner!.Handle, false);
                     if (hSystemMenu != IntPtr.Zero)
                     {
                         PI.EnableMenuItem(hSystemMenu, PI.SC_.CLOSE, _enabled ? PI.MF_.ENABLED : PI.MF_.DISABLED);
@@ -52,25 +51,27 @@ namespace Krypton.Navigator
                 }
             }
         }
-        */
+
         #endregion
 
         #region ButtonSpecNavFixed Implementation
 
         public override bool GetVisible(PaletteBase? palette)
         {
-            throw new NotImplementedException();
+            // We do not show if the custom chrome is combined with composition,
+            // in which case the form buttons are handled by the composition
+            if (Navigator.Owner!.ApplyComposition && Navigator.Owner.ApplyCustomChrome)
+            {
+                return false;
+            }
+
+            // Have all buttons been turned off?
+            return Navigator.Owner.ControlBox && Navigator.Owner.CloseBox;
         }
 
-        public override ButtonCheckState GetChecked(PaletteBase? palette)
-        {
-            throw new NotImplementedException();
-        }
+        public override ButtonCheckState GetChecked(PaletteBase palette) => ButtonCheckState.NotCheckButton;
 
-        public override ButtonEnabled GetEnabled(PaletteBase? palette)
-        {
-            throw new NotImplementedException();
-        }
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => Navigator.Owner!.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
 
         #endregion
     }

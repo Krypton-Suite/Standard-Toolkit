@@ -43,6 +43,7 @@ namespace Krypton.Navigator
         private VisualPopupPage? _visualPopupPage;
         private VisualPopupToolTip? _visualPopupToolTip;
         private KryptonPage[]? _dragPages;
+        private KryptonForm? _owner;
         private bool _forcedLayout;
         private bool _layingOut;
         private bool _pageDragging;
@@ -50,6 +51,7 @@ namespace Krypton.Navigator
         private bool _allowTabFocus;
         private bool _allowTabSelect;
         private bool _tabHoverStarted;
+        private bool _controlKryptonFormFeatures;
         private int _cachePageCount;
         private int _cachePageVisibleCount;
 
@@ -506,6 +508,10 @@ namespace Krypton.Navigator
                 }
             }
         }
+
+        public KryptonForm? Owner { get => _owner; set => _owner = value ?? null; }
+
+        public bool ControlKryptonFormFeatures { get => _controlKryptonFormFeatures; set => _controlKryptonFormFeatures = value; }
 
         /// <summary>
         /// Gets access to the bar specific settings.
@@ -1204,8 +1210,8 @@ namespace Krypton.Navigator
                 ViewBase? element = ViewManager?.Root?.ViewFromPoint(new Point(e.X, e.Y));
 
                 // Ask the view builder if pressing the element needs to give us focus
-                if (ViewBuilder != null 
-                    && element != null 
+                if (ViewBuilder != null
+                    && element != null
                     && ViewBuilder.GiveNavigatorFocus(element)
                     )
                 {
@@ -1237,7 +1243,7 @@ namespace Krypton.Navigator
                 if (CommonHelper.IsShiftKeyPressed)
                 {
                     // If the focus has been moved to a page that does not have the focus
-                    if (SelectedPage is { ContainsFocus: false } )
+                    if (SelectedPage is { ContainsFocus: false })
                     {
                         // We need to force another TAB+SHIFT to move the focus backwards
                         foreach (KryptonPage page in Pages)
@@ -1292,7 +1298,7 @@ namespace Krypton.Navigator
                         {
                             // CONTROL tabbing around the pages in the navigator 
                             // is handled in a view specific way
-                            if (ViewBuilder != null) 
+                            if (ViewBuilder != null)
                                 handled = ViewBuilder.ProcessDialogKey(keyData);
                         }
                     }
@@ -2190,6 +2196,8 @@ namespace Krypton.Navigator
             _allowTabFocus = true;
             _allowTabSelect = true;
             UseMnemonic = true;
+            _owner = null;
+            _controlKryptonFormFeatures = false;
         }
 
         private void CreatePageCollection()
@@ -2896,7 +2904,7 @@ namespace Krypton.Navigator
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form? topForm = FindForm();
-                if (topForm is { ContainsFocus: false } )
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }
@@ -2995,7 +3003,7 @@ namespace Krypton.Navigator
             {
                 // We do not provide hover support when the form does not have the focus
                 Form? topForm = FindForm();
-                if (topForm is { ContainsFocus: false } )
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }
@@ -3133,9 +3141,9 @@ namespace Krypton.Navigator
                         else
                         {
                             // We can only be the next control if we accept the focus
-                            if (ViewBuilder != null 
-                                && ((next != this) 
-                                || ((next == this) 
+                            if (ViewBuilder != null
+                                && ((next != this)
+                                || ((next == this)
                                     && ViewBuilder.CanFocus)
                                 )
                                 )
@@ -3217,7 +3225,7 @@ namespace Krypton.Navigator
                 next = next.Parent;
 
                 // Keep going until we reach the top of the parent chain
-            } 
+            }
 
             // Did not find the control is on a KryptonPage, so definitely not on an unselected KryptonPage
             return false;
