@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         private ButtonSpecExpandRibbon _buttonSpecExpand;
 
         // Monitoring the containing form and mdi status
-        private System.Windows.Forms.Timer _invalidateTimer;
+        private Timer _invalidateTimer;
         private Form _formContainer;
         private Form _activeMdiChild;
         private int _paintCount;
@@ -544,7 +544,7 @@ namespace Krypton.Ribbon
             // required to get the pendant buttons to operate as needed.
             _ribbon.ParentChanged += OnRibbonParentChanged;
 
-            _invalidateTimer = new System.Windows.Forms.Timer
+            _invalidateTimer = new Timer
             {
                 Interval = 1
             };

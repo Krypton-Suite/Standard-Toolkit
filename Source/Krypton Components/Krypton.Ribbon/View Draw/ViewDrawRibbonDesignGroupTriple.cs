@@ -40,20 +40,23 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]{Properties.Resources.KryptonRibbonGroupButton,                                                   
-                                                   Properties.Resources.KryptonRibbonGroupColorButton,                                                   
-                                                   Properties.Resources.KryptonRibbonGroupCheckBox,
-                                                   Properties.Resources.KryptonRibbonGroupRadioButton,
-                                                   Properties.Resources.KryptonRibbonGroupLabel,
-                                                   Properties.Resources.KryptonRibbonGroupCustomControl,
-                                                   Properties.Resources.KryptonRibbonGroupTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupRichTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupComboBox,
-                                                   Properties.Resources.KryptonRibbonGroupMaskedTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupNumericUpDown,
-                                                   Properties.Resources.KryptonRibbonGroupDomainUpDown,
-                                                   Properties.Resources.KryptonRibbonGroupDateTimePicker,
-                                                   Properties.Resources.KryptonRibbonGroupTrackBar});
+            _imageList.Images.AddRange(new Image[]
+            {
+                GenericImageResources.KryptonRibbonGroupButton,
+                GenericImageResources.KryptonRibbonGroupColorButton,
+                GenericImageResources.KryptonRibbonGroupCheckBox,
+                GenericImageResources.KryptonRibbonGroupRadioButton,
+                GenericImageResources.KryptonRibbonGroupLabel,
+                GenericImageResources.KryptonRibbonGroupCustomControl,
+                GenericImageResources.KryptonRibbonGroupTextBox,
+                GenericImageResources.KryptonRibbonGroupRichTextBox,
+                GenericImageResources.KryptonRibbonGroupComboBox,
+                GenericImageResources.KryptonRibbonGroupMaskedTextBox,
+                GenericImageResources.KryptonRibbonGroupNumericUpDown,
+                GenericImageResources.KryptonRibbonGroupDomainUpDown,
+                GenericImageResources.KryptonRibbonGroupDateTimePicker,
+                GenericImageResources.KryptonRibbonGroupTrackBar
+            });
         }
 
         /// <summary>

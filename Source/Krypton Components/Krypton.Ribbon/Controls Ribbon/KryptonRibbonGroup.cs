@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroup : Component
     {
         #region Static Fields
-        private static readonly Image _defaultGroupImage = Properties.Resources.GroupImageDefault;
+        private static readonly Image _defaultGroupImage = GenericImageResources.GroupImageDefault;
         #endregion
 
         #region Instance Fields
@@ -549,8 +549,8 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsCleared(object sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
-            if ((_ribbon != null) 
-                && (_ribbonTab != null) 
+            if ((_ribbon != null)
+                && (_ribbonTab != null)
                 && (_ribbon.SelectedTab == _ribbonTab)
                 )
             {
@@ -566,8 +566,8 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = this;
 
             // Only need to update display if this tab is selected and the group is visible
-            if ((_ribbon != null) 
-                && (_ribbonTab != null) 
+            if ((_ribbon != null)
+                && (_ribbonTab != null)
                 && (_ribbon.SelectedTab == _ribbonTab)
                 )
             {
@@ -583,8 +583,8 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = null;
 
             // Only need to update display if this tab is selected and the group was visible
-            if ((_ribbon != null) 
-                && (_ribbonTab != null) 
+            if ((_ribbon != null)
+                && (_ribbonTab != null)
                 && (_ribbon.SelectedTab == _ribbonTab)
                 )
             {

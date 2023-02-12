@@ -351,7 +351,7 @@ namespace Krypton.Toolkit
 
         protected override bool RunDialog(IntPtr hwndOwner) =>
             //if (!this.UseEXDialog || Environment.OSVersion.Platform != PlatformID.Win32NT || Environment.OSVersion.Version.Major < 5)
-            this.ShowPrintDialog(hwndOwner, CreatePRINTDLG());
+            ShowPrintDialog(hwndOwner, CreatePRINTDLG());
 
         //return ShowPrintDialog(hwndOwner, CreatePRINTDLGEX());
         internal static PRINTDLG CreatePRINTDLG()
@@ -805,116 +805,116 @@ namespace Krypton.Toolkit
 
         public int lStructSize
         {
-            get => this.m_lStructSize;
-            set => this.m_lStructSize = value;
+            get => m_lStructSize;
+            set => m_lStructSize = value;
         }
 
         public IntPtr hwndOwner
         {
-            get => this.m_hwndOwner;
-            set => this.m_hwndOwner = value;
+            get => m_hwndOwner;
+            set => m_hwndOwner = value;
         }
 
         public IntPtr hDevMode
         {
-            get => this.m_hDevMode;
-            set => this.m_hDevMode = value;
+            get => m_hDevMode;
+            set => m_hDevMode = value;
         }
 
         public IntPtr hDevNames
         {
-            get => this.m_hDevNames;
-            set => this.m_hDevNames = value;
+            get => m_hDevNames;
+            set => m_hDevNames = value;
         }
 
         public IntPtr hDC
         {
-            get => this.m_hDC;
-            set => this.m_hDC = value;
+            get => m_hDC;
+            set => m_hDC = value;
         }
 
         public PD Flags
         {
-            get => this.m_Flags;
-            set => this.m_Flags = value;
+            get => m_Flags;
+            set => m_Flags = value;
         }
 
         public short nFromPage
         {
-            get => this.m_nFromPage;
-            set => this.m_nFromPage = value;
+            get => m_nFromPage;
+            set => m_nFromPage = value;
         }
 
         public short nToPage
         {
-            get => this.m_nToPage;
-            set => this.m_nToPage = value;
+            get => m_nToPage;
+            set => m_nToPage = value;
         }
 
         public short nMinPage
         {
-            get => this.m_nMinPage;
-            set => this.m_nMinPage = value;
+            get => m_nMinPage;
+            set => m_nMinPage = value;
         }
 
         public short nMaxPage
         {
-            get => this.m_nMaxPage;
-            set => this.m_nMaxPage = value;
+            get => m_nMaxPage;
+            set => m_nMaxPage = value;
         }
 
         public short nCopies
         {
-            get => this.m_nCopies;
-            set => this.m_nCopies = value;
+            get => m_nCopies;
+            set => m_nCopies = value;
         }
 
         public IntPtr hInstance
         {
-            get => this.m_hInstance;
-            set => this.m_hInstance = value;
+            get => m_hInstance;
+            set => m_hInstance = value;
         }
 
         public IntPtr lCustData
         {
-            get => this.m_lCustData;
-            set => this.m_lCustData = value;
+            get => m_lCustData;
+            set => m_lCustData = value;
         }
 
         public PI.WndProc lpfnPrintHook
         {
-            get => this.m_lpfnPrintHook;
-            set => this.m_lpfnPrintHook = value;
+            get => m_lpfnPrintHook;
+            set => m_lpfnPrintHook = value;
         }
 
         public PI.WndProc lpfnSetupHook
         {
-            get => this.m_lpfnSetupHook;
-            set => this.m_lpfnSetupHook = value;
+            get => m_lpfnSetupHook;
+            set => m_lpfnSetupHook = value;
         }
 
         public string lpPrintTemplateName
         {
-            get => this.m_lpPrintTemplateName;
-            set => this.m_lpPrintTemplateName = value;
+            get => m_lpPrintTemplateName;
+            set => m_lpPrintTemplateName = value;
         }
 
         public string lpSetupTemplateName
         {
-            get => this.m_lpSetupTemplateName;
-            set => this.m_lpSetupTemplateName = value;
+            get => m_lpSetupTemplateName;
+            set => m_lpSetupTemplateName = value;
         }
 
         public IntPtr hPrintTemplate
         {
-            get => this.m_hPrintTemplate;
-            set => this.m_hPrintTemplate = value;
+            get => m_hPrintTemplate;
+            set => m_hPrintTemplate = value;
         }
 
         public IntPtr hSetupTemplate
         {
-            get => this.m_hSetupTemplate;
-            set => this.m_hSetupTemplate = value;
+            get => m_hSetupTemplate;
+            set => m_hSetupTemplate = value;
         }
     }
 
@@ -943,116 +943,116 @@ namespace Krypton.Toolkit
 
         public int lStructSize
         {
-            get => this.m_lStructSize;
-            set => this.m_lStructSize = value;
+            get => m_lStructSize;
+            set => m_lStructSize = value;
         }
 
         public IntPtr hwndOwner
         {
-            get => this.m_hwndOwner;
-            set => this.m_hwndOwner = value;
+            get => m_hwndOwner;
+            set => m_hwndOwner = value;
         }
 
         public IntPtr hDevMode
         {
-            get => this.m_hDevMode;
-            set => this.m_hDevMode = value;
+            get => m_hDevMode;
+            set => m_hDevMode = value;
         }
 
         public IntPtr hDevNames
         {
-            get => this.m_hDevNames;
-            set => this.m_hDevNames = value;
+            get => m_hDevNames;
+            set => m_hDevNames = value;
         }
 
         public IntPtr hDC
         {
-            get => this.m_hDC;
-            set => this.m_hDC = value;
+            get => m_hDC;
+            set => m_hDC = value;
         }
 
         public PD Flags
         {
-            get => this.m_Flags;
-            set => this.m_Flags = value;
+            get => m_Flags;
+            set => m_Flags = value;
         }
 
         public short nFromPage
         {
-            get => this.m_nFromPage;
-            set => this.m_nFromPage = value;
+            get => m_nFromPage;
+            set => m_nFromPage = value;
         }
 
         public short nToPage
         {
-            get => this.m_nToPage;
-            set => this.m_nToPage = value;
+            get => m_nToPage;
+            set => m_nToPage = value;
         }
 
         public short nMinPage
         {
-            get => this.m_nMinPage;
-            set => this.m_nMinPage = value;
+            get => m_nMinPage;
+            set => m_nMinPage = value;
         }
 
         public short nMaxPage
         {
-            get => this.m_nMaxPage;
-            set => this.m_nMaxPage = value;
+            get => m_nMaxPage;
+            set => m_nMaxPage = value;
         }
 
         public short nCopies
         {
-            get => this.m_nCopies;
-            set => this.m_nCopies = value;
+            get => m_nCopies;
+            set => m_nCopies = value;
         }
 
         public IntPtr hInstance
         {
-            get => this.m_hInstance;
-            set => this.m_hInstance = value;
+            get => m_hInstance;
+            set => m_hInstance = value;
         }
 
         public IntPtr lCustData
         {
-            get => this.m_lCustData;
-            set => this.m_lCustData = value;
+            get => m_lCustData;
+            set => m_lCustData = value;
         }
 
         public PI.WndProc lpfnPrintHook
         {
-            get => this.m_lpfnPrintHook;
-            set => this.m_lpfnPrintHook = value;
+            get => m_lpfnPrintHook;
+            set => m_lpfnPrintHook = value;
         }
 
         public PI.WndProc lpfnSetupHook
         {
-            get => this.m_lpfnSetupHook;
-            set => this.m_lpfnSetupHook = value;
+            get => m_lpfnSetupHook;
+            set => m_lpfnSetupHook = value;
         }
 
         public string lpPrintTemplateName
         {
-            get => this.m_lpPrintTemplateName;
-            set => this.m_lpPrintTemplateName = value;
+            get => m_lpPrintTemplateName;
+            set => m_lpPrintTemplateName = value;
         }
 
         public string lpSetupTemplateName
         {
-            get => this.m_lpSetupTemplateName;
-            set => this.m_lpSetupTemplateName = value;
+            get => m_lpSetupTemplateName;
+            set => m_lpSetupTemplateName = value;
         }
 
         public IntPtr hPrintTemplate
         {
-            get => this.m_hPrintTemplate;
-            set => this.m_hPrintTemplate = value;
+            get => m_hPrintTemplate;
+            set => m_hPrintTemplate = value;
         }
 
         public IntPtr hSetupTemplate
         {
-            get => this.m_hSetupTemplate;
-            set => this.m_hSetupTemplate = value;
+            get => m_hSetupTemplate;
+            set => m_hSetupTemplate = value;
         }
     }
 

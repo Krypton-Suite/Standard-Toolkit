@@ -111,6 +111,11 @@
 		<Compile Update="ButtonSpec\ButtonSpecMdiChildMin.cs" />
 		<Compile Update="ButtonSpec\ButtonSpecMinimizeRibbon.cs" />
 		<Compile Update="ButtonSpec\ButtonSpecExpandRibbon.cs" />
+		<Compile Update="Resources\GenericImageResources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>GenericImageResources.resx</DependentUpon>
+		</Compile>
 		<Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
 	</ItemGroup>
 	<ItemGroup>
@@ -152,6 +157,12 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\GenericImageResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 	<PropertyGroup>
 		<DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Ribbon.xml</DocumentationFile>

@@ -591,17 +591,17 @@ namespace Krypton.Ribbon
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
                     _collapsableMenu = new ToolStripMenuItem("Allow Collapsed", null, OnCollapsable);
                     _dialogLauncherMenu = new ToolStripMenuItem("Dialog Launcher", null, OnDialogLauncher);
-                    _moveFirstMenu = new ToolStripMenuItem("Move Group First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move Group Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move Group Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move Group Last", Properties.Resources.MoveLast, OnMoveLast);
+                    _moveFirstMenu = new ToolStripMenuItem("Move Group First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move Group Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move Group Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move Group Last", GenericImageResources.MoveLast, OnMoveLast);
                     _moveToTabMenu = new ToolStripMenuItem("Move Group To Tab");
-                    _addTripleMenu = new ToolStripMenuItem("Add Triple", Properties.Resources.KryptonRibbonGroupTriple, OnAddTriple);
-                    _addLinesMenu = new ToolStripMenuItem("Add Lines", Properties.Resources.KryptonRibbonGroupLines, OnAddLines);
-                    _addSeparatorMenu = new ToolStripMenuItem("Add Separator", Properties.Resources.KryptonRibbonGroupSeparator, OnAddSep);
-                    _addGalleryMenu = new ToolStripMenuItem("Add Gallery", Properties.Resources.KryptonGallery, OnAddGallery);
+                    _addTripleMenu = new ToolStripMenuItem("Add Triple", GenericImageResources.KryptonRibbonGroupTriple, OnAddTriple);
+                    _addLinesMenu = new ToolStripMenuItem("Add Lines", GenericImageResources.KryptonRibbonGroupLines, OnAddLines);
+                    _addSeparatorMenu = new ToolStripMenuItem("Add Separator", GenericImageResources.KryptonRibbonGroupSeparator, OnAddSep);
+                    _addGalleryMenu = new ToolStripMenuItem("Add Gallery", GenericImageResources.KryptonGallery, OnAddGallery);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
-                    _deleteGroupMenu = new ToolStripMenuItem("Delete Group", Properties.Resources.delete2, OnDeleteGroup);
+                    _deleteGroupMenu = new ToolStripMenuItem("Delete Group", GenericImageResources.Delete, OnDeleteGroup);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, _collapsableMenu, _dialogLauncherMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
