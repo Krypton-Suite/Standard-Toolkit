@@ -17,10 +17,6 @@ namespace Krypton.Workspace
     /// </summary>
     public class CellDragCancelEventArgs : PageDragCancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the CellDragCancelEventArgs class.

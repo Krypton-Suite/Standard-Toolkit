@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private Image _image;
         private Color _transparent;
-        private string _heading;
+        private string? _heading;
         private string _description;
         #endregion
 
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected virtual Image GetImageDefault() => _defaultImage;
+        protected virtual Image? GetImageDefault() => _defaultImage;
 
         /// <summary>
         /// Gets the default heading value.
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Heading image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state) => Image;
+        public virtual Image? GetImage(PaletteState state) => Image;
 
         #endregion
 
@@ -178,9 +178,10 @@ namespace Krypton.Toolkit
         [Description(@"Heading text.")]
         [RefreshProperties(RefreshProperties.All)]
         [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public virtual string Heading
         {
-            get => _heading;
+            get => _heading ?? string.Empty;
 
             set
             {

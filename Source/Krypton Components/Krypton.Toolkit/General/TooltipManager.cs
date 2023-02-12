@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
         /// <param name="targetElement">Target element for the mouse message.</param>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public void MouseLeave(ViewBase targetElement, Control c, ViewBase next)
+        public void MouseLeave(ViewBase? targetElement, Control c, ViewBase? next)
         {
             // No longer have a current target
             _currentTarget = null;

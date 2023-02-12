@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="paletteContent">Palette source for the content.</param>
         /// <param name="values">Reference to actual content values.</param>
-        public ViewDrawRibbonRecentShortcut(IPaletteContent paletteContent, 
+        public ViewDrawRibbonRecentShortcut(IPaletteContent? paletteContent, 
                                             IContentValues values)
             : base(paletteContent, values, VisualOrientation.Top)
         {

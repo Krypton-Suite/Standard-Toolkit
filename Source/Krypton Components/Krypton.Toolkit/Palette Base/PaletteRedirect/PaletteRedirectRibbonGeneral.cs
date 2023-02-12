@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteRibbonGeneral GetInherit(PaletteState state)
+        private IPaletteRibbonGeneral? GetInherit(PaletteState state)
         {
             switch (state)
             {

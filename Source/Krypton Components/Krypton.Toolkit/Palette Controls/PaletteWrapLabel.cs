@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteWrapLabel : Storage
     {
         #region Instance Fields
-        private Font _font;
+        private Font? _font;
         private Color _textColor;
         private PaletteTextHint _hint;
         private readonly KryptonWrapLabel _wrapLabel;
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for drawing the label text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Font Font
+        public virtual Font? Font
         {
             get => _font;
 

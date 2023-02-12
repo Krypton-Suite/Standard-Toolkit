@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used border palette.
         /// </summary>
-        public IPaletteBorder PaletteBorder
+        public IPaletteBorder? PaletteBorder
         {
             [DebuggerStepThrough]
             get;
@@ -335,11 +335,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Context used by the renderer.</param>
         /// <returns>Path instance.</returns>
-        public GraphicsPath GetOuterBorderPath(RenderContext context)
+        public GraphicsPath? GetOuterBorderPath(RenderContext context)
         {
             if (PaletteBorder != null)
             {
-                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
+                return context.Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
                                                                                   PaletteBorder, Orientation,
                                                                                   State);
             }

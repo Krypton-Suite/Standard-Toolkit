@@ -19,19 +19,19 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private PaletteRedirect _redirect;
-        private Image _common;
-        private Image _uncheckedDisabled;
-        private Image _uncheckedNormal;
-        private Image _uncheckedTracking;
-        private Image _uncheckedPressed;
-        private Image _checkedDisabled;
-        private Image _checkedNormal;
-        private Image _checkedTracking;
-        private Image _checkedPressed;
-        private Image _indeterminateDisabled;
-        private Image _indeterminateNormal;
-        private Image _indeterminateTracking;
-        private Image _indeterminatePressed;
+        private Image? _common;
+        private Image? _uncheckedDisabled;
+        private Image? _uncheckedNormal;
+        private Image? _uncheckedTracking;
+        private Image? _uncheckedPressed;
+        private Image? _checkedDisabled;
+        private Image? _checkedNormal;
+        private Image? _checkedTracking;
+        private Image? _checkedPressed;
+        private Image? _indeterminateDisabled;
+        private Image? _indeterminateNormal;
+        private Image? _indeterminateTracking;
+        private Image? _indeterminatePressed;
         #endregion
 
         #region Identity
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         [Description(@"Common image that other check box images inherit from.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Common
+        public Image? Common
         {
             get => _common;
 
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is not checked and disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedDisabled
+        public Image? UncheckedDisabled
         {
             get => _uncheckedDisabled;
 
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is unchecked.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedNormal
+        public Image? UncheckedNormal
         {
             get => _uncheckedNormal;
 
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is unchecked and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedTracking
+        public Image? UncheckedTracking
         {
             get => _uncheckedTracking;
 
@@ -257,7 +257,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is unchecked and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedPressed
+        public Image? UncheckedPressed
         {
             get => _uncheckedPressed;
 
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked but disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedDisabled
+        public Image? CheckedDisabled
         {
             get => _checkedDisabled;
 
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedNormal
+        public Image? CheckedNormal
         {
             get => _checkedNormal;
 
@@ -353,7 +353,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedTracking
+        public Image? CheckedTracking
         {
             get => _checkedTracking;
 
@@ -385,7 +385,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedPressed
+        public Image? CheckedPressed
         {
             get => _checkedPressed;
 
@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate but disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminateDisabled
+        public Image? IndeterminateDisabled
         {
             get => _indeterminateDisabled;
 
@@ -449,7 +449,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminateNormal
+        public Image? IndeterminateNormal
         {
             get => _indeterminateNormal;
 
@@ -481,7 +481,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminateTracking
+        public Image? IndeterminateTracking
         {
             get => _indeterminateTracking;
 
@@ -513,7 +513,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminatePressed
+        public Image? IndeterminatePressed
         {
             get => _indeterminatePressed;
 

@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ButtonSpecRemapByContentView : ButtonSpecRemapByContentBase
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecRemapByContentView class.
@@ -46,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the palette content to use for remapping.
         /// </summary>
-        public override IPaletteContent PaletteContent => Foreground?.GetPalette();
+        public override IPaletteContent? PaletteContent => Foreground?.GetPalette();
 
         #endregion
 

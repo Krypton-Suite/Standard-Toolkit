@@ -19,8 +19,8 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonQATButton), "ToolboxBitmaps.KryptonRibbonQATButton.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Image")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Image))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonQATButton : Component,
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private bool _visible;
         private bool _enabled;
         private string _text;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
 
         #endregion
 
@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
         [Category(@"Values")]
         [Description(@"Application button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -243,7 +243,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Tooltip style for the quick access toolbar button.")]
-        [DefaultValue(typeof(LabelStyle), "ToolTip")]
+        [DefaultValue(typeof(LabelStyle), nameof(ToolTip))]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace Krypton.Ribbon
         [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image ToolTipImage { get; set; }
+        public Image? ToolTipImage { get; set; }
 
         /// <summary>
         /// Gets and sets the color to draw as transparent in the ToolTipImage.
@@ -311,7 +311,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the quick access toolbar button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -386,7 +386,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <returns>Image value.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Image GetImage() => KryptonCommand?.ImageSmall ?? Image;
+        public Image? GetImage() => KryptonCommand?.ImageSmall ?? Image;
 
         /// <summary>
         /// Gets the entry text.
@@ -481,7 +481,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Text":
+                case nameof(Text):
                     refresh = true;
                     OnPropertyChanged(nameof(Text));
                     break;
@@ -489,7 +489,7 @@ namespace Krypton.Ribbon
                     refresh = true;
                     OnPropertyChanged(nameof(Image));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     refresh = true;
                     OnPropertyChanged(nameof(Enabled));
                     break;

@@ -31,6 +31,8 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             Debug.Assert(redirector != null);
+            ResetCommonLongTextFont();
+            ResetCommonShortTextFont();
         }
 
         #endregion
@@ -51,9 +53,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied font value.")]
-        [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font CommonLongTextFont { get => null; set => _paletteCommon.StateCommon.Content.LongText.Font = value; }
+        [DisallowNull]
+        public Font? CommonLongTextFont 
+        { 
+            get => _paletteCommon.StateCommon.Content.LongText.Font; 
+            set => _paletteCommon.StateCommon.Content.LongText.Font = value; 
+        }
         /// <summary>
         /// Resets the CommonLongTextFont property to its default value.
         /// </summary>
@@ -68,9 +74,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied font value.")]
-        [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font CommonShortTextFont { get => null; set => _paletteCommon.StateCommon.Content.ShortText.Font = value; }
+        [DisallowNull]
+        public Font? CommonShortTextFont 
+        { 
+            get => _paletteCommon.StateCommon.Content.ShortText.Font; 
+            set => _paletteCommon.StateCommon.Content.ShortText.Font = value; 
+        }
 
         /// <summary>
         /// Resets the CommonShortTextFont property to its default value.

@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonSplitContainer _splitContainer;
+        private KryptonSplitContainer? _splitContainer;
         private IDesignerHost _designerHost;
         private ISelectionService _selectionService;
         private BehaviorService _behaviorService;
@@ -95,18 +95,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="internalControlIndex">A specified index to select the internal control designer. This index is zero-based.</param>
         /// <returns>A ControlDesigner at the specified index.</returns>
-        public override ControlDesigner InternalControlDesigner(int internalControlIndex)
+        public override ControlDesigner? InternalControlDesigner(int internalControlIndex)
         {
             if (_splitContainer != null)
             {
                 // Get the control designer for the requested indexed child control
                 if (internalControlIndex == 0)
                 {
-                    return (ControlDesigner)_designerHost.GetDesigner(_splitContainer.Panel1);
+                    return _designerHost.GetDesigner(_splitContainer.Panel1) as ControlDesigner;
                 }
                 else if (internalControlIndex == 1)
                 {
-                    return (ControlDesigner)_designerHost.GetDesigner(_splitContainer.Panel2);
+                    return _designerHost.GetDesigner(_splitContainer.Panel2) as ControlDesigner;
                 }
             }
 

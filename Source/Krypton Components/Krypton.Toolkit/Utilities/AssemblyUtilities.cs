@@ -10,10 +10,6 @@
 
 namespace Krypton.Toolkit
 {
-    #region Enumerations
-
-    #endregion
-
     #region Class: AssemblyUtilities
 
     public class AssemblyUtilities

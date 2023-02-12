@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state) =>
             _inherit.GetButtonSpecImage(style, state);
 
@@ -49,14 +49,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecShortText(style);
+        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecLongText(style);
+        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

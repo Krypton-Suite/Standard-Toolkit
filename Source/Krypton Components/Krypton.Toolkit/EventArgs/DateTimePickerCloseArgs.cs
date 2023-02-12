@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class DateTimePickerCloseArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DateTimePickerCloseArgs class.
@@ -34,7 +30,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the KryptonContextMenu instance.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         #endregion
     }

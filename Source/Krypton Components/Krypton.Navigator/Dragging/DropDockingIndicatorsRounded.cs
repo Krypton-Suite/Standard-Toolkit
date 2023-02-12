@@ -56,7 +56,7 @@ namespace Krypton.Navigator
             // Any old title will do as it will not be shown
             CreateParams cp = new()
             {
-                Caption = "DropDockingIndicatorsRounded",
+                Caption = nameof(DropDockingIndicatorsRounded),
 
                 // Define the screen position/size
                 X = _showRect.X,

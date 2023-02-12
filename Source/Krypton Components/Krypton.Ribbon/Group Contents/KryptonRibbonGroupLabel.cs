@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
             _enabled = true;
             _imageSmall = null;
             _imageLarge = null;
-            _textLine1 = "Label";
+            _textLine1 = nameof(Label);
             _textLine2 = string.Empty;
             _itemSizeCurrent = GroupItemSize.Medium;
 
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small label image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -115,7 +115,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large label image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -139,7 +139,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Label display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("Label")]
+        [DefaultValue(nameof(Label))]
         public string TextLine1
         {
             get => _textLine1;
@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Label";
+                    value = nameof(Label);
                 }
 
                 if (value != _textLine1)
@@ -277,7 +277,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the group label.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -379,19 +379,19 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "TextLine1":
+                case nameof(TextLine1):
                     OnPropertyChanged(nameof(TextLine1));
                     break;
                 case "ExtraText":
                     OnPropertyChanged(nameof(TextLine2));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "ImageLarge":
+                case nameof(ImageLarge):
                     OnPropertyChanged(nameof(ImageLarge));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
             }

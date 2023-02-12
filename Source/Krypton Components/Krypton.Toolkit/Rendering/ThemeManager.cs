@@ -75,10 +75,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Instance Fields
-
-        #endregion
-
         #region Properties        
         /// <summary>
         /// Gets the supported theme array.

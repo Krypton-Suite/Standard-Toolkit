@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonHeader), "ToolboxBitmaps.KryptonHeader.bmp")]
-    [DefaultEvent("Paint")]
-    [DefaultProperty("Text")]
+    [DefaultEvent(nameof(Paint))]
+    [DefaultProperty(nameof(Text))]
     [Designer("Krypton.Toolkit.KryptonHeaderDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Display a descriptive caption.")]
@@ -185,6 +185,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Heading;
@@ -208,7 +209,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;

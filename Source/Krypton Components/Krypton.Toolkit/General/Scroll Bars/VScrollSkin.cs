@@ -19,13 +19,13 @@ namespace Krypton.Toolkit
         #region "   Members   "
         //private static List<WeakReference> __ENCList = new List<WeakReference>();
 
-        [AccessedThroughProperty("_win")]
+        [AccessedThroughProperty(nameof(_win))]
         private Control __win;
 
-        [AccessedThroughProperty("VScrollBar1")]
+        [AccessedThroughProperty(nameof(VScrollBar1))]
         private KryptonScrollBar _vScrollBar1;
 
-        [AccessedThroughProperty("HScrollBar1")]
+        [AccessedThroughProperty(nameof(HScrollBar1))]
         private KryptonScrollBar _hScrollBar1;
 
         private readonly IContainer components;
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
             VScrollBar1.Maximum = 100;
             VScrollBar1.Minimum = 0;
             VScrollBar1.MinimumSize = new Size(0x13, 15); //(19,15)
-            VScrollBar1.Name = "VScrollBar1";
+            VScrollBar1.Name = nameof(VScrollBar1);
             VScrollBar1.Size = new Size(0x13, 0x7f);//(19,127)
             VScrollBar1.SmallChange = 1;
             VScrollBar1.TabIndex = 0;
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             HScrollBar1.Maximum = 20;
             HScrollBar1.Minimum = 0;
             HScrollBar1.MinimumSize = new Size(15, 0x13);//(15,19)
-            HScrollBar1.Name = "HScrollBar1";
+            HScrollBar1.Name = nameof(HScrollBar1);
             HScrollBar1.Size = new Size(0x96, 15);//(150,15)
             HScrollBar1.SmallChange = 1;
             HScrollBar1.TabIndex = 1;

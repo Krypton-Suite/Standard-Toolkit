@@ -19,10 +19,6 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewLayoutRibbonCenterPadding : ViewLayoutRibbonCenter
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewLayoutRibbonGroupImage class.

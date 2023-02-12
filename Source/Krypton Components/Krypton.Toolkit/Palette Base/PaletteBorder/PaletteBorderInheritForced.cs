@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to inherit from.
         /// </summary>
-        public void SetInherit(IPaletteBorder paletteBorder)
+        public void SetInherit([DisallowNull] IPaletteBorder paletteBorder)
         {
             Debug.Assert(paletteBorder != null);
             _inherit = paletteBorder;
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteState state) => _inherit.GetBorderImage(state);
+        public override Image? GetBorderImage(PaletteState state) => _inherit.GetBorderImage(state);
 
         /// <summary>
         /// Gets the border image style.

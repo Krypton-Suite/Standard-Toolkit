@@ -81,6 +81,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;

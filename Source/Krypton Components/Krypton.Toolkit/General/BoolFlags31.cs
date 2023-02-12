@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public struct BoolFlags31
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Public
         /// <summary>
         /// Gets and sets the entire flags value.

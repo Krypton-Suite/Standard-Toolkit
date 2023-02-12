@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private Font _font;
+        private Font? _font;
         private Color _color1;
         internal Padding _padding;
         internal PaletteRelativeAlign _shortTextH;
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for drawing the content text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Font Font
+        public virtual Font? Font
         {
             get => _font;
 
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => Inherit.GetContentShortTextImage(state);
+        public Image? GetContentShortTextImage(PaletteState state) => Inherit.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the image style for the short text.
@@ -443,7 +443,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => Inherit.GetContentLongTextImage(state);
+        public Image? GetContentLongTextImage(PaletteState state) => Inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the image style for the long text.

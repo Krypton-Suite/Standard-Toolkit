@@ -161,7 +161,7 @@ namespace Krypton.Ribbon
 
             // Setup the array of properties we override
             var attributes = Array.Empty<Attribute>();
-            string[] strArray = { "Visible", "Enabled" };
+            string[] strArray = { nameof(Visible), nameof(Enabled) };
 
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
@@ -402,7 +402,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonGallery?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)[@"Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Enabled)];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonGallery);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);
@@ -414,7 +414,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonGallery?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)[@"Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Visible)];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonGallery);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);
@@ -490,8 +490,8 @@ namespace Krypton.Ribbon
                 {
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
-                    _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
-                    _enabledMenu = new ToolStripMenuItem("Enabled", null, OnEnabled);
+                    _visibleMenu = new ToolStripMenuItem(nameof(Visible), null, OnVisible);
+                    _enabledMenu = new ToolStripMenuItem(nameof(Enabled), null, OnEnabled);
                     _maximumLMenu = new ToolStripMenuItem("Large", null, OnMaxLarge);
                     _maximumMMenu = new ToolStripMenuItem("Medium", null, OnMaxMedium);
                     _maximumSMenu = new ToolStripMenuItem("Small", null, OnMaxSmall);

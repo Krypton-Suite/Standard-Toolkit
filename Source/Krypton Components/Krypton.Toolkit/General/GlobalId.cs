@@ -27,10 +27,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class GlobalId : IGlobalId
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the GlobalId class.

@@ -34,7 +34,7 @@ namespace Krypton.Docking
         /// <param name="owner">Reference to form that owns the floating windows.</param>
         /// <param name="floatspace">Reference to form that will own all the floating window.</param>
         /// <param name="useMinimiseBox">Allow window to be minimised.</param>
-        public KryptonDockingFloatingWindow(string name, Form owner, KryptonDockingFloatspace floatspace, bool useMinimiseBox)
+        public KryptonDockingFloatingWindow(string? name, [DisallowNull] Form owner, [DisallowNull] KryptonDockingFloatspace floatspace, bool useMinimiseBox)
             : base(name)
         {
             if (owner == null)
@@ -68,7 +68,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets access to the parent docking element.
         /// </summary>
-        public override IDockingElement Parent
+        public override IDockingElement? Parent
         {
             set
             {
@@ -95,7 +95,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             switch (action)
             {
@@ -137,12 +137,12 @@ namespace Krypton.Docking
         /// <param name="floatingWindow">Reference to window being dragged.</param>
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
-        public override void PropogateDragTargets(KryptonFloatingWindow floatingWindow,
+        public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
                                                   PageDragEndData dragData,
                                                   DragTargetList targets)
         {
             // Can only generate targets for a floating window that is actually visible and not the one being dragged
-            if (FloatingWindow.Visible && (floatingWindow != FloatingWindow))
+            if (FloatingWindow is { Visible: true } && (floatingWindow != FloatingWindow))
             {
                 base.PropogateDragTargets(floatingWindow, dragData, targets);
             }
@@ -153,7 +153,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name for search.</param>
         /// <returns>Reference to KryptonWorkspaceCell if match found; otherwise null.</returns>
-        public KryptonWorkspaceCell CellForPage(string uniqueName) => FloatspaceElement.CellForPage(uniqueName);
+        public KryptonWorkspaceCell? CellForPage(string uniqueName) => FloatspaceElement.CellForPage(uniqueName);
 
         /// <summary>
         /// Ensure the provided page is selected within the cell that contains it.
@@ -162,12 +162,12 @@ namespace Krypton.Docking
         public void SelectPage(string uniqueName)
         {
             // Find the cell that contains the target named paged
-            KryptonWorkspaceCell cell = CellForPage(uniqueName);
+            KryptonWorkspaceCell? cell = CellForPage(uniqueName);
             // Check that the pages collection contains the named paged
-            KryptonPage page = cell?.Pages[uniqueName];
+            KryptonPage? page = cell?.Pages[uniqueName];
             if (page != null)
             {
-                cell.SelectedPage = page;
+                cell!.SelectedPage = page;
             }
         }
 
@@ -181,8 +181,8 @@ namespace Krypton.Docking
             xmlWriter.WriteStartElement(XmlElementName);
             xmlWriter.WriteAttributeString(@"N", Name);
             xmlWriter.WriteAttributeString(@"C", Count.ToString());
-            xmlWriter.WriteAttributeString(@"L", CommonHelper.PointToString(FloatingWindow.Location));
-            xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(FloatingWindow.ClientSize));
+            xmlWriter.WriteAttributeString(@"L", CommonHelper.PointToString(FloatingWindow.Location)!);
+            xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(FloatingWindow.ClientSize)!);
 
             // Output an element per child
             foreach (IDockingElement child in this)
@@ -259,14 +259,14 @@ namespace Krypton.Docking
         private void OnFloatingWindowCloseClicked(object sender, UniqueNamesEventArgs e)
         {
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(e.UniqueNames);
         }
 
         private void OnFloatingWindowCaptionDragging(object sender, ScreenAndOffsetEventArgs e)
         {
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.DoDragDrop(e.ScreenPoint, e.ElementOffset, null, this);
         }
 
@@ -289,7 +289,7 @@ namespace Krypton.Docking
             FloatingWindow.Disposed -= OnFloatingWindowDisposed;
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Generate event so the floating window customization can be reversed.

@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonGroupBox), "ToolboxBitmaps.KryptonGroupBox.bmp")]
-    [DefaultEvent("Paint")]
+    [DefaultEvent(nameof(Paint))]
     [DefaultProperty("ValuesPrimary")]
     [Designer("Krypton.Toolkit.KryptonGroupBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
@@ -222,6 +222,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Heading;
@@ -353,7 +354,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the caption.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public VisualOrientation CaptionEdge
         {
             get => _captionEdge;

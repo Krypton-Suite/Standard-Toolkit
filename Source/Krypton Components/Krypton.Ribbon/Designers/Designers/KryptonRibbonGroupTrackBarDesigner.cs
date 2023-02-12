@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
 
             // Setup the array of properties we override
             var attributes = Array.Empty<Attribute>();
-            string[] strArray = { "Visible", "Enabled" };
+            string[] strArray = { nameof(Visible), nameof(Enabled) };
 
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
@@ -404,7 +404,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTrackBar?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)[@"Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Enabled)];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonTrackBar);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);
@@ -416,7 +416,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTrackBar?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)[@"Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Visible)];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonTrackBar);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);
@@ -438,7 +438,7 @@ namespace Krypton.Ribbon
                 {
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
-                    _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
+                    _visibleMenu = new ToolStripMenuItem(nameof(Visible), null, OnVisible);
                     _moveFirstMenu = new ToolStripMenuItem("Move TrackBar First", Properties.Resources.MoveFirst, OnMoveFirst);
                     _movePreviousMenu = new ToolStripMenuItem("Move TrackBar Previous", Properties.Resources.MovePrevious, OnMovePrevious);
                     _moveNextMenu = new ToolStripMenuItem("Move TrackBar Next", Properties.Resources.MoveNext, OnMoveNext);
@@ -470,7 +470,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private TypedRestrictCollection<KryptonRibbonGroupItem> ParentItems
+        private TypedRestrictCollection<KryptonRibbonGroupItem>? ParentItems
         {
             get
             {

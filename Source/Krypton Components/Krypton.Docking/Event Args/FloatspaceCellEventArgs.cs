@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class FloatspaceCellEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-        
         #region Identity
         /// <summary>
         /// Initialize a new instance of the FloatspaceCellEventArgs class.

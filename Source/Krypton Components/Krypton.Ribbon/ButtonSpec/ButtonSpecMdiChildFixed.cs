@@ -19,10 +19,6 @@ namespace Krypton.Ribbon
     /// </summary>
     public abstract class ButtonSpecMdiChildFixed : ButtonSpec
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecMdiChildFixed class.

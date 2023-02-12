@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuCheckButton), "ToolboxBitmaps.KryptonCheckButton.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Text")]
-    [DefaultEvent("CheckedChanged")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(CheckedChanged))]
     public class KryptonContextMenuCheckButton : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -30,10 +30,10 @@ namespace Krypton.Toolkit
         private bool _enabled;
         private string _text;
         private string _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private ButtonStyle _style;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         #endregion
 
         #region Events
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Main check box text.")]
-        [DefaultValue("CheckBox")]
+        [DefaultValue(nameof(CheckBox))]
         [Localizable(true)]
         public string Text
         {
@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
         [Description(@"Check box image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -451,7 +451,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check button.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 

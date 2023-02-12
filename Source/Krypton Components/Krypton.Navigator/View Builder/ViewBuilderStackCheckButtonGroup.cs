@@ -27,7 +27,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Check base class for page specific button specs
             base.ButtonSpecFromView(element);
 
@@ -89,7 +89,7 @@ namespace Krypton.Navigator
         /// Create the mode specific view hierarchy.
         /// </summary>
         /// <returns>View element to use as base of hierarchy.</returns>
-        protected override ViewBase CreateStackCheckButtonView()
+        protected override ViewBase? CreateStackCheckButtonView()
         {
             // Let base class do common stuff first
             base.CreateStackCheckButtonView();

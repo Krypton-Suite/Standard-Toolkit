@@ -20,10 +20,6 @@ namespace Krypton.Docking
     [DesignTimeVisible(false)]
     public class KryptonAutoHiddenProxyPage : KryptonPage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonAutoHiddenProxyPage class.
@@ -54,11 +50,12 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets a reference to the page for which this is a proxy.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets and sets the page text.
         /// </summary>
+        [AllowNull]
         public override string Text
         {
             get => Page != null ? Page.Text : base.Text;
@@ -76,55 +73,81 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the title text for the page.
         /// </summary>
+        [AllowNull]
         public override string TextTitle
         {
-            get => Page.TextTitle;
-            set => Page.TextTitle = value;
+            get => Page?.TextTitle ?? string.Empty;
+            set
+            {
+                if (Page != null)
+                {
+                    Page.TextTitle = value;
+                }
+            }
         }
 
         /// <summary>
         /// Gets and sets the description text for the page.
         /// </summary>
+        [AllowNull]
         public override string TextDescription
         {
-            get => Page.TextDescription;
-            set => Page.TextDescription = value;
+            get => Page?.TextDescription ?? string.Empty;
+            set
+            {
+                if (Page != null)
+                {
+                    Page.TextDescription = value;
+                }
+            }
         }
 
         /// <summary>
         /// Gets and sets the small image for the page.
         /// </summary>
-        public override Bitmap ImageSmall
+        public override Bitmap? ImageSmall
         {
-            get => Page.ImageSmall;
-            set => Page.ImageSmall = value;
+            get => Page?.ImageSmall;
+            set
+            {
+                if (Page != null) Page.ImageSmall = value;
+            }
         }
 
         /// <summary>
         /// Gets and sets the medium image for the page.
         /// </summary>
-        public override Bitmap ImageMedium
+        public override Bitmap? ImageMedium
         {
-            get => Page.ImageMedium;
-            set => Page.ImageMedium = value;
+            get => Page?.ImageMedium;
+            set
+            {
+                if (Page != null) Page.ImageMedium = value;
+            }
         }
 
         /// <summary>
         /// Gets and sets the large image for the page.
         /// </summary>
-        public override Bitmap ImageLarge
+        public override Bitmap? ImageLarge
         {
-            get => Page.ImageLarge;
-            set => Page.ImageLarge = value;
+            get => Page?.ImageLarge;
+            set
+            {
+                if (Page != null) Page.ImageLarge = value;
+            }
         }
 
         /// <summary>
         /// Gets and sets the page tooltip image.
         /// </summary>
-        public override Bitmap ToolTipImage
+        public override Bitmap? ToolTipImage
         {
-            get => Page.ToolTipImage;
-            set => Page.ToolTipImage = value;
+            get => Page?.ToolTipImage;
+            set
+            {
+                if (Page != null) Page.ToolTipImage = value;
+            }
         }
 
         /// <summary>
@@ -132,8 +155,11 @@ namespace Krypton.Docking
         /// </summary>
         public override Color ToolTipImageTransparentColor
         {
-            get => Page.ToolTipImageTransparentColor;
-            set => Page.ToolTipImageTransparentColor = value;
+            get => Page?.ToolTipImageTransparentColor ?? Color.Empty;
+            set
+            {
+                if (Page != null) Page.ToolTipImageTransparentColor = value;
+            }
         }
 
         /// <summary>
@@ -141,8 +167,11 @@ namespace Krypton.Docking
         /// </summary>
         public override string ToolTipTitle
         {
-            get => Page.ToolTipTitle;
-            set => Page.ToolTipTitle = value;
+            get => Page?.ToolTipTitle ?? string.Empty;
+            set
+            {
+                if (Page != null) Page.ToolTipTitle = value;
+            }
         }
 
         /// <summary>
@@ -150,8 +179,11 @@ namespace Krypton.Docking
         /// </summary>
         public override string ToolTipBody
         {
-            get => Page.ToolTipBody;
-            set => Page.ToolTipBody = value;
+            get => Page?.ToolTipBody ?? string.Empty;
+            set
+            {
+                if (Page != null) Page.ToolTipBody = value;
+            }
         }
 
         /// <summary>
@@ -159,17 +191,23 @@ namespace Krypton.Docking
         /// </summary>
         public override LabelStyle ToolTipStyle
         {
-            get => Page.ToolTipStyle;
-            set => Page.ToolTipStyle = value;
+            get => Page?.ToolTipStyle ?? default;
+            set
+            {
+                if (Page != null) Page.ToolTipStyle = value;
+            }
         }
 
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        public override KryptonContextMenu KryptonContextMenu
+        public override KryptonContextMenu? KryptonContextMenu
         {
-            get => Page.KryptonContextMenu;
-            set => Page.KryptonContextMenu = value;
+            get => Page?.KryptonContextMenu;
+            set
+            {
+                if (Page != null) Page.KryptonContextMenu = value;
+            }
         }
 
         /// <summary>
@@ -177,8 +215,11 @@ namespace Krypton.Docking
         /// </summary>
         public override string UniqueName
         {
-            get => Page.UniqueName;
-            set => Page.UniqueName = value;
+            get => Page?.UniqueName ?? string.Empty;
+            set
+            {
+                if (Page != null) Page.UniqueName = value;
+            }
         }
 
         /// <summary>
@@ -186,48 +227,45 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="mapping">Text mapping.</param>
         /// <returns>Matching string.</returns>
-        public override string GetTextMapping(MapKryptonPageText mapping) => Page.GetTextMapping(mapping);
+        public override string GetTextMapping(MapKryptonPageText mapping) => Page?.GetTextMapping(mapping) ?? string.Empty;
 
         /// <summary>
         /// Gets the image that matches the mapping request.
         /// </summary>
         /// <param name="mapping">Image mapping.</param>
         /// <returns>Image reference.</returns>
-        public override Image GetImageMapping(MapKryptonPageImage mapping) => Page.GetImageMapping(mapping);
+        public override Image? GetImageMapping(MapKryptonPageImage mapping) => Page?.GetImageMapping(mapping);
 
         /// <summary>
         /// Gets and sets the set of page flags.
         /// </summary>
         public override int Flags
         {
-            get => Page.Flags;
-            set => Page.Flags = value;
+            get => Page?.Flags ?? 0;
+            set
+            {
+                if (Page != null) Page.Flags = value;
+            }
         }
 
         /// <summary>
         /// Set all the provided flags to true.
         /// </summary>
         /// <param name="flags">Flags to set.</param>
-        public override void SetFlags(KryptonPageFlags flags)
-        {
-            Page.SetFlags(flags);
-        }
+        public override void SetFlags(KryptonPageFlags flags) => Page?.SetFlags(flags);
 
         /// <summary>
         /// Sets all the provided flags to false.
         /// </summary>
         /// <param name="flags">Flags to set.</param>
-        public override void ClearFlags(KryptonPageFlags flags)
-        {
-            Page.ClearFlags(flags);
-        }
+        public override void ClearFlags(KryptonPageFlags flags) => Page?.ClearFlags(flags);
 
         /// <summary>
         /// Are all the provided flags set to true.
         /// </summary>
         /// <param name="flags">Flags to test.</param>
         /// <returns>True if all provided flags are defined as true; otherwise false.</returns>
-        public override bool AreFlagsSet(KryptonPageFlags flags) => Page.AreFlagsSet(flags);
+        public override bool AreFlagsSet(KryptonPageFlags flags) => Page != null && Page.AreFlagsSet(flags);
 
         /// <summary>
         /// Gets the last value set to the Visible property.
@@ -236,8 +274,11 @@ namespace Krypton.Docking
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override bool LastVisibleSet
         {
-            get => Page.LastVisibleSet;
-            set => Page.LastVisibleSet = value;
+            get => Page is { LastVisibleSet: true };
+            set
+            {
+                if (Page != null) Page.LastVisibleSet = value;
+            }
         }
 
         /// <summary>Occurs when an appearance specific page property has changed.</summary>

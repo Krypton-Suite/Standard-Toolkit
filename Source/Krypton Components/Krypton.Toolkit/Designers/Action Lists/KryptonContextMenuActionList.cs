@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
                 // actions.Add(new DesignerActionHeaderItem(@"Data"));
                 // actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenuCollection", @"Items", @"Data", @"Krypton context menu items."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

@@ -20,10 +20,6 @@ namespace Krypton.Docking
     [DesignTimeVisible(false)]
     public class KryptonDockingEdge : DockingElementClosedCollection
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDockingEdge class.

@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDomainUpDown), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
-    [DefaultEvent("SelectedItemChanged")]
-    [DefaultProperty("Items")]
-    [DefaultBindingProperty("SelectedItem")]
+    [DefaultEvent(nameof(SelectedItemChanged))]
+    [DefaultProperty(nameof(Items))]
+    [DefaultBindingProperty(nameof(SelectedItem))]
     [Designer("Krypton.Toolkit.KryptonDomainUpDownDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Represents a Windows spin box (also known as an up-down control) that displays string values.")]
@@ -490,7 +490,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public virtual Image GetImage(PaletteState state) => null;
+            public virtual Image? GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
@@ -994,6 +994,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text for the control.
         /// </summary>
+        [AllowNull]
         public override string Text
         {
             get => DomainUpDown.Text;
@@ -1003,7 +1004,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
 
@@ -1063,7 +1064,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates how the text should be aligned for edit controls.\rDo not use this property, it is provided for backwards compatability only.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), nameof(Left))]
         [Localizable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -1097,7 +1098,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates how the up-down control will position the up down buttons relative to its text box.")]
-        [DefaultValue(typeof(LeftRightAlignment), "Right")]
+        [DefaultValue(typeof(LeftRightAlignment), nameof(Right))]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
         {

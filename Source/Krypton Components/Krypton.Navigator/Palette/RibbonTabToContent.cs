@@ -52,7 +52,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the ribbon tab content palette to use.
         /// </summary>
-        public IPaletteContent PaletteContent { get; set; }
+        public IPaletteContent? PaletteContent { get; set; }
 
         #endregion
 
@@ -209,7 +209,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => null;
+        public Image? GetContentShortTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style.
@@ -328,7 +328,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => null;
+        public Image? GetContentLongTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style for the long text.

@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
-    [DefaultEvent(@"Click")]
-    [DefaultProperty(@"Text")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [Description(@"Raises an event when the user clicks it.")]
     [Designer(@"Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
-        private IKryptonCommand _command;
+        private IKryptonCommand? _command;
         private bool _useAsDialogButton;
         private bool _isDefault;
         private bool _useMnemonic;
@@ -184,6 +184,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -207,7 +208,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -415,7 +416,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the button.")]
         [DefaultValue(null)]
-        public virtual IKryptonCommand KryptonCommand
+        public virtual IKryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -550,7 +551,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
 
         /// <summary>
         /// Gets the image colour that should be transparent.
@@ -803,10 +804,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Enabled":
+                case nameof(Enabled):
                     Enabled = KryptonCommand.Enabled;
                     break;
-                case @"Text":
+                case nameof(Text):
                 case @"ExtraText":
                 case @"ImageSmall":
                 case @"ImageTransparentColor":
@@ -863,7 +864,7 @@ namespace Krypton.Toolkit
             {
                 int h = height ?? 16, w = width ?? 16;
 
-                Image shield = SystemIcons.Shield.ToBitmap();
+                Image? shield = SystemIcons.Shield.ToBitmap();
 
                 switch (shieldIconSize)
                 {

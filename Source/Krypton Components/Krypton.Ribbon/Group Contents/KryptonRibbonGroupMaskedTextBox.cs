@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupMaskedTextBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("TextChanged")]
-    [DefaultProperty("Mask")]
+    [DefaultEvent(nameof(TextChanged))]
+    [DefaultProperty(nameof(Mask))]
     public class KryptonRibbonGroupMaskedTextBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -521,7 +521,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DefaultValue(null)]
-        public Type ValidatingType
+        public Type? ValidatingType
         {
             get => MaskedTextBox.ValidatingType;
             set => MaskedTextBox.ValidatingType = value;
@@ -777,7 +777,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => MaskedTextBox.ContextMenuStrip;
             set => MaskedTextBox.ContextMenuStrip = value;
@@ -789,7 +789,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the masked textbox is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => MaskedTextBox.KryptonContextMenu;
             set => MaskedTextBox.KryptonContextMenu = value;

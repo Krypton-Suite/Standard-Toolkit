@@ -56,7 +56,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Page.ImageSmall;
+        public Image? GetImage(PaletteState state) => Page.ImageSmall;
 
         /// <summary>
         /// Gets the image color that should be transparent.

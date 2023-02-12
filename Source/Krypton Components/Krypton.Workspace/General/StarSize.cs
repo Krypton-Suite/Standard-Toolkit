@@ -17,10 +17,6 @@ namespace Krypton.Workspace
     /// </summary>
     public class StarSize
     {
-        #region Internal Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the StarSize class.

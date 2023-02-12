@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         /// Gets the view to use for the group dialog button.
         /// </summary>
         /// <returns>ViewBase if valid as a focus item; otherwise false.</returns>
-        public ViewBase GetFocusView()
+        public ViewBase? GetFocusView()
         {
             if (Visible && Enabled && _groupButton.Visible && _groupButton.Enabled)
             {

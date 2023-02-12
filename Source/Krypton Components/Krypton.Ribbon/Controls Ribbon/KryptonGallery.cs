@@ -19,8 +19,8 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-    [DefaultEvent("SelectedIndexChanged")]
-    [DefaultProperty("SelectedIndex")]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
+    [DefaultProperty(nameof(SelectedIndex))]
     [Designer("Krypton.Ribbon.KryptonGalleryDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [Description(@"Select from a group of possible images.")]
@@ -320,7 +320,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Collection of images for display and selection.")]
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             get => _imageList;
 

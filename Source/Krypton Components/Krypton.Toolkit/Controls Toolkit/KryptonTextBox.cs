@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTextBox), "ToolboxBitmaps.KryptonTextBox.bmp")]
-    [DefaultEvent("TextChanged")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
+    [DefaultEvent(nameof(TextChanged))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
     [Designer("Krypton.Toolkit.KryptonTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Enables the user to enter text, and provides multiline editing and password character masking.")]
@@ -722,9 +722,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the text associated with the control.
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-#if NET6_0_OR_GREATER
         [AllowNull]
-#endif
         public override string Text
         {
             get => _textBox.Text;
@@ -734,7 +732,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
 
@@ -872,7 +870,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates how the text should be aligned for edit controls.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), nameof(Left))]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -1285,7 +1283,7 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TextBox != null && TextBox.Focus();
+        public new bool Focus() => TextBox?.Focus() == true;
 
         /// <summary>
         /// Activates the control.

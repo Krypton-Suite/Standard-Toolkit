@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckedListBox), "ToolboxBitmaps.KryptonCheckedListBox.bmp")]
-    [DefaultEvent(@"SelectedIndexChanged")]
-    [DefaultProperty(@"Items")]
-    [DefaultBindingProperty(@"SelectedValue")]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
+    [DefaultProperty(nameof(Items))]
+    [DefaultBindingProperty(nameof(SelectedValue))]
     [Designer(@"Krypton.Toolkit.KryptonCheckedListBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Represents a checked list box control that allows single or multiple item selection.")]
@@ -367,14 +367,14 @@ namespace Krypton.Toolkit
         private class InternalCheckedListBox : ListBox
         {
             #region Static Fields
-            private static MethodInfo _miGetCount;
-            private static MethodInfo _miIndexOf;
-            private static MethodInfo _miIndexOfIdentifier;
-            private static MethodInfo _miGetItem;
-            private static MethodInfo _miGetEntryObject;
-            private static MethodInfo _miGetState;
-            private static MethodInfo _miSetState;
-            private static MethodInfo _miGetEnumerator;
+            private static MethodInfo? _miGetCount;
+            private static MethodInfo? _miIndexOf;
+            private static MethodInfo? _miIndexOfIdentifier;
+            private static MethodInfo? _miGetItem;
+            private static MethodInfo? _miGetEntryObject;
+            private static MethodInfo? _miGetState;
+            private static MethodInfo? _miSetState;
+            private static MethodInfo? _miGetEnumerator;
             private static readonly uint LBC_GETCHECKSTATE;
             private static readonly uint LBC_SETCHECKSTATE;
             #endregion
@@ -404,8 +404,8 @@ namespace Krypton.Toolkit
             #region Identity
             static InternalCheckedListBox()
             {
-                LBC_GETCHECKSTATE = PI.RegisterWindowMessage(@"LBC_GETCHECKSTATE");
-                LBC_SETCHECKSTATE = PI.RegisterWindowMessage(@"LBC_SETCHECKSTATE");
+                LBC_GETCHECKSTATE = PI.RegisterWindowMessage(nameof(LBC_GETCHECKSTATE));
+                LBC_SETCHECKSTATE = PI.RegisterWindowMessage(nameof(LBC_SETCHECKSTATE));
             }
 
             /// <summary>
@@ -582,7 +582,7 @@ namespace Krypton.Toolkit
                     var wParam = (int)m.WParam.ToInt64();
                     if ((wParam < 0) || (wParam >= Items.Count))
                     {
-                        m.Result = (IntPtr)(-1);
+                        m.Result = PI.InvalidIntPtr;
                     }
                     else
                     {
@@ -714,7 +714,7 @@ namespace Krypton.Toolkit
                     // First time around we need to use reflection to grab inner array
                     if (_innerArray == null)
                     {
-                        PropertyInfo pi = typeof(ObjectCollection).GetProperty(@"InnerArray",
+                        PropertyInfo pi = typeof(ObjectCollection).GetProperty(nameof(InnerArray),
                                                                                         BindingFlags.Instance |
                                                                                         BindingFlags.NonPublic |
                                                                                         BindingFlags.GetField);
@@ -1268,6 +1268,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -1349,7 +1350,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [DefaultValue(null)]
-        public object SelectedValue
+        public object? SelectedValue
         {
             get => _listBox.SelectedValue;
             set => _listBox.SelectedValue = value;

@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonComboBox), "ToolboxBitmaps.KryptonComboBox.bmp")]
-    [DefaultEvent(@"SelectedIndexChanged")]
-    [DefaultProperty(@"Text")]
-    [DefaultBindingProperty(@"Text")]
-    [LookupBindingProperties(@"DataSource", @"DisplayMember", @"ValueMember", @"SelectedValue")]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
+    [LookupBindingProperties(nameof(DataSource), nameof(DisplayMember), nameof(ValueMember), nameof(SelectedValue))]
     [Designer(@"Krypton.Toolkit.KryptonComboBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Displays an editable textbox with a drop-down list of permitted values.")]
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public virtual Image GetImage(PaletteState state) => null;
+            public virtual Image? GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
@@ -1366,6 +1366,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated associated with the control.
         /// </summary>
+        [AllowNull]
         public override string Text
         {
             get => _comboBox.Text;
@@ -1413,7 +1414,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedValue
+        public object? SelectedValue
         {
             get => _comboBox.SelectedValue;
             set => _comboBox.SelectedValue = value;
@@ -1433,7 +1434,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
 
@@ -1465,7 +1466,8 @@ namespace Krypton.Toolkit
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public object DataSource
+        [AllowNull]
+        public object? DataSource
         {
             get => _comboBox.DataSource;
             set => _comboBox.DataSource = value;
@@ -1491,7 +1493,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public IFormatProvider FormatInfo
+        public IFormatProvider? FormatInfo
         {
             get => _comboBox.FormatInfo;
             set => _comboBox.FormatInfo = value;
@@ -1565,7 +1567,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [Editor(@"Krypton.Toolkit.OverrideComboBoxStyleDropDownStyle", typeof(UITypeEditor))]
-        [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
+        [DefaultValue(typeof(ComboBoxStyle), nameof(DropDown))]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
@@ -3041,7 +3043,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -3050,13 +3052,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
 
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

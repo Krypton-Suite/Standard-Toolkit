@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         [Category(@"ToolMenuStatus")]
         [Description(@"Font to draw text on the MenuStrip.")]
         [DefaultValue(null)]
-        public Font MenuStripFont
+        public Font? MenuStripFont
         {
             get => InternalKCT.InternalMenuStripFont;
 

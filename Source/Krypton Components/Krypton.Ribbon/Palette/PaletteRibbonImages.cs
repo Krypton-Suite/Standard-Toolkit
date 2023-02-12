@@ -19,10 +19,6 @@ namespace Krypton.Ribbon
     /// </summary>
     public class PaletteRibbonImages : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonImages class.

@@ -37,7 +37,7 @@ namespace Krypton.Docking
         private readonly Control _control;
         private readonly DockingEdge _edge;
         private readonly KryptonAutoHiddenPanel _panel;
-        private KryptonAutoHiddenGroup _group;
+        private KryptonAutoHiddenGroup? _group;
         private readonly KryptonDockspaceSlide _dockspaceSlide;
         private readonly EventHandler _checkMakeHidden;
         private readonly KryptonPanel _inner;
@@ -45,7 +45,7 @@ namespace Krypton.Docking
         private DockingAutoHiddenShowState _state;
         private Rectangle _startRect;
         private Rectangle _endRect;
-        private System.Windows.Forms.Timer _slideTimer, _dismissTimer;
+        private System.Windows.Forms.Timer? _slideTimer, _dismissTimer;
         private bool _dismissRunning;
         private IntPtr _mouseTrackWindow;
         #endregion
@@ -232,7 +232,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets access to the KryptonPage associated with the slide panel.
         /// </summary>
-        public KryptonPage Page { get; private set; }
+        public KryptonPage? Page { get; private set; }
 
         /// <summary>
         /// Gets and sets the drag page notify interface associated with the embedded dockspace.
@@ -274,7 +274,7 @@ namespace Krypton.Docking
         /// <param name="page">Reference to page for display.</param>
         /// <param name="group">Reference to auto hidden group that displays the page.</param>
         /// <param name="select">Should the sliding out page become selected.</param>
-        public void SlideOut(KryptonPage page, KryptonAutoHiddenGroup group, bool select)
+        public void SlideOut([DisallowNull] KryptonPage page, KryptonAutoHiddenGroup group, bool select)
         {
             // Check to see if we allowed to perform operations
             if (Disposing || IsDisposed)
@@ -335,7 +335,7 @@ namespace Krypton.Docking
             _group = group;
 
             // Make sure we have a visible cell to update
-            KryptonWorkspaceCell cell = DockspaceControl.FirstVisibleCell();
+            KryptonWorkspaceCell? cell = DockspaceControl.FirstVisibleCell();
             if (cell == null)
             {
                 cell = new KryptonWorkspaceCell();
@@ -361,7 +361,7 @@ namespace Krypton.Docking
             // Switch to new state and start animation timer
             _state = DockingAutoHiddenShowState.SlidingOut;
             AutoHiddenShowingStateEventArgs args = new(Page, _state);
-            _slideTimer.Start();
+            _slideTimer?.Start();
 
             // Are we requested to set focus to the sliding in dockspace?
             if (select)
@@ -397,8 +397,8 @@ namespace Krypton.Docking
                 case DockingAutoHiddenShowState.SlidingOut:
                 case DockingAutoHiddenShowState.Showing:
                     // Pause before actually sliding in as another operation may negate the request
-                    _dismissTimer.Stop();
-                    _dismissTimer.Start();
+                    _dismissTimer?.Stop();
+                    _dismissTimer?.Start();
                     _dismissRunning = true;
                     break;
             }
@@ -477,8 +477,8 @@ namespace Krypton.Docking
         /// <returns>true to filter out; false otherwise.</returns>
         public bool PreFilterMessage(ref Message msg)
         {
-            Form parentForm = FindForm();
-            Form parentMdi = (parentForm?.MdiParent);
+            Form? parentForm = FindForm();
+            Form? parentMdi = (parentForm?.MdiParent);
 
             // Only interested in snooping messages if....
             //    The Form we are inside is the active form                             AND
@@ -509,12 +509,12 @@ namespace Krypton.Docking
                         break;
                     case PI.WM_.MOUSELEAVE:
                         // If the mouse is leaving a control then we start the dismiss timer so that a mouse move is required
-                        // to cancel the mouse move and prevent the actual dismissal occuring. The exception to this is if the
+                        // to cancel the mouse move and prevent the actual dismissal occurring. The exception to this is if the
                         // slide out dockspace has the focus, in which case we do nothing.
                         if (!_dismissRunning && !DockspaceControl.ContainsFocus)
                         {
-                            _dismissTimer.Stop();
-                            _dismissTimer.Start();
+                            _dismissTimer?.Stop();
+                            _dismissTimer?.Start();
                             _dismissRunning = true;
                         }
                         break;
@@ -530,7 +530,7 @@ namespace Krypton.Docking
                             // We do not dismiss while the mouse is over ourself
                             if (_dismissRunning)
                             {
-                                _dismissTimer.Stop();
+                                _dismissTimer?.Stop();
                                 _dismissRunning = false;
                             }
                         }
@@ -540,8 +540,8 @@ namespace Krypton.Docking
                             // unless the slide out dockspace has the focus, in which case we do nothing.
                             if (!_dismissRunning && !DockspaceControl.ContainsFocus)
                             {
-                                _dismissTimer.Stop();
-                                _dismissTimer.Start();
+                                _dismissTimer?.Stop();
+                                _dismissTimer?.Start();
                                 _dismissRunning = true;
                             }
                         }
@@ -608,8 +608,8 @@ namespace Krypton.Docking
                     _group = null;
 
                     // No need for timers to be running or for our display
-                    _slideTimer.Stop();
-                    _dismissTimer.Stop();
+                    _slideTimer?.Stop();
+                    _dismissTimer?.Stop();
                     _dismissRunning = false;
                     Visible = false;
 
@@ -640,7 +640,7 @@ namespace Krypton.Docking
                 // Switch to sliding inwards by changing state and starting slide timer
                 _state = DockingAutoHiddenShowState.SlidingIn;
                 AutoHiddenShowingStateEventArgs args = new(Page, _state);
-                _slideTimer.Start();
+                _slideTimer?.Start();
 
                 // If the dockspace has the focus we need to push focus elsewhere
                 if (DockspaceControl.ContainsFocus)
@@ -753,7 +753,7 @@ namespace Krypton.Docking
                 case DockingAutoHiddenShowState.Hidden:
                 case DockingAutoHiddenShowState.Showing:
                     // No need for timer as sliding has finished
-                    _slideTimer.Stop();
+                    _slideTimer?.Stop();
                     break;
                 case DockingAutoHiddenShowState.SlidingOut:
                     {
@@ -797,7 +797,7 @@ namespace Krypton.Docking
                             _state = DockingAutoHiddenShowState.Showing;
                             AutoHiddenShowingStateEventArgs args = new(Page, _state);
                             OnAutoHiddenShowingStateChanged(args);
-                            _slideTimer.Stop();
+                            _slideTimer?.Stop();
                         }
                     }
                     break;
@@ -864,7 +864,7 @@ namespace Krypton.Docking
             }
 
             // Always stop the timer, we only need to be notified once
-            _dismissTimer.Stop();
+            _dismissTimer?.Stop();
 
             // Only process if the timer is expected to be running
             if (_dismissRunning)

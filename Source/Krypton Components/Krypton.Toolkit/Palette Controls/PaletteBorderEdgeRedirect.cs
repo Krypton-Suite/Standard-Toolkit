@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">Palette value should be applicable to this state.</param>
             /// <returns>Image instance.</returns>
-            public Image GetBackImage(PaletteState state) => _parent.GetBorderImage(state);
+            public Image? GetBackImage(PaletteState state) => _parent.GetBorderImage(state);
 
             /// <summary>
             /// Gets the background image style.
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state) => _inherit.GetBorderImage(state);
+        public Image? GetBorderImage(PaletteState state) => _inherit.GetBorderImage(state);
 
         /// <summary>
         /// Gets the border image style.

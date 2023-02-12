@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPaletteNavigator : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteNavigator class.

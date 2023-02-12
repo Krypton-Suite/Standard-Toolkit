@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Is the controller allowed to track/click
             if (IsOperating)
@@ -715,7 +715,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="next">View to investigate.</param>
         /// <returns>True is part of button; otherwise false.</returns>
-        protected virtual bool ViewIsPartOfButton(ViewBase next) => Target.ContainsRecurse(next);
+        protected virtual bool ViewIsPartOfButton(ViewBase? next) => Target.ContainsRecurse(next);
 
         /// <summary>
         /// Set the correct visual state of the target.
@@ -727,7 +727,7 @@ namespace Krypton.Toolkit
             if (c is { IsDisposed: false })
             {
                 // Ensure control is inside a visible top level form
-                Form f = c.FindForm();
+                Form? f = c.FindForm();
                 if (f is { Visible: true })
                 {
                     UpdateTargetState(c.PointToClient(Control.MousePosition));

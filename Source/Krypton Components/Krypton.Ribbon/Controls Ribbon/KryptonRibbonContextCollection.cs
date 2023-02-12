@@ -30,17 +30,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="name">Name of the ribbon context instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonContext this[string name]
+        public override KryptonRibbonContext? this[string name]
         {
             get
             {
                 // Search for a context with the same name as that requested.
-                foreach (KryptonRibbonContext context in this)
+                foreach (KryptonRibbonContext context in this.Where(context => context.ContextName == name))
                 {
-                    if (context.ContextName == name)
-                    {
-                        return context;
-                    }
+                    return context;
                 }
 
                 // Let base class perform standard processing

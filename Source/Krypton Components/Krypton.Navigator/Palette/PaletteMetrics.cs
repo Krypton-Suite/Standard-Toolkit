@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class PaletteMetrics : Storage
     {
         #region Instance Fields
-        private readonly KryptonNavigator _navigator;
+        private readonly KryptonNavigator? _navigator;
         private int _pageButtonSpecInset;
         private Padding _pageButtonSpecPadding;
         #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteMetrics(KryptonNavigator navigator,
+        public PaletteMetrics(KryptonNavigator? navigator,
                               NeedPaintHandler needPaint)
         {
             _navigator = navigator;

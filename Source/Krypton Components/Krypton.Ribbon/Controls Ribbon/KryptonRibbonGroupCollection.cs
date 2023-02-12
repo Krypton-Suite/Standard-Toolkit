@@ -25,19 +25,16 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="name">Name of the ribbon group instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonGroup this[string name]
+        public override KryptonRibbonGroup? this[string name]
         {
             get
             {
                 // Search for a group with the same text as that requested.
-                foreach (KryptonRibbonGroup group in this)
+                foreach (KryptonRibbonGroup group in this.Where(group => (group.TextLine1 == name) ||
+                                                                           (group.TextLine2 == name) ||
+                                                                           ((group.TextLine1 + " " + group.TextLine2) == name)))
                 {
-                    if ((@group.TextLine1 == name) ||
-                        (@group.TextLine2 == name) ||
-                        ((@group.TextLine1 + " " + @group.TextLine2) == name))
-                    {
-                        return @group;
-                    }
+                    return group;
                 }
 
                 // Let base class perform standard processing

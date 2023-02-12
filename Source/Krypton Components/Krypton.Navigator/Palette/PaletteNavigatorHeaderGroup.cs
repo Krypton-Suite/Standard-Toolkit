@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class PaletteNavigatorHeaderGroup : PaletteHeaderGroup
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorHeaderGroup class.

@@ -17,10 +17,6 @@ namespace Krypton.Workspace
     /// </summary>
     public class PageLoadingEventArgs : XmlLoadingEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PageLoadingEventArgs class.
@@ -29,7 +25,7 @@ namespace Krypton.Workspace
         /// <param name="page">Reference to owning workspace cell page.</param>
         /// <param name="xmlReader">Xml reader for persisting custom data.</param>
         public PageLoadingEventArgs(KryptonWorkspace workspace,
-                                    KryptonPage page,
+                                    KryptonPage? page,
                                     XmlReader xmlReader)
             : base(workspace, xmlReader) =>
             Page = page;
@@ -40,7 +36,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the workspace cell page reference.
         /// </summary>
-        public KryptonPage Page { get; set; }
+        public KryptonPage? Page { get; set; }
 
         #endregion
     }

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class HeaderGroupValuesSecondary : HeaderValuesBase
     {
         #region Static Fields
-        private const string _defaultDescription = "Description";
+        private const string _defaultDescription = nameof(Description);
         #endregion
 
         #region Identity
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image GetImageDefault() => null;
+        protected override Image? GetImageDefault() => null;
 
         /// <summary>
         /// Gets the default heading value.
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the heading text.
         /// </summary>
-        [DefaultValue(@"Description")]
+        [DefaultValue(nameof(Description))]
         public override string Heading
         {
             get => base.Heading;

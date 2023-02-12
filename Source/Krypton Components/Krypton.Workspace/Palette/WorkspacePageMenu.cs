@@ -38,10 +38,6 @@ namespace Krypton.Workspace
         private const Keys DEFAULT_SHORTCUT_MAXIMIZE_RESTORE = Keys.Control | Keys.Shift | Keys.M;
         #endregion
 
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the WorkspaceMenus class.

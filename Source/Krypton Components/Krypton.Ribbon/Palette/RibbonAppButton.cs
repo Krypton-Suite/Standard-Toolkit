@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
         private static readonly Image _defaultAppImage = Properties.Resources.AppButtonDefault;
-        private const string DEFAULT_APP_TEXT = @"File";
+        private const string DEFAULT_APP_TEXT = nameof(File);
         private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
         private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
         #endregion
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
-        [DefaultValue("File")]
+        [DefaultValue(nameof(File))]
         [Localizable(true)]
         public string AppButtonText
         {
@@ -346,7 +346,7 @@ namespace Krypton.Ribbon
         [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image AppButtonToolTipImage { get; set; }
+        public Image? AppButtonToolTipImage { get; set; }
 
         #endregion
 

@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the image.</summary>
         /// <value>The image.</value>
-        public Image Image
+        public Image? Image
         {
             get => _groupBox.Values.Image;
 
@@ -238,20 +238,20 @@ namespace Krypton.Toolkit
             if (_groupBox != null)
             {
                 // Add the list of panel specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"GroupBackStyle", @"Back style", @"Appearance", @"Background style"));
-                actions.Add(new DesignerActionPropertyItem(@"GroupBorderStyle", @"Border style", @"Appearance", @"Border style"));
-                actions.Add(new DesignerActionPropertyItem(@"CaptionStyle", @"Caption style", @"Appearance", @"Caption style"));
-                actions.Add(new DesignerActionPropertyItem(@"CaptionEdge", @"Caption edge", @"Appearance", @"Caption edge"));
-                actions.Add(new DesignerActionPropertyItem(@"CaptionOverlap", @"Caption overlap", @"Appearance", @"Caption overlap"));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(GroupBackStyle), @"Back style", nameof(Appearance), @"Background style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(GroupBorderStyle), @"Border style", nameof(Appearance), @"Border style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(CaptionStyle), @"Caption style", nameof(Appearance), @"Caption style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(CaptionEdge), @"Caption edge", nameof(Appearance), @"Caption edge"));
+                actions.Add(new DesignerActionPropertyItem(nameof(CaptionOverlap), @"Caption overlap", nameof(Appearance), @"Caption overlap"));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Description", @"Description", @"Values", @"The header description text."));
-                actions.Add(new DesignerActionPropertyItem(@"Heading", @"Heading", @"Values", @"The heading text."));
-                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"The heading image."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Description), nameof(Description), @"Values", @"The header description text."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Heading), nameof(Heading), @"Values", @"The heading text."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"The heading image."));
             }
 
             return actions;

@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool ContainsRecurse(ViewBase item)
+        public override bool ContainsRecurse(ViewBase? item)
         {
             // Check against ourself
             if (this == item)
@@ -489,7 +489,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase ViewFromPoint(Point pt)
+        public override ViewBase? ViewFromPoint(Point pt)
         {
             ViewBase ret = null;
 

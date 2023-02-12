@@ -23,17 +23,13 @@ namespace Krypton.Toolkit
     /// </summary>
     public class TypedCollectionEventArgs<T> : EventArgs where T : class
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the TypedCollectionEventArgs class.
         /// </summary>
         /// <param name="item">Item effected by event.</param>
         /// <param name="index">Index of page in the owning collection.</param>
-        public TypedCollectionEventArgs(T item, int index)
+        public TypedCollectionEventArgs(T? item, int index)
         {
             // Remember parameter details
             Item = item;
@@ -45,7 +41,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the item associated with the event.
         /// </summary>
-        public T Item { get; }
+        public T? Item { get; }
 
         /// <summary>
         /// Gets the index of the item associated with the event.

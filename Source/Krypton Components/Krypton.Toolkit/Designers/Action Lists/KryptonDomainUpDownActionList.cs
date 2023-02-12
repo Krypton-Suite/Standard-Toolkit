@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         #region Public
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _domainUpDown.KryptonContextMenu;
 
@@ -135,13 +135,13 @@ namespace Krypton.Toolkit
             if (_domainUpDown != null)
             {
                 // Add the list of label specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"DomainUpDown display style."));
-                actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"The font for the domain up down."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
+                actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"DomainUpDown display style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"The font for the domain up down."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedTextChanged")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupComboBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -435,7 +435,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => ComboBox.ContextMenuStrip;
             set => ComboBox.ContextMenuStrip = value;
@@ -447,7 +447,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the combobox is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => ComboBox.KryptonContextMenu;
             set => ComboBox.KryptonContextMenu = value;
@@ -499,7 +499,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
-        [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
+        [DefaultValue(typeof(ComboBoxStyle), nameof(DropDown))]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
@@ -705,7 +705,7 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public IFormatProvider FormatInfo
+        public IFormatProvider? FormatInfo
         {
             get => ComboBox.FormatInfo;
             set => ComboBox.FormatInfo = value;
@@ -774,7 +774,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedValue
+        public object? SelectedValue
         {
             get => ComboBox.SelectedValue;
             set => ComboBox.SelectedValue = value;

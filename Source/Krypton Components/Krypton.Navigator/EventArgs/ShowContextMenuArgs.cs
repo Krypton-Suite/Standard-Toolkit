@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class ShowContextMenuArgs : KryptonPageCancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ShowContextMenuArgs class.
@@ -39,7 +35,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the context menu strip.
         /// </summary>
-        public ContextMenuStrip ContextMenuStrip { get; set; }
+        public ContextMenuStrip? ContextMenuStrip { get; set; }
 
         #endregion
 
@@ -47,7 +43,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the context menu strip.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; set; }
+        public KryptonContextMenu? KryptonContextMenu { get; set; }
 
         #endregion
     }

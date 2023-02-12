@@ -578,18 +578,18 @@ namespace Krypton.Toolkit
             {
                 case @"Text":
                 case @"ExtraText":
-                case @"Enabled":
-                case @"Image":
+                case nameof(Enabled):
+                case nameof(Image):
                 case @"ImageTransparentColor":
                 case @"Checked":
-                case @"CheckState":
+                case nameof(CheckState):
                 case @"ShortcutKeys":
                 case @"ShowShortcutKeys":
                 case @"LargeKryptonCommandImage":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;
-                case @"KryptonCommand":
+                case nameof(KryptonCommand):
                     // Unhook from any existing command
                     if (_cachedCommand != null)
                     {
@@ -618,9 +618,9 @@ namespace Krypton.Toolkit
                 case @"ImageSmall":
                 case @"ImageLarge":
                 case @"ImageTransparentColor":
-                case @"Enabled":
+                case nameof(Enabled):
                 case @"Checked":
-                case @"CheckState":
+                case nameof(CheckState):
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;

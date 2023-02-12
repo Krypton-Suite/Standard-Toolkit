@@ -33,10 +33,6 @@ namespace Krypton.Toolkit
         private static Font _statusFont;
         #endregion
 
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         static KryptonColorTable2007()
         {

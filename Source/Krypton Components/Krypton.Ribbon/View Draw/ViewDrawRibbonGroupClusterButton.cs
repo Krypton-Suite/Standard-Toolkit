@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
             if (GroupClusterButton.Visible && GroupClusterButton.Enabled)
@@ -186,7 +186,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
             if (GroupClusterButton.Visible && GroupClusterButton.Enabled)
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == _viewMediumSmall;
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == _viewMediumSmall;
@@ -489,7 +489,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                     updateLayout = true;
                     break;
                 case "TextLine":
@@ -504,7 +504,7 @@ namespace Krypton.Ribbon
                     UpdateCheckedState();
                     updatePaint = true;
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabledState();
                     updatePaint = true;
                     break;
@@ -517,7 +517,7 @@ namespace Krypton.Ribbon
                     UpdateItemSizeState();
                     updateLayout = true;
                     break;
-                case "KryptonCommand":
+                case nameof(KryptonCommand):
                     _viewMediumSmallText1.MakeDirty();
                     UpdateEnabledState();
                     UpdateCheckedState();

@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private string _text;
+        private string? _text;
         #endregion
 
         #region Identity
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(null)]
-        public string Text
+        public string? Text
         {
             get => _text;
             set

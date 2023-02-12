@@ -419,7 +419,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetInherit(state);
 
@@ -614,7 +614,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetInherit(state);
 

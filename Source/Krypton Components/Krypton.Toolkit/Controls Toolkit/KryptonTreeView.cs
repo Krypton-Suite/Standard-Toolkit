@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
-    [DefaultEvent("AfterSelect")]
-    [DefaultProperty("Nodes")]
+    [DefaultEvent(nameof(AfterSelect))]
+    [DefaultProperty(nameof(Nodes))]
     [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
                 if (_miRI == null)
                 {
                     // Use reflection so we can call the TreeView private method
-                    _miRI = typeof(TreeView).GetMethod("ResetIndent",
+                    _miRI = typeof(TreeView).GetMethod(nameof(ResetIndent),
                                                         BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                         null, CallingConventions.HasThis,
                                                         Array.Empty<Type>(), null);
@@ -729,6 +729,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -874,7 +875,7 @@ namespace Krypton.Toolkit
         [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
-        [RelatedImageList("ImageList")]
+        [RelatedImageList(nameof(ImageList))]
         [DefaultValue(-1)]
         public int ImageIndex
         {
@@ -891,7 +892,7 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(ImageKeyConverter))]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
-        [RelatedImageList("ImageList")]
+        [RelatedImageList(nameof(ImageList))]
         [DefaultValue("")]
         public string ImageKey
         {
@@ -906,7 +907,7 @@ namespace Krypton.Toolkit
         [Description(@"The ImageList control from which nodes images are taken.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             get => _treeView.ImageList;
             set => _treeView.ImageList = value;
@@ -956,7 +957,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [RelatedImageList("ImageList")]
+        [RelatedImageList(nameof(ImageList))]
         [DefaultValue(-1)]
         public int SelectedImageIndex
         {
@@ -972,7 +973,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [RelatedImageList("ImageList")]
+        [RelatedImageList(nameof(ImageList))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue("")]
         public string SelectedImageKey
@@ -1048,7 +1049,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The ImageList used by the control for custom states.")]
         [DefaultValue(null)]
-        public ImageList StateImageList
+        public ImageList? StateImageList
         {
             get => _treeView.StateImageList;
             set => _treeView.StateImageList = value;
@@ -2215,7 +2216,7 @@ namespace Krypton.Toolkit
                             // Do we draw any plus/minus images in indent bounds?
                             if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
                             {
-                                Image drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
+                                Image? drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
                                     g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,

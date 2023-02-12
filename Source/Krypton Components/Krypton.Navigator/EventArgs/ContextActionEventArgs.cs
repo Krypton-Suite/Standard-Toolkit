@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class ContextActionEventArgs : KryptonContextMenuEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ContextActionEventArgs class.
@@ -29,7 +25,7 @@ namespace Krypton.Navigator
         /// <param name="index">Index of page in the owning collection.</param>
         /// <param name="action">Close action to take.</param>
         /// <param name="contextMenu">Prepopulated context menu ready for display.</param>
-        public ContextActionEventArgs(KryptonPage page, 
+        public ContextActionEventArgs(KryptonPage? page, 
                                       int index, 
                                       ContextButtonAction action,
                                       KryptonContextMenu contextMenu)

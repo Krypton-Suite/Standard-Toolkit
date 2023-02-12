@@ -79,9 +79,9 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public virtual void Construct(KryptonNavigator navigator, 
-                                      ViewManager manager,
-                                      PaletteRedirect redirector)
+        public virtual void Construct([DisallowNull] KryptonNavigator navigator, 
+            [DisallowNull] ViewManager manager,
+            [DisallowNull] PaletteRedirect redirector)
         {
             Debug.Assert(navigator != null);
             Debug.Assert(manager != null);
@@ -169,14 +169,14 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public abstract KryptonPage PageFromView(ViewBase element);
+        public abstract KryptonPage? PageFromView(ViewBase element);
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public abstract ButtonSpec ButtonSpecFromView(ViewBase element);
+        public abstract ButtonSpec? ButtonSpecFromView(ViewBase element);
 
         /// <summary>
         /// Ensure the correct state palettes are being used.
@@ -232,7 +232,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public virtual void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public virtual void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Process the requested action
             switch (action)
@@ -267,7 +267,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public virtual void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public virtual void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Process the requested action
             switch (action)
@@ -399,7 +399,7 @@ namespace Krypton.Navigator
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // Start searching from after the selected page onwards
                 if (Navigator.SelectedPage != null)
@@ -414,7 +414,7 @@ namespace Krypton.Navigator
                 }
 
                 // Next page to test is the first one 
-                KryptonPage next = first;
+                KryptonPage? next = first;
 
                 // Keep testing next pages until no more are left
                 while (next != null)
@@ -471,14 +471,14 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectNextPage(KryptonPage page, 
+        public virtual bool SelectNextPage(KryptonPage? page, 
                                            bool wrap,
                                            bool ctrlTab)
         {
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // If given a starting page, it must be in the pages collection, 
                 // otherwise we start by searching from the first page onwards
@@ -507,7 +507,7 @@ namespace Krypton.Navigator
                 }
 
                 // Next page to test is the first one 
-                KryptonPage next = first;
+                KryptonPage? next = first;
 
                 // Keep testing next pages until no more are left
                 while (next != null)
@@ -570,14 +570,14 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectPreviousPage(KryptonPage page, 
+        public virtual bool SelectPreviousPage(KryptonPage? page, 
                                                bool wrap,
                                                bool ctrlTab)
         {
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // If given a starting page, it must be in the pages collection, 
                 // otherwise we start by searching from the last page backwards
@@ -606,7 +606,7 @@ namespace Krypton.Navigator
                 }
 
                 // Page to test is the first one 
-                KryptonPage previous = first;
+                KryptonPage? previous = first;
 
                 // Keep testing previous pages until no more are left
                 while (previous != null)

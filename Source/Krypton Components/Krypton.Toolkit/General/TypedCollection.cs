@@ -19,8 +19,6 @@ namespace Krypton.Toolkit
                                       IList<T>,
                                       ICollection,
                                       ICollection<T>  where T : class
-                                         
-                                         
     {
         #region Instance Fields
         private readonly List<T> _list;
@@ -168,7 +166,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(T item)
+        public int IndexOf(T? item)
         {
             Debug.Assert(item != null);
             return _list.IndexOf(item);
@@ -243,7 +241,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="name">Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
-        public virtual T this[string name] => null;
+        public virtual T? this[string name] => null;
 
         /// <summary>
         /// Move the source item to be immediately after the target item.
@@ -328,7 +326,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if item found; otherwise false.</returns>
-        public bool Contains(T item) => _list.Contains(item);
+        public bool Contains(T? item) => item != null && _list.Contains(item);
 
         /// <summary>
         /// Copies items to specified array starting at particular index.

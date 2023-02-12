@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
 
         private string _headerText;
 
-        private string[] _contents;
+        private string[]? _contents;
 
         private StringCollection _collection;
 
@@ -40,8 +40,14 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the contents of the text field.</summary>
         /// <value>The contents of the text field.</value>
-        [Category(@"Data"), DefaultValue(null), Description(@"The contents of the text field.")]
-        public string[] Contents { get => _contents; private set => _contents = value; }
+        [Category(@"Data"), 
+         DefaultValue(null), 
+         Description(@"The contents of the text field.")]
+        public string[]? Contents 
+        { 
+            get => _contents; 
+            private set => _contents = value; 
+        }
 
         #endregion
 

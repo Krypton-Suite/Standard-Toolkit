@@ -263,12 +263,12 @@ namespace Krypton.Toolkit
             {
                 case @"Text":
                 case @"ExtraText":
-                case @"Image":
+                case nameof(Image):
                 case @"ImageTransparentColor":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;
-                case @"KryptonCommand":
+                case nameof(KryptonCommand):
                     // Unhook from any existing command
                     if (_cachedCommand != null)
                     {

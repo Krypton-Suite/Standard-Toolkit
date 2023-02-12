@@ -30,17 +30,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="name">Name of the recent document instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonRecentDoc this[string name]
+        public override KryptonRibbonRecentDoc? this[string name]
         {
             get
             {
                 // Search for an entry with the same text name as that requested.
-                foreach (KryptonRibbonRecentDoc recentDoc in this)
+                foreach (KryptonRibbonRecentDoc recentDoc in this.Where(recentDoc => recentDoc.Text == name))
                 {
-                    if (recentDoc.Text == name)
-                    {
-                        return recentDoc;
-                    }
+                    return recentDoc;
                 }
 
                 // Let base class perform standard processing

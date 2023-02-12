@@ -63,7 +63,7 @@ namespace Krypton.Navigator
         /// <param name="redirectNavigatorRibbonTab">inheritance redirection for ribbon tab.</param>
         /// <param name="redirectNavigatorRibbonGeneral">inheritance redirection for ribbon general.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorRedirect(KryptonNavigator navigator,
+        public PaletteNavigatorRedirect(KryptonNavigator? navigator,
                                         PaletteRedirect redirectNavigator,
                                         PaletteRedirect redirectNavigatorPage,
                                         PaletteRedirect redirectNavigatorHeaderGroup,
@@ -190,7 +190,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override IPaletteBorder PaletteBorder => base.PaletteBorder;
+        public override IPaletteBorder? PaletteBorder => base.PaletteBorder;
 
         #endregion
 

@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteTrackBarStatesOverride : GlobalId
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
 
         /// <summary>

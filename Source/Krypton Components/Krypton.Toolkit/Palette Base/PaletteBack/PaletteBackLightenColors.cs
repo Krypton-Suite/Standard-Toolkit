@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteBackLightenColors : PaletteBackInherit
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteBackLightenColors class.
@@ -93,7 +89,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteState state) => Inherit.GetBackImage(state);
+        public override Image? GetBackImage(PaletteState state) => Inherit.GetBackImage(state);
 
         /// <summary>
         /// Gets the background image style.

@@ -40,7 +40,7 @@ namespace Krypton.Docking
         /// <param name="workspace">Reference to workspace to manage.</param>
         public KryptonDockingWorkspace(string name,
                                        string storeName,
-                                       KryptonDockableWorkspace workspace)
+                                       [DisallowNull] KryptonDockableWorkspace workspace)
             : base(name, storeName)
         {
             SpaceControl = workspace ?? throw new ArgumentNullException(nameof(workspace));
@@ -54,12 +54,12 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the control this element is managing.
         /// </summary>
-        public KryptonDockableWorkspace DockableWorkspaceControl => (KryptonDockableWorkspace)SpaceControl;
+        public KryptonDockableWorkspace? DockableWorkspaceControl => SpaceControl as KryptonDockableWorkspace;
 
         /// <summary>
         /// Gets and sets access to the parent docking element.
         /// </summary>
-        public override IDockingElement Parent
+        public override IDockingElement? Parent
         {
             set
             {
@@ -67,7 +67,7 @@ namespace Krypton.Docking
                 base.Parent = value;
 
                 // Generate event so the any dockable workspace customization can be performed.
-                KryptonDockingManager dockingManager = DockingManager;
+                KryptonDockingManager? dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
                     DockableWorkspaceEventArgs args = new(DockableWorkspaceControl, this);
@@ -80,7 +80,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided page.
         /// </summary>
         /// <param name="page">Reference to page that should be shown.</param>
-        public void ShowPage(KryptonPage page)
+        public void ShowPage([DisallowNull] KryptonPage page)
         {
             // Cannot show a null reference
             if (page == null)
@@ -95,7 +95,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided page.
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be shown.</param>
-        public void ShowPage(string uniqueName)
+        public void ShowPage([DisallowNull] string uniqueName)
         {
             // Cannot show a null reference
             if (uniqueName == null)
@@ -110,7 +110,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided pages.
         /// </summary>
         /// <param name="pages">Array of references to pages that should be shown.</param>
-        public void ShowPages(KryptonPage[] pages)
+        public void ShowPages([DisallowNull] KryptonPage[] pages)
         {
             // Cannot show a null reference
             if (pages == null)
@@ -140,7 +140,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be shown.</param>
-        public void ShowPages(string[] uniqueNames)
+        public void ShowPages([DisallowNull] string[] uniqueNames)
         {
             // Cannot show a null reference
             if (uniqueNames == null)
@@ -175,14 +175,14 @@ namespace Krypton.Docking
         public void ShowAllPages()
         {
             using DockingMultiUpdate update = new(this);
-            base.PropogateAction(DockingPropogateAction.ShowAllPages, (string[])null);
+            base.PropogateAction(DockingPropogateAction.ShowAllPages, null as string[]);
         }
 
         /// <summary>
         /// Hide all display elements of the provided page.
         /// </summary>
         /// <param name="page">Reference to page that should be hidden.</param>
-        public void HidePage(KryptonPage page)
+        public void HidePage([DisallowNull] KryptonPage page)
         {
             // Cannot hide a null reference
             if (page == null)
@@ -197,7 +197,7 @@ namespace Krypton.Docking
         /// Hide all display elements of the provided page.
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be hidden.</param>
-        public void HidePage(string uniqueName)
+        public void HidePage([DisallowNull] string uniqueName)
         {
             // Cannot hide a null reference
             if (uniqueName == null)
@@ -215,7 +215,7 @@ namespace Krypton.Docking
         /// Hide all display elements of the provided pages.
         /// </summary>
         /// <param name="pages">Array of references to pages that should be hidden.</param>
-        public void HidePages(KryptonPage[] pages)
+        public void HidePages([DisallowNull] KryptonPage[] pages)
         {
             // Cannot hide a null reference
             if (pages == null)
@@ -246,7 +246,7 @@ namespace Krypton.Docking
         /// Hide all display elements of the provided pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be hidden.</param>
-        public void HidePages(string[] uniqueNames)
+        public void HidePages([DisallowNull] string[] uniqueNames)
         {
             // Cannot hide a null reference
             if (uniqueNames == null)
@@ -281,7 +281,7 @@ namespace Krypton.Docking
         public void HideAllPages()
         {
             using DockingMultiUpdate update = new(this);
-            base.PropogateAction(DockingPropogateAction.HideAllPages, (string[])null);
+            base.PropogateAction(DockingPropogateAction.HideAllPages, null as string[]);
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be removed.</param>
         /// <param name="disposePage">Should the page be disposed when removed.</param>
-        public void RemovePage(string uniqueName, bool disposePage)
+        public void RemovePage([DisallowNull] string uniqueName, bool disposePage)
         {
             // Cannot remove a null reference
             if (uniqueName == null)
@@ -311,7 +311,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="pages">Array of references to pages that should be removed.</param>
         /// <param name="disposePage">Should the page be disposed when removed.</param>
-        public void RemovePages(KryptonPage[] pages, bool disposePage)
+        public void RemovePages([DisallowNull] KryptonPage[] pages, bool disposePage)
         {
             // Cannot remove a null reference
             if (pages == null)
@@ -343,7 +343,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be removed.</param>
         /// <param name="disposePage">Should the page be disposed when removed.</param>
-        public void RemovePages(string[] uniqueNames, bool disposePage)
+        public void RemovePages([DisallowNull] string[] uniqueNames, bool disposePage)
         {
             // Cannot remove a null reference
             if (uniqueNames == null)
@@ -381,7 +381,7 @@ namespace Krypton.Docking
         {
             // Remove all details about all pages from all parts of the hierarchy
             using DockingMultiUpdate update = new(this);
-            base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposeAllPages : DockingPropogateAction.RemoveAllPages, (string[])null);
+            base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposeAllPages : DockingPropogateAction.RemoveAllPages, null as string[]);
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             switch (action)
             {
@@ -411,18 +411,15 @@ namespace Krypton.Docking
         /// <param name="floatingWindow">Reference to window being dragged.</param>
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
-        public override void PropogateDragTargets(KryptonFloatingWindow floatingWindow,
+        public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
                                                   PageDragEndData dragData,
                                                   DragTargetList targets)
         {
             // Create list of the pages that are allowed to be dropped into this workspace
             KryptonPageCollection pages = new();
-            foreach (KryptonPage page in dragData.Pages)
+            foreach (KryptonPage page in dragData.Pages.Where(static page => page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace)))
             {
-                if (page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace))
-                {
-                    pages.Add(page);
-                }
+                pages.Add(page);
             }
 
             // Do we have any pages left for dragging?
@@ -440,7 +437,7 @@ namespace Krypton.Docking
         /// <returns>Enumeration value indicating docking location.</returns>
         public override DockingLocation FindPageLocation(string uniqueName)
         {
-            KryptonPage page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
+            KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
             if ((page != null) && page is not KryptonStorePage)
             {
                 return DockingLocation.Workspace;
@@ -456,9 +453,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        public override IDockingElement FindPageElement(string uniqueName)
+        public override IDockingElement? FindPageElement(string uniqueName)
         {
-            KryptonPage page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
+            KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
             if ((page != null) && page is not KryptonStorePage)
             {
                 return this;
@@ -475,11 +472,11 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="uniqueName">Unique name of the page to be found.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public override IDockingElement FindStorePageElement(DockingLocation location, string uniqueName)
+        public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
         {
             if (location == DockingLocation.Workspace)
             {
-                KryptonPage page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
+                KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
                 if (page is KryptonStorePage)
                 {
                     return this;
@@ -494,7 +491,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
         /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
-        public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName) => this;
+        public override KryptonDockingWorkspace? FindDockingWorkspace(string uniqueName) => this;
 
         #endregion
 
@@ -510,7 +507,7 @@ namespace Krypton.Docking
         protected override void RaiseRemoved()
         {
             // Generate event so the any dockable workspace customization can be reversed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 DockableWorkspaceEventArgs args = new(DockableWorkspaceControl, this);
@@ -525,7 +522,7 @@ namespace Krypton.Docking
         protected override void RaiseCellAdding(KryptonWorkspaceCell cell)
         {
             // Generate event so the dockable workspace cell customization can be performed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
@@ -540,7 +537,7 @@ namespace Krypton.Docking
         protected override void RaiseCellRemoved(KryptonWorkspaceCell cell)
         {
             // Generate event so the dockable workspace cell customization can be reversed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
@@ -556,7 +553,7 @@ namespace Krypton.Docking
         protected override void RaiseSpacePageDrop(object sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a workspace and allow it to be cancelled
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
@@ -581,7 +578,8 @@ namespace Krypton.Docking
             var pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
-                if (page is not KryptonStorePage && (DockableWorkspaceControl.CellForPage(page) != null))
+                if (page is not KryptonStorePage 
+                    && (DockableWorkspaceControl?.CellForPage(page) != null))
                 {
                     pages.Add(page);
                 }
@@ -591,7 +589,7 @@ namespace Krypton.Docking
             if (pages.Count != 0)
             {
                 // Ask the docking manager for a IDragPageNotify implementation to handle the dragging operation
-                KryptonDockingManager dockingManager = DockingManager;
+                KryptonDockingManager? dockingManager = DockingManager;
                 dockingManager?.DoDragDrop(e.ScreenPoint, e.ElementOffset, e.Control, e.Pages);
             }
 

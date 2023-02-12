@@ -31,12 +31,12 @@ namespace Krypton.Toolkit
         private bool _paintTransparent;
         private bool _evalTransparent;
         private bool _globalEvents;
-        private PaletteBase _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
         protected VisualPopupToolTip visualBasePopupToolTip;
         private readonly ToolTipManager _toolTipManager;
         #endregion
@@ -173,7 +173,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             [DebuggerStepThrough]
             get => base.ContextMenuStrip;
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
-        public virtual KryptonContextMenu KryptonContextMenu
+        public virtual KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -385,7 +385,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -426,7 +426,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ViewManager GetViewManager() => ViewManager;
+        public ViewManager? GetViewManager() => ViewManager;
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
@@ -516,7 +516,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point to lookup.</param>
         /// <returns>ViewBase associated with the point.</returns>
-        public ViewBase ViewFromPoint(Point pt) => ViewManager?.Root?.ViewFromPoint(pt);
+        public ViewBase? ViewFromPoint(Point pt) => ViewManager?.Root?.ViewFromPoint(pt);
 
         #endregion
 
@@ -526,7 +526,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ViewManager ViewManager
+        public ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -664,7 +664,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the control reference that is the parent for transparent drawing.
         /// </summary>
-        protected virtual Control TransparentParent => Parent;
+        protected virtual Control? TransparentParent => Parent;
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1170,7 +1170,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1218,7 +1218,7 @@ namespace Krypton.Toolkit
                 if (_miPTB == null)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
-                    _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
+                    _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },

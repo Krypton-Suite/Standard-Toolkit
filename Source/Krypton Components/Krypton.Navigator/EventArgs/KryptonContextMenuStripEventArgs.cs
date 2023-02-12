@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class KryptonContextMenuEventArgs : KryptonPageEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuEventArgs class.
@@ -28,7 +24,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page effected by event.</param>
         /// <param name="index">Index of page in the owning collection.</param>
         /// <param name="contextMenu">Prepopulated context menu ready for display.</param>
-        public KryptonContextMenuEventArgs(KryptonPage page, 
+        public KryptonContextMenuEventArgs(KryptonPage? page, 
                                            int index,
                                            KryptonContextMenu contextMenu)
             : base(page, index) =>
@@ -40,7 +36,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the KryptonContextMenu that is to be shown.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         #endregion
     }

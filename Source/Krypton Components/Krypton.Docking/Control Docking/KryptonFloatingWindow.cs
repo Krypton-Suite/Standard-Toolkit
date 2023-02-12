@@ -24,10 +24,6 @@ namespace Krypton.Docking
         private static readonly Image EMPTY_IMAGE = new Bitmap(1, 1);
         #endregion
 
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when the window close is requested and provides the set of pages visible.
@@ -211,7 +207,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the floating messages interface.
         /// </summary>
-        internal IFloatingMessages FloatingMessages { get; set; }
+        internal IFloatingMessages? FloatingMessages { get; set; }
 
         #endregion
 
@@ -256,7 +252,7 @@ namespace Krypton.Docking
 
         private void UpdateCellSettings()
         {
-            KryptonWorkspaceCell cell = FloatspaceControl.FirstVisibleCell();
+            KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
             if (cell != null)
             {
                 // If there is only a single cell inside the floating window
@@ -284,7 +280,7 @@ namespace Krypton.Docking
         private IReadOnlyList<string> VisibleCloseableUniqueNames()
         {
             var uniqueNames = new List<string>();
-            KryptonWorkspaceCell cell = FloatspaceControl.FirstVisibleCell();
+            KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
             while (cell != null)
             {
                 // Create a list of all the visible page names in the floatspace that are allowed to be closed

@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterColorButtonDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("SelectedColorChanged")]
-    [DefaultProperty("SelectedColor")]
+    [DefaultEvent(nameof(SelectedColorChanged))]
+    [DefaultProperty(nameof(SelectedColor))]
     public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     {
         #region Static Fields
@@ -46,7 +46,7 @@ namespace Krypton.Ribbon
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Image _imageSmall;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small color button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -660,7 +660,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the color button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -839,13 +839,13 @@ namespace Krypton.Ribbon
                 case "Text":
                     OnPropertyChanged(nameof(TextLine));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
+                case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
             }

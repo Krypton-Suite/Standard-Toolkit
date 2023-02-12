@@ -14,10 +14,6 @@ namespace Krypton.Toolkit
 {
     internal class ShortTextValue : NullContentValues
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Gets and sets the short text value to use.

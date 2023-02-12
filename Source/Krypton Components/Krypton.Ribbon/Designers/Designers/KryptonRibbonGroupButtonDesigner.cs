@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
                     _typeCheckMenu = new ToolStripMenuItem("Check", null, OnTypeCheck);
                     _typeDropDownMenu = new ToolStripMenuItem("DropDown", null, OnTypeDropDown);
                     _typeSplitMenu = new ToolStripMenuItem("Split", null, OnTypeSplit);
-                    _typeMenu = new ToolStripMenuItem("Type");
+                    _typeMenu = new ToolStripMenuItem(nameof(Type));
                     _typeMenu.DropDownItems.AddRange(new ToolStripItem[] { _typePushMenu, _typeCheckMenu, _typeDropDownMenu, _typeSplitMenu });
                     _moveFirstMenu = new ToolStripMenuItem("Move Button First", Properties.Resources.MoveFirst, OnMoveFirst);
                     _movePreviousMenu = new ToolStripMenuItem("Move Button Previous", Properties.Resources.MovePrevious, OnMovePrevious);
@@ -454,7 +454,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private TypedRestrictCollection<KryptonRibbonGroupItem> ParentItems
+        private TypedRestrictCollection<KryptonRibbonGroupItem>? ParentItems
         {
             get
             {

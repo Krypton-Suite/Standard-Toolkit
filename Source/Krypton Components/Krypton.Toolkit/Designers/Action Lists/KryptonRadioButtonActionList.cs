@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the radio button image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _radioButton.Values.Image;
 
@@ -221,20 +221,20 @@ namespace Krypton.Toolkit
             if (_radioButton != null)
             {
                 // Add the list of radio button specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Operation"));
-                actions.Add(new DesignerActionPropertyItem(@"Checked", @"Checked", @"Operation", @"Checked state"));
-                actions.Add(new DesignerActionPropertyItem(@"AutoCheck", @"AutoCheck", @"Operation", @"AutoCheck of other instances."));
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"LabelStyle", @"Style", @"Appearance", @"Label style"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Visual orientation"));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Operation)));
+                actions.Add(new DesignerActionPropertyItem(nameof(Checked), nameof(Checked), nameof(Operation), @"Checked state"));
+                actions.Add(new DesignerActionPropertyItem(nameof(AutoCheck), nameof(AutoCheck), nameof(Operation), @"AutoCheck of other instances."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(LabelStyle), @"Style", nameof(Appearance), @"Label style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Radio button text"));
-                actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Radio button extra text"));
-                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Radio button image"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Radio button text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Radio button extra text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Radio button image"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteContentImage Image => _image;
+        public virtual PaletteContentImage? Image => _image;
 
         private bool ShouldSerializeImage() => !_image.IsDefault;
 
@@ -470,7 +470,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => ShortText.Image ?? _inherit.GetContentShortTextImage(state);
+        public Image? GetContentShortTextImage(PaletteState state) => ShortText.Image ?? _inherit.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the image style for the short text.
@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => LongText.Image ?? _inherit.GetContentLongTextImage(state);
+        public Image? GetContentLongTextImage(PaletteState state) => LongText.Image ?? _inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the image style for the long text.

@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteSplitContainer : PaletteDouble
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteSplitContainer class.

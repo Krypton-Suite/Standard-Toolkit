@@ -19,19 +19,19 @@ namespace Krypton.Toolkit
                                IDisposable
     {
         #region Instance Fields
-        private ViewBase _root;
-        private ViewBase _activeView;
+        private ViewBase? _root;
+        private ViewBase? _activeView;
         private long _outputStart;
         #endregion
 
         #region Events
         /// <summary>
-        /// Occurs just before the layout cuycle.
+        /// Occurs just before the layout cycle.
         /// </summary>
         public event EventHandler LayoutBefore;
 
         /// <summary>
-        /// Occurs just after the layout cuycle.
+        /// Occurs just after the layout cycle.
         /// </summary>
         public event EventHandler LayoutAfter;
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the view root.
         /// </summary>
-        public ViewBase Root
+        public ViewBase? Root
         {
             [DebuggerStepThrough]
             get => _root;
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Renderer provider.</param>
         /// <param name="proposedSize">The custom-sized area for a control.</param>
-        public virtual Size GetPreferredSize(IRenderer renderer,
+        public virtual Size GetPreferredSize(IRenderer? renderer,
                                              Size proposedSize)
         {
             if ((renderer == null) || (Root == null))
@@ -185,9 +185,9 @@ namespace Krypton.Toolkit
 
             if (OutputDebug)
             {
-                Console.WriteLine("Id:{0} GetPreferredSize Type:{1} Ret:{2} Proposed:{3}",
+                Console.WriteLine(@"Id:{0} GetPreferredSize Type:{1} Ret:{2} Proposed:{3}",
                     Id,
-                    Control.GetType().ToString(),
+                    Control.GetType(),
                     retSize,
                     proposedSize);
             }
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the active view element.
         /// </summary>
-        public ViewBase ActiveView
+        public ViewBase? ActiveView
         {
             get => _activeView;
 
@@ -256,10 +256,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>Component reference; otherwise false.</returns>
-        public virtual Component ComponentFromPoint(Point pt)
+        public virtual Component? ComponentFromPoint(Point pt)
         {
             // Find the view element associated with the point
-            ViewBase target = Root.ViewFromPoint(pt);
+            ViewBase? target = Root?.ViewFromPoint(pt);
 
             // Climb parent chain looking for the first element that has a component
             while (target != null)
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the view.
         /// </summary>
         /// <param name="renderer">Renderer provider.</param>
-        public virtual void Layout(IRenderer renderer)
+        public virtual void Layout([DisallowNull] IRenderer? renderer)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(Root != null);
@@ -346,10 +346,10 @@ namespace Krypton.Toolkit
                     PI.QueryPerformanceCounter(ref outputEnd);
                     var outputDiff = outputEnd - _outputStart;
 
-                    Console.WriteLine("Id:{0} Layout Type:{1} Elapsed:{2} Rect:{3}",
+                    Console.WriteLine(@"Id:{0} Layout Type:{1} Elapsed:{2} Rect:{3}",
                         Id,
-                        context.Control.GetType().ToString(),
-                        outputDiff.ToString(),
+                        context.Control.GetType(),
+                        outputDiff,
                         context.DisplayRectangle);
 
                 }
@@ -431,10 +431,10 @@ namespace Krypton.Toolkit
                     PI.QueryPerformanceCounter(ref outputEnd);
                     var outputDiff = outputEnd - _outputStart;
 
-                    Console.WriteLine("Id:{0} Paint Type:{1} Elapsed: {2}",
+                    Console.WriteLine(@"Id:{0} Paint Type:{1} Elapsed: {2}",
                         Id,
-                        Control.GetType().ToString(),
-                        outputDiff.ToString());
+                        Control.GetType(),
+                        outputDiff);
                 }
             }
 
@@ -707,7 +707,7 @@ namespace Krypton.Toolkit
             if (!MouseCaptured)
             {
                 // Update the active view with that found under the mouse position
-                ActiveView = Root.ViewFromPoint(pt);
+                ActiveView = Root?.ViewFromPoint(pt);
             }
         }
         #endregion

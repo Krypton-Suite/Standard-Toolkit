@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Icon value.</returns>
-        public virtual Icon GetButtonSpecIcon(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecIcon(style);
+        public virtual Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecIcon(style);
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+        public virtual Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                 PaletteState state) => Redirector.GetButtonSpecImage(style, state);
 
         /// <summary>
@@ -213,14 +213,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string GetButtonSpecShortText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecShortText(style);
+        public virtual string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string GetButtonSpecLongText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecLongText(style);
+        public virtual string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.

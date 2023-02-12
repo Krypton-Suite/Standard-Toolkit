@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ButtonSpecRemapByContentCache : ButtonSpecRemapByContentBase
     {
         #region Instance Fields
-        private IPaletteContent _paletteContent;
+        private IPaletteContent? _paletteContent;
         private PaletteState _paletteState;
         #endregion
 
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// Set the palette content to use for remapping.
         /// </summary>
         /// <param name="paletteContent">Palette for requesting foreground colors.</param>
-        public void SetPaletteContent(IPaletteContent paletteContent)
+        public void SetPaletteContent(IPaletteContent? paletteContent)
         {
             _paletteContent = paletteContent;
         }
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the palette content to use for remapping.
         /// </summary>
-        public override IPaletteContent PaletteContent => _paletteContent;
+        public override IPaletteContent? PaletteContent => _paletteContent;
 
         #endregion
 

@@ -20,10 +20,6 @@ namespace Krypton.Docking
     [DesignTimeVisible(false)]
     public class KryptonStorePage : KryptonPage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonStorePage class.

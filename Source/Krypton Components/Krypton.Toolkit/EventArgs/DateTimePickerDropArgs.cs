@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class DateTimePickerDropArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DateTimePickerDropArgs class.
@@ -42,7 +38,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the KryptonContextMenu instance.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         /// <summary>
         /// Gets and sets the relative horizontal position of the KryptonContextMenu.

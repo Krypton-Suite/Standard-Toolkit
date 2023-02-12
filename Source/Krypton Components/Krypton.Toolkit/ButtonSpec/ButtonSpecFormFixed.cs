@@ -18,10 +18,6 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(ButtonSpecFormFixedConverter))]
     public abstract class ButtonSpecFormFixed : ButtonSpec
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecFormFixed class.

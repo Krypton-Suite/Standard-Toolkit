@@ -34,7 +34,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="manager">Reference to manager creating this instance.</param>
         /// <param name="c">Control that is starting the drag operation.</param>
-        public DockingDragManager(KryptonDockingManager manager, Control c)
+        public DockingDragManager(KryptonDockingManager manager, Control? c)
         {
             _manager = manager;
             _offset = Point.Empty;
@@ -71,7 +71,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the window that is moved in sync with the mouse movement.
         /// </summary>
-        public KryptonFloatingWindow FloatingWindow { get; set; }
+        public KryptonFloatingWindow? FloatingWindow { get; set; }
 
         /// <summary>
         /// Gets and sets the offset of the floating window from the screen cursor.
@@ -87,7 +87,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="screenPt">Mouse screen point at start of drag.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
-        /// <returns>True if dragging waas started; otherwise false.</returns>
+        /// <returns>True if dragging was started; otherwise false.</returns>
         public override bool DragStart(Point screenPt, PageDragEndData dragEndData)
         {
             if (FloatingWindow != null)

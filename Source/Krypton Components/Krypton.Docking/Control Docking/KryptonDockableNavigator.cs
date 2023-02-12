@@ -76,10 +76,7 @@ namespace Krypton.Docking
         private void OnShowContextMenu(object sender, ShowContextMenuArgs e)
         {
             // Make sure we have a menu for displaying
-            if (e.KryptonContextMenu == null)
-            {
-                e.KryptonContextMenu = new KryptonContextMenu();
-            }
+            e.KryptonContextMenu ??= new KryptonContextMenu();
 
             // Use event to allow customization of the context menu
             CancelDropDownEventArgs args = new(e.KryptonContextMenu, e.Item)

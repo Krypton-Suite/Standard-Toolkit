@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
                     MouseEventArgs mea = (MouseEventArgs)e;
                     if (GetView().ClientRectangle.Contains(mea.Location))
                     {
-                        PropertyInfo pi = typeof(Form).GetProperty(@"CloseReason",
+                        PropertyInfo? pi = typeof(Form).GetProperty(nameof(CloseReason),
                                                                     BindingFlags.Instance |
                                                                     BindingFlags.SetProperty |
                                                                     BindingFlags.NonPublic);

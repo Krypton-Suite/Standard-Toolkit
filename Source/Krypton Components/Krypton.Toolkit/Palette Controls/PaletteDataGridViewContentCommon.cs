@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private Padding _padding;
-        private Font _font;
+        private Font? _font;
         private PaletteRelativeAlign _textH;
         private PaletteRelativeAlign _textV;
         #endregion
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for drawing the content text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Font Font
+        public virtual Font? Font
         {
             get => _font;
 
@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Relative horizontal alignment of content text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(typeof(PaletteRelativeAlign), nameof(Inherit))]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextH
         {
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Relative vertical alignment of content text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(typeof(PaletteRelativeAlign), nameof(Inherit))]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextV
         {

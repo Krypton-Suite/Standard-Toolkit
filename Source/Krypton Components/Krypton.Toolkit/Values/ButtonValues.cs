@@ -19,14 +19,14 @@ namespace Krypton.Toolkit
                                 IContentValues
     {
         #region Static Fields
-        private const string _defaultText = "Button";
+        private const string _defaultText = nameof(Button);
         private static readonly string _defaultExtraText = string.Empty;
         #endregion
 
         #region Instance Fields
         private Image _image;
         private Color _transparent;
-        private string _text;
+        private string? _text;
         private string _extraText;
 
         #endregion
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -168,9 +168,10 @@ namespace Krypton.Toolkit
         [Description(@"Button text.")]
         [RefreshProperties(RefreshProperties.All)]
         [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public string Text
         {
-            get => _text;
+            get => _text ?? string.Empty;
 
             set
             {
@@ -244,7 +245,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
+        public virtual Image? GetImage(PaletteState state)
         {
             // Try and find a state specific image
             Image image = state switch

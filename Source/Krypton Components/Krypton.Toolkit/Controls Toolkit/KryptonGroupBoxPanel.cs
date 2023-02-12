@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonContextMenu KryptonContextMenu
+        public override KryptonContextMenu? KryptonContextMenu
         {
             get => base.KryptonContextMenu;
             set { /* Ignore request */ }
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
             set { /* Ignore request */ }

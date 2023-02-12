@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupLinesDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Visible")]
+    [DefaultProperty(nameof(Visible))]
     public class KryptonRibbonGroupLines : KryptonRibbonGroupContainer
     {
         #region Instance Fields

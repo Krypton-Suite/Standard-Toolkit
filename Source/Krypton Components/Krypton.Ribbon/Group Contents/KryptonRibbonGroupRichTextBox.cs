@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupRichTextBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("TextChanged")]
-    [DefaultProperty("Text")]
+    [DefaultEvent(nameof(TextChanged))]
+    [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupRichTextBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -421,7 +421,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => RichTextBox.ContextMenuStrip;
             set => RichTextBox.ContextMenuStrip = value;
@@ -433,7 +433,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the rich text box is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => RichTextBox.KryptonContextMenu;
             set => RichTextBox.KryptonContextMenu = value;

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private PaletteRelativeAlign _contextTextAlign;
         private Color _contextTextColor;
-        private Font _contextTextFont;
+        private Font? _contextTextFont;
         private IPaletteRibbonGeneral _inherit;
         private PaletteRibbonShape _ribbonShape;
         private Color _dialogDarkColor;
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         private Color _qatButtonLightColor;
         private Color _tabSeparatorColor;
         private Color _tabSeparatorContextColor;
-        private Font _textFont;
+        private Font? _textFont;
         private PaletteTextHint _textHint;
         #endregion
 
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for the ribbon context text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font ContextTextFont
+        public Font? ContextTextFont
         {
             get => _contextTextFont;
 
@@ -777,7 +777,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for the ribbon text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font TextFont
+        public Font? TextFont
         {
             get => _textFont;
 

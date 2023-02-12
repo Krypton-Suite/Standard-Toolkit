@@ -46,10 +46,10 @@ namespace Krypton.Toolkit
 
         private static int _nextId = 1000;
         //private static readonly DateTime _baseDate = new(2000, 1, 1);
-        private static PropertyInfo _cachedShortcutPI;
-        private static PropertyInfo _cachedDesignModePI;
-        private static MethodInfo _cachedShortcutMI;
-        private static NullContentValues _nullContentValues;
+        private static PropertyInfo? _cachedShortcutPI;
+        private static PropertyInfo? _cachedDesignModePI;
+        private static MethodInfo? _cachedShortcutMI;
+        private static NullContentValues? _nullContentValues;
         private static readonly DoubleConverter _dc = new();
         private static readonly SizeConverter _sc = new();
         private static readonly PointConverter _pc = new();
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         /// <param name="msg">Windows message that generated check.</param>
         /// <param name="keyData">Keyboard shortcut to check.</param>
         /// <returns>True if shortcut processed; otherwise false.</returns>
-        public static bool CheckContextMenuForShortcut(ContextMenuStrip cms, 
+        public static bool CheckContextMenuForShortcut(ContextMenuStrip? cms, 
                                                        ref Message msg, 
                                                        Keys keyData)
         {
@@ -152,14 +152,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Get any menu item from context strip that matches the shortcut key combination
-                Hashtable shortcuts = (Hashtable)_cachedShortcutPI.GetValue(cms, null);
-                ToolStripMenuItem menuItem = (ToolStripMenuItem)shortcuts[keyData];
+                Hashtable shortcuts = (Hashtable)_cachedShortcutPI!.GetValue(cms, null);
+                ToolStripMenuItem? menuItem = (ToolStripMenuItem)shortcuts[keyData];
 
                 // If we found a match...
                 if (menuItem != null)
                 {
                     // Get the menu item to process the shortcut
-                    var ret = _cachedShortcutMI.Invoke(menuItem, new object[] { msg, keyData });
+                    var ret = _cachedShortcutMI!.Invoke(menuItem, new object[] { msg, keyData });
 
                     // Return the 'ProcessCmdKey' result
                     if (ret != null)
@@ -381,7 +381,7 @@ namespace Krypton.Toolkit
 
             // We need a valid control to find a top level form
             // Search for a top level form associated with the control
-            Form topForm = control?.FindForm();
+            Form? topForm = control?.FindForm();
 
             // If can find an owning form
             if (topForm != null)
@@ -398,18 +398,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="cms">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
-        public static bool ValidContextMenuStrip(ContextMenuStrip cms) =>
+        public static bool ValidContextMenuStrip(ContextMenuStrip? cms) =>
             // Must be a valid reference to examine
-            (cms != null) && (cms.Items.Count > 0);
+            cms is { Items.Count: > 0 };
 
         /// <summary>
         /// Decide if the KryptonContextMenu should be Displayed.
         /// </summary>
         /// <param name="kcm">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
-        public static bool ValidKryptonContextMenu(KryptonContextMenu kcm) =>
+        public static bool ValidKryptonContextMenu(KryptonContextMenu? kcm) =>
             // Must be a valid reference to examine
-            (kcm != null) && (kcm.Items.Count > 0);
+            kcm is { Items.Count: > 0 };
 
         /// <summary>
         /// Perform operation in a worker thread with wait dialog in main thread.
@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
         /// <param name="op">Delegate of operation to be performed.</param>
         /// <param name="parameter">Parameter to be passed into the operation.</param>
         /// <returns>Result of performing the operation.</returns>
-        public static object PerformOperation(Operation op, object parameter)
+        public static object? PerformOperation(Operation op, object parameter)
         {
             // Create a modal window for showing feedback
             using ModalWaitDialog wait = new();
@@ -1098,7 +1098,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Top of the hierarchy to search.</param>
         /// <returns>Control with focus; otherwise null.</returns>
-        public static Control GetControlWithFocus(Control control)
+        public static Control? GetControlWithFocus(Control control)
         {
             // Does the provided control have the focus?
             if (control.Focused 
@@ -1122,7 +1122,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parent">Parent control.</param>
         /// <param name="c">Control to be added.</param>
-        public static void AddControlToParent(Control parent, Control c)
+        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control c)
         {
             Debug.Assert(parent != null);
             Debug.Assert(c != null);
@@ -1150,7 +1150,7 @@ namespace Krypton.Toolkit
         /// Remove the provided control from its parent collection.
         /// </summary>
         /// <param name="c">Control to be removed.</param>
-        public static void RemoveControlFromParent(Control c)
+        public static void RemoveControlFromParent([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 
@@ -1370,7 +1370,7 @@ namespace Krypton.Toolkit
         /// <param name="itemType">Type of the item to create.</param>
         /// <param name="host">Designer host used if provided.</param>
         /// <returns>Reference to new instance.</returns>
-        public static object CreateInstance(Type itemType, IDesignerHost host)
+        public static object CreateInstance(Type itemType, IDesignerHost? host)
         {
             object retObj;
 
@@ -1389,7 +1389,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Cannot use host for creation, so do it the standard way instead
-                retObj = TypeDescriptor.CreateInstance(host, itemType, null, null);
+                retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!);
             }
 
             return retObj;
@@ -1400,7 +1400,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="instance">Reference to item for destroying.</param>
         /// <param name="host">Designer host used if provided.</param>
-        public static void DestroyInstance(object instance, IDesignerHost host)
+        public static void DestroyInstance(object instance, IDesignerHost? host)
         {
             if (instance is IComponent component)
             {
@@ -1447,13 +1447,13 @@ namespace Krypton.Toolkit
             // Cache the info needed to sneak access to the component protected property
             if (_cachedDesignModePI == null)
             {
-                _cachedDesignModePI = typeof(ToolStrip).GetProperty(@"DesignMode",
+                _cachedDesignModePI = typeof(ToolStrip).GetProperty(nameof(DesignMode),
                                                                     BindingFlags.Instance |
                                                                     BindingFlags.GetProperty |
                                                                     BindingFlags.NonPublic);
             }
 
-            return (bool)_cachedDesignModePI.GetValue(c, null);
+            return (bool)_cachedDesignModePI!.GetValue(c, null);
         }
 
         /// <summary>
@@ -1461,7 +1461,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="d">Double to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string DoubleToString(double d) => _dc.ConvertToInvariantString(d);
+        public static string? DoubleToString(double d) => _dc.ConvertToInvariantString(d);
 
         /// <summary>
         /// Convert a culture invariant string value to a double.
@@ -1475,7 +1475,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string SizeToString(Size s) => _sc.ConvertToInvariantString(s);
+        public static string? SizeToString(Size s) => _sc.ConvertToInvariantString(s);
 
         /// <summary>
         /// Convert a culture invariant string value to a Size.
@@ -1489,21 +1489,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string PointToString(Point s) => _pc.ConvertToInvariantString(s);
+        public static string? PointToString(Point s) => _pc.ConvertToInvariantString(s);
 
         /// <summary>
         /// Convert a culture invariant string value to a Point.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Point value.</returns>
-        public static Point StringToPoint(string s) => (Point)_pc.ConvertFromInvariantString(s);
+        public static Point StringToPoint(string? s) => (Point)_pc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Boolean to a culture invariant string value.
         /// </summary>
         /// <param name="b">Boolean to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string BoolToString(bool b) => _bc.ConvertToInvariantString(b);
+        public static string? BoolToString(bool b) => _bc.ConvertToInvariantString(b);
 
         /// <summary>
         /// Convert a culture invariant string value to a Boolean.
@@ -1517,7 +1517,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Color to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string ColorToString(Color c) => _cc.ConvertToInvariantString(c);
+        public static string? ColorToString(Color c) => _cc.ConvertToInvariantString(c);
 
         /// <summary>
         /// Convert a culture invariant string value to a Color.
@@ -1571,7 +1571,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a reference to the currently active floating window.
         /// </summary>
-        public static Form ActiveFloatingWindow { get; set; }
+        public static Form? ActiveFloatingWindow { get; set; }
 
         /// <summary>
         /// Gets the current active cursor, and if that is null use the current default cursor
@@ -1579,11 +1579,7 @@ namespace Krypton.Toolkit
         /// <returns>Cursor Hotspot</returns>
         public static Point CaptureCursor()
         {
-            Cursor cur = Cursor.Current;
-            if (cur == null)
-            {
-                cur = Cursors.Default;
-            }
+            Cursor cur = Cursor.Current?? Cursors.Default;
 
             return cur.HotSpot;
         }

@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonHeaderGroup), "ToolboxBitmaps.KryptonHeaderGroup.bmp")]
-    [DefaultEvent("Paint")]
-    [DefaultProperty("ValuesPrimary")]
+    [DefaultEvent(nameof(Paint))]
+    [DefaultProperty(nameof(ValuesPrimary))]
     [Designer("Krypton.Toolkit.KryptonHeaderGroupDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Group a collection of controls with a descriptive caption.")]
@@ -356,6 +356,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text associated with this control. 
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => ValuesPrimary.Heading;
@@ -592,7 +593,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the primary header.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
         public VisualOrientation HeaderPositionPrimary
         {
             get => _position1;
@@ -614,7 +615,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the secondary header.")]
-        [DefaultValue(typeof(VisualOrientation), "Bottom")]
+        [DefaultValue(typeof(VisualOrientation), nameof(Bottom))]
         public VisualOrientation HeaderPositionSecondary
         {
             get => _position2;

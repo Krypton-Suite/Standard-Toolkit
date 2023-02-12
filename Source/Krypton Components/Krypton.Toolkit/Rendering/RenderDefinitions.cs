@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                  IPaletteBorder paletteBorder,
+                                  IPaletteBorder? paletteBorder,
                                   PaletteState state);
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Orientation for drawing.</param>
         /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        IDisposable DrawRibbonBack(PaletteRibbonShape shape,
+        IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
                                    RenderContext context,
                                    Rectangle rect,
                                    PaletteState state,
@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         void DrawInputControlDropDownGlyph(RenderContext context,
                                            Rectangle cellRect,
-                                           IPaletteContent paletteContent,
+                                           IPaletteContent? paletteContent,
                                            PaletteState state);
 
         /// <summary>
@@ -620,7 +620,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         void DrawInputControlNumericUpGlyph(RenderContext context,
                                             Rectangle cellRect,
-                                            IPaletteContent paletteContent,
+                                            IPaletteContent? paletteContent,
                                             PaletteState state);
 
         /// <summary>
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         void DrawInputControlNumericDownGlyph(RenderContext context,
                                               Rectangle cellRect,
-                                              IPaletteContent paletteContent,
+                                              IPaletteContent? paletteContent,
                                               PaletteState state);
 
         /// <summary>
@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
         Rectangle DrawGridSortGlyph(RenderContext context,
                                     SortOrder sortOrder,
                                     Rectangle cellRect,
-                                    IPaletteContent paletteContent,
+                                    IPaletteContent? paletteContent,
                                     PaletteState state,
                                     bool rtl);
 
@@ -735,7 +735,7 @@ namespace Krypton.Toolkit
         Rectangle DrawGridRowGlyph(RenderContext context,
                                    GridRowGlyph rowGlyph,
                                    Rectangle cellRect,
-                                   IPaletteContent paletteContent,
+                                   IPaletteContent? paletteContent,
                                    PaletteState state,
                                    bool rtl);
 

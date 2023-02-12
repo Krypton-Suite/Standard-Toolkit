@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [Designer(@"Krypton.Toolkit.KryptonContextMenuItemsDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Items")]
+    [DefaultProperty(nameof(Items))]
     public class KryptonContextMenuItems : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => Items[index];
+        public override KryptonContextMenuItemBase? this[int index] => Items[index];
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.

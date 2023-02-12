@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        Image GetImage(PaletteState state);
+        Image? GetImage(PaletteState state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <param name="state">State for which an image is needed.</param>
         /// <returns>Button image.</returns>
-        Image GetImage(PaletteBase palette, PaletteState state);
+        Image? GetImage(PaletteBase palette, PaletteState state);
 
         /// <summary>
         /// Gets the button image transparent color.
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        ViewBase GetView();
+        ViewBase? GetView();
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.
@@ -464,12 +464,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the command small image.
         /// </summary>
-        Image ImageSmall { get; set; }
+        Image? ImageSmall { get; set; }
 
         /// <summary>
         /// Gets and sets the command large image.
         /// </summary>
-        Image ImageLarge { get; set; }
+        Image? ImageLarge { get; set; }
 
         /// <summary>
         /// Gets and sets the command image transparent color.

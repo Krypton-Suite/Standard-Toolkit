@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private bool _refresh;
         private bool _refreshAll;
         private readonly SimpleCall _refreshCall;
-        private VisualPopupShadow _shadow;
+        private VisualPopupShadow? _shadow;
         #endregion
 
         #region Identity
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
-        public VisualPopup(IRenderer renderer,
+        public VisualPopup(IRenderer? renderer,
                            bool shadow)
             : this(new ViewManager(), renderer, shadow)
         {
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
         public VisualPopup(ViewManager viewManager,
-                           IRenderer renderer,
+                           IRenderer? renderer,
                            bool shadow)
         {
             #region Default ControlStyle Values
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         /// Gets access to the view manager of the popup.
         /// </summary>
         /// <returns></returns>
-        public ViewManager GetViewManager() => ViewManager;
+        public ViewManager? GetViewManager() => ViewManager;
 
         #endregion
 
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
+        protected ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;

@@ -19,10 +19,6 @@ namespace Krypton.Ribbon
     /// </summary>
     public class GalleryDropMenuEventArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the GalleryDropMenuEventArgs class.
@@ -36,7 +32,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// KryptonContextMenu for display.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         #endregion
     }

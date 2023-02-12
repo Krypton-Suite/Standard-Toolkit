@@ -335,7 +335,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the scroll port.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             ViewBase view = null;
 
@@ -361,7 +361,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the scroll port.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             ViewBase view = null;
 
@@ -388,7 +388,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current)
+        public ViewBase? GetNextFocusItem(ViewBase current)
         {
             ViewBase view = null;
 
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current)
+        public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
             ViewBase view = null;
 

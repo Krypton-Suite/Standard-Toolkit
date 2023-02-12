@@ -147,7 +147,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             if (GroupMaskedTextBox.Visible && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect)
             {
@@ -165,7 +165,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             if (GroupMaskedTextBox.Visible && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect)
             {
@@ -185,7 +185,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
@@ -200,7 +200,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
@@ -394,10 +394,10 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabled(LastMaskedTextBox);
                     break;
-                case "Visible":
+                case nameof(Visible):
                     UpdateVisible(LastMaskedTextBox);
                     updateLayout = true;
                     break;

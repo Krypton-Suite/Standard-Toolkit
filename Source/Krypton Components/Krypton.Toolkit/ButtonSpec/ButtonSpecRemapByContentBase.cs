@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
         protected ButtonSpecRemapByContentBase(PaletteBase target,
-                                            ButtonSpec buttonSpec)
+                                            [DisallowNull] ButtonSpec buttonSpec)
             : base(target)
         {
             Debug.Assert(buttonSpec != null);
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the palette content to use for remapping.
         /// </summary>
-        public abstract IPaletteContent PaletteContent { get; }
+        public abstract IPaletteContent? PaletteContent { get; }
         #endregion
 
         #region PaletteState
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             // If allowed to override then get the map color
             Color mapColor = OverrideImageColor(state);
 
-            // If mapping occuring then return the target remap color
+            // If mapping occurring then return the target remap color
             if ((mapColor != Color.Empty)  && (PaletteContent != null))
             {
                 PaletteState getState = PaletteState;

@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ButtonSpecNavManagerLayoutHeaderBar : ButtonSpecManagerLayout
     {
         #region Instance Fields
-        private IPaletteContent _paletteContent;
+        private IPaletteContent? _paletteContent;
         private PaletteState _paletteState;
         #endregion
 
@@ -50,7 +50,7 @@ namespace Krypton.Navigator
                                                    PaletteMetricPadding[] viewMetricPaddings,
                                                    GetToolStripRenderer getRenderer,
                                                    NeedPaintHandler needPaint,
-                                                   IPaletteContent paletteContent,
+                                                   IPaletteContent? paletteContent,
                                                    PaletteState paletteState)
             : base(control, redirector, variableSpecs, fixedSpecs, 
                    viewDockers, viewMetrics, viewMetricIntOutside,
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="paletteContent">Palette used to recover remapping colors.</param>
         /// <param name="paletteState">Palette state to use for remapping.</param>
-        public void UpdateRemapping(IPaletteContent paletteContent,
+        public void UpdateRemapping(IPaletteContent? paletteContent,
                                     PaletteState paletteState)
         {
             // Cache new values

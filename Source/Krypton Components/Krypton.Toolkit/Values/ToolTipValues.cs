@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeEnableToolTips() => EnableToolTips;
 
         /// <inheritdoc />
-        protected override Image GetImageDefault() => null;
+        protected override Image? GetImageDefault() => null;
 
         /// <summary>
         /// 

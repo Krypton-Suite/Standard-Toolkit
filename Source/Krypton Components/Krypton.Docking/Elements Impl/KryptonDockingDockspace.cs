@@ -48,17 +48,20 @@ namespace Krypton.Docking
             : base(name, @"Docked")
         {
             // Create a new dockspace that will be a host for docking pages
-            SpaceControl = new KryptonDockspace();
-            DockspaceControl.Size = size;
-            DockspaceControl.Dock = DockingHelper.DockStyleFromDockEdge(edge, false);
-            DockspaceControl.CellCountChanged += OnDockspaceCellCountChanged;
-            DockspaceControl.CellVisibleCountChanged += OnDockspaceCellVisibleCountChanged;
-            DockspaceControl.CellPageInserting += OnSpaceCellPageInserting;
-            DockspaceControl.PageCloseClicked += OnDockspacePageCloseClicked;
-            DockspaceControl.PageAutoHiddenClicked += OnDockspacePageAutoHiddenClicked;
-            DockspaceControl.PagesDoubleClicked += OnDockspacePagesDoubleClicked;
-            DockspaceControl.PageDropDownClicked += OnDockspaceDropDownClicked;
-            DockspaceControl.BeforePageDrag += OnDockspaceBeforePageDrag;
+            var space = new KryptonDockspace
+            {
+                Size = size,
+                Dock = DockingHelper.DockStyleFromDockEdge(edge, false)
+            };
+            space.CellCountChanged += OnDockspaceCellCountChanged;
+            space.CellVisibleCountChanged += OnDockspaceCellVisibleCountChanged;
+            space.CellPageInserting += OnSpaceCellPageInserting;
+            space.PageCloseClicked += OnDockspacePageCloseClicked;
+            space.PageAutoHiddenClicked += OnDockspacePageAutoHiddenClicked;
+            space.PagesDoubleClicked += OnDockspacePagesDoubleClicked;
+            space.PageDropDownClicked += OnDockspaceDropDownClicked;
+            space.BeforePageDrag += OnDockspaceBeforePageDrag;
+            SpaceControl = space;
         }
         #endregion
 
@@ -66,12 +69,12 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the control this element is managing.
         /// </summary>
-        public KryptonDockspace DockspaceControl => (KryptonDockspace)SpaceControl;
+        public KryptonDockspace DockspaceControl => (SpaceControl as KryptonDockspace)!;
 
         /// <summary>
         /// Gets the sibling auto hidden edge.
         /// </summary>
-        public KryptonDockingEdgeAutoHidden EdgeAutoHiddenElement
+        public KryptonDockingEdgeAutoHidden? EdgeAutoHiddenElement
         {
             get
             {
@@ -99,7 +102,7 @@ namespace Krypton.Docking
                     // Only processes if it applies to us
                     if (value == Order)
                     {
-                        Control parent = DockspaceControl.Parent;
+                        Control? parent = DockspaceControl.Parent;
                         if (parent != null)
                         {
                             // Process all sibling controls starting from end to front of collection
@@ -166,7 +169,7 @@ namespace Krypton.Docking
         /// <param name="floatingWindow">Reference to window being dragged.</param>
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
-        public override void PropogateDragTargets(KryptonFloatingWindow floatingWindow,
+        public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
                                                   PageDragEndData dragData,
                                                   DragTargetList targets)
         {
@@ -198,7 +201,7 @@ namespace Krypton.Docking
         /// <returns>Enumeration value indicating docking location.</returns>
         public override DockingLocation FindPageLocation(string uniqueName)
         {
-            KryptonPage page = DockspaceControl.PageForUniqueName(uniqueName);
+            KryptonPage? page = DockspaceControl.PageForUniqueName(uniqueName);
             if ((page != null) 
                 && page is not KryptonStorePage)
             {
@@ -215,9 +218,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        public override IDockingElement FindPageElement(string uniqueName)
+        public override IDockingElement? FindPageElement(string uniqueName)
         {
-            KryptonPage page = DockspaceControl.PageForUniqueName(uniqueName);
+            KryptonPage? page = DockspaceControl.PageForUniqueName(uniqueName);
             if ((page != null) 
                 && page is not KryptonStorePage)
             {
@@ -235,11 +238,11 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="uniqueName">Unique name of the page to be found.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public override IDockingElement FindStorePageElement(DockingLocation location, string uniqueName)
+        public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
         {
             if (location == DockingLocation.Docked)
             {
-                KryptonPage page = DockspaceControl.PageForUniqueName(uniqueName);
+                KryptonPage? page = DockspaceControl.PageForUniqueName(uniqueName);
                 if (page is KryptonStorePage)
                 {
                     return this;
@@ -262,7 +265,7 @@ namespace Krypton.Docking
         protected override void RaiseRemoved()
         {
             // Generate event so the any dockspace customization can be reversed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 DockspaceEventArgs args = new(DockspaceControl, this);
@@ -280,7 +283,7 @@ namespace Krypton.Docking
         protected override void RaiseCellAdding(KryptonWorkspaceCell cell)
         {
             // Generate event so the dockspace cell customization can be performed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 DockspaceCellEventArgs args = new(DockspaceControl, this, cell);
@@ -295,7 +298,7 @@ namespace Krypton.Docking
         protected override void RaiseCellRemoved(KryptonWorkspaceCell cell)
         {
             // Generate event so the dockspace cell customization can be reversed.
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 DockspaceCellEventArgs args = new(DockspaceControl, this, cell);
@@ -311,7 +314,7 @@ namespace Krypton.Docking
         protected override void RaiseSpacePageDrop(object sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a workspace and allow it to be cancelled
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
@@ -352,7 +355,7 @@ namespace Krypton.Docking
         public override void SaveElementToXml(XmlWriter xmlWriter)
         {
             // Find the ordered position of this dockspace inside the parent control
-            Control parent = DockspaceControl.Parent;
+            Control? parent = DockspaceControl.Parent;
             if (parent != null)
             {
                 // Count the number of KryptonDockspace that occur after ourself in the collection by scanning
@@ -420,6 +423,8 @@ namespace Krypton.Docking
             if (DockspaceControl.PageCount == 0)
             {
                 DockspaceControl.Dispose();
+                // TODO: Is this safe ?. It means that whatever uses this afterwards could be accessing null things !
+                SpaceControl = null;
             }
         }
         #endregion
@@ -457,28 +462,28 @@ namespace Krypton.Docking
         private void OnDockspacePageCloseClicked(object sender, UniqueNameEventArgs e)
         {
             // Generate event so that the close action is handled for the named page
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
         private void OnDockspacePageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
         {
             // Generate event so that the switch from docked to auto hidden is handled for cell that contains the named page
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchDockedCellToAutoHiddenGroupRequest(e.UniqueName);
         }
 
         private void OnDockspacePagesDoubleClicked(object sender, UniqueNamesEventArgs e)
         {
             // Generate event so that the switch from docked to floating is handled for the provided list of named pages
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchDockedToFloatingWindowRequest(e.UniqueNames);
         }
 
         private void OnDockspaceDropDownClicked(object sender, CancelDropDownEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
@@ -501,7 +506,7 @@ namespace Krypton.Docking
             if (pages.Count != 0)
             {
                 // Ask the docking manager for a IDragPageNotify implementation to handle the dragging operation
-                KryptonDockingManager dockingManager = DockingManager;
+                KryptonDockingManager? dockingManager = DockingManager;
                 dockingManager?.DoDragDrop(e.ScreenPoint, e.ElementOffset, e.Control, e.Pages);
             }
 

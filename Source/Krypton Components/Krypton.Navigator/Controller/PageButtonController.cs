@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="next">View to investigate.</param>
         /// <returns>True is part of button; otherwise false.</returns>
-        protected override bool ViewIsPartOfButton(ViewBase next)
+        protected override bool ViewIsPartOfButton(ViewBase? next)
         {
             // Do we need to investigate if the 'next' view might be a contained button?
             if ((next != null) && (Target != next))
@@ -45,12 +45,9 @@ namespace Krypton.Navigator
                 {
                     // If this is a button then we return 'false' cause the mouse is no longer in the target button
                     // Search for a layout docker as that is always the top of any button
-                    if (next is ViewLayoutDocker docker)
+                    if (next is ViewLayoutDocker { Tag: ViewDrawButton })
                     {
-                        if (docker.Tag is ViewDrawButton)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
 
 

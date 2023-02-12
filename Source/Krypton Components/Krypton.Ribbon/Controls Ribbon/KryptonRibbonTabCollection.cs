@@ -25,22 +25,16 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="name">Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonTab this[string name]
-        {
-            get
-            {
-                // Search for a tab with the same text as that requested.
-                foreach(KryptonRibbonTab tab in this)
-                {
-                    if (tab.Text == name)
-                    {
-                        return tab;
-                    }
-                }
-
-                // Let base class perform standard processing
-                return base[name];
-            }
+        public override KryptonRibbonTab? this[string name] 
+        { 
+            get 
+            { 
+                foreach (KryptonRibbonTab tab in this.Where(tab => tab.Text == name)) 
+                { 
+                    return tab; 
+                } 
+                return base[name]; 
+            } 
         }
         #endregion
     }

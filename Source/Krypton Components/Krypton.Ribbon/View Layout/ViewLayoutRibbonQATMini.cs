@@ -177,7 +177,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase GetLastQATView() =>
+        public ViewBase? GetLastQATView() =>
             // Last view is the extra button if defined
             _extraButton ?? _borderContents.GetLastQATView();
 
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase GetNextQATView(ViewBase qatButton)
+        public ViewBase? GetNextQATView(ViewBase qatButton)
         {
             ViewBase view = _borderContents.GetNextQATView(qatButton);
 
@@ -211,7 +211,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase GetPreviousQATView(ViewBase qatButton) =>
+        public ViewBase? GetPreviousQATView(ViewBase qatButton) =>
             // If on the extra button then find the right most qat button instead
             qatButton == _extraButton ? _borderContents.GetLastQATView() : _borderContents.GetPreviousQATView(qatButton);
 

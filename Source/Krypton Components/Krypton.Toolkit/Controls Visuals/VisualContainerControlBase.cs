@@ -30,12 +30,12 @@ namespace Krypton.Toolkit
         private bool _refreshAll;
         private bool _paintTransparent;
         private bool _evalTransparent;
-        private PaletteBase _localPalette;
+        private PaletteBase? _localPalette;
         private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
         #endregion
 
         #region Events
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the ContextMenuStrip associated with this control.
         /// </summary>
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             [DebuggerStepThrough]
             get => base.ContextMenuStrip;
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
-        public virtual KryptonContextMenu KryptonContextMenu
+        public virtual KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -419,7 +419,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ViewManager GetViewManager() => ViewManager;
+        public ViewManager? GetViewManager() => ViewManager;
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the control reference that is the parent for transparent drawing.
         /// </summary>
-        protected virtual Control TransparentParent => Parent;
+        protected virtual Control? TransparentParent => Parent;
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1129,7 +1129,7 @@ namespace Krypton.Toolkit
                 if (_miPTB == null)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
-                    _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
+                    _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },

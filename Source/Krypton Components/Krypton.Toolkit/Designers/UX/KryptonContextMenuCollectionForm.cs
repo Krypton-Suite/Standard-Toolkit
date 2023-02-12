@@ -33,10 +33,6 @@ namespace Krypton.Toolkit
             /// </summary>
             protected class MenuTreeNode : TreeNode
             {
-                #region Instance Fields
-
-                #endregion
-
                 #region Identity
                 /// <summary>
                 /// Initialize a new instance of the MenuTreeNode class.
@@ -122,7 +118,7 @@ namespace Krypton.Toolkit
             {
                 #region Instance Fields
 
-                private readonly IServiceProvider _serviceProvider;
+                private readonly IServiceProvider? _serviceProvider;
                 private bool _inGetService;
                 #endregion
 
@@ -146,7 +142,7 @@ namespace Krypton.Toolkit
                 /// </summary>
                 /// <param name="t">An object that specifies the type of service object to get. </param>
                 /// <returns>A service object of type serviceType; or null reference if there is no service object of type serviceType.</returns>
-                public object GetService(Type t)
+                public object? GetService(Type t)
                 {
                     if (!_inGetService && (_serviceProvider != null))
                     {
@@ -167,7 +163,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public IComponent Component { get; }
+                public IComponent? Component { get; }
 
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
@@ -266,7 +262,7 @@ namespace Krypton.Toolkit
                 _buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
                 _buttonOk.DialogResult = DialogResult.OK;
                 _buttonOk.Location = new Point(729, 675);
-                _buttonOk.Name = "_buttonOk";
+                _buttonOk.Name = nameof(_buttonOk);
                 _buttonOk.Size = new Size(75, 33);
                 _buttonOk.TabIndex = 16;
                 _buttonOk.Text = @"OK";
@@ -282,7 +278,7 @@ namespace Krypton.Toolkit
                 _treeView.ImageIndex = 0;
                 _treeView.ImageList = _imageList;
                 _treeView.Location = new Point(16, 33);
-                _treeView.Name = "_treeView";
+                _treeView.Name = nameof(_treeView);
                 _treeView.SelectedImageIndex = 0;
                 _treeView.Size = new Size(320, 615);
                 _treeView.TabIndex = 0;
@@ -330,7 +326,7 @@ namespace Krypton.Toolkit
                 // 
                 _label1.AutoSize = true;
                 _label1.Location = new Point(13, 11);
-                _label1.Name = "_label1";
+                _label1.Name = nameof(_label1);
                 _label1.Size = new Size(120, 21);
                 _label1.TabIndex = 7;
                 _label1.Text = @"Item Hierarchy";
@@ -342,7 +338,7 @@ namespace Krypton.Toolkit
                 _buttonDelete.ImageIndex = 9;
                 _buttonDelete.ImageList = _imageList;
                 _buttonDelete.Location = new Point(341, 603);
-                _buttonDelete.Name = "_buttonDelete";
+                _buttonDelete.Name = nameof(_buttonDelete);
                 _buttonDelete.Size = new Size(184, 32);
                 _buttonDelete.TabIndex = 14;
                 _buttonDelete.Text = @"Delete";
@@ -357,7 +353,7 @@ namespace Krypton.Toolkit
                 _buttonMoveUp.ImageIndex = 10;
                 _buttonMoveUp.ImageList = _imageList;
                 _buttonMoveUp.Location = new Point(341, 29);
-                _buttonMoveUp.Name = "_buttonMoveUp";
+                _buttonMoveUp.Name = nameof(_buttonMoveUp);
                 _buttonMoveUp.Size = new Size(184, 32);
                 _buttonMoveUp.TabIndex = 1;
                 _buttonMoveUp.Text = @"Move Up";
@@ -372,7 +368,7 @@ namespace Krypton.Toolkit
                 _buttonMoveDown.ImageIndex = 11;
                 _buttonMoveDown.ImageList = _imageList;
                 _buttonMoveDown.Location = new Point(341, 70);
-                _buttonMoveDown.Name = "_buttonMoveDown";
+                _buttonMoveDown.Name = nameof(_buttonMoveDown);
                 _buttonMoveDown.Size = new Size(184, 32);
                 _buttonMoveDown.TabIndex = 2;
                 _buttonMoveDown.Text = @"Move Down";
@@ -387,7 +383,7 @@ namespace Krypton.Toolkit
                 _buttonAddCheckBox.ImageIndex = 6;
                 _buttonAddCheckBox.ImageList = _imageList;
                 _buttonAddCheckBox.Location = new Point(341, 275);
-                _buttonAddCheckBox.Name = "_buttonAddCheckBox";
+                _buttonAddCheckBox.Name = nameof(_buttonAddCheckBox);
                 _buttonAddCheckBox.Size = new Size(184, 32);
                 _buttonAddCheckBox.TabIndex = 7;
                 _buttonAddCheckBox.Text = @"Add CheckBox";
@@ -402,7 +398,7 @@ namespace Krypton.Toolkit
                 _buttonAddCheckButton.ImageIndex = 7;
                 _buttonAddCheckButton.ImageList = _imageList;
                 _buttonAddCheckButton.Location = new Point(341, 316);
-                _buttonAddCheckButton.Name = "_buttonAddCheckButton";
+                _buttonAddCheckButton.Name = nameof(_buttonAddCheckButton);
                 _buttonAddCheckButton.Size = new Size(184, 32);
                 _buttonAddCheckButton.TabIndex = 8;
                 _buttonAddCheckButton.Text = @"Add CheckButton";
@@ -417,7 +413,7 @@ namespace Krypton.Toolkit
                 _buttonAddRadioButton.ImageIndex = 5;
                 _buttonAddRadioButton.ImageList = _imageList;
                 _buttonAddRadioButton.Location = new Point(341, 357);
-                _buttonAddRadioButton.Name = "_buttonAddRadioButton";
+                _buttonAddRadioButton.Name = nameof(_buttonAddRadioButton);
                 _buttonAddRadioButton.Size = new Size(184, 32);
                 _buttonAddRadioButton.TabIndex = 9;
                 _buttonAddRadioButton.Text = @"Add RadioButton";
@@ -432,7 +428,7 @@ namespace Krypton.Toolkit
                 _buttonAddLinkLabel.ImageIndex = 8;
                 _buttonAddLinkLabel.ImageList = _imageList;
                 _buttonAddLinkLabel.Location = new Point(341, 398);
-                _buttonAddLinkLabel.Name = "_buttonAddLinkLabel";
+                _buttonAddLinkLabel.Name = nameof(_buttonAddLinkLabel);
                 _buttonAddLinkLabel.Size = new Size(184, 32);
                 _buttonAddLinkLabel.TabIndex = 10;
                 _buttonAddLinkLabel.Text = @"Add LinkLabel";
@@ -447,7 +443,7 @@ namespace Krypton.Toolkit
                 _buttonAddSeparator.ImageIndex = 4;
                 _buttonAddSeparator.ImageList = _imageList;
                 _buttonAddSeparator.Location = new Point(341, 234);
-                _buttonAddSeparator.Name = "_buttonAddSeparator";
+                _buttonAddSeparator.Name = nameof(_buttonAddSeparator);
                 _buttonAddSeparator.Size = new Size(184, 32);
                 _buttonAddSeparator.TabIndex = 6;
                 _buttonAddSeparator.Text = @"Add Separator";
@@ -462,7 +458,7 @@ namespace Krypton.Toolkit
                 _buttonAddItem.ImageIndex = 2;
                 _buttonAddItem.ImageList = _imageList;
                 _buttonAddItem.Location = new Point(341, 111);
-                _buttonAddItem.Name = "_buttonAddItem";
+                _buttonAddItem.Name = nameof(_buttonAddItem);
                 _buttonAddItem.Size = new Size(184, 32);
                 _buttonAddItem.TabIndex = 3;
                 _buttonAddItem.Text = @"Add Item";
@@ -477,7 +473,7 @@ namespace Krypton.Toolkit
                 _buttonAddItems.ImageIndex = 3;
                 _buttonAddItems.ImageList = _imageList;
                 _buttonAddItems.Location = new Point(341, 152);
-                _buttonAddItems.Name = "_buttonAddItems";
+                _buttonAddItems.Name = nameof(_buttonAddItems);
                 _buttonAddItems.Size = new Size(184, 32);
                 _buttonAddItems.TabIndex = 4;
                 _buttonAddItems.Text = @"Add Items";
@@ -492,7 +488,7 @@ namespace Krypton.Toolkit
                 _buttonAddHeading.ImageIndex = 1;
                 _buttonAddHeading.ImageList = _imageList;
                 _buttonAddHeading.Location = new Point(341, 193);
-                _buttonAddHeading.Name = "_buttonAddHeading";
+                _buttonAddHeading.Name = nameof(_buttonAddHeading);
                 _buttonAddHeading.Size = new Size(184, 32);
                 _buttonAddHeading.TabIndex = 5;
                 _buttonAddHeading.Text = @"Add Heading";
@@ -507,7 +503,7 @@ namespace Krypton.Toolkit
                 _buttonAddMonthCalendar.ImageIndex = 13;
                 _buttonAddMonthCalendar.ImageList = _imageList;
                 _buttonAddMonthCalendar.Location = new Point(341, 521);
-                _buttonAddMonthCalendar.Name = "_buttonAddMonthCalendar";
+                _buttonAddMonthCalendar.Name = nameof(_buttonAddMonthCalendar);
                 _buttonAddMonthCalendar.Size = new Size(184, 32);
                 _buttonAddMonthCalendar.TabIndex = 13;
                 _buttonAddMonthCalendar.Text = @"Add Month Calendar";
@@ -521,7 +517,7 @@ namespace Krypton.Toolkit
                                    | AnchorStyles.Right;
                 _propertyGrid1.HelpVisible = false;
                 _propertyGrid1.Location = new Point(538, 33);
-                _propertyGrid1.Name = "_propertyGrid1";
+                _propertyGrid1.Name = nameof(_propertyGrid1);
                 _propertyGrid1.Size = new Size(266, 615);
                 _propertyGrid1.TabIndex = 15;
                 _propertyGrid1.ToolbarVisible = false;
@@ -531,7 +527,7 @@ namespace Krypton.Toolkit
                 _label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 _label2.AutoSize = true;
                 _label2.Location = new Point(535, 11);
-                _label2.Name = "_label2";
+                _label2.Name = nameof(_label2);
                 _label2.Size = new Size(125, 21);
                 _label2.TabIndex = 16;
                 _label2.Text = @"Item Properties";
@@ -543,7 +539,7 @@ namespace Krypton.Toolkit
                 _buttonAddColorColumns.ImageIndex = 0;
                 _buttonAddColorColumns.ImageList = _imageList;
                 _buttonAddColorColumns.Location = new Point(341, 439);
-                _buttonAddColorColumns.Name = "_buttonAddColorColumns";
+                _buttonAddColorColumns.Name = nameof(_buttonAddColorColumns);
                 _buttonAddColorColumns.Size = new Size(184, 32);
                 _buttonAddColorColumns.TabIndex = 11;
                 _buttonAddColorColumns.Text = @"Add ColorColumns";
@@ -558,7 +554,7 @@ namespace Krypton.Toolkit
                 _buttonAddImageSelect.ImageIndex = 12;
                 _buttonAddImageSelect.ImageList = _imageList;
                 _buttonAddImageSelect.Location = new Point(341, 480);
-                _buttonAddImageSelect.Name = "_buttonAddImageSelect";
+                _buttonAddImageSelect.Name = nameof(_buttonAddImageSelect);
                 _buttonAddImageSelect.Size = new Size(184, 32);
                 _buttonAddImageSelect.TabIndex = 12;
                 _buttonAddImageSelect.Text = @"Add ImageSelect";
@@ -573,7 +569,7 @@ namespace Krypton.Toolkit
                 _buttonAddComboBox.ImageIndex = 14;
                 _buttonAddComboBox.ImageList = _imageList;
                 _buttonAddComboBox.Location = new Point(341, 562);
-                _buttonAddComboBox.Name = "_buttonAddComboBox";
+                _buttonAddComboBox.Name = nameof(_buttonAddComboBox);
                 _buttonAddComboBox.Size = new Size(184, 32);
                 _buttonAddComboBox.TabIndex = 14;
                 _buttonAddComboBox.Text = @"Add ComboBox";
@@ -611,7 +607,7 @@ namespace Krypton.Toolkit
                 Controls.Add(_buttonOk);
                 Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 MinimumSize = new Size(733, 593);
-                Name = "KryptonContextMenuCollectionForm";
+                Name = nameof(KryptonContextMenuCollectionForm);
                 StartPosition = FormStartPosition.CenterScreen;
                 Text = @"KryptonContextMenu Items Editor";
                 Load += KryptonContextMenuEditorForm_Load;

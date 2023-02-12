@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class ContextMenuImages : Storage
     {
         #region Instance Fields
-        private Image _checked;
-        private Image _indeterminate;
-        private Image _subMenu;
+        private Image? _checked;
+        private Image? _indeterminate;
+        private Image? _subMenu;
         #endregion
 
         #region Identity
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for a checked context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Checked
+        public Image? Checked
         {
             get => _checked;
 
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for an indeterminate context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Indeterminate
+        public Image? Indeterminate
         {
             get => _indeterminate;
 
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         [Description(@"Image indicating a sub-menu on a context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image SubMenu
+        public Image? SubMenu
         {
             get => _subMenu;
 

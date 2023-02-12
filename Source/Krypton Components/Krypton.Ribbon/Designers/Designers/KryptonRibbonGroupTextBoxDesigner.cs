@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
 
             // Setup the array of properties we override
             var attributes = Array.Empty<Attribute>();
-            string[] strArray = { "Visible", "Enabled" };
+            string[] strArray = { nameof(Visible), nameof(Enabled) };
 
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
@@ -404,7 +404,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTextBox?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)[@"Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Enabled)];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);
@@ -416,7 +416,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTextBox?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)[@"Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Visible)];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);
@@ -438,7 +438,7 @@ namespace Krypton.Ribbon
                 {
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
-                    _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
+                    _visibleMenu = new ToolStripMenuItem(nameof(Visible), null, OnVisible);
                     _moveFirstMenu = new ToolStripMenuItem("Move TextBox First", Properties.Resources.MoveFirst, OnMoveFirst);
                     _movePreviousMenu = new ToolStripMenuItem("Move TextBox Previous", Properties.Resources.MovePrevious, OnMovePrevious);
                     _moveNextMenu = new ToolStripMenuItem("Move TextBox Next", Properties.Resources.MoveNext, OnMoveNext);
@@ -470,7 +470,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private TypedRestrictCollection<KryptonRibbonGroupItem> ParentItems
+        private TypedRestrictCollection<KryptonRibbonGroupItem>? ParentItems
         {
             get
             {

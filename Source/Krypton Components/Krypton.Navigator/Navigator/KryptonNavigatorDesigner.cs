@@ -186,7 +186,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="internalControlIndex">A specified index to select the internal control designer. This index is zero-based.</param>
         /// <returns>A ControlDesigner at the specified index.</returns>
-        public override ControlDesigner InternalControlDesigner(int internalControlIndex) => (ControlDesigner)_designerHost.GetDesigner(Navigator.Pages[internalControlIndex]);
+        public override ControlDesigner? InternalControlDesigner(int internalControlIndex) => (ControlDesigner)_designerHost.GetDesigner(Navigator.Pages[internalControlIndex]);
 
         /// <summary>
         /// Returns the number of internal control designers in the ControlDesigner.

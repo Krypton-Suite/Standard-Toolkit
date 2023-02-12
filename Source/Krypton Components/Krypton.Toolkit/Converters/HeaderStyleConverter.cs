@@ -25,8 +25,8 @@ namespace Krypton.Toolkit
             new(HeaderStyle.Secondary, "Secondary"),
             new(HeaderStyle.DockInactive, "Dock - Inactive"),
             new(HeaderStyle.DockActive, "Dock - Active"),
-            new(HeaderStyle.Form, "Form"),
-            new(HeaderStyle.Calendar, "Calendar"),
+            new(HeaderStyle.Form, nameof(Form)),
+            new(HeaderStyle.Calendar, nameof(Calendar)),
             new(HeaderStyle.Custom1, "Custom1"),
             new(HeaderStyle.Custom2, "Custom2"),
             new(HeaderStyle.Custom3, "Custom3")

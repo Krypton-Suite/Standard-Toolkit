@@ -18,10 +18,6 @@ namespace Krypton.Toolkit
     public class PaletteTriple : Storage,
                                  IPaletteTriple
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteTriple class.
@@ -128,7 +124,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder PaletteBorder => Border;
+        public IPaletteBorder? PaletteBorder => Border;
 
         #endregion
 
@@ -150,7 +146,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent PaletteContent => Content;
+        public IPaletteContent? PaletteContent => Content;
 
         #endregion
 

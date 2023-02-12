@@ -187,7 +187,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => null;
+        public Image? GetContentShortTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style.
@@ -306,7 +306,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => null;
+        public Image? GetContentLongTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style for the long text.

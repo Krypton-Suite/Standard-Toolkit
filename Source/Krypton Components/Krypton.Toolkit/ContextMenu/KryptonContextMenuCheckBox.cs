@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuCheckBox), "ToolboxBitmaps.KryptonCheckBox.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Text")]
-    [DefaultEvent("CheckedChanged")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(CheckedChanged))]
     public class KryptonContextMenuCheckBox : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -30,12 +30,12 @@ namespace Krypton.Toolkit
         private bool _checked;
         private bool _enabled;
         private string _text;
-        private string _extraText;
-        private Image _image;
+        private string? _extraText;
+        private Image? _image;
         private Color _imageTransparentColor;
         private CheckState _checkState;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private LabelStyle _style;
         #endregion
 
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuCheckBox class.
         /// </summary>
         public KryptonContextMenuCheckBox()
-            : this("CheckBox")
+            : this(nameof(CheckBox))
         {
         }
 
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Main check box text.")]
-        [DefaultValue("CheckBox")]
+        [DefaultValue(nameof(CheckBox))]
         [Localizable(true)]
         public string Text
         {
@@ -203,9 +203,10 @@ namespace Krypton.Toolkit
         [Description(@"Check box extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
+        [AllowNull]
         public string ExtraText
         {
-            get => _extraText;
+            get => _extraText ?? string.Empty;
 
             set 
             {
@@ -225,7 +226,7 @@ namespace Krypton.Toolkit
         [Description(@"Check box image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -475,7 +476,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 

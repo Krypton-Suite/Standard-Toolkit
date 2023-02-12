@@ -223,7 +223,7 @@ namespace Krypton.Navigator
             RaiseComponentChanged(propertyFlags, null, null);
         }
 
-        private KryptonNavigator ParentNavigator
+        private KryptonNavigator? ParentNavigator
         {
             get
             {

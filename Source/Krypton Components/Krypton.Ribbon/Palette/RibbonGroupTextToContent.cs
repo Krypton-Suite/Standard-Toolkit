@@ -16,10 +16,6 @@ namespace Krypton.Ribbon
 {
     internal class RibbonGroupTextToContent : RibbonToContent
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the RibbonGroupTextToContent class.

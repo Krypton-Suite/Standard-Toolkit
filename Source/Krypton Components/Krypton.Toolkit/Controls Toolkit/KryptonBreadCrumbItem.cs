@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="name">Name of the ribbon tab instance.</param>
             /// <returns>Item at specified index.</returns>
-            public override KryptonBreadCrumbItem this[string name]
+            public override KryptonBreadCrumbItem? this[string name]
             {
                 get
                 {
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
                 base.OnInserted(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
                 e.Item.Parent = null;
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -138,14 +138,10 @@ namespace Krypton.Toolkit
                 base.OnCleared(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
             #endregion
         }
-        #endregion
-
-        #region Instance Fields
-
         #endregion
 
         #region Identity

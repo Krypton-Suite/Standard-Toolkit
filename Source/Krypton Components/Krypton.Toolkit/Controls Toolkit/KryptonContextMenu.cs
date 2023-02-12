@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonContextMenu), "ToolboxBitmaps.KryptonContextMenu.bmp")]
-    [DefaultEvent(@"Opening")]
-    [DefaultProperty(@"PaletteMode")]
+    [DefaultEvent(nameof(Opening))]
+    [DefaultProperty(nameof(PaletteMode))]
     [DesignerCategory(@"code")]
     [Designer(@"Krypton.Toolkit.KryptonContextMenuDesigner, Krypton.Toolkit")]
     [Description(@"Displays a shortcut menu in popup window.")]
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get;

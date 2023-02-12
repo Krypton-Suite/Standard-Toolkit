@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Control Parent
+        public new Control? Parent
         {
             get => base.Parent;
             set => base.Parent = value;
@@ -392,7 +392,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the control reference that is the parent for transparent drawing.
         /// </summary>
-        protected override Control TransparentParent
+        protected override Control? TransparentParent
         {
             get
             {

@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
             this.kpnlContainer.Controls.Add(this.kbeTopDivider);
             this.kpnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlContainer.Location = new System.Drawing.Point(0, 0);
-            this.kpnlContainer.Name = "kpnlContainer";
+            this.kpnlContainer.Name = nameof(kpnlContainer);
             this.kpnlContainer.Size = new System.Drawing.Size(280, 50);
             this.kpnlContainer.TabIndex = 0;
             //
@@ -39,14 +39,14 @@ namespace Krypton.Toolkit
             this.kbeTopDivider.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
             this.kbeTopDivider.Dock = System.Windows.Forms.DockStyle.Top;
             this.kbeTopDivider.Location = new System.Drawing.Point(0, 0);
-            this.kbeTopDivider.Name = "kbeTopDivider";
+            this.kbeTopDivider.Name = nameof(kbeTopDivider);
             this.kbeTopDivider.Size = new System.Drawing.Size(280, 1);
-            this.kbeTopDivider.Text = "kbeTopDivider";
+            this.kbeTopDivider.Text = nameof(kbeTopDivider);
             // 
             // KryptonButtonPanel
             // 
             this.Controls.Add(kpnlContainer);
-            this.Name = "KryptonButtonPanel";
+            this.Name = nameof(KryptonButtonPanel);
             this.Size = new System.Drawing.Size(247, 50);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContainer)).EndInit();
             this.kpnlContainer.ResumeLayout(false);

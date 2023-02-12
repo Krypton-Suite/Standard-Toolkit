@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonTab), "ToolboxBitmaps.KryptonRibbonTab.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonTabDesigner, Krypton.Ribbon")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonTab : Component

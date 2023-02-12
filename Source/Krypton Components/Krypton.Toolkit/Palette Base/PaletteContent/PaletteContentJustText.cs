@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override PaletteContentImage Image => base.Image;
+        public override PaletteContentImage? Image => base.Image;
 
         #endregion
     }

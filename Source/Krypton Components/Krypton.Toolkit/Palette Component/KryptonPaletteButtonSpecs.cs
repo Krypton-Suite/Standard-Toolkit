@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPaletteButtonSpecs : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when a button spec change occurs.

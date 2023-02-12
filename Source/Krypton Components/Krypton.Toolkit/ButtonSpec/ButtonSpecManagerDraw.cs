@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View docker reference; otherwise null.</returns>
-        protected override ViewBase IndexDocker(int i) => _viewDockers[i];
+        protected override ViewBase? IndexDocker(int i) => _viewDockers[i];
 
         /// <summary>
         /// Gets the orientation of the docker at the specified index.
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View content instance.</returns>
-        protected override ViewDrawContent GetDockerForeground(int i)
+        protected override ViewDrawContent? GetDockerForeground(int i)
         {
             // Get the indexed docker
             ViewDrawDocker viewDocker = _viewDockers[i];

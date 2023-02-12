@@ -127,7 +127,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem() =>
+        public ViewBase? GetFirstFocusItem() =>
             // A label can never have the focus
             null;
 
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem() =>
+        public ViewBase? GetLastFocusItem() =>
             // A label can never have the focus
             null;
 
@@ -151,7 +151,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
             null;
 
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
             null;
 
@@ -422,7 +422,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                     updateLayout = true;
                     break;
                 case "TextLine1":
@@ -439,7 +439,7 @@ namespace Krypton.Ribbon
                     UpdateImageSmallState();
                     updateLayout = true;
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabledState();
                     updatePaint = true;
                     break;
@@ -452,7 +452,7 @@ namespace Krypton.Ribbon
                     UpdateItemSizeState();
                     updateLayout = true;
                     break;
-                case "KryptonCommand":
+                case nameof(KryptonCommand):
                     _viewLargeText1.MakeDirty();
                     _viewLargeText2.MakeDirty();
                     _viewMediumSmallText1.MakeDirty();

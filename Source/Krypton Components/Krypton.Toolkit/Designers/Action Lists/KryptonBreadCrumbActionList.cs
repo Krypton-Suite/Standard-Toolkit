@@ -119,12 +119,12 @@ namespace Krypton.Toolkit
             if (_breadCrumb != null)
             {
                 // Add the list of bread crumb specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ControlBackStyle", @"Back Style", @"Appearance", @"Background drawing style."));
-                actions.Add(new DesignerActionPropertyItem(@"ControlBorderStyle", @"Border Style", @"Appearance", @"Border drawing style."));
-                actions.Add(new DesignerActionPropertyItem(@"CrumbButtonStyle", @"Crumb Style", @"Appearance", @"Crumb drawing style."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(ControlBackStyle), @"Back Style", nameof(Appearance), @"Background drawing style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(ControlBorderStyle), @"Border Style", nameof(Appearance), @"Border drawing style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(CrumbButtonStyle), @"Crumb Style", nameof(Appearance), @"Crumb drawing style."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
             
             return actions;

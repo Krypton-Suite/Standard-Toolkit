@@ -238,9 +238,9 @@ namespace Krypton.Toolkit
                 case @"ImageSmall":
                 case @"ImageLarge":
                 case @"ImageTransparentColor":
-                case @"Enabled":
+                case nameof(Enabled):
                 case @"Checked":
-                case @"CheckState":
+                case nameof(CheckState):
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;

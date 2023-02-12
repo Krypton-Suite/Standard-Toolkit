@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonRichTextBox), "ToolboxBitmaps.KryptonRichTextBox.bmp")]
-    [DefaultEvent("TextChanged")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
+    [DefaultEvent(nameof(TextChanged))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
     [Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
@@ -690,9 +690,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the text associated associated with the control.
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-#if NET6_0_OR_GREATER
         [AllowNull]
-#endif
         public override string Text
         {
             get => _richTextBox.Text;
@@ -714,7 +712,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
 
@@ -837,7 +835,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the alignment of the selection.
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), nameof(Left))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HorizontalAlignment SelectionAlignment
         {
@@ -2225,7 +2223,7 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
 
                     bool shadow = true;

@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public abstract Image GetBorderImage(PaletteState state);
+        public abstract Image? GetBorderImage(PaletteState state);
 
         /// <summary>
         /// Gets the border image style.

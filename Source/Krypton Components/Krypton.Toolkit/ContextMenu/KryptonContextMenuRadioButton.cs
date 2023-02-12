@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuRadioButton), "ToolboxBitmaps.KryptonRadioButton.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
-    [DefaultEvent(@"CheckedChanged")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(CheckedChanged))]
     public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private bool _checked;
         private bool _enabled;
         private string _text;
-        private string _extraText;
+        private string? _extraText;
         private Image _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuRadioButton class.
         /// </summary>
         public KryptonContextMenuRadioButton()
-            : this(@"RadioButton")
+            : this(nameof(RadioButton))
         {
         }
 
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Main radio button text.")]
-        [DefaultValue(@"RadioButton")]
+        [DefaultValue(nameof(RadioButton))]
         [Localizable(true)]
         public string Text
         {
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
         [Description(@"Radio button extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public string ExtraText
+        public string? ExtraText
         {
             get => _extraText;
 
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
         [Description(@"Radio button image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -401,7 +401,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 

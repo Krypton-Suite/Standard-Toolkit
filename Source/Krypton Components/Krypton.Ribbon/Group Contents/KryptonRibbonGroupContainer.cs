@@ -23,10 +23,6 @@ namespace Krypton.Ribbon
     public abstract class KryptonRibbonGroupContainer : KryptonRibbonGroupItem,
                                                         IRibbonGroupContainer
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupContainer class.

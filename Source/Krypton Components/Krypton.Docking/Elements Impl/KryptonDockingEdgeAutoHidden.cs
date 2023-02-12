@@ -143,14 +143,16 @@ namespace Krypton.Docking
                     _slidePanel.HideUniqueName();
                     break;
                 case DockingPropogateAction.StringChanged:
+                {
                     // Pushed changed strings to the tooltips
-                    KryptonDockingManager dockingManager = DockingManager;
+                    KryptonDockingManager? dockingManager = DockingManager;
                     if (dockingManager?.Strings != null)
                     {
                         _slidePanel.DockspaceControl.PinTooltip = dockingManager.Strings.TextDock;
                         _slidePanel.DockspaceControl.CloseTooltip = dockingManager.Strings.TextClose;
                         _slidePanel.DockspaceControl.DropDownTooltip = dockingManager.Strings.TextWindowLocation;
                     }
+                }
                     break;
             }
 
@@ -186,7 +188,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
         /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
-        public override KryptonDockingEdgeAutoHidden FindDockingEdgeAutoHidden(string uniqueName) => this;
+        public override KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName) => this;
 
         /// <summary>
         /// Slide the specified page into view and optionally select.
@@ -211,7 +213,7 @@ namespace Krypton.Docking
                 if (this[i] is KryptonDockingAutoHiddenGroup ahg)
                 {
                     // If the target page is inside this group
-                    KryptonPage page = ahg.AutoHiddenGroupControl.Pages[uniqueName];
+                    KryptonPage? page = ahg.AutoHiddenGroupControl.Pages[uniqueName];
                     if (page != null)
                     {
                         // Request the sliding panel slide itself into view with the provided page
@@ -238,7 +240,7 @@ namespace Krypton.Docking
         /// <param name="child">Optional reference to existing child docking element.</param>
         protected override void LoadChildDockingElement(XmlReader xmlReader,
                                                         KryptonPageCollection pages,
-                                                        IDockingElement child)
+                                                        IDockingElement? child)
         {
             if (child != null)
             {
@@ -265,7 +267,7 @@ namespace Krypton.Docking
             InternalInsert(index, groupElement);
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // The hosting panel/sliding panel dockspace/separator are not shown until the first group is added, so only 
@@ -316,7 +318,7 @@ namespace Krypton.Docking
             _panel.Disposed -= OnPanelDisposed;
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Only generate the removed event if we have already fired the adding event.
@@ -346,7 +348,7 @@ namespace Krypton.Docking
             _slidePanel.Disposed -= OnPanelDisposed;
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Only generate the removed event if we have already fired the adding event.
@@ -402,10 +404,10 @@ namespace Krypton.Docking
             // Cast to correct type and grab associated dockspace control
             KryptonDockspaceSeparator separatorControl = (KryptonDockspaceSeparator)sender;
             KryptonDockspace dockspaceControl = _slidePanel.DockspaceControl;
-            KryptonPage page = _slidePanel.Page;
+            KryptonPage? page = _slidePanel.Page;
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the movement rectangle to be modified by event handlers
@@ -418,21 +420,21 @@ namespace Krypton.Docking
         private void OnSlidePanelPageCloseClicked(object sender, UniqueNameEventArgs e)
         {
             // Generate event so that the close action is handled for the named page
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
         private void OnSlidePanelPageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
         {
             // Generate event so that the auto hidden is switched to docked is handled for the group that contains the named page
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchAutoHiddenGroupToDockedCellRequest(e.UniqueName);
         }
 
         private void OnSlidePanelPageDropDownClicked(object sender, CancelDropDownEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
@@ -442,7 +444,7 @@ namespace Krypton.Docking
         private void OnSlidePanelAutoHiddenShowingStateChanged(object sender, AutoHiddenShowingStateEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.RaiseAutoHiddenShowingStateChanged(e);
         }
 

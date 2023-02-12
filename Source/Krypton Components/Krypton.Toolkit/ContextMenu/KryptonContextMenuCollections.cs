@@ -137,10 +137,8 @@ namespace Krypton.Toolkit
         #region Private
         private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            KryptonContextMenuRadioButton radioButton = sender as KryptonContextMenuRadioButton;
-
             // Only interested if the button has become checked
-            if (radioButton.Checked)
+            if (sender is KryptonContextMenuRadioButton { Checked: true } radioButton)
             {
                 // Find the position of this element in the collection
                 var index = IndexOf(radioButton);

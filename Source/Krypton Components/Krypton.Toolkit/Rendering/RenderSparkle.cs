@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Orientation for drawing.</param>
         /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public override IDisposable DrawRibbonBack(PaletteRibbonShape shape,
+        public override IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
                                                    RenderContext context,
                                                    Rectangle rect,
                                                    PaletteState state,
@@ -173,9 +173,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlDropDownGlyph(RenderContext context,
+        public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
                                                            Rectangle cellRect,
-                                                           IPaletteContent paletteContent,
+                                                           [DisallowNull] IPaletteContent? paletteContent,
                                                            PaletteState state)
         {
             Debug.Assert(context != null);
@@ -212,9 +212,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericUpGlyph(RenderContext context,
+        public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
                                                             Rectangle cellRect,
-                                                            IPaletteContent paletteContent,
+                                                            [DisallowNull] IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
             Debug.Assert(context != null);
@@ -251,9 +251,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericDownGlyph(RenderContext context,
+        public override void DrawInputControlNumericDownGlyph([DisallowNull] RenderContext context,
                                                               Rectangle cellRect,
-                                                              IPaletteContent paletteContent,
+                                                              [DisallowNull] IPaletteContent? paletteContent,
                                                               PaletteState state)
         {
             Debug.Assert(context != null);

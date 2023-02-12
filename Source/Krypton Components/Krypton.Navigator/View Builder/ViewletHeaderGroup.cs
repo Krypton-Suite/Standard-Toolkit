@@ -108,7 +108,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element) =>
+        public ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
             _buttonManager.ButtonSpecFromView(element);
 
@@ -256,7 +256,7 @@ namespace Krypton.Navigator
                 case @"NextButtonAction":
                 case @"ContextButtonDisplay":
                 case @"CloseButtonDisplay":
-                case @"ButtonDisplayLogic":
+                case nameof(ButtonDisplayLogic):
                     _buttonManager.RecreateButtons();
                     break;
             }

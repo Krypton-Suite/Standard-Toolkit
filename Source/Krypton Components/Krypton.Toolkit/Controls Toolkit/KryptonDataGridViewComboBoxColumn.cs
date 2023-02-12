@@ -21,10 +21,6 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonDataGridViewComboBoxColumn), "ToolboxBitmaps.KryptonComboBox.bmp")]
     public class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIconColumn
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewComboBoxColumn class.

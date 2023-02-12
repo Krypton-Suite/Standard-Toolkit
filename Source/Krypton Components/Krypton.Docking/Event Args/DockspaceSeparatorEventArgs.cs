@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class DockspaceSeparatorEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DockspaceSeparatorEventArgs class.
@@ -28,7 +24,7 @@ namespace Krypton.Docking
         /// <param name="separator">Reference to separator control instance.</param>
         /// <param name="element">Reference to dockspace docking element that is managing the separator.</param>
         public DockspaceSeparatorEventArgs(KryptonSeparator separator,
-                                           KryptonDockingDockspace element)
+                                           KryptonDockingDockspace? element)
         {
             SeparatorControl = separator;
             DockspaceElement = element;
@@ -44,7 +40,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets a reference to the KryptonDockingDockspace that is managing the dockspace.
         /// </summary>
-        public KryptonDockingDockspace DockspaceElement { get; }
+        public KryptonDockingDockspace? DockspaceElement { get; }
 
         #endregion
     }

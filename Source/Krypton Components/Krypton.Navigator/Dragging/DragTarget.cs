@@ -39,10 +39,6 @@ namespace Krypton.Navigator
     /// </summary>
     public abstract class DragTarget : IDisposable
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DragTarget class.

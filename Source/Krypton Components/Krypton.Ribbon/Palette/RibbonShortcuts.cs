@@ -27,10 +27,6 @@ namespace Krypton.Ribbon
 
         #endregion
 
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the RibbonShortcuts class.

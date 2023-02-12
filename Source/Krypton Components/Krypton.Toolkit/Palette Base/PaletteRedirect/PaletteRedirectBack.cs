@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteBack inherit = GetInherit(state);
 
@@ -248,14 +248,14 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBackImageAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
             return inherit?.GetBackImageAlign(state) ?? Target.GetBackImageAlign(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteBack GetInherit(PaletteState state)
+        private IPaletteBack? GetInherit(PaletteState state)
         {
             switch (state)
             {

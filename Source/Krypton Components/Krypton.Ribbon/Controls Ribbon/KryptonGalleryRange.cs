@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonGalleryRange), "ToolboxBitmaps.KryptonGalleryRange.bmp")]
-    [DefaultProperty("Heading")]
+    [DefaultProperty(nameof(Heading))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonGalleryRange : Component
@@ -46,7 +46,7 @@ namespace Krypton.Ribbon
         public KryptonGalleryRange()
         {
             // Default fields
-            _heading = "Heading";
+            _heading = nameof(Heading);
             _imageIndexStart = -1;
             _imageIndexEnd = -1;
         }
@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Gallery range heading text.")]
-        [DefaultValue("Heading")]
+        [DefaultValue(nameof(Heading))]
         public string Heading
         {
             get => _heading;

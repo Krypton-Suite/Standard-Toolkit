@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonMaskedTextBox), "ToolboxBitmaps.KryptonMaskedTextBox.bmp")]
-    [DefaultEvent("MaskInputRejected")]
-    [DefaultProperty("Mask")]
-    [DefaultBindingProperty("Text")]
+    [DefaultEvent(nameof(MaskInputRejected))]
+    [DefaultProperty(nameof(Mask))]
+    [DefaultBindingProperty(nameof(Text))]
     [Designer("Krypton.Toolkit.KryptonMaskedTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Uses a mask to distinguish between proper and improper user input.")]
@@ -689,6 +689,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
+        [AllowNull]
         public override string Text
         {
             get => _maskedTextBox.Text;
@@ -698,7 +699,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
 
@@ -797,7 +798,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DefaultValue(null)]
-        public Type ValidatingType
+        public Type? ValidatingType
         {
             get => _maskedTextBox.ValidatingType;
             set => _maskedTextBox.ValidatingType = value;
@@ -848,7 +849,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates how the text should be aligned for edit controls.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), nameof(Left))]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {

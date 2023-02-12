@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonManager), "ToolboxBitmaps.KryptonManager.bmp")]
     [Designer("Krypton.Toolkit.KryptonManagerDesigner, Krypton.Toolkit")]
-    [DefaultProperty("GlobalPaletteMode")]
+    [DefaultProperty(nameof(GlobalPaletteMode))]
     [Description(@"Access 'Global' Krypton settings.")]
     public sealed class KryptonManager : Component
     {
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         private static PaletteProfessionalOffice2003 _paletteProfessionalOffice2003;
         private static PaletteProfessionalSystem _paletteProfessionalSystem;
 
-        private static PaletteBase _customPalette;
+        private static PaletteBase? _customPalette;
 
         #region Office 2007 Themes
 
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         private static RenderMicrosoft365 _renderMicrosoft365;
         private static RenderSparkle _renderSparkle;
 
-        private static KryptonCustomPaletteManager _customPaletteManager;
+        private static KryptonCustomPaletteManager? _customPaletteManager;
         #endregion
 
         #region Static Events
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Global custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase GlobalPalette
+        public PaletteBase? GlobalPalette
         {
             get => InternalGlobalPalette;
 
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteManager CustomPaletteManager 
+        public KryptonCustomPaletteManager? CustomPaletteManager 
         { 
             get => _customPaletteManager; 
             set => _customPaletteManager = value; 
@@ -404,7 +404,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Specify a custom palette outside the existing palettes.")]
         [DefaultValue(null)]
-        public PaletteBase CustomPalette 
+        public PaletteBase? CustomPalette 
         { 
             get => _customPalette; 
             set => _customPalette = value; 
@@ -477,7 +477,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the current global palette instance given the manager settings.
         /// </summary>
-        public static PaletteBase CurrentGlobalPalette
+        public static PaletteBase? CurrentGlobalPalette
         {
             get
             {
@@ -586,7 +586,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="mode">Requested palette mode.</param>
         /// <returns>PaletteBase reference is available; otherwise false.</returns>
-        public static PaletteBase GetPaletteForMode(PaletteMode mode)
+        public static PaletteBase? GetPaletteForMode(PaletteMode mode)
         {
             switch (mode)
             {
@@ -918,7 +918,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="mode">Requested renderer mode.</param>
         /// <returns>IRenderer reference is available; otherwise false.</returns>
-        public static IRenderer GetRendererForMode(RendererMode mode)
+        public static IRenderer? GetRendererForMode(RendererMode mode)
         {
             switch (mode)
             {
@@ -985,14 +985,14 @@ namespace Krypton.Toolkit
         #region Static Internal
         internal static PaletteMode InternalGlobalPaletteMode { get; private set; } = PaletteMode.Microsoft365Blue;
 
-        internal static PaletteBase InternalGlobalPalette { get; private set; } = CurrentGlobalPalette;
+        internal static PaletteBase? InternalGlobalPalette { get; private set; } = CurrentGlobalPalette;
 
         internal static bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
             var paletteSet = new Dictionary<PaletteBase, bool>();
 
-            PaletteBase palette = null;
+            PaletteBase? palette = null;
 
             // Get the next palette up in hierarchy
             if (InternalGlobalPaletteMode == PaletteMode.Custom)

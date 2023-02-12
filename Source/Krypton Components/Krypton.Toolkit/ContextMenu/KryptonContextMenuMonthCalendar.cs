@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuMonthCalendar), "ToolboxBitmaps.KryptonMonthCalendar.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent(@"DateChanged")]
-    [DefaultProperty(@"SelectionRange")]
+    [DefaultEvent(nameof(DateChanged))]
+    [DefaultProperty(nameof(SelectionRange))]
     public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
     {
         #region Static Fields
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -849,7 +849,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Header style for the month calendar.")]
-        [DefaultValue(typeof(HeaderStyle), "Calendar")]
+        [DefaultValue(typeof(HeaderStyle), nameof(Calendar))]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;

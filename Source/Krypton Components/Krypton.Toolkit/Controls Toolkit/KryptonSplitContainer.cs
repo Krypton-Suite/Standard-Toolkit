@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonSplitContainer), "ToolboxBitmaps.KryptonSplitContainer.bmp")]
-    [DefaultEvent("SplitterMoved")]
-    [DefaultProperty("Orientation")]
+    [DefaultEvent(nameof(SplitterMoved))]
+    [DefaultProperty(nameof(Orientation))]
     [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonSplitContainerDesigner, Krypton.Toolkit")]
     [Description(@"Divide the container inside two resizable panels.")]
@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(@"Panel1MinSize", @"Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(nameof(Panel1MinSize), @"Value cannot be less than zero");
                     }
 
                     // Use the new minimum size
@@ -429,7 +429,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(@"Panel2MinSize", @"Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(nameof(Panel2MinSize), @"Value cannot be less than zero");
                     }
 
                     // Use the new minimum size
@@ -673,7 +673,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(@"SplitterWidth", @"Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
                     }
 
                     // Use new width of the splitter area
@@ -713,7 +713,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 1)
                     {
-                        throw new ArgumentOutOfRangeException(@"SplitterIncrement", @"Value cannot be less than one");
+                        throw new ArgumentOutOfRangeException(nameof(SplitterIncrement), @"Value cannot be less than one");
                     }
 
                     // Remember new value for use when moving the splitter
@@ -956,7 +956,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         /// <returns>Cursor to show.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public Cursor DesignGetHitTest(Point pt)
+        public Cursor? DesignGetHitTest(Point pt)
         {
             // Is the cursor inside the splitter area or if currently moving the splitter
             if (_drawSeparator.ClientRectangle.Contains(pt) || _separatorController.IsMoving)

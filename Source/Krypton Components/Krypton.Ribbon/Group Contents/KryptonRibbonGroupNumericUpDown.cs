@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupNumericUpDownDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
     public class KryptonRibbonGroupNumericUpDown : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -473,7 +473,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => NumericUpDown.ContextMenuStrip;
             set => NumericUpDown.ContextMenuStrip = value;
@@ -485,7 +485,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the numeric up down is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => NumericUpDown.KryptonContextMenu;
             set => NumericUpDown.KryptonContextMenu = value;

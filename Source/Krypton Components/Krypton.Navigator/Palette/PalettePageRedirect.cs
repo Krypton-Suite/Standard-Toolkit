@@ -46,7 +46,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override IPaletteBorder PaletteBorder => base.PaletteBorder;
+        public override IPaletteBorder? PaletteBorder => base.PaletteBorder;
 
         #endregion
     }

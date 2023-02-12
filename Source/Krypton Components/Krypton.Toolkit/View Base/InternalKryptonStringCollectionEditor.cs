@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
             this.kpnlButtons.Controls.Add(this.kbEdge);
             this.kpnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.kpnlButtons.Location = new System.Drawing.Point(0, 460);
-            this.kpnlButtons.Name = "kpnlButtons";
+            this.kpnlButtons.Name = nameof(kpnlButtons);
             this.kpnlButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kpnlButtons.Size = new System.Drawing.Size(585, 50);
             this.kpnlButtons.TabIndex = 0;
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
             this.kbtnOk.CornerRoundingRadius = -1F;
             this.kbtnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.kbtnOk.Location = new System.Drawing.Point(382, 13);
-            this.kbtnOk.Name = "kbtnOk";
+            this.kbtnOk.Name = nameof(kbtnOk);
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
             this.kbtnOk.TabIndex = 2;
             this.kbtnOk.Values.Text = "O&K";
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
             this.kbtnCancel.CornerRoundingRadius = -1F;
             this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnCancel.Location = new System.Drawing.Point(478, 13);
-            this.kbtnCancel.Name = "kbtnCancel";
+            this.kbtnCancel.Name = nameof(kbtnCancel);
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 1;
             this.kbtnCancel.Values.Text = "C&ancel";
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
             this.kbEdge.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
             this.kbEdge.Dock = System.Windows.Forms.DockStyle.Top;
             this.kbEdge.Location = new System.Drawing.Point(0, 0);
-            this.kbEdge.Name = "kbEdge";
+            this.kbEdge.Name = nameof(kbEdge);
             this.kbEdge.Size = new System.Drawing.Size(585, 1);
             this.kbEdge.Text = "kryptonBorderEdge1";
             // 
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
             this.kpnlContent.Controls.Add(this.klblHeader);
             this.kpnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlContent.Location = new System.Drawing.Point(0, 0);
-            this.kpnlContent.Name = "kpnlContent";
+            this.kpnlContent.Name = nameof(kpnlContent);
             this.kpnlContent.Size = new System.Drawing.Size(585, 460);
             this.kpnlContent.TabIndex = 1;
             // 
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
             // 
             this.krtbContents.KryptonContextMenu = this.kcmRichTextBoxMenu;
             this.krtbContents.Location = new System.Drawing.Point(13, 39);
-            this.krtbContents.Name = "krtbContents";
+            this.krtbContents.Name = nameof(krtbContents);
             this.krtbContents.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
             this.krtbContents.Size = new System.Drawing.Size(555, 406);
             this.krtbContents.TabIndex = 2;
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
             this.ktxtStringCollection.KryptonContextMenu = this.kcmTextBoxMenu;
             this.ktxtStringCollection.Location = new System.Drawing.Point(13, 39);
             this.ktxtStringCollection.Multiline = true;
-            this.ktxtStringCollection.Name = "ktxtStringCollection";
+            this.ktxtStringCollection.Name = nameof(ktxtStringCollection);
             this.ktxtStringCollection.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.ktxtStringCollection.Size = new System.Drawing.Size(555, 406);
             this.ktxtStringCollection.TabIndex = 1;
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
             // klblHeader
             // 
             this.klblHeader.Location = new System.Drawing.Point(13, 13);
-            this.klblHeader.Name = "klblHeader";
+            this.klblHeader.Name = nameof(klblHeader);
             this.klblHeader.Size = new System.Drawing.Size(268, 20);
             this.klblHeader.TabIndex = 0;
             this.klblHeader.Values.Text = "Enter the strings in the collection (one per line):";
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
             // 
             this.Controls.Add(this.kpnlContent);
             this.Controls.Add(this.kpnlButtons);
-            this.Name = "InternalKryptonStringCollectionEditor";
+            this.Name = nameof(InternalKryptonStringCollectionEditor);
             this.Size = new System.Drawing.Size(585, 510);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
             this.kpnlButtons.ResumeLayout(false);
@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
 
         private string _cancelButtonText;
 
-        private string[] _contents;
+        private string[]? _contents;
 
         #endregion
 
@@ -364,8 +364,14 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the contents of the text field.</summary>
         /// <value>The contents of the text field.</value>
-        [Category(@"Data"), DefaultValue(null), Description(@"The contents of the text field.")]
-        public string[] Contents { get => _contents; private set => _contents = value; }
+        [Category(@"Data"), 
+         DefaultValue(null), 
+         Description(@"The contents of the text field.")]
+        public string[]? Contents 
+        { 
+            get => _contents; 
+            private set => _contents = value; 
+        }
 
         /// <summary>Gets the ok button.</summary>
         /// <value>The ok button.</value>
@@ -377,8 +383,10 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the owner.</summary>
         /// <value>The owner.</value>
-        [Category(@"Data"), DefaultValue(null), Description(@"")]
-        public KryptonForm Owner { get; set; }
+        [Category(@"Data"), 
+         DefaultValue(null), 
+         Description(@"")]
+        public KryptonForm? Owner { get; set; }
 
         #endregion
 

@@ -18,9 +18,6 @@ namespace Krypton.Toolkit
     public class ViewLayoutMonths : ViewComposite,
                                     IContentValues
     {
-        #region Type Definitions
-        #endregion
-
         #region Static Fields
         internal const int GAP = 2;
         #endregion
@@ -347,7 +344,7 @@ namespace Krypton.Toolkit
         public DateTime? DayFromPoint(Point pt, bool exact)
         {
             // Get the bottom most view element matching the point
-            ViewBase view = ViewFromPoint(pt);
+            ViewBase? view = ViewFromPoint(pt);
 
             // Climb view hierarchy looking for the days view 
             while (view != null)
@@ -598,7 +595,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

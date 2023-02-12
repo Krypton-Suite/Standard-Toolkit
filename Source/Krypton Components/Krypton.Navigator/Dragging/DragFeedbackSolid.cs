@@ -113,7 +113,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Point in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>First target that matches; otherwise null.</returns>
-        protected virtual DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData)
+        protected virtual DragTarget? FindTarget(Point screenPt, PageDragEndData dragEndData)
         {
             // Ask each target in turn if they are a match for the given screen point
             foreach (DragTarget target in DragTargets)

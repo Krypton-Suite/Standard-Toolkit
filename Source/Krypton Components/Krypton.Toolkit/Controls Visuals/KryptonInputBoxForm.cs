@@ -12,6 +12,9 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class KryptonInputBoxForm : KryptonForm
     {
         #region Instance Fields
@@ -21,11 +24,14 @@ namespace Krypton.Toolkit
         private string _caption;
         private string _defaultResponse;
         private string _cueText;
-        private Font _cueTypeface;
+        private Font? _cueTypeface;
         #endregion
 
         #region Identity
 
+        /// <summary>
+        /// 
+        /// </summary>
         public KryptonInputBoxForm()
         {
             InitializeComponent();
@@ -44,7 +50,7 @@ namespace Krypton.Toolkit
                                    string defaultResponse,
                                    string cueText,
                                    Color cueColour,
-                                   Font cueTypeface,
+                                   Font? cueTypeface,
                                    bool usePasswordOption)
         {
             InitializeComponent();
@@ -64,7 +70,7 @@ namespace Krypton.Toolkit
         #region Implementation
 
         private void StoreValues(string prompt, string caption, string defaultResponse, string cueText, Color cueColour,
-                                 Font cueTypeface, bool usePasswordOption)
+                                 Font? cueTypeface, bool usePasswordOption)
         {
             _prompt = prompt;
 
@@ -81,17 +87,17 @@ namespace Krypton.Toolkit
             _usePasswordOption = usePasswordOption;
         }
 
-        internal static string InternalShow(IWin32Window owner,
+        internal static string InternalShow(IWin32Window? owner,
             string prompt,
             string caption,
             string defaultResponse,
             string cueText,
             Color cueColour,
-            Font cueTypeface,
+            Font? cueTypeface,
             bool usePasswordOption)
         {
             // If do not have an owner passed in then get the active window and use that instead
-            IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
+            IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
             // Show input box window as a modal dialog and then dispose of it afterwards
             using KryptonInputBoxForm ib = new(prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);

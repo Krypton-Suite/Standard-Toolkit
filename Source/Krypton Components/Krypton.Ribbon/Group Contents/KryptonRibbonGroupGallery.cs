@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Visible")]
+    [DefaultProperty(nameof(Visible))]
     public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
     {
         #region Static Fields
@@ -123,7 +123,7 @@ namespace Krypton.Ribbon
             _mediumItemCount = 3;
             _dropButtonItemWidth = 9;
             _imageLarge = _defaultButtonImageLarge;
-            _textLine1 = "Gallery";
+            _textLine1 = nameof(Gallery);
             _textLine2 = string.Empty;
 
             // Create the actual text box control and set initial settings
@@ -188,7 +188,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Collection of images for display and selection.")]
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             get => Gallery.ImageList;
 
@@ -343,7 +343,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => Gallery.ContextMenuStrip;
             set => Gallery.ContextMenuStrip = value;
@@ -355,7 +355,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the gallery is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => Gallery.KryptonContextMenu;
             set => Gallery.KryptonContextMenu = value;
@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large gallery button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -416,7 +416,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Gallery button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("Gallery")]
+        [DefaultValue(nameof(Gallery))]
         public string TextLine1
         {
             get => _textLine1;
@@ -426,7 +426,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Gallery";
+                    value = nameof(Gallery);
                 }
 
                 if (value != _textLine1)

@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonWrapLabel), "ToolboxBitmaps.KryptonWrapLabel.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
     [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
     [DesignerCategory(@"code")]
     [Description(@"Displays descriptive information.")]
@@ -30,13 +30,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private PaletteBase _localPalette;
+        private PaletteBase? _localPalette;
         private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
         private LabelStyle _labelStyle;
         private PaletteContentStyle _labelContentStyle;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
         private bool _globalEvents;
 
         #endregion
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Target control for mnemonic and click actions.")]
         [DefaultValue(null)]
-        public Control Target { get; set; }
+        public Control? Target { get; set; }
 
         /// <summary>
         /// Gets or sets the tab order of the KryptonSplitterPanel within its KryptonSplitContainer.
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -413,7 +413,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;

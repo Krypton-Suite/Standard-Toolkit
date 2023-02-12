@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             IPaletteBorder inherit = GetInherit(state);
 

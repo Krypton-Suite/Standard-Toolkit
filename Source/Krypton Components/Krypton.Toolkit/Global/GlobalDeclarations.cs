@@ -54,7 +54,7 @@ global using Microsoft.Win32;
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
-[assembly: Dependency(@"System", LoadHint.Always)]
+[assembly: Dependency(nameof(System), LoadHint.Always)]
 [assembly: Dependency(@"System.Drawing", LoadHint.Always)]
 [assembly: Dependency(@"System.Windows.Forms", LoadHint.Always)]
 

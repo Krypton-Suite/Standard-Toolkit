@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View docker reference; otherwise null.</returns>
-        protected override ViewBase IndexDocker(int i) => _viewDockers.Length > i ? _viewDockers[i] : null;
+        protected override ViewBase? IndexDocker(int i) => _viewDockers.Length > i ? _viewDockers[i] : null;
 
         /// <summary>
         /// Gets the orientation of the docker at the specified index.
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View content instance.</returns>
-        protected override ViewDrawContent GetDockerForeground(int i) => null;
+        protected override ViewDrawContent? GetDockerForeground(int i) => null;
 
         /// <summary>
         /// Add a view element to a docker.

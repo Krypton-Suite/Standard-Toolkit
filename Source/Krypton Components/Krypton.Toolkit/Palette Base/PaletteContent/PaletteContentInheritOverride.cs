@@ -600,7 +600,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteState state)
         {
             if (Apply)
             {
@@ -993,7 +993,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteState state)
         {
             if (Apply)
             {

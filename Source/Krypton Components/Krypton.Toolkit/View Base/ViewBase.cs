@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private bool _enableDependant;
         private bool _visible;
         private bool _fixed;
-        private ViewBase _enableDependantView;
+        private ViewBase? _enableDependantView;
         private RectangleF _clientRectF;
         private PaletteState _fixedState;
         private PaletteState _elementState;
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the component associated with the element.
         /// </summary>
-        public virtual Component Component { get; set; }
+        public virtual Component? Component { get; set; }
 
         #endregion
 
@@ -317,7 +317,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the parent view.
         /// </summary>
-        public ViewBase Parent
+        public ViewBase? Parent
         {
             [DebuggerStepThrough]
             get;
@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public abstract bool ContainsRecurse(ViewBase item);
+        public abstract bool ContainsRecurse(ViewBase? item);
 
         /// <summary>
         /// Copies views to specified array starting at particular index.
@@ -443,7 +443,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated mouse controller.
         /// </summary>
-        public virtual IMouseController MouseController
+        public virtual IMouseController? MouseController
         {
             [DebuggerStepThrough]
             get;
@@ -558,7 +558,7 @@ namespace Krypton.Toolkit
         /// Mouse has left the view.
         /// </summary>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(ViewBase next)
+        public virtual void MouseLeave(ViewBase? next)
         {
             // Use mouse controller as first preference
             if (MouseController != null)
@@ -812,7 +812,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public abstract ViewBase ViewFromPoint(Point pt);
+        public abstract ViewBase? ViewFromPoint(Point pt);
         #endregion
     }
 }

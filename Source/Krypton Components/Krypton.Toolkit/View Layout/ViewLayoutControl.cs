@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ViewLayoutControl : ViewLeaf
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewLayoutControl class.
@@ -149,7 +145,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the child view.
         /// </summary>
-        public ViewBase ChildView { get; private set; }
+        public ViewBase? ChildView { get; private set; }
 
         #endregion
 
@@ -157,7 +153,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the child control.
         /// </summary>
-        public ViewControl ChildControl { get; private set; }
+        public ViewControl? ChildControl { get; private set; }
 
         #endregion
 
@@ -298,7 +294,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase ViewFromPoint(Point pt)
+        public override ViewBase? ViewFromPoint(Point pt)
         {
             // If we contain a child view
             if (ChildView != null)

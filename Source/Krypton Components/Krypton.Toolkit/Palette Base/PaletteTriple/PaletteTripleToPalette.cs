@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder PaletteBorder => _border;
+        public IPaletteBorder? PaletteBorder => _border;
 
         /// <summary>
         /// Gets and sets the border palette style.
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent PaletteContent => _content;
+        public IPaletteContent? PaletteContent => _content;
 
         /// <summary>
         /// Gets and sets the content palette style.

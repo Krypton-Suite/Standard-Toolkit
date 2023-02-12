@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             if (_splitContainer != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
@@ -118,13 +118,13 @@ namespace Krypton.Toolkit
             if (_splitContainer != null)
             {
                 // Add our own action to the end
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ContainerBackStyle", @"Back style", @"Appearance", @"Background style"));
-                actions.Add(new DesignerActionHeaderItem(@"Splitter"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), "Splitter"));
-                actions.Add(new DesignerActionPropertyItem(@"SeparatorStyle", @"Separator style", @"Splitter", @"Separator style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(ContainerBackStyle), @"Back style", nameof(Appearance), @"Background style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Splitter)));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), nameof(Splitter)));
+                actions.Add(new DesignerActionPropertyItem(nameof(SeparatorStyle), @"Separator style", nameof(Splitter), @"Separator style"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal splitter orientation" : "Vertical splitter orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

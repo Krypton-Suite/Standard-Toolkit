@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     {
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private string _text;
         private string _extraText;
         private string _toolTipTitle;
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button image.")]
         [DefaultValue(null)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state)
         {
             // Try and recover a state specific image
@@ -429,7 +429,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style) =>
+        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) =>
             (Text.Length > 0) || !AllowInheritText ? Text : base.GetButtonSpecShortText(style);
 
         /// <summary>
@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style) =>
+        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) =>
             (ExtraText.Length > 0) || !AllowInheritExtraText ? ExtraText : base.GetButtonSpecLongText(style);
 
         /// <summary>

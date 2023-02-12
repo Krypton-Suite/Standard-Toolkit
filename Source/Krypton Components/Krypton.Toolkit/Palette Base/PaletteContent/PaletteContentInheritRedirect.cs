@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteState state) => _redirect.GetContentShortTextImage(Style, state);
+        public override Image? GetContentShortTextImage(PaletteState state) => _redirect.GetContentShortTextImage(Style, state);
 
         /// <summary>
         /// Gets the background image style.
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteState state) => _redirect.GetContentLongTextImage(Style, state);
+        public override Image? GetContentLongTextImage(PaletteState state) => _redirect.GetContentLongTextImage(Style, state);
 
         /// <summary>
         /// Gets the background image style for the long text.

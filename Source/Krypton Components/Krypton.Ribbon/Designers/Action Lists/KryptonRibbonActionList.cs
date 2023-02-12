@@ -89,10 +89,10 @@ namespace Krypton.Ribbon
             {
                 // Add the list of button specific actions
                 actions.Add(new DesignerActionHeaderItem("Design"));
-                actions.Add(new DesignerActionPropertyItem("InDesignHelperMode", "Design Helpers", "Design", "Show design time helpers for creating items."));
+                actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("AllowFormIntegrate", "Allow Form Integration", "Visuals", "Integrate with operating system chrome instead of Krypton Palette."));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(AllowFormIntegrate), "Allow Form Integration", "Visuals", "Integrate with operating system chrome instead of Krypton Palette."));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
             }
 
             return actions;

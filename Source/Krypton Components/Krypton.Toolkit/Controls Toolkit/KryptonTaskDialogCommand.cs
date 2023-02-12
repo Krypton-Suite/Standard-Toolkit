@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonCommand), "ToolboxBitmaps.KryptonTaskDialogCommand.bmp")]
     [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [Description(@"Defines state and events for a single task dialog command.")]
     public class KryptonTaskDialogCommand : Component, IKryptonCommand, INotifyPropertyChanged
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command small image.")]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Generates a Execute event for a button.
@@ -327,7 +327,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="name">Name to find.</param>
         /// <returns>Item with matching name.</returns>
-        public override KryptonTaskDialogCommand this[string name]
+        public override KryptonTaskDialogCommand? this[string name]
         {
             get
             {

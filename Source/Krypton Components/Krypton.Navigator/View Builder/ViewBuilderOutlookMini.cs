@@ -232,7 +232,7 @@ namespace Krypton.Navigator
         /// Gets the next overflow button to be moved to the stack area.
         /// </summary>
         /// <returns>Reference to button; otherwise false.</returns>
-        protected override ViewDrawNavOutlookOverflow GetMoreOverflow()
+        protected override ViewDrawNavOutlookOverflow? GetMoreOverflow()
         {
             // Find first visible page that is flagged for the overflow area
             foreach (KryptonPage page in Navigator.Pages)

@@ -18,10 +18,6 @@ namespace Krypton.Toolkit
     [ListBindable(false)]
     public abstract class ButtonSpecCollectionBase : GlobalId
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when a spec is about to be added/inserted to the collection.
@@ -299,30 +295,20 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="uniqueName">Unique name of the ButtonSpec instance.</param>
         /// <returns>T at specified index.</returns>
-        public T this[string uniqueName]
+        public T? this[string uniqueName]
         {
             get 
             {
                 // First priority is the UniqueName
-                foreach (T bs in this)
+                foreach (T bs in this.Where(bs => bs.UniqueName == uniqueName))
                 {
-                    if (bs.UniqueName == uniqueName)
-                    {
-                        return bs;
-                    }
+                    return bs;
                 }
 
                 // Second priority is the Text
-                foreach (T bs in this)
-                {
-                    if (bs.Text == uniqueName)
-                    {
-                        return bs;
-                    }
-                }
+                return this.FirstOrDefault(bs => bs.Text == uniqueName);
 
                 // No match found
-                return null;
             }
         }
         #endregion

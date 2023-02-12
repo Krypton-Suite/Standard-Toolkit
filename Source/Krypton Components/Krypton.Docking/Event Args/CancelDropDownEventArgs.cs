@@ -17,17 +17,13 @@ namespace Krypton.Docking
     /// </summary>
     public class CancelDropDownEventArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the CancelDropDownEventArgs class.
         /// </summary>
         /// <param name="contextMenu">Reference to associated context menu.</param>
         /// <param name="page">Reference to the associated page.</param>
-        public CancelDropDownEventArgs(KryptonContextMenu contextMenu, KryptonPage page)
+        public CancelDropDownEventArgs(KryptonContextMenu contextMenu, KryptonPage? page)
             : base(false)
         {
             KryptonContextMenu = contextMenu;
@@ -39,12 +35,12 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets a reference to the context menu.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         /// <summary>
         /// Gets a reference to the page.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         #endregion
     }

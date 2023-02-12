@@ -133,7 +133,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Image Image
+        public override Image? Image
         {
             get => base.Image;
             set => base.Image = value;

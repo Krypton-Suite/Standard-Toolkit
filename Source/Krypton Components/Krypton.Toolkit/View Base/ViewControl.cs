@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class ViewControl : Control
     {
         #region Static Field
-        private static MethodInfo _miPTB;
+        private static MethodInfo? _miPTB;
         #endregion
 
         #region Events
@@ -35,8 +35,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private VisualControl _rootControl;
-        private VisualPopup _rootPopup;
+        private VisualControl? _rootControl;
+        private VisualPopup? _rootPopup;
 
         #endregion
 
@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private Control RootInstance
+        private Control? RootInstance
         {
             get
             {
@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private ViewManager GetViewManager()
+        private ViewManager? GetViewManager()
         {
             if (_rootControl != null)
             {
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IRenderer Renderer
+        private IRenderer? Renderer
         {
             get
             {
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
                 if (_miPTB == null)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
-                    _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
+                    _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },

@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     [Designer("Krypton.Ribbon.KryptonRibbonGroupCustomControlDesigner, Krypton.Ribbon")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Visible")]
+    [DefaultProperty(nameof(Visible))]
     public class KryptonRibbonGroupCustomControl : KryptonRibbonGroupItem
     {
         #region Instance Fields

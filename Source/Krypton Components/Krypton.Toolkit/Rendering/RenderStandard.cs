@@ -2058,7 +2058,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Orientation for drawing.</param>
         /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public override IDisposable DrawRibbonBack(PaletteRibbonShape shape,
+        public override IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
                                                    RenderContext context,
                                                    Rectangle rect,
                                                    PaletteState state,
@@ -2618,9 +2618,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericUpGlyph(RenderContext context,
+        public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
                                                             Rectangle cellRect,
-                                                            IPaletteContent paletteContent,
+                                                            [DisallowNull] IPaletteContent paletteContent,
                                                             PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2663,9 +2663,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericDownGlyph(RenderContext context,
+        public override void DrawInputControlNumericDownGlyph([DisallowNull] RenderContext context,
                                                               Rectangle cellRect,
-                                                              IPaletteContent paletteContent,
+                                                              [DisallowNull] IPaletteContent? paletteContent,
                                                               PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2708,9 +2708,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlDropDownGlyph(RenderContext context,
+        public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
                                                            Rectangle cellRect,
-                                                           IPaletteContent paletteContent,
+                                                           [DisallowNull] IPaletteContent? paletteContent,
                                                            PaletteState state)
         {
             Debug.Assert(context != null);
@@ -3070,10 +3070,10 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="rtl">Should be drawn from right to left.</param>
         /// <returns>Remainder space left over for other drawing.</returns>
-        public override Rectangle DrawGridSortGlyph(RenderContext context,
+        public override Rectangle DrawGridSortGlyph([DisallowNull] RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    IPaletteContent paletteContent,
+                                                    [DisallowNull] IPaletteContent? paletteContent,
                                                     PaletteState state,
                                                     bool rtl)
         {
@@ -3132,10 +3132,10 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="rtl">Should be drawn from right to left.</param>
         /// <returns>Remainder space left over for other drawing.</returns>
-        public override Rectangle DrawGridRowGlyph(RenderContext context,
+        public override Rectangle DrawGridRowGlyph([DisallowNull] RenderContext context,
                                                    GridRowGlyph rowGlyph,
                                                    Rectangle cellRect,
-                                                   IPaletteContent paletteContent,
+                                                   [DisallowNull] IPaletteContent? paletteContent,
                                                    PaletteState state,
                                                    bool rtl)
         {
@@ -3371,7 +3371,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         public override bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                                  IPaletteBorder paletteBorder,
+                                                  IPaletteBorder? paletteBorder,
                                                   PaletteState state)
         {
             // If the border takes up some visual space
@@ -5750,11 +5750,11 @@ namespace Krypton.Toolkit
             return c as KryptonForm;
         }
 
-        private static void AllocateImageSpace(StandardContentMemento memento,
-                                               IPaletteContent paletteContent,
-                                               IContentValues contentValues,
+        private static void AllocateImageSpace([DisallowNull] StandardContentMemento memento,
+            [DisallowNull] IPaletteContent? paletteContent,
+            [DisallowNull] IContentValues contentValues,
                                                PaletteState state,
-                                               Rectangle displayRect,
+                                               [DisallowNull] Rectangle displayRect,
                                                RightToLeft rtl,
                                                ref Size[,] allocation)
         {
@@ -5808,7 +5808,7 @@ namespace Krypton.Toolkit
         private static void AllocateShortTextSpace(ViewLayoutContext context,
                                                    Graphics g,
                                                    StandardContentMemento memento,
-                                                   IPaletteContent paletteContent,
+                                                   [DisallowNull] IPaletteContent? paletteContent,
                                                    IContentValues contentValues,
                                                    PaletteState state,
                                                    Rectangle displayRect,
@@ -5894,8 +5894,8 @@ namespace Krypton.Toolkit
 
         private static void AllocateLongTextSpace(ViewLayoutContext context,
                                                   Graphics g,
-                                                  StandardContentMemento memento,
-                                                  IPaletteContent paletteContent,
+                                                  [DisallowNull] StandardContentMemento memento,
+                                                  [DisallowNull] IPaletteContent? paletteContent,
                                                   IContentValues contentValues,
                                                   PaletteState state,
                                                   Rectangle displayRect,
@@ -6212,8 +6212,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void PositionAlignContent(StandardContentMemento memento,
-                                                 IPaletteContent paletteContent,
+        private static void PositionAlignContent([DisallowNull] StandardContentMemento memento,
+            [DisallowNull] IPaletteContent paletteContent,
                                                  PaletteState state,
                                                  RightToLeft rtl,
                                                  PaletteRelativeAlign alignH,
@@ -12004,7 +12004,7 @@ namespace Krypton.Toolkit
             public bool DrawImage;
             public bool DrawShortText;
             public bool DrawLongText;
-            public Image Image;
+            public Image? Image;
             public Color ImageTransparentColor;
             public Rectangle ImageRect;
             public PaletteTextTrim ShortTextTrimming;

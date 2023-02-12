@@ -17,10 +17,6 @@ namespace Krypton.Workspace
     /// </summary>
     public class RecreateLoadingPageEventArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the RecreateLoadingPageEventArgs class.
@@ -36,7 +32,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the page to be used for the requested unique name.
         /// </summary>
-        public KryptonPage Page { get; set; }
+        public KryptonPage? Page { get; set; }
 
         /// <summary>
         /// Gets the unique name of the page requested to be recreated.

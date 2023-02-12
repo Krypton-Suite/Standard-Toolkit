@@ -42,8 +42,8 @@ namespace Krypton.Navigator
         #region Static Fields
 
         private const int SEPARATOR_LENGTH = 7;
-        private static readonly Bitmap _moreButtons;
-        private static readonly Bitmap _fewerButtons;
+        private static readonly Bitmap? _moreButtons;
+        private static readonly Bitmap? _fewerButtons;
         #endregion
 
         #region Instance Fields
@@ -302,7 +302,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element)
+        public override KryptonPage? PageFromView(ViewBase element)
         {
             if (_pageOverflowLookup != null)
             {
@@ -334,7 +334,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Delegate lookup to the viewlet that has the button spec manager
             ButtonSpec bs = (_buttonManager != null ? _headerGroup.ButtonSpecFromView(element) : null);
@@ -803,14 +803,14 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public override bool SelectNextPage(KryptonPage page, 
+        public override bool SelectNextPage(KryptonPage? page, 
                                             bool wrap,
                                             bool ctrlTab)
         {
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // If given a starting page, it must be in the pages collection, 
                 // otherwise we start by searching from the first page onwards
@@ -830,7 +830,7 @@ namespace Krypton.Navigator
                 }
 
                 // Next page to test is the first one 
-                KryptonPage next = first;
+                KryptonPage? next = first;
 
                 // Keep testing next pages until no more are left
                 while (next != null)
@@ -875,14 +875,14 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public override bool SelectPreviousPage(KryptonPage page, 
+        public override bool SelectPreviousPage(KryptonPage? page, 
                                                 bool wrap,
                                                 bool ctrlTab)
         {
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // If given a starting page, it must be in the pages collection, 
                 // otherwise we start by searching from the last page backwards
@@ -902,7 +902,7 @@ namespace Krypton.Navigator
                 }
 
                 // Page to test is the first one 
-                KryptonPage previous = first;
+                KryptonPage? previous = first;
 
                 // Keep testing previous pages until no more are left
                 while (previous != null)
@@ -984,7 +984,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
             action = _headerGroup.NextActionEnabled(action);
@@ -1012,7 +1012,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
             action = _headerGroup.PreviousActionEnabled(action);
@@ -1286,7 +1286,7 @@ namespace Krypton.Navigator
         /// Gets the next overflow button to be moved to the stack area.
         /// </summary>
         /// <returns>Reference to button; otherwise false.</returns>
-        protected virtual ViewDrawNavOutlookOverflow GetMoreOverflow()
+        protected virtual ViewDrawNavOutlookOverflow? GetMoreOverflow()
         {
             // Find the first visible button on the overflow bar
             foreach (ViewBase child in _viewOverflowLayout)
@@ -1432,7 +1432,7 @@ namespace Krypton.Navigator
         /// Gets the first page that can be selected.
         /// </summary>
         /// <returns>Page for selection; otherwise null.</returns>
-        protected KryptonPage FirstOutlookActionPage()
+        protected KryptonPage? FirstOutlookActionPage()
         {
             // Scan the pages in the stack
             foreach (ViewBase item in _viewLayout)
@@ -1470,7 +1470,7 @@ namespace Krypton.Navigator
         /// Gets the last page that can be selected.
         /// </summary>
         /// <returns>Page for selection; otherwise null.</returns>
-        protected KryptonPage LastOutlookActionPage()
+        protected KryptonPage? LastOutlookActionPage()
         {
             // Scan the pages in the overflow (in reverse order)
             foreach (ViewBase item in _viewOverflowLayout.Reverse())
@@ -1509,7 +1509,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Current page to work from.</param>
         /// <returns>New page that should be selected.</returns>
-        protected KryptonPage NextOutlookActionPage(KryptonPage page)
+        protected KryptonPage? NextOutlookActionPage(KryptonPage? page)
         {
             var found = false;
 
@@ -1574,7 +1574,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Current page to work from.</param>
         /// <returns>New page that should be selected.</returns>
-        protected KryptonPage PreviousOutlookActionPage(KryptonPage page)
+        protected KryptonPage? PreviousOutlookActionPage(KryptonPage? page)
         {
             var found = false;
 
@@ -2049,7 +2049,7 @@ namespace Krypton.Navigator
         private VisualOrientation ResolveOverflowButtonOrientation() =>
             Navigator.Outlook.Orientation == Orientation.Vertical ? VisualOrientation.Top : VisualOrientation.Left;
 
-        private ViewDrawNavCheckButtonBase GetShrinkStackItem()
+        private ViewDrawNavCheckButtonBase? GetShrinkStackItem()
         {
             // If there is a visible stack item, then we can always shrink it away
             foreach (ViewDrawNavCheckButtonBase checkButton in _pageStackLookup.Values)
@@ -2063,7 +2063,7 @@ namespace Krypton.Navigator
             return null;
         }
 
-        private ViewDrawNavCheckButtonBase GetExpandOverflowItem()
+        private ViewDrawNavCheckButtonBase? GetExpandOverflowItem()
         {
             // If there is a overflow stack item, then we can always show it
             foreach (ViewDrawNavCheckButtonBase checkButton in _pageOverflowLookup.Values)

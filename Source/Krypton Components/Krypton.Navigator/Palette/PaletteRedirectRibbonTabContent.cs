@@ -517,7 +517,7 @@ namespace Krypton.Navigator
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetContentInherit(state);
 
@@ -712,7 +712,7 @@ namespace Krypton.Navigator
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetContentInherit(state);
 
@@ -773,7 +773,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private IPaletteRibbonBack GetBackInherit(PaletteState state)
+        private IPaletteRibbonBack? GetBackInherit(PaletteState state)
         {
             switch (state)
             {
@@ -798,7 +798,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private IPaletteRibbonText GetTextInherit(PaletteState state)
+        private IPaletteRibbonText? GetTextInherit(PaletteState state)
         {
             switch (state)
             {
@@ -823,7 +823,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private IPaletteContent GetContentInherit(PaletteState state)
+        private IPaletteContent? GetContentInherit(PaletteState state)
         {
             switch (state)
             {

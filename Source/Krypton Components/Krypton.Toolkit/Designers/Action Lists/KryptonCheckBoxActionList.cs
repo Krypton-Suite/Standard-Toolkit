@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _checkBox.KryptonContextMenu;
 
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the checkbox image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _checkBox.Values.Image;
 
@@ -306,24 +306,24 @@ namespace Krypton.Toolkit
             if (_checkBox != null)
             {
                 // Add the list of checkbox specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Operation"));
-                actions.Add(new DesignerActionPropertyItem(@"Checked", @"Checked", @"Operation", @"Checked state"));
-                actions.Add(new DesignerActionPropertyItem(@"AutoCheck", @"AutoCheck", @"Operation", @"AutoCheck of other instances."));
-                actions.Add(new DesignerActionPropertyItem(@"ThreeState", @"ThreeState", @"Operation", @"ThreeState setting"));
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"LabelStyle", @"Style", @"Appearance", @"Label style"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Visual orientation"));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
-                actions.Add(new DesignerActionPropertyItem(@"ShortTextTrim", @"Short Text Trim", @"Appearance", @"The trim mode of the short text."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
-                actions.Add(new DesignerActionPropertyItem(@"LongTextTrim", @"Long Text Trim", @"Appearance", @"The trim mode of the long text."));
-                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Operation)));
+                actions.Add(new DesignerActionPropertyItem(nameof(Checked), nameof(Checked), nameof(Operation), @"Checked state"));
+                actions.Add(new DesignerActionPropertyItem(nameof(AutoCheck), nameof(AutoCheck), nameof(Operation), @"AutoCheck of other instances."));
+                actions.Add(new DesignerActionPropertyItem(nameof(ThreeState), nameof(ThreeState), nameof(Operation), @"ThreeState setting"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(LabelStyle), @"Style", nameof(Appearance), @"Label style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(ShortTextTrim), @"Short Text Trim", nameof(Appearance), @"The trim mode of the short text."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(LongTextTrim), @"Long Text Trim", nameof(Appearance), @"The trim mode of the long text."));
+                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Checkbox text"));
-                actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Checkbox extra text"));
-                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Checkbox image"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Checkbox text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Checkbox extra text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Checkbox image"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

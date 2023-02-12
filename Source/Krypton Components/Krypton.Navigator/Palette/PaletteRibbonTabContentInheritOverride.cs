@@ -766,7 +766,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public virtual Image GetContentShortTextImage(PaletteState state)
+        public virtual Image? GetContentShortTextImage(PaletteState state)
         {
             if (Apply)
             {
@@ -1159,7 +1159,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public virtual Image GetContentLongTextImage(PaletteState state)
+        public virtual Image? GetContentLongTextImage(PaletteState state)
         {
             if (Apply)
             {
