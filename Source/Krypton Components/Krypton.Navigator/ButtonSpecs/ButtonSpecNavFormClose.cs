@@ -15,6 +15,8 @@ namespace Krypton.Navigator
 
         private bool _enabled = true;
 
+        private KryptonNavigator _navigator;
+
         #endregion
 
         #region Identity
@@ -23,6 +25,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">The navigator.</param>
         public ButtonSpecNavFormClose(KryptonNavigator navigator) : base(navigator, PaletteButtonSpecStyle.FormClose)
         {
+            _navigator = navigator;
         }
 
         #endregion
@@ -43,7 +46,7 @@ namespace Krypton.Navigator
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    IntPtr hSystemMenu = PI.GetSystemMenu(Navigator.Owner!.Handle, false);
+                    IntPtr hSystemMenu = PI.GetSystemMenu(_navigator.Owner!.Handle, false);
                     if (hSystemMenu != IntPtr.Zero)
                     {
                         PI.EnableMenuItem(hSystemMenu, PI.SC_.CLOSE, _enabled ? PI.MF_.ENABLED : PI.MF_.DISABLED);
@@ -60,18 +63,50 @@ namespace Krypton.Navigator
         {
             // We do not show if the custom chrome is combined with composition,
             // in which case the form buttons are handled by the composition
-            if (Navigator.Owner!.ApplyComposition && Navigator.Owner.ApplyCustomChrome)
+            if (_navigator.Owner!.ApplyComposition && _navigator.Owner.ApplyCustomChrome)
             {
                 return false;
             }
 
             // Have all buttons been turned off?
-            return Navigator.Owner.ControlBox && Navigator.Owner.CloseBox;
+            return _navigator.Owner.ControlBox && _navigator.Owner.CloseBox;
         }
 
         public override ButtonCheckState GetChecked(PaletteBase palette) => ButtonCheckState.NotCheckButton;
 
-        public override ButtonEnabled GetEnabled(PaletteBase palette) => Navigator.Owner!.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => _navigator.Owner!.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+
+        #endregion
+
+        #region Protected Overrides
+
+        protected override void OnClick(EventArgs e)
+        {
+            if (GetViewEnabled())
+            {
+                if (!_navigator.Owner.InertForm)
+                {
+                    MouseEventArgs mea = (MouseEventArgs)e;
+
+                    if (GetView().ClientRectangle.Contains(mea.Location))
+                    {
+                        PropertyInfo? propertyInfo = typeof(Form).GetProperty(nameof(CloseReason),
+                            BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.NonPublic);
+
+                        propertyInfo.SetValue(_navigator.Owner, CloseReason.UserClosing, null);
+
+                        Point screenPosition = Control.MousePosition;
+
+                        IntPtr lParam = (IntPtr)(PI.MAKELOWORD(screenPosition.X) | PI.MAKEHIWORD(screenPosition.Y));
+
+                        // Note: Do I need to make 'SC_' public?
+                        //? Navigator.Owner.SendSysCommand(PI.SC_.CLOSE, lParam);
+
+                        base.OnClick(e);
+                    }
+                }
+            }
+        }
 
         #endregion
     }

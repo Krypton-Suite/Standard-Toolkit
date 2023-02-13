@@ -67,7 +67,6 @@ namespace Krypton.Navigator
             CloseButton = new ButtonSpecNavClose(_navigator);
             FormCloseButton = new ButtonSpecNavFormClose(_navigator);
             FormMaximizeButton = new ButtonSpecNavFormMaximize(_navigator);
-            FormRestoreButton = new ButtonSpecNavFormRestore(_navigator);
             FormMinimizeButton = new ButtonSpecNavFormMinimize(_navigator);
 
             // Hook into the click events for the buttons
@@ -78,10 +77,16 @@ namespace Krypton.Navigator
             FormCloseButton.Click += OnCloseButtonClick;
             FormMinimizeButton.Click += OnMinimizeButtonClick;
             FormMaximizeButton.Click += OnMaximizeButtonClick;
-            FormRestoreButton.Click += OnRestoreButtonClick;
 
             // Add fixed buttons into the display collection
-            FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
+            if (_navigator.Owner != null && !_navigator.ControlKryptonFormFeatures)
+            {
+                FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton, FormMinimizeButton, FormMaximizeButton, FormCloseButton });
+            }
+            else
+            {
+                FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
+            }
 
             // Default fields
             _displayLogic = ButtonDisplayLogic.Context;
@@ -513,20 +518,6 @@ namespace Krypton.Navigator
 
         #endregion
 
-        #region FormRestoreButton
-
-        /// <summary>
-        /// Gets access to the form restore button specification.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Form restore button specification.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ButtonSpecNavFormRestore FormRestoreButton { get; }
-
-        private bool ShouldSerializeFormRestoreButton() => !FormRestoreButton.IsDefault;
-
-        #endregion
-
         #region ButtonDisplayLogic
         /// <summary>
         /// Gets and sets the logic used to control button display.
@@ -581,11 +572,6 @@ namespace Krypton.Navigator
         private void OnCloseClick(object sender, EventArgs e)
         {
             _navigator.PerformCloseAction();
-        }
-
-        private void OnRestoreButtonClick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void OnMaximizeButtonClick(object sender, EventArgs e)

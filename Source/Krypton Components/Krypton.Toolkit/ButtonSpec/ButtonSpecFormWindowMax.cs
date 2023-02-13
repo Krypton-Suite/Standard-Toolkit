@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         public ButtonSpecFormWindowMax(KryptonForm form)
             : base(form, PaletteButtonSpecStyle.FormMax)
         {
-        }         
+        }
         #endregion
 
         #region IButtonSpecValues

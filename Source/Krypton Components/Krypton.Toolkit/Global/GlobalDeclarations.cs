@@ -50,6 +50,7 @@ global using System.Xml;
 global using Krypton.Toolkit.Resources;
 
 global using Microsoft.Win32;
+global using Microsoft.Win32.SafeHandles;
 
 
 [assembly: CLSCompliant(true)]

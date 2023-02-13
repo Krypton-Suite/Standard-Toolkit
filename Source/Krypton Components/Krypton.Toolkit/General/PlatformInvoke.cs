@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         protected override bool ReleaseHandle()
         {
             return PI.FreeLibrary(handle);
-        }        
+        }
     }
 
     internal partial class PI
@@ -3988,7 +3988,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         public static extern uint FormatMessage(FORMAT_MESSAGE_ dwFlags, IntPtr lpSource,
             uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer,
             uint nSize, string[] Arguments);
-        
+
         [DllImport(Libraries.Kernel32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GlobalAlloc(GMEM uFlags, int dwBytes);
@@ -4063,14 +4063,14 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #region DialogChangeStatus
         public enum CDN_ : uint
         {
-            FIRST           = 0xFFFFFDA7, // -601
-            INITDONE        = (FIRST - 0x0000),
-            SELCHANGE       = (FIRST - 0x0001), // -602
-            FOLDERCHANGE    = (FIRST - 0x0002),
-            SHAREVIOLATION  = (FIRST - 0x0003), // -604
-            HELP            = (FIRST - 0x0004),
-            FILEOK          = (FIRST - 0x0005), // -606
-            TYPECHANGE      = (FIRST - 0x0006),
+            FIRST = 0xFFFFFDA7, // -601
+            INITDONE = (FIRST - 0x0000),
+            SELCHANGE = (FIRST - 0x0001), // -602
+            FOLDERCHANGE = (FIRST - 0x0002),
+            SHAREVIOLATION = (FIRST - 0x0003), // -604
+            HELP = (FIRST - 0x0004),
+            FILEOK = (FIRST - 0x0005), // -606
+            TYPECHANGE = (FIRST - 0x0006),
         }
         #endregion
 
