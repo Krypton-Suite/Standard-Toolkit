@@ -412,10 +412,10 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteManager? CustomPaletteManager 
-        { 
-            get => _customPaletteManager; 
-            set => _customPaletteManager = value; 
+        public KryptonCustomPaletteManager? CustomPaletteManager
+        {
+            get => _customPaletteManager;
+            set => _customPaletteManager = value;
         }
 
         /// <summary>Specify a custom palette outside the existing palettes.</summary>
@@ -423,10 +423,10 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Specify a custom palette outside the existing palettes.")]
         [DefaultValue(null)]
-        public PaletteBase? CustomPalette 
-        { 
-            get => _customPalette; 
-            set => _customPalette = value; 
+        public PaletteBase? CustomPalette
+        {
+            get => _customPalette;
+            set => _customPalette = value;
         }
 
         #endregion
