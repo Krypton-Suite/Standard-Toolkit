@@ -11,23 +11,86 @@ namespace Krypton.Navigator
 {
     public class ButtonSpecNavFormMaximize : ButtonSpecNavFixed
     {
+        #region Instance Fields
+
+        private KryptonNavigator _navigator;
+
+        #endregion
+
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="ButtonSpecNavFormMaximize" /> class.</summary>
+        /// <param name="navigator">The navigator.</param>
         public ButtonSpecNavFormMaximize(KryptonNavigator navigator) : base(navigator, PaletteButtonSpecStyle.FormMax)
         {
+            _navigator = navigator;
         }
+
+        #endregion
+
+        #region ButtonSpecNavFixed Implementation
 
         public override bool GetVisible(PaletteBase palette)
         {
-            throw new NotImplementedException();
+            // We do not show if the custom chrome is combined with composition,
+            // in which case the form buttons are handled by the composition
+            if (_navigator.Owner!.ApplyComposition && _navigator.Owner!.ApplyCustomChrome)
+            {
+                return false;
+            }
+
+            // The maximize button is never present on tool windows
+            switch (_navigator.Owner!.FormBorderStyle)
+            {
+                case FormBorderStyle.FixedToolWindow:
+                case FormBorderStyle.SizableToolWindow:
+                    return false;
+            }
+
+            // Have all buttons been turned off?
+            if (!_navigator.Owner!.ControlBox)
+            {
+                return false;
+            }
+
+            // Has the minimize/maximize buttons been turned off?
+            return _navigator.Owner!.MinimizeBox || _navigator.Owner!.MaximizeBox;
         }
 
-        public override ButtonCheckState GetChecked(PaletteBase palette)
+        public override ButtonCheckState GetChecked(PaletteBase palette) => ButtonCheckState.NotCheckButton;
+
+        public override ButtonEnabled GetEnabled(PaletteBase palette) =>
+            // Has the maximize buttons been turned off?
+            _navigator.Owner!.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
+
+        #endregion
+
+        #region Protected Overrides
+
+        protected override void OnClick(EventArgs e)
         {
-            throw new NotImplementedException();
+            // Only if associated view is enabled to we perform an action
+            if (GetViewEnabled())
+            {
+                // If we do not provide an inert form
+                if (!_navigator.Owner!.InertForm)
+                {
+                    // Only if the mouse is still within the button bounds do we perform action
+                    MouseEventArgs mea = (MouseEventArgs)e;
+                    if (GetView().ClientRectangle.Contains(mea.Location))
+                    {
+                        // Toggle between maximized and restored
+                        /*_navigator.Owner!.SendSysCommand(_navigator.Owner!.WindowState == FormWindowState.Maximized
+                            ? PI.SC_.RESTORE
+                            : PI.SC_.MAXIMIZE);*/
+
+                        // Let base class fire any other attached events
+                        base.OnClick(e);
+                    }
+                }
+            }
         }
 
-        public override ButtonEnabled GetEnabled(PaletteBase palette)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

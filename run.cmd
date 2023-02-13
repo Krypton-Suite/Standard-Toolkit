@@ -1,17 +1,17 @@
-:: Last updated: Sunday 4th December, 2022 @ 13:00
+:: Last updated: Monday 13th February, 2023 @ 11:00
 
 @echo off
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.6. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.7. Please select an option below.
 
 @echo ==============================================================================================
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Build and create NuGet packages
+echo 4. Clean, Build and create NuGet packages
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. End
@@ -40,7 +40,7 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Build and create NuGet packages
+echo 4. Clean, Build and create NuGet packages
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. End
@@ -317,4 +317,82 @@ cls
 
 cd Scripts
 
+:: ===================================================================================================
+
 update-nuget.cmd
+
+:buildandcreatenugetpackages
+cls
+
+echo 1. Build nightly packages using Visual Studio 2022
+echo 2. Build canary packages using Visual Studio 2022
+echo 3. Build stable packages using Visual Studio 2022
+echo 4. Build stable (lite) packages using Visual Studio 2022
+echo 5. Go back to main menu
+
+set /p answer="Enter number (1 - 5): "
+
+if %answer%==1 (goto buildnightlypackagesusingvisualstudio2022)
+if %answer%==2 (goto buildcanarypackagesusingvisualstudio2022)
+if %answer%==3 (goto buildstablepackagesusingvisualstudio2022)
+if %answer%==4 (goto buildstablelitepackagesusingvisualstudio2022)
+if %answer%==5 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+:: ===================================================================================================
+
+:buildnightlypackagesusingvisualstudio2022
+cls
+
+echo Step 1: Clean
+
+echo Deleting the 'Bin' folder
+rd /s /q "Bin"
+echo Deleted the 'Bin' folder
+echo Deleting the 'Krypton.Docking\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
+echo Deleted the 'Krypton.Docking\obj' folder
+echo Deleting the 'Krypton.Navigator\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
+echo Deleted the 'Krypton.Navigator\obj' folder
+echo Deleting the 'Krypton.Ribbon\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
+echo Deleted the 'Krypton.Ribbon\obj' folder
+echo Deleting the 'Krypton.Toolkit\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
+echo Deleted the 'Krypton.Toolkit\obj' folder
+echo Deleting the 'Krypton.Workspace\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+echo Deleted the 'Krypton.Workspace\obj' folder
+echo Deleting the 'build.log' file
+del /f build.log
+echo Deleted the 'build.log' file
+
+cls
+
+echo Step 2: Build
+
+cd Scripts
+
+build-nightly-2022-custom.cmd
+
+pause
+
+cls
+
+echo Step 3: Pack
+
+build-nightly-2022-custom.cmd Pack
+
+pause
+
+:: ===================================================================================================
+
+
+:: ===================================================================================================
+
+
+:: ===================================================================================================
