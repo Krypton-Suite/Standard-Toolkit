@@ -50,6 +50,7 @@ global using System.Xml;
 global using Krypton.Toolkit.Resources;
 
 global using Microsoft.Win32;
+global using Microsoft.Win32.SafeHandles;
 
 
 [assembly: CLSCompliant(true)]
@@ -57,4 +58,5 @@ global using Microsoft.Win32;
 [assembly: Dependency(nameof(System), LoadHint.Always)]
 [assembly: Dependency(@"System.Drawing", LoadHint.Always)]
 [assembly: Dependency(@"System.Windows.Forms", LoadHint.Always)]
-
+[assembly: InternalsVisibleTo(@"Krypton.Navigator, PublicKey=a87e673e9ecb6e8e", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo(@"Krypton.Ribbon, PublicKey=a87e673e9ecb6e8e", AllInternalsVisible = true)]

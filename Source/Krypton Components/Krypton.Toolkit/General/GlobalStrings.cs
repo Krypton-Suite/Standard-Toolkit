@@ -52,6 +52,9 @@ namespace Krypton.Toolkit
         private const string DEFAULT_PASTE = @"Pas&te"; // Accelerator key - T
         private const string DEFAULT_SELECT_ALL = @"Sel&ect All"; // Accelerator key - E
         private const string DEFAULT_CLEAR_CLIPBOARD = @"Clear Clipboa&rd"; // Accelerator key - R
+        private const string DEFAULT_YES_TO_ALL = @"Yes &to All"; // Accelerator key - T
+        private const string DEFAULT_NO_TO_ALL = @"No t&o All"; // Accelerator key - O
+        private const string DEFAULT_OK_TO_ALL = @"O&k to All"; // Accelerator key - K
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
@@ -108,7 +111,10 @@ namespace Krypton.Toolkit
                                  Copy.Equals(DEFAULT_COPY) &&
                                  Paste.Equals(DEFAULT_PASTE) &&
                                  SelectAll.Equals(DEFAULT_SELECT_ALL) &&
-                                 ClearClipboard.Equals(DEFAULT_CLEAR_CLIPBOARD);
+                                 ClearClipboard.Equals(DEFAULT_CLEAR_CLIPBOARD) &&
+                                 YesToAll.Equals(DEFAULT_YES_TO_ALL) &&
+                                 NoToAll.Equals(DEFAULT_NO_TO_ALL) &&
+                                 OkToAll.Equals(DEFAULT_OK_TO_ALL);
         // Note: The following may not be needed...
         /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
         LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
@@ -148,6 +154,9 @@ namespace Krypton.Toolkit
             Paste = DEFAULT_PASTE;
             SelectAll = DEFAULT_SELECT_ALL;
             ClearClipboard = DEFAULT_CLEAR_CLIPBOARD;
+            YesToAll = DEFAULT_YES_TO_ALL;
+            NoToAll = DEFAULT_NO_TO_ALL;
+            OkToAll = DEFAULT_OK_TO_ALL;
 
             // Note: The following may not be needed...
             /*MoreDetails = DEFAULT_MORE_DETAILS;
@@ -385,6 +394,33 @@ namespace Krypton.Toolkit
         [Description(@"Clear Clipboard string used for custom situations.")]
         [DefaultValue(DEFAULT_CLEAR_CLIPBOARD)]
         public string ClearClipboard { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Yes to All string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Yes to All string used for custom situations.")]
+        [DefaultValue(DEFAULT_YES_TO_ALL)]
+        public string YesToAll { get; set; }
+
+        /// <summary>
+        /// Gets and sets the No to All string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"No to All string used for custom situations.")]
+        [DefaultValue(DEFAULT_NO_TO_ALL)]
+        public string NoToAll { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Ok to All string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Ok to All string used for custom situations.")]
+        [DefaultValue(DEFAULT_OK_TO_ALL)]
+        public string OkToAll { get; set; }
 
         // Note: The following may not be needed...
 

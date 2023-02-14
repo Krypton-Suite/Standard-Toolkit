@@ -47,3 +47,4 @@ global using System.Runtime.CompilerServices;
 [assembly: Dependency(@"System.Drawing", LoadHint.Always)]
 [assembly: Dependency(@"System.Windows.Forms", LoadHint.Always)]
 [assembly: Dependency(@"Krypton.Toolkit", LoadHint.Always)]
+[assembly: InternalsVisibleTo(@"Krypton.Toolkit, PublicKey=a87e673e9ecb6e8e", AllInternalsVisible = true)]
