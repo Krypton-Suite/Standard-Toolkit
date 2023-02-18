@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMode">The palette mode manager.</param>
         /// <param name="manager">The manager.</param>
         /// <returns>The chosen theme as a string.</returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager? manager)
+        public static string? ReturnPaletteModeAsString(PaletteMode PaletteMode, KryptonManager? manager = null)
         {
             var mode = manager?.GlobalPaletteMode ?? paletteMode;
 
