@@ -1,17 +1,18 @@
-:: Last updated: Monday 13th February, 2023 @ 11:00
+:: Last updated: Saturday 18th February, 2023 @ 18:00
 
 @echo off
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.7. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.8. Please select an option below.
 
 @echo ==============================================================================================
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Clean, Build and create NuGet packages
+echo 4. Rebuild project
+::echo 4. Clean, Build and create NuGet packages
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. End
@@ -20,7 +21,8 @@ set /p answer="Enter number (1 - 7): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==4 (goto rebuildproject)
+::if %answer%==4 (goto buildandcreatenugetpackages)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
 if %answer%==7 (goto exitbuildsystem)
@@ -40,7 +42,8 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Clean, Build and create NuGet packages
+echo 4. Rebuild project
+::echo 4. Clean, Build and create NuGet packages
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. End
@@ -49,7 +52,8 @@ set /p answer="Enter number (1 - 7): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==4 (goto rebuildproject)
+::if %answer%==4 (goto buildandcreatenugetpackages)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
 if %answer%==7 (goto exitbuildsystem)
@@ -391,6 +395,12 @@ pause
 
 :: ===================================================================================================
 
+:rebuildproject
+cls
+
+cd Scripts
+
+rebuild-build-nightly-2022.cmd
 
 :: ===================================================================================================
 

@@ -35,11 +35,11 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
-@echo Started: %date% %time% %zone%
+@echo Rebuild Started: %date% %time% %zone%
 @echo
-set targets=Build
+set targets=Rebuild
 if not "%~1" == "" set targets=%~1
-%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=build.log 
+"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=build.log 
 
 :: -t:rebuild
 
