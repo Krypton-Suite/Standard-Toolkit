@@ -40,7 +40,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator, 
                                        ViewManager manager,
-                                       PaletteRedirect redirector)
+                                       PaletteRedirect? redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -1098,8 +1098,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private bool BarHorizontal => (Navigator.Bar.BarOrientation == VisualOrientation.Top) ||
-                                      (Navigator.Bar.BarOrientation == VisualOrientation.Bottom);
+        private bool BarHorizontal => Navigator.Bar.BarOrientation is VisualOrientation.Top or VisualOrientation.Bottom;
 
         private void OnItemPagesCleared(object sender, EventArgs e)
         {
@@ -1215,7 +1214,7 @@ namespace Krypton.Navigator
 
                         if (foundReorderView)
                         {
-                            if ((orientation == VisualOrientation.Left) || (orientation == VisualOrientation.Right))
+                            if (orientation is VisualOrientation.Left or VisualOrientation.Right)
                             {
                                 var shrink = childRect.Height - Math.Min(childRect.Height, reorderView.ClientHeight);
                                 childRect.Y += shrink;
@@ -1250,7 +1249,7 @@ namespace Krypton.Navigator
                         }
                         else
                         {
-                            if ((orientation == VisualOrientation.Left) || (orientation == VisualOrientation.Right))
+                            if (orientation is VisualOrientation.Left or VisualOrientation.Right)
                             {
                                 childRect.Height = Math.Min(childRect.Height, reorderView.ClientHeight);
                             }

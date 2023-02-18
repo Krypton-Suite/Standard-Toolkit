@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    return DomainUpDown.IsActive || (DomainUpDown.IsFixedActive && (DomainUpDown.InputControlStyle == InputControlStyle.Standalone))
+                    return DomainUpDown.IsActive || DomainUpDown is { IsFixedActive: true, InputControlStyle: InputControlStyle.Standalone }
                         ? DomainUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking
                         : PaletteState.Normal;
                 }

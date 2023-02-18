@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="redirect">Inheritence redirection instance.</param>
         /// <param name="needPaint">Paint delegate.</param>
-        public PaletteRibbonFocus(PaletteRedirect redirect,
+        public PaletteRibbonFocus(PaletteRedirect? redirect,
                                   NeedPaintHandler needPaint)
             : base(redirect)
         {
@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect redirect)
+        public override void SetRedirector(PaletteRedirect? redirect)
         {
             base.SetRedirector(redirect);
             _ribbonTabInherit.SetRedirector(redirect);

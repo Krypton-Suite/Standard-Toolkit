@@ -88,7 +88,7 @@ namespace Krypton.Docking
         /// <param name="screenPt">Mouse screen point at start of drag.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if dragging was started; otherwise false.</returns>
-        public override bool DragStart(Point screenPt, PageDragEndData dragEndData)
+        public override bool DragStart(Point screenPt, PageDragEndData? dragEndData)
         {
             if (FloatingWindow != null)
             {

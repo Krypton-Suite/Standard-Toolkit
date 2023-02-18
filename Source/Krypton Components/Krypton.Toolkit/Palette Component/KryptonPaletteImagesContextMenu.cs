@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteImagesContextMenu : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
         private Image? _checked;
         private Image? _indeterminate;
         private Image? _subMenu;
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImagesContextMenu(PaletteRedirect redirect,
+        public KryptonPaletteImagesContextMenu(PaletteRedirect? redirect,
                                                NeedPaintHandler needPaint) 
         {
             // Store the redirector
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             // Update our cached reference
             _redirect = redirect;

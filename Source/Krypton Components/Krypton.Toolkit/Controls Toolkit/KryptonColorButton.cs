@@ -1198,52 +1198,49 @@ namespace Krypton.Toolkit
             OnDropDown(cpma);
 
             // If we still want to show a context menu
-            if (!cpma.Cancel)
+            if (cpma is { Cancel: false, KryptonContextMenu: { } })
             {
-                if (cpma.KryptonContextMenu != null)
+                // Convert the client rect to screen coords
+                Rectangle screenRect = RectangleToScreen(ClientRectangle);
+                if (CommonHelper.ValidKryptonContextMenu(cpma.KryptonContextMenu))
                 {
-                    // Convert the client rect to screen coords
-                    Rectangle screenRect = RectangleToScreen(ClientRectangle);
-                    if (CommonHelper.ValidKryptonContextMenu(cpma.KryptonContextMenu))
+                    // Modify the screen rect so that we have a pixel gap between color button and menu
+                    switch (cpma.PositionV)
                     {
-                        // Modify the screen rect so that we have a pixel gap between color button and menu
-                        switch (cpma.PositionV)
-                        {
-                            case KryptonContextMenuPositionV.Above:
-                                screenRect.Y -= 1;
-                                break;
-                            case KryptonContextMenuPositionV.Below:
-                                screenRect.Height += 1;
-                                break;
-                        }
-
-                        switch (cpma.PositionH)
-                        {
-                            case KryptonContextMenuPositionH.Before:
-                                screenRect.X -= 1;
-                                break;
-                            case KryptonContextMenuPositionH.After:
-                                screenRect.Width += 1;
-                                break;
-                        }
-
-                        // We are showing a drop down
-                        showingContextMenu = true;
-
-                        // Decide which separators are needed
-                        DecideOnVisible(_separatorTheme, _colorsTheme);
-                        DecideOnVisible(_separatorStandard, _colorsStandard);
-                        DecideOnVisible(_separatorRecent, _colorsRecent);
-                        DecideOnVisible(_separatorNoColor, _itemsNoColor);
-                        DecideOnVisible(_separatorMoreColors, _itemsMoreColors);
-
-                        // Monitor relevant events inside the context menu
-                        HookContextMenuEvents(_kryptonContextMenu.Items, true);
-
-                        // Show relative to the screen rectangle
-                        cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                        cpma.KryptonContextMenu.Show(this, screenRect, cpma.PositionH, cpma.PositionV);
+                        case KryptonContextMenuPositionV.Above:
+                            screenRect.Y -= 1;
+                            break;
+                        case KryptonContextMenuPositionV.Below:
+                            screenRect.Height += 1;
+                            break;
                     }
+
+                    switch (cpma.PositionH)
+                    {
+                        case KryptonContextMenuPositionH.Before:
+                            screenRect.X -= 1;
+                            break;
+                        case KryptonContextMenuPositionH.After:
+                            screenRect.Width += 1;
+                            break;
+                    }
+
+                    // We are showing a drop down
+                    showingContextMenu = true;
+
+                    // Decide which separators are needed
+                    DecideOnVisible(_separatorTheme, _colorsTheme);
+                    DecideOnVisible(_separatorStandard, _colorsStandard);
+                    DecideOnVisible(_separatorRecent, _colorsRecent);
+                    DecideOnVisible(_separatorNoColor, _itemsNoColor);
+                    DecideOnVisible(_separatorMoreColors, _itemsMoreColors);
+
+                    // Monitor relevant events inside the context menu
+                    HookContextMenuEvents(_kryptonContextMenu.Items, true);
+
+                    // Show relative to the screen rectangle
+                    cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
+                    cpma.KryptonContextMenu.Show(this, screenRect, cpma.PositionH, cpma.PositionV);
                 }
             }
 

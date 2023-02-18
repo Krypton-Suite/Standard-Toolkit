@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the owning form instance.
         /// </summary>
-        public KryptonForm OwnerForm { get; set; }
+        public KryptonForm? OwnerForm { get; set; }
 
         #endregion
 

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteSeparators(PaletteRedirect redirector,
+        public KryptonPaletteSeparators(PaletteRedirect? redirector,
                                           NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
             SeparatorCustom3 = new KryptonPaletteSeparator(redirector, PaletteBackStyle.SeparatorCustom3, PaletteBorderStyle.SeparatorCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectDouble redirectCommon = new(redirector, 
+            PaletteRedirectDouble? redirectCommon = new(redirector, 
                                                                              SeparatorCommon.StateDisabled, SeparatorCommon.StateNormal,
                                                                              SeparatorCommon.StatePressed, SeparatorCommon.StateTracking);
 

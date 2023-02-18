@@ -42,7 +42,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase palette)
+        public override bool GetVisible(PaletteBase? palette)
         {
             // Cannot be seen if not attached to an mdi child window and cannot be seen
             // if the window is not maximized and so needing the pendant buttons
@@ -60,14 +60,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase palette) => ButtonEnabled.True;
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) => ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(PaletteBase palette) =>
+        public override ButtonCheckState GetChecked(PaletteBase? palette) =>
             // Close button is never shown as checked
             ButtonCheckState.NotCheckButton;
 

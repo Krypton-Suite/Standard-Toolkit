@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        public override HeaderLocation GetLocation(PaletteBase palette) => HeaderLocation;
+        public override HeaderLocation GetLocation(PaletteBase? palette) => HeaderLocation;
 
         #endregion
     }

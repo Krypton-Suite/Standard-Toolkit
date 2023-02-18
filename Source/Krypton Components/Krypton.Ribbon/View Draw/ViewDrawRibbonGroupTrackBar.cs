@@ -149,8 +149,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            if (GroupTrackBar.Visible &&
-                GroupTrackBar.LastTrackBar is { CanSelect: true })
+            if (GroupTrackBar is { Visible: true, LastTrackBar: { CanSelect: true } })
             {
                 return this;
             }
@@ -168,8 +167,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            if (GroupTrackBar.Visible &&
-                GroupTrackBar.LastTrackBar is { CanSelect: true })
+            if (GroupTrackBar is { Visible: true, LastTrackBar: { CanSelect: true } })
             {
                 return this;
             }

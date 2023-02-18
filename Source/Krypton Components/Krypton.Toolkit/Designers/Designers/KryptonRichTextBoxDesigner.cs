@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
                 KryptonRichTextBox richTextBox = (KryptonRichTextBox)Component;
 
                 // With multiline and autosize we prevent the user changing the height
-                if (!richTextBox.Multiline && richTextBox.AutoSize)
+                if (richTextBox is { Multiline: false, AutoSize: true })
                 {
                     rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
                 }

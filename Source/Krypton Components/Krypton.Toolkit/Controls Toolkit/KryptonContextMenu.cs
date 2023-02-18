@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly PaletteRedirectContextMenu _redirectorImages;
-        private readonly PaletteRedirect _redirector;
+        private readonly PaletteRedirect? _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
 
         #endregion
@@ -431,9 +431,9 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">True is menu was keyboard initiated.</param>
         /// <returns>VisualContextMenu reference.</returns>
         protected virtual VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
-                                                              PaletteBase palette,
+                                                              PaletteBase? palette,
                                                               PaletteMode paletteMode,
-                                                              PaletteRedirect redirector,
+                                                              PaletteRedirect? redirector,
                                                               PaletteRedirectContextMenu redirectorImages,
                                                               KryptonContextMenuCollection items,
                                                               bool enabled,

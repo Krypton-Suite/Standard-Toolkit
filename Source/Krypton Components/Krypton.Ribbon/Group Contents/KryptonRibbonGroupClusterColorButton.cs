@@ -920,8 +920,7 @@ namespace Krypton.Ribbon
                 // Events only occur when enabled
                 if (Enabled)
                 {
-                    if ((ButtonType == GroupButtonType.DropDown) ||
-                        (ButtonType == GroupButtonType.Split))
+                    if (ButtonType is GroupButtonType.DropDown or GroupButtonType.Split)
                     {
                         if (_kryptonContextMenu != null)
                         {
@@ -934,7 +933,7 @@ namespace Krypton.Ribbon
                             DropDown?.Invoke(this, contextArgs);
 
                             // If user did not cancel and there is still a krypton context menu strip to show
-                            if (!contextArgs.Cancel && (contextArgs.KryptonContextMenu != null))
+                            if (contextArgs is { Cancel: false, KryptonContextMenu: { } })
                             {
                                 Rectangle screenRect = Rectangle.Empty;
 
@@ -1056,8 +1055,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Check the types that have a relevant context menu strip
-                if ((ButtonType == GroupButtonType.DropDown) ||
-                    (ButtonType == GroupButtonType.Split))
+                if (ButtonType is GroupButtonType.DropDown or GroupButtonType.Split)
                 {
                     if (_kryptonContextMenu != null)
                     {
@@ -1216,8 +1214,7 @@ namespace Krypton.Ribbon
                     }
 
                     // We do not consider existing separators
-                    if (!((item is KryptonContextMenuSeparator) ||
-                          (item is KryptonContextMenuHeading)))
+                    if (!(item is KryptonContextMenuSeparator or KryptonContextMenuHeading))
                     {
                         // If the previous item is visible, then make the parameter visible
                         if (item.Visible)

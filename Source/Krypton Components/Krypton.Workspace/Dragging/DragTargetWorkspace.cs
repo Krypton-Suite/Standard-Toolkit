@@ -67,14 +67,14 @@ namespace Krypton.Workspace
         /// <param name="target">Target workspace cell instance.</param>
         /// <param name="data">Dragged page data.</param>
         /// <returns>Last page to be transferred.</returns>
-        protected KryptonPage ProcessDragEndData(KryptonWorkspace workspace,
+        protected KryptonPage? ProcessDragEndData(KryptonWorkspace workspace,
                                                  KryptonWorkspaceCell target,
-                                                 PageDragEndData data)
+                                                 PageDragEndData? data)
         {
-            KryptonPage ret = null;
+            KryptonPage? ret = null;
 
             // Add each source page to the target
-            foreach (KryptonPage page in data.Pages)
+            foreach (KryptonPage? page in data.Pages)
             {
                 // Only add the page if one of the allow flags is set
                 if ((page.Flags & (int)AllowFlags) != 0)
@@ -84,7 +84,7 @@ namespace Krypton.Workspace
                     PageDropEventArgs e = new(page);
                     workspace.OnPageDrop(e);
 
-                    if (!e.Cancel && (e.Page != null))
+                    if (e is { Cancel: false, Page: { } })
                     {
                         target.Pages.Add(e.Page);
                         ret = e.Page;

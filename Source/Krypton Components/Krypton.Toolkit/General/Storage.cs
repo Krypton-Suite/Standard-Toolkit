@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     public abstract class Storage : GlobalId
     {
         #region Instance Fields
-        private NeedPaintHandler _needPaint;
-        private NeedPaintHandler _needPaintDelegate;
+        private NeedPaintHandler? _needPaint;
+        private NeedPaintHandler? _needPaintDelegate;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// Returns a string that represents the current defaulted state.
         /// </summary>
         /// <returns>A string that represents the current defaulted state.</returns>
-        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
+        public override string ToString() => !IsDefault ? @"Modified" : string.Empty;
 
         #endregion
 
@@ -46,7 +46,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual NeedPaintHandler NeedPaint
+        [AllowNull]
+        public virtual NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
             set => _needPaint = value;

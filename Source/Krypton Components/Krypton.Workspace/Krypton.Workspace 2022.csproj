@@ -102,6 +102,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="..\Krypton.Toolkit\Designers\AssemblyRef.cs" Link="General\AssemblyRef.cs" />
+		<Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Resources\GeneralImageResources.Designer.cs">

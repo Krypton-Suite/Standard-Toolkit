@@ -44,17 +44,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control instance.</param>
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
-        public CollapsedGroupController(KryptonRibbon ribbon,
-                                        ViewLayoutDocker target,
-                                        NeedPaintHandler needPaint)
+        public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
+            [DisallowNull]ViewLayoutDocker target,
+            [DisallowNull]NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon;
-            _target = target;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _target = target!;
+            _needPaint = needPaint!;
         }
         #endregion
 
@@ -217,8 +217,7 @@ namespace Krypton.Ribbon
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
             // We should have a visual popup for showing the collapsed group
-            if (VisualPopupManager.Singleton.IsTracking &&
-                (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup visualPopupGroup))
+            if (VisualPopupManager.Singleton is { IsTracking: true, CurrentPopup: VisualPopupGroup visualPopupGroup })
             {
                 // Grab the list of key tips from the popup group
                 _ribbon.KeyTipMode = KeyTipMode.PopupGroup;
@@ -256,7 +255,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {

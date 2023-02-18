@@ -113,9 +113,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                if ((state == PaletteState.ContextNormal) ||
-                    (state == PaletteState.ContextTracking) ||
-                    (state == PaletteState.ContextPressed))
+                if (state is PaletteState.ContextNormal or PaletteState.ContextTracking or PaletteState.ContextPressed)
                 {
                     // For context drawing we merge the incoming color and the context color
                     Color contextColor = CheckForContextColor();

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private Graphics _graphics;
+        private Graphics? _graphics;
         private Control _topControl;
         private bool _disposeGraphics;
         private readonly bool _disposeManager;
@@ -34,10 +34,10 @@ namespace Krypton.Toolkit
         /// <param name="control">Control associated with rendering.</param>
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public ViewContext(ViewManager manager,
+        public ViewContext(ViewManager? manager,
                            Control control, 
                            Control alignControl, 
-                           IRenderer renderer)
+                           IRenderer? renderer)
             : this(manager, control, alignControl, null, renderer)
         {
         }
@@ -51,8 +51,8 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Rendering provider.</param>
         public ViewContext(Control control,
                            Control alignControl,
-                           Graphics graphics,
-                           IRenderer renderer)
+                           Graphics? graphics,
+                           IRenderer? renderer)
             : this(null, control, alignControl, graphics, renderer)
         {
         }
@@ -65,11 +65,11 @@ namespace Krypton.Toolkit
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public ViewContext(ViewManager manager,
+        public ViewContext(ViewManager? manager,
                            Control control,
                            Control alignControl,
-                           Graphics graphics,
-                           IRenderer renderer)
+                           Graphics? graphics,
+                           IRenderer? renderer)
         {
             // Use the manager is provided, otherwise create a temporary one with a null view
             if (manager != null)
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the owning view manager.
         /// </summary>
-        public ViewManager ViewManager
+        public ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the graphics instance used for rendering operations.
         /// </summary>
-        public Graphics Graphics
+        public Graphics? Graphics
         {
             get 
             {

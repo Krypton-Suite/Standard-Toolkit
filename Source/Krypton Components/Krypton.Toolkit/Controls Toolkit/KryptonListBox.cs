@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         private class InternalListBox : ListBox
         {
             #region Instance Fields
-            private readonly ViewManager _viewManager;
+            private readonly ViewManager? _viewManager;
             private readonly KryptonListBox _kryptonListBox;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
                 // No point drawing when one of the dimensions is zero
-                if ((realRect.Width > 0) && (realRect.Height > 0))
+                if (realRect is { Width: > 0, Height: > 0 })
                 {
                     IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
                             PI.SelectObject(_screenDC, hBitmap);
 
                             // Easier to draw using a graphics instance than a DC!
-                            using (Graphics g = Graphics.FromHdc(_screenDC))
+                            using (Graphics? g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
                                 using (ViewLayoutContext context = new(this, _kryptonListBox.Renderer))
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
                             // When disabled with no items the above code does not draw the background!
                             if (Items.Count == 0)
                             {
-                                using Graphics g = Graphics.FromHdc(hdc);
+                                using Graphics? g = Graphics.FromHdc(hdc);
                                 using RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer);
                                 ViewDrawPanel.Render(context);
                             }

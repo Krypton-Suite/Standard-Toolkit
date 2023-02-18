@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase if valid as a focus item; otherwise false.</returns>
         public ViewBase? GetFocusView()
         {
-            if (Visible && Enabled && _groupButton.Visible && _groupButton.Enabled)
+            if (Visible && Enabled && _groupButton is { Visible: true, Enabled: true })
             {
                 return _groupButton;
             }

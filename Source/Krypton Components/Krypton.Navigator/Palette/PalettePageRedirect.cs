@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PalettePageRedirect(PaletteRedirect redirect,
+        public PalettePageRedirect(PaletteRedirect? redirect,
                                    NeedPaintHandler needPaint)
             : base(redirect, PaletteBackStyle.ControlClient,
                              PaletteBorderStyle.ControlClient, needPaint)

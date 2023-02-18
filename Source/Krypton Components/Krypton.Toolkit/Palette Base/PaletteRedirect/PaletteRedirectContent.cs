@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectContent(PaletteBase target,
+        public PaletteRedirectContent(PaletteBase? target,
                                       IPaletteContent disabled,
                                       IPaletteContent normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null, null, null, null)
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="linkVisitedOverride">Redirection for link visited override state requests.</param>
         /// <param name="linkNotVisitedOverride">Redirection for link not visited override state requests.</param>
         /// <param name="linkPressedOverride">Redirection for link pressed override state requests.</param>
-        public PaletteRedirectContent(PaletteBase target,
+        public PaletteRedirectContent(PaletteBase? target,
                                       IPaletteContent disabled,
                                       IPaletteContent normal,
                                       IPaletteContent pressed,

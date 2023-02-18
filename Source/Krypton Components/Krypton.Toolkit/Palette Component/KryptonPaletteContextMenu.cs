@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteContextMenu(PaletteRedirect redirect,
+        public KryptonPaletteContextMenu(PaletteRedirect? redirect,
                                            NeedPaintHandler needPaint)
         {
             // Create the storage objects
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => StateCommon.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect? redirect) => StateCommon.SetRedirector(redirect);
 
         #endregion
 

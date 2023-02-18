@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonTabList _tabCache;
         private readonly ViewDrawRibbonTabSepList _tabSepCache;
-        private ViewDrawRibbonDesignTab _viewAddTab;
+        private ViewDrawRibbonDesignTab? _viewAddTab;
         private NeedPaintHandler _needPaint;
         private ContextNameList _cachedSelectedContext;
         private Size[] _cachedSizes;
@@ -55,15 +55,15 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonTabs(KryptonRibbon ribbon,
-                                    NeedPaintHandler needPaint)
+        public ViewLayoutRibbonTabs([DisallowNull] KryptonRibbon ribbon,
+                                    [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _needPaint = needPaint!;
 
             // Create cache of draw elements
             _tabCache = new ViewDrawRibbonTabList();
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the tabs spare area.
         /// </summary>
-        public ViewLayoutRibbonTabsSpare GetViewForSpare { get; private set; }
+        public ViewLayoutRibbonTabsSpare? GetViewForSpare { get; private set; }
 
         #endregion
 
@@ -138,17 +138,11 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Tab for which view element is needed.</param>
         /// <returns>View element for tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab ribbonTab)
+        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab)
         {
-            foreach (ViewDrawRibbonTab viewTab in _tabCache)
-            {
-                if (viewTab.RibbonTab == ribbonTab)
-                {
-                    return viewTab;
-                }
-            }
-
-            return null;
+            return ribbonTab == null 
+                ? null 
+                : _tabCache.FirstOrDefault(viewTab => viewTab.RibbonTab == ribbonTab);
         }
 
         /// <summary>
@@ -294,11 +288,11 @@ namespace Krypton.Ribbon
         /// <param name="next">True if movement to next tab required; otherwise previous.</param>
         public void ProcessMouseWheel(bool next)
         {
-            KryptonRibbonTab selectTab = _ribbon.SelectedTab;
+            KryptonRibbonTab? selectTab = _ribbon.SelectedTab;
 
             // Scan to find the prev and next tabs
             var prevSelected = false;
-            KryptonRibbonTab prev = null;
+            KryptonRibbonTab? prev = null;
             foreach (ViewBase child in this)
             {
                 // Only interested in visible ribbon tabs
@@ -391,7 +385,7 @@ namespace Krypton.Ribbon
                             _cachedAllTabCount++;
 
                             // Cache number of non-context tabs encountered
-                            if (string.IsNullOrEmpty(tab.RibbonTab.ContextName))
+                            if (string.IsNullOrEmpty(tab.RibbonTab?.ContextName))
                             {
                                 _cachedNonContextTabCount++;
                             }
@@ -440,7 +434,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -448,7 +442,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonTabs();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
 
@@ -483,7 +477,7 @@ namespace Krypton.Ribbon
 
                                 context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
                                 break;
-                            case ViewDrawRibbonDesignTab _:
+                            case ViewDrawRibbonDesignTab:
                                 context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
                                 break;
                         }
@@ -504,7 +498,7 @@ namespace Krypton.Ribbon
                 GetViewForSpare.Visible = false;
                 if (x < ClientRectangle.Right)
                 {
-                    if (_ribbon.GetRedirector().GetMetricBool(PaletteState.Normal, PaletteMetricBool.RibbonTabsSpareCaption) == InheritBool.True)
+                    if (_ribbon.GetRedirector()?.GetMetricBool(PaletteState.Normal, PaletteMetricBool.RibbonTabsSpareCaption) == InheritBool.True)
                     {
                         customCaptionRect = new Rectangle(x, ClientRectangle.Y, ClientRectangle.Right - x, ClientHeight);
                         context.DisplayRectangle = customCaptionRect;
@@ -597,7 +591,7 @@ namespace Krypton.Ribbon
 
         private void AddTabsWithContextName(string contextName)
         {
-            ContextTabSet cts = null;
+            ContextTabSet? cts = null;
 
             // Remove the ribbon tab reference from the draw tab
             // (Must do this for all tabs before setting them to the correct value)

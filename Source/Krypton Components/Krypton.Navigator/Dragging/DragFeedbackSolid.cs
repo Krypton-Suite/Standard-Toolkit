@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class DragFeedbackSolid : DragFeedback
     {
         #region Instance Fields
-        private DropSolidWindow _solid;
+        private DropSolidWindow? _solid;
         #endregion
 
         #region Identity
@@ -48,7 +48,7 @@ namespace Krypton.Navigator
         /// <param name="dragTargets">List of all drag targets.</param>
         public override void Start(IPaletteDragDrop paletteDragDrop,
                                    IRenderer renderer,
-                                   PageDragEndData pageDragEndData, 
+                                   [DisallowNull] PageDragEndData? pageDragEndData, 
                                    DragTargetList dragTargets)
         {
             base.Start(paletteDragDrop, renderer, pageDragEndData, dragTargets);
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Current screen point of mouse.</param>
         /// <param name="target">Target that needs feedback.</param>
         /// <returns>Updated drag target.</returns>
-        public override DragTarget Feedback(Point screenPt, DragTarget target)
+        public override DragTarget? Feedback(Point screenPt, DragTarget? target)
         {
             // If the current target no longer matches the new point, we need a new target.
             if ((target != null) && !target.IsMatch(screenPt, PageDragEndData))
@@ -78,10 +78,7 @@ namespace Krypton.Navigator
             }
 
             // Only find a new target if we do not already have a target
-            if (target == null)
-            {
-                target = FindTarget(screenPt, PageDragEndData);
-            }
+            target ??= FindTarget(screenPt, PageDragEndData);
 
             if (_solid != null)
             {
@@ -113,19 +110,10 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Point in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>First target that matches; otherwise null.</returns>
-        protected virtual DragTarget? FindTarget(Point screenPt, PageDragEndData dragEndData)
+        protected virtual DragTarget? FindTarget(Point screenPt, PageDragEndData? dragEndData)
         {
             // Ask each target in turn if they are a match for the given screen point
-            foreach (DragTarget target in DragTargets)
-            {
-                if (target.IsMatch(screenPt, dragEndData))
-                {
-                    return target;
-                }
-            }
-
-            // Nothing matches
-            return null;
+            return DragTargets?.FirstOrDefault(target => target.IsMatch(screenPt, dragEndData));
         }
         #endregion
     }

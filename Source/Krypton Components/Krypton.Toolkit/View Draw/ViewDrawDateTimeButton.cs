@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
                 if (ElementState is PaletteState.Normal or PaletteState.CheckedNormal)
                 {
                     // If the control is active then use the checked normal appearance, otherwise not active and so use the normal appearance
-                    if (_dateTimePicker.IsActive || (_dateTimePicker.IsFixedActive && (_dateTimePicker.InputControlStyle == InputControlStyle.Standalone)))
+                    if (_dateTimePicker.IsActive || _dateTimePicker is { IsFixedActive: true, InputControlStyle: InputControlStyle.Standalone })
                     {
                         state = PaletteState.CheckedNormal;
                     }

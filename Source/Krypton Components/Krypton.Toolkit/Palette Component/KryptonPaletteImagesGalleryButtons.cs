@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImagesGalleryButtons(PaletteRedirect redirector,
+        public KryptonPaletteImagesGalleryButtons(PaletteRedirect? redirector,
                                                   NeedPaintHandler needPaint) 
         {
             // Store the provided paint notification delegate

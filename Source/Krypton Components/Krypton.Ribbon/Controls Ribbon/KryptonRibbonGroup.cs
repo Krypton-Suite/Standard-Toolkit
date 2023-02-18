@@ -31,10 +31,10 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private object _tag;
+        private object? _tag;
         private bool _visible;
         private bool _allowCollapsed;
-        private Image _image;
+        private Image? _image;
         private string _textLine1;
         private string _textLine2;
         private string _keyTipGroup;
@@ -42,8 +42,8 @@ namespace Krypton.Ribbon
         private bool _dialogBoxLauncher;
         private int _minimumWidth;
         private int _maximumWidth;
-        private KryptonRibbon _ribbon;
-        private KryptonRibbonTab _ribbonTab;
+        private KryptonRibbon? _ribbon;
+        private KryptonRibbonTab? _ribbonTab;
 
         #endregion
 
@@ -151,7 +151,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbon Ribbon
+        public KryptonRibbon? Ribbon
         {
             get => _ribbon;
 
@@ -174,7 +174,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbonTab RibbonTab
+        public KryptonRibbonTab? RibbonTab
         {
             get => _ribbonTab;
 
@@ -451,7 +451,8 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        [DefaultValue(null)]
+        public object? Tag
         {
             get => _tag;
 

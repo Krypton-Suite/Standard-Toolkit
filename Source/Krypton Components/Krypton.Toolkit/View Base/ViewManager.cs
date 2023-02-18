@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Renderer provider.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if it contains transparent painting.</returns>
-        public bool EvalTransparentPaint(IRenderer renderer)
+        public bool EvalTransparentPaint(IRenderer? renderer)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(Root != null);
@@ -368,7 +368,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Renderer provider.</param>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Paint(IRenderer renderer, PaintEventArgs e)
+        public virtual void Paint(IRenderer? renderer, PaintEventArgs e)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(e != null);

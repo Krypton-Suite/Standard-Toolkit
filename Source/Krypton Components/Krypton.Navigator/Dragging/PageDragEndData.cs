@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Navigator associated with pages.</param>
         /// <param name="pages">Collection of pages.</param>
         public PageDragEndData(object source,
-                               KryptonNavigator navigator,
+                               KryptonNavigator? navigator,
                                KryptonPageCollection pages)
         {
             Source = source;
@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to any associated KryptonNavigator instance.
         /// </summary>
-        public KryptonNavigator Navigator { get; }
+        public KryptonNavigator? Navigator { get; }
 
         /// <summary>
         /// Gets access to the collection of pages.

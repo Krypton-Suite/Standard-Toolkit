@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         {
             get 
             {
-                if ((_ribbon.RibbonShape == PaletteRibbonShape.Office2010) && _ribbon.MainPanel.Visible)
+                if (_ribbon is { RibbonShape: PaletteRibbonShape.Office2010, MainPanel.Visible: true })
                 {
                     return _ribbon.TabsArea.ClientHeight + CONSTANT_COMPOSITION_HEIGHT;
                 }

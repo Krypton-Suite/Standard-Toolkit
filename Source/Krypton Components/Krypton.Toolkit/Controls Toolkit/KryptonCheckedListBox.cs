@@ -381,7 +381,7 @@ namespace Krypton.Toolkit
 
             #region Instance Fields
             private object _innerArray;
-            private readonly ViewManager _viewManager;
+            private readonly ViewManager? _viewManager;
             private readonly KryptonCheckedListBox _kryptonCheckedListBox;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
@@ -819,7 +819,7 @@ namespace Krypton.Toolkit
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
                 // No point drawing when one of the dimensions is zero
-                if ((realRect.Width > 0) && (realRect.Height > 0))
+                if (realRect is { Width: > 0, Height: > 0 })
                 {
                     IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
@@ -833,7 +833,7 @@ namespace Krypton.Toolkit
                             PI.SelectObject(_screenDC, hBitmap);
 
                             // Easier to draw using a graphics instance than a DC!
-                            using (Graphics g = Graphics.FromHdc(_screenDC))
+                            using (Graphics? g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
                                 using (ViewLayoutContext context = new(this, _kryptonCheckedListBox.Renderer))
@@ -867,7 +867,7 @@ namespace Krypton.Toolkit
                             // so we need to draw the background instead directly, without using a bit blitting of bitmap
                             if (Items.Count == 0)
                             {
-                                using Graphics g = Graphics.FromHdc(hdc);
+                                using Graphics? g = Graphics.FromHdc(hdc);
                                 using RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer);
                                 ViewDrawPanel.Render(context);
                             }
@@ -939,7 +939,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedNormal;
         private readonly PaletteTripleOverride _overrideCheckedTracking;
         private readonly PaletteTripleOverride _overrideCheckedPressed;
-        private readonly PaletteRedirectCheckBox _paletteCheckBoxImages;
+        private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutDocker _layoutDocker;

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                             
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteListStateRedirect(PaletteRedirect redirect,
+        public PaletteListStateRedirect(PaletteRedirect? redirect,
                                         PaletteBackStyle backStyle,
                                         PaletteBorderStyle borderStyle,
                                         NeedPaintHandler needPaint)

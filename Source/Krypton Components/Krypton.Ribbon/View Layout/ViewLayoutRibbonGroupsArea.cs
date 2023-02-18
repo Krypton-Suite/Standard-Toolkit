@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewLayoutRibbonGroupsArea(KryptonRibbon ribbon,
-                                          PaletteRedirect redirect,
+                                          PaletteRedirect? redirect,
                                           NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);

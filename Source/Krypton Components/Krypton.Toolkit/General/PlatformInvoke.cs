@@ -19,8 +19,10 @@
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
 
-using System.Runtime.Versioning;
 using Microsoft.Win32.SafeHandles;
+// ReSharper disable CommentTypo
+// ReSharper disable UnusedType.Local
+// ReSharper disable MemberHidesStaticFromOuterClass
 
 #pragma warning disable 649
 
@@ -100,7 +102,7 @@ namespace Krypton.Toolkit
 
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
-        internal static object PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
+        internal static object? PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
         internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
@@ -1650,6 +1652,10 @@ namespace Krypton.Toolkit
             // The WM_NCXBUTTONDBLCLK message is posted when the user double-clicks the first or second X button while the cursor is in the nonclient area of a window. This message is posted to the window that contains the cursor. If a window has captured the mouse, this message is not posted.
             // </summary>
             NCXBUTTONDBLCLK = 0x00AD,
+            // These undocumented messages are sent to draw themed window borders. Block them to prevent drawing borders over the client area.
+            NCUAHDRAWCAPTION = 0x00AE,
+            // These undocumented messages are sent to draw themed window borders. Block them to prevent drawing borders over the client area.
+            NCUAHDRAWFRAME = 0x00AF,
             EM_GETSEL = 0xB0,
             EM_SETSEL = 0xB1,
             EM_GETRECT = 0xB2,
@@ -3931,7 +3937,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(Libraries.UxTheme, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern int SetWindowTheme(IntPtr hWnd, string subAppName, string subIdList);
+        internal static extern int SetWindowTheme(IntPtr hWnd, string? subAppName, string? subIdList);
         #endregion
 
         #region Static Kernel32
@@ -3994,7 +4000,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DllImport(Libraries.Kernel32, CharSet = CharSet.Unicode, BestFitMapping = false, ThrowOnUnmappableChar = true, SetLastError = true)]
         //        [DllImport(ExternDll.Kernel32, CharSet=CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        [ResourceExposure(ResourceScope.Process)]
+        [System.Runtime.Versioning.ResourceExposure(System.Runtime.Versioning.ResourceScope.Process)]
         internal static extern IntPtr GetModuleHandle(string? moduleName);
 
         [DllImport(Libraries.Kernel32)]

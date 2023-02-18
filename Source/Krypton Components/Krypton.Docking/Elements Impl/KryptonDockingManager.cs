@@ -3067,45 +3067,45 @@ namespace Krypton.Docking
                 // Can we find an existing floating store page...
                 if (FindStorePageElement(DockingLocation.Floating, firstFloatingPage!) is KryptonDockingFloatspace floatspace)
                 {
-                    if (floatspace.GetParentType(typeof(KryptonDockingFloatingWindow)) is KryptonDockingFloatingWindow floatingWindow)
-                    {
-                        // If the floating window is not currently visible...
-                        if (!floatingWindow.FloatingWindow.Visible)
+                    if (floatspace.GetParentType(typeof(KryptonDockingFloatingWindow)) is KryptonDockingFloatingWindow
                         {
-                            using DockingMultiUpdate update = new(this);
-                            //...then we can use it for dragging. We want the floating window to become visible and show just the set of pages
-                            // that are allowed to be floating from the set of pages passed into this function. As the window is not currently
-                            // visible it means all the contained pages are hidden and so we can make only the pages we are interested in visible
-                            // and it will have the appearance we need.
-                            dragManager.FloatingWindow = floatingWindow.FloatingWindow;
+                            FloatingWindow.Visible: false
+                        } floatingWindow)
+                        // If the floating window is not currently visible...
+                    {
+                        using DockingMultiUpdate update = new(this);
+                        //...then we can use it for dragging. We want the floating window to become visible and show just the set of pages
+                        // that are allowed to be floating from the set of pages passed into this function. As the window is not currently
+                        // visible it means all the contained pages are hidden and so we can make only the pages we are interested in visible
+                        // and it will have the appearance we need.
+                        dragManager.FloatingWindow = floatingWindow.FloatingWindow;
 
-                            // Convert the existing page location, if any, to store and restore it in this floating window
-                            KryptonPage[] firstFloatingPages = { firstFloatingPage! };
-                            PropogateAction(DockingPropogateAction.StorePages, firstFloatingPages);
-                            floatingWindow.PropogateAction(DockingPropogateAction.RestorePages, firstFloatingPages);
+                        // Convert the existing page location, if any, to store and restore it in this floating window
+                        KryptonPage[] firstFloatingPages = { firstFloatingPage! };
+                        PropogateAction(DockingPropogateAction.StorePages, firstFloatingPages);
+                        floatingWindow.PropogateAction(DockingPropogateAction.RestorePages, firstFloatingPages);
 
-                            // Make a list of all pages that should be appended to the floating window
-                            var appendUniqueNames = new List<string>();
-                            var appendPages = new List<KryptonPage>();
-                            foreach (KryptonPage page in pages.Where(page => 
-                                         page is not KryptonStorePage 
-                                         && (page != firstFloatingPage) 
-                                         && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
-                                     )
-                            {
-                                appendUniqueNames.Add(page.UniqueName);
-                                appendPages.Add(page);
-                            }
-
-                            // Set the window location before it is shown otherwise we see a brief flash as it appears at the 
-                            // existing location and then it moves to the correct location based on the screen mouse position
-                            dragManager.FloatingWindow.Location = new Point(screenPoint.X - elementOffset.X, screenPoint.Y - elementOffset.Y);
-
-                            // Convert the append pages to store pages and then append to the same cell as the just restore page above
-                            PropogateAction(DockingPropogateAction.StorePages, appendUniqueNames.ToArray());
-                            KryptonWorkspaceCell? cell = floatingWindow.CellForPage(firstFloatingPage!.UniqueName);
-                            cell?.Pages.AddRange(appendPages.ToArray());
+                        // Make a list of all pages that should be appended to the floating window
+                        var appendUniqueNames = new List<string>();
+                        var appendPages = new List<KryptonPage>();
+                        foreach (KryptonPage page in pages.Where(page => 
+                                     page is not KryptonStorePage 
+                                     && (page != firstFloatingPage) 
+                                     && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                                )
+                        {
+                            appendUniqueNames.Add(page.UniqueName);
+                            appendPages.Add(page);
                         }
+
+                        // Set the window location before it is shown otherwise we see a brief flash as it appears at the 
+                        // existing location and then it moves to the correct location based on the screen mouse position
+                        dragManager.FloatingWindow.Location = new Point(screenPoint.X - elementOffset.X, screenPoint.Y - elementOffset.Y);
+
+                        // Convert the append pages to store pages and then append to the same cell as the just restore page above
+                        PropogateAction(DockingPropogateAction.StorePages, appendUniqueNames.ToArray());
+                        KryptonWorkspaceCell? cell = floatingWindow.CellForPage(firstFloatingPage!.UniqueName);
+                        cell?.Pages.AddRange(appendPages.ToArray());
                     }
                 }
 

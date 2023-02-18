@@ -46,7 +46,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <returns>List of drag targets.</returns>
-        public DragTargetList GenerateDragTargets(PageDragEndData dragEndData)
+        public DragTargetList GenerateDragTargets(PageDragEndData? dragEndData)
         {
             DragTargetList targets = new();
 

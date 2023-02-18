@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// </summary>
         /// <param name="needPaint"></param>
-        public ToolTipValues(NeedPaintHandler needPaint)
+        public ToolTipValues(NeedPaintHandler? needPaint)
             : base(needPaint)
         {
             ResetToolTipStyle();

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderRedirect : PaletteTripleMetricRedirect
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
         private Padding _buttonPadding;
         private int _buttonEdgeInset;
         #endregion
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Style for the border.</param>
         /// <param name="contentStyle">Style for the content.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderRedirect(PaletteRedirect redirect,
+        public PaletteHeaderRedirect(PaletteRedirect? redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
                                      PaletteContentStyle contentStyle,
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect redirect)
+        public override void SetRedirector(PaletteRedirect? redirect)
         {
             base.SetRedirector(redirect);
             _redirect = redirect;

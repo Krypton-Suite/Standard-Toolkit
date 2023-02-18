@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteContentInheritRedirect : PaletteContentInherit
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteContentInheritRedirect class.
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
-        public PaletteContentInheritRedirect(PaletteRedirect redirect)
+        public PaletteContentInheritRedirect(PaletteRedirect? redirect)
             : this(redirect, PaletteContentStyle.ButtonStandalone)
         {
         }
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="style">Style used in requests.</param>
-        public PaletteContentInheritRedirect(PaletteRedirect redirect,
+        public PaletteContentInheritRedirect(PaletteRedirect? redirect,
                                              PaletteContentStyle style)
         {
             _redirect = redirect;
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector() => _redirect;
+        public PaletteRedirect? GetRedirector() => _redirect;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             _redirect = redirect;
         }

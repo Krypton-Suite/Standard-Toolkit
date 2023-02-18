@@ -501,8 +501,7 @@ namespace Krypton.Navigator
                     if (yMaxPos > context.DisplayRectangle.Height)
                     {
                         // If the mode requires we do not extend over the line
-                        if ((BarMultiline == BarMultiline.Shrinkline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Shrinkline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -555,8 +554,7 @@ namespace Krypton.Navigator
                     if (yMaxPos < context.DisplayRectangle.Height)
                     {
                         // If the mode requires we extend to the end of the line
-                        if ((BarMultiline == BarMultiline.Expandline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Expandline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -664,8 +662,7 @@ namespace Krypton.Navigator
                     if (xMaxPos > context.DisplayRectangle.Width)
                     {
                         // If the mode requires we do not extend over the line
-                        if ((BarMultiline == BarMultiline.Shrinkline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Shrinkline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -718,8 +715,7 @@ namespace Krypton.Navigator
                     if (xMaxPos < context.DisplayRectangle.Width)
                     {
                         // If the mode requires we extend to the end of the line
-                        if ((BarMultiline == BarMultiline.Expandline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Expandline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -766,8 +762,7 @@ namespace Krypton.Navigator
 
                 // Reverse the order of the lines when at top or left edge, as the 
                 // items should be positioned from the inside edge moving outwards
-                if ((Orientation == VisualOrientation.Top) ||
-                    (Orientation == VisualOrientation.Left))
+                if (Orientation is VisualOrientation.Top or VisualOrientation.Left)
                 {
                     _lineDetails.Reverse();
                 }
@@ -789,8 +784,7 @@ namespace Krypton.Navigator
                                 LineDetails ld = _lineDetails[i];
                                 _lineDetails.RemoveAt(i);
 
-                                if ((Orientation == VisualOrientation.Top) ||
-                                    (Orientation == VisualOrientation.Left))
+                                if (Orientation is VisualOrientation.Top or VisualOrientation.Left)
                                 {
                                     // Move to end of the list
                                     _lineDetails.Add(ld);
@@ -1000,16 +994,11 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private bool BarVertical => ((Orientation == VisualOrientation.Left) ||
-                                     (Orientation == VisualOrientation.Right));
+        private bool BarVertical => Orientation is VisualOrientation.Left or VisualOrientation.Right;
 
-        private bool ItemVertical => ((ItemOrientation == VisualOrientation.Left) ||
-                                      (ItemOrientation == VisualOrientation.Right));
+        private bool ItemVertical => ItemOrientation is VisualOrientation.Left or VisualOrientation.Right;
 
-        private bool IsOneLine => ((BarMultiline == BarMultiline.Singleline) ||
-                                   (BarMultiline == BarMultiline.Shrinkline) ||
-                                   (BarMultiline == BarMultiline.Expandline) ||
-                                   (BarMultiline == BarMultiline.Exactline));
+        private bool IsOneLine => BarMultiline is BarMultiline.Singleline or BarMultiline.Shrinkline or BarMultiline.Expandline or BarMultiline.Exactline;
 
         private int FindStartingXPosition(ViewLayoutContext context, 
                                           LineDetails lineDetails,

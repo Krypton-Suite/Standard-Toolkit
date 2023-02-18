@@ -385,7 +385,7 @@ namespace Krypton.Navigator
                     var name = (string)propertyName.GetValue(page);
 
                     // If the name is valid
-                    if ((name != null) && (name.Length > 0))
+                    if (name is { Length: > 0 })
                     {
                         // Use the design time name as the page text
                         propertyText.SetValue(page, name);

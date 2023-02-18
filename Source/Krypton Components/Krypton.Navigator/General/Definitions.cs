@@ -701,7 +701,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <returns>List of drag targets.</returns>
-        DragTargetList GenerateDragTargets(PageDragEndData dragEndData);
+        DragTargetList GenerateDragTargets(PageDragEndData? dragEndData);
     }
     #endregion
 
@@ -748,7 +748,7 @@ namespace Krypton.Navigator
         /// <param name="sender">Source of the page drag; should never be null.</param>
         /// <param name="navigator">Navigator instance associated with source; can be null.</param>
         /// <param name="e">Event arguments indicating list of pages being dragged.</param>
-        void PageDragStart(object sender, KryptonNavigator navigator, PageDragCancelEventArgs e);
+        void PageDragStart(object sender, KryptonNavigator? navigator, PageDragCancelEventArgs e);
 
         /// <summary>
         /// Occurs when the mouse moves during the drag operation.

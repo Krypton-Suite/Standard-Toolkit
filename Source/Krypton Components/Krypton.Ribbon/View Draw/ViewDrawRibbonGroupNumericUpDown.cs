@@ -149,9 +149,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            if (GroupNumericUpDown.Visible 
-                && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) 
-                && GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect)
+            if (GroupNumericUpDown is { Visible: true, LastNumericUpDown.NumericUpDown.CanSelect: true })
             {
                 return this;
             }
@@ -169,9 +167,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            if (GroupNumericUpDown.Visible 
-                && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) 
-                && GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect)
+            if (GroupNumericUpDown is { Visible: true, LastNumericUpDown.NumericUpDown.CanSelect: true })
             {
                 return this;
             }

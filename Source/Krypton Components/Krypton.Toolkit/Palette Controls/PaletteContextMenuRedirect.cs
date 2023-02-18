@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContextMenuRedirect(PaletteRedirect redirect,
+        public PaletteContextMenuRedirect(PaletteRedirect? redirect,
                                           NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             ControlInner.SetRedirector(redirect);
             ControlOuter.SetRedirector(redirect);

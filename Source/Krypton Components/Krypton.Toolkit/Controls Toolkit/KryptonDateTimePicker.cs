@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
 
             // Add a checkbox to the left of the text area
             Images = new CheckBoxImages(NeedPaintDelegate);
-            PaletteRedirectCheckBox paletteCheckBoxImages = new(Redirector, Images);
+            PaletteRedirectCheckBox? paletteCheckBoxImages = new(Redirector, Images);
             InternalViewDrawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages)
             {
                 CheckState = CheckState.Checked
@@ -2210,44 +2210,41 @@ namespace Krypton.Toolkit
                 OnDropDown(dtpda);
 
                 // If we still want to show a context menu
-                if (!dtpda.Cancel)
+                if (dtpda is { Cancel: false, KryptonContextMenu: { } })
                 {
-                    if (dtpda.KryptonContextMenu != null)
+                    // If showing a menu then we automatically ensure the control is checked
+                    Checked = true;
+
+                    // Convert the client rect to screen coords
+                    Rectangle screenRect = RectangleToScreen(ClientRectangle);
+                    if (CommonHelper.ValidKryptonContextMenu(dtpda.KryptonContextMenu))
                     {
-                        // If showing a menu then we automatically ensure the control is checked
-                        Checked = true;
-
-                        // Convert the client rect to screen coords
-                        Rectangle screenRect = RectangleToScreen(ClientRectangle);
-                        if (CommonHelper.ValidKryptonContextMenu(dtpda.KryptonContextMenu))
+                        // Modify the screen rect so that we have a pixel gap between control and menu
+                        switch (dtpda.PositionV)
                         {
-                            // Modify the screen rect so that we have a pixel gap between control and menu
-                            switch (dtpda.PositionV)
-                            {
-                                case KryptonContextMenuPositionV.Above:
-                                    screenRect.Y -= 1;
-                                    break;
-                                case KryptonContextMenuPositionV.Below:
-                                    screenRect.Height += 1;
-                                    break;
-                            }
-
-                            switch (dtpda.PositionH)
-                            {
-                                case KryptonContextMenuPositionH.Before:
-                                    screenRect.X -= 1;
-                                    break;
-                                case KryptonContextMenuPositionH.After:
-                                    screenRect.Width += 1;
-                                    break;
-                            }
-
-
-                            // Show relative to the screen rectangle
-                            dtpda.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                            dtpda.KryptonContextMenu.Show(this, screenRect, dtpda.PositionH, dtpda.PositionV);
-                            return;
+                            case KryptonContextMenuPositionV.Above:
+                                screenRect.Y -= 1;
+                                break;
+                            case KryptonContextMenuPositionV.Below:
+                                screenRect.Height += 1;
+                                break;
                         }
+
+                        switch (dtpda.PositionH)
+                        {
+                            case KryptonContextMenuPositionH.Before:
+                                screenRect.X -= 1;
+                                break;
+                            case KryptonContextMenuPositionH.After:
+                                screenRect.Width += 1;
+                                break;
+                        }
+
+
+                        // Show relative to the screen rectangle
+                        dtpda.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
+                        dtpda.KryptonContextMenu.Show(this, screenRect, dtpda.PositionH, dtpda.PositionV);
+                        return;
                     }
                 }
 
@@ -2392,9 +2389,9 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">True is menu was keyboard initiated.</param>
         /// <returns>VisualContextMenu reference.</returns>
         protected override VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
-                                                               PaletteBase palette,
+                                                               PaletteBase? palette,
                                                                PaletteMode paletteMode,
-                                                               PaletteRedirect redirector,
+                                                               PaletteRedirect? redirector,
                                                                PaletteRedirectContextMenu redirectorImages,
                                                                KryptonContextMenuCollection items,
                                                                bool enabled,

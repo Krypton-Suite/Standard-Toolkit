@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                     IDisposable
     {
         #region Instance Fields
-        private readonly Graphics _graphics;
+        private readonly Graphics? _graphics;
         private readonly TextRenderingHint _textHint;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="graphics">Graphics context.</param>
         /// <param name="textHint">Temporary text rendering hint to apply.</param>
-        public GraphicsTextHint(Graphics graphics, TextRenderingHint textHint)
+        public GraphicsTextHint(Graphics? graphics, TextRenderingHint textHint)
         {
             // Cache graphics instance
             _graphics = graphics;

@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context, 
+        public override object? ConvertTo(ITypeDescriptorContext context, 
                                          System.Globalization.CultureInfo culture, 
                                          object value, 
                                          Type destinationType)

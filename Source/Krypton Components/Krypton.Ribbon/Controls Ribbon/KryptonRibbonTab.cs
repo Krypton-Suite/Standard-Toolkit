@@ -26,12 +26,12 @@ namespace Krypton.Ribbon
     public class KryptonRibbonTab : Component
     {
         #region Instance Fields
-        private object _tag;
+        private object? _tag;
         private string _text;
         private string _keyTip;
         private string _contextName;
         private bool _visible;
-        private KryptonRibbon _ribbon;
+        private KryptonRibbon? _ribbon;
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbon Ribbon
+        public KryptonRibbon? Ribbon
         {
             get => _ribbon;
 
@@ -139,7 +139,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Tab";
+                    value = @"Tab";
                 }
 
                 if (value != _text)
@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "T";
+                    value = @"T";
                 }
 
                 _keyTip = value.ToUpper();
@@ -187,6 +187,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Only display tab when this context is active.")]
         [DefaultValue("")]
+        [AllowNull]
         public string ContextName
         {
             get => _contextName;
@@ -194,10 +195,7 @@ namespace Krypton.Ribbon
             set
             {
                 // Always maintain a value reference
-                if (value == null)
-                {
-                    value = string.Empty;
-                }
+                value ??= string.Empty;
 
                 if (value != _contextName)
                 {
@@ -288,7 +286,7 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
@@ -315,7 +313,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase TabView { get; set; }
+        public ViewBase? TabView { get; set; }
 
         #endregion
 

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                             
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="border">Storage for border values.</param>
         /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTreeStateRedirect(PaletteRedirect redirect,
+        public PaletteTreeStateRedirect(PaletteRedirect? redirect,
                                         PaletteBack back,
                                         PaletteBackInheritRedirect backInherit,
                                         PaletteBorder border,

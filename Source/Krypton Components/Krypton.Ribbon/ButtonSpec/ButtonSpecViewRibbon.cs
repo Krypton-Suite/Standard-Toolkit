@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         /// <param name="metricPadding">Padding metric for border padding.</param>
         /// <param name="manager">Reference to owning manager.</param>
         /// <param name="buttonSpec">Access</param>
-        public ButtonSpecViewRibbon(PaletteRedirect redirector,
+        public ButtonSpecViewRibbon(PaletteRedirect? redirector,
                                     IPaletteMetric paletteMetric,
                                     PaletteMetricPadding metricPadding,
                                     ButtonSpecManagerBase manager,

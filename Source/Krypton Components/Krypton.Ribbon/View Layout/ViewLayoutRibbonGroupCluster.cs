@@ -563,8 +563,7 @@ namespace Krypton.Ribbon
                 // Only interested in visible items
                 if (item.Visible)
                 {
-                    if ((item is ViewDrawRibbonGroupClusterButton) ||
-                        (item is ViewDrawRibbonGroupClusterColorButton))
+                    if ((item is ViewDrawRibbonGroupClusterButton or ViewDrawRibbonGroupClusterColorButton))
                     {
                         // By default each button shows only the top and bottom
                         PaletteDrawBorders maxBorders;

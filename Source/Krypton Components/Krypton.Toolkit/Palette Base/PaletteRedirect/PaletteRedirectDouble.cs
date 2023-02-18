@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectDouble class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectDouble(PaletteBase target)
+        public PaletteRedirectDouble(PaletteBase? target)
             : this(target, null, null, null, null, null, null, null, null, null)
         {
         }
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectDouble(PaletteBase target,
+        public PaletteRedirectDouble(PaletteBase? target,
                                      IPaletteDouble disabled,
                                      IPaletteDouble normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public PaletteRedirectDouble(PaletteBase target,
+        public PaletteRedirectDouble(PaletteBase? target,
                                      IPaletteDouble disabled,
                                      IPaletteDouble normal,
                                      IPaletteDouble pressed,
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public PaletteRedirectDouble(PaletteBase target,
+        public PaletteRedirectDouble(PaletteBase? target,
                                      IPaletteDouble disabled,
                                      IPaletteDouble normal,
                                      IPaletteDouble pressed,

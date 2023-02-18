@@ -661,7 +661,7 @@ namespace Krypton.Toolkit
                             // Cast to correct type
 
                             // If target allows auto check changed and is currently checked
-                            if (rb.AutoCheck && rb.Checked)
+                            if (rb is { AutoCheck: true, Checked: true })
                             {
                                 // Set back to not checked
                                 rb.Checked = false;

@@ -433,7 +433,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets and sets the dirty palette counter.
@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -770,7 +770,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
+        protected virtual PaletteRedirect? CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Update global event attachments.

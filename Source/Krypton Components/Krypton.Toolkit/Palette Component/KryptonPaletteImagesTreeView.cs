@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteImagesTreeView : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
         private Image? _plus;
         private Image? _minus;
         #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImagesTreeView(PaletteRedirect redirect,
+        public KryptonPaletteImagesTreeView(PaletteRedirect? redirect,
                                             NeedPaintHandler needPaint) 
         {
             // Store the redirector
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             // Update our cached reference
             _redirect = redirect;

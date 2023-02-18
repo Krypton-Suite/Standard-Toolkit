@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupButton.Visible && GroupButton.Enabled)
+            if (GroupButton is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupButton.ButtonView ? _viewLarge : _viewMediumSmall;
             }
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupButton.Visible && GroupButton.Enabled)
+            if (GroupButton is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupButton.ButtonView ? _viewLarge : _viewMediumSmall;
             }
@@ -254,7 +254,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            var drawNonTrackingAreas = _ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365;
+            var drawNonTrackingAreas = _ribbon.RibbonShape is not PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365;
 
             // Update the views with the type of button being used
             _viewLarge.ButtonType = GroupButton.ButtonType;

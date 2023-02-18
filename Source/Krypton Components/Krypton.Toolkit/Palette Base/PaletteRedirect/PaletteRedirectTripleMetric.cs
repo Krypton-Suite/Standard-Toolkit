@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectTripleMetric class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectTripleMetric(PaletteBase target)
+        public PaletteRedirectTripleMetric(PaletteBase? target)
             : this(target, null, null, null, null)
         {
         }
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public PaletteRedirectTripleMetric(PaletteBase target,
+        public PaletteRedirectTripleMetric(PaletteBase? target,
                                            IPaletteTriple disabled, IPaletteMetric disableMetric,
                                            IPaletteTriple normal, IPaletteMetric normalMetric)
             : base(target, disabled, normal)

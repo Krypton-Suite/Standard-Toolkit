@@ -412,8 +412,7 @@ namespace Krypton.Docking
             for (var i = 0; i < Control.Controls.Count; i++)
             {
                 Control test = Control.Controls[i];
-                if ((test is KryptonDockspaceSeparator) || (test is KryptonDockspace) ||
-                    (test is KryptonAutoHiddenPanel) || ((test is KryptonAutoHiddenSlidePanel) && !test.Visible))
+                if ((test is KryptonDockspaceSeparator or KryptonDockspace or KryptonAutoHiddenPanel) || ((test is KryptonAutoHiddenSlidePanel) && !test.Visible))
                 {
                     insertIndex = i;
                     break;

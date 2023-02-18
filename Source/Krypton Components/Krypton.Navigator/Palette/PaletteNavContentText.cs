@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Font Font
+        public override Font? Font
         {
             get => base.Font;
             set => base.Font = value;

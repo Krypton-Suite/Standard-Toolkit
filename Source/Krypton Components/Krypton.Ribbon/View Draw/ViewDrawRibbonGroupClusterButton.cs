@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupClusterButton.Visible && GroupClusterButton.Enabled)
+            if (GroupClusterButton is { Visible: true, Enabled: true })
             {
                 return _viewMediumSmall;
             }
@@ -189,7 +189,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupClusterButton.Visible && GroupClusterButton.Enabled)
+            if (GroupClusterButton is { Visible: true, Enabled: true })
             {
                 return _viewMediumSmall;
             }
@@ -454,8 +454,7 @@ namespace Krypton.Ribbon
 
         private void UpdateDropDownState()
         {
-            var dropDown = (GroupClusterButton.ButtonType == GroupButtonType.DropDown) ||
-                            (GroupClusterButton.ButtonType == GroupButtonType.Split);
+            var dropDown = GroupClusterButton.ButtonType is GroupButtonType.DropDown or GroupButtonType.Split;
 
             var splitDown = GroupClusterButton.ButtonType == GroupButtonType.Split;
 

@@ -383,7 +383,7 @@ namespace Krypton.Toolkit
                                         _ => HorizontalAlignment.Left
                                     };
 
-                                if (!NumericUpDown.TrailingZeroes && NumericUpDown.AllowDecimals)
+                                if (NumericUpDown is { TrailingZeroes: false, AllowDecimals: true })
                                 {
                                     // Got ot deal with culture formatting, and also the override to include `ThousandsSeparator`
                                     var textInvariantAsRequested =
@@ -688,9 +688,7 @@ namespace Krypton.Toolkit
                     }
 
                     return NumericUpDown.IsActive
-                               || (NumericUpDown.IsFixedActive
-                                   && (NumericUpDown.InputControlStyle == InputControlStyle.Standalone)
-                               )
+                               || NumericUpDown is { IsFixedActive: true, InputControlStyle: InputControlStyle.Standalone }
                         ? NumericUpDown.InputControlStyle == InputControlStyle.Standalone
                             ? PaletteState.CheckedNormal
                             : PaletteState.CheckedTracking

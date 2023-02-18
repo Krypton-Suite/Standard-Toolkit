@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
 
         internal PaletteContentInheritOverride OverridePressedFocus { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect redirector)
+        internal void SetPaletteRedirect(PaletteRedirect? redirector)
         {
             _stateNormalRedirect.SetRedirector(redirector);
             _stateVisitedRedirect.SetRedirector(redirector);

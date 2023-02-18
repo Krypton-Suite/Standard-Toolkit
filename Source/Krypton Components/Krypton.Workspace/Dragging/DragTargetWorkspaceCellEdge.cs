@@ -73,7 +73,7 @@ namespace Krypton.Workspace
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData)
+        public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData)
         {
             // First time around...
             if (_visibleNotDraggedPages == -1)
@@ -124,14 +124,14 @@ namespace Krypton.Workspace
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // We need a parent sequence in order to perform drop
             if (Cell.WorkspaceParent is KryptonWorkspaceSequence parent)
             {
                 // Transfer the dragged pages into a new cell
                 KryptonWorkspaceCell cell = new();
-                KryptonPage page = ProcessDragEndData(Workspace, cell, data);
+                KryptonPage? page = ProcessDragEndData(Workspace, cell, data);
 
                 // If no pages are transferred then we do nothing and no longer need cell instance
                 if (page == null)
@@ -141,7 +141,7 @@ namespace Krypton.Workspace
                 else
                 {
                     // If the parent sequence is not the same direction as that needed for the drop then...
-                    var dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
+                    var dropHorizontal = Edge is VisualOrientation.Left or VisualOrientation.Right;
                     if ((dropHorizontal && (parent.Orientation == Orientation.Vertical)) ||
                         (!dropHorizontal && (parent.Orientation == Orientation.Horizontal)))
                     {
@@ -160,7 +160,7 @@ namespace Krypton.Workspace
                         parent.Children.Insert(index, sequence);
 
                         // Add new cell to the start or the end of the new sequence?
-                        if ((Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Top))
+                        if (Edge is VisualOrientation.Left or VisualOrientation.Top)
                         {
                             sequence.Children.Insert(0, cell);
                         }
@@ -175,7 +175,7 @@ namespace Krypton.Workspace
                         var index = parent.Children.IndexOf(Cell);
 
                         // Add new cell before or after the target cell?
-                        if ((Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Top))
+                        if (Edge is VisualOrientation.Left or VisualOrientation.Top)
                         {
                             parent.Children.Insert(index, cell);
                         }

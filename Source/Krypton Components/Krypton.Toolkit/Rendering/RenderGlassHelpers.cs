@@ -961,7 +961,7 @@ namespace Krypton.Toolkit
                                                         Color color2,
                                                         Color color3,
                                                         VisualOrientation orientation,
-                                                        Graphics g,
+                                                        Graphics? g,
                                                         IDisposable memento)
         {
             MementoDouble cache;
@@ -1044,7 +1044,7 @@ namespace Krypton.Toolkit
                 cacheThis.ellipseRect = ellipseRect;
 
                 // Cannot draw a path that contains a zero sized element
-                if ((ellipseRect.Width > 0) && (ellipseRect.Height > 0))
+                if (ellipseRect is { Width: > 0, Height: > 0 })
                 {
                     cacheThis.path = new GraphicsPath();
                     cacheThis.path.AddEllipse(ellipseRect);
@@ -1073,7 +1073,7 @@ namespace Krypton.Toolkit
                                                        float factorX,
                                                        float factorY,
                                                        VisualOrientation orientation,
-                                                       Graphics g,
+                                                       Graphics? g,
                                                        float glassPercent,
                                                        IDisposable memento)
         {
@@ -1180,7 +1180,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Cannot draw a path that contains a zero sized element
-                if ((doubleRect.Width > 0) && (doubleRect.Height > 0))
+                if (doubleRect is { Width: > 0, Height: > 0 })
                 {
                     // We use a path to create an ellipse for the light effect in the bottom of the area
                     cacheThis.path = new GraphicsPath();
@@ -1213,12 +1213,12 @@ namespace Krypton.Toolkit
                                                        float factorX,
                                                        float factorY,
                                                        VisualOrientation orientation,
-                                                       Graphics g,
+                                                       Graphics? g,
                                                        float glassPercent,
                                                        IDisposable memento)
         {
             // Cannot draw a path that contains a zero sized element
-            if ((drawRect.Width > 0) && (drawRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 })
             {
                 MementoDouble cache;
 
@@ -1288,12 +1288,12 @@ namespace Krypton.Toolkit
                                                      Color glassColor1,
                                                      Color glassColor2,
                                                      VisualOrientation orientation,
-                                                     Graphics g,
+                                                     Graphics? g,
                                                      IDisposable memento)
         {
             // Cannot draw a zero length rectangle
-            if ((drawRect.Width > 0) && (drawRect.Height > 0) &&
-                (outerRect.Width > 0) && (outerRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 } &&
+                outerRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackGlassFade cache;
@@ -1324,7 +1324,7 @@ namespace Krypton.Toolkit
                     RectangleF gradientRect = new(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
 
                     // Cannot draw a zero sized rectangle
-                    if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
+                    if (gradientRect is { Width: > 0, Height: > 0 })
                     {
                         // Draw a gradient from first to second over the length, but use the
                         // first color for the first 33% of distance and fade over the rest
@@ -1373,8 +1373,8 @@ namespace Krypton.Toolkit
                     RectangleF glassGradientRect = new(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2, glassRect.Height + 2);
 
                     // Cannot draw a zero sized rectangle
-                    if ((glassRect.Width > 0) && (glassRect.Height > 0) &&
-                        (glassGradientRect.Width > 0) && (glassGradientRect.Height > 0))
+                    if (glassRect is { Width: > 0, Height: > 0 } &&
+                        glassGradientRect is { Width: > 0, Height: > 0 })
                     {
                         // Use semi-transparent white colors to create the glass effect
                         cache.topBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
@@ -1403,13 +1403,13 @@ namespace Krypton.Toolkit
                                                        Color glassColor1,
                                                        Color glassColor2,
                                                        VisualOrientation orientation,
-                                                       Graphics g,
+                                                       Graphics? g,
                                                        float glassPercent,
                                                        IDisposable memento)
         {
             // Cannot draw a zero length rectangle
-            if ((drawRect.Width > 0) && (drawRect.Height > 0) &&
-                (outerRect.Width > 0) && (outerRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 } &&
+                outerRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackGlassLinear cache;
@@ -1481,10 +1481,10 @@ namespace Krypton.Toolkit
                     RectangleF mainGradientRect = new(cache.mainRect.X - 1, cache.mainRect.Y - 1, cache.mainRect.Width + 2, cache.mainRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
-                    if ((cache.glassRect.Width > 0) && (cache.glassRect.Height > 0) &&
-                        (cache.mainRect.Width > 0) && (cache.mainRect.Height > 0) &&
-                        (glassGradientRect.Width > 0) && (glassGradientRect.Height > 0) &&
-                        (mainGradientRect.Width > 0) && (mainGradientRect.Height > 0))
+                    if (cache.glassRect is { Width: > 0, Height: > 0 } &&
+                        cache.mainRect is { Width: > 0, Height: > 0 } &&
+                        glassGradientRect is { Width: > 0, Height: > 0 } &&
+                        mainGradientRect is { Width: > 0, Height: > 0 })
                     {
                         cache.topBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
                         cache.bottomBrush = new LinearGradientBrush(mainGradientRect, color1, color2, AngleFromOrientation(orientation));
@@ -1494,7 +1494,7 @@ namespace Krypton.Toolkit
                 // Draw entire area in a solid color
                 g.FillRectangle(cache.totalBrush, drawRect);
 
-                if ((cache.topBrush != null) && (cache.bottomBrush != null))
+                if (cache is { topBrush: { }, bottomBrush: { } })
                 {
                     g.FillRectangle(cache.topBrush, cache.glassRect);
                     g.FillRectangle(cache.bottomBrush, cache.mainRect);
@@ -1512,12 +1512,12 @@ namespace Krypton.Toolkit
                                                      float factorX,
                                                      float factorY,
                                                      VisualOrientation orientation,
-                                                     Graphics g,
+                                                     Graphics? g,
                                                      float glassPercent,
                                                      ref IDisposable memento)
         {
             // Cannot draw a zero length rectangle
-            if ((drawRect.Width > 0) && (drawRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackGlassBasic cache;
@@ -1574,7 +1574,7 @@ namespace Krypton.Toolkit
                     RectangleF glassGradientRect = new(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2, glassRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
-                    if ((glassGradientRect.Width > 0) && (glassGradientRect.Height > 0))
+                    if (glassGradientRect is { Width: > 0, Height: > 0 })
                     {
                         cache.glassBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
                         cache.glassRect = glassRect;
@@ -1598,11 +1598,11 @@ namespace Krypton.Toolkit
                                                   Color color1,
                                                   Color color2,
                                                   VisualOrientation orientation,
-                                                  Graphics g,
+                                                  Graphics? g,
                                                   IDisposable memento)
         {
             // Cannot draw a zero length rectangle
-            if ((drawRect.Width > 0) && (drawRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackLinear cache;
@@ -1631,7 +1631,7 @@ namespace Krypton.Toolkit
                     RectangleF gradientRect = new(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
-                    if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
+                    if (gradientRect is { Width: > 0, Height: > 0 })
                     {
                         // Draw entire area in a gradient color effect
                         cache.entireBrush = new LinearGradientBrush(gradientRect, color1, color2, AngleFromOrientation(orientation));
@@ -1656,11 +1656,11 @@ namespace Krypton.Toolkit
                                                     Color color1,
                                                     int thickness,
                                                     VisualOrientation orientation,
-                                                    Graphics g,
+                                                    Graphics? g,
                                                     IDisposable memento)
         {
             // Cannot draw a zero length rectangle
-            if ((drawRect.Width > 0) && (drawRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackDarkEdge cache;
@@ -1728,7 +1728,7 @@ namespace Krypton.Toolkit
                         RectangleF gradientRect = new(drawRect.X - 0.5f, drawRect.Y - 0.5f, drawRect.Width + 1, drawRect.Height + 1);
 
                         // Cannot draw a zero length rectangle
-                        if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
+                        if (gradientRect is { Width: > 0, Height: > 0 })
                         {
                             // Draw entire area in a gradient color effect
                             cache.entireBrush = new LinearGradientBrush(gradientRect, Color.FromArgb(64, color1), Color.Transparent, AngleFromOrientation(orientation));

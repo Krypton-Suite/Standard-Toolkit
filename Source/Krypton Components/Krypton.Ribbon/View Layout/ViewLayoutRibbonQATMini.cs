@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -25,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonQATBorder _border;
         private readonly ViewLayoutRibbonQATFromRibbon _borderContents;
-        private readonly ViewDrawRibbonQATExtraButtonMini _extraButton;
+        private readonly ViewDrawRibbonQATExtraButtonMini? _extraButton;
         private readonly ViewLayoutSeparator _extraSeparator;
         #endregion
 
@@ -35,24 +36,24 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonQATMini(KryptonRibbon ribbon,
+        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon ribbon,
                                        NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
-            _border = new ViewDrawRibbonQATBorder(ribbon, needPaintDelegate, true);
+            _border = new ViewDrawRibbonQATBorder(_ribbon, needPaintDelegate, true);
 
             // Create minibar content that synchs with ribbon collection
-            _borderContents = new ViewLayoutRibbonQATFromRibbon(ribbon, needPaintDelegate, false);
+            _borderContents = new ViewLayoutRibbonQATFromRibbon(_ribbon, needPaintDelegate, false);
             _border.Add(_borderContents);
 
             // Separator gap before the extra button
             _extraSeparator = new ViewLayoutSeparator(SEP_GAP);
 
             // Need the extra button to show after the border area
-            _extraButton = new ViewDrawRibbonQATExtraButtonMini(ribbon, needPaintDelegate);
+            _extraButton = new ViewDrawRibbonQATExtraButtonMini(_ribbon, needPaintDelegate);
             _extraButton.ClickAndFinish += OnExtraButtonClick;
 
             // Add layout contents
@@ -77,7 +78,10 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                _extraButton.ClickAndFinish -= OnExtraButtonClick;
+                if (_extraButton != null)
+                {
+                    _extraButton.ClickAndFinish -= OnExtraButtonClick;
+                }
             }
 
             base.Dispose(disposing);
@@ -88,7 +92,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated form instance.
         /// </summary>
-        public KryptonForm OwnerForm
+        public KryptonForm? OwnerForm
         {
             get => _border.OwnerForm;
             set => _border.OwnerForm = value;
@@ -130,7 +134,7 @@ namespace Krypton.Ribbon
             keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
 
             // If we have the extra button and it is in overflow appearance
-            if (_extraButton.Overflow)
+            if (_extraButton is {Overflow : true })
             {
                 // If integrated into the caption area then get the caption area height
                 Padding borders = Padding.Empty;
@@ -161,10 +165,10 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase GetFirstQATView()
+        public ViewBase? GetFirstQATView()
         {
             // Find the first qat button
-            ViewBase view = _borderContents.GetFirstQATView() ?? _extraButton;
+            ViewBase? view = _borderContents.GetFirstQATView() ?? _extraButton;
 
             // If defined then use the extra button
 
@@ -193,7 +197,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase if found; otherwise false.</returns>
         public ViewBase? GetNextQATView(ViewBase qatButton)
         {
-            ViewBase view = _borderContents.GetNextQATView(qatButton);
+            ViewBase? view = _borderContents.GetNextQATView(qatButton);
 
             // If no qat button is found and not already at the extra button
             if ((view == null) && (_extraButton != qatButton))
@@ -222,7 +226,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -235,10 +239,13 @@ namespace Krypton.Ribbon
             // If there are no visible buttons, then extra button must be for customization
             if (!visibleQATButtons)
             {
-                _extraButton.Overflow = false;
+                if (_extraButton != null)
+                {
+                    _extraButton.Overflow = false;
+                }
             }
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -266,7 +273,10 @@ namespace Krypton.Ribbon
 
             // Only if border is visible do we need to find the latest overflow value
             // otherwise it must be a customization image because there are no buttons
-            _extraButton.Overflow = _border.Visible && _borderContents.Overflow;
+            if (_extraButton != null)
+            {
+                _extraButton.Overflow = _border.Visible && _borderContents.Overflow;
+            }
         }
 
         private void OnExtraButtonClick(object sender, EventHandler finishDelegate)
@@ -285,7 +295,7 @@ namespace Krypton.Ribbon
                 screenRect.Y -= borders.Top;
             }
 
-            if (_extraButton.Overflow)
+            if (_extraButton is { Overflow: true })
             {
                 _ribbon.DisplayQATOverflowMenu(screenRect, _borderContents, finishDelegate);
             }

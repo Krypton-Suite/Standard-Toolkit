@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonComboBox _kryptonComboBox;
             private PaletteTripleToPalette _palette;
-            private ViewDrawButton _viewButton;
+            private ViewDrawButton? _viewButton;
             private bool? _appThemed;
             private bool _mouseTracking;
             private bool _mouseOver;
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
                             //}
 
                             // Paint the entire area in the background color
-                            using (Graphics g = Graphics.FromHdc(hdc))
+                            using (Graphics? g = Graphics.FromHdc(hdc))
                             {
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Implementation
-            private void DrawDropButton(Graphics g, Rectangle drawRect)
+            private void DrawDropButton(Graphics? g, Rectangle drawRect)
             {
                 // Create the view and palette entries first time around
                 if (_viewButton == null)
@@ -526,7 +526,7 @@ namespace Krypton.Toolkit
                     {
                         state = PaletteState.Tracking;
                     }
-                    else if (_kryptonComboBox.IsActive || (_kryptonComboBox.IsFixedActive && (_kryptonComboBox.InputControlStyle == InputControlStyle.Standalone)))
+                    else if (_kryptonComboBox.IsActive || _kryptonComboBox is { IsFixedActive: true, InputControlStyle: InputControlStyle.Standalone })
                     {
                         state = _kryptonComboBox.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking;
                     }
@@ -578,10 +578,7 @@ namespace Krypton.Toolkit
                 {
                     try
                     {
-                        if (!_appThemed.HasValue)
-                        {
-                            _appThemed = PI.IsThemeActive() && PI.IsAppThemed();
-                        }
+                        _appThemed ??= PI.IsThemeActive() && PI.IsAppThemed();
 
                         return _appThemed.Value;
                     }
@@ -2518,7 +2515,7 @@ namespace Krypton.Toolkit
                 if (_forcedLayout || (DesignMode && (_comboHolder != null)))
                 {
                     // Only need to relayout if there is something that would be visible
-                    if ((_layoutFill.FillRect.Height > 0) && (_layoutFill.FillRect.Width > 0))
+                    if (_layoutFill.FillRect is { Height: > 0, Width: > 0 })
                     {
                         // Only update the bounds if they have changed
                         Rectangle fillRect = _layoutFill.FillRect;
@@ -3126,7 +3123,7 @@ namespace Krypton.Toolkit
                 return _toolTip;
             }
 
-            PaletteRedirect redirector = new(KryptonManager.CurrentGlobalPalette);
+            PaletteRedirect? redirector = new(KryptonManager.CurrentGlobalPalette);
             _toolTip = new VisualPopupToolTip(redirector,
                 new ButtonSpecToContent(redirector, _toolTipSpec), KryptonManager
                     .CurrentGlobalPalette.GetRenderer(),

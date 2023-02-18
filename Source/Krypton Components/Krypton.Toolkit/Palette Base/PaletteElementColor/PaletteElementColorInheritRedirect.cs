@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteElementColorInheritRedirect : PaletteElementColorInherit
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="element">Element value..</param>
-        public PaletteElementColorInheritRedirect(PaletteRedirect redirect,
+        public PaletteElementColorInheritRedirect(PaletteRedirect? redirect,
                                                   PaletteElement element)
         {
             Debug.Assert(redirect != null);
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             _redirect = redirect;
         }

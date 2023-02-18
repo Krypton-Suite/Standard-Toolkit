@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class PaletteBarRedirect : PaletteMetricRedirect
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private Padding _barPaddingTabs;
         private Padding _barPaddingInside;
         private Padding _barPaddingOutside;
@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBarRedirect(PaletteRedirect redirect,
+        public PaletteBarRedirect(PaletteRedirect? redirect,
                                   NeedPaintHandler needPaint)
             : base(redirect)
         {

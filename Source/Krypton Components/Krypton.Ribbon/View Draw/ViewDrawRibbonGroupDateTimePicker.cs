@@ -149,8 +149,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            if (GroupDateTimePicker.Visible &&
-                GroupDateTimePicker.LastDateTimePicker is { CanSelect: true })
+            if (GroupDateTimePicker is { Visible: true, LastDateTimePicker: { CanSelect: true } })
             {
                 return this;
             }
@@ -168,8 +167,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            if (GroupDateTimePicker.Visible &&
-                GroupDateTimePicker.LastDateTimePicker is { CanSelect: true })
+            if (GroupDateTimePicker is { Visible: true, LastDateTimePicker: { CanSelect: true } })
             {
                 return this;
             }

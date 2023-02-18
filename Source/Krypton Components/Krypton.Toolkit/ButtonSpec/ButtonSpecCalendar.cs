@@ -65,28 +65,28 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase palette) => Visible;
+        public override bool GetVisible(PaletteBase? palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase palette) => Enabled ? ButtonEnabled.Container : ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) => Enabled ? ButtonEnabled.Container : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(PaletteBase palette) => ButtonCheckState.Unchecked;
+        public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.Unchecked;
 
         /// <summary>
         /// Gets the button edge to position against.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Edge position.</returns>
-        public override RelativeEdgeAlign GetEdge(PaletteBase palette) => _edge;
+        public override RelativeEdgeAlign GetEdge(PaletteBase? palette) => _edge;
 
         #endregion
     }

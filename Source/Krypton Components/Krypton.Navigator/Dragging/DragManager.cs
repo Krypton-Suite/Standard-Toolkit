@@ -29,15 +29,15 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private PaletteBase _dragPalette;
-        private PaletteBase _localPalette;
-        private IRenderer _dragRenderer;
+        private PaletteBase? _dragPalette;
+        private PaletteBase? _localPalette;
+        private IRenderer? _dragRenderer;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
-        private PageDragEndData _pageDragEndData;
-        private DragFeedback _dragFeedback;
-        private readonly DragTargetList _dragTargets;
-        private DragTarget _currentTarget;
+        private PageDragEndData? _pageDragEndData;
+        private DragFeedback? _dragFeedback;
+        private readonly DragTargetList? _dragTargets;
+        private DragTarget? _currentTarget;
         private bool _documentCursor;
 
         #endregion
@@ -158,7 +158,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             get => _localPalette;
 
@@ -208,7 +208,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Mouse screen point at start of drag.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if dragging was started; otherwise false.</returns>
-        public virtual bool DragStart(Point screenPt, PageDragEndData dragEndData)
+        public virtual bool DragStart(Point screenPt, PageDragEndData? dragEndData)
         {
             if (IsDisposed)
             {
@@ -229,11 +229,11 @@ namespace Krypton.Navigator
             ClearTargets();
             foreach (IDragTargetProvider provider in DragTargetProviders)
             {
-                _dragTargets.AddRange(provider, dragEndData);
+                _dragTargets?.AddRange(provider, dragEndData);
             }
 
             // We only drag if we have at least one page and one target
-            IsDragging = ((_dragTargets.Count > 0) && (dragEndData.Pages.Count > 0));
+            IsDragging = ((_dragTargets?.Count > 0) && (dragEndData.Pages.Count > 0));
 
             // Do we really need to start dragging?
             if (IsDragging)
@@ -247,7 +247,7 @@ namespace Krypton.Navigator
 
                 // Create correct drag feedback class and start it up
                 ResolveDragFeedback();
-                _dragFeedback.Start(StateCommon, _dragRenderer, _pageDragEndData, _dragTargets);
+                _dragFeedback?.Start(StateCommon, _dragRenderer!, _pageDragEndData, _dragTargets!);
             }
             else
             {
@@ -275,7 +275,7 @@ namespace Krypton.Navigator
 
             // Different feedback objects implement visual feedback differently and so only the feedback
             // instance knows the correct target to use for the given screen point and drag data.
-            _currentTarget = _dragFeedback.Feedback(screenPt, _currentTarget);
+            _currentTarget = _dragFeedback?.Feedback(screenPt, _currentTarget);
 
             // Check if we need a cursor to indicate the drag state
             UpdateCursor();
@@ -300,10 +300,10 @@ namespace Krypton.Navigator
 
             // Different feedback objects implement visual feedback differently and so only the feedback
             // instance knows the correct target to use for the given screen point and drag data.
-            _currentTarget = _dragFeedback.Feedback(screenPt, _currentTarget);
+            _currentTarget = _dragFeedback?.Feedback(screenPt, _currentTarget);
 
             // Remove visual feedback
-            _dragFeedback.Quit();
+            _dragFeedback?.Quit();
 
             // Inform target it needs to perform the drop action
             var ret = false;
@@ -335,7 +335,7 @@ namespace Krypton.Navigator
             }
 
             // Remove visual feedback
-            _dragFeedback.Quit();
+            _dragFeedback?.Quit();
 
             ClearTargets();
             RestoreCursor();
@@ -348,7 +348,7 @@ namespace Krypton.Navigator
         /// <param name="sender">Source of the page drag; can be null.</param>
         /// <param name="navigator">Navigator instance associated with source; can be null.</param>
         /// <param name="e">Event arguments indicating list of pages being dragged.</param>
-        public virtual void PageDragStart(object sender, KryptonNavigator navigator, PageDragCancelEventArgs e)
+        public virtual void PageDragStart(object sender, KryptonNavigator? navigator, PageDragCancelEventArgs e)
         {
             e.Cancel = !DragStart(e.ScreenPoint, new PageDragEndData(sender, navigator, e.Pages));
         }
@@ -397,7 +397,7 @@ namespace Krypton.Navigator
             // Should we update cursor to reflect document dragging?
             if (IsDragging && DocumentCursor)
             {
-                if (_pageDragEndData.Navigator != null)
+                if (_pageDragEndData?.Navigator != null)
                 {
                     _pageDragEndData.Navigator.Cursor = _currentTarget == null ? _invalidCursor : _validCursor;
                 }
@@ -411,7 +411,7 @@ namespace Krypton.Navigator
         {
             if (IsDragging)
             {
-                if (_pageDragEndData.Navigator != null)
+                if (_pageDragEndData?.Navigator != null)
                 {
                     _pageDragEndData.Navigator.Cursor = null;
                 }
@@ -436,7 +436,7 @@ namespace Krypton.Navigator
             StateCommon.SetInherit(_dragPalette);
 
             // Get the renderer associated with the palette
-            _dragRenderer = _dragPalette.GetRenderer();
+            _dragRenderer = _dragPalette?.GetRenderer();
         }
 
         private void ResolveDragFeedback()

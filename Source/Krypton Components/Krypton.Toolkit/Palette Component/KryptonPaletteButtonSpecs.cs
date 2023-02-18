@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteButtonSpecs class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
-        public KryptonPaletteButtonSpecs(PaletteRedirect redirector)
+        public KryptonPaletteButtonSpecs(PaletteRedirect? redirector)
         {
             Debug.Assert(redirector != null);
 
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
             RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector);
 
             // Create redirector for inheriting from style specific to style common
-            PaletteRedirectButtonSpec redirectCommon = new(redirector, Common);
+            PaletteRedirectButtonSpec? redirectCommon = new(redirector, Common);
 
             // Inform the button spec to use the new redirector
             Generic.SetRedirector(redirectCommon);

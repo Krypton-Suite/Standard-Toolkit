@@ -149,8 +149,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            if (GroupCustomControl.Visible &&
-                GroupCustomControl.LastCustomControl is { CanSelect: true })
+            if (GroupCustomControl is { Visible: true, LastCustomControl: { CanSelect: true } })
             {
                 return this;
             }
@@ -168,8 +167,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            if (GroupCustomControl.Visible &&
-                GroupCustomControl.LastCustomControl is { CanSelect: true })
+            if (GroupCustomControl is { Visible: true, LastCustomControl: { CanSelect: true } })
             {
                 return this;
             }

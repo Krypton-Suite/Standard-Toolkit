@@ -44,10 +44,10 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Public
-            public virtual void DrawItem(Graphics g, Rectangle rect)
+            public virtual void DrawItem(Graphics? g, Rectangle rect)
             {
                 // Cannot paint a zero sized area
-                if ((rect.Width > 0) && (rect.Height > 0))
+                if (rect is { Width: > 0, Height: > 0 })
                 {
                     // Draw the background of the entire item
                     DrawBack(g, rect);
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            public virtual void DrawBorder(Graphics g, Rectangle rect)
+            public virtual void DrawBorder(Graphics? g, Rectangle rect)
             {
                 // Drawing with anti aliasing to create smoother appearance
                 using AntiAlias aa = new(g);
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
                 g.DrawPath(borderPen, borderPath);
             }
 
-            public abstract void DrawBack(Graphics g, Rectangle rect);
+            public abstract void DrawBack(Graphics? g, Rectangle rect);
             #endregion
         }
 
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
                 Border2 = CommonHelper.WhitenColor(border, 0.979f, 0.943f, 1.20f);
             }
 
-            public override void DrawBack(Graphics g, Rectangle rect)
+            public override void DrawBack(Graphics? g, Rectangle rect)
             {
             }
         }
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
                 Back2B = CommonHelper.WhitenColor(end, 1.0f, 0.953f, 0.758f);
             }
 
-            public override void DrawBack(Graphics g, Rectangle rect)
+            public override void DrawBack(Graphics? g, Rectangle rect)
             {
                 Rectangle inset = new(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
                 Rectangle insetB = new(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
                 Back1 = begin;
             }
 
-            public override void DrawBack(Graphics g, Rectangle rect)
+            public override void DrawBack(Graphics? g, Rectangle rect)
             {
                 Rectangle rect2 = new(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 1);
                 Rectangle rect3 = new(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 3);
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
                 Back2 = CommonHelper.WhitenColor(begin, 1.0f, 0.943f, .914f);
             }
 
-            public override void DrawBack(Graphics g, Rectangle rect)
+            public override void DrawBack(Graphics? g, Rectangle rect)
             {
                 Rectangle inset = new(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
 
@@ -357,8 +357,7 @@ namespace Krypton.Toolkit
         protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
         {
             // Cannot paint a zero sized area
-            if ((e.ArrowRectangle.Width > 0) &&
-                (e.ArrowRectangle.Height > 0))
+            if (e.ArrowRectangle is { Width: > 0, Height: > 0 })
             {
                 // Create a path that is used to fill the arrow
                 using GraphicsPath arrowPath = CreateArrowPath(e.Item,
@@ -537,7 +536,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if ((e.ToolStrip is MenuStrip) && !e.Item.Pressed && !e.Item.Selected)
+                    if ((e is { ToolStrip: MenuStrip, Item: { Pressed: false, Selected: false } }))
                     {
                         e.TextColor = KCT.MenuStripText;
                     }
@@ -545,19 +544,19 @@ namespace Krypton.Toolkit
                     {
                         e.TextColor = KCT.MenuItemText;
                     }
-                    else if ((e.ToolStrip is StatusStrip) && !e.Item.Pressed && !e.Item.Selected)
+                    else if ((e is { ToolStrip: StatusStrip, Item: { Pressed: false, Selected: false } }))
                     {
                         e.TextColor = KCT.StatusStripText;
                     }
-                    else if ((e.ToolStrip is StatusStrip) && !e.Item.Pressed && e.Item.Selected)
+                    else if ((e is { ToolStrip: StatusStrip, Item: { Pressed: false, Selected: true } }))
                     {
                         e.TextColor = KCT.MenuItemText;
                     }
-                    else if ((e.ToolStrip is ToolStrip) && !e.Item.Pressed && e.Item.Selected)
+                    else if ((e is { ToolStrip: ToolStrip, Item: { Pressed: false, Selected: true } }))
                     {
                         e.TextColor = KCT.MenuItemText;
                     }
-                    else if ((e.ToolStrip is ContextMenuStrip) && !e.Item.Pressed && !e.Item.Selected)
+                    else if ((e is { ToolStrip: ContextMenuStrip, Item: { Pressed: false, Selected: false } }))
                     {
                         e.TextColor = KCT.MenuItemText;
                     }
@@ -792,8 +791,7 @@ namespace Krypton.Toolkit
             base.OnRenderToolStripContentPanelBackground(e);
 
             // Cannot paint a zero sized area
-            if ((e.ToolStripContentPanel.Width > 0) &&
-                (e.ToolStripContentPanel.Height > 0))
+            if (e.ToolStripContentPanel is { Width: > 0, Height: > 0 })
             {
                 using LinearGradientBrush backBrush = new(e.ToolStripContentPanel.ClientRectangle,
                     KCT.ToolStripContentPanelGradientEnd,
@@ -840,7 +838,7 @@ namespace Krypton.Toolkit
                 RectangleF backRect = new(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
 
                 // Cannot paint a zero sized area
-                if ((backRect.Width > 0) && (backRect.Height > 0))
+                if (backRect is { Width: > 0, Height: > 0 })
                 {
                     //using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
                     //                                                               KCT.StatusStripGradientBegin,
@@ -875,7 +873,7 @@ namespace Krypton.Toolkit
 
                     // Cannot paint a zero sized area
                     RectangleF backRect = new(0, 0, e.ToolStrip.Width, e.ToolStrip.Height);
-                    if ((backRect.Width > 0) && (backRect.Height > 0))
+                    if (backRect is { Width: > 0, Height: > 0 })
                     {
                         if (e.ToolStrip.Orientation == Orientation.Horizontal)
                         {
@@ -1048,7 +1046,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void RenderToolButtonBackground(Graphics g,
+        private void RenderToolButtonBackground(Graphics? g,
                                                 ToolStripButton button,
                                                 ToolStrip toolstrip)
         {
@@ -1101,7 +1099,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void RenderToolDropButtonBackground(Graphics g,
+        private void RenderToolDropButtonBackground(Graphics? g,
                                                     ToolStripItem item,
                                                     ToolStrip toolstrip)
         {
@@ -1136,7 +1134,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawGradientToolSplitItem(Graphics g,
+        private void DrawGradientToolSplitItem(Graphics? g,
                                                ToolStripSplitButton splitButton,
                                                GradientItemColors colorsButton,
                                                GradientItemColors colorsDrop,
@@ -1196,7 +1194,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawContextMenuHeader(Graphics g, ToolStripItem item)
+        private void DrawContextMenuHeader(Graphics? g, ToolStripItem item)
         {
             // Get the rectangle that is the items area
             Rectangle itemRect = new(Point.Empty, item.Bounds.Size);
@@ -1220,13 +1218,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawGradientToolItem(Graphics g,
+        private void DrawGradientToolItem(Graphics? g,
                                           ToolStripItem item,
                                           GradientItemColors colors) =>
             // Perform drawing into the entire background of the item
             colors.DrawItem(g, new Rectangle(Point.Empty, item.Bounds.Size));
 
-        private void RenderToolSplitButtonBackground(Graphics g,
+        private void RenderToolSplitButtonBackground(Graphics? g,
                                                      ToolStripSplitButton splitButton,
                                                      ToolStrip toolstrip)
         {
@@ -1238,11 +1236,11 @@ namespace Krypton.Toolkit
                     // Ensure we have cached the objects we need
                     UpdateCache();
 
-                    if (!splitButton.Pressed && splitButton.ButtonPressed)
+                    if (splitButton is { Pressed: false, ButtonPressed: true })
                     {
                         DrawGradientToolSplitItem(g, splitButton, _gradientPressed, _gradientTracking, _gradientSplit);
                     }
-                    else if (splitButton.Pressed && !splitButton.ButtonPressed)
+                    else if (splitButton is { Pressed: true, ButtonPressed: false })
                     {
                         DrawContextMenuHeader(g, splitButton);
                     }
@@ -1266,7 +1264,7 @@ namespace Krypton.Toolkit
 
         }
 
-        private void DrawGradientContextMenuItem(Graphics g,
+        private void DrawGradientContextMenuItem(Graphics? g,
                                                  ToolStripItem item,
                                                  GradientItemColors colors)
         {

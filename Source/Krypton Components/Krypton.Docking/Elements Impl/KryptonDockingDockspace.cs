@@ -112,7 +112,7 @@ namespace Krypton.Docking
                                 Control c = parent.Controls[i];
 
                                 // Insert before the last auto hidden panel/slidepanel (this handles the Order=0 case)
-                                if ((c is KryptonAutoHiddenPanel) || (c is KryptonAutoHiddenSlidePanel))
+                                if ((c is KryptonAutoHiddenPanel or KryptonAutoHiddenSlidePanel))
                                 {
                                     indexInsert = i;
                                 }
@@ -170,7 +170,7 @@ namespace Krypton.Docking
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
         public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
-                                                  PageDragEndData dragData,
+                                                  PageDragEndData? dragData,
                                                   DragTargetList targets)
         {
             if (DockspaceControl.CellVisibleCount > 0)

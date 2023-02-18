@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual KryptonRibbonGroup RibbonGroup { get; set; }
+        public virtual KryptonRibbonGroup? RibbonGroup { get; set; }
 
         /// <summary>
         /// Gets an array of all the contained components.

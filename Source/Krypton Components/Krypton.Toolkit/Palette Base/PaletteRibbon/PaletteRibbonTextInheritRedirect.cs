@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRibbonTextInheritRedirect : PaletteRibbonTextInherit
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleText">Ribbon item text style.</param>
-        public PaletteRibbonTextInheritRedirect(PaletteRedirect redirect,
+        public PaletteRibbonTextInheritRedirect(PaletteRedirect? redirect,
                                                 PaletteRibbonTextStyle styleText)
         {
             Debug.Assert(redirect != null);
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
         #endregion
 
         #region StyleText

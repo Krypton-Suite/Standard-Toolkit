@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteTabButtons(PaletteRedirect redirector,
+        public KryptonPaletteTabButtons(PaletteRedirect? redirector,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             TabCustom3 = new KryptonPaletteTabButton(redirector, PaletteBackStyle.TabCustom3, PaletteBorderStyle.TabCustom3, PaletteContentStyle.TabCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTriple redirectCommon = new(redirector, 
+            PaletteRedirectTriple? redirectCommon = new(redirector, 
                                                                              TabCommon.StateDisabled, TabCommon.StateNormal,
                                                                              TabCommon.StatePressed, TabCommon.StateTracking,
                                                                              TabCommon.StateSelected,TabCommon.OverrideFocus);

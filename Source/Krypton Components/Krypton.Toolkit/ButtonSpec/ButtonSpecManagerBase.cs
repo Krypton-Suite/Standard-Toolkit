@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly PaletteRedirect _redirector;
+        private readonly PaletteRedirect? _redirector;
         private readonly ButtonSpecCollectionBase? _variableSpecs;
         private readonly ButtonSpecCollectionBase _fixedSpecs;
         private readonly IPaletteMetric[]? _viewMetrics;
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         protected ButtonSpecManagerBase([DisallowNull] Control control,
-                                     [DisallowNull] PaletteRedirect redirector,
+                                     [DisallowNull] PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase fixedSpecs,
                                      IPaletteMetric[] viewMetrics,
@@ -404,8 +404,7 @@ namespace Krypton.Toolkit
             // Search all buttons for any that contain the provided point
             foreach (ButtonSpecView buttonView in _specLookup.Values)
             {
-                if (buttonView.ViewButton.Visible &&
-                    buttonView.ViewButton.Enabled &&
+                if (buttonView.ViewButton is { Visible: true, Enabled: true } &&
                     buttonView.ViewButton.ClientRectangle.Contains(pt))
                 {
                     return true;
@@ -582,7 +581,7 @@ namespace Krypton.Toolkit
         /// <param name="redirector">Base palette class.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
-        public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
+        public virtual PaletteRedirect? CreateButtonSpecRemap(PaletteRedirect? redirector,
                                                              ButtonSpec buttonSpec) =>
             new ButtonSpecRemapByContentView(redirector, buttonSpec);
 
@@ -671,7 +670,7 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPadding">Target metric padding.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
-        protected virtual ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector,
+        protected virtual ButtonSpecView CreateButtonSpecView(PaletteRedirect? redirector,
                                                               IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec) =>

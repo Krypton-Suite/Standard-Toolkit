@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly IPaletteDragDrop _paletteDragDrop;
-        private readonly IRenderer _renderer;
+        private readonly IRenderer? _renderer;
         private Rectangle _solidRect;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="paletteDragDrop">Drawing palette.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer renderer)
+        public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer? renderer)
         {
             _paletteDragDrop = paletteDragDrop;
             _renderer = renderer;
@@ -104,7 +104,9 @@ namespace Krypton.Navigator
             base.OnPaint(e);
 
             // If we have a solid rectangle to draw
-            if (!SolidRect.IsEmpty)
+            if (!SolidRect.IsEmpty
+                && (_renderer != null)
+                )
             {
                 using RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer);
                 _renderer.RenderGlyph.DrawDragDropSolidGlyph(context, ClientRectangle, _paletteDragDrop);
