@@ -43,8 +43,6 @@ if not "%~1" == "" set targets=%~1
 
 :: -t:rebuild
 
-::
-
 @echo Build Completed: %date% %time% %zone%
 
 pause
