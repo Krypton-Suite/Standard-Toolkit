@@ -456,7 +456,7 @@ namespace Krypton.Toolkit
                                                    IPaletteRibbonBack palette,
                                                    VisualOrientation orientation,
                                                    bool composition,
-                                                   IDisposable memento);
+                                                   IDisposable? memento);
 
         /// <summary>
         /// Draw a context ribbon tab title.

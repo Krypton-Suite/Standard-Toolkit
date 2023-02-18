@@ -2620,7 +2620,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
                                                             Rectangle cellRect,
-                                                            [DisallowNull] IPaletteContent paletteContent,
+                                                            [DisallowNull] IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
             Debug.Assert(context != null);
