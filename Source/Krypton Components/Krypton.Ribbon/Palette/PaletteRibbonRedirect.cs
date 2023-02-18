@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="panelBackStyle">Initial background style.</param>
         /// <param name="needPaint">Paint delegate.</param>
-        public PaletteRibbonRedirect(PaletteRedirect redirect,
+        public PaletteRibbonRedirect(PaletteRedirect? redirect,
                                      PaletteBackStyle panelBackStyle,
                                      NeedPaintHandler needPaint)
             : base(redirect)
@@ -161,7 +161,7 @@ namespace Krypton.Ribbon
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect redirect)
+        public override void SetRedirector(PaletteRedirect? redirect)
         {
             base.SetRedirector(redirect);
             RibbonGroupButton.SetRedirector(redirect);

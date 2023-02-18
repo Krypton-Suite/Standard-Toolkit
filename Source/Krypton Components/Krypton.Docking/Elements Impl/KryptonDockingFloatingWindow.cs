@@ -138,7 +138,7 @@ namespace Krypton.Docking
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
         public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
-                                                  PageDragEndData dragData,
+                                                  PageDragEndData? dragData,
                                                   DragTargetList targets)
         {
             // Can only generate targets for a floating window that is actually visible and not the one being dragged

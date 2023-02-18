@@ -10,6 +10,8 @@
  */
 #endregion
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -38,9 +40,9 @@ namespace Krypton.Toolkit
         private bool _disposing;
         private int _compositionHeight;
         private int _ignoreCount;
-        private ViewBase _capturedElement;
+        private ViewBase? _capturedElement;
         private PaletteBase? _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly IntPtr _screenDC;
         private ShadowValues _shadowValues;
@@ -531,7 +533,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Create a tool strip renderer appropriate for the current renderer/palette pair.
@@ -702,7 +704,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
+        protected ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -712,7 +714,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -974,7 +976,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new(_palette);
+        protected virtual PaletteRedirect? CreateRedirector() => new(_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1340,8 +1342,8 @@ namespace Krypton.Toolkit
             // If the window proc has decided it is in the CAPTION or CLIENT areas
             // then we might have something of our own in that area that we want to
             // override the return value for. So process it ourself.
-            if ((m.Result == (IntPtr)PI.HT.CAPTION) ||
-                (m.Result == (IntPtr)PI.HT.CLIENT))
+            if (m.Result == (IntPtr)PI.HT.CAPTION 
+                    || m.Result == (IntPtr)PI.HT.CLIENT)
             {
                 // Extract the point in screen coordinates
                 Point screenPoint = new((int)m.LParam.ToInt64());
@@ -1619,7 +1621,7 @@ namespace Krypton.Toolkit
             Rectangle windowBounds = RealWindowRectangle;
 
             // We can only draw a window that has some size
-            if ((windowBounds.Width > 0) && (windowBounds.Height > 0))
+            if (windowBounds is { Width: > 0, Height: > 0 })
             {
                 // Get the device context for this window
                 IntPtr hDC = PI.GetWindowDC(Handle);
@@ -1638,7 +1640,7 @@ namespace Krypton.Toolkit
                         var minimized = CommonHelper.IsFormMinimized(this);
 
                         // After excluding the client area, is there anything left to draw?
-                        if (minimized || ((clipClientRect.Width > 0) && (clipClientRect.Height > 0)))
+                        if (minimized || clipClientRect is { Width: > 0, Height: > 0 })
                         {
                             // If not minimized we need to clip the client area
                             if (!minimized)
@@ -1881,7 +1883,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {

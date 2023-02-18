@@ -107,6 +107,7 @@
 		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
 			<Link>General\PlatformInvoke.cs</Link>
 		</Compile>
+		<Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
 		<Compile Update="ButtonSpec\ButtonSpecAppMenu.cs" />
 		<Compile Update="ButtonSpec\ButtonSpecMdiChildFixed.cs" />
 		<Compile Update="ButtonSpec\ButtonSpecMdiChildClose.cs" />

@@ -150,7 +150,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            if (GroupComboBox.Visible && (GroupComboBox.LastComboBox?.ComboBox != null) && GroupComboBox.LastComboBox.ComboBox.CanSelect)
+            if (GroupComboBox is { Visible: true, LastComboBox.ComboBox.CanSelect: true })
             {
                 return this;
             }
@@ -168,7 +168,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            if (GroupComboBox.Visible && (GroupComboBox.LastComboBox?.ComboBox != null) && GroupComboBox.LastComboBox.ComboBox.CanSelect)
+            if (GroupComboBox is { Visible: true, LastComboBox.ComboBox.CanSelect: true })
             {
                 return this;
             }

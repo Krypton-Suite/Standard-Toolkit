@@ -615,7 +615,7 @@ namespace Krypton.Docking
                 case DockingPropogatePageList.Filler:
                     {
                         // If the request relevant to this space control?
-                        if ((state == DockingPropogatePageList.All) || (state == DockingPropogatePageList.Filler))
+                        if (state is DockingPropogatePageList.All or DockingPropogatePageList.Filler)
                         {
                             // Process each page inside the navigator
                             for (var i = DockableNavigatorControl.Pages.Count - 1; i >= 0; i--)
@@ -643,7 +643,7 @@ namespace Krypton.Docking
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
         public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
-                                                  PageDragEndData dragData,
+                                                  PageDragEndData? dragData,
                                                   DragTargetList targets)
         {
             // Create list of the pages that are allowed to be dropped into this navigator

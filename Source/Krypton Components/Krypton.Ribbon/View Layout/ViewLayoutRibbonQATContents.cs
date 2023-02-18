@@ -38,15 +38,15 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
-        public ViewLayoutRibbonQATContents(KryptonRibbon ribbon,
-                                           NeedPaintHandler needPaint,
+        public ViewLayoutRibbonQATContents([DisallowNull] KryptonRibbon ribbon,
+            [DisallowNull] NeedPaintHandler needPaint,
                                            bool showExtraButton)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            _needPaint = needPaint!;
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
             // Create the extra button for customization/overflow
             if (showExtraButton)
             {
-                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon, needPaint);
+                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon!, needPaint!);
                 _extraButton.ClickAndFinish += OnExtraButtonClick;
             }
         }
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ownerForm">KryptonForm instance that owns this view.</param>
         /// <returns>Array of KeyTipInfo instances.</returns>
-        public KeyTipInfo[] GetQATKeyTips(KryptonForm ownerForm)
+        public KeyTipInfo[] GetQATKeyTips(KryptonForm? ownerForm)
         {
             // Create all the list of all possible QAT key tip strings
             var keyTipsPool = new Stack<string>();
@@ -182,7 +182,7 @@ namespace Krypton.Ribbon
 
         #region Overflow
         /// <summary>
-        /// Gets a value indicating if overflowing is occuring.
+        /// Gets a value indicating if overflowing is occurring.
         /// </summary>
         public bool Overflow { get; private set; }
 
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
             SyncChildren(true);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
             var right = ClientRectangle.Right;
@@ -376,7 +376,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton"></param>
         /// <returns>Element that matches button; otherwise null</returns>
-        public ViewBase ViewForButton(IQuickAccessToolbarButton qatButton) =>
+        public ViewBase? ViewForButton(IQuickAccessToolbarButton qatButton) =>
             _qatButtonToView.ContainsKey(qatButton) ? _qatButtonToView[qatButton] : null;
 
         #endregion
@@ -386,12 +386,12 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase GetFirstQATView()
+        public ViewBase? GetFirstQATView()
         {
             // Scan all the buttons looking for one that is enabled and visible
             foreach (ViewBase qatView in _qatButtonToView.Values)
             {
-                if (qatView.Visible && qatView.Enabled)
+                if (qatView is { Visible: true, Enabled: true })
                 {
                     return qatView;
                 }
@@ -426,7 +426,7 @@ namespace Krypton.Ribbon
                 ViewDrawRibbonQATButton qatView = qatViews[i];
 
                 // QAT button must be visible and enabled
-                if (qatView.Visible && qatView.Enabled)
+                if (qatView is { Visible: true, Enabled: true })
                 {
                     return qatView;
                 }
@@ -453,7 +453,7 @@ namespace Krypton.Ribbon
                 {
                     found = qatView == qatButton;
                 }
-                else if (qatView.Visible && qatView.Enabled)
+                else if (qatView is { Visible: true, Enabled: true })
                 {
                     return qatView;
                 }
@@ -475,7 +475,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetPreviousQATView(ViewBase qatButton)
+        public ViewBase? GetPreviousQATView(ViewBase? qatButton)
         {
             // If the provided view is the extra button, then implicitly already found previous entry
             var found = (qatButton != null) && (qatButton == _extraButton);
@@ -494,7 +494,7 @@ namespace Krypton.Ribbon
                 {
                     found = qatView == qatButton;
                 }
-                else if (qatView.Visible && qatView.Enabled)
+                else if (qatView is { Visible: true, Enabled: true })
                 {
                     return qatView;
                 }
@@ -583,7 +583,7 @@ namespace Krypton.Ribbon
             // Convert the button rectangle to screen coordinates
             Rectangle screenRect = ParentControl.RectangleToScreen(button.ClientRectangle);
 
-            if (_extraButton.Overflow)
+            if (_extraButton is { Overflow: true })
             {
                 Ribbon.DisplayQATOverflowMenu(screenRect, this, finishDelegate);
             }

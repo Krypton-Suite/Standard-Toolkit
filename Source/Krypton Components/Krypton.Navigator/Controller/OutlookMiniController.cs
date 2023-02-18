@@ -269,7 +269,7 @@ namespace Krypton.Navigator
             }
 
             // If the user pressed the escape key
-            if ((e.KeyCode == Keys.Escape) || (e.KeyCode == Keys.Space))
+            if (e.KeyCode is Keys.Escape or Keys.Space)
             {
                 // If we are capturing mouse input
                 if (Captured)

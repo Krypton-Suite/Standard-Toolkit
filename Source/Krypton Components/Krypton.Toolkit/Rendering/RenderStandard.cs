@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public override ToolStripRenderer RenderToolStrip(PaletteBase colorPalette)
+        public override ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -727,7 +727,7 @@ namespace Krypton.Toolkit
             PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
 
             // Is there anything to actually draw?
-            if ((rect.Width > 0) && (rect.Height > 0) && CommonHelper.HasABorder(borders))
+            if (rect is { Width: > 0, Height: > 0 } && CommonHelper.HasABorder(borders))
             {
                 // Only use anti aliasing if the border is rounded
                 SmoothingMode smoothMode = palette.GetBorderRounding(state) > 0 ? SmoothingMode.AntiAlias : SmoothingMode.Default;
@@ -1989,7 +1989,7 @@ namespace Krypton.Toolkit
             Debug.Assert(!context.Control.IsDisposed);
 
             // Is there anything to actually draw?
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Decide if we need to use anti aliasing for a smoother looking visual
                 using (GraphicsHint hint = new(context.Graphics, palette.GetBorderGraphicsHint(state)))
@@ -2352,7 +2352,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetCheckBoxPreferredSize(ViewLayoutContext context,
-                                                      PaletteBase palette,
+                                                      PaletteBase? palette,
                                                       bool enabled,
                                                       CheckState checkState,
                                                       bool tracking,
@@ -2403,7 +2403,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawCheckBox(RenderContext context,
                                           Rectangle displayRect,
-                                          PaletteBase palette,
+                                          PaletteBase? palette,
                                           bool enabled,
                                           CheckState checkState,
                                           bool tracking,
@@ -2547,7 +2547,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public override Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            PaletteBase palette,
+                                                            PaletteBase? palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation)
         {
@@ -2582,7 +2582,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawDropDownButton(RenderContext context,
                                                 Rectangle displayRect,
-                                                PaletteBase palette,
+                                                PaletteBase? palette,
                                                 PaletteState state,
                                                 VisualOrientation orientation)
         {
@@ -2620,7 +2620,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
                                                             Rectangle cellRect,
-                                                            [DisallowNull] IPaletteContent paletteContent,
+                                                            [DisallowNull] IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
             Debug.Assert(context != null);
@@ -3857,7 +3857,7 @@ namespace Krypton.Toolkit
             GraphicsPath borderPath = new();
 
             // A zero size rectangle cannot be drawn, so return a null path
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Only use a rounding that will fit inside the rect
                 var rounding = Math.Min(borderRounding, Math.Min(rect.Width / 2, rect.Height / 2) - borderWidth);
@@ -4410,7 +4410,7 @@ namespace Krypton.Toolkit
             GraphicsPath borderPath = new();
 
             // A zero size rectangle cannot be drawn, so return a null path
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Shrink the rect by half the width of the pen, because the pen will 
                 // draw half the distance overlapping each side of the centre anyway.
@@ -5806,7 +5806,7 @@ namespace Krypton.Toolkit
         }
 
         private static void AllocateShortTextSpace(ViewLayoutContext context,
-                                                   Graphics g,
+                                                   Graphics? g,
                                                    StandardContentMemento memento,
                                                    [DisallowNull] IPaletteContent? paletteContent,
                                                    IContentValues contentValues,
@@ -5893,7 +5893,7 @@ namespace Krypton.Toolkit
         }
 
         private static void AllocateLongTextSpace(ViewLayoutContext context,
-                                                  Graphics g,
+                                                  Graphics? g,
                                                   [DisallowNull] StandardContentMemento memento,
                                                   [DisallowNull] IPaletteContent? paletteContent,
                                                   IContentValues contentValues,
@@ -6757,7 +6757,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawDragDockingSquaresBackground(Graphics g,
+        private void DrawDragDockingSquaresBackground(Graphics? g,
                                                       Color inside,
                                                       Color border,
                                                       RenderDragDockingData dragData)
@@ -6803,7 +6803,7 @@ namespace Krypton.Toolkit
                             // Draw outline in darker colour
                             g.DrawPolygon(borderPen, pts);
                         }
-                        else if (dragData.ShowLeft && dragData.ShowRight)
+                        else if (dragData is { ShowLeft: true, ShowRight: true })
                         {
                             // Create points for a polygon
                             Point[] pts = {new(0,  29), new(23, 29),
@@ -6838,7 +6838,7 @@ namespace Krypton.Toolkit
                             g.FillRectangle(insideBrush, 56, 29, 31, 28);
                             g.DrawRectangle(borderPen, 56, 29, 31, 28);
                         }
-                        else if (dragData.ShowTop && dragData.ShowBottom)
+                        else if (dragData is { ShowTop: true, ShowBottom: true })
                         {
                             // Create points for a polygon
                             Point[] pts = {new(23, 29), new(29, 23),
@@ -6888,7 +6888,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawDragDockingSquaresLeft(Graphics g,
+        private void DrawDragDockingSquaresLeft(Graphics? g,
                                                 Color activeColor,
                                                 Color inactiveColor,
                                                 RenderDragDockingData dragData)
@@ -6947,7 +6947,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawDragDockingSquaresRight(Graphics g,
+        private void DrawDragDockingSquaresRight(Graphics? g,
                                                  Color activeColor,
                                                  Color inactiveColor,
                                                  RenderDragDockingData dragData)
@@ -7006,7 +7006,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawDragDockingSquaresTop(Graphics g,
+        private void DrawDragDockingSquaresTop(Graphics? g,
                                                Color activeColor,
                                                Color inactiveColor,
                                                RenderDragDockingData dragData)
@@ -7065,7 +7065,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawDragDockingSquaresBottom(Graphics g,
+        private void DrawDragDockingSquaresBottom(Graphics? g,
                                                   Color activeColor,
                                                   Color inactiveColor,
                                                   RenderDragDockingData dragData)
@@ -7124,7 +7124,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawDragDockingSquaresMiddle(Graphics g,
+        private void DrawDragDockingSquaresMiddle(Graphics? g,
                                                   Color activeColor,
                                                   Color inactiveColor,
                                                   RenderDragDockingData dragData)
@@ -7220,7 +7220,7 @@ namespace Krypton.Toolkit
                                                                      bool fading,
                                                                      IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -7349,7 +7349,7 @@ namespace Krypton.Toolkit
                                                                      IDisposable memento,
                                                                      bool gradientTop)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -7429,7 +7429,7 @@ namespace Krypton.Toolkit
                                                                        IPaletteRibbonBack palette,
                                                                        IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -7546,7 +7546,7 @@ namespace Krypton.Toolkit
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -7602,7 +7602,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillRectangle(cache.half2Brush, cache.half2Rect);
 
                 // Cannot draw a path that contains a zero sized element
-                if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+                if (cache.ellipseRect is { Width: > 0, Height: > 0 })
                 {
                     // Draw twice to get a deeper color effect, once is to pale
                     context.Graphics.FillRectangle(cache.ellipseBrush, cache.half2RectF);
@@ -7684,7 +7684,7 @@ namespace Krypton.Toolkit
 
             // Cannot draw a path that contains a zero sized element
             GraphicsPath ellipsePath = new();
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -7723,7 +7723,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabTrackingTopDraw2007(Rectangle rect,
                                                                 MementoRibbonTabTracking2007 cache,
-                                                                Graphics g)
+                                                                Graphics? g)
         {
             g.FillRectangle(cache.outsideBrush, rect.Left, rect.Top + 3, 1, rect.Height - 4);
             g.FillRectangle(cache.insideBrush, rect.Left + 2, rect.Top + 3, 1, rect.Height - 4);
@@ -7778,7 +7778,7 @@ namespace Krypton.Toolkit
 
             GraphicsPath ellipsePath = new();
             // Cannot draw a path that contains a zero sized element
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -7817,7 +7817,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabTrackingLeftDraw2007(Rectangle rect,
                                                                  MementoRibbonTabTracking2007 cache,
-                                                                 Graphics g)
+                                                                 Graphics? g)
         {
             g.FillRectangle(cache.outsideBrush, rect.Left + 3, rect.Top, rect.Width - 4, 1);
             g.FillRectangle(cache.insideBrush, rect.Left + 3, rect.Top + 2, rect.Width - 4, 1);
@@ -7872,7 +7872,7 @@ namespace Krypton.Toolkit
 
             GraphicsPath ellipsePath = new();
             // Cannot draw a path that contains a zero sized element
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -7911,7 +7911,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabTrackingRightDraw2007(Rectangle rect,
                                                                   MementoRibbonTabTracking2007 cache,
-                                                                  Graphics g)
+                                                                  Graphics? g)
         {
             g.FillRectangle(cache.outsideBrush, rect.Left + 1, rect.Top, rect.Width - 4, 1);
             g.FillRectangle(cache.insideBrush, rect.Left + 1, rect.Top + 2, rect.Width - 4, 1);
@@ -7966,7 +7966,7 @@ namespace Krypton.Toolkit
 
             GraphicsPath ellipsePath = new();
             // Cannot draw a path that contains a zero sized element
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -8005,7 +8005,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabTrackingBottomDraw2007(Rectangle rect,
                                                                    MementoRibbonTabTracking2007 cache,
-                                                                   Graphics g)
+                                                                   Graphics? g)
         {
             g.FillRectangle(cache.outsideBrush, rect.Left, rect.Top + 1, 1, rect.Height - 4);
             g.FillRectangle(cache.insideBrush, rect.Left + 2, rect.Top + 1, 1, rect.Height - 4);
@@ -8025,7 +8025,7 @@ namespace Krypton.Toolkit
                                                                 IDisposable memento,
                                                                 bool standard)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -8302,7 +8302,7 @@ namespace Krypton.Toolkit
                                                              VisualOrientation orientation,
                                                              IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -8594,7 +8594,7 @@ namespace Krypton.Toolkit
                                                            VisualOrientation orientation,
                                                            IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -8665,7 +8665,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.topBrush, cache.topPath);
 
                 // Cannot draw a path that contains a zero sized element
-                if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+                if (cache.ellipseRect is { Width: > 0, Height: > 0 })
                 {
                     context.Graphics.FillRectangle(cache.ellipseBrush, cache.fullRect);
                 }
@@ -8711,7 +8711,7 @@ namespace Krypton.Toolkit
             cache.ellipseRect = new RectangleF(rect.Left - ((ellipseWidth - rect.Width) / 2), rect.Bottom - ellipseHeight, ellipseWidth, ellipseHeight * 2);
 
             // Cannot draw a path that contains a zero sized element
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -8768,7 +8768,7 @@ namespace Krypton.Toolkit
             cache.ellipseRect = new RectangleF(rect.Right - ellipseWidth, rect.Top - ((ellipseHeight - rect.Height) / 2), ellipseWidth * 2, ellipseHeight);
 
             // Cannot draw a path that contains a zero sized element
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -8825,7 +8825,7 @@ namespace Krypton.Toolkit
             cache.ellipseRect = new RectangleF(rect.Left - ellipseWidth, rect.Top - ((ellipseHeight - rect.Height) / 2), ellipseWidth * 2, ellipseHeight);
 
             // Cannot draw a path that contains a zero sized element
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -8882,7 +8882,7 @@ namespace Krypton.Toolkit
             cache.ellipseRect = new RectangleF(rect.Left - ((ellipseWidth - rect.Width) / 2), rect.Top - ellipseHeight, ellipseWidth, ellipseHeight * 2);
 
             // Cannot draw a path that contains a zero sized element
-            if ((cache.ellipseRect.Width > 0) && (cache.ellipseRect.Height > 0))
+            if (cache.ellipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.ellipseRect);
                 cache.ellipseBrush = new PathGradientBrush(ellipsePath)
@@ -8912,7 +8912,7 @@ namespace Krypton.Toolkit
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -9027,7 +9027,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedTopDraw2007(Rectangle rect,
                                                                 MementoRibbonTabSelected2007 cache,
-                                                                Graphics g)
+                                                                Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.insidePen, rect.Left + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
@@ -9079,7 +9079,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedLeftDraw2007(Rectangle rect,
                                                                  MementoRibbonTabSelected2007 cache,
-                                                                 Graphics g)
+                                                                 Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.insidePen, rect.Right - 1, rect.Bottom - 2, rect.Right - 1, rect.Top + 1);
@@ -9131,7 +9131,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedRightDraw2007(Rectangle rect,
                                                                   MementoRibbonTabSelected2007 cache,
-                                                                  Graphics g)
+                                                                  Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.insidePen, rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1);
@@ -9183,7 +9183,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedBottomDraw2007(Rectangle rect,
                                                                    MementoRibbonTabSelected2007 cache,
-                                                                   Graphics g)
+                                                                   Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.insidePen, rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
@@ -9217,7 +9217,7 @@ namespace Krypton.Toolkit
                                                                 IDisposable memento,
                                                                 bool standard)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -9365,7 +9365,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedTopDraw2010(Rectangle rect,
                                                                 MementoRibbonTabSelected2010 cache,
-                                                                Graphics g)
+                                                                Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.centerPen, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
@@ -9433,7 +9433,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedLeftDraw2010(Rectangle rect,
                                                                  MementoRibbonTabSelected2010 cache,
-                                                                 Graphics g)
+                                                                 Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.centerPen, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
@@ -9501,7 +9501,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedRightDraw2010(Rectangle rect,
                                                                   MementoRibbonTabSelected2010 cache,
-                                                                  Graphics g)
+                                                                  Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.centerPen, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
@@ -9568,7 +9568,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabSelectedBottomDraw2010(Rectangle rect,
                                                                    MementoRibbonTabSelected2010 cache,
-                                                                   Graphics g)
+                                                                   Graphics? g)
         {
             // Fill in the bottom two lines that the 'FillPath' above missed
             g.DrawLine(cache.centerPen, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
@@ -9593,7 +9593,7 @@ namespace Krypton.Toolkit
                                                                    VisualOrientation orientation,
                                                                    IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -9708,7 +9708,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabContextSelectedTopDraw(Rectangle rect,
                                                                    MementoRibbonTabContextSelected cache,
-                                                                   Graphics g)
+                                                                   Graphics? g)
         {
             g.DrawLine(Pens.White, rect.Left + 2, rect.Top + 3, rect.Right - 3, rect.Top + 3);
             g.DrawLine(cache.l3, rect.Left + 2, rect.Top + 3, rect.Right - 3, rect.Top + 3);
@@ -9763,7 +9763,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabContextSelectedLeftDraw(Rectangle rect,
                                                                     MementoRibbonTabContextSelected cache,
-                                                                    Graphics g)
+                                                                    Graphics? g)
         {
             g.DrawLine(Pens.White, rect.Left + 3, rect.Bottom - 3, rect.Left + 3, rect.Top + 2);
             g.DrawLine(cache.l3, rect.Left + 3, rect.Bottom - 3, rect.Left + 3, rect.Top + 2);
@@ -9818,7 +9818,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabContextSelectedRightDraw(Rectangle rect,
                                                                      MementoRibbonTabContextSelected cache,
-                                                                     Graphics g)
+                                                                     Graphics? g)
         {
             g.DrawLine(Pens.White, rect.Right - 4, rect.Bottom - 3, rect.Right - 4, rect.Top + 2);
             g.DrawLine(cache.l3, rect.Right - 4, rect.Bottom - 3, rect.Right - 4, rect.Top + 2);
@@ -9873,7 +9873,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void DrawRibbonTabContextSelectedBottomDraw(Rectangle rect,
                                                                       MementoRibbonTabContextSelected cache,
-                                                                      Graphics g)
+                                                                      Graphics? g)
         {
             g.DrawLine(Pens.White, rect.Left + 2, rect.Bottom - 4, rect.Right - 3, rect.Bottom - 4);
             g.DrawLine(cache.l3, rect.Left + 2, rect.Bottom - 4, rect.Right - 3, rect.Bottom - 4);
@@ -9907,7 +9907,7 @@ namespace Krypton.Toolkit
                                                              IDisposable memento,
                                                              bool alternate)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -10004,7 +10004,7 @@ namespace Krypton.Toolkit
                                                              Color c3, Color c4,
                                                              Color c5,
                                                              MementoRibbonTabHighlight cache,
-                                                             Graphics g,
+                                                             Graphics? g,
                                                              bool alternate)
         {
             g.FillRectangle(cache.topBorderBrush, rect.Left - 1, rect.Top - 1, rect.Width + 2, 4);
@@ -10053,7 +10053,7 @@ namespace Krypton.Toolkit
                                                               Color c3, Color c4,
                                                               Color c5,
                                                               MementoRibbonTabHighlight cache,
-                                                              Graphics g,
+                                                              Graphics? g,
                                                               bool alternate)
         {
             g.FillRectangle(cache.topBorderBrush, rect.Left - 1, rect.Top - 1, 4, rect.Height + 2);
@@ -10102,7 +10102,7 @@ namespace Krypton.Toolkit
                                                                Color c3, Color c4,
                                                                Color c5,
                                                                MementoRibbonTabHighlight cache,
-                                                               Graphics g,
+                                                               Graphics? g,
                                                                bool alternate)
         {
             g.FillRectangle(cache.topBorderBrush, rect.Right - 4, rect.Top - 1, 4, rect.Height + 2);
@@ -10151,7 +10151,7 @@ namespace Krypton.Toolkit
                                                         Color c3, Color c4,
                                                         Color c5,
                                                         MementoRibbonTabHighlight cache,
-                                                        Graphics g,
+                                                        Graphics? g,
                                                         bool alternate)
         {
             g.FillRectangle(cache.topBorderBrush, rect.Left - 1, rect.Bottom - 3, rect.Width + 2, 4);
@@ -10187,7 +10187,7 @@ namespace Krypton.Toolkit
                                                            IPaletteRibbonBack paletteBack,
                                                            IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
@@ -10265,7 +10265,7 @@ namespace Krypton.Toolkit
             rect.Width -= 3;
             rect.Height -= 3;
 
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Get the colors from the palette
                 Color topLight = palette.GetRibbonBackColor1(state);
@@ -10337,7 +10337,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual void DrawRibbonAppButtonBorder1(Graphics g,
+        protected virtual void DrawRibbonAppButtonBorder1(Graphics? g,
                                                           MementoRibbonAppButton memento)
         {
             g.FillEllipse(_buttonBorder1Brush, memento.borderShadow1);
@@ -10347,7 +10347,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual void DrawRibbonAppButtonUpperHalf(Graphics g,
+        protected virtual void DrawRibbonAppButtonUpperHalf(Graphics? g,
                                                             MementoRibbonAppButton memento,
                                                             PaletteState state,
                                                             Color topDark,
@@ -10405,7 +10405,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual void DrawRibbonAppButtonLowerHalf(Graphics g,
+        protected virtual void DrawRibbonAppButtonLowerHalf(Graphics? g,
                                                             MementoRibbonAppButton memento,
                                                             PaletteState state,
                                                             Color bottomDark,
@@ -10431,7 +10431,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual void DrawRibbonAppButtonGlowCenter(Graphics g,
+        protected virtual void DrawRibbonAppButtonGlowCenter(Graphics? g,
                                                              MementoRibbonAppButton memento,
                                                              PaletteState state,
                                                              Color topLight,
@@ -10472,7 +10472,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual void DrawRibbonAppButtonGlowUpperBottom(Graphics g,
+        protected virtual void DrawRibbonAppButtonGlowUpperBottom(Graphics? g,
                                                                   MementoRibbonAppButton memento,
                                                                   PaletteState state,
                                                                   Color bottomLight,
@@ -10513,7 +10513,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual void DrawRibbonAppButtonBorder2(Graphics g,
+        protected virtual void DrawRibbonAppButtonBorder2(Graphics? g,
                                                           MementoRibbonAppButton memento,
                                                           PaletteState state,
                                                           Color bottomLight,
@@ -10597,7 +10597,7 @@ namespace Krypton.Toolkit
                                                        Color baseColor2,
                                                        IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoRibbonAppTab cache;
@@ -10707,7 +10707,7 @@ namespace Krypton.Toolkit
                                                                  bool tracking,
                                                                  bool dark)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -10791,7 +10791,7 @@ namespace Krypton.Toolkit
                                                                   bool lightInside,
                                                                   IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -10908,7 +10908,7 @@ namespace Krypton.Toolkit
                                                                      bool tracking,
                                                                      bool dark)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -10990,7 +10990,7 @@ namespace Krypton.Toolkit
                                                                  IPaletteRibbonBack palette,
                                                                  IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11049,7 +11049,7 @@ namespace Krypton.Toolkit
                                                                      IPaletteRibbonBack palette,
                                                                      IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Grab the colors needed for drawing                
                 Color c1 = palette.GetRibbonBackColor1(state);
@@ -11135,7 +11135,7 @@ namespace Krypton.Toolkit
                                                                           IPaletteRibbonBack palette,
                                                                           IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11202,7 +11202,7 @@ namespace Krypton.Toolkit
                                                                  IPaletteRibbonBack palette,
                                                                  IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11254,7 +11254,7 @@ namespace Krypton.Toolkit
                                                                  float percent,
                                                                  IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11314,7 +11314,7 @@ namespace Krypton.Toolkit
                                                                  bool composition,
                                                                  IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11442,7 +11442,7 @@ namespace Krypton.Toolkit
                                                                  bool composition,
                                                                  IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11565,7 +11565,7 @@ namespace Krypton.Toolkit
                                                        IPaletteRibbonBack palette,
                                                        IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11611,7 +11611,7 @@ namespace Krypton.Toolkit
                                                              IPaletteRibbonBack palette,
                                                              IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11671,7 +11671,7 @@ namespace Krypton.Toolkit
                                                              IPaletteRibbonBack palette,
                                                              IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11721,7 +11721,7 @@ namespace Krypton.Toolkit
                                                              IPaletteRibbonBack palette,
                                                              IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11786,7 +11786,7 @@ namespace Krypton.Toolkit
             rect.Y++;
             rect.Height--;
 
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11870,7 +11870,7 @@ namespace Krypton.Toolkit
                                                                  IPaletteRibbonBack palette,
                                                                  IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -11928,7 +11928,7 @@ namespace Krypton.Toolkit
                                                             IPaletteRibbonBack palette,
                                                             IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);

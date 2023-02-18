@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                             IDisposable
     {
         #region Instance Fields
-        private readonly Graphics _graphics;
+        private readonly Graphics? _graphics;
         private readonly Region _previousRegion;
         private Region _newRegion;
         #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="graphics">Graphics context.</param>
         /// <param name="path">Path to clip.</param>
-        public Clipping(Graphics graphics, GraphicsPath path)
+        public Clipping(Graphics? graphics, GraphicsPath path)
             : this(graphics, path, false)
         {
 
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics context.</param>
         /// <param name="path">Path to clip.</param>
         /// <param name="exclude">Exclude path from clipping.</param>
-        public Clipping(Graphics graphics, GraphicsPath path, bool exclude)
+        public Clipping(Graphics? graphics, GraphicsPath path, bool exclude)
         {
             // Cache graphics instance
             _graphics = graphics;
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="graphics">Graphics context.</param>
         /// <param name="region">Clipping region.</param>
-        public Clipping(Graphics graphics, Region region)
+        public Clipping(Graphics? graphics, Region region)
             : this(graphics, region, false)
         {
         }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics context.</param>
         /// <param name="region">Clipping region.</param>
         /// <param name="exclude">Exclude region from clipping.</param>
-        public Clipping(Graphics graphics, Region region, bool exclude)
+        public Clipping(Graphics? graphics, Region region, bool exclude)
         {
             // Cache graphics instance
             _graphics = graphics;
@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="graphics">Graphics context.</param>
         /// <param name="rect">Clipping rectangle.</param>
-        public Clipping(Graphics graphics, Rectangle rect)
+        public Clipping(Graphics? graphics, Rectangle rect)
             : this(graphics, rect, false)
         {
         }
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics context.</param>
         /// <param name="rect">Clipping rectangle.</param>
         /// <param name="exclude">Exclude rectangle from clipping.</param>
-        public Clipping(Graphics graphics, Rectangle rect, bool exclude)
+        public Clipping(Graphics? graphics, Rectangle rect, bool exclude)
         {
             // Cache graphics instance
             _graphics = graphics;

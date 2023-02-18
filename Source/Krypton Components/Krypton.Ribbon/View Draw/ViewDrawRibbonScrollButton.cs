@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
             return path;
         }
 
-        private void DrawArrow(Graphics g, Color textColor, Rectangle rect)
+        private void DrawArrow(Graphics? g, Color textColor, Rectangle rect)
         {
             // Create path that describes the arrow in orientation needed
             using GraphicsPath arrowPath = CreateArrowPath(rect);
@@ -209,8 +209,7 @@ namespace Krypton.Ribbon
             int x, y;
 
             // Find the correct starting position, which depends on direction
-            if ((Orientation == VisualOrientation.Left) ||
-                (Orientation == VisualOrientation.Right))
+            if (Orientation is VisualOrientation.Left or VisualOrientation.Right)
             {
                 x = rect.Right - ((rect.Width - 4) / 2);
                 y = rect.Y + (rect.Height / 2);

@@ -560,7 +560,7 @@ namespace Krypton.Ribbon
         protected override void OnGotFocus(EventArgs e)
         {
             // If there are some images Displayed
-            if ((_imageList != null) && (_imageList.Images.Count > 0))
+            if (_imageList is { Images.Count: > 0 })
             {
                 if (TrackingIndex < 0)
                 {
@@ -606,7 +606,7 @@ namespace Krypton.Ribbon
                 if (_trackingIndex == -1)
                 {
                     // If it is possible to give tracking to an item
-                    if ((_imageList != null) && (_imageList.Images.Count > 0))
+                    if (_imageList is { Images.Count: > 0 })
                     {
                         // Use the selected index if it matches a visible item, otherwise default to first item
                         if ((SelectedIndex < _imageList.Images.Count) && (SelectedIndex >= 0))
@@ -635,7 +635,7 @@ namespace Krypton.Ribbon
                         case Keys.PageDown:
                         case Keys.PageUp:
                             // If inside a ribbon then we ignore the movement keys
-                            if ((Ribbon == null) || Ribbon is { InKeyboardMode: false })
+                            if (Ribbon is null or { InKeyboardMode: false })
                             {
                                 _drawItems[_trackingIndex].KeyDown(new KeyEventArgs(keyData));
                                 return true;

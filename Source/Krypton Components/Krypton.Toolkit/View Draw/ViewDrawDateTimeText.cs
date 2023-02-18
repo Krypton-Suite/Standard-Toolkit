@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
             /// <param name="format">Format string to parse.</param>
             /// <param name="g">Graphics instance used to measure text.</param>
             /// <param name="font">Font used to measure text.</param>
-            public void ParseFormat(string format, Graphics g, Font font)
+            public void ParseFormat(string format, Graphics? g, Font font)
             {
                 // Split the format into a set of fragments
                 _fragments = ParseFormatToFragments(format);
@@ -637,7 +637,7 @@ namespace Krypton.Toolkit
 
             private bool ImplRightToLeft => RightToLeftLayout && (_dateTimePicker.RightToLeft == RightToLeft.Yes);
 
-            private void MeasureFragments(Graphics g, Font font, DateTime dt)
+            private void MeasureFragments(Graphics? g, Font font, DateTime dt)
             {
                 // Create a character range/character region for each of the fragments
                 var charRanges = new CharacterRange[_fragments.Count];
@@ -1465,7 +1465,7 @@ namespace Krypton.Toolkit
                         _formatHandler.EndInputDigits();
                     }
 
-                    if (_dateTimePicker.ShowCheckBox && _dateTimePicker.InternalViewDrawCheckBox.ForcedTracking)
+                    if (_dateTimePicker is { ShowCheckBox: true, InternalViewDrawCheckBox.ForcedTracking: true })
                     {
                         if (_dateTimePicker.Checked)
                         {
@@ -1502,7 +1502,7 @@ namespace Krypton.Toolkit
                         _formatHandler.EndInputDigits();
                     }
 
-                    if (_dateTimePicker.ShowCheckBox && _dateTimePicker.InternalViewDrawCheckBox.ForcedTracking)
+                    if (_dateTimePicker is { ShowCheckBox: true, InternalViewDrawCheckBox.ForcedTracking: true })
                     {
                         if (_dateTimePicker.Checked)
                         {

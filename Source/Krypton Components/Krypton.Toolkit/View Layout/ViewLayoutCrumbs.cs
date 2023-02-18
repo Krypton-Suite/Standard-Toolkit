@@ -449,8 +449,7 @@ namespace Krypton.Toolkit
                     _kryptonBreadCrumb.OnCrumbDropDown(bcma);
 
                     // Is there still the need to show a menu that is not empty?
-                    if (!bcma.Cancel &&
-                        (bcma.KryptonContextMenu != null) &&
+                    if (bcma is { Cancel: false, KryptonContextMenu: { } } &&
                         CommonHelper.ValidKryptonContextMenu(bcma.KryptonContextMenu))
                     {
                         // Cache the controller for use in menu close processing, prevents the need to 
@@ -599,8 +598,7 @@ namespace Krypton.Toolkit
                 _kryptonBreadCrumb.OnOverflowDropDown(cpma);
 
                 // Is there still the need to show a menu that is not empty?
-                if (!cpma.Cancel &&
-                    (cpma.KryptonContextMenu != null) &&
+                if (cpma is { Cancel: false, KryptonContextMenu: { } } &&
                     CommonHelper.ValidKryptonContextMenu(cpma.KryptonContextMenu))
                 {
                     // Cache the controller for use in menu close processing, prevents the need to 

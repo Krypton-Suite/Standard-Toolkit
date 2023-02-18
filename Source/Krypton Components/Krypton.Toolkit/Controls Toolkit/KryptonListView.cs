@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
     {
         #region Variables
         private PaletteBase? _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
         private bool _refreshAll;
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedNormal;
         private readonly PaletteTripleOverride _overrideCheckedTracking;
         private readonly PaletteTripleOverride _overrideCheckedPressed;
-        private readonly PaletteRedirectCheckBox _paletteCheckBoxImages;
+        private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutCenter _layoutCheckBox;
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -1097,7 +1097,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        private void CacheNewPalette(PaletteBase palette)
+        private void CacheNewPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {

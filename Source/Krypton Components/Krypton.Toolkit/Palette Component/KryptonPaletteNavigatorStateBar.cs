@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                                    IPaletteMetric
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private Padding _barPaddingTabs;
         private Padding _barPaddingInside;
         private Padding _barPaddingOutside;
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirection for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteNavigatorStateBar(PaletteRedirect redirect,
+        public KryptonPaletteNavigatorStateBar(PaletteRedirect? redirect,
                                                NeedPaintHandler needPaint) 
         {
             Debug.Assert(redirect != null);

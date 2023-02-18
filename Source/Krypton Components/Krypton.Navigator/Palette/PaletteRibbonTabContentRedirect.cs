@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonTabContentRedirect(PaletteRedirect redirect,
+        public PaletteRibbonTabContentRedirect(PaletteRedirect? redirect,
                                                NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -52,7 +52,7 @@ namespace Krypton.Navigator
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             _drawRedirect.SetRedirector(redirect);
             _contentInherit.SetRedirector(redirect);

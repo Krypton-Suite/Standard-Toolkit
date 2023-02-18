@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                   IContentValues
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirector;
+        private readonly PaletteRedirect? _redirector;
         private readonly PaletteTripleRedirect _palette;
         private readonly EventHandler _finishDelegate;
         private ButtonController _controller;
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <param name="metricPadding">Padding metric for border padding.</param>
         /// <param name="manager">Reference to owning manager.</param>
         /// <param name="buttonSpec">Access</param>
-        public ButtonSpecView(PaletteRedirect redirector,
+        public ButtonSpecView(PaletteRedirect? redirector,
                               IPaletteMetric paletteMetric,
                               PaletteMetricPadding metricPadding,
                               ButtonSpecManagerBase manager,
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the remapping palette.
         /// </summary>
-        public PaletteRedirect RemapPalette { get; }
+        public PaletteRedirect? RemapPalette { get; }
 
         /// <summary>
         /// Gets and sets the composition setting for the button.

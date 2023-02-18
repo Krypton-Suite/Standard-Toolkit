@@ -70,11 +70,11 @@ namespace Krypton.Workspace
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // Transfer the dragged pages into a new cell
             KryptonWorkspaceCell cell = new();
-            KryptonPage page = ProcessDragEndData(Workspace, cell, data);
+            KryptonPage? page = ProcessDragEndData(Workspace, cell, data);
 
             // If no pages are transferred then we do nothing and no longer need cell instance
             if (page == null)
@@ -84,7 +84,7 @@ namespace Krypton.Workspace
             else
             {
                 // If the root is not the same direction as that needed for the drop then...
-                var dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
+                var dropHorizontal = Edge is VisualOrientation.Left or VisualOrientation.Right;
                 if ((dropHorizontal && (Workspace.Root.Orientation == Orientation.Vertical)) ||
                     (!dropHorizontal && (Workspace.Root.Orientation == Orientation.Horizontal)))
                 {
@@ -107,7 +107,7 @@ namespace Krypton.Workspace
                 }
 
                 // Add to the start or the end of the root sequence?
-                if ((Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Top))
+                if (Edge is VisualOrientation.Left or VisualOrientation.Top)
                 {
                     Workspace.Root.Children.Insert(0, cell);
                 }

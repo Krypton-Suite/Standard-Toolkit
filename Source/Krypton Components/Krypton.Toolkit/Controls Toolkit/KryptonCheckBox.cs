@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawCheckBox _drawCheckBox;
         private readonly ViewDrawContent _drawContent;
         private readonly PaletteContentInheritRedirect _paletteCommonRedirect;
-        private readonly PaletteRedirectCheckBox _paletteCheckBoxImages;
+        private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly PaletteContentInheritOverride _overrideNormal;
         private KryptonCommand? _command;
         private VisualOrientation _checkPosition;

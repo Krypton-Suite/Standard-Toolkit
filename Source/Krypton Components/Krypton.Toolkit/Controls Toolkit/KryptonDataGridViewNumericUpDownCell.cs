@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
                     e.KeyCode is >= Keys.NumPad0 and <= Keys.NumPad9 ||
                     (negativeSignKey == e.KeyCode) ||
                     (Keys.Subtract == e.KeyCode)) &&
-                   !e.Shift && !e.Alt && !e.Control;
+                   !e.Shift && e is { Alt: false, Control: false };
         }
 
         /// <summary>
@@ -483,9 +483,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingNumericUpDown(int rowIndex) =>
-            rowIndex != -1 && DataGridView != null
-&& (DataGridView.EditingControl is KryptonDataGridViewNumericUpDownEditingControl control)
-                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewNumericUpDownEditingControl control } 
+                           && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
 

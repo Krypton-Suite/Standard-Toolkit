@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
                 }
 
                 // If this group is being dismissed with key tips showing
-                if (_ribbon.InKeyboardMode &&(_ribbon.KeyTipMode == KeyTipMode.PopupGroup))
+                if (_ribbon is { InKeyboardMode: true, KeyTipMode: KeyTipMode.PopupGroup })
                 {
                     // Revert back to key tips for selected tab
                     KeyTipMode mode = _ribbon.RealMinimizedMode ? KeyTipMode.PopupMinimized : KeyTipMode.SelectedGroups;
@@ -350,7 +350,7 @@ namespace Krypton.Ribbon
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             // If in keyboard mode then pass character onto the key tips
-            if (_ribbon.InKeyboardMode && _ribbon.InKeyTipsMode)
+            if (_ribbon is { InKeyboardMode: true, InKeyTipsMode: true })
             {
                 _ribbon.AppendKeyTipPress(char.ToUpper(e.KeyChar));
             }

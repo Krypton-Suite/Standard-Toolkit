@@ -45,15 +45,15 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Remember references needed later
-            _navigator = navigator;
-            _page = page;
+            _navigator = navigator!;
+            _page = page!;
 
             // Always create the layout that positions the actual page
-            ViewLayoutPopupPage layoutPage = new(navigator, page);
+            ViewLayoutPopupPage layoutPage = new(_navigator, _page);
 
             // Create the internal panel used for containing content
-            ViewDrawCanvas drawGroup = new(navigator.StateNormal.HeaderGroup.Back,
-                                                          navigator.StateNormal.HeaderGroup.Border,
+            ViewDrawCanvas drawGroup = new(_navigator.StateNormal.HeaderGroup.Back,
+                                                          _navigator.StateNormal.HeaderGroup.Border,
                                                           VisualOrientation.Top)
             {
 
@@ -79,8 +79,8 @@ namespace Krypton.Navigator
                 };
 
                 // Create a new top level group that contains the layout
-                drawGroup = new ViewDrawCanvas(navigator.StateNormal.Back,
-                                               navigator.StateNormal.HeaderGroup.Border,
+                drawGroup = new ViewDrawCanvas(_navigator.StateNormal.Back,
+                                                _navigator.StateNormal.HeaderGroup.Border,
                                                VisualOrientation.Top)
                 {
                     layoutDocker
@@ -91,8 +91,9 @@ namespace Krypton.Navigator
 
             // Borrow the child panel that contains all the pages from 
             // the navigator and add it inside as a child of ourself
-            navigator.BorrowChildPanel();
-            Controls.Add(navigator.ChildPanel);
+            _navigator.BorrowChildPanel();
+            if (_navigator.ChildPanel != null)
+                Controls.Add(_navigator.ChildPanel);
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace Krypton.Navigator
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (_navigator.IsChildPanelBorrowed && (_navigator.ChildPanel != null))
+            if (_navigator is { IsChildPanelBorrowed: true, ChildPanel: { } })
             {
                 // Remove the child panel from ourself and return it 
                 // back to the navigator that it was borrowed from
@@ -231,7 +232,7 @@ namespace Krypton.Navigator
             if (!IsDisposed)
             {
                 // If the user pressed tab or shift tab
-                if ((e.KeyData == Keys.Tab) || (e.KeyData == (Keys.Tab | Keys.Shift)))
+                if (e.KeyData is Keys.Tab or (Keys.Tab | Keys.Shift))
                 {
                     // If we do not currently contain the focus
                     if (!_page.ContainsFocus)
@@ -257,7 +258,7 @@ namespace Krypton.Navigator
         protected override bool ProcessTabKey(bool forward)
         {
             // Find the control in our hierarchy that has the focus
-            Control focus = GetControlWithFocus(this);
+            Control? focus = GetControlWithFocus(this);
 
             // If nothing has the focus then we cannot perform processing
             return focus == null || TabToNextControl(focus, forward);
@@ -287,11 +288,11 @@ namespace Krypton.Navigator
             }
         }
 
-        private bool TabToNextControl(Control focus,
+        private bool TabToNextControl(Control? focus,
                                       bool forward)
         {
             // Start searching from the current focus control
-            Control next = focus;
+            Control? next = focus;
 
             // If only allow focus on a control within the page instance, so
             // setting to null will force the GetNextControl to get the first
@@ -307,7 +308,7 @@ namespace Krypton.Navigator
             do
             {
                 // Find the next control in sequence
-                next = _page.GetNextControl(next, forward);
+                next = _page.GetNextControl(next!, forward);
 
                 // If no more controls found, then finished
                 if (next == null)
@@ -328,7 +329,7 @@ namespace Krypton.Navigator
                     {
                         // If the next control is allowed to become selected 
                         // and allowed to be selected because of a tab action
-                        if (next.CanSelect && next.TabStop)
+                        if (next is { CanSelect: true, TabStop: true })
                         {
                             // Is the next control a container control?
                             if (next is ContainerControl)

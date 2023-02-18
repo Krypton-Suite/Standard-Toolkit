@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
                             PI.PAINTSTRUCT ps = new();
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
-                            using (Graphics g = Graphics.FromHdc(hdc))
+                            using (Graphics? g = Graphics.FromHdc(hdc))
                             {
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);

@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual PaletteBase GetResolvedPalette() => null;
+        public virtual PaletteBase? GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.

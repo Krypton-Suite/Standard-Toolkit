@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewDrawForm : ViewDrawDocker
     {
         #region Instance Fields
-        private StatusStrip _renderStrip;
+        private StatusStrip? _renderStrip;
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the status strip to render.
         /// </summary>
-        public StatusStrip StatusStrip { get; set; }
+        public StatusStrip? StatusStrip { get; set; }
 
         #endregion
 
@@ -79,7 +79,9 @@ namespace Krypton.Toolkit
         {
             // Do we have a status strip to try and merge?
             // Is the status strip using the global renderer?
-            if (StatusStrip?.RenderMode == ToolStripRenderMode.ManagerRenderMode)
+            if ((_renderStrip != null)
+                && (StatusStrip?.RenderMode == ToolStripRenderMode.ManagerRenderMode)
+                )
             {
                 // Cast to correct type
 
@@ -98,19 +100,23 @@ namespace Krypton.Toolkit
                     // Find vertical start of the status strip
                     var y = StatusStrip.Top + borders.Top;
 
-                    try
+                    if (context.Graphics != null)
                     {
-                        // We need to transform downwards from drawing at 0,0 to actual required position
-                        context.Graphics.TranslateTransform(0, y);
+                        try
+                        {
+                            // We need to transform downwards from drawing at 0,0 to actual required position
+                            context.Graphics.TranslateTransform(0, y);
 
-                        // Use the tool strip renderer to draw the correct status strip border/background
-                        renderer.DrawToolStripBorder(new ToolStripRenderEventArgs(context.Graphics, _renderStrip));
-                        renderer.DrawToolStripBackground(new ToolStripRenderEventArgs(context.Graphics, _renderStrip));
-                    }
-                    finally
-                    {
-                        // Make sure that even a crash in the renderer does not prevent the transform reversal
-                        context.Graphics.TranslateTransform(0, -y);
+                            // Use the tool strip renderer to draw the correct status strip border/background
+                            renderer.DrawToolStripBorder(new ToolStripRenderEventArgs(context.Graphics, _renderStrip));
+                            renderer.DrawToolStripBackground(
+                                new ToolStripRenderEventArgs(context.Graphics, _renderStrip));
+                        }
+                        finally
+                        {
+                            // Make sure that even a crash in the renderer does not prevent the transform reversal
+                            context.Graphics.TranslateTransform(0, -y);
+                        }
                     }
                 }
             }

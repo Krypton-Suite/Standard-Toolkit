@@ -59,7 +59,7 @@ namespace Krypton.Navigator
 
         #region ButtonSpecNavFixed Implementation
 
-        public override bool GetVisible(PaletteBase palette)
+        public override bool GetVisible(PaletteBase? palette)
         {
             // We do not show if the custom chrome is combined with composition,
             // in which case the form buttons are handled by the composition

@@ -271,7 +271,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator, 
                                        ViewManager manager,
-                                       PaletteRedirect redirector)
+                                       PaletteRedirect? redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -1439,9 +1439,7 @@ namespace Krypton.Navigator
             {
                 if (item is ViewDrawNavOutlookStack checkButton)
                 {
-                    if (checkButton.Visible &&
-                        checkButton.Page.LastVisibleSet &&
-                        checkButton.Page.Enabled)
+                    if (checkButton is { Visible: true, Page: { LastVisibleSet: true, Enabled: true } })
                     {
                         return checkButton.Page;
                     }
@@ -1453,9 +1451,7 @@ namespace Krypton.Navigator
             {
                 if (item is ViewDrawNavOutlookOverflow checkButton)
                 {
-                    if (checkButton.Visible &&
-                        checkButton.Page.LastVisibleSet &&
-                        checkButton.Page.Enabled)
+                    if (checkButton is { Visible: true, Page: { LastVisibleSet: true, Enabled: true } })
                     {
                         return checkButton.Page;
                     }
@@ -1477,9 +1473,7 @@ namespace Krypton.Navigator
             {
                 if (item is ViewDrawNavOutlookOverflow checkButton)
                 {
-                    if (checkButton.Visible &&
-                        checkButton.Page.LastVisibleSet &&
-                        checkButton.Page.Enabled)
+                    if (checkButton is { Visible: true, Page: { LastVisibleSet: true, Enabled: true } })
                     {
                         return checkButton.Page;
                     }
@@ -1491,9 +1485,7 @@ namespace Krypton.Navigator
             {
                 if (item is ViewDrawNavOutlookStack checkButton)
                 {
-                    if (checkButton.Visible &&
-                        checkButton.Page.LastVisibleSet &&
-                        checkButton.Page.Enabled)
+                    if (checkButton is { Visible: true, Page: { LastVisibleSet: true, Enabled: true } })
                     {
                         return checkButton.Page;
                     }
@@ -1516,24 +1508,20 @@ namespace Krypton.Navigator
             // Scan the pages in the stack
             foreach (ViewBase item in _viewLayout)
             {
-                if (item is ViewDrawNavOutlookStack checkButton)
-                {
-
+                if (item is ViewDrawNavOutlookStack { Visible: true } checkButton)
                     // Only interested in visible check buttons
-                    if (checkButton.Visible)
+                {
+                    // If still looking for the provided page then check if this is it
+                    if (!found)
                     {
-                        // If still looking for the provided page then check if this is it
-                        if (!found)
+                        found = (checkButton.Page == page);
+                    }
+                    else
+                    {
+                        // Already found the provided page, is this one capable of being selected?
+                        if (checkButton.Page is { LastVisibleSet: true, Enabled: true })
                         {
-                            found = (checkButton.Page == page);
-                        }
-                        else
-                        {
-                            // Already found the provided page, is this one capable of being selected?
-                            if (checkButton.Page.LastVisibleSet && checkButton.Page.Enabled)
-                            {
-                                return checkButton.Page;
-                            }
+                            return checkButton.Page;
                         }
                     }
                 }
@@ -1542,24 +1530,20 @@ namespace Krypton.Navigator
             // Scan the pages in the overflow
             foreach (ViewBase item in _viewOverflowLayout)
             {
-                if (item is ViewDrawNavOutlookOverflow checkButton)
-                {
-
+                if (item is ViewDrawNavOutlookOverflow { Visible: true } checkButton)
                     // Only interested in visible check buttons
-                    if (checkButton.Visible)
+                {
+                    // If still looking for the provided page then check if this is it
+                    if (!found)
                     {
-                        // If still looking for the provided page then check if this is it
-                        if (!found)
+                        found = (checkButton.Page == page);
+                    }
+                    else
+                    {
+                        // Already found the provided page, is this one capable of being selected?
+                        if (checkButton.Page is { LastVisibleSet: true, Enabled: true })
                         {
-                            found = (checkButton.Page == page);
-                        }
-                        else
-                        {
-                            // Already found the provided page, is this one capable of being selected?
-                            if (checkButton.Page.LastVisibleSet && checkButton.Page.Enabled)
-                            {
-                                return checkButton.Page;
-                            }
+                            return checkButton.Page;
                         }
                     }
                 }
@@ -1581,24 +1565,20 @@ namespace Krypton.Navigator
             // Scan the pages in the overflow
             foreach (ViewBase item in _viewOverflowLayout.Reverse())
             {
-                if (item is ViewDrawNavOutlookOverflow checkButton)
-                {
-
+                if (item is ViewDrawNavOutlookOverflow { Visible: true } checkButton)
                     // Only interested in visible check buttons
-                    if (checkButton.Visible)
+                {
+                    // If still looking for the provided page then check if this is it
+                    if (!found)
                     {
-                        // If still looking for the provided page then check if this is it
-                        if (!found)
+                        found = (checkButton.Page == page);
+                    }
+                    else
+                    {
+                        // Already found the provided page, is this one capable of being selected?
+                        if (checkButton.Page is { LastVisibleSet: true, Enabled: true })
                         {
-                            found = (checkButton.Page == page);
-                        }
-                        else
-                        {
-                            // Already found the provided page, is this one capable of being selected?
-                            if (checkButton.Page.LastVisibleSet && checkButton.Page.Enabled)
-                            {
-                                return checkButton.Page;
-                            }
+                            return checkButton.Page;
                         }
                     }
                 }
@@ -1607,24 +1587,20 @@ namespace Krypton.Navigator
             // Scan the pages in the stack
             foreach (ViewBase item in _viewLayout.Reverse())
             {
-                if (item is ViewDrawNavOutlookStack checkButton)
-                {
-
+                if (item is ViewDrawNavOutlookStack { Visible: true } checkButton)
                     // Only interested in visible check buttons
-                    if (checkButton.Visible)
+                {
+                    // If still looking for the provided page then check if this is it
+                    if (!found)
                     {
-                        // If still looking for the provided page then check if this is it
-                        if (!found)
+                        found = (checkButton.Page == page);
+                    }
+                    else
+                    {
+                        // Already found the provided page, is this one capable of being selected?
+                        if (checkButton.Page is { LastVisibleSet: true, Enabled: true })
                         {
-                            found = (checkButton.Page == page);
-                        }
-                        else
-                        {
-                            // Already found the provided page, is this one capable of being selected?
-                            if (checkButton.Page.LastVisibleSet && checkButton.Page.Enabled)
-                            {
-                                return checkButton.Page;
-                            }
+                            return checkButton.Page;
                         }
                     }
                 }

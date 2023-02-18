@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">inheritance ribbon back style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonBackRedirect(PaletteRedirect redirect,
+        public PaletteRibbonBackRedirect(PaletteRedirect? redirect,
                                          PaletteRibbonBackStyle backStyle,
                                          NeedPaintHandler needPaint) 
         {
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => _inheritBack.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect? redirect) => _inheritBack.SetRedirector(redirect);
 
         #endregion
 

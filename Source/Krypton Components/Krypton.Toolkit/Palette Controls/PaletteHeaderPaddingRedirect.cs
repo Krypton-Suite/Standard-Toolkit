@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderPaddingRedirect : PaletteHeaderButtonRedirect
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private Padding _headerPadding;
         #endregion
 
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderPaddingRedirect(PaletteRedirect redirect,
+        public PaletteHeaderPaddingRedirect(PaletteRedirect? redirect,
                                             PaletteBackStyle backStyle,
                                             PaletteBorderStyle borderStyle,
                                             PaletteContentStyle contentStyle,

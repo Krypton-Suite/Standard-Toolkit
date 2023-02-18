@@ -26,9 +26,9 @@ namespace Krypton.Navigator
 
             #region Instance Fields
             private readonly IPaletteDragDrop _paletteDragDrop;
-            private readonly IRenderer _renderer;
-            private HintToTarget _hintToTarget;
-            private IDropDockingIndicator _indicators;
+            private readonly IRenderer? _renderer;
+            private HintToTarget? _hintToTarget;
+            private IDropDockingIndicator? _indicators;
             #endregion
 
             #region Identity
@@ -39,7 +39,7 @@ namespace Krypton.Navigator
             /// <param name="renderer">Drawing renderer.</param>
             /// <param name="target">Initial target for the cluster.</param>
             public DockCluster(IPaletteDragDrop paletteDragDrop,
-                               IRenderer renderer,
+                               IRenderer? renderer,
                                DragTarget target)
             {
                 _paletteDragDrop = paletteDragDrop;
@@ -58,13 +58,13 @@ namespace Krypton.Navigator
             /// </summary>
             public void Dispose()
             {
-                _hintToTarget.Clear();
+                _hintToTarget?.Clear();
                 _hintToTarget = null;
 
                 if (_indicators != null)
                 {
-                    IDisposable dispose = _indicators as IDisposable;
-                    dispose.Dispose();
+                    IDisposable? dispose = _indicators as IDisposable;
+                    dispose?.Dispose();
                     _indicators = null;
                 }
             }
@@ -96,7 +96,7 @@ namespace Krypton.Navigator
                 DragTargetHint hint = target.Hint & DragTargetHint.ExcludeFlags;
 
                 // Can only add one of each hint value
-                if (!_hintToTarget.ContainsKey(hint))
+                if (_hintToTarget != null && !_hintToTarget.ContainsKey(hint))
                 {
                     _hintToTarget.Add(hint, target);
 
@@ -166,7 +166,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private DropSolidWindow _solid;
+        private DropSolidWindow? _solid;
         private readonly DockClusterList _clusters;
         private readonly PaletteDragFeedback _dragFeedback;
         #endregion
@@ -213,7 +213,7 @@ namespace Krypton.Navigator
         /// <param name="dragTargets">List of all drag targets.</param>
         public override void Start(IPaletteDragDrop paletteDragDrop,
                                    IRenderer renderer,
-                                   PageDragEndData pageDragEndData, 
+                                   PageDragEndData? pageDragEndData, 
                                    DragTargetList dragTargets)
         {
             base.Start(paletteDragDrop, renderer, pageDragEndData, dragTargets);
@@ -236,7 +236,7 @@ namespace Krypton.Navigator
                 if (target.IsMatch(target.HotRect.Location, pageDragEndData))
                 {
                     // Find the existing cluster for the targets screen rectangle
-                    DockCluster cluster = FindTargetCluster(target);
+                    DockCluster? cluster = FindTargetCluster(target);
 
                     // Is the target allowed to be added to the found cluster (if there is one found)
                     if ((cluster == null) || cluster.ExcludeCluster || ((target.Hint & DragTargetHint.ExcludeCluster) == DragTargetHint.ExcludeCluster))
@@ -257,16 +257,17 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Current screen point of mouse.</param>
         /// <param name="target">Target that needs feedback.</param>
         /// <returns>Updated drag target.</returns>
-        public override DragTarget Feedback(Point screenPt, DragTarget target)
+        public override DragTarget? Feedback(Point screenPt, DragTarget? target)
         {
-            DragTarget matchTarget = null;
+            DragTarget? matchTarget = null;
             
             // Update each cluster so it shows/hides docking indicators based on mouse position
-            foreach (DragTarget clusterTarget in _clusters
+            foreach (DragTarget? clusterTarget in _clusters
                          .Select(cluster => cluster.Feedback(screenPt, _dragFeedback))
                          .Where(clusterTarget => (clusterTarget != null) && (matchTarget == null))
                      )
             {
+                // TODO: Should be a better way to select the last match for this ?!?
                 matchTarget = clusterTarget;
             }
 
@@ -308,7 +309,7 @@ namespace Krypton.Navigator
             _clusters.Clear();
         }
 
-        private DockCluster FindTargetCluster(DragTarget target)
+        private DockCluster? FindTargetCluster(DragTarget target)
         {
             return _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster.ScreenRect.Equals(target.ScreenRect));
         }

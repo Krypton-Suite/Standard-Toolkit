@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteGrids(PaletteRedirect redirector,
+        public KryptonPaletteGrids(PaletteRedirect? redirector,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             GridCustom3 = new KryptonPaletteGrid(redirector, GridStyle.Custom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectGrids redirectCommon = new(redirector, GridCommon);
+            PaletteRedirectGrids? redirectCommon = new(redirector, GridCommon);
 
             // Ensure the specific styles inherit to the common grid style
             GridList.SetRedirector(redirectCommon);

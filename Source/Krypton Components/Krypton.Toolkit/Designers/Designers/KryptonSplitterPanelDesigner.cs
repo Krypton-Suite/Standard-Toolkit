@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
             base.OnPaintAdornments(pe);
 
             // If the panel has no children, then draw the watermark
-            if ((_panel != null) && (_panel.Controls.Count == 0))
+            if (_panel is { Controls.Count: 0 })
             {
                 DrawWaterMark(pe.Graphics);
             }

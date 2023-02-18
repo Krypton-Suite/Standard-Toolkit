@@ -42,8 +42,8 @@ namespace Krypton.Toolkit
         private PaletteBase? _basePalette;
         private PaletteMode _basePaletteMode;
         private InheritBool _allowFormChrome;
-        private readonly PaletteRedirect _redirector;
-        private readonly PaletteRedirectCommon _redirectCommon;
+        private readonly PaletteRedirect? _redirector;
+        private readonly PaletteRedirectCommon? _redirectCommon;
         private readonly NeedPaintHandler _needPaintDelegate;
         #endregion
 

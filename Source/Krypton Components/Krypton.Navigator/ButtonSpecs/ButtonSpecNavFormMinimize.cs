@@ -15,17 +15,17 @@ namespace Krypton.Navigator
         {
         }
 
-        public override bool GetVisible(PaletteBase palette)
+        public override bool GetVisible(PaletteBase? palette)
         {
             throw new NotImplementedException();
         }
 
-        public override ButtonCheckState GetChecked(PaletteBase palette)
+        public override ButtonCheckState GetChecked(PaletteBase? palette)
         {
             throw new NotImplementedException();
         }
 
-        public override ButtonEnabled GetEnabled(PaletteBase palette)
+        public override ButtonEnabled GetEnabled(PaletteBase? palette)
         {
             throw new NotImplementedException();
         }

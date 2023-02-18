@@ -19,7 +19,7 @@ namespace Krypton.Navigator
                                                IDropDockingIndicator
     {
         #region Instance Fields
-        private readonly IRenderer _renderer;
+        private readonly IRenderer? _renderer;
         private readonly IPaletteDragDrop _paletteDragDrop;
         private readonly RenderDragDockingData _dragData;
         #endregion
@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// <param name="showBottom">Show bottom hot area.</param>
         /// <param name="showMiddle">Show middle hot area.</param>
         public DropDockingIndicatorsSquare(IPaletteDragDrop paletteDragDrop, 
-                                           IRenderer renderer,
+                                           IRenderer? renderer,
                                            bool showLeft, bool showRight,
                                            bool showTop, bool showBottom,
                                            bool showMiddle)
@@ -84,19 +84,19 @@ namespace Krypton.Navigator
             var yHalf = _dragData.DockWindowSize.Height / 2;
             var xHalf = _dragData.DockWindowSize.Width / 2;
 
-            if (_dragData.ShowLeft && !_dragData.ShowRight && !_dragData.ShowMiddle && !_dragData.ShowTop && !_dragData.ShowBottom)
+            if (_dragData.ShowLeft && _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: false })
             {
                 Location = new Point(screenRect.Left + 10, yMid - yHalf);
             }
-            else if (!_dragData.ShowLeft && _dragData.ShowRight && !_dragData.ShowMiddle && !_dragData.ShowTop && !_dragData.ShowBottom)
+            else if (!_dragData.ShowLeft && _dragData is { ShowRight: true, ShowMiddle: false } and { ShowTop: false, ShowBottom: false })
             {
                 Location = new Point(screenRect.Right - _dragData.DockWindowSize.Width - 10, yMid - yHalf);
             }
-            else if (!_dragData.ShowLeft && !_dragData.ShowRight && !_dragData.ShowMiddle && _dragData.ShowTop && !_dragData.ShowBottom)
+            else if (!_dragData.ShowLeft && _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: true, ShowBottom: false })
             {
                 Location = new Point(xMid - xHalf, screenRect.Top + 10);
             }
-            else if (!_dragData.ShowLeft && !_dragData.ShowRight && !_dragData.ShowMiddle && !_dragData.ShowTop && _dragData.ShowBottom)
+            else if (!_dragData.ShowLeft && _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: true })
             {
                 Location = new Point(xMid - xHalf, screenRect.Bottom - _dragData.DockWindowSize.Height - 10);
             }
@@ -144,7 +144,7 @@ namespace Krypton.Navigator
             }
 
             // Only consider the middle if the others do not match
-            if ((_dragData.ActiveFlags == 0) && _dragData.ShowMiddle && _dragData.RectMiddle.Contains(pt))
+            if (_dragData is { ActiveFlags: 0, ShowMiddle: true } && _dragData.RectMiddle.Contains(pt))
             {
                 _dragData.ActiveMiddle = true;
             }

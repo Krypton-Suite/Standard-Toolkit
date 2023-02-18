@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class HeaderValues : HeaderValuesBase
     {
         #region Static Fields
-        private const string _defaultHeading = nameof(Heading);
-        private const string _defaultDescription = nameof(Description);
+        private const string DEFAULT_HEADING = @"Heading";
+        private const string DEFAULT_DESCRIPTION = @"Description";
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the HeaderValues class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public HeaderValues(NeedPaintHandler needPaint)
+        public HeaderValues(NeedPaintHandler? needPaint)
             : base(needPaint)
         {
         }
@@ -38,13 +38,13 @@ namespace Krypton.Toolkit
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault() => _defaultHeading;
+        protected override string GetHeadingDefault() => DEFAULT_HEADING;
 
         /// <summary>
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault() => _defaultDescription;
+        protected override string GetDescriptionDefault() => DEFAULT_DESCRIPTION;
 
         #endregion
     }

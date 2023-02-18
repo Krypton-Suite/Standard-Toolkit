@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
                     break;
                 case Keys.Right:
                     // If enabled and with a sub menu, then show the sub menu
-                    if (_menuItem.ItemEnabled && _menuItem.HasSubMenu)
+                    if (_menuItem is { ItemEnabled: true, HasSubMenu: true })
                     {
                         _menuItem.ShowSubMenu(true);
                     }

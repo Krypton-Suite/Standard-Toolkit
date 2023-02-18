@@ -23,9 +23,9 @@ namespace Krypton.Toolkit
         /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
         /// <param name="destinationType">A Type that represents the type you want to convert to.</param>
         /// <returns>true if this converter can perform the conversion; otherwise, false.</returns>
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) =>
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType) =>
             // Can always convert to a string representation
-            destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
+            destinationType == typeof(string) || base.CanConvertTo(context, destinationType!);
 
         // Let base class do standard processing
         /// <summary>
@@ -36,23 +36,23 @@ namespace Krypton.Toolkit
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context,
-                                         CultureInfo culture, 
-                                         object value, 
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+                                         CultureInfo? culture, 
+                                         object? value, 
                                          Type destinationType)
         {
             // Can always convert to a string representation
             if (destinationType == typeof(string))
             {
                 // Cast to correct type
-                ButtonSpecFormFixed buttonSpec = (ButtonSpecFormFixed)value;
+                ButtonSpecFormFixed? buttonSpec = value as ButtonSpecFormFixed;
 
                 // Ask the button spec for the correct string
-                return buttonSpec.ToString();
+                return buttonSpec?.ToString() ?? string.Empty;
             }
             
             // Let base class attempt other conversions
-            return base.ConvertTo(context, culture, value, destinationType);
+            return base.ConvertTo(context!, culture!, value!, destinationType);
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
         /// <param name="layoutContexts">Reference to layout of the context area.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewLayoutRibbonTabsArea(KryptonRibbon ribbon,
-                                        PaletteRedirect redirect,
+                                        PaletteRedirect? redirect,
                                         ViewDrawRibbonCaptionArea captionArea,
                                         ViewLayoutRibbonContextTitles layoutContexts,
                                         NeedPaintHandler needPaintDelegate)
@@ -368,7 +368,7 @@ namespace Krypton.Ribbon
             context.DisplayRectangle = temp;
 
             // If using custom chrome but not using the composition (which does not need an extra draw)
-            if (_captionArea.UsingCustomChrome && !_captionArea.KryptonForm.ApplyComposition)
+            if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
             {
                 _paintCount = _captionArea.KryptonForm.PaintCount;
                 _invalidateTimer.Start();
@@ -460,7 +460,7 @@ namespace Krypton.Ribbon
             _buttonSpecsFixed.AddRange(new ButtonSpec[] { _buttonSpecMinimize, _buttonSpecExpand, _buttonSpecMin, _buttonSpecRestore, _buttonSpecClose });
         }
 
-        private void CreateViewElements(PaletteRedirect redirect)
+        private void CreateViewElements(PaletteRedirect? redirect)
         {
             // Layout for individual tabs inside the header
             LayoutTabs = new ViewLayoutRibbonTabs(_ribbon, NeedPaintDelegate);
@@ -521,7 +521,7 @@ namespace Krypton.Ribbon
             Add(tabsDocker, ViewDockStyle.Fill);
 
             // Create button specification collection manager
-            PaletteRedirect aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);
+            PaletteRedirect? aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);
             ButtonSpecManager = new ButtonSpecManagerLayoutRibbon(_ribbon, aeroOverrideText, _ribbon.ButtonSpecs, _buttonSpecsFixed,
                                                                new[] { tabsDocker },
                                                                new IPaletteMetric[] { _ribbon.StateCommon },
@@ -639,7 +639,7 @@ namespace Krypton.Ribbon
         {
             _invalidateTimer.Stop();
 
-            if ((_captionArea?.KryptonForm != null) && _captionArea.UsingCustomChrome)
+            if (_captionArea is { KryptonForm: { }, UsingCustomChrome: true })
             {
                 if (_captionArea.KryptonForm.PaintCount == _paintCount)
                 {
@@ -685,7 +685,7 @@ namespace Krypton.Ribbon
                     // Give popups a change to cleanup
                     Application.DoEvents();
 
-                    if (!_ribbon.InDesignMode && !_ribbon.IsDisposed)
+                    if (_ribbon is { InDesignMode: false, IsDisposed: false })
                     {
                         Rectangle appRectTop;
                         Rectangle appRectBottom;
@@ -862,26 +862,21 @@ namespace Krypton.Ribbon
                                 else
                                 {
                                     // Cast to correct type
-                                    if (e.Target.Parent is { Component: IRibbonGroupItem groupItem })
-                                    {
-
+                                    if (e.Target.Parent is { Component: IRibbonGroupItem { ToolTipValues.EnableToolTips: true } groupItem })
                                         // Is there actually anything to show for the tooltip
-                                        if (groupItem.ToolTipValues.EnableToolTips)
-                                        {
-                                            sourceContent = groupItem.ToolTipValues;
+                                    {
+                                        sourceContent = groupItem.ToolTipValues;
 
-                                            // Grab the style from the group radio button button settings
-                                            toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
-                                            shadow = groupItem.ToolTipValues.ToolTipShadow;
+                                        // Grab the style from the group radio button button settings
+                                        toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
+                                        shadow = groupItem.ToolTipValues.ToolTipShadow;
 
-                                            // Display below the bottom of the ribbon control
-                                            Rectangle ribbonScreenRect = _ribbon.ToolTipScreenRectangle;
-                                            screenRect.Y = ribbonScreenRect.Y;
-                                            screenRect.Height = ribbonScreenRect.Height;
-                                            screenRect.X = ribbonScreenRect.X + e.Target.Parent.ClientLocation.X;
-                                            screenRect.Width = e.Target.Parent.ClientWidth;
-                                        }
-
+                                        // Display below the bottom of the ribbon control
+                                        Rectangle ribbonScreenRect = _ribbon.ToolTipScreenRectangle;
+                                        screenRect.Y = ribbonScreenRect.Y;
+                                        screenRect.Height = ribbonScreenRect.Height;
+                                        screenRect.X = ribbonScreenRect.X + e.Target.Parent.ClientLocation.X;
+                                        screenRect.Width = e.Target.Parent.ClientWidth;
                                     }
                                 }
 

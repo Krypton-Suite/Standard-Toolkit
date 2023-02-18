@@ -104,31 +104,28 @@ namespace Krypton.Navigator
             if (!context.ViewManager.DoNotLayoutControls)
             {
                 // Are we allowed to actually layout the pages?
-                if (_navigator.InternalCanLayout)
-                {
+                if (_navigator is { InternalCanLayout: true, IsChildPanelBorrowed: false })
                     // Do not position the child panel or pages if it is borrowed
-                    if (!_navigator.IsChildPanelBorrowed)
+                {
+                    // Position the child panel for showing page information
+                    _navigator.ChildPanel.SetBounds(ClientLocation.X,
+                        ClientLocation.Y,
+                        ClientWidth,
+                        ClientHeight);
+
+                    // Is there a selected page?
+                    if (_navigator.SelectedPage != null)
                     {
-                        // Position the child panel for showing page information
-                        _navigator.ChildPanel.SetBounds(ClientLocation.X,
-                                                        ClientLocation.Y,
-                                                        ClientWidth,
-                                                        ClientHeight);
-
-                        // Is there a selected page?
-                        if (_navigator.SelectedPage != null)
+                        // Position all the contained pages in to the correct area
+                        foreach (KryptonPage page in _navigator.Pages)
                         {
-                            // Position all the contained pages in to the correct area
-                            foreach (KryptonPage page in _navigator.Pages)
+                            if (page == _navigator.SelectedPage)
                             {
-                                if (page == _navigator.SelectedPage)
-                                {
-                                    page.SetBounds(0, 0, ClientWidth, ClientHeight);
+                                page.SetBounds(0, 0, ClientWidth, ClientHeight);
 
-                                    // Ensure the selected page is the highest in the z-order
-                                    _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
-                                    _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
-                                }
+                                // Ensure the selected page is the highest in the z-order
+                                _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
+                                _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
                             }
                         }
                     }

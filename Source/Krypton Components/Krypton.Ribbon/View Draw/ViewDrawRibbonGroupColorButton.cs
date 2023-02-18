@@ -131,7 +131,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupColorButton.Visible && GroupColorButton.Enabled)
+            if (GroupColorButton is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupColorButton.ColorButtonView ? _viewLarge : _viewMediumSmall;
             }
@@ -150,7 +150,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupColorButton.Visible && GroupColorButton.Enabled)
+            if (GroupColorButton is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupColorButton.ColorButtonView ? _viewLarge : _viewMediumSmall;
             }
@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            var drawNonTrackingAreas = _ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365;
+            var drawNonTrackingAreas = _ribbon.RibbonShape is not PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365;
 
             // Update the views with the type of button being used
             _viewLarge.ButtonType = GroupColorButton.ButtonType;
@@ -504,8 +504,7 @@ namespace Krypton.Ribbon
         private void UpdateDropDownState()
         {
             // Only show the drop down if the button is the correct type
-            var dropDown = (GroupColorButton.ButtonType == GroupButtonType.DropDown) ||
-                            (GroupColorButton.ButtonType == GroupButtonType.Split);
+            var dropDown = GroupColorButton.ButtonType is GroupButtonType.DropDown or GroupButtonType.Split;
 
             // Only show text line 2 separators is a drop down is showing with no text
             var separators = dropDown && (!string.IsNullOrEmpty(GroupColorButton.TextLine2));

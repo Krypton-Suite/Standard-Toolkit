@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteButtonSpecCommon class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
-        internal KryptonPaletteButtonSpecTyped(PaletteRedirect redirector)
+        internal KryptonPaletteButtonSpecTyped(PaletteRedirect? redirector)
             : base(redirector)
         {
             _image = null;

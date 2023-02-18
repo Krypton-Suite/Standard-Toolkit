@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorRedirect(KryptonNavigator navigator,
-                                        PaletteRedirect redirect,
+                                        PaletteRedirect? redirect,
                                         NeedPaintHandler needPaint)
             : this(navigator, redirect, redirect, redirect, 
                               redirect, redirect, redirect,
@@ -64,22 +64,22 @@ namespace Krypton.Navigator
         /// <param name="redirectNavigatorRibbonGeneral">inheritance redirection for ribbon general.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorRedirect(KryptonNavigator? navigator,
-                                        PaletteRedirect redirectNavigator,
-                                        PaletteRedirect redirectNavigatorPage,
-                                        PaletteRedirect redirectNavigatorHeaderGroup,
-                                        PaletteRedirect redirectNavigatorHeaderPrimary,
-                                        PaletteRedirect redirectNavigatorHeaderSecondary,
-                                        PaletteRedirect redirectNavigatorHeaderBar,
-                                        PaletteRedirect redirectNavigatorHeaderOverflow,
-                                        PaletteRedirect redirectNavigatorCheckButton,
-                                        PaletteRedirect redirectNavigatorOverflowButton,
-                                        PaletteRedirect redirectNavigatorMiniButton,
-                                        PaletteRedirect redirectNavigatorBar,
-                                        PaletteRedirect redirectNavigatorBorderEdge,
-                                        PaletteRedirect redirectNavigatorSeparator,
-                                        PaletteRedirect redirectNavigatorTab,
-                                        PaletteRedirect redirectNavigatorRibbonTab,
-                                        PaletteRedirect redirectNavigatorRibbonGeneral,
+                                        PaletteRedirect? redirectNavigator,
+                                        PaletteRedirect? redirectNavigatorPage,
+                                        PaletteRedirect? redirectNavigatorHeaderGroup,
+                                        PaletteRedirect? redirectNavigatorHeaderPrimary,
+                                        PaletteRedirect? redirectNavigatorHeaderSecondary,
+                                        PaletteRedirect? redirectNavigatorHeaderBar,
+                                        PaletteRedirect? redirectNavigatorHeaderOverflow,
+                                        PaletteRedirect? redirectNavigatorCheckButton,
+                                        PaletteRedirect? redirectNavigatorOverflowButton,
+                                        PaletteRedirect? redirectNavigatorMiniButton,
+                                        PaletteRedirect? redirectNavigatorBar,
+                                        PaletteRedirect? redirectNavigatorBorderEdge,
+                                        PaletteRedirect? redirectNavigatorSeparator,
+                                        PaletteRedirect? redirectNavigatorTab,
+                                        PaletteRedirect? redirectNavigatorRibbonTab,
+                                        PaletteRedirect? redirectNavigatorRibbonGeneral,
                                         NeedPaintHandler needPaint)
             : base(redirectNavigator, PaletteBackStyle.PanelClient,
                    PaletteBorderStyle.ControlClient, needPaint)
@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Update the redirector for the border edge.
         /// </summary>
-        public PaletteRedirect RedirectBorderEdge
+        public PaletteRedirect? RedirectBorderEdge
         {
             set => _paletteBorderEdgeInheritRedirect.SetRedirector(value);
         }
@@ -115,7 +115,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Update the redirector for the ribbon general.
         /// </summary>
-        public PaletteRedirect RedirectRibbonGeneral
+        public PaletteRedirect? RedirectRibbonGeneral
         {
             set => RibbonGeneral.SetRedirector(value);
         }

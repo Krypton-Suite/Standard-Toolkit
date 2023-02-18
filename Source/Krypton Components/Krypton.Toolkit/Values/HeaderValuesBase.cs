@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _transparent;
         private string? _heading;
         private string _description;
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
 
         #region Events
         /// <summary>
-        /// Occures when the value of the Text property changes.
+        /// Occurs when the value of the Text property changes.
         /// </summary>
         public event EventHandler TextChanged;
         #endregion
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the HeaderValuesBase class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected HeaderValuesBase(NeedPaintHandler needPaint)
+        protected HeaderValuesBase(NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

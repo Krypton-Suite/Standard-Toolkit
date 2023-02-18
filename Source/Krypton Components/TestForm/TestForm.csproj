@@ -8,14 +8,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="Krypton.Navigator">
-	    <HintPath>..\Krypton.Navigator\obj\Debug\net48\Krypton.Navigator.dll</HintPath>
-	  </Reference>
 	  <Reference Include="System.Design" />
 	</ItemGroup>
 

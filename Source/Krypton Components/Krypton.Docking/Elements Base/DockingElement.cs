@@ -280,7 +280,7 @@ namespace Krypton.Docking
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
         public virtual void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
-                                                 PageDragEndData dragData,
+                                                 PageDragEndData? dragData,
                                                  DragTargetList targets)
         {
             // Propagate the request to all child elements

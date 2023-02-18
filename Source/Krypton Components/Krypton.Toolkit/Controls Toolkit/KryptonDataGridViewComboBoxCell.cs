@@ -312,28 +312,25 @@ namespace Krypton.Toolkit
 
             if (DataGridView.EditingControl is KryptonComboBox comboBox)
             {
-                if (OwningColumn is KryptonDataGridViewComboBoxColumn comboColumn)
+                if (OwningColumn is KryptonDataGridViewComboBoxColumn { DataSource: null } comboColumn)
                 {
-                    if (comboColumn.DataSource == null)
+                    var strings = new object[comboColumn.Items.Count];
+
+                    for (var i = 0; i < strings.Length; i++)
                     {
-                        var strings = new object[comboColumn.Items.Count];
-
-                        for (var i = 0; i < strings.Length; i++)
-                        {
-                            strings[i] = comboColumn.Items[i];
-                        }
-
-                        comboBox.Items.AddRange(strings);
-
-                        var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
-                        for (var j = 0; j < autoAppend.Length; j++)
-                        {
-                            autoAppend[j] = comboColumn.AutoCompleteCustomSource[j];
-                        }
-
-                        comboBox.AutoCompleteCustomSource.Clear();
-                        comboBox.AutoCompleteCustomSource.AddRange(autoAppend);
+                        strings[i] = comboColumn.Items[i];
                     }
+
+                    comboBox.Items.AddRange(strings);
+
+                    var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
+                    for (var j = 0; j < autoAppend.Length; j++)
+                    {
+                        autoAppend[j] = comboColumn.AutoCompleteCustomSource[j];
+                    }
+
+                    comboBox.AutoCompleteCustomSource.Clear();
+                    comboBox.AutoCompleteCustomSource.AddRange(autoAppend);
                 }
 
                 comboBox.DropDownStyle = DropDownStyle;

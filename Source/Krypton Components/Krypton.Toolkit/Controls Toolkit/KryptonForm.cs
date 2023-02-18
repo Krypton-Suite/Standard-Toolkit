@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -71,7 +72,7 @@ namespace Krypton.Toolkit
 
         private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
         private readonly ButtonSpecManagerDraw _buttonManager;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawForm _drawDocker;
         private readonly ViewDrawDocker _drawHeading;
         private readonly ViewDrawContent _drawContent;
@@ -91,9 +92,9 @@ namespace Krypton.Toolkit
         private bool _firstCheckView;
         private bool _lastNotNormal;
         private bool _useDropShadow;
-        private StatusStrip _statusStrip;
-        private Bitmap _cacheBitmap;
-        private Icon _cacheIcon;
+        private StatusStrip? _statusStrip;
+        private Bitmap? _cacheBitmap;
+        private Icon? _cacheIcon;
         private float _cornerRoundingRadius;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
@@ -413,7 +414,11 @@ namespace Krypton.Toolkit
         /// </value>
         [Category(@"Appearance")]
         [Description(@"Is the user currently an administrator.")]
-        public bool IsInAdministratorMode { get => _isInAdministratorMode; private set => _isInAdministratorMode = value; }
+        public bool IsInAdministratorMode 
+        { 
+            get => _isInAdministratorMode; 
+            private set => _isInAdministratorMode = value; 
+        }
 
         /// <summary>
         /// Gets access to the common form appearance entries that other states can override.
@@ -491,7 +496,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void InjectViewElement(ViewBase element, ViewDockStyle style)
+        public void InjectViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
             Debug.Assert(_drawHeading != null);
@@ -526,7 +531,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RevokeViewElement(ViewBase element, ViewDockStyle style)
+        public void RevokeViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
 
@@ -601,7 +606,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), 
+         Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
         public float CornerRoundingRadius
         {
             get => _cornerRoundingRadius;
@@ -609,7 +615,8 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
-        [DefaultValue(null), Description(@"Defines an active control for this window.")]
+        [DefaultValue(null), 
+         Description(@"Defines an active control for this window.")]
         public new Control? ActiveControl
         {
             get => _activeControl;
@@ -619,20 +626,16 @@ namespace Krypton.Toolkit
                 if (_activeControl != value)
                 {
                     _activeControl = value;
-
-                    _activeControl.Focus();
                 }
-                else
-                {
-                    _activeControl.Focus();
-                }
+                _activeControl?.Focus();
             }
         }
 
         /// <summary>Arranges the current window title alignment.</summary>
         /// <value>The current window title alignment.</value>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"), Description(@"Arranges the current window title alignment.")]
+        [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"), 
+         Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
 
         #endregion
@@ -659,7 +662,7 @@ namespace Krypton.Toolkit
             _headingFixedSize.FixedSize = new Size(compRect.Height, compRect.Height);
 
             // Perform actual layout of the element tree
-            ViewManager.Layout(context);
+            ViewManager?.Layout(context);
         }
 
         /// <summary>
@@ -672,7 +675,7 @@ namespace Krypton.Toolkit
             _drawDocker.DrawCanvas = false;
             _drawHeading.DrawCanvas = false;
 
-            ViewManager.Paint(context);
+            ViewManager?.Paint(context);
         }
 
         /// <summary>
@@ -712,7 +715,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public Rectangle CustomCaptionArea { get; set; }
+        [DisallowNull]
+        public Rectangle CustomCaptionArea { get; set; } = Rectangle.Empty;
 
         #endregion
 
@@ -724,7 +728,7 @@ namespace Krypton.Toolkit
         /// <returns>Image.</returns>
         public Image? GetImage(PaletteState state)
         {
-            Icon displayIcon = GetDefinedIcon();
+            Icon? displayIcon = GetDefinedIcon();
 
             // Has the icon to be Displayed changed since the last time around?
             if (displayIcon != _cacheIcon)
@@ -756,7 +760,7 @@ namespace Krypton.Toolkit
                 var currentHeight = (int)(CAPTION_ICON_SIZE.Height * FactorDpiY);
                 //}
 
-                Bitmap resizedBitmap = null;
+                Bitmap? resizedBitmap = null;
                 try
                 {
                     using var temp = new Icon(_cacheIcon, currentWidth, currentHeight);
@@ -821,7 +825,7 @@ namespace Krypton.Toolkit
         {
             private readonly KryptonForm _kryptonForm;
 
-            public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
+            public FormPaletteRedirect(PaletteBase? palette, KryptonForm kryptonForm)
                 : base(palette) =>
                 _kryptonForm = kryptonForm;
 
@@ -1019,9 +1023,9 @@ namespace Krypton.Toolkit
         protected override IntPtr WindowChromeHitTest(Point pt, bool composition)
         {
             Point originalPt = pt;
-            if ((CustomCaptionArea != null) && CustomCaptionArea.Contains(pt))
+            if (CustomCaptionArea.Contains(pt))
             {
-                return (IntPtr)PI.HT.CAPTION;
+                return new IntPtr(PI.HT.CAPTION);
             }
 
             if (!composition)
@@ -1032,8 +1036,8 @@ namespace Krypton.Toolkit
                     || _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
                 {
                     // Get the mouse controller for this button
-                    ViewBase viewBase = ViewManager.Root.ViewFromPoint(pt);
-                    IMouseController controller = viewBase.FindMouseController();
+                    ViewBase? viewBase = ViewManager?.Root?.ViewFromPoint(pt);
+                    IMouseController? controller = viewBase?.FindMouseController();
 
                     // Ensure the button shows as 'normal' state when mouse not over and pressed
                     if (controller is ButtonController buttonController)
@@ -1046,7 +1050,7 @@ namespace Krypton.Toolkit
             // Do not allow the caption to be moved or the border resized
             if (InertForm)
             {
-                return (IntPtr)PI.HT.CLIENT;
+                return new IntPtr(PI.HT.CLIENT);
             }
 
             using (ViewLayoutContext context = new(this, Renderer))
@@ -1057,7 +1061,7 @@ namespace Krypton.Toolkit
                     // Is the mouse over the image area
                     if (_drawContent.ImageRectangle(context).Contains(pt))
                     {
-                        return (IntPtr)PI.HT.MENU;
+                        return new IntPtr(PI.HT.MENU);
                     }
                 }
             }
@@ -1084,7 +1088,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the elements that contains the mouse point
-            ViewBase mouseView = ViewManager.Root.ViewFromPoint(pt);
+            ViewBase? mouseView = ViewManager?.Root?.ViewFromPoint(pt);
 
             // Scan up the view hierarchy until a recognized element is found
             while (mouseView != null)
@@ -1098,7 +1102,7 @@ namespace Krypton.Toolkit
                         (pt.Y > borders.Top) &&
                         (pt.Y < (Height - borders.Bottom)))
                     {
-                        return (IntPtr)PI.HT.CAPTION;
+                        return new IntPtr(PI.HT.CAPTION);
                     }
                 }
 
@@ -1110,10 +1114,10 @@ namespace Krypton.Toolkit
                     {
                         if (pt.Y <= HT_CORNER)
                         {
-                            return (IntPtr)PI.HT.TOPLEFT;
+                            return new IntPtr(PI.HT.TOPLEFT);
                         }
 
-                        return pt.Y >= (Height - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMLEFT : (IntPtr)PI.HT.LEFT;
+                        return pt.Y >= (Height - HT_CORNER) ? new IntPtr(PI.HT.BOTTOMLEFT) : new IntPtr(PI.HT.LEFT);
                     }
 
                     // Is point over the right border?
@@ -1121,10 +1125,10 @@ namespace Krypton.Toolkit
                     {
                         if (pt.Y <= HT_CORNER)
                         {
-                            return (IntPtr)PI.HT.TOPRIGHT;
+                            return new IntPtr(PI.HT.TOPRIGHT);
                         }
 
-                        return pt.Y >= (Height - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMRIGHT : (IntPtr)PI.HT.RIGHT;
+                        return pt.Y >= (Height - HT_CORNER) ? new IntPtr(PI.HT.BOTTOMRIGHT) : new IntPtr(PI.HT.RIGHT);
                     }
 
                     // Is point over the bottom border?
@@ -1132,10 +1136,10 @@ namespace Krypton.Toolkit
                     {
                         if (pt.X <= HT_CORNER)
                         {
-                            return (IntPtr)PI.HT.BOTTOMLEFT;
+                            return new IntPtr(PI.HT.BOTTOMLEFT);
                         }
 
-                        return pt.X >= (Width - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMRIGHT : (IntPtr)PI.HT.BOTTOM;
+                        return pt.X >= (Width - HT_CORNER) ? new IntPtr(PI.HT.BOTTOMRIGHT) : new IntPtr(PI.HT.BOTTOM);
                     }
 
                     // Is point over the top border?
@@ -1143,10 +1147,10 @@ namespace Krypton.Toolkit
                     {
                         if (pt.X <= HT_CORNER)
                         {
-                            return (IntPtr)PI.HT.TOPLEFT;
+                            return new IntPtr(PI.HT.TOPLEFT);
                         }
 
-                        return pt.X >= (Width - HT_CORNER) ? (IntPtr)PI.HT.TOPRIGHT : (IntPtr)PI.HT.TOP;
+                        return pt.X >= (Width - HT_CORNER) ? new IntPtr(PI.HT.TOPRIGHT) : new IntPtr(PI.HT.TOP);
                     }
                 }
 
@@ -1216,7 +1220,7 @@ namespace Krypton.Toolkit
             var ret = base.WindowChromeLeftMouseDown(windowPoint);
 
             // Has pressing down made a view active and indicated it also wants to capture mouse?
-            if ((ViewManager.ActiveView != null) && ViewManager.MouseCaptured)
+            if (ViewManager is { ActiveView: { }, MouseCaptured: true })
             {
                 StartCapture(ViewManager.ActiveView);
                 ret = true;
@@ -1422,7 +1426,7 @@ namespace Krypton.Toolkit
 
                             // Get the path for the border so we can shape the form using it
                             using RenderContext context = new(this, null, Bounds, Renderer);
-                            using GraphicsPath path = _drawDocker.GetOuterBorderPath(context);
+                            using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
                             if (!_firstCheckView)
                             {
                                 SuspendPaint();
@@ -1493,7 +1497,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UpdateBorderRegion(Region newRegion)
+        private void UpdateBorderRegion(Region? newRegion)
         {
             if ((newRegion != null)
                 && (newRegion.IsEmpty(CreateGraphics()))
@@ -1503,7 +1507,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache the current region setting
-            Region oldRegion = Region;
+            Region? oldRegion = Region;
 
             // Use the new region
             Region = newRegion;
@@ -1567,7 +1571,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -1576,12 +1580,12 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -1590,7 +1594,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector!, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

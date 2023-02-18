@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteContentToPalette : IPaletteContent
     {
         #region Instance Fields
-        private readonly PaletteBase _palette;
+        private readonly PaletteBase? _palette;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Source for getting all values.</param>
         /// <param name="style">Style of values required.</param>
-        public PaletteContentToPalette(PaletteBase palette, PaletteContentStyle style)
+        public PaletteContentToPalette(PaletteBase? palette, PaletteContentStyle style)
         {
             // Remember source palette
             _palette = palette;

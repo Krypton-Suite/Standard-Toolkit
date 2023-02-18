@@ -1,11 +1,7 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -22,7 +18,7 @@ namespace Krypton.Toolkit
 
         private string[]? _contents;
 
-        private StringCollection _collection;
+        private StringCollection? _collection;
 
         #endregion
 
@@ -62,7 +58,7 @@ namespace Krypton.Toolkit
             SetupControlsText();
         }
 
-        public KryptonMultilineStringEditorForm(string[] contents, StringCollection collection = null, bool? useRichTextBox = true, string headerText = @"Enter the strings in the collection (one per line):", string windowTitle = @"String Collection Editor")
+        public KryptonMultilineStringEditorForm(string[]? contents, StringCollection? collection = null, bool? useRichTextBox = true, string? headerText = @"Enter the strings in the collection (one per line):", string windowTitle = @"String Collection Editor")
         {
             InitializeComponent();
 
@@ -100,9 +96,8 @@ namespace Krypton.Toolkit
             kcTextBoxSelectAll.Text = KryptonManager.Strings.SelectAll;
         }
 
-        private void SetupVariables(string[] contents, StringCollection collection, bool? useRichTextBox, string headerText, string windowTitle)
+        private void SetupVariables(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
         {
-            
             _contents = contents;
 
             _collection = collection;
@@ -145,7 +140,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UpdateInput(string[] contents, StringCollection collection)
+        private void UpdateInput(string[]? contents, StringCollection? collection)
         {
             if (_useRichTextBox)
             {
@@ -187,22 +182,22 @@ namespace Krypton.Toolkit
             {
                 foreach (string line in krtbContents.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
-
-                    Contents = list.ToArray();
+                    // TODO: This is not right.. It will only have the last line it !
+                    Contents = new string[]
+                    {
+                        line
+                    };
                 }
             }
             else
             {
                 foreach (string line in ktxtStringCollection.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
-
-                    Contents = list.ToArray();
+                    // TODO: This is not right.. It will only have the last line it !
+                    Contents = new string[]
+                    {
+                        line
+                    };
                 }
             }
         }
@@ -223,31 +218,24 @@ namespace Krypton.Toolkit
 
         private void kcTextBoxSelectAll_Execute(object sender, EventArgs e) => ktxtStringCollection.SelectAll();
 
-        internal static string[] InternalShow(IWin32Window owner, string[] input, bool? useRichTextBox, string headerText, string windowTitle)
+        internal static string[]? InternalShow(IWin32Window? owner, string[] input, bool? useRichTextBox, string? headerText, string windowTitle)
         {
-            string[] collection = null;
+            string[]? collection;
 
-            IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
+            IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
             using KryptonMultilineStringEditorForm kmse = new(input, null, useRichTextBox, headerText,  windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
-            if (kmse._useRichTextBox)
-            {
-                collection = kmse.krtbContents.Lines;
-            }
-            else
-            {
-                collection = kmse.ktxtStringCollection.Lines;
-            }
+            collection = kmse._useRichTextBox ? kmse.krtbContents.Lines : kmse.ktxtStringCollection.Lines;
 
             return kmse.ShowDialog(showOwner) == DialogResult.OK ? collection : null;
         }
 
-        internal static StringCollection InternalShowStringCollection(IWin32Window owner, StringCollection input, bool? useRichTextBox, string headerText, string windowTitle)
+        internal static StringCollection? InternalShowStringCollection(IWin32Window? owner, StringCollection input, bool? useRichTextBox, string? headerText, string windowTitle)
         {
-            StringCollection collection = null;
+            StringCollection? collection;
 
             IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 

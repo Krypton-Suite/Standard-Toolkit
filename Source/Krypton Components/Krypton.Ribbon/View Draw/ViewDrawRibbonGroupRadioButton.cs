@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupRadioButton.Visible && GroupRadioButton.Enabled)
+            if (GroupRadioButton is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupRadioButton.RadioButtonView ? _viewLarge : _viewMediumSmall;
             }
@@ -151,7 +151,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupRadioButton.Visible && GroupRadioButton.Enabled)
+            if (GroupRadioButton is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupRadioButton.RadioButtonView ? _viewLarge : _viewMediumSmall;
             }

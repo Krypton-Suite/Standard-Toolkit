@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupCheckBox.Visible && GroupCheckBox.Enabled)
+            if (GroupCheckBox is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupCheckBox.CheckBoxView ? _viewLarge : _viewMediumSmall;
             }
@@ -151,7 +151,7 @@ namespace Krypton.Ribbon
         public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupCheckBox.Visible && GroupCheckBox.Enabled)
+            if (GroupCheckBox is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupCheckBox.CheckBoxView ? _viewLarge : _viewMediumSmall;
             }

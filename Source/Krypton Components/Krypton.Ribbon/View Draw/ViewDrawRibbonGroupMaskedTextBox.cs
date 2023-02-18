@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            if (GroupMaskedTextBox.Visible && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect)
+            if (GroupMaskedTextBox is { Visible: true, LastMaskedTextBox.MaskedTextBox.CanSelect: true })
             {
                 return this;
             }
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            if (GroupMaskedTextBox.Visible && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect)
+            if (GroupMaskedTextBox is { Visible: true, LastMaskedTextBox.MaskedTextBox.CanSelect: true })
             {
                 return this;
             }

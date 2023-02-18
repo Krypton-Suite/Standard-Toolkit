@@ -77,17 +77,17 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="pageDragEndData">Drag data associated with drag operation.</param>
         /// <param name="dragTargets">List of all drag targets.</param>
-        public virtual void Start(IPaletteDragDrop paletteDragDrop,
-                                  IRenderer renderer,
-                                  PageDragEndData pageDragEndData, 
-                                  DragTargetList dragTargets)
+        public virtual void Start([DisallowNull] IPaletteDragDrop paletteDragDrop,
+            [DisallowNull] IRenderer renderer,
+            [DisallowNull] PageDragEndData? pageDragEndData, 
+            [DisallowNull] DragTargetList dragTargets)
         {
             Debug.Assert(paletteDragDrop != null);
             Debug.Assert(renderer != null);
             Debug.Assert(pageDragEndData != null);
             Debug.Assert(dragTargets != null);
 
-            PaletteDragDrop = paletteDragDrop;
+            PaletteDragDrop = paletteDragDrop!;
             Renderer = renderer;
             PageDragEndData = pageDragEndData;
             DragTargets = dragTargets;
@@ -99,7 +99,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Current screen point of mouse.</param>
         /// <param name="target">Target that needs feedback.</param>
         /// <returns>Updated drag target.</returns>
-        public abstract DragTarget Feedback(Point screenPt, DragTarget target);
+        public abstract DragTarget? Feedback(Point screenPt, DragTarget? target);
 
         /// <summary>
         /// Called to cleanup when dragging has finished.
@@ -125,12 +125,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the cached drag data.
         /// </summary>
-        protected PageDragEndData PageDragEndData { get; private set; }
+        protected PageDragEndData? PageDragEndData { get; private set; }
 
         /// <summary>
         /// Gets access to the cached drag target list.
         /// </summary>
-        protected DragTargetList DragTargets { get; private set; }
+        protected DragTargetList? DragTargets { get; private set; }
 
         #endregion
     }

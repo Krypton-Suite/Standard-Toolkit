@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection for bread crumb level.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteMonthCalendarRedirect(PaletteRedirect redirect,
+        public PaletteMonthCalendarRedirect(PaletteRedirect? redirect,
                                             NeedPaintHandler needPaint)
             : base(redirect, PaletteBackStyle.ControlClient, 
                              PaletteBorderStyle.ControlClient)
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect redirect)
+        public override void SetRedirector(PaletteRedirect? redirect)
         {
             base.SetRedirector(redirect);
             Header.SetRedirector(redirect);

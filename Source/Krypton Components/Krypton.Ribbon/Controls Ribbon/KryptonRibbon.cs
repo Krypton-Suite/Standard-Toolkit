@@ -1187,8 +1187,7 @@ namespace Krypton.Ribbon
 
             // Do we match of the views we always allow?
             var matchView = (mouseView?.Parent != null)
-                            && ((mouseView is ViewDrawRibbonScrollButton) ||
-                                (mouseView is ViewDrawRibbonDesignBase) ||
+                            && ((mouseView is ViewDrawRibbonScrollButton or ViewDrawRibbonDesignBase) ||
                                 (mouseView.Parent is ViewDrawRibbonDesignBase)
                             );
 
@@ -2153,7 +2152,7 @@ namespace Krypton.Ribbon
             OnShowQATCustomizeMenu(args);
 
             // If not cancelled, then show it
-            if (!args.Cancel && (args.KryptonContextMenu != null) && CommonHelper.ValidKryptonContextMenu(_kcm))
+            if (args is { Cancel: false, KryptonContextMenu: { } } && CommonHelper.ValidKryptonContextMenu(_kcm))
             {
                 // Cache the finish delegate to call when the menu is closed
                 _kcmFinishDelegate = finishDelegate;
@@ -2224,7 +2223,7 @@ namespace Krypton.Ribbon
             OnShowRibbonContextMenu(args);
 
             // If not cancelled, then show it
-            if (!args.Cancel && (args.KryptonContextMenu != null) && CommonHelper.ValidKryptonContextMenu(_kcm))
+            if (args is { Cancel: false, KryptonContextMenu: { } } && CommonHelper.ValidKryptonContextMenu(_kcm))
             {
                 // Show at location we were provided, but need to convert to screen coordinates
                 VisualPopupManager.Singleton.EndAllTracking();
@@ -2550,7 +2549,7 @@ namespace Krypton.Ribbon
                 {
                     // We are only interested in popup groups the popup ribbon itself
                     Control c = VisualPopupManager.Singleton.CurrentPopup;
-                    if ((c is VisualPopupGroup) || (c is VisualPopupMinimized))
+                    if ((c is VisualPopupGroup or VisualPopupMinimized))
                     {
                         return c.RectangleToScreen(c.ClientRectangle);
                     }
@@ -2558,7 +2557,7 @@ namespace Krypton.Ribbon
                     // Check the stacked popups to see if any of those are of interest
                     foreach (VisualPopup popup in VisualPopupManager.Singleton.StackedPopups)
                     {
-                        if ((popup is VisualPopupGroup) || (popup is VisualPopupMinimized))
+                        if ((popup is VisualPopupGroup or VisualPopupMinimized))
                         {
                             return popup.RectangleToScreen(popup.ClientRectangle);
                         }
@@ -2604,7 +2603,7 @@ namespace Krypton.Ribbon
 
         internal PaletteRibbonShape RibbonShape => StateCommon.RibbonGeneral.GetRibbonShape();
 
-        internal PaletteRedirect GetRedirector() => Redirector;
+        internal PaletteRedirect? GetRedirector() => Redirector;
 
         internal Control GetControllerControl(Control c)
         {
@@ -2612,9 +2611,7 @@ namespace Krypton.Ribbon
             while (c != null)
             {
                 // If the control is a well known control for use by controllers
-                if ((c is KryptonRibbon) ||
-                    (c is VisualPopupGroup) ||
-                    (c is VisualPopupMinimized))
+                if ((c is KryptonRibbon or VisualPopupGroup or VisualPopupMinimized))
                 {
                     return c;
                 }
@@ -3013,7 +3010,7 @@ namespace Krypton.Ribbon
                         {
                             // If the next control is allowed to become selected 
                             // and allowed to be selected because of a tab action
-                            if (next.CanSelect && next.TabStop)
+                            if (next is { CanSelect: true, TabStop: true })
                             {
                                 // Is the next control a container control?
                                 if (next is ContainerControl)

@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Background style.</param>
         /// <param name="borderStyle">Border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteSeparator(PaletteRedirect redirect,
+        public KryptonPaletteSeparator(PaletteRedirect? redirect,
                                        PaletteBackStyle backStyle,
                                        PaletteBorderStyle borderStyle,
                                        NeedPaintHandler needPaint) 
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => StateCommon.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect? redirect) => StateCommon.SetRedirector(redirect);
 
         #endregion
 

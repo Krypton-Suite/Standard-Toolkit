@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
                     if (ContextTabSet != null)
                     {
                         // We do not operate the context selection at design time
-                        if (!_ribbon.InDesignMode && _ribbon.Enabled)
+                        if (_ribbon is { InDesignMode: false, Enabled: true })
                         {
                             // Select the first tab in the context
                             ContextTabSet.FirstTab.RibbonTab.Ribbon.SelectedTab = ContextTabSet.FirstTab.RibbonTab;

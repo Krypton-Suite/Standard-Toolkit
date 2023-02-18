@@ -853,7 +853,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <returns>List of drag targets.</returns>
-        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData) => GenerateDragTargets(dragEndData, KryptonPageFlags.All);
+        public virtual DragTargetList GenerateDragTargets(PageDragEndData? dragEndData) => GenerateDragTargets(dragEndData, KryptonPageFlags.All);
 
         /// <summary>
         /// Generate a list of drag targets that are relevant to the provided end data.
@@ -861,7 +861,7 @@ namespace Krypton.Navigator
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <param name="allowFlags">Only drop pages that have one of these flags set.</param>
         /// <returns>List of drag targets.</returns>
-        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData, KryptonPageFlags allowFlags)
+        public virtual DragTargetList GenerateDragTargets(PageDragEndData? dragEndData, KryptonPageFlags allowFlags)
         {
             DragTargetList targets = new()
             {
@@ -1892,7 +1892,7 @@ namespace Krypton.Navigator
 
         internal ButtonSpecCollectionBase FixedSpecs => Button.FixedSpecs;
 
-        internal PaletteRedirect InternalRedirector => Redirector;
+        internal PaletteRedirect? InternalRedirector => Redirector;
 
         internal void InternalForceViewLayout()
         {
@@ -3124,7 +3124,7 @@ namespace Krypton.Navigator
                     do
                     {
                         // Find the next control in sequence
-                        next = rootControl.GetNextControl(next, forward);
+                        next = rootControl.GetNextControl(next!, forward);
 
                         // If no more controls found, then finished
                         if (next == null)
@@ -3212,17 +3212,13 @@ namespace Krypton.Navigator
             {
                 // Cast to the correct type
                 // Is this control actually a KryptonPage?
-                if (next is KryptonPage page)
-                {
-
+                if (next is KryptonPage { KryptonParentContainer: KryptonNavigator nav } page)
                     // If the page is inside a krypton container that is a navigator instance
-                    if (page.KryptonParentContainer is KryptonNavigator nav)
-                    {
-                        // Cast to correct type
+                {
+                    // Cast to correct type
 
-                        // Tell the caller if the original control is inside a page that is unselected
-                        return (nav.SelectedPage != page);
-                    }
+                    // Tell the caller if the original control is inside a page that is unselected
+                    return (nav.SelectedPage != page);
                 }
 
                 // Move up the chain one level
@@ -3259,10 +3255,10 @@ namespace Krypton.Navigator
         private void OnContextMenuClick(object sender, EventArgs e)
         {
             // Cast to correct type
-            KryptonContextMenuItem menuItem = (KryptonContextMenuItem)sender;
+            KryptonContextMenuItem? menuItem = sender as KryptonContextMenuItem;
 
             // Get the page this menu item references
-            KryptonPage? page = menuItem.Tag as KryptonPage;
+            KryptonPage? page = menuItem?.Tag as KryptonPage;
 
             // Try and select the page if we are allowed selected pages
             if (AllowTabSelect)

@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class PageDropEventArgs : CancelEventArgs
     {
         #region Instance Fields
-        private KryptonPage _page;
+        private KryptonPage? _page;
         #endregion
 
         #region Identity
@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the PageDropEventArgs class.
         /// </summary>
         /// <param name="page">Page that is being dropped.</param>
-        public PageDropEventArgs(KryptonPage page) => _page = page;
+        public PageDropEventArgs(KryptonPage? page) => _page = page;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the page to be dropped.
         /// </summary>
-        public KryptonPage Page
+        public KryptonPage? Page
         {
             get => _page;
             set => _page = Page;    // TODO: What is this supposed to be doing ?

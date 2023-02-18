@@ -412,7 +412,7 @@ namespace Krypton.Docking
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
         public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
-                                                  PageDragEndData dragData,
+                                                  PageDragEndData? dragData,
                                                   DragTargetList targets)
         {
             // Create list of the pages that are allowed to be dropped into this workspace

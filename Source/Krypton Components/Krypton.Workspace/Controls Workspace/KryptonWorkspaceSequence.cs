@@ -261,8 +261,8 @@ namespace Krypton.Workspace
                     if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                     {
                         StarSize itemStar = item.WorkspaceStarSize;
-                        var preferredWidth = (!itemStar.StarWidth.UsingStar && (itemStar.StarWidth.FixedSize < 0));
-                        var preferredHeight = (!itemStar.StarHeight.UsingStar && (itemStar.StarHeight.FixedSize < 0));
+                        var preferredWidth = itemStar.StarWidth is { UsingStar: false, FixedSize: < 0 };
+                        var preferredHeight = itemStar.StarHeight is { UsingStar: false, FixedSize: < 0 };
 
                         // Does the item specify a preferred size in either direction?
                         if (preferredWidth || preferredHeight)
@@ -618,7 +618,7 @@ namespace Krypton.Workspace
                 for (var i = Children.Count - 1; i >= 0; i--)
                 {
                     // If a cell and that cell does not have any pages
-                    if ((Children[i] is KryptonWorkspaceCell cell) && (cell.Pages.Count == 0))
+                    if ((Children[i] is KryptonWorkspaceCell { Pages.Count: 0 } cell))
                     {
                         Children.RemoveAt(i);
 
@@ -642,7 +642,7 @@ namespace Krypton.Workspace
                 for (var i = Children.Count - 1; i >= 0; i--)
                 {
                     // If a sequence and that sequence does not have any children
-                    if ((Children[i] is KryptonWorkspaceSequence sequence) && (sequence.Children.Count == 0))
+                    if ((Children[i] is KryptonWorkspaceSequence { Children.Count: 0 }))
                     {
                         Children.RemoveAt(i);
                     }
@@ -658,7 +658,7 @@ namespace Krypton.Workspace
                 for (var i = Children.Count - 1; i >= 0; i--)
                 {
                     // If a sequence and that sequence has just a single child
-                    if ((Children[i] is KryptonWorkspaceSequence sequence) && (sequence.Children.Count == 1))
+                    if ((Children[i] is KryptonWorkspaceSequence { Children.Count: 1 } sequence))
                     {
                         // Extract the leaf
                         Component leaf = sequence.Children[0];

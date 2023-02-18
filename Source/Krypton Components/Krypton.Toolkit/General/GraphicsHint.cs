@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                 IDisposable
     {
         #region Instance Fields
-        private readonly Graphics _graphics;
+        private readonly Graphics? _graphics;
         private readonly SmoothingMode _smoothingMode;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="graphics">Graphics context.</param>
         /// <param name="hint">Temporary hint mode to apply.</param>
-        public GraphicsHint(Graphics graphics, PaletteGraphicsHint hint)
+        public GraphicsHint(Graphics? graphics, PaletteGraphicsHint hint)
         {
             // Cache graphics instance
             _graphics = graphics;

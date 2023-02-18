@@ -558,7 +558,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected override PaletteRedirect CreateRedirector() => new PaletteRedirectBreadCrumb(base.CreateRedirector());
+        protected override PaletteRedirect? CreateRedirector() => new PaletteRedirectBreadCrumb(base.CreateRedirector());
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal PaletteBreadCrumbRedirect GetStateCommon() => StateCommon;
 
-        internal PaletteRedirect GetRedirector() => Redirector;
+        internal PaletteRedirect? GetRedirector() => Redirector;
 
         #endregion
 

@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning Ribbon instance.</param>
         /// <param name="redirect">Source for inheriting values.</param>
         public PaletteRedirectRibbonAeroOverride(KryptonRibbon ribbon,
-                                                 PaletteRedirect redirect)
+                                                 PaletteRedirect? redirect)
             : base(redirect) =>
             _ribbon = ribbon;
 
@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
             {
                 // If the ribbon is showing in office 2010 style and using glass
                 if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365))
+                    && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
                 {
                     return LightBackground(base.GetContentShortTextColor1(style, state));
                 }
@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
             {
                 // If the ribbon is showing in office 2010 style and using glass
                 if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365))
+                    && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
                 {
                     return LightBackground(base.GetContentShortTextColor2(style, state));
                 }
@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
             {
                 // If the ribbon is showing in office 2010 style and using glass
                 if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365))
+                    && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
                 {
                     return LightBackground(base.GetContentLongTextColor1(style, state));
                 }
@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
             {
                 // If the ribbon is showing in office 2010 style and using glass
                 if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Microsoft365))
+                    && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
                 {
                     return LightBackground(base.GetContentLongTextColor2(style, state));
                 }

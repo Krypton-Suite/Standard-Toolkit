@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
             var scaleFactor = new SizeF( factorDpiX, factorDpiY);
 
             // if the scale is the same then no further processing needed (we are at 96 dpi).
-            if ((scaleFactor.Width == 1.0F) && (scaleFactor.Height == 1.0F))
+            if (scaleFactor is { Width: 1.0F, Height: 1.0F })
             {
                 return;
             }
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
                 return null;
             }
 
-            if ((scaleFactor.Width == 1) && (scaleFactor.Height == 1))
+            if (scaleFactor is { Width: 1, Height: 1 })
             {
                 return img;
             }

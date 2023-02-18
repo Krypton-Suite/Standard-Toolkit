@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private IPaletteBack _drawOutsideBack;
         private IPaletteBorder _drawOutsideBorder;
         private readonly AppButtonMenuProvider _provider;
@@ -47,9 +47,9 @@ namespace Krypton.Ribbon
         /// <param name="keyboardActivated">Was the context menu activated by a keyboard action.</param>
         public VisualPopupAppMenu(KryptonRibbon ribbon,
                                   RibbonAppButton appButton,
-                                  PaletteBase palette,
+                                  PaletteBase? palette,
                                   PaletteMode paletteMode,
-                                  PaletteRedirect redirector,
+                                  PaletteRedirect? redirector,
                                   Rectangle rectAppButtonTopHalf,
                                   Rectangle rectAppButtonBottomHalf,
                                   bool keyboardActivated)
@@ -404,7 +404,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override PaletteBase GetResolvedPalette() => _palette;
+        public override PaletteBase? GetResolvedPalette() => _palette;
 
         #endregion
 
@@ -412,7 +412,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -496,7 +496,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {

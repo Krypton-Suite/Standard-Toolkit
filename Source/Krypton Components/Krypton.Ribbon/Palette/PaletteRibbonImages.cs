@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Paint delegate.</param>
-        public PaletteRibbonImages(PaletteRedirect redirect,
+        public PaletteRibbonImages(PaletteRedirect? redirect,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);

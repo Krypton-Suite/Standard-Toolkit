@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerLayoutAppButton(ViewContextMenuManager viewManager,
                                                 Control control,
-                                                PaletteRedirect redirector,
+                                                PaletteRedirect? redirector,
                                                 ButtonSpecCollectionBase variableSpecs,
                                                 ButtonSpecCollectionBase fixedSpecs,
                                                 ViewLayoutDocker[] viewDockers,
@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
         /// <param name="viewMetricPadding">Target metric padding.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
-        protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector, 
+        protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect? redirector, 
                                                                IPaletteMetric viewPaletteMetric, 
                                                                PaletteMetricPadding viewMetricPadding, 
                                                                ButtonSpec buttonSpec) =>

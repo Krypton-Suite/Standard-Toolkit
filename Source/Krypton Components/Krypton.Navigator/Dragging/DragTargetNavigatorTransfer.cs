@@ -60,7 +60,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData)
+        public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData)
         {
             // First time around...
             if (_notDraggedPagesFromNavigator == -1)
@@ -87,10 +87,10 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // Transfer the dragged pages into our navigator instance
-            KryptonPage page = ProcessDragEndData(_navigator, data);
+            KryptonPage? page = ProcessDragEndData(_navigator, data);
 
             // Make the last page transfer the newly selected page of the navigator
             if (page != null)

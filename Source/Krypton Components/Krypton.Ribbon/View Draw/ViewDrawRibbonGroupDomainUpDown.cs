@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            if (GroupDomainUpDown.Visible && (GroupDomainUpDown.LastDomainUpDown?.DomainUpDown != null) && GroupDomainUpDown.LastDomainUpDown.DomainUpDown.CanSelect)
+            if (GroupDomainUpDown is { Visible: true, LastDomainUpDown.DomainUpDown.CanSelect: true })
             {
                 return this;
             }

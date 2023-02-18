@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
         public virtual void DoubleClick(Point pt)
         {
             // Ignore double click at design time
-            if (!_ribbon.InDesignMode && _ribbon.AllowMinimizedChange)
+            if (_ribbon is { InDesignMode: false, AllowMinimizedChange: true })
             {
                 // Toggle the minimized mode of ribbon control
                 _ribbon.MinimizedMode = !_ribbon.MinimizedMode;
@@ -538,7 +538,7 @@ namespace Krypton.Ribbon
                         return (CommonHelper.ActiveFloatingWindow != null) ||
                                ((topForm != null) && 
                                 (topForm.ContainsFocus ||
-                                ((topForm.Parent != null) && topForm.Visible && topForm.Enabled)));
+                                ((topForm.Parent != null) && topForm is { Visible: true, Enabled: true })));
                     }
                 }
             }

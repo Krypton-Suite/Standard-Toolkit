@@ -99,7 +99,7 @@ namespace Krypton.Navigator
             Size size = base.GetPreferredSize(context);
 
             // Apply the rounding in the appropriate orientation
-            if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
+            if (Orientation is VisualOrientation.Top or VisualOrientation.Bottom)
             {
                 size.Width += Convert.ToInt32(Rounding) * 2;
                 size.Height += BorderWidth;
@@ -131,7 +131,7 @@ namespace Krypton.Navigator
             var rounding = Rounding;
 
             // Apply the rounding in the appropriate orientation
-            if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
+            if (Orientation is VisualOrientation.Top or VisualOrientation.Bottom)
             {
                 childRectF.Width -= rounding * 2;
                 childRectF.X += rounding;

@@ -76,7 +76,7 @@ namespace Krypton.Workspace
                     else
                     {
                         // If we have a sequence and it is visible and contains a visible cell then we are done
-                        if ((c is KryptonWorkspaceSequence { WorkspaceVisible: true } sequence) && sequence.Children.ContainsVisibleCell)
+                        if ((c is KryptonWorkspaceSequence { WorkspaceVisible: true, Children.ContainsVisibleCell: true }))
                         {
                             return true;
                         }

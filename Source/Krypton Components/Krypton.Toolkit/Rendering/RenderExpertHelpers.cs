@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         {
             using Clipping clip = new(context.Graphics, path);
             // Cannot draw a zero length rectangle
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackExpertShadow cache;
@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
         {
             using Clipping clip = new(context.Graphics, path);
             // Cannot draw a zero length rectangle
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackExpertSquareHighlight cache;
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
                                                  IDisposable memento)
         {
             // Cannot draw a zero length rectangle
-            if ((drawRect.Width > 0) && (drawRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackSolid cache;
@@ -366,13 +366,13 @@ namespace Krypton.Toolkit
                                                   Color color1,
                                                   Color color2,
                                                   VisualOrientation orientation,
-                                                  Graphics g,
+                                                  Graphics? g,
                                                   IDisposable memento,
                                                   bool total,
                                                   bool tracking)
         {
             // Cannot draw a zero length rectangle
-            if ((drawRect.Width > 0) && (drawRect.Height > 0))
+            if (drawRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoBackExpertChecked cache;
@@ -424,7 +424,7 @@ namespace Krypton.Toolkit
                     RectangleF gradientRect = new(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
-                    if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
+                    if (gradientRect is { Width: > 0, Height: > 0 })
                     {
                         // Draw entire area in a gradient color effect
                         cache.entireBrush = new LinearGradientBrush(gradientRect, CommonHelper.WhitenColor(color1, 0.92f, 0.92f, 0.92f), color1, AngleFromOrientation(orientation))

@@ -67,35 +67,35 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <param name="state">State for which an image is needed.</param>
         /// <returns>Button image.</returns>
-        Image? GetImage(PaletteBase palette, PaletteState state);
+        Image? GetImage(PaletteBase? palette, PaletteState state);
 
         /// <summary>
         /// Gets the button image transparent color.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        Color GetImageTransparentColor(PaletteBase palette);
+        Color GetImageTransparentColor(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button short text.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Short text string.</returns>
-        string GetShortText(PaletteBase palette);
+        string GetShortText(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button long text.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Long text string.</returns>
-        string GetLongText(PaletteBase palette);
+        string GetLongText(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button tooltip title text.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Tooltip title string.</returns>
-        string GetToolTipTitle(PaletteBase palette);
+        string GetToolTipTitle(PaletteBase? palette);
 
         /// <summary>
         /// Gets and image color to remap to container foreground.
@@ -109,14 +109,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility value.</returns>
-        bool GetVisible(PaletteBase palette);
+        bool GetVisible(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled value.</returns>
-        ButtonEnabled GetEnabled(PaletteBase palette);
+        ButtonEnabled GetEnabled(PaletteBase? palette);
 
         /// <summary>
         /// Sets the current view associated with the button spec.
@@ -141,28 +141,28 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button edge value.</returns>
-        RelativeEdgeAlign GetEdge(PaletteBase palette);
+        RelativeEdgeAlign GetEdge(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button style.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style value.</returns>
-        ButtonStyle GetStyle(PaletteBase palette);
+        ButtonStyle GetStyle(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button location value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        HeaderLocation GetLocation(PaletteBase palette);
+        HeaderLocation GetLocation(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button orientation.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Orientation value.</returns>
-        ButtonOrientation GetOrientation(PaletteBase palette);
+        ButtonOrientation GetOrientation(PaletteBase? palette);
     }
     #endregion
 
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        PaletteBase ProviderPalette { get; }
+        PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        PaletteRedirect ProviderRedirector { get; }
+        PaletteRedirect? ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

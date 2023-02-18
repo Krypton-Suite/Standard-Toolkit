@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteCaptionRedirect class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteCaptionRedirect(PaletteBase target)
+        public PaletteCaptionRedirect(PaletteBase? target)
             : base(target)
         {
         }

@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colourPalette">The colour palette.</param>
         /// <returns></returns>
-        public override ToolStripRenderer RenderToolStrip(PaletteBase colourPalette)
+        public override ToolStripRenderer RenderToolStrip(PaletteBase? colourPalette)
         {
             Debug.Assert(colourPalette != null);
 
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override IDisposable DrawRibbonTabContext(RenderContext context, Rectangle rect, IPaletteRibbonGeneral paletteGeneral, IPaletteRibbonBack paletteBack, IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values to use when drawing.</param>
         public override IDisposable DrawRibbonApplicationTab(PaletteRibbonShape shape, RenderContext context, Rectangle rect, PaletteState state, Color baseColor1, Color baseColor2, IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoRibbonAppTab2013 cache;
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override IDisposable DrawRibbonTabSelected2010(RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable memento, bool standard)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override IDisposable DrawRibbonTabTracking2010(PaletteRibbonShape shape, RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable memento, bool standard)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);

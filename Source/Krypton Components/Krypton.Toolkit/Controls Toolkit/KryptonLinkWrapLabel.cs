@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private PaletteBase? _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
         private LabelStyle _labelStyle;
@@ -403,7 +403,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -773,7 +773,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Sets the palette.</summary>
         /// <param name="palette">The palette.</param>
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {

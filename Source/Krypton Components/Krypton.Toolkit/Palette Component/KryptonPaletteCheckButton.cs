@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Border style.</param>
         /// <param name="contentStyle">Content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteCheckButton(PaletteRedirect redirect,
+        public KryptonPaletteCheckButton(PaletteRedirect? redirect,
                                          PaletteBackStyle backStyle,
                                          PaletteBorderStyle borderStyle,
                                          PaletteContentStyle contentStyle,
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             OverrideDefault.SetRedirector(redirect);
             OverrideFocus.SetRedirector(redirect);

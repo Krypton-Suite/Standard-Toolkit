@@ -210,15 +210,14 @@ namespace Krypton.Ribbon
         {
             if (_viewLarge.Visible)
             {
-                if (GroupGallery.Visible && GroupGallery.Enabled)
+                if (GroupGallery is { Visible: true, Enabled: true })
                 {
                     return _viewLarge;
                 }
             }
             else
             {
-                if (GroupGallery.Visible &&
-                    GroupGallery.LastGallery is { CanSelect: true })
+                if (GroupGallery is { Visible: true, LastGallery: { CanSelect: true } })
                 {
                     return this;
                 }

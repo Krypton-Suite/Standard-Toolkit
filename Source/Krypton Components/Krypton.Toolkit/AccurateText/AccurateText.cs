@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <param name="disposeFont">Dispose of font when finished with it.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>A memento used to draw the text.</returns>
-        public static AccurateTextMemento MeasureString(Graphics g,
+        public static AccurateTextMemento MeasureString(Graphics? g,
                                                         RightToLeft rtl,
                                                         string text,
                                                         Font font,
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
         /// <param name="glowing">When on composition draw with glowing.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if draw succeeded; False is draw produced an error.</returns>
-        public static bool DrawString(Graphics g,
+        public static bool DrawString(Graphics? g,
                                       Brush brush,
                                       Rectangle rect,
                                       RightToLeft rtl,
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
             var ret = true;
 
             // Is there a valid place to be drawn into
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Does the memento contain something to draw?
                 if (!memento.IsEmpty)
@@ -272,24 +272,8 @@ namespace Krypton.Toolkit
                     {
                         if (Application.RenderWithVisualStyles && composition && glowing)
                         {
-                            //DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                            //                           SystemColors.ActiveCaptionText, true);
-
-                            // Why was this added?
-                            //if (Environment.OSVersion.Version.Major >= 10 &&
-                            //    Environment.OSVersion.Version.Build >= 10586)
-                            //{
-                            //    DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                            //        (state == PaletteState.Disabled)
-                            //            ? Color.FromArgb(170, 170, 170)
-                            //            : ContrastColor(AccentColorService.GetColorByTypeName(@"ImmersiveSystemAccent")),
-                            //        true);
-                            //}
-                            //else
-                            {
-                                DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                                    SystemColors.ActiveCaptionText, true);
-                            }
+                            DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
+                                                       SystemColors.ActiveCaptionText, true);
                         }
                         else if (Application.RenderWithVisualStyles && composition)
                         {
@@ -357,7 +341,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State of the source element.</param>
         /// <param name="color"><see cref="Color"/> of the text.</param>
         /// <param name="copyBackground">Should existing background be copied into the bitmap.</param>
-        public static void DrawCompositionGlowingText(Graphics g,
+        public static void DrawCompositionGlowingText(Graphics? g,
                                                       string text,
                                                       Font font,
                                                       Rectangle bounds,
@@ -366,7 +350,7 @@ namespace Krypton.Toolkit
                                                       bool copyBackground)
         {
             // Get the hDC for the graphics instance and create a memory DC
-            IntPtr gDC = g.GetHdc();
+            IntPtr gDC = g?.GetHdc() ?? IntPtr.Zero;
             try
             {
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
@@ -447,7 +431,7 @@ namespace Krypton.Toolkit
             finally
             {
                 // Must remember to release the hDC
-                g.ReleaseHdc(gDC);
+                g?.ReleaseHdc(gDC);
             }
         }
 
@@ -462,7 +446,7 @@ namespace Krypton.Toolkit
         /// <param name="color"><see cref="Color"/> of the text.</param>
         /// <param name="copyBackground">Should existing background be copied into the bitmap.</param>
         /// <param name="sf">StringFormat of the memento.</param>
-        public static void DrawCompositionText(Graphics g,
+        public static void DrawCompositionText(Graphics? g,
                                                       string text,
                                                       Font font,
                                                       Rectangle bounds,
@@ -472,7 +456,7 @@ namespace Krypton.Toolkit
                                                       StringFormat sf)
         {
             // Get the hDC for the graphics instance and create a memory DC
-            IntPtr gDC = g.GetHdc();
+            IntPtr gDC = g?.GetHdc() ?? IntPtr.Zero;
             try
             {
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
@@ -558,7 +542,7 @@ namespace Krypton.Toolkit
             finally
             {
                 // Must remember to release the hDC
-                g.ReleaseHdc(gDC);
+                g?.ReleaseHdc(gDC);
             }
         }
 

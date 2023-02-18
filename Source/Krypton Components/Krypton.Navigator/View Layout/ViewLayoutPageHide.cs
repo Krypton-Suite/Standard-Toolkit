@@ -75,17 +75,14 @@ namespace Krypton.Navigator
             if (!context.ViewManager.DoNotLayoutControls)
             {
                 // Are we allowed to actually layout the pages?
-                if (_navigator.InternalCanLayout)
-                {
+                if (_navigator is { InternalCanLayout: true, IsChildPanelBorrowed: false })
                     // Do not position the child panel if it is borrowed
-                    if (!_navigator.IsChildPanelBorrowed)
-                    {
-                        // Position the child panel for showing page information
-                        _navigator.ChildPanel.SetBounds(HIDDEN_OFFSET,
-                                                        HIDDEN_OFFSET,
-                                                        ClientWidth,
-                                                        ClientHeight);
-                    }
+                {
+                    // Position the child panel for showing page information
+                    _navigator.ChildPanel.SetBounds(HIDDEN_OFFSET,
+                        HIDDEN_OFFSET,
+                        ClientWidth,
+                        ClientHeight);
                 }
             }
         }

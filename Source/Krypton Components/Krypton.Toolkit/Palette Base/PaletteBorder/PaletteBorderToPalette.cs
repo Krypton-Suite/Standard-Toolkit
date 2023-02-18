@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteBorderToPalette : IPaletteBorder
     {
         #region Instance Fields
-        private readonly PaletteBase _palette;
+        private readonly PaletteBase? _palette;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Source for getting all values.</param>
         /// <param name="style">Style of values required.</param>
-        public PaletteBorderToPalette(PaletteBase palette,
+        public PaletteBorderToPalette(PaletteBase? palette,
                                       PaletteBorderStyle style)
         {
             // Remember inheritance

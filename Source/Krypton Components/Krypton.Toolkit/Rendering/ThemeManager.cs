@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteMode">The palette mode.</param>
         /// <returns></returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode)
+        public static string? ReturnPaletteModeAsString(PaletteMode paletteMode)
         {
             PaletteModeConverter modeConverter = new();
 

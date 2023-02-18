@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         public virtual object Clone()
         {
             // ReSharper disable RedundantBaseQualifier
-            ButtonSpec clone = (ButtonSpec)Activator.CreateInstance(base.GetType());
+            ButtonSpec clone = (ButtonSpec)Activator.CreateInstance(base.GetType())!;
             // ReSharper restore RedundantBaseQualifier
             clone.Image = Image;
             clone.ImageTransparentColor = ImageTransparentColor;
@@ -851,7 +851,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <param name="state">State for which an image is needed.</param>
         /// <returns>Button image.</returns>
-        public virtual Image? GetImage(PaletteBase palette, PaletteState state)
+        public virtual Image? GetImage(PaletteBase? palette, PaletteState state)
         {
             Image? image = null;
 
@@ -874,7 +874,9 @@ namespace Krypton.Toolkit
                 _                            => image
             } ?? Image; // Default to the image if no state specific image is found
 
-            return (image != null) || !AllowInheritImage ? image : palette.GetButtonSpecImage(ProtectedType, state);
+            return (image != null) || !AllowInheritImage 
+                ? image 
+                : palette?.GetButtonSpecImage(ProtectedType, state);
         }
 
         /// <summary>
@@ -882,14 +884,16 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetImageTransparentColor(PaletteBase palette)
+        public virtual Color GetImageTransparentColor(PaletteBase? palette)
         {
             if (KryptonCommand != null)
             {
                 return KryptonCommand.ImageTransparentColor;
             }
 
-            return ImageTransparentColor != Color.Empty ? ImageTransparentColor : palette.GetButtonSpecImageTransparentColor(ProtectedType);
+            return ImageTransparentColor != Color.Empty 
+                ? ImageTransparentColor 
+                : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? Color.Empty;
         }
 
         /// <summary>
@@ -897,14 +901,17 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Short text string.</returns>
-        public virtual string GetShortText(PaletteBase palette)
+        public virtual string GetShortText(PaletteBase? palette)
         {
             if (KryptonCommand != null)
             {
                 return KryptonCommand.Text;
             }
 
-            return (Text.Length > 0) || !AllowInheritText ? Text : palette.GetButtonSpecShortText(ProtectedType);
+            return (Text.Length > 0) 
+                   || !AllowInheritText 
+                    ? Text 
+                    : palette?.GetButtonSpecShortText(ProtectedType) ?? string.Empty;
         }
 
         /// <summary>
@@ -912,13 +919,16 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Long text string.</returns>
-        public virtual string GetLongText(PaletteBase palette)
+        public virtual string GetLongText(PaletteBase? palette)
         {
             if (KryptonCommand != null)
             {
                 return KryptonCommand.ExtraText;
             }
-            return (ExtraText.Length > 0) || !AllowInheritExtraText ? ExtraText : palette.GetButtonSpecLongText(ProtectedType);
+            return (ExtraText.Length > 0) 
+                   || !AllowInheritExtraText 
+                    ? ExtraText 
+                    : palette?.GetButtonSpecLongText(ProtectedType) ?? string.Empty;
         }
 
         /// <summary>
@@ -926,33 +936,44 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Tooltip title string.</returns>
-        public virtual string GetToolTipTitle(PaletteBase palette) =>
-            !string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle
+        public virtual string GetToolTipTitle(PaletteBase? palette)
+        {
+            return !string.IsNullOrEmpty(ToolTipTitle)
+                   || !AllowInheritToolTipTitle
                 ? ToolTipTitle
-                : palette.GetButtonSpecToolTipTitle(ProtectedType);
+                : palette?.GetButtonSpecToolTipTitle(ProtectedType) ?? string.Empty;
+        }
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetColorMap(PaletteBase palette) =>
-            ColorMap != Color.Empty ? ColorMap : palette.GetButtonSpecColorMap(ProtectedType);
+        public virtual Color GetColorMap(PaletteBase palette)
+        {
+            return ColorMap != Color.Empty 
+                ? ColorMap 
+                : palette?.GetButtonSpecColorMap(ProtectedType) ?? Color.Empty;
+        }
 
         /// <summary>
         /// Gets the button style.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public virtual ButtonStyle GetStyle(PaletteBase palette) =>
-            ConvertToButtonStyle( Style != PaletteButtonStyle.Inherit ? Style : palette.GetButtonSpecStyle(ProtectedType));
+        public virtual ButtonStyle GetStyle(PaletteBase? palette)
+        {
+            return ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
+                ? Style
+                : palette?.GetButtonSpecStyle(ProtectedType));
+        }
 
         /// <summary>
         /// Gets the button orientation.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button orientation.</returns>
-        public virtual ButtonOrientation GetOrientation(PaletteBase palette) => ConvertToButtonOrientation(
+        public virtual ButtonOrientation GetOrientation(PaletteBase? palette) => ConvertToButtonOrientation(
             Orientation != PaletteButtonOrientation.Inherit
                 ? Orientation
                 : palette.GetButtonSpecOrientation(ProtectedType));
@@ -962,7 +983,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button edge.</returns>
-        public virtual RelativeEdgeAlign GetEdge(PaletteBase palette) =>
+        public virtual RelativeEdgeAlign GetEdge(PaletteBase? palette) =>
             ConvertToRelativeEdgeAlign(Edge != PaletteRelativeEdgeAlign.Inherit
                 ? Edge
                 : palette.GetButtonSpecEdge(ProtectedType));
@@ -972,14 +993,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        public virtual HeaderLocation GetLocation(PaletteBase palette) => HeaderLocation.PrimaryHeader;
+        public virtual HeaderLocation GetLocation(PaletteBase? palette) => HeaderLocation.PrimaryHeader;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public abstract ButtonEnabled GetEnabled(PaletteBase palette);
+        public abstract ButtonEnabled GetEnabled(PaletteBase? palette);
 
         /// <summary>
         /// Sets the current view associated with the button spec.
@@ -1004,14 +1025,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public abstract bool GetVisible(PaletteBase palette);
+        public abstract bool GetVisible(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public abstract ButtonCheckState GetChecked(PaletteBase palette);
+        public abstract ButtonCheckState GetChecked(PaletteBase? palette);
         #endregion
 
         #region Protected
@@ -1123,7 +1144,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteButtonStyle">Palette specific button style.</param>
         /// <returns>Resolve button style.</returns>
-        protected ButtonStyle ConvertToButtonStyle(PaletteButtonStyle paletteButtonStyle)
+        protected ButtonStyle ConvertToButtonStyle(PaletteButtonStyle? paletteButtonStyle)
         {
             switch (paletteButtonStyle)
             {

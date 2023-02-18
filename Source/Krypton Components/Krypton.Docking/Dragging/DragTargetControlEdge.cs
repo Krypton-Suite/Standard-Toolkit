@@ -99,7 +99,7 @@ namespace Krypton.Docking
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData) => true;
+        public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData) => true;
 
         /// <summary>
         /// Perform the drop action associated with the target.
@@ -107,7 +107,7 @@ namespace Krypton.Docking
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // Find our docking edge
             KryptonDockingEdge? dockingEdge = null;

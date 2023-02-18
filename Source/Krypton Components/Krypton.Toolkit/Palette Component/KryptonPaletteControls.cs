@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteControls(PaletteRedirect redirector,
+        public KryptonPaletteControls(PaletteRedirect? redirector,
                                         NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             ControlCustom3 = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlCustom3, PaletteBorderStyle.ControlCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectDouble redirectCommon = new(redirector, ControlCommon.StateDisabled, ControlCommon.StateNormal);
+            PaletteRedirectDouble? redirectCommon = new(redirector, ControlCommon.StateDisabled, ControlCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             ControlClient.SetRedirector(redirectCommon);

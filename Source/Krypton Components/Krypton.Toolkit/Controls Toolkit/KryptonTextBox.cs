@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Paint the entire area in the background color
-                            using Graphics g = Graphics.FromHdc(hdc);
+                            using Graphics? g = Graphics.FromHdc(hdc);
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRibbonGeneralInheritRedirect : PaletteRibbonGeneralInherit
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
         #endregion
 
         #region Identity
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRibbonGeneralInheritRedirect class.
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
-        public PaletteRibbonGeneralInheritRedirect(PaletteRedirect redirect)
+        public PaletteRibbonGeneralInheritRedirect(PaletteRedirect? redirect)
         {
             Debug.Assert(redirect != null);
             _redirect = redirect;
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
         #endregion
 
         #region IPaletteRibbon

@@ -58,9 +58,9 @@ namespace Krypton.Ribbon
         public AppButtonMenuProvider(ViewContextMenuManager viewManager,
                                      KryptonContextMenuItemCollection menuCollection,
                                      ViewLayoutStack viewColumns,
-                                     PaletteBase palette,
+                                     PaletteBase? palette,
                                      PaletteMode paletteMode,
-                                     PaletteRedirect redirector,
+                                     PaletteRedirect? redirector,
                                      NeedPaintHandler needPaintDelegate)
         {
             // Store incoming state
@@ -254,7 +254,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public PaletteBase ProviderPalette { get; }
+        public PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -264,7 +264,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        public PaletteRedirect ProviderRedirector { get; }
+        public PaletteRedirect? ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

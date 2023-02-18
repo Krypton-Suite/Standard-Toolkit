@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                        IDisposable
     {
         #region Static Fields
-        private static AccurateTextMemento _empty;
+        private static AccurateTextMemento? _empty;
         #endregion
 
         #region Instance Fields
@@ -37,10 +37,10 @@ namespace Krypton.Toolkit
         /// <param name="hint">Drawing hint.</param>
         /// <param name="disposeFont">Should the font be disposed.</param>
         internal AccurateTextMemento(string text,
-                                     Font font,
+                                     [DisallowNull] Font font,
                                      SizeF sizeF,
                                      StringFormat format,
-                                     TextRenderingHint hint,
+                                     TextRenderingHint hint, // TODO: What was this supposed to be used for ?
                                      bool disposeFont)
         {
             Text = text;
@@ -55,10 +55,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Dispose()
         {
-            if (_disposeFont && (Font != null))
+            if (_disposeFont)
             {
-                Font.Dispose();
-                Font = null;
+                Font?.Dispose();
             }
             GC.SuppressFinalize(this);
         }
@@ -73,7 +72,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the drawing font.
         /// </summary>
-        public Font? Font { get; set; }
+        public Font Font { get; set; }
 
         /// <summary>
         /// Gets the pixel size of the text area.
@@ -100,7 +99,7 @@ namespace Krypton.Toolkit
         /// Only create the single instance when first requested
         /// </remarks>
         internal static AccurateTextMemento Empty => _empty ??= new AccurateTextMemento(string.Empty,
-            null,
+            SystemFonts.DefaultFont,
             Size.Empty,
             StringFormat.GenericDefault,
             TextRenderingHint.SystemDefault,

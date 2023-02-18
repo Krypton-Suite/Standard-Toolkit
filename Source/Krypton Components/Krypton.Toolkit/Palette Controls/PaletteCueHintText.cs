@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteCueHintText class.
         /// </summary>
-        public PaletteCueHintText(PaletteRedirect redirect,
+        public PaletteCueHintText(PaletteRedirect? redirect,
             NeedPaintHandler needPaint)
             : base(new PaletteContentInheritRedirect(redirect, PaletteContentStyle.InputControlStandalone), needPaint)
         {
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public new Color GetContentShortTextColor1(PaletteState state) => !Color1.IsEmpty ? Color1 : ControlPaint.Light(Inherit.GetContentShortTextColor1(state));
 
-        internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect, SolidBrush backBrush)
+        internal void PerformPaint(VisualControlBase textBox, Graphics? g, PI.RECT rect, SolidBrush backBrush)
         {
             using var old = new GraphicsHint(g, PaletteGraphicsHint.HighQuality);
             using var old1 = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));

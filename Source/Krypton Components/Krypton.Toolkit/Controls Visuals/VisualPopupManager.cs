@@ -738,8 +738,7 @@ namespace Krypton.Toolkit
                 return true;
             }
 
-            return m.Msg is >= PI.WM_.NCMOUSEMOVE and <= PI.WM_.NCMBUTTONDBLCLK
-                    || m.Msg is >= PI.WM_.KEYDOWN and <= PI.WM_.KEYLAST;
+            return m.Msg is >= PI.WM_.NCMOUSEMOVE and <= PI.WM_.NCMBUTTONDBLCLK or >= PI.WM_.KEYDOWN and <= PI.WM_.KEYLAST;
         }
 
         private void FilterMessages(bool filter)

@@ -333,7 +333,7 @@ namespace Krypton.Ribbon
                         return (CommonHelper.ActiveFloatingWindow != null) ||
                                ((topForm != null) && 
                                 (topForm.ContainsFocus ||
-                                ((topForm.Parent != null) && topForm.Visible && topForm.Enabled)));
+                                ((topForm.Parent != null) && topForm is { Visible: true, Enabled: true })));
                     }
                 }
             }

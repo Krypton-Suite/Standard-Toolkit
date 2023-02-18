@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
                                                    PaletteState state)
         {
             // Is there enough room to draw the at least one grab handle?
-            if ((displayRect.Height >= GRAB_SQUARE_MIN_SPACE) && (displayRect.Width >= GRAB_SQUARE_MIN_SPACE))
+            if (displayRect is { Height: >= GRAB_SQUARE_MIN_SPACE, Width: >= GRAB_SQUARE_MIN_SPACE })
             {
                 // Reduce rectangle to remove the border around the display area edges
                 displayRect.Inflate(-GRAB_SQUARE_GAP, -GRAB_SQUARE_GAP);
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
                                                             IPaletteRibbonBack paletteBack,
                                                             IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);

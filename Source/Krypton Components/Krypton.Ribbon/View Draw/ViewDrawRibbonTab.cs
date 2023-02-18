@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         private readonly Padding _preferredBorder2010; // = new(8, 4, 8, 3);
         private readonly Padding _layoutBorder2007; // = new(4, 3, 4, 1);
         private readonly Padding _layoutBorder2010; // = new(1, 4, 0, 3);
-        private KryptonRibbonTab _ribbonTab;
+        private KryptonRibbonTab? _ribbonTab;
         private readonly PaletteRibbonGeneral _paletteGeneral;
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateNormal;
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateTracking;
@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonContextDouble _paletteContextCurrent;
         private readonly RibbonTabToContent _contentProvider;
         private readonly NeedPaintHandler _needPaint;
-        private IDisposable[] _mementos;
+        private IDisposable[]? _mementos;
         private Size _preferredSize;
         private Rectangle _displayRect;
         private int _dirtyPaletteSize;
@@ -83,12 +83,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon;
-            ViewLayoutRibbonTabs = layoutTabs;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            ViewLayoutRibbonTabs = layoutTabs!;
+            _needPaint = needPaint!;
 
             // Create overrides for handling a focus state
-            _paletteGeneral = ribbon.StateCommon.RibbonGeneral;
+            _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
             _overrideStateNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateNormal.RibbonTab, Ribbon.StateNormal.RibbonTab, PaletteState.FocusOverride);
             _overrideStateTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateTracking.RibbonTab, Ribbon.StateTracking.RibbonTab, PaletteState.FocusOverride);
             _overrideStateCheckedNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateCheckedNormal.RibbonTab, Ribbon.StateCheckedNormal.RibbonTab, PaletteState.FocusOverride);
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the key tip target.
         /// </summary>
-        public IRibbonKeyTipTarget KeyTipTarget => SourceController as IRibbonKeyTipTarget;
+        public IRibbonKeyTipTarget? KeyTipTarget => SourceController as IRibbonKeyTipTarget;
 
         #endregion
 
@@ -226,7 +226,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon tab this is responsible for drawing.
         /// </summary>
-        public KryptonRibbonTab RibbonTab
+        public KryptonRibbonTab? RibbonTab
         {
             get => _ribbonTab;
 
@@ -348,15 +348,15 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context);
+            CheckPaletteState(context!);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -400,7 +400,7 @@ namespace Krypton.Ribbon
             CheckPaletteState(context);
 
             // Grab the context tab set that relates to this tab
-            ContextTabSet cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab.ContextName];
+            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab?.ContextName];
 
             switch (Ribbon.RibbonShape)
             {
@@ -478,7 +478,7 @@ namespace Krypton.Ribbon
             // We only use the ribbon tab text if we have a ribbon tab to
             // reference and the text is not zero length. We try and prevent
             // an empty string because it makes the tab useless!
-            if ((_ribbonTab != null) && (_ribbonTab.Text.Length > 0))
+            if (_ribbonTab is { Text.Length: > 0 })
             {
                 return Ribbon.RibbonShape == PaletteRibbonShape.Office2013 ? _ribbonTab.Text.ToUpper() : _ribbonTab.Text;
             }
@@ -495,7 +495,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void RenderBefore2007ContextTab(RenderContext context, ContextTabSet cts)
+        private void RenderBefore2007ContextTab(RenderContext context, ContextTabSet? cts)
         {
             // We only draw side separators on the first and last tab of the contexts
             if (cts.IsFirstOrLastTab(this))
@@ -524,7 +524,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void RenderBefore2010ContextTab(RenderContext context, ContextTabSet cts)
+        private void RenderBefore2010ContextTab(RenderContext context, ContextTabSet? cts)
         {
             // Grab the colors we draw the context separators and background in
             Color c1 = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);

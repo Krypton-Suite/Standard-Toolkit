@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                               IPaletteMetric
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private InheritBool _overlayHeaders;
 
         #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroupRedirect(PaletteRedirect redirect,
+        public PaletteHeaderGroupRedirect(PaletteRedirect? redirect,
                                           NeedPaintHandler needPaint)
             : this(redirect, redirect, redirect, needPaint)
         {
@@ -43,9 +43,9 @@ namespace Krypton.Toolkit
         /// <param name="redirectHeaderPrimary">inheritance redirection for primary header.</param>
         /// <param name="redirectHeaderSecondary">inheritance redirection for secondary header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
-                                          PaletteRedirect redirectHeaderPrimary,
-                                          PaletteRedirect redirectHeaderSecondary,
+        public PaletteHeaderGroupRedirect(PaletteRedirect? redirectHeaderGroup,
+                                          PaletteRedirect? redirectHeaderPrimary,
+                                          PaletteRedirect? redirectHeaderSecondary,
                                           NeedPaintHandler needPaint)
             : base(redirectHeaderGroup, PaletteBackStyle.ControlClient, 
                    PaletteBorderStyle.ControlClient, needPaint)

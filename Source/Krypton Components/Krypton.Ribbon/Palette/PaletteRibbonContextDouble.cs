@@ -31,10 +31,10 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteRibbonContextDouble class.
         /// </summary>
         /// <param name="ribbon">Reference to ribbon control.</param>
-        public PaletteRibbonContextDouble(KryptonRibbon ribbon) 
+        public PaletteRibbonContextDouble([DisallowNull] KryptonRibbon ribbon) 
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             LightBackground = false;
         }
         #endregion
@@ -43,7 +43,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated ribbon tab.
         /// </summary>
-        public KryptonRibbonTab RibbonTab { get; set; }
+        public KryptonRibbonTab? RibbonTab { get; set; }
 
         #endregion
 
@@ -210,7 +210,7 @@ namespace Krypton.Ribbon
             if (!string.IsNullOrEmpty(RibbonTab?.ContextName))
             {
                 // Find the context definition for this context
-                KryptonRibbonContext ribbonContext = _ribbon.RibbonContexts[RibbonTab.ContextName];
+                KryptonRibbonContext? ribbonContext = _ribbon.RibbonContexts[RibbonTab!.ContextName];
 
                 // Should always work, but you never know!
                 if (ribbonContext != null)

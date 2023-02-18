@@ -37,7 +37,7 @@ namespace Krypton.Workspace
         /// <param name="sender">Source of the page drag; should never be null.</param>
         /// <param name="navigator">Navigator instance associated with source; can be null.</param>
         /// <param name="e">Event arguments indicating list of pages being dragged.</param>
-        public void PageDragStart(object sender, KryptonNavigator navigator, PageDragCancelEventArgs e)
+        public void PageDragStart(object sender, KryptonNavigator? navigator, PageDragCancelEventArgs e)
         {
             _workspace.InternalPageDragStart(sender, navigator, e);
         }

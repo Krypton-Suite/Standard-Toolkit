@@ -144,13 +144,10 @@ namespace Krypton.Toolkit
                     if (button == MouseButtons.Left)
                     {
                         // Only if radio button is still pressed
-                        if (_target.Pressed)
-                        {
+                        if (_target is { Pressed: true, Enabled: true })
                             // Can only click if enabled
-                            if (_target.Enabled)
-                            {
-                                OnClick(EventArgs.Empty);
-                            }
+                        {
+                            OnClick(EventArgs.Empty);
                         }
                     }
 

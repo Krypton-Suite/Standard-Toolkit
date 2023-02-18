@@ -409,13 +409,10 @@ namespace Krypton.Toolkit
             }
 
             // Do we need to automatically change the checked state?
-            if (_menuRadioButton.KryptonContextMenuRadioButton.AutoCheck)
-            {
+            if (_menuRadioButton.KryptonContextMenuRadioButton is { AutoCheck: true, Checked: false })
                 // We only alter state if it is currently not checked
-                if (!_menuRadioButton.KryptonContextMenuRadioButton.Checked)
-                {
-                    _menuRadioButton.KryptonContextMenuRadioButton.Checked = true;
-                }
+            {
+                _menuRadioButton.KryptonContextMenuRadioButton.Checked = true;
             }
 
             Click?.Invoke(this, EventArgs.Empty);

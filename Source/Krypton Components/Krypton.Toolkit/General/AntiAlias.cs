@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                              IDisposable
     {
         #region Instance Fields
-        private readonly Graphics _g;
+        private readonly Graphics? _g;
         private readonly SmoothingMode _old;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the UseAntiAlias class.
         /// </summary>
         /// <param name="g">Graphics instance.</param>
-        public AntiAlias(Graphics g)
+        public AntiAlias(Graphics? g)
         {
             _g = g;
             _old = _g.SmoothingMode;

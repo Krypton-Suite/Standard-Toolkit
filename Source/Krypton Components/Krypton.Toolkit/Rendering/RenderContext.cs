@@ -26,9 +26,9 @@ namespace Krypton.Toolkit
         /// <param name="clipRect">Rectangle that needs rendering.</param>
         /// <param name="renderer">Rendering provider.</param>
         public RenderContext(Control control,
-                             Graphics graphics,
+                             Graphics? graphics,
                              Rectangle clipRect,
-                             IRenderer renderer)
+                             IRenderer? renderer)
             : this(null, control, control, graphics, clipRect, renderer)
         {
         }
@@ -43,9 +43,9 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Rendering provider.</param>
         public RenderContext(Control control,
                              Control alignControl,
-                             Graphics graphics,
+                             Graphics? graphics,
                              Rectangle clipRect,
-                             IRenderer renderer)
+                             IRenderer? renderer)
             : this(null, control, alignControl, graphics, clipRect, renderer)
         {
         }
@@ -59,12 +59,12 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="clipRect">Rectangle that needs rendering.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public RenderContext(ViewManager manager,
+        public RenderContext(ViewManager? manager,
                              Control control, 
                              Control alignControl,
-                             Graphics graphics,
+                             Graphics? graphics,
                              Rectangle clipRect,
-                             IRenderer renderer)
+                             IRenderer? renderer)
             : base(manager, control, alignControl, graphics, renderer) =>
             ClipRect = clipRect;
 

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly PaletteRibbonGalleryButton _button;
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
         private Image? _common;
         private Image? _disabled;
         private Image? _normal;
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public KryptonPaletteImagesGalleryButton(PaletteRibbonGalleryButton button,
-                                                 PaletteRedirect redirect,
+                                                 PaletteRedirect? redirect,
                                                  NeedPaintHandler needPaint) 
         {
             _button = button;
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             // Update our cached reference
             _redirect = redirect;

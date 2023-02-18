@@ -1671,7 +1671,7 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <returns>List of drag targets.</returns>
-        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData) => GenerateDragTargets(dragEndData, KryptonPageFlags.All);
+        public virtual DragTargetList GenerateDragTargets(PageDragEndData? dragEndData) => GenerateDragTargets(dragEndData, KryptonPageFlags.All);
 
         /// <summary>
         /// Generate a list of drag targets that are relevant to the provided end data.
@@ -1679,7 +1679,7 @@ namespace Krypton.Workspace
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <param name="allowFlags">Only drop pages that have one of these flags set.</param>
         /// <returns>List of drag targets.</returns>
-        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData, KryptonPageFlags allowFlags)
+        public virtual DragTargetList GenerateDragTargets(PageDragEndData? dragEndData, KryptonPageFlags allowFlags)
         {
             DragTargetList targets = new();
 
@@ -1700,7 +1700,7 @@ namespace Krypton.Workspace
                 KryptonWorkspaceCell cell = FirstVisibleCell();
                 while (cell != null)
                 {
-                    if (cell.WorkspaceVisible && cell.AllowDroppingPages)
+                    if (cell is { WorkspaceVisible: true, AllowDroppingPages: true })
                     {
                         visibleCells++;
                         numPages += cell.Pages.VisibleCount;
@@ -2957,7 +2957,7 @@ namespace Krypton.Workspace
             }
         }
 
-        internal void InternalPageDragStart(object sender, KryptonNavigator navigator, PageDragCancelEventArgs e)
+        internal void InternalPageDragStart(object sender, KryptonNavigator? navigator, PageDragCancelEventArgs e)
         {
             // Generate event allowing the DragPageNotify setting to be updated before the
             // actual drag processing occurs. You can even cancel the drag entirely.

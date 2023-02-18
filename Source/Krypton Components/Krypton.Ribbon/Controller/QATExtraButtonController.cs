@@ -143,8 +143,7 @@ namespace Krypton.Ribbon
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
             // We should have a visual popup for showing the qat overflow group
-            if (VisualPopupManager.Singleton.IsTracking 
-                && (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow popupOverflow)
+            if (VisualPopupManager.Singleton is { IsTracking: true, CurrentPopup: VisualPopupQATOverflow popupOverflow }
                 )
             {
                 // Grab the list of key tips from the popup group
@@ -210,8 +209,7 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if (!VisualPopupManager.Singleton.IsShowingCMS
-                        && (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow popupOverflow)
+                    if (VisualPopupManager.Singleton is { IsShowingCMS: false, CurrentPopup: VisualPopupQATOverflow popupOverflow }
                         )
                     {
                         popupOverflow.SetFirstFocusItem();
@@ -257,8 +255,7 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if (!VisualPopupManager.Singleton.IsShowingCMS 
-                        && (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow popupOverflow)
+                    if (VisualPopupManager.Singleton is { IsShowingCMS: false, CurrentPopup: VisualPopupQATOverflow popupOverflow }
                         )
                     {
                         popupOverflow.SetFirstFocusItem();

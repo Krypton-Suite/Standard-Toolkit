@@ -537,7 +537,7 @@ namespace Krypton.Ribbon
                         if (radioButton != this)
                         {
                             // If the target is checked and allowed to be auto unchecked
-                            if (radioButton.AutoCheck && radioButton.Checked)
+                            if (radioButton is { AutoCheck: true, Checked: true })
                             {
                                 radioButton.Checked = false;
                             }

@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override ToolStripRenderer RenderToolStrip(PaletteBase colorPalette)
+        public override ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
                                                             IPaletteRibbonBack paletteBack,
                                                             IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
                                                              Color baseColor2,
                                                              IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
                 MementoRibbonAppTab2013 cache;
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
                                                                 IDisposable memento,
                                                                 bool standard)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
                                                                 IDisposable memento,
                                                                 bool standard)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);

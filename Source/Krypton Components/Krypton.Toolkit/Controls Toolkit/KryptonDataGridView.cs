@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         private bool _evalTransparent;
         private Size _lastLayoutSize;
         private PaletteBase? _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private ViewDrawPanel _drawPanel;
         private SimpleCall _refreshCall;
@@ -796,7 +796,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets or Sets the internal KryptonDataGridView CellOver
@@ -1211,7 +1211,7 @@ namespace Krypton.Toolkit
                         borderPath.Dispose();
 
                         // If this is a column header cell
-                        if ((e.RowIndex == -1) && (e.ColumnIndex >= 0))
+                        if (e is { RowIndex: -1, ColumnIndex: >= 0 })
                         {
                             // If this column needs a sort glyph drawn
                             if (Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection != SortOrder.None)
@@ -1243,7 +1243,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // If this is a row header cell
-                            if ((e.RowIndex >= 0) && (e.ColumnIndex == -1))
+                            if (e is { RowIndex: >= 0, ColumnIndex: -1 })
                             {
                                 // By default there is no glyph needed for the row
                                 GridRowGlyph glpyh = GridRowGlyph.None;
@@ -1325,7 +1325,7 @@ namespace Krypton.Toolkit
                             else
                             {
                                 // Is this a data cell
-                                if ((e.RowIndex >= 0) && (e.ColumnIndex >= 0))
+                                if (e is { RowIndex: >= 0, ColumnIndex: >= 0 })
                                 {
                                     // If this cell supports icons, see if it has any.
                                     if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
@@ -1362,7 +1362,7 @@ namespace Krypton.Toolkit
                             ((e.PaintParts & DataGridViewPaintParts.ContentBackground) == DataGridViewPaintParts.ContentBackground))
                         {
                             // Only consider drawing content for the data cells
-                            if ((e.ColumnIndex >= 0) && (e.RowIndex >= 0))
+                            if (e is { ColumnIndex: >= 0, RowIndex: >= 0 })
                             {
                                 // Blit the image onto the screen
                                 e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
@@ -1488,7 +1488,7 @@ namespace Krypton.Toolkit
                 if (ShowFocusCues && Focused)
                 {
                     // Only consider drawing focus for data cells
-                    if ((e.ColumnIndex >= 0) && (e.RowIndex >= 0))
+                    if (e is { ColumnIndex: >= 0, RowIndex: >= 0 })
                     {
                         // Is the cell being drawn the current cell
                         if ((CurrentCellAddress.X == e.ColumnIndex) &&
@@ -1591,7 +1591,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteRedirect Redirector
+        internal PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -2235,7 +2235,7 @@ namespace Krypton.Toolkit
         {
             Point currentCellAddress = CurrentCellAddress;
 
-            if (!((cell.RowIndex >= 0) && (cell.ColumnIndex == -1)))
+            if (!(cell is { RowIndex: >= 0, ColumnIndex: -1 }))
             {
                 // Are we allowed to show a tooltip?
                 if (ShowCellToolTips &&
@@ -2491,7 +2491,7 @@ namespace Krypton.Toolkit
             return toolTipText;
         }
 
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
