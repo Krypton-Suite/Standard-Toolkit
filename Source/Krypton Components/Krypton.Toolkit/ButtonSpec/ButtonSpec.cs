@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// Returns a string that represents the current defaulted state.
         /// </summary>
         /// <returns>A string that represents the current defaulted state.</returns>
-        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
+        public override string? ToString() => !IsDefault ? "Modified" : string.Empty;
 
         /// <summary>
         /// Make a clone of this object.
