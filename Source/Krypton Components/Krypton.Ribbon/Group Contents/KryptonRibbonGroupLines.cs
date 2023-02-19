@@ -202,7 +202,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             get => base.Ribbon;
 

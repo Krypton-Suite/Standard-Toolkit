@@ -63,23 +63,23 @@ namespace Krypton.Toolkit
     public class MementoDouble : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public IDisposable first;
+        internal IDisposable? First;
         /// <summary>For internal use only.</summary>
-        public IDisposable second;
+        internal IDisposable? Second;
 
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (first != null)
+            if (First != null)
             {
-                first.Dispose();
-                first = null;
+                First.Dispose();
+                First = null;
             }
 
-            if (second != null)
+            if (Second != null)
             {
-                second.Dispose();
-                second = null;
+                Second.Dispose();
+                Second = null;
             }
 
             base.Dispose(disposing);
@@ -94,15 +94,15 @@ namespace Krypton.Toolkit
     public class MementoTriple : MementoDouble
     {
         /// <summary>For internal use only.</summary>
-        public IDisposable third;
+        public IDisposable? Third;
 
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (third != null)
+            if (Third != null)
             {
-                third.Dispose();
-                third = null;
+                Third.Dispose();
+                Third = null;
             }
 
             base.Dispose(disposing);
@@ -117,24 +117,24 @@ namespace Krypton.Toolkit
     public class MementoRectOneColor : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle rect;
+        public Rectangle Rect;
         /// <summary>For internal use only.</summary>
-        public Color c1;
+        public Color C1;
 
         /// <summary>For internal use only.</summary>
         public MementoRectOneColor(Rectangle r, Color color1)
         {
-            rect = r;
-            c1 = color1;
+            Rect = r;
+            C1 = color1;
         }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r, Color color1)
         {
-            var ret = rect.Equals(r) && c1.Equals(color1);
+            var ret = Rect.Equals(r) && C1.Equals(color1);
 
-            rect = r;
-            c1 = color1;
+            Rect = r;
+            C1 = color1;
 
             return ret;
         }
@@ -148,28 +148,28 @@ namespace Krypton.Toolkit
     public class MementoRectTwoColor : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle rect;
+        public Rectangle Rect;
         /// <summary>For internal use only.</summary>
-        public Color c1, c2;
+        public Color C1, C2;
 
         /// <summary>For internal use only.</summary>
         public MementoRectTwoColor(Rectangle r, Color color1, Color color2)
         {
-            rect = r;
-            c1 = color1;
-            c2 = color2;
+            Rect = r;
+            C1 = color1;
+            C2 = color2;
         }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r, Color color1, Color color2)
         {
-            var ret = rect.Equals(r) &&
-                      c1.Equals(color1) &&
-                      c2.Equals(color2);
+            var ret = Rect.Equals(r) &&
+                      C1.Equals(color1) &&
+                      C2.Equals(color2);
 
-            rect = r;
-            c1 = color1;
-            c2 = color2;
+            Rect = r;
+            C1 = color1;
+            C2 = color2;
 
             return ret;
         }
@@ -183,14 +183,14 @@ namespace Krypton.Toolkit
     public class MementoRectThreeColor : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public Color c3;
+        public Color C3;
 
         /// <summary>For internal use only.</summary>
         public MementoRectThreeColor(Rectangle r,
                                      Color color1, Color color2,
                                      Color color3)
             : base(r, color1, color2) =>
-            c3 = color3;
+            C3 = color3;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -198,9 +198,9 @@ namespace Krypton.Toolkit
                                     Color color3)
         {
             var ret = base.UseCachedValues(r, color1, color2) &&
-                       c3.Equals(color3);
+                       C3.Equals(color3);
 
-            c3 = color3;
+            C3 = color3;
 
             return ret;
         }
@@ -214,14 +214,14 @@ namespace Krypton.Toolkit
     public class MementoRectFourColor : MementoRectThreeColor
     {
         /// <summary>For internal use only.</summary>
-        public Color c4;
+        public Color C4;
 
         /// <summary>For internal use only.</summary>
         public MementoRectFourColor(Rectangle r,
                                     Color color1, Color color2,
                                     Color color3, Color color4)
             : base(r, color1, color2, color3) =>
-            c4 = color4;
+            C4 = color4;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -229,9 +229,9 @@ namespace Krypton.Toolkit
                                     Color color3, Color color4)
         {
             var ret = base.UseCachedValues(r, color1, color2, color3) &&
-                       c4.Equals(color4);
+                       C4.Equals(color4);
 
-            c4 = color4;
+            C4 = color4;
 
             return ret;
         }
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
     public class MementoRectFiveColor : MementoRectFourColor
     {
         /// <summary>For internal use only.</summary>
-        public Color c5;
+        public Color C5;
 
         /// <summary>For internal use only.</summary>
         public MementoRectFiveColor(Rectangle r,
@@ -253,7 +253,7 @@ namespace Krypton.Toolkit
                                     Color color3, Color color4,
                                     Color color5)
             : base(r, color1, color2, color3, color4) =>
-            c5 = color5;
+            C5 = color5;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -262,9 +262,9 @@ namespace Krypton.Toolkit
                                     Color color5)
         {
             var ret = base.UseCachedValues(r, color1, color2, color3, color4) &&
-                       c5.Equals(color5);
+                       C5.Equals(color5);
 
-            c5 = color5;
+            C5 = color5;
 
             return ret;
         }
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
     public class MementoRibbonLinear : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush linearBrush;
+        public LinearGradientBrush? LinearBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonLinear(Rectangle r,
@@ -290,10 +290,10 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (linearBrush != null)
+            if (LinearBrush != null)
             {
-                linearBrush.Dispose();
-                linearBrush = null;
+                LinearBrush.Dispose();
+                LinearBrush = null;
             }
 
             base.Dispose(disposing);
@@ -308,11 +308,11 @@ namespace Krypton.Toolkit
     public class MementoRibbonLinearBorder : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush linearBrush;
+        public LinearGradientBrush? LinearBrush;
         /// <summary>For internal use only.</summary>
-        public Pen linearPen;
+        public Pen? LinearPen;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath borderPath;
+        public GraphicsPath? BorderPath;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonLinearBorder(Rectangle r,
@@ -324,16 +324,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (linearBrush != null)
-            {
-                linearBrush.Dispose();
-                borderPath.Dispose();
-                linearPen.Dispose();
+            LinearBrush?.Dispose();
+            BorderPath?.Dispose();
+            LinearPen?.Dispose();
 
-                linearBrush = null;
-                borderPath = null;
-                linearPen = null;
-            }
+            LinearBrush = null;
+            BorderPath = null;
+            LinearPen = null;
 
             base.Dispose(disposing);
         }
@@ -347,9 +344,9 @@ namespace Krypton.Toolkit
     public class MementoRibbonAppButtonInner : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public SolidBrush outsideBrush;
+        public SolidBrush? OutsideBrush;
         /// <summary>For internal use only.</summary>
-        public SolidBrush insideBrush;
+        public SolidBrush? InsideBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonAppButtonInner(Rectangle r,
@@ -361,13 +358,10 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (outsideBrush != null)
-            {
-                outsideBrush.Dispose();
-                outsideBrush = null;
-                insideBrush.Dispose();
-                insideBrush = null;
-            }
+            OutsideBrush?.Dispose();
+            OutsideBrush = null;
+            InsideBrush?.Dispose();
+            InsideBrush = null;
 
             base.Dispose(disposing);
         }
@@ -381,13 +375,13 @@ namespace Krypton.Toolkit
     public class MementoRibbonAppButtonOuter : MementoRectThreeColor
     {
         /// <summary>For internal use only.</summary>
-        public SolidBrush wholeBrush;
+        public SolidBrush? WholeBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath backPath;
+        public GraphicsPath? BackPath;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush bottomDarkGradient;
+        public LinearGradientBrush? BottomDarkGradient;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush topLightenGradient;
+        public LinearGradientBrush? TopLightenGradient;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonAppButtonOuter(Rectangle r,
@@ -400,17 +394,14 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (wholeBrush != null)
-            {
-                wholeBrush.Dispose();
-                wholeBrush = null;
-                backPath.Dispose();
-                backPath = null;
-                bottomDarkGradient.Dispose();
-                bottomDarkGradient = null;
-                topLightenGradient.Dispose();
-                topLightenGradient = null;
-            }
+            WholeBrush?.Dispose();
+            WholeBrush = null;
+            BackPath?.Dispose();
+            BackPath = null;
+            BottomDarkGradient?.Dispose();
+            BottomDarkGradient = null;
+            TopLightenGradient?.Dispose();
+            TopLightenGradient = null;
 
             base.Dispose(disposing);
         }
@@ -424,23 +415,23 @@ namespace Krypton.Toolkit
     public class MementoRibbonAppTab : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public GraphicsPath borderPath;
+        public GraphicsPath? BorderPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath borderFillPath;
+        public GraphicsPath? BorderFillPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insideFillPath;
+        public GraphicsPath? InsideFillPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath highlightPath;
+        public GraphicsPath? HighlightPath;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush highlightBrush;
+        public PathGradientBrush? HighlightBrush;
         /// <summary>For internal use only.</summary>
-        public Rectangle highlightRect;
+        public Rectangle HighlightRect;
         /// <summary>For internal use only.</summary>
-        public Pen borderPen;
+        public Pen? BorderPen;
         /// <summary>For internal use only.</summary>
-        public Brush borderBrush;
+        public Brush? BorderBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush insideFillBrush;
+        public LinearGradientBrush? InsideFillBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonAppTab(Rectangle r, Color color1, Color color2)
@@ -452,28 +443,28 @@ namespace Krypton.Toolkit
         public void GeneratePaths(Rectangle rect, PaletteState state)
         {
             // Create the border path
-            borderPath = new GraphicsPath();
-            borderPath.AddLine(rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1.75f);
-            borderPath.AddLine(rect.Left, rect.Top + 1.75f, rect.Left + 1, rect.Top);
-            borderPath.AddLine(rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
-            borderPath.AddLine(rect.Right - 2, rect.Top, rect.Right - 1, rect.Top + 1.75f);
-            borderPath.AddLine(rect.Right - 1, rect.Top + 1.75f, rect.Right - 1, rect.Bottom - 2);
+            BorderPath = new GraphicsPath();
+            BorderPath.AddLine(rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1.75f);
+            BorderPath.AddLine(rect.Left, rect.Top + 1.75f, rect.Left + 1, rect.Top);
+            BorderPath.AddLine(rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
+            BorderPath.AddLine(rect.Right - 2, rect.Top, rect.Right - 1, rect.Top + 1.75f);
+            BorderPath.AddLine(rect.Right - 1, rect.Top + 1.75f, rect.Right - 1, rect.Bottom - 2);
 
             // Create border path for filling
-            borderFillPath = new GraphicsPath();
-            borderFillPath.AddLine(rect.Left, rect.Bottom - 1, rect.Left, rect.Top + 1.75f);
-            borderFillPath.AddLine(rect.Left, rect.Top + 1.75f, rect.Left + 1, rect.Top);
-            borderFillPath.AddLine(rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
-            borderFillPath.AddLine(rect.Right - 2, rect.Top, rect.Right - 1, rect.Top + 1.75f);
-            borderFillPath.AddLine(rect.Right - 1, rect.Top + 1.75f, rect.Right - 1, rect.Bottom - 1);
+            BorderFillPath = new GraphicsPath();
+            BorderFillPath.AddLine(rect.Left, rect.Bottom - 1, rect.Left, rect.Top + 1.75f);
+            BorderFillPath.AddLine(rect.Left, rect.Top + 1.75f, rect.Left + 1, rect.Top);
+            BorderFillPath.AddLine(rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
+            BorderFillPath.AddLine(rect.Right - 2, rect.Top, rect.Right - 1, rect.Top + 1.75f);
+            BorderFillPath.AddLine(rect.Right - 1, rect.Top + 1.75f, rect.Right - 1, rect.Bottom - 1);
 
             // Path for the highlight at bottom center
-            highlightRect = new Rectangle(rect.Left - (rect.Width / 8), rect.Top + (rect.Height / 2) - 2, rect.Width + (rect.Width / 5), rect.Height + 4);
-            highlightPath = new GraphicsPath();
-            highlightPath.AddEllipse(highlightRect);
-            highlightBrush = new PathGradientBrush(highlightPath)
+            HighlightRect = new Rectangle(rect.Left - (rect.Width / 8), rect.Top + (rect.Height / 2) - 2, rect.Width + (rect.Width / 5), rect.Height + 4);
+            HighlightPath = new GraphicsPath();
+            HighlightPath.AddEllipse(HighlightRect);
+            HighlightBrush = new PathGradientBrush(HighlightPath)
             {
-                CenterPoint = new PointF(highlightRect.Left + (highlightRect.Width / 2), highlightRect.Top + (highlightRect.Height / 2)),
+                CenterPoint = new PointF(HighlightRect.Left + (HighlightRect.Width / 2), HighlightRect.Top + (HighlightRect.Height / 2)),
                 SurroundColors = new[] { Color.Transparent }
             };
 
@@ -484,33 +475,30 @@ namespace Krypton.Toolkit
             rect.Height -= 2;
 
             // Create inside path for filling
-            insideFillPath = new GraphicsPath();
-            insideFillPath.AddLine(rect.Left, rect.Bottom - 1, rect.Left, rect.Top + 1f);
-            insideFillPath.AddLine(rect.Left, rect.Top + 1f, rect.Left + 1, rect.Top);
-            insideFillPath.AddLine(rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
-            insideFillPath.AddLine(rect.Right - 2, rect.Top, rect.Right - 1, rect.Top + 1.75f);
-            insideFillPath.AddLine(rect.Right - 1, rect.Top + 1.75f, rect.Right - 1, rect.Bottom - 1);
+            InsideFillPath = new GraphicsPath();
+            InsideFillPath.AddLine(rect.Left, rect.Bottom - 1, rect.Left, rect.Top + 1f);
+            InsideFillPath.AddLine(rect.Left, rect.Top + 1f, rect.Left + 1, rect.Top);
+            InsideFillPath.AddLine(rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
+            InsideFillPath.AddLine(rect.Right - 2, rect.Top, rect.Right - 1, rect.Top + 1.75f);
+            InsideFillPath.AddLine(rect.Right - 1, rect.Top + 1.75f, rect.Right - 1, rect.Bottom - 1);
         }
 
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (borderPath != null)
-            {
-                borderPath.Dispose();
-                borderFillPath.Dispose();
-                insideFillPath.Dispose();
-                borderPen.Dispose();
-                borderBrush.Dispose();
-                insideFillBrush.Dispose();
+            BorderPath?.Dispose();
+            BorderFillPath?.Dispose();
+            InsideFillPath?.Dispose();
+            BorderPen?.Dispose();
+            BorderBrush?.Dispose();
+            InsideFillBrush?.Dispose();
 
-                borderPath = null;
-                borderFillPath = null;
-                insideFillPath = null;
-                borderPen = null;
-                borderBrush = null;
-                insideFillBrush = null;
-            }
+            BorderPath = null;
+            BorderFillPath = null;
+            InsideFillPath = null;
+            BorderPen = null;
+            BorderBrush = null;
+            InsideFillBrush = null;
 
             base.Dispose(disposing);
         }
@@ -524,11 +512,11 @@ namespace Krypton.Toolkit
     public class MementoRibbonAppTab2013 : MementoRectOneColor
     {
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush highlightBrush;
+        public PathGradientBrush? HighlightBrush;
         /// <summary>For internal use only.</summary>
-        public Rectangle highlightRect;
+        public Rectangle HighlightRect;
         /// <summary>For internal use only.</summary>
-        public SolidBrush insideFillBrush;
+        public SolidBrush? InsideFillBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonAppTab2013(Rectangle r, Color color1)
@@ -606,7 +594,7 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupGradientOne : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush brush;
+        public LinearGradientBrush? Brush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupGradientOne(Rectangle r, Color color1, Color color2)
@@ -617,11 +605,8 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (brush != null)
-            {
-                brush.Dispose();
-                brush = null;
-            }
+            Brush?.Dispose();
+            Brush = null;
 
             base.Dispose(disposing);
         }
@@ -635,11 +620,11 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupGradientTwo : MementoRectFourColor
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle topRect, bottomRect;
+        public Rectangle TopRect, BottomRect;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush topBrush;
+        public LinearGradientBrush? TopBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush bottomBrush;
+        public LinearGradientBrush? BottomBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupGradientTwo(Rectangle r,
@@ -652,14 +637,11 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (topBrush != null)
-            {
-                topBrush.Dispose();
-                bottomBrush.Dispose();
+            TopBrush?.Dispose();
+            BottomBrush?.Dispose();
 
-                topBrush = null;
-                bottomBrush = null;
-            }
+            TopBrush = null;
+            BottomBrush = null;
 
             base.Dispose(disposing);
         }
@@ -673,13 +655,13 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupCollapsedBorder : MementoRectFourColor
     {
         /// <summary>For internal use only.</summary>
-        public GraphicsPath solidPath;
+        public GraphicsPath? SolidPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insidePath;
+        public GraphicsPath? InsidePath;
         /// <summary>For internal use only.</summary>
-        public Pen solidPen;
+        public Pen? SolidPen;
         /// <summary>For internal use only.</summary>
-        public Pen insidePen;
+        public Pen? InsidePen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupCollapsedBorder(Rectangle r,
@@ -692,18 +674,15 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (solidPath != null)
-            {
-                solidPath.Dispose();
-                insidePath.Dispose();
-                solidPen.Dispose();
-                insidePen.Dispose();
+            SolidPath?.Dispose();
+            InsidePath?.Dispose();
+            SolidPen?.Dispose();
+            InsidePen?.Dispose();
 
-                solidPath = null;
-                insidePath = null;
-                solidPen = null;
-                insidePen = null;
-            }
+            SolidPath = null;
+            InsidePath = null;
+            SolidPen = null;
+            InsidePen = null;
 
             base.Dispose(disposing);
         }
@@ -717,11 +696,11 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupCollapsedFrameBorder : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public GraphicsPath solidPath;
+        public GraphicsPath? SolidPath;
         /// <summary>For internal use only.</summary>
-        public SolidBrush titleBrush;
+        public SolidBrush? TitleBrush;
         /// <summary>For internal use only.</summary>
-        public Pen solidPen;
+        public Pen? SolidPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupCollapsedFrameBorder(Rectangle r, Color color1, Color color2)
@@ -732,16 +711,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (solidPath != null)
-            {
-                solidPath.Dispose();
-                titleBrush.Dispose();
-                solidPen.Dispose();
+            SolidPath?.Dispose();
+            TitleBrush?.Dispose();
+            SolidPen?.Dispose();
 
-                solidPath = null;
-                titleBrush = null;
-                solidPen = null;
-            }
+            SolidPath = null;
+            TitleBrush = null;
+            SolidPen = null;
 
             base.Dispose(disposing);
         }
@@ -755,23 +731,23 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupNormal : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush totalBrush;
+        public LinearGradientBrush? TotalBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush innerBrush;
+        public LinearGradientBrush? InnerBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush trackSepBrush;
+        public LinearGradientBrush? TrackSepBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush trackFillBrush;
+        public LinearGradientBrush? TrackFillBrush;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush trackHighlightBrush;
+        public PathGradientBrush? TrackHighlightBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush pressedFillBrush;
+        public LinearGradientBrush? PressedFillBrush;
         /// <summary>For internal use only.</summary>
-        public Pen innerPen;
+        public Pen? InnerPen;
         /// <summary>For internal use only.</summary>
-        public Pen trackSepPen;
+        public Pen? TrackSepPen;
         /// <summary>For internal use only.</summary>
-        public Pen trackBottomPen;
+        public Pen? TrackBottomPen;
 
         private bool _tracking;
         private bool _dark;
@@ -809,27 +785,27 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (totalBrush != null)
+            if (TotalBrush != null)
             {
-                totalBrush.Dispose();
-                innerBrush.Dispose();
-                trackSepBrush.Dispose();
-                trackFillBrush.Dispose();
-                pressedFillBrush.Dispose();
-                trackHighlightBrush.Dispose();
-                innerPen.Dispose();
-                trackSepPen.Dispose();
-                trackBottomPen.Dispose();
+                TotalBrush.Dispose();
+                InnerBrush?.Dispose();
+                TrackSepBrush?.Dispose();
+                TrackFillBrush?.Dispose();
+                PressedFillBrush?.Dispose();
+                TrackHighlightBrush?.Dispose();
+                InnerPen?.Dispose();
+                TrackSepPen?.Dispose();
+                TrackBottomPen?.Dispose();
 
-                totalBrush = null;
-                innerBrush = null;
-                trackSepBrush = null;
-                trackFillBrush = null;
-                pressedFillBrush = null;
-                trackHighlightBrush = null;
-                innerPen = null;
-                trackSepPen = null;
-                trackBottomPen = null;
+                TotalBrush = null;
+                InnerBrush = null;
+                TrackSepBrush = null;
+                TrackFillBrush = null;
+                PressedFillBrush = null;
+                TrackHighlightBrush = null;
+                InnerPen = null;
+                TrackSepPen = null;
+                TrackBottomPen = null;
             }
 
             base.Dispose(disposing);
@@ -844,17 +820,17 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupNormalBorder : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle backRect;
+        public Rectangle BackRect;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath solidPath;
+        public GraphicsPath? SolidPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insidePath;
+        public GraphicsPath? InsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath lightPath;
+        public GraphicsPath? LightPath;
         /// <summary>For internal use only.</summary>
-        public Pen solidPen;
+        public Pen? SolidPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupNormalBorder(Rectangle r, Color color1, Color color2)
@@ -865,20 +841,17 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (solidPath != null)
-            {
-                solidPath.Dispose();
-                insidePath.Dispose();
-                outsidePath.Dispose();
-                lightPath.Dispose();
-                solidPen.Dispose();
+            SolidPath?.Dispose();
+            InsidePath?.Dispose();
+            OutsidePath?.Dispose();
+            LightPath?.Dispose();
+            SolidPen?.Dispose();
 
-                solidPath = null;
-                insidePath = null;
-                outsidePath = null;
-                lightPath = null;
-                solidPen = null;
-            }
+            SolidPath = null;
+            InsidePath = null;
+            OutsidePath = null;
+            LightPath = null;
+            SolidPen = null;
 
             base.Dispose(disposing);
         }
@@ -892,23 +865,23 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupNormalBorderSep : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush totalBrush;
+        public LinearGradientBrush? TotalBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush innerBrush;
+        public LinearGradientBrush? InnerBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush trackSepBrush;
+        public LinearGradientBrush? TrackSepBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush trackFillBrush;
+        public LinearGradientBrush? TrackFillBrush;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush trackHighlightBrush;
+        public PathGradientBrush? TrackHighlightBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush pressedFillBrush;
+        public LinearGradientBrush? PressedFillBrush;
         /// <summary>For internal use only.</summary>
-        public Pen innerPen;
+        public Pen? InnerPen;
         /// <summary>For internal use only.</summary>
-        public Pen trackSepPen;
+        public Pen? TrackSepPen;
         /// <summary>For internal use only.</summary>
-        public Pen trackBottomPen;
+        public Pen? TrackBottomPen;
 
         private bool _tracking;
         private bool _dark;
@@ -946,28 +919,25 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (totalBrush != null)
-            {
-                totalBrush.Dispose();
-                innerBrush.Dispose();
-                trackSepBrush.Dispose();
-                trackFillBrush.Dispose();
-                pressedFillBrush.Dispose();
-                trackHighlightBrush.Dispose();
-                innerPen.Dispose();
-                trackSepPen.Dispose();
-                trackBottomPen.Dispose();
+            TotalBrush?.Dispose();
+            InnerBrush?.Dispose();
+            TrackSepBrush?.Dispose();
+            TrackFillBrush?.Dispose();
+            PressedFillBrush?.Dispose();
+            TrackHighlightBrush?.Dispose();
+            InnerPen?.Dispose();
+            TrackSepPen?.Dispose();
+            TrackBottomPen?.Dispose();
 
-                totalBrush = null;
-                innerBrush = null;
-                trackSepBrush = null;
-                trackFillBrush = null;
-                pressedFillBrush = null;
-                trackHighlightBrush = null;
-                innerPen = null;
-                trackSepPen = null;
-                trackBottomPen = null;
-            }
+            TotalBrush = null;
+            InnerBrush = null;
+            TrackSepBrush = null;
+            TrackFillBrush = null;
+            PressedFillBrush = null;
+            TrackHighlightBrush = null;
+            InnerPen = null;
+            TrackSepPen = null;
+            TrackBottomPen = null;
 
             base.Dispose(disposing);
         }
@@ -981,9 +951,9 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupNormalTitle : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public GraphicsPath titlePath;
+        public GraphicsPath? TitlePath;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush titleBrush;
+        public LinearGradientBrush? TitleBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupNormalTitle(Rectangle r, Color color1, Color color2)
@@ -994,14 +964,11 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (titlePath != null)
-            {
-                titlePath.Dispose();
-                titleBrush.Dispose();
+            TitlePath?.Dispose();
+            TitleBrush?.Dispose();
 
-                titlePath = null;
-                titleBrush = null;
-            }
+            TitlePath = null;
+            TitleBrush = null;
 
             base.Dispose(disposing);
         }
@@ -1015,25 +982,25 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupAreaBorder : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insidePathN;
+        public GraphicsPath? InsidePathN;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insidePathL;
+        public GraphicsPath? InsidePathL;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath shadowPath;
+        public GraphicsPath? ShadowPath;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush fillBrush;
+        public LinearGradientBrush? FillBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush fillTopBrush;
+        public LinearGradientBrush? FillTopBrush;
         /// <summary>For internal use only.</summary>
-        public Pen shadowPenN;
+        public Pen? ShadowPenN;
         /// <summary>For internal use only.</summary>
-        public Pen shadowPenL;
+        public Pen? ShadowPenL;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen insidePen;
+        public Pen? InsidePen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupAreaBorder(Rectangle r,
@@ -1047,30 +1014,27 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (outsidePath != null)
-            {
-                outsidePath.Dispose();
-                insidePathN.Dispose();
-                insidePathL.Dispose();
-                shadowPath.Dispose();
-                fillBrush.Dispose();
-                fillTopBrush.Dispose();
-                shadowPenN.Dispose();
-                shadowPenL.Dispose();
-                outsidePen.Dispose();
-                insidePen.Dispose();
+            OutsidePath?.Dispose();
+            InsidePathN?.Dispose();
+            InsidePathL?.Dispose();
+            ShadowPath?.Dispose();
+            FillBrush?.Dispose();
+            FillTopBrush?.Dispose();
+            ShadowPenN?.Dispose();
+            ShadowPenL?.Dispose();
+            OutsidePen?.Dispose();
+            InsidePen?.Dispose();
 
-                outsidePath = null;
-                insidePathN = null;
-                insidePathL = null;
-                shadowPath = null;
-                fillBrush = null;
-                fillTopBrush = null;
-                shadowPenN = null;
-                shadowPenL = null;
-                outsidePen = null;
-                insidePen = null;
-            }
+            OutsidePath = null;
+            InsidePathN = null;
+            InsidePathL = null;
+            ShadowPath = null;
+            FillBrush = null;
+            FillTopBrush = null;
+            ShadowPenN = null;
+            ShadowPenL = null;
+            OutsidePen = null;
+            InsidePen = null;
 
             base.Dispose(disposing);
         }
@@ -1084,31 +1048,31 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupAreaBorder3 : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle borderRect;
+        public Rectangle BorderRect;
         /// <summary>For internal use only.</summary>
-        public Point[] borderPoints;
+        public Point[] BorderPoints;
         /// <summary>For internal use only.</summary>
-        public Rectangle backRect1;
+        public Rectangle BackRect1;
         /// <summary>For internal use only.</summary>
-        public Rectangle backRect2;
+        public Rectangle BackRect2;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush backBrush1;
+        public LinearGradientBrush? BackBrush1;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush backBrush2;
+        public LinearGradientBrush? BackBrush2;
         /// <summary>For internal use only.</summary>
-        public SolidBrush backBrush3;
+        public SolidBrush? BackBrush3;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush gradientBorderBrush;
+        public LinearGradientBrush? GradientBorderBrush;
         /// <summary>For internal use only.</summary>
-        public Pen gradientBorderPen;
+        public Pen? GradientBorderPen;
         /// <summary>For internal use only.</summary>
-        public Pen solidBorderPen;
+        public Pen? SolidBorderPen;
         /// <summary>For internal use only.</summary>
-        public Pen shadowPen1;
+        public Pen? ShadowPen1;
         /// <summary>For internal use only.</summary>
-        public Pen shadowPen2;
+        public Pen? ShadowPen2;
         /// <summary>For internal use only.</summary>
-        public Pen shadowPen3;
+        public Pen? ShadowPen3;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupAreaBorder3(Rectangle r,
@@ -1122,28 +1086,25 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (backBrush1 != null)
-            {
-                backBrush1.Dispose();
-                backBrush2.Dispose();
-                backBrush3.Dispose();
-                gradientBorderBrush.Dispose();
-                gradientBorderPen.Dispose();
-                solidBorderPen.Dispose();
-                shadowPen1.Dispose();
-                shadowPen2.Dispose();
-                shadowPen3.Dispose();
+            BackBrush1?.Dispose();
+            BackBrush2?.Dispose();
+            BackBrush3?.Dispose();
+            GradientBorderBrush?.Dispose();
+            GradientBorderPen?.Dispose();
+            SolidBorderPen?.Dispose();
+            ShadowPen1?.Dispose();
+            ShadowPen2?.Dispose();
+            ShadowPen3?.Dispose();
 
-                backBrush1 = null;
-                backBrush2 = null;
-                backBrush3 = null;
-                gradientBorderBrush = null;
-                gradientBorderPen = null;
-                solidBorderPen = null;
-                shadowPen1 = null;
-                shadowPen2 = null;
-                shadowPen3 = null;
-            }
+            BackBrush1 = null;
+            BackBrush2 = null;
+            BackBrush3 = null;
+            GradientBorderBrush = null;
+            GradientBorderPen = null;
+            SolidBorderPen = null;
+            ShadowPen1 = null;
+            ShadowPen2 = null;
+            ShadowPen3 = null;
 
             base.Dispose(disposing);
         }
@@ -1157,21 +1118,21 @@ namespace Krypton.Toolkit
     public class MementoRibbonGroupAreaBorderContext : MementoRectThreeColor
     {
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insidePath;
+        public GraphicsPath? InsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath shadowPath;
+        public GraphicsPath? ShadowPath;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush fillBrush;
+        public LinearGradientBrush? FillBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush fillTopBrush;
+        public LinearGradientBrush? FillTopBrush;
         /// <summary>For internal use only.</summary>
-        public Pen shadowPen;
+        public Pen? ShadowPen;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen insidePen;
+        public Pen? InsidePen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonGroupAreaBorderContext(Rectangle r,
@@ -1184,26 +1145,23 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (outsidePath != null)
-            {
-                outsidePath.Dispose();
-                insidePath.Dispose();
-                shadowPath.Dispose();
-                fillBrush.Dispose();
-                fillTopBrush.Dispose();
-                shadowPen.Dispose();
-                outsidePen.Dispose();
-                insidePen.Dispose();
+            OutsidePath?.Dispose();
+            InsidePath?.Dispose();
+            ShadowPath?.Dispose();
+            FillBrush?.Dispose();
+            FillTopBrush?.Dispose();
+            ShadowPen?.Dispose();
+            OutsidePen?.Dispose();
+            InsidePen?.Dispose();
 
-                outsidePath = null;
-                insidePath = null;
-                shadowPath = null;
-                fillBrush = null;
-                fillTopBrush = null;
-                shadowPen = null;
-                outsidePen = null;
-                insidePen = null;
-            }
+            OutsidePath = null;
+            InsidePath = null;
+            ShadowPath = null;
+            FillBrush = null;
+            FillTopBrush = null;
+            ShadowPen = null;
+            OutsidePen = null;
+            InsidePen = null;
 
             base.Dispose(disposing);
         }
@@ -1217,63 +1175,63 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabTracking2007 : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public Rectangle half1Rect;
+        public Rectangle Half1Rect;
         /// <summary>For internal use only.</summary>
-        public Rectangle half2Rect;
+        public Rectangle Half2Rect;
         /// <summary>For internal use only.</summary>
-        public RectangleF half2RectF;
+        public RectangleF Half2RectF;
         /// <summary>For internal use only.</summary>
-        public RectangleF ellipseRect;
+        public RectangleF EllipseRect;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath topPath;
+        public GraphicsPath? TopPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath ellipsePath;
+        public GraphicsPath? EllipsePath;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush half1LeftBrush;
+        public LinearGradientBrush? Half1LeftBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush half1RightBrush;
+        public LinearGradientBrush? Half1RightBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush half1LightBrush;
+        public LinearGradientBrush? Half1LightBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush outsideBrush;
+        public LinearGradientBrush? OutsideBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush insideBrush;
+        public LinearGradientBrush? InsideBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush topBrush;
+        public LinearGradientBrush? TopBrush;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush ellipseBrush;
+        public PathGradientBrush? EllipseBrush;
         /// <summary>For internal use only.</summary>
-        public SolidBrush half2Brush;
+        public SolidBrush? Half2Brush;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen topPen;
+        public Pen? TopPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabTracking2007(Rectangle r,
                                         Color color1, Color color2,
                                         VisualOrientation orient)
             : base(r, color1, color2) =>
-            orientation = orient;
+            Orientation = orient;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
                                     Color color1, Color color2,
                                     VisualOrientation orient)
         {
-            var ret = rect.Equals(r) &&
-                      c1.Equals(color1) &&
-                      c2.Equals(color2) &&
-                      (orient == orientation);
+            var ret = Rect.Equals(r) &&
+                      C1.Equals(color1) &&
+                      C2.Equals(color2) &&
+                      (orient == Orientation);
 
-            rect = r;
-            c1 = color1;
-            c2 = color2;
-            orientation = orient;
+            Rect = r;
+            C1 = color1;
+            C2 = color2;
+            Orientation = orient;
 
             return ret;
         }
@@ -1281,39 +1239,36 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (outsidePath != null)
+            OutsidePath?.Dispose();
+            TopPath?.Dispose();
+            EllipsePath?.Dispose();
+            Half1LeftBrush?.Dispose();
+            Half1RightBrush?.Dispose();
+            Half1LightBrush?.Dispose();
+            OutsideBrush?.Dispose();
+            InsideBrush?.Dispose();
+            TopBrush?.Dispose();
+            Half2Brush?.Dispose();
+            OutsidePen?.Dispose();
+            TopPen?.Dispose();
+
+            OutsidePath = null;
+            TopPath = null;
+            EllipsePath = null;
+            Half1LeftBrush = null;
+            Half1RightBrush = null;
+            Half1LightBrush = null;
+            OutsideBrush = null;
+            InsideBrush = null;
+            TopBrush = null;
+            Half2Brush = null;
+            OutsidePen = null;
+            TopPen = null;
+
+            if (EllipseBrush != null)
             {
-                outsidePath.Dispose();
-                topPath.Dispose();
-                ellipsePath.Dispose();
-                half1LeftBrush.Dispose();
-                half1RightBrush.Dispose();
-                half1LightBrush.Dispose();
-                outsideBrush.Dispose();
-                insideBrush.Dispose();
-                topBrush.Dispose();
-                half2Brush.Dispose();
-                outsidePen.Dispose();
-                topPen.Dispose();
-
-                outsidePath = null;
-                topPath = null;
-                ellipsePath = null;
-                half1LeftBrush = null;
-                half1RightBrush = null;
-                half1LightBrush = null;
-                outsideBrush = null;
-                insideBrush = null;
-                topBrush = null;
-                half2Brush = null;
-                outsidePen = null;
-                topPen = null;
-
-                if (ellipseBrush != null)
-                {
-                    ellipseBrush.Dispose();
-                    ellipseBrush = null;
-                }
+                EllipseBrush.Dispose();
+                EllipseBrush = null;
             }
 
             base.Dispose(disposing);
@@ -1328,19 +1283,19 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabTracking2010 : MementoRectFourColor
     {
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath borderPath;
+        public GraphicsPath? BorderPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insidePath;
+        public GraphicsPath? InsidePath;
         /// <summary>For internal use only.</summary>
-        public SolidBrush outsideBrush;
+        public SolidBrush? OutsideBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush insideBrush;
+        public LinearGradientBrush? InsideBrush;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabTracking2010(Rectangle r,
@@ -1348,7 +1303,7 @@ namespace Krypton.Toolkit
                                             Color color3, Color color4,
                                             VisualOrientation orient)
             : base(r, color1, color2, color3, color4) =>
-            orientation = orient;
+            Orientation = orient;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1356,19 +1311,19 @@ namespace Krypton.Toolkit
                                     Color color3, Color color4,
                                     VisualOrientation orient)
         {
-            var ret = rect.Equals(r) &&
-                      c1.Equals(color1) &&
-                      c2.Equals(color2) &&
-                      c3.Equals(color1) &&
-                      c4.Equals(color2) &&
-                      (orient == orientation);
+            var ret = Rect.Equals(r) &&
+                      C1.Equals(color1) &&
+                      C2.Equals(color2) &&
+                      C3.Equals(color1) &&
+                      C4.Equals(color2) &&
+                      (orient == Orientation);
 
-            rect = r;
-            c1 = color1;
-            c2 = color2;
-            c3 = color3;
-            c4 = color4;
-            orientation = orient;
+            Rect = r;
+            C1 = color1;
+            C2 = color2;
+            C3 = color3;
+            C4 = color4;
+            Orientation = orient;
 
             return ret;
         }
@@ -1376,22 +1331,19 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (outsidePath != null)
-            {
-                borderPath.Dispose();
-                outsidePath.Dispose();
-                insidePath.Dispose();
-                outsideBrush.Dispose();
-                insideBrush.Dispose();
-                outsidePen.Dispose();
+            BorderPath?.Dispose();
+            OutsidePath?.Dispose();
+            InsidePath?.Dispose();
+            OutsideBrush?.Dispose();
+            InsideBrush?.Dispose();
+            OutsidePen?.Dispose();
 
-                borderPath = null;
-                outsidePath = null;
-                insidePath = null;
-                outsideBrush = null;
-                insideBrush = null;
-                outsidePen = null;
-            }
+            BorderPath = null;
+            OutsidePath = null;
+            InsidePath = null;
+            OutsideBrush = null;
+            InsideBrush = null;
+            OutsidePen = null;
 
             base.Dispose(disposing);
         }
@@ -1405,23 +1357,23 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabSelected2007 : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public Rectangle centerRect;
+        public Rectangle CenterRect;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush centerBrush;
+        public LinearGradientBrush? CenterBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public SolidBrush insideBrush;
+        public SolidBrush? InsideBrush;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen middlePen;
+        public Pen? MiddlePen;
         /// <summary>For internal use only.</summary>
-        public Pen insidePen;
+        public Pen? InsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen centerPen;
+        public Pen? CenterPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabSelected2007(Rectangle r,
@@ -1430,7 +1382,7 @@ namespace Krypton.Toolkit
                                         Color color5,
                                         VisualOrientation orient)
             : base(r, color1, color2, color3, color4, color5) =>
-            orientation = orient;
+            Orientation = orient;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1440,9 +1392,9 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient)
         {
             var ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                       (orient == orientation);
+                       (orient == Orientation);
 
-            orientation = orient;
+            Orientation = orient;
 
             return ret;
         }
@@ -1450,24 +1402,21 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (centerBrush != null)
-            {
-                centerBrush.Dispose();
-                outsidePath.Dispose();
-                insideBrush.Dispose();
-                outsidePen.Dispose();
-                middlePen.Dispose();
-                insidePen.Dispose();
-                centerPen.Dispose();
+            CenterBrush?.Dispose();
+            OutsidePath?.Dispose();
+            InsideBrush?.Dispose();
+            OutsidePen?.Dispose();
+            MiddlePen?.Dispose();
+            InsidePen?.Dispose();
+            CenterPen?.Dispose();
 
-                centerBrush = null;
-                outsidePath = null;
-                insideBrush = null;
-                outsidePen = null;
-                middlePen = null;
-                insidePen = null;
-                centerPen = null;
-            }
+            CenterBrush = null;
+            OutsidePath = null;
+            InsideBrush = null;
+            OutsidePen = null;
+            MiddlePen = null;
+            InsidePen = null;
+            CenterPen = null;
 
             base.Dispose(disposing);
         }
@@ -1481,19 +1430,19 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabSelected2010 : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush centerBrush;
+        public LinearGradientBrush? CenterBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen centerPen;
+        public Pen? CenterPen;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush insideBrush;
+        public LinearGradientBrush? InsideBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath insidePath;
+        public GraphicsPath? InsidePath;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabSelected2010(Rectangle r,
@@ -1502,7 +1451,7 @@ namespace Krypton.Toolkit
                                             Color color5,
                                             VisualOrientation orient)
             : base(r, color1, color2, color3, color4, color5) =>
-            orientation = orient;
+            Orientation = orient;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1512,9 +1461,9 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient)
         {
             var ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                       (orient == orientation);
+                       (orient == Orientation);
 
-            orientation = orient;
+            Orientation = orient;
 
             return ret;
         }
@@ -1522,22 +1471,19 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (centerBrush != null)
-            {
-                centerBrush.Dispose();
-                outsidePath.Dispose();
-                outsidePen.Dispose();
-                centerPen.Dispose();
-                insideBrush.Dispose();
-                insidePath.Dispose();
+            CenterBrush?.Dispose();
+            OutsidePath?.Dispose();
+            OutsidePen?.Dispose();
+            CenterPen?.Dispose();
+            InsideBrush?.Dispose();
+            InsidePath?.Dispose();
 
-                centerBrush = null;
-                outsidePath = null;
-                outsidePen = null;
-                centerPen = null;
-                insideBrush = null;
-                insidePath = null;
-            }
+            CenterBrush = null;
+            OutsidePath = null;
+            OutsidePen = null;
+            CenterPen = null;
+            InsideBrush = null;
+            InsidePath = null;
 
             base.Dispose(disposing);
         }
@@ -1551,32 +1497,32 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabContextSelected : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public Rectangle interiorRect;
+        public Rectangle InteriorRect;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush insideBrush;
+        public LinearGradientBrush? InsideBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen l1, l2, l3;
+        public Pen? L1, L2, L3;
         /// <summary>For internal use only.</summary>
-        public Pen leftPen;
+        public Pen? LeftPen;
         /// <summary>For internal use only.</summary>
-        public Pen rightPen;
+        public Pen? RightPen;
         /// <summary>For internal use only.</summary>
-        public Pen bottomInnerPen;
+        public Pen? BottomInnerPen;
         /// <summary>For internal use only.</summary>
-        public Pen bottomOuterPen;
+        public Pen? BottomOuterPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabContextSelected(Rectangle r,
                                                Color color1, Color color2,
                                                VisualOrientation orient)
             : base(r, color1, color2) =>
-            orientation = orient;
+            Orientation = orient;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1584,9 +1530,9 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient)
         {
             var ret = base.UseCachedValues(r, color1, color2) &&
-                       (orient == orientation);
+                       (orient == Orientation);
 
-            orientation = orient;
+            Orientation = orient;
 
             return ret;
         }
@@ -1594,30 +1540,27 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (outsidePath != null)
-            {
-                outsidePath.Dispose();
-                insideBrush.Dispose();
-                outsidePen.Dispose();
-                l1.Dispose();
-                l2.Dispose();
-                l3.Dispose();
-                leftPen.Dispose();
-                rightPen.Dispose();
-                bottomInnerPen.Dispose();
-                bottomOuterPen.Dispose();
+            OutsidePath?.Dispose();
+            InsideBrush?.Dispose();
+            OutsidePen?.Dispose();
+            L1?.Dispose();
+            L2?.Dispose();
+            L3?.Dispose();
+            LeftPen?.Dispose();
+            RightPen?.Dispose();
+            BottomInnerPen?.Dispose();
+            BottomOuterPen?.Dispose();
 
-                outsidePath = null;
-                insideBrush = null;
-                outsidePen = null;
-                l1 = null;
-                l2 = null;
-                l3 = null;
-                leftPen = null;
-                rightPen = null;
-                bottomInnerPen = null;
-                bottomOuterPen = null;
-            }
+            OutsidePath = null;
+            InsideBrush = null;
+            OutsidePen = null;
+            L1 = null;
+            L2 = null;
+            L3 = null;
+            LeftPen = null;
+            RightPen = null;
+            BottomInnerPen = null;
+            BottomOuterPen = null;
 
             base.Dispose(disposing);
         }
@@ -1631,21 +1574,21 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabHighlight : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush topBorderBrush;
+        public LinearGradientBrush? TopBorderBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush borderVertBrush;
+        public LinearGradientBrush? BorderVertBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush outsideVertBrush;
+        public LinearGradientBrush? OutsideVertBrush;
         /// <summary>For internal use only.</summary>
-        public MementoRibbonTabSelected2007 selectedMemento;
+        public MementoRibbonTabSelected2007? SelectedMemento;
         /// <summary>For internal use only.</summary>
-        public Pen innerVertPen;
+        public Pen? InnerVertPen;
         /// <summary>For internal use only.</summary>
-        public Pen innerHorzPen;
+        public Pen? InnerHorzPen;
         /// <summary>For internal use only.</summary>
-        public Pen borderHorzPen;
+        public Pen? BorderHorzPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabHighlight(Rectangle r,
@@ -1654,7 +1597,7 @@ namespace Krypton.Toolkit
                                          Color color5,
                                          VisualOrientation orient)
             : base(r, color1, color2, color3, color4, color5) =>
-            orientation = orient;
+            Orientation = orient;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1664,9 +1607,9 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient)
         {
             var ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                       (orient == orientation);
+                       (orient == Orientation);
 
-            orientation = orient;
+            Orientation = orient;
 
             return ret;
         }
@@ -1674,28 +1617,22 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (selectedMemento != null)
-            {
-                selectedMemento.Dispose();
-                selectedMemento = null;
-            }
+            SelectedMemento?.Dispose();
+            SelectedMemento = null;
 
-            if (topBorderBrush != null)
-            {
-                topBorderBrush.Dispose();
-                borderVertBrush.Dispose();
-                outsideVertBrush.Dispose();
-                innerVertPen.Dispose();
-                innerHorzPen.Dispose();
-                borderHorzPen.Dispose();
+            TopBorderBrush?.Dispose();
+            BorderVertBrush?.Dispose();
+            OutsideVertBrush?.Dispose();
+            InnerVertPen?.Dispose();
+            InnerHorzPen?.Dispose();
+            BorderHorzPen?.Dispose();
 
-                topBorderBrush = null;
-                borderVertBrush = null;
-                outsideVertBrush = null;
-                innerVertPen = null;
-                innerHorzPen = null;
-                borderHorzPen = null;
-            }
+            TopBorderBrush = null;
+            BorderVertBrush = null;
+            OutsideVertBrush = null;
+            InnerVertPen = null;
+            InnerHorzPen = null;
+            BorderHorzPen = null;
 
             base.Dispose(disposing);
         }
@@ -1709,27 +1646,27 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabGlowing : MementoRectThreeColor
     {
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public RectangleF fullRect;
+        public RectangleF FullRect;
         /// <summary>For internal use only.</summary>
-        public RectangleF ellipseRect;
+        public RectangleF EllipseRect;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath outsidePath;
+        public GraphicsPath? OutsidePath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath topPath;
+        public GraphicsPath? TopPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath ellipsePath;
+        public GraphicsPath? EllipsePath;
         /// <summary>For internal use only.</summary>
-        public SolidBrush insideBrush;
+        public SolidBrush? InsideBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush topBrush;
+        public LinearGradientBrush? TopBrush;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush ellipseBrush;
+        public PathGradientBrush? EllipseBrush;
         /// <summary>For internal use only.</summary>
-        public Pen insidePen;
+        public Pen? InsidePen;
         /// <summary>For internal use only.</summary>
-        public Pen outsidePen;
+        public Pen? OutsidePen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabGlowing(Rectangle r,
@@ -1737,7 +1674,7 @@ namespace Krypton.Toolkit
                                        Color color3,
                                        VisualOrientation orient)
             : base(r, color1, color2, color3) =>
-            orientation = orient;
+            Orientation = orient;
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1746,9 +1683,9 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient)
         {
             var ret = base.UseCachedValues(r, color1, color2, color3) &&
-                       (orient == orientation);
+                       (orient == Orientation);
 
-            orientation = orient;
+            Orientation = orient;
 
             return ret;
         }
@@ -1756,29 +1693,26 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (outsidePath != null)
+            OutsidePath?.Dispose();
+            TopPath?.Dispose();
+            EllipsePath?.Dispose();
+            InsideBrush?.Dispose();
+            TopBrush?.Dispose();
+            InsidePen?.Dispose();
+            OutsidePen?.Dispose();
+
+            OutsidePath = null;
+            TopPath = null;
+            EllipsePath = null;
+            InsideBrush = null;
+            TopBrush = null;
+            InsidePen = null;
+            OutsidePen = null;
+
+            if (EllipseBrush != null)
             {
-                outsidePath.Dispose();
-                topPath.Dispose();
-                ellipsePath.Dispose();
-                insideBrush.Dispose();
-                topBrush.Dispose();
-                insidePen.Dispose();
-                outsidePen.Dispose();
-
-                outsidePath = null;
-                topPath = null;
-                ellipsePath = null;
-                insideBrush = null;
-                topBrush = null;
-                insidePen = null;
-                outsidePen = null;
-
-                if (ellipseBrush != null)
-                {
-                    ellipseBrush.Dispose();
-                    ellipseBrush = null;
-                }
+                EllipseBrush.Dispose();
+                EllipseBrush = null;
             }
 
             base.Dispose(disposing);
@@ -1793,13 +1727,13 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabContext : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle fillRect;
+        public Rectangle FillRect;
         /// <summary>For internal use only.</summary>
-        public Pen borderPen;
+        public Pen? BorderPen;
         /// <summary>For internal use only.</summary>
-        public Pen underlinePen;
+        public Pen? UnderlinePen;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush fillBrush;
+        public LinearGradientBrush? FillBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabContext(Rectangle r, Color color1, Color color2)
@@ -1810,16 +1744,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (borderPen != null)
-            {
-                borderPen.Dispose();
-                fillBrush.Dispose();
-                underlinePen.Dispose();
+            BorderPen?.Dispose();
+            FillBrush?.Dispose();
+            UnderlinePen?.Dispose();
 
-                borderPen = null;
-                fillBrush = null;
-                underlinePen = null;
-            }
+            BorderPen = null;
+            FillBrush = null;
+            UnderlinePen = null;
 
             base.Dispose(disposing);
         }
@@ -1833,13 +1764,13 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabContextOffice : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle fillRect;
+        public Rectangle FillRect;
         /// <summary>For internal use only.</summary>
-        public Pen borderPen;
+        public Pen? BorderPen;
         /// <summary>For internal use only.</summary>
-        public Pen underlinePen;
+        public Pen? UnderlinePen;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush fillBrush;
+        public LinearGradientBrush? FillBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabContextOffice(Rectangle r, Color color1, Color color2)
@@ -1850,16 +1781,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (borderPen != null)
-            {
-                borderPen.Dispose();
-                fillBrush.Dispose();
-                underlinePen.Dispose();
+            BorderPen?.Dispose();
+            FillBrush?.Dispose();
+            UnderlinePen?.Dispose();
 
-                borderPen = null;
-                fillBrush = null;
-                underlinePen = null;
-            }
+            BorderPen = null;
+            FillBrush = null;
+            UnderlinePen = null;
 
             base.Dispose(disposing);
         }
@@ -1873,13 +1801,13 @@ namespace Krypton.Toolkit
     public class MementoRibbonTabContextOffice2010 : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public Pen borderInnerPen;
+        public Pen? BorderInnerPen;
         /// <summary>For internal use only.</summary>
-        public Pen borderOuterPen;
+        public Pen? BorderOuterPen;
         /// <summary>For internal use only.</summary>
-        public SolidBrush topBrush;
+        public SolidBrush? TopBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush bottomBrush;
+        public LinearGradientBrush? BottomBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonTabContextOffice2010(Rectangle r, Color color1, Color color2)
@@ -1890,18 +1818,15 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (borderInnerPen != null)
-            {
-                borderInnerPen.Dispose();
-                borderOuterPen.Dispose();
-                topBrush.Dispose();
-                bottomBrush.Dispose();
+            BorderInnerPen?.Dispose();
+            BorderOuterPen?.Dispose();
+            TopBrush?.Dispose();
+            BottomBrush?.Dispose();
 
-                borderInnerPen = null;
-                borderOuterPen = null;
-                topBrush = null;
-                bottomBrush = null;
-            }
+            BorderInnerPen = null;
+            BorderOuterPen = null;
+            TopBrush = null;
+            BottomBrush = null;
 
             base.Dispose(disposing);
         }
@@ -1915,19 +1840,19 @@ namespace Krypton.Toolkit
     public class MementoRibbonQATMinibar : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public Pen lightPen;
+        public Pen? LightPen;
         /// <summary>For internal use only.</summary>
-        public Pen borderPen;
+        public Pen? BorderPen;
         /// <summary>For internal use only.</summary>
-        public Pen whitenPen;
+        public Pen? WhitenPen;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath borderPath;
+        public GraphicsPath? BorderPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath topRight1;
+        public GraphicsPath? TopRight1;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath bottomLeft1;
+        public GraphicsPath? BottomLeft1;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush innerBrush;
+        public LinearGradientBrush? InnerBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonQATMinibar(Rectangle r,
@@ -1941,24 +1866,21 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (lightPen != null)
-            {
-                lightPen.Dispose();
-                borderPen.Dispose();
-                whitenPen.Dispose();
-                borderPath.Dispose();
-                topRight1.Dispose();
-                bottomLeft1.Dispose();
-                innerBrush.Dispose();
+            LightPen?.Dispose();
+            BorderPen?.Dispose();
+            WhitenPen?.Dispose();
+            BorderPath?.Dispose();
+            TopRight1?.Dispose();
+            BottomLeft1?.Dispose();
+            InnerBrush?.Dispose();
 
-                lightPen = null;
-                borderPen = null;
-                whitenPen = null;
-                borderPath = null;
-                topRight1 = null;
-                bottomLeft1 = null;
-                innerBrush = null;
-            }
+            LightPen = null;
+            BorderPen = null;
+            WhitenPen = null;
+            BorderPath = null;
+            TopRight1 = null;
+            BottomLeft1 = null;
+            InnerBrush = null;
 
             base.Dispose(disposing);
         }
@@ -1972,17 +1894,17 @@ namespace Krypton.Toolkit
     public class MementoRibbonQATFullbarRound : MementoRectThreeColor
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle innerRect;
+        public Rectangle InnerRect;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush innerBrush;
+        public LinearGradientBrush? InnerBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath darkPath;
+        public GraphicsPath? DarkPath;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath lightPath1;
+        public GraphicsPath? LightPath1;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath lightPath2;
+        public GraphicsPath? LightPath2;
         /// <summary>For internal use only.</summary>
-        public Pen darkPen;
+        public Pen? DarkPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonQATFullbarRound(Rectangle r,
@@ -1995,20 +1917,17 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (innerBrush != null)
-            {
-                innerBrush.Dispose();
-                darkPath.Dispose();
-                lightPath1.Dispose();
-                lightPath2.Dispose();
-                darkPen.Dispose();
+            InnerBrush?.Dispose();
+            DarkPath?.Dispose();
+            LightPath1?.Dispose();
+            LightPath2?.Dispose();
+            DarkPen?.Dispose();
 
-                innerBrush = null;
-                darkPath = null;
-                lightPath1 = null;
-                lightPath2 = null;
-                darkPen = null;
-            }
+            InnerBrush = null;
+            DarkPath = null;
+            LightPath1 = null;
+            LightPath2 = null;
+            DarkPen = null;
 
             base.Dispose(disposing);
         }
@@ -2022,11 +1941,11 @@ namespace Krypton.Toolkit
     public class MementoRibbonQATFullbarSquare : MementoRectThreeColor
     {
         /// <summary>For internal use only.</summary>
-        public Pen lightPen;
+        public Pen? LightPen;
         /// <summary>For internal use only.</summary>
-        public SolidBrush mediumBrush;
+        public SolidBrush? MediumBrush;
         /// <summary>For internal use only.</summary>
-        public Pen darkPen;
+        public Pen? DarkPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonQATFullbarSquare(Rectangle r,
@@ -2039,16 +1958,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (lightPen != null)
-            {
-                lightPen.Dispose();
-                mediumBrush.Dispose();
-                darkPen.Dispose();
+            LightPen?.Dispose();
+            MediumBrush?.Dispose();
+            DarkPen?.Dispose();
 
-                lightPen = null;
-                mediumBrush = null;
-                darkPen = null;
-            }
+            LightPen = null;
+            MediumBrush = null;
+            DarkPen = null;
 
             base.Dispose(disposing);
         }
@@ -2062,9 +1978,9 @@ namespace Krypton.Toolkit
     public class MementoRibbonQATOverflow : MementoRectTwoColor
     {
         /// <summary>For internal use only.</summary>
-        public SolidBrush backBrush;
+        public SolidBrush? BackBrush;
         /// <summary>For internal use only.</summary>
-        public Pen borderPen;
+        public Pen? BorderPen;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonQATOverflow(Rectangle r, Color color1, Color color2)
@@ -2075,14 +1991,11 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (backBrush != null)
-            {
-                backBrush.Dispose();
-                borderPen.Dispose();
+            BackBrush?.Dispose();
+            BorderPen?.Dispose();
 
-                backBrush = null;
-                borderPen = null;
-            }
+            BackBrush = null;
+            BorderPen = null;
 
             base.Dispose(disposing);
         }
@@ -2096,27 +2009,27 @@ namespace Krypton.Toolkit
     public class MementoRibbonAppButton : MementoRectFiveColor
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF borderShadow1;
+        public RectangleF BorderShadow1;
         /// <summary>For internal use only.</summary>
-        public RectangleF borderShadow2;
+        public RectangleF BorderShadow2;
         /// <summary>For internal use only.</summary>
-        public RectangleF borderMain1;
+        public RectangleF BorderMain1;
         /// <summary>For internal use only.</summary>
-        public RectangleF borderMain2;
+        public RectangleF BorderMain2;
         /// <summary>For internal use only.</summary>
-        public RectangleF borderMain3;
+        public RectangleF BorderMain3;
         /// <summary>For internal use only.</summary>
-        public RectangleF borderMain4;
+        public RectangleF BorderMain4;
         /// <summary>For internal use only.</summary>
-        public RectangleF rectLower;
+        public RectangleF RectLower;
         /// <summary>For internal use only.</summary>
-        public RectangleF rectBottomGlow;
+        public RectangleF RectBottomGlow;
         /// <summary>For internal use only.</summary>
-        public RectangleF rectUpperGlow;
+        public RectangleF RectUpperGlow;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush brushUpper1;
+        public LinearGradientBrush? BrushUpper1;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush brushLower;
+        public LinearGradientBrush? BrushLower;
 
         /// <summary>For internal use only.</summary>
         public MementoRibbonAppButton(Rectangle r,
@@ -2130,14 +2043,11 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (brushUpper1 != null)
-            {
-                brushUpper1.Dispose();
-                brushUpper1 = null;
+            BrushUpper1?.Dispose();
+            BrushUpper1 = null;
 
-                brushLower.Dispose();
-                brushLower = null;
-            }
+            BrushLower?.Dispose();
+            BrushLower = null;
 
             base.Dispose(disposing);
         }
@@ -2151,26 +2061,26 @@ namespace Krypton.Toolkit
     public class MementoBackSolid : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public SolidBrush solidBrush;
+        public SolidBrush? SolidBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackSolid(RectangleF dR, Color c1)
         {
-            drawRect = dR;
-            color1 = c1;
+            DrawRect = dR;
+            Color1 = c1;
         }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(RectangleF dR, Color c1)
         {
-            var ret = drawRect.Equals(dR) && color1.Equals(c1);
+            var ret = DrawRect.Equals(dR) && Color1.Equals(c1);
 
-            drawRect = dR;
-            color1 = c1;
+            DrawRect = dR;
+            Color1 = c1;
 
             return ret;
         }
@@ -2178,11 +2088,8 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (solidBrush != null)
-            {
-                solidBrush.Dispose();
-                solidBrush = null;
-            }
+            SolidBrush?.Dispose();
+            SolidBrush = null;
 
             base.Dispose(disposing);
         }
@@ -2196,17 +2103,17 @@ namespace Krypton.Toolkit
     public class MementoBackLinear : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public bool sigma;
+        public bool Sigma;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush entireBrush;
+        public LinearGradientBrush? EntireBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackLinear(RectangleF dR,
@@ -2215,11 +2122,11 @@ namespace Krypton.Toolkit
                                  Color c2,
                                  VisualOrientation orient)
         {
-            drawRect = dR;
-            sigma = sig;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            DrawRect = dR;
+            Sigma = sig;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2229,17 +2136,17 @@ namespace Krypton.Toolkit
                                     Color c2,
                                     VisualOrientation orient)
         {
-            var ret = drawRect.Equals(dR) &&
-                       (sigma == sig) &&
-                       color1.Equals(c1) &&
-                       color2.Equals(c2) &&
-                       (orientation == orient);
+            var ret = DrawRect.Equals(dR) &&
+                       (Sigma == sig) &&
+                       Color1.Equals(c1) &&
+                       Color2.Equals(c2) &&
+                       (Orientation == orient);
 
-            drawRect = dR;
-            sigma = sig;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            DrawRect = dR;
+            Sigma = sig;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
 
             return ret;
         }
@@ -2247,11 +2154,8 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (entireBrush != null)
-            {
-                entireBrush.Dispose();
-                entireBrush = null;
-            }
+            EntireBrush?.Dispose();
+            EntireBrush = null;
 
             base.Dispose(disposing);
         }
@@ -2265,19 +2169,19 @@ namespace Krypton.Toolkit
     public class MementoBackLinearRadial : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public Color color3;
+        public Color Color3;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public RectangleF ellipseRect;
+        public RectangleF EllipseRect;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath path;
+        public GraphicsPath? Path;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush bottomBrush;
+        public PathGradientBrush? BottomBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackLinearRadial(RectangleF dR,
@@ -2285,10 +2189,10 @@ namespace Krypton.Toolkit
                                        Color c3,
                                        VisualOrientation orient)
         {
-            drawRect = dR;
-            color2 = c2;
-            color3 = c3;
-            orientation = orient;
+            DrawRect = dR;
+            Color2 = c2;
+            Color3 = c3;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2297,15 +2201,15 @@ namespace Krypton.Toolkit
                                     Color c3,
                                     VisualOrientation orient)
         {
-            var ret = drawRect.Equals(dR) &&
-                       color2.Equals(c2) &&
-                       color3.Equals(c3) &&
-                       (orientation == orient);
+            var ret = DrawRect.Equals(dR) &&
+                       Color2.Equals(c2) &&
+                       Color3.Equals(c3) &&
+                       (Orientation == orient);
 
-            drawRect = dR;
-            color2 = c2;
-            color3 = c3;
-            orientation = orient;
+            DrawRect = dR;
+            Color2 = c2;
+            Color3 = c3;
+            Orientation = orient;
 
             return ret;
         }
@@ -2313,13 +2217,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (path != null)
+            if (Path != null)
             {
-                path.Dispose();
-                bottomBrush.Dispose();
+                Path.Dispose();
+                BottomBrush?.Dispose();
 
-                path = null;
-                bottomBrush = null;
+                Path = null;
+                BottomBrush = null;
             }
 
             base.Dispose(disposing);
@@ -2334,29 +2238,29 @@ namespace Krypton.Toolkit
     public class MementoBackGlassBasic : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public Color glassColor1;
+        public Color GlassColor1;
         /// <summary>For internal use only.</summary>
-        public Color glassColor2;
+        public Color GlassColor2;
         /// <summary>For internal use only.</summary>
-        public float factorX;
+        public float FactorX;
         /// <summary>For internal use only.</summary>
-        public float factorY;
+        public float FactorY;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public float glassPercent;
+        public float GlassPercent;
         /// <summary>For internal use only.</summary>
-        public RectangleF glassRect;
+        public RectangleF GlassRect;
         /// <summary>For internal use only.</summary>
-        public SolidBrush totalBrush;
+        public SolidBrush? TotalBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush glassBrush;
+        public LinearGradientBrush? GlassBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackGlassBasic(RectangleF dR,
@@ -2366,15 +2270,15 @@ namespace Krypton.Toolkit
                                      VisualOrientation orient,
                                      float gP)
         {
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            glassColor1 = gC1;
-            glassColor2 = gC2;
-            factorX = fX;
-            factorY = fY;
-            orientation = orient;
-            glassPercent = gP;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            GlassColor1 = gC1;
+            GlassColor2 = gC2;
+            FactorX = fX;
+            FactorY = fY;
+            Orientation = orient;
+            GlassPercent = gP;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2385,22 +2289,22 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient,
                                     float gP)
         {
-            var ret = drawRect.Equals(dR) &&
-                       color1.Equals(c1) && color2.Equals(c2) &&
-                       glassColor1.Equals(gC1) && glassColor2.Equals(gC2) &&
-                       (factorX == fX) && (factorY == fY) &&
-                       (orientation == orient) &&
-                       (glassPercent == gP);
+            var ret = DrawRect.Equals(dR) &&
+                       Color1.Equals(c1) && Color2.Equals(c2) &&
+                       GlassColor1.Equals(gC1) && GlassColor2.Equals(gC2) &&
+                       (FactorX == fX) && (FactorY == fY) &&
+                       (Orientation == orient) &&
+                       (GlassPercent == gP);
 
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            glassColor1 = gC1;
-            glassColor2 = gC2;
-            factorX = fX;
-            factorY = fY;
-            orientation = orient;
-            glassPercent = gP;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            GlassColor1 = gC1;
+            GlassColor2 = gC2;
+            FactorX = fX;
+            FactorY = fY;
+            Orientation = orient;
+            GlassPercent = gP;
 
             return ret;
         }
@@ -2408,13 +2312,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (totalBrush != null)
+            if (TotalBrush != null)
             {
-                totalBrush.Dispose();
-                glassBrush.Dispose();
+                TotalBrush.Dispose();
+                GlassBrush?.Dispose();
 
-                totalBrush = null;
-                glassBrush = null;
+                TotalBrush = null;
+                GlassBrush = null;
             }
 
             base.Dispose(disposing);
@@ -2429,31 +2333,31 @@ namespace Krypton.Toolkit
     public class MementoBackGlassLinear : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public RectangleF outerRect;
+        public RectangleF OuterRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public Color glassColor1;
+        public Color GlassColor1;
         /// <summary>For internal use only.</summary>
-        public Color glassColor2;
+        public Color GlassColor2;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public float glassPercent;
+        public float GlassPercent;
         /// <summary>For internal use only.</summary>
-        public RectangleF glassRect;
+        public RectangleF GlassRect;
         /// <summary>For internal use only.</summary>
-        public RectangleF mainRect;
+        public RectangleF MainRect;
         /// <summary>For internal use only.</summary>
-        public SolidBrush totalBrush;
+        public SolidBrush? TotalBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush topBrush;
+        public LinearGradientBrush? TopBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush bottomBrush;
+        public LinearGradientBrush? BottomBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackGlassLinear(RectangleF dR, RectangleF oR,
@@ -2462,14 +2366,14 @@ namespace Krypton.Toolkit
                                       VisualOrientation orient,
                                       float gP)
         {
-            drawRect = dR;
-            outerRect = oR;
-            color1 = c1;
-            color2 = c2;
-            glassColor1 = gC1;
-            glassColor2 = gC2;
-            orientation = orient;
-            glassPercent = gP;
+            DrawRect = dR;
+            OuterRect = oR;
+            Color1 = c1;
+            Color2 = c2;
+            GlassColor1 = gC1;
+            GlassColor2 = gC2;
+            Orientation = orient;
+            GlassPercent = gP;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2479,23 +2383,23 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient,
                                     float gP)
         {
-            var ret = drawRect.Equals(dR) &&
-                       outerRect.Equals(oR) &&
-                       color1.Equals(c1) &&
-                       color2.Equals(c2) &&
-                       glassColor1.Equals(gC1) &&
-                       glassColor2.Equals(gC2) &&
-                       (orientation == orient) &&
-                       (glassPercent == gP);
+            var ret = DrawRect.Equals(dR) &&
+                       OuterRect.Equals(oR) &&
+                       Color1.Equals(c1) &&
+                       Color2.Equals(c2) &&
+                       GlassColor1.Equals(gC1) &&
+                       GlassColor2.Equals(gC2) &&
+                       (Orientation == orient) &&
+                       (GlassPercent == gP);
 
-            drawRect = dR;
-            outerRect = oR;
-            color1 = c1;
-            color2 = c2;
-            glassColor1 = gC1;
-            glassColor2 = gC2;
-            orientation = orient;
-            glassPercent = gP;
+            DrawRect = dR;
+            OuterRect = oR;
+            Color1 = c1;
+            Color2 = c2;
+            GlassColor1 = gC1;
+            GlassColor2 = gC2;
+            Orientation = orient;
+            GlassPercent = gP;
 
             return ret;
         }
@@ -2503,18 +2407,18 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (totalBrush != null)
+            if (TotalBrush != null)
             {
-                totalBrush.Dispose();
-                totalBrush = null;
+                TotalBrush.Dispose();
+                TotalBrush = null;
 
-                if (topBrush != null)
+                if (TopBrush != null)
                 {
-                    topBrush.Dispose();
-                    bottomBrush.Dispose();
+                    TopBrush.Dispose();
+                    BottomBrush?.Dispose();
 
-                    topBrush = null;
-                    bottomBrush = null;
+                    TopBrush = null;
+                    BottomBrush = null;
                 }
             }
 
@@ -2530,28 +2434,28 @@ namespace Krypton.Toolkit
     public class MementoBackGlassCenter : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath path;
+        public GraphicsPath? Path;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush bottomBrush;
+        public PathGradientBrush? BottomBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackGlassCenter(RectangleF dR, Color c2)
         {
-            drawRect = dR;
-            color2 = c2;
+            DrawRect = dR;
+            Color2 = c2;
         }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(RectangleF dR, Color c2)
         {
-            var ret = drawRect.Equals(dR) && color2.Equals(c2);
+            var ret = DrawRect.Equals(dR) && Color2.Equals(c2);
 
-            drawRect = dR;
-            color2 = c2;
+            DrawRect = dR;
+            Color2 = c2;
 
             return ret;
         }
@@ -2559,13 +2463,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (path != null)
+            if (Path != null)
             {
-                path.Dispose();
-                bottomBrush.Dispose();
+                Path.Dispose();
+                BottomBrush?.Dispose();
 
-                path = null;
-                bottomBrush = null;
+                Path = null;
+                BottomBrush = null;
             }
 
             base.Dispose(disposing);
@@ -2580,23 +2484,23 @@ namespace Krypton.Toolkit
     public class MementoBackGlassRadial : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public float factorX;
+        public float FactorX;
         /// <summary>For internal use only.</summary>
-        public float factorY;
+        public float FactorY;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public RectangleF mainRect;
+        public RectangleF MainRect;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath path;
+        public GraphicsPath? Path;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush bottomBrush;
+        public PathGradientBrush? BottomBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackGlassRadial(RectangleF dR,
@@ -2604,12 +2508,12 @@ namespace Krypton.Toolkit
                                       float fX, float fY,
                                       VisualOrientation orient)
         {
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            factorX = fX;
-            factorY = fY;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            FactorX = fX;
+            FactorY = fY;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2618,19 +2522,19 @@ namespace Krypton.Toolkit
                                     float fX, float fY,
                                     VisualOrientation orient)
         {
-            var ret = drawRect.Equals(dR) &&
-                       color1.Equals(c1) &&
-                       color2.Equals(c2) &&
-                       (factorX == fX) &&
-                       (factorY == fY) &&
-                       (orientation == orient);
+            var ret = DrawRect.Equals(dR) &&
+                       Color1.Equals(c1) &&
+                       Color2.Equals(c2) &&
+                       (FactorX == fX) &&
+                       (FactorY == fY) &&
+                       (Orientation == orient);
 
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            factorX = fX;
-            factorY = fY;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            FactorX = fX;
+            FactorY = fY;
+            Orientation = orient;
 
             return ret;
         }
@@ -2638,17 +2542,11 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (path != null)
-            {
-                path.Dispose();
-                path = null;
-            }
+            Path?.Dispose();
+            Path = null;
 
-            if (bottomBrush != null)
-            {
-                bottomBrush.Dispose();
-                bottomBrush = null;
-            }
+            BottomBrush?.Dispose();
+            BottomBrush = null;
 
             base.Dispose(disposing);
         }
@@ -2662,25 +2560,25 @@ namespace Krypton.Toolkit
     public class MementoBackGlassFade : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public RectangleF outerRect;
+        public RectangleF OuterRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public Color glassColor1;
+        public Color GlassColor1;
         /// <summary>For internal use only.</summary>
-        public Color glassColor2;
+        public Color GlassColor2;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public RectangleF glassRect;
+        public RectangleF GlassRect;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush mainBrush;
+        public LinearGradientBrush? MainBrush;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush topBrush;
+        public LinearGradientBrush? TopBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackGlassFade(RectangleF dR, RectangleF oR,
@@ -2688,13 +2586,13 @@ namespace Krypton.Toolkit
                                     Color gC1, Color gC2,
                                     VisualOrientation orient)
         {
-            drawRect = dR;
-            outerRect = oR;
-            color1 = c1;
-            color2 = c2;
-            glassColor1 = gC1;
-            glassColor2 = gC2;
-            orientation = orient;
+            DrawRect = dR;
+            OuterRect = oR;
+            Color1 = c1;
+            Color2 = c2;
+            GlassColor1 = gC1;
+            GlassColor2 = gC2;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2703,18 +2601,18 @@ namespace Krypton.Toolkit
                                     Color gC1, Color gC2,
                                     VisualOrientation orient)
         {
-            var ret = drawRect.Equals(dR) && outerRect.Equals(oR) &&
-                       color1.Equals(c1) && color2.Equals(c2) &&
-                       glassColor1.Equals(gC1) && glassColor2.Equals(gC2) &&
-                       (orientation == orient);
+            var ret = DrawRect.Equals(dR) && OuterRect.Equals(oR) &&
+                       Color1.Equals(c1) && Color2.Equals(c2) &&
+                       GlassColor1.Equals(gC1) && GlassColor2.Equals(gC2) &&
+                       (Orientation == orient);
 
-            drawRect = dR;
-            outerRect = oR;
-            color1 = c1;
-            color2 = c2;
-            glassColor1 = gC1;
-            glassColor2 = gC2;
-            orientation = orient;
+            DrawRect = dR;
+            OuterRect = oR;
+            Color1 = c1;
+            Color2 = c2;
+            GlassColor1 = gC1;
+            GlassColor2 = gC2;
+            Orientation = orient;
 
             return ret;
         }
@@ -2722,13 +2620,13 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (topBrush != null)
+            if (TopBrush != null)
             {
-                topBrush.Dispose();
-                mainBrush.Dispose();
+                TopBrush.Dispose();
+                MainBrush?.Dispose();
 
-                topBrush = null;
-                mainBrush = null;
+                TopBrush = null;
+                MainBrush = null;
             }
 
             base.Dispose(disposing);
@@ -2743,23 +2641,23 @@ namespace Krypton.Toolkit
     public class MementoBackGlassThreeEdge : MementoDouble
     {
         /// <summary>For internal use only.</summary>
-        public Rectangle rect;
+        public Rectangle Rect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public Color colorA1L;
+        public Color ColorA1L;
         /// <summary>For internal use only.</summary>
-        public Color colorA2L;
+        public Color ColorA2L;
         /// <summary>For internal use only.</summary>
-        public Color colorA2LL;
+        public Color ColorA2Ll;
         /// <summary>For internal use only.</summary>
-        public Color colorB2LL;
+        public Color ColorB2Ll;
         /// <summary>For internal use only.</summary>
-        public Rectangle rectB;
+        public Rectangle RectB;
 
         /// <summary>For internal use only.</summary>
         public MementoBackGlassThreeEdge(Rectangle r,
@@ -2767,10 +2665,10 @@ namespace Krypton.Toolkit
                                          Color c2,
                                          VisualOrientation orient)
         {
-            rect = r;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            Rect = r;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2779,15 +2677,15 @@ namespace Krypton.Toolkit
                                     Color c2,
                                     VisualOrientation orient)
         {
-            var ret = rect.Equals(r) &&
-                       color1.Equals(c1) &&
-                       color2.Equals(c2) &&
-                       (orientation == orient);
+            var ret = Rect.Equals(r) &&
+                       Color1.Equals(c1) &&
+                       Color2.Equals(c2) &&
+                       (Orientation == orient);
 
-            rect = r;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            Rect = r;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
 
             return ret;
         }
@@ -2801,17 +2699,17 @@ namespace Krypton.Toolkit
     public class MementoBackDarkEdge : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public int thickness;
+        public int Thickness;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public RectangleF entireRect;
+        public RectangleF EntireRect;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush entireBrush;
+        public LinearGradientBrush? EntireBrush;
 
         /// <summary>For internal use only.</summary>
         public MementoBackDarkEdge(RectangleF dR,
@@ -2819,10 +2717,10 @@ namespace Krypton.Toolkit
                                    int thick,
                                    VisualOrientation orient)
         {
-            drawRect = dR;
-            color1 = c1;
-            thickness = thick;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Thickness = thick;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2831,15 +2729,15 @@ namespace Krypton.Toolkit
                                     int thick,
                                     VisualOrientation orient)
         {
-            var ret = drawRect.Equals(dR) &&
-                       color1.Equals(c1) &&
-                       (thickness == thick) &&
-                       (orientation == orient);
+            var ret = DrawRect.Equals(dR) &&
+                       Color1.Equals(c1) &&
+                       (Thickness == thick) &&
+                       (Orientation == orient);
 
-            drawRect = dR;
-            color1 = c1;
-            thickness = thick;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Thickness = thick;
+            Orientation = orient;
 
             return ret;
         }
@@ -2847,10 +2745,10 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (entireBrush != null)
+            if (EntireBrush != null)
             {
-                entireBrush.Dispose();
-                entireBrush = null;
+                EntireBrush.Dispose();
+                EntireBrush = null;
             }
 
             base.Dispose(disposing);
@@ -2865,31 +2763,31 @@ namespace Krypton.Toolkit
     public class MementoBackExpertChecked : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush entireBrush;
+        public LinearGradientBrush? EntireBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath ellipsePath;
+        public GraphicsPath? EllipsePath;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush insideLighten;
+        public PathGradientBrush? InsideLighten;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath clipPath;
+        public GraphicsPath? ClipPath;
 
         /// <summary>For internal use only.</summary>
         public MementoBackExpertChecked(RectangleF dR,
                                         Color c1, Color c2,
                                         VisualOrientation orient)
         {
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -2897,15 +2795,15 @@ namespace Krypton.Toolkit
                                     Color c1, Color c2,
                                     VisualOrientation orient)
         {
-            var ret = drawRect.Equals(dR) &&
-                       color1.Equals(c1) &&
-                       color2.Equals(c2) &&
-                       (orientation == orient);
+            var ret = DrawRect.Equals(dR) &&
+                       Color1.Equals(c1) &&
+                       Color2.Equals(c2) &&
+                       (Orientation == orient);
 
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
 
             return ret;
         }
@@ -2913,17 +2811,17 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (entireBrush != null)
+            if (EntireBrush != null)
             {
-                entireBrush.Dispose();
-                ellipsePath.Dispose();
-                insideLighten.Dispose();
-                clipPath.Dispose();
+                EntireBrush.Dispose();
+                EllipsePath?.Dispose();
+                InsideLighten?.Dispose();
+                ClipPath?.Dispose();
 
-                entireBrush = null;
-                ellipsePath = null;
-                insideLighten = null;
-                clipPath = null;
+                EntireBrush = null;
+                EllipsePath = null;
+                InsideLighten = null;
+                ClipPath = null;
             }
 
             base.Dispose(disposing);
@@ -2938,42 +2836,42 @@ namespace Krypton.Toolkit
     public class MementoBackExpertShadow : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath path1;
+        public GraphicsPath? Path1;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath path2;
+        public GraphicsPath? Path2;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath path3;
+        public GraphicsPath? Path3;
         /// <summary>For internal use only.</summary>
-        public SolidBrush brush1;
+        public SolidBrush? Brush1;
         /// <summary>For internal use only.</summary>
-        public SolidBrush brush2;
+        public SolidBrush? Brush2;
         /// <summary>For internal use only.</summary>
-        public SolidBrush brush3;
+        public SolidBrush? Brush3;
 
         /// <summary>For internal use only.</summary>
         public MementoBackExpertShadow(RectangleF dR, Color c1, Color c2)
         {
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
         }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(RectangleF dR, Color c1, Color c2)
         {
-            var ret = drawRect.Equals(dR) &&
-                       color1.Equals(c1) &&
-                       color2.Equals(c2);
+            var ret = DrawRect.Equals(dR) &&
+                       Color1.Equals(c1) &&
+                       Color2.Equals(c2);
 
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
 
             return ret;
         }
@@ -2981,21 +2879,21 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (path1 != null)
+            if (Path1 != null)
             {
-                path1.Dispose();
-                path2.Dispose();
-                path3.Dispose();
-                brush1.Dispose();
-                brush2.Dispose();
-                brush3.Dispose();
+                Path1.Dispose();
+                Path2?.Dispose();
+                Path3?.Dispose();
+                Brush1?.Dispose();
+                Brush2?.Dispose();
+                Brush3?.Dispose();
 
-                path1 = null;
-                path2 = null;
-                path3 = null;
-                brush1 = null;
-                brush2 = null;
-                brush3 = null;
+                Path1 = null;
+                Path2 = null;
+                Path3 = null;
+                Brush1 = null;
+                Brush2 = null;
+                Brush3 = null;
             }
 
             base.Dispose(disposing);
@@ -3010,33 +2908,33 @@ namespace Krypton.Toolkit
     public class MementoBackExpertSquareHighlight : MementoDisposable
     {
         /// <summary>For internal use only.</summary>
-        public RectangleF drawRect;
+        public RectangleF DrawRect;
         /// <summary>For internal use only.</summary>
-        public Color color1;
+        public Color Color1;
         /// <summary>For internal use only.</summary>
-        public Color color2;
+        public Color Color2;
         /// <summary>For internal use only.</summary>
-        public VisualOrientation orientation;
+        public VisualOrientation Orientation;
         /// <summary>For internal use only.</summary>
-        public SolidBrush backBrush;
+        public SolidBrush? BackBrush;
         /// <summary>For internal use only.</summary>
-        public Rectangle innerRect;
+        public Rectangle InnerRect;
         /// <summary>For internal use only.</summary>
-        public LinearGradientBrush innerBrush;
+        public LinearGradientBrush? InnerBrush;
         /// <summary>For internal use only.</summary>
-        public GraphicsPath ellipsePath;
+        public GraphicsPath? EllipsePath;
         /// <summary>For internal use only.</summary>
-        public PathGradientBrush insideLighten;
+        public PathGradientBrush? InsideLighten;
 
         /// <summary>For internal use only.</summary>
         public MementoBackExpertSquareHighlight(RectangleF dR,
                                                 Color c1, Color c2,
                                                 VisualOrientation orient)
         {
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
         }
 
         /// <summary>For internal use only.</summary>
@@ -3044,15 +2942,15 @@ namespace Krypton.Toolkit
                                     Color c1, Color c2,
                                     VisualOrientation orient)
         {
-            var ret = drawRect.Equals(dR) &&
-                       color1.Equals(c1) &&
-                       color2.Equals(c2) &&
-                       (orientation == orient);
+            var ret = DrawRect.Equals(dR) &&
+                       Color1.Equals(c1) &&
+                       Color2.Equals(c2) &&
+                       (Orientation == orient);
 
-            drawRect = dR;
-            color1 = c1;
-            color2 = c2;
-            orientation = orient;
+            DrawRect = dR;
+            Color1 = c1;
+            Color2 = c2;
+            Orientation = orient;
 
             return ret;
         }
@@ -3060,17 +2958,17 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public override void Dispose(bool disposing)
         {
-            if (backBrush != null)
+            if (BackBrush != null)
             {
-                backBrush.Dispose();
-                innerBrush.Dispose();
-                ellipsePath.Dispose();
-                insideLighten.Dispose();
+                BackBrush.Dispose();
+                InnerBrush?.Dispose();
+                EllipsePath?.Dispose();
+                InsideLighten?.Dispose();
 
-                backBrush = null;
-                innerBrush = null;
-                ellipsePath = null;
-                insideLighten = null;
+                BackBrush = null;
+                InnerBrush = null;
+                EllipsePath = null;
+                InsideLighten = null;
             }
 
             base.Dispose(disposing);

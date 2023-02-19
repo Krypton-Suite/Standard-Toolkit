@@ -688,6 +688,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -1875,7 +1877,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -1884,13 +1886,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips at design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
 
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

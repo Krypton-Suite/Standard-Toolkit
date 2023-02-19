@@ -119,7 +119,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             switch (action)
             {
@@ -128,10 +128,11 @@ namespace Krypton.Docking
                 case DockingPropogateAction.RemoveAndDisposePages:
                 case DockingPropogateAction.StorePages:
                     // Ask the sliding panel to remove its display if an incoming name matches
-                    foreach (var uniqueName in uniqueNames)
-                    {
-                        _slidePanel.HideUniqueName(uniqueName);
-                    }
+                    if (uniqueNames != null)
+                        foreach (var uniqueName in uniqueNames)
+                        {
+                            _slidePanel.HideUniqueName(uniqueName);
+                        }
 
                     break;
                 case DockingPropogateAction.Loading:
@@ -213,11 +214,9 @@ namespace Krypton.Docking
                 if (this[i] is KryptonDockingAutoHiddenGroup ahg)
                 {
                     // If the target page is inside this group
-                    KryptonPage? page = ahg.AutoHiddenGroupControl.Pages[uniqueName];
-                    if (page != null)
+                    if (ahg.AutoHiddenGroupControl.Pages[uniqueName] is KryptonAutoHiddenProxyPage proxyPage)
                     {
                         // Request the sliding panel slide itself into view with the provided page
-                        KryptonAutoHiddenProxyPage proxyPage = (KryptonAutoHiddenProxyPage)page;
                         _slidePanel.SlideOut(proxyPage.Page, ahg.AutoHiddenGroupControl, select);
                         break;
                     }

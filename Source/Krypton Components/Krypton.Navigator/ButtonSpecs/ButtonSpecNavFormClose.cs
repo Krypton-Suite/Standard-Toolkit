@@ -72,9 +72,9 @@ namespace Krypton.Navigator
             return _navigator.Owner.ControlBox && _navigator.Owner.CloseBox;
         }
 
-        public override ButtonCheckState GetChecked(PaletteBase palette) => ButtonCheckState.NotCheckButton;
+        public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
 
-        public override ButtonEnabled GetEnabled(PaletteBase palette) => _navigator.Owner!.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) => _navigator.Owner!.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
 
         #endregion
 

@@ -23,7 +23,7 @@ namespace Krypton.Workspace
         /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
         /// <param name="destinationType">A Type that represents the type you want to convert to.</param>
         /// <returns>true if this converter can perform the conversion; otherwise, false.</returns>
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
         {
             // Can always convert to a string representation
             if (destinationType == typeof(string))
@@ -43,16 +43,16 @@ namespace Krypton.Workspace
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context,
-                                         CultureInfo culture, 
-                                         object value, 
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+                                         CultureInfo? culture, 
+                                         object? value, 
                                          Type destinationType)
         {
             // Can always convert to a string representation
             if (destinationType == typeof(string))
             {
-                KryptonWorkspaceSequence sequence = (KryptonWorkspaceSequence)value;
-                return sequence.ToString();
+                KryptonWorkspaceSequence? sequence = value as KryptonWorkspaceSequence;
+                return sequence?.ToString();
             }
             
             // Let base class attempt other conversions

@@ -142,25 +142,25 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    cache.borderOuterPen = new Pen(c1);
-                    cache.borderInnerPen = new Pen(CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f));
-                    cache.topBrush = new SolidBrush(c2);
+                    cache.BorderOuterPen = new Pen(c1);
+                    cache.BorderInnerPen = new Pen(CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f));
+                    cache.TopBrush = new SolidBrush(c2);
                     Color lightC2 = ControlPaint.Light(c2);
-                    cache.bottomBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y, rect.Width + 2, rect.Height + 1),
+                    cache.BottomBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y, rect.Width + 2, rect.Height + 1),
                                                                 Color.FromArgb(128, lightC2), Color.FromArgb(64, lightC2), 90f);
                 }
 
                 // Draw the left and right borders
-                context.Graphics.DrawLine(cache.borderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
-                context.Graphics.DrawLine(cache.borderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
+                context.Graphics.DrawLine(cache.BorderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
 
                 // Draw the solid block of colour at the top
-                context.Graphics.FillRectangle(cache.topBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
+                context.Graphics.FillRectangle(cache.TopBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
 
                 // Draw the gradient to the bottom
-                context.Graphics.FillRectangle(cache.bottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
+                context.Graphics.FillRectangle(cache.BottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
             }
 
             return memento;
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
                     //cache.borderPen = new Pen(baseColor1);
 
                     // Create state specific colors/brushes/pens
-                    cache.insideFillBrush = state switch
+                    cache.InsideFillBrush = state switch
                     {
                         PaletteState.Normal =>
                             //cache.borderBrush = new SolidBrush(baseColor1);
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
                         PaletteState.Tracking | PaletteState.FocusOverride => new SolidBrush(
                             ControlPaint.LightLight(baseColor2)),
                         PaletteState.Pressed => new SolidBrush(baseColor2),
-                        _ => cache.insideFillBrush
+                        _ => cache.InsideFillBrush
                     };
                 }
 
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
 
                 // Fill inside area
                 //context.Graphics.FillPath(cache.insideFillBrush, cache.insideFillPath);
-                context.Graphics.FillRectangle(cache.insideFillBrush, cache.rect);
+                context.Graphics.FillRectangle(cache.InsideFillBrush, cache.Rect);
 
                 // Draw highlight over bottom half
                 //using (Clipping clip = new Clipping(context.Graphics, cache.insideFillPath))
@@ -314,11 +314,11 @@ namespace Krypton.Toolkit
                             break;
                     }
 
-                    cache.outsidePen = new Pen(c1);
-                    cache.centerPen = new Pen(c4);
+                    cache.OutsidePen = new Pen(c1);
+                    cache.CenterPen = new Pen(c4);
                 }
 
-                context.Graphics.FillRectangle(cache.centerBrush, cache.rect);
+                context.Graphics.FillRectangle(cache.CenterBrush, cache.Rect);
                 //context.Graphics.FillPath(cache.centerBrush, cache.outsidePath);
 
                 //if (c5 != Color.Empty)
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
 
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.outsidePath);
-                context.Graphics.DrawRectangle(cache.outsidePen, cache.rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
 
                 //switch (orientation)
                 //{
@@ -420,18 +420,18 @@ namespace Krypton.Toolkit
                             break;
                     }
 
-                    cache.outsidePen = new Pen(c1);
-                    cache.outsideBrush = new SolidBrush(c2);
+                    cache.OutsidePen = new Pen(c1);
+                    cache.OutsideBrush = new SolidBrush(c2);
                 }
 
                 // Fill the full background
                 //context.Graphics.FillPath(cache.outsideBrush, cache.outsidePath);
-                context.Graphics.FillRectangle(cache.outsideBrush, cache.rect);
+                context.Graphics.FillRectangle(cache.OutsideBrush, cache.Rect);
 
                 // Draw the border
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.borderPath);
-                context.Graphics.DrawRectangle(cache.outsidePen, cache.rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
 
                 // Fill the inside area
                 //context.Graphics.FillPath(cache.insideBrush, cache.insidePath);

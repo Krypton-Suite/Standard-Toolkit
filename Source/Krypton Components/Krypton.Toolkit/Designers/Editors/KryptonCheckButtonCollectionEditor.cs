@@ -29,12 +29,12 @@ namespace Krypton.Toolkit
         /// <param name="provider">An IServiceProvider that this editor can use to obtain services.</param>
         /// <param name="value">The object to edit.</param>
         /// <returns></returns>
-        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        public override object EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object value)
         {
             if ((context?.Instance != null) && (provider != null))
             {
                 // Must use the editor service for showing dialogs
-                IWindowsFormsEditorService editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                IWindowsFormsEditorService? editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
 
                 if (editorService != null)
                 {

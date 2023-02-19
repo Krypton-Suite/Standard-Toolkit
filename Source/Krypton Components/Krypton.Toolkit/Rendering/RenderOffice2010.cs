@@ -149,25 +149,25 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    cache.borderOuterPen = new Pen(c1);
-                    cache.borderInnerPen = new Pen(CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f));
-                    cache.topBrush = new SolidBrush(c2);
+                    cache.BorderOuterPen = new Pen(c1);
+                    cache.BorderInnerPen = new Pen(CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f));
+                    cache.TopBrush = new SolidBrush(c2);
                     Color lightC2 = ControlPaint.Light(c2);
-                    cache.bottomBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y, rect.Width + 2, rect.Height + 1),
+                    cache.BottomBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y, rect.Width + 2, rect.Height + 1),
                                                                 Color.FromArgb(128, lightC2), Color.FromArgb(64, lightC2), 90f);
                 }
 
                 // Draw the left and right borders
-                context.Graphics.DrawLine(cache.borderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
-                context.Graphics.DrawLine(cache.borderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
+                context.Graphics.DrawLine(cache.BorderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
             
                 // Draw the solid block of colour at the top
-                context.Graphics.FillRectangle(cache.topBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
+                context.Graphics.FillRectangle(cache.TopBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
 
                 // Draw the gradient to the bottom
-                context.Graphics.FillRectangle(cache.bottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
+                context.Graphics.FillRectangle(cache.BottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
             }
 
             return memento;

@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
                                                    IPaletteRibbonBack palette,
                                                    VisualOrientation orientation,
                                                    bool composition,
-                                                   IDisposable memento)
+                                                   IDisposable? memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popup
             var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
@@ -351,35 +351,35 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     Rectangle borderRect = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
-                    cache.fillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
+                    cache.FillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
                     LinearGradientBrush borderBrush = new(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
-                    cache.borderPen = new Pen(borderBrush);
+                    cache.BorderPen = new Pen(borderBrush);
 
                     LinearGradientBrush underlineBrush = new(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
                     {
                         Blend = _ribbonGroup7Blend
                     };
-                    cache.underlinePen = new Pen(underlineBrush);
+                    cache.UnderlinePen = new Pen(underlineBrush);
 
-                    cache.fillBrush = new LinearGradientBrush(borderRect, Color.FromArgb(106, c2), Color.Transparent, 270f)
+                    cache.FillBrush = new LinearGradientBrush(borderRect, Color.FromArgb(106, c2), Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup6Blend
                     };
                 }
 
                 // Draw the left and right border lines
-                context.Graphics.DrawLine(cache.borderPen, rect.X, rect.Y, rect.X, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen, rect.X, rect.Y, rect.X, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
 
                 // Fill the inner area with a gradient context specific color
-                context.Graphics.FillRectangle(cache.fillBrush, cache.fillRect);
+                context.Graphics.FillRectangle(cache.FillBrush, cache.FillRect);
 
                 // Overdraw the brighter line at bottom
-                context.Graphics.DrawLine(cache.underlinePen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
+                context.Graphics.DrawLine(cache.UnderlinePen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
             }
 
             return memento;

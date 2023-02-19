@@ -28,12 +28,12 @@ namespace Krypton.Docking
         /// <summary>
         /// Occurs when the dockspace changes to have one or more visible cells.
         /// </summary>
-        public event EventHandler HasVisibleCells;
+        public event EventHandler? HasVisibleCells;
 
         /// <summary>
         /// Occurs when the dockspace changes to no longer have any visible cells.
         /// </summary>
-        public event EventHandler HasNoVisibleCells;
+        public event EventHandler? HasNoVisibleCells;
         #endregion
 
         #region Identity

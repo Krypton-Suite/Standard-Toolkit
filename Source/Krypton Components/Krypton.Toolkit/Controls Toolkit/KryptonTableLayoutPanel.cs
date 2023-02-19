@@ -79,6 +79,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -101,7 +103,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
-        public override Image BackgroundImage
+        public override Image? BackgroundImage
         {
             get => base.BackgroundImage;
             set => base.BackgroundImage = value;
@@ -344,7 +346,8 @@ namespace Krypton.Toolkit
                 PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
                 if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
                 {
-                    if (_backGroundPanel.Parent != null)
+                    if (_backGroundPanel.Parent != null
+                        && Parent != null)
                     {
                         var index = Parent.Controls.GetChildIndex(this);
                         Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);

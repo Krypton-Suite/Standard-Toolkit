@@ -32,19 +32,9 @@ namespace Krypton.Toolkit
         /// <returns>True if allowed; otherwise false.</returns>
         protected bool IsTypeAllowed(object value)
         {
-            var valid = false;
-
             // Check if incoming instance derives from an allowed type
-            foreach (Type t in RestrictTypes)
-            {
-                if (t.IsInstanceOfType(value))
-                {
-                    valid = true;
-                    break;
-                }
-            }
 
-            return valid;
+            return RestrictTypes.Any(t => t.IsInstanceOfType(value));
         }
 
         /// <summary>
@@ -53,11 +43,11 @@ namespace Krypton.Toolkit
         /// <param name="value">Object reference.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>The position into which the new item was inserted.</returns>
-        public override int Add(object value) =>
+        public override int Add(object? value) =>
             // We only allow objects that implement a restricted type
             (value != null) && !IsTypeAllowed(value)
                 ? throw new ArgumentException("Type to be added is not allowed in this collection.")
-                : base.Add(value);
+                : base.Add(value!);
 
         /// <summary>
         /// Inserts an item to the collection at the specified index.
@@ -65,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
         /// <exception cref="ArgumentException"></exception>
-        public override void Insert(int index, object value)
+        public override void Insert(int index, object? value)
         {
             // We only allow objects that implement IQuickAccessToolbarButton
             if ((value != null) && !IsTypeAllowed(value))
@@ -73,7 +63,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException("Type to be added is not allowed in this collection.");
             }
 
-            base.Insert(index, value);
+            base.Insert(index, value!);
         }
         #endregion
 
@@ -85,7 +75,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentException"></exception>
-        public override void Insert(int index, T item)
+        public override void Insert(int index, T? item)
         {
             // We only allow objects that implement IQuickAccessToolbarButton
             if ((item != null) && !IsTypeAllowed(item))
@@ -93,7 +83,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException("Type to be added is not allowed in this collection.");
             }
 
-            base.Insert(index, item);
+            base.Insert(index, item!);
         }
         #endregion
 
@@ -104,7 +94,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentException"></exception>
-        public override void Add(T item)
+        public override void Add(T? item)
         {
             // We only allow objects that implement IQuickAccessToolbarButton
             if ((item != null) && !IsTypeAllowed(item))
@@ -112,7 +102,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException("Type to be added is not allowed in this collection.");
             }
 
-            base.Add(item);
+            base.Add(item!);
         }
         #endregion
     }

@@ -360,6 +360,8 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;

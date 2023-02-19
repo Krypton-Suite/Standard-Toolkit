@@ -34,8 +34,8 @@ namespace Krypton.Toolkit
         /// <param name="culture">The CultureInfo to use as the current culture.</param>
         /// <param name="value">The Object to convert.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertFrom(ITypeDescriptorContext context, 
-                                           CultureInfo culture, 
+        public override object? ConvertFrom(ITypeDescriptorContext? context, 
+                                           CultureInfo? culture, 
                                            object value)
         {
             // We allow an empty string or a string with DBNull/null/Nothing to be converted to a DBNull value.
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            return base.ConvertFrom(context, culture, value);
+            return base.ConvertFrom(context!, culture!, value);
         }
         #endregion
     }

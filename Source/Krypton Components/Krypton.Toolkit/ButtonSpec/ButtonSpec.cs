@@ -790,7 +790,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object Owner { get; set; }
+        public object? Owner { get; set; }
 
         #endregion
 
@@ -864,18 +864,18 @@ namespace Krypton.Toolkit
             // Try and recover a state specific image
             image = state switch
             {
-                PaletteState.Disabled        => ImageStates.ImageDisabled,
-                PaletteState.Normal          => ImageStates.ImageNormal,
-                PaletteState.Pressed         => ImageStates.ImagePressed,
-                PaletteState.Tracking        => ImageStates.ImageTracking,
-                PaletteState.CheckedNormal   => ImageStates.ImageCheckedNormal,
-                PaletteState.CheckedPressed  => ImageStates.ImageCheckedPressed,
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+                PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
                 PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
-                _                            => image
+                _ => image
             } ?? Image; // Default to the image if no state specific image is found
 
-            return (image != null) || !AllowInheritImage 
-                ? image 
+            return (image != null) || !AllowInheritImage
+                ? image
                 : palette?.GetButtonSpecImage(ProtectedType, state);
         }
 
@@ -891,8 +891,8 @@ namespace Krypton.Toolkit
                 return KryptonCommand.ImageTransparentColor;
             }
 
-            return ImageTransparentColor != Color.Empty 
-                ? ImageTransparentColor 
+            return ImageTransparentColor != Color.Empty
+                ? ImageTransparentColor
                 : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? Color.Empty;
         }
 
@@ -908,9 +908,9 @@ namespace Krypton.Toolkit
                 return KryptonCommand.Text;
             }
 
-            return (Text.Length > 0) 
-                   || !AllowInheritText 
-                    ? Text 
+            return (Text.Length > 0)
+                   || !AllowInheritText
+                    ? Text
                     : palette?.GetButtonSpecShortText(ProtectedType) ?? string.Empty;
         }
 
@@ -925,9 +925,9 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.ExtraText;
             }
-            return (ExtraText.Length > 0) 
-                   || !AllowInheritExtraText 
-                    ? ExtraText 
+            return (ExtraText.Length > 0)
+                   || !AllowInheritExtraText
+                    ? ExtraText
                     : palette?.GetButtonSpecLongText(ProtectedType) ?? string.Empty;
         }
 
@@ -949,10 +949,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetColorMap(PaletteBase palette)
+        public virtual Color GetColorMap(PaletteBase? palette)
         {
-            return ColorMap != Color.Empty 
-                ? ColorMap 
+            return ColorMap != Color.Empty
+                ? ColorMap
                 : palette?.GetButtonSpecColorMap(ProtectedType) ?? Color.Empty;
         }
 
@@ -976,7 +976,7 @@ namespace Krypton.Toolkit
         public virtual ButtonOrientation GetOrientation(PaletteBase? palette) => ConvertToButtonOrientation(
             Orientation != PaletteButtonOrientation.Inherit
                 ? Orientation
-                : palette.GetButtonSpecOrientation(ProtectedType));
+                : palette?.GetButtonSpecOrientation(ProtectedType) ?? PaletteButtonOrientation.Auto);
 
         /// <summary>
         /// Gets the edge for the button.
@@ -986,7 +986,7 @@ namespace Krypton.Toolkit
         public virtual RelativeEdgeAlign GetEdge(PaletteBase? palette) =>
             ConvertToRelativeEdgeAlign(Edge != PaletteRelativeEdgeAlign.Inherit
                 ? Edge
-                : palette.GetButtonSpecEdge(ProtectedType));
+                : palette?.GetButtonSpecEdge(ProtectedType) ?? PaletteRelativeEdgeAlign.Near);
 
         /// <summary>
         /// Gets the button location.
@@ -1006,7 +1006,7 @@ namespace Krypton.Toolkit
         /// Sets the current view associated with the button spec.
         /// </summary>
         /// <param name="view">View element reference.</param>
-        public virtual void SetView(ViewBase view) => _buttonSpecView = view;
+        public virtual void SetView(ViewBase? view) => _buttonSpecView = view;
 
         /// <summary>
         /// Get the current view associated with the button spec.

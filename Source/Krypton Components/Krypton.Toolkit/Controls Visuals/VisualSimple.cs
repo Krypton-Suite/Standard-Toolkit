@@ -119,6 +119,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;

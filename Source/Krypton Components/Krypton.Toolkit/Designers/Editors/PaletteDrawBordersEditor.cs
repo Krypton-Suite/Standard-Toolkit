@@ -33,14 +33,14 @@ namespace Krypton.Toolkit
         /// <param name="provider">An IServiceProvider that this editor can use to obtain services.</param>
         /// <param name="value">The object to edit.</param>
         /// <returns>The new value of the object.</returns>
-        public override object EditValue(ITypeDescriptorContext context, 
-                                         IServiceProvider provider, 
-                                         object value)
+        public override object? EditValue(ITypeDescriptorContext? context, 
+                                         IServiceProvider? provider, 
+                                         object? value)
         {
             if ((context != null) && (provider != null) && (value != null))
             {
                 // Grab the service needed to show the drop down
-                IWindowsFormsEditorService service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                IWindowsFormsEditorService? service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
 
                 if (service != null)
                 {

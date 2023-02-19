@@ -789,7 +789,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
                 /// </summary>
-                public IContainer Container => null;
+                public IContainer? Container => null;
 
                 /// <summary>
                 /// Determines whether the component is in design mode when implemented by a class.
@@ -799,7 +799,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets or sets the name of the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public string Name
+                public string? Name
                 {
                     get => null;
                     set { }
@@ -812,17 +812,17 @@ namespace Krypton.Workspace
             // TODO: Use Krypton
             private readonly KryptonWorkspaceCollectionEditor _editor;
             private DictItemBase _beforeItems;
-            private readonly TreeView treeView;
-            private readonly PropertyGrid propertyGrid;
-            private readonly Button buttonMoveUp;
-            private readonly Button buttonMoveDown;
-            private readonly Button buttonAddPage;
-            private readonly Button buttonAddCell;
-            private readonly Button buttonAddSequence;
-            private readonly Button buttonOK;
-            private readonly Button buttonDelete;
-            private readonly Label labelItemProperties;
-            private readonly Label labelWorkspaceCollection;
+            private readonly TreeView _treeView;
+            private readonly PropertyGrid _propertyGrid;
+            private readonly Button _buttonMoveUp;
+            private readonly Button _buttonMoveDown;
+            private readonly Button _buttonAddPage;
+            private readonly Button _buttonAddCell;
+            private readonly Button _buttonAddSequence;
+            private readonly Button _buttonOk;
+            private readonly Button _buttonDelete;
+            private readonly Label _labelItemProperties;
+            private readonly Label _labelWorkspaceCollection;
             #endregion
 
             #region Identity
@@ -834,179 +834,179 @@ namespace Krypton.Workspace
             {
                 _editor = editor;
 
-                buttonOK = new Button();
-                treeView = new TreeView();
-                buttonMoveUp = new Button();
-                buttonMoveDown = new Button();
-                buttonAddPage = new Button();
-                buttonAddCell = new Button();
-                buttonAddSequence = new Button();
-                buttonDelete = new Button();
-                propertyGrid = new PropertyGrid();
-                labelItemProperties = new Label();
-                labelWorkspaceCollection = new Label();
+                _buttonOk = new Button();
+                _treeView = new TreeView();
+                _buttonMoveUp = new Button();
+                _buttonMoveDown = new Button();
+                _buttonAddPage = new Button();
+                _buttonAddCell = new Button();
+                _buttonAddSequence = new Button();
+                _buttonDelete = new Button();
+                _propertyGrid = new PropertyGrid();
+                _labelItemProperties = new Label();
+                _labelWorkspaceCollection = new Label();
                 SuspendLayout();
                 // 
                 // buttonOK
                 // 
-                buttonOK.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-                buttonOK.DialogResult = DialogResult.OK;
-                buttonOK.Location = new Point(547, 382);
-                buttonOK.Name = nameof(buttonOK);
-                buttonOK.Size = new Size(75, 23);
-                buttonOK.TabIndex = 8;
-                buttonOK.Text = "OK";
-                buttonOK.UseVisualStyleBackColor = true;
-                buttonOK.Click += buttonOK_Click;
+                _buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+                _buttonOk.DialogResult = DialogResult.OK;
+                _buttonOk.Location = new Point(547, 382);
+                _buttonOk.Name = nameof(_buttonOk);
+                _buttonOk.Size = new Size(75, 23);
+                _buttonOk.TabIndex = 8;
+                _buttonOk.Text = "OK";
+                _buttonOk.UseVisualStyleBackColor = true;
+                _buttonOk.Click += buttonOK_Click;
                 // 
                 // treeView
                 // 
-                treeView.Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
+                _treeView.Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
                                    | AnchorStyles.Left)
                                   | AnchorStyles.Right;
-                treeView.Location = new Point(12, 32);
-                treeView.Name = nameof(treeView);
-                treeView.Size = new Size(251, 339);
-                treeView.TabIndex = 1;
-                treeView.HideSelection = false;
-                treeView.AfterSelect += treeView_AfterSelect;
+                _treeView.Location = new Point(12, 32);
+                _treeView.Name = nameof(_treeView);
+                _treeView.Size = new Size(251, 339);
+                _treeView.TabIndex = 1;
+                _treeView.HideSelection = false;
+                _treeView.AfterSelect += treeView_AfterSelect;
                 // 
                 // buttonMoveUp
                 // 
-                buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.Image = GeneralImageResources.arrow_up_blue;
-                buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
-                buttonMoveUp.Location = new Point(272, 32);
-                buttonMoveUp.Name = nameof(buttonMoveUp);
-                buttonMoveUp.Size = new Size(95, 28);
-                buttonMoveUp.TabIndex = 2;
-                buttonMoveUp.Text = " Move Up";
-                buttonMoveUp.TextAlign = ContentAlignment.MiddleLeft;
-                buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonMoveUp.UseVisualStyleBackColor = true;
-                buttonMoveUp.Click += buttonMoveUp_Click;
+                _buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonMoveUp.Image = GeneralImageResources.arrow_up_blue;
+                _buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonMoveUp.Location = new Point(272, 32);
+                _buttonMoveUp.Name = nameof(_buttonMoveUp);
+                _buttonMoveUp.Size = new Size(95, 28);
+                _buttonMoveUp.TabIndex = 2;
+                _buttonMoveUp.Text = " Move Up";
+                _buttonMoveUp.TextAlign = ContentAlignment.MiddleLeft;
+                _buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonMoveUp.UseVisualStyleBackColor = true;
+                _buttonMoveUp.Click += buttonMoveUp_Click;
                 // 
                 // buttonMoveDown
                 // 
-                buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.Image = GeneralImageResources.arrow_down_blue;
-                buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
-                buttonMoveDown.Location = new Point(272, 66);
-                buttonMoveDown.Name = nameof(buttonMoveDown);
-                buttonMoveDown.Size = new Size(95, 28);
-                buttonMoveDown.TabIndex = 3;
-                buttonMoveDown.Text = " Move Down";
-                buttonMoveDown.TextAlign = ContentAlignment.MiddleLeft;
-                buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonMoveDown.UseVisualStyleBackColor = true;
-                buttonMoveDown.Click += buttonMoveDown_Click;
+                _buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonMoveDown.Image = GeneralImageResources.arrow_down_blue;
+                _buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonMoveDown.Location = new Point(272, 66);
+                _buttonMoveDown.Name = nameof(_buttonMoveDown);
+                _buttonMoveDown.Size = new Size(95, 28);
+                _buttonMoveDown.TabIndex = 3;
+                _buttonMoveDown.Text = " Move Down";
+                _buttonMoveDown.TextAlign = ContentAlignment.MiddleLeft;
+                _buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonMoveDown.UseVisualStyleBackColor = true;
+                _buttonMoveDown.Click += buttonMoveDown_Click;
                 // 
                 // buttonDelete
                 // 
-                buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.Image = GeneralImageResources.Delete;
-                buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
-                buttonDelete.Location = new Point(272, 234);
-                buttonDelete.Name = nameof(buttonDelete);
-                buttonDelete.Size = new Size(95, 28);
-                buttonDelete.TabIndex = 5;
-                buttonDelete.Text = " Delete Item";
-                buttonDelete.TextAlign = ContentAlignment.MiddleLeft;
-                buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonDelete.UseVisualStyleBackColor = true;
-                buttonDelete.Click += buttonDelete_Click;
+                _buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonDelete.Image = GeneralImageResources.Delete;
+                _buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonDelete.Location = new Point(272, 234);
+                _buttonDelete.Name = nameof(_buttonDelete);
+                _buttonDelete.Size = new Size(95, 28);
+                _buttonDelete.TabIndex = 5;
+                _buttonDelete.Text = " Delete Item";
+                _buttonDelete.TextAlign = ContentAlignment.MiddleLeft;
+                _buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonDelete.UseVisualStyleBackColor = true;
+                _buttonDelete.Click += buttonDelete_Click;
                 // 
                 // propertyGrid
                 // 
-                propertyGrid.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom)
+                _propertyGrid.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom)
                                       | AnchorStyles.Right;
-                propertyGrid.HelpVisible = false;
-                propertyGrid.Location = new Point(376, 32);
-                propertyGrid.Name = nameof(propertyGrid);
-                propertyGrid.Size = new Size(246, 339);
-                propertyGrid.TabIndex = 7;
-                propertyGrid.ToolbarVisible = false;
+                _propertyGrid.HelpVisible = false;
+                _propertyGrid.Location = new Point(376, 32);
+                _propertyGrid.Name = nameof(_propertyGrid);
+                _propertyGrid.Size = new Size(246, 339);
+                _propertyGrid.TabIndex = 7;
+                _propertyGrid.ToolbarVisible = false;
                 // 
                 // labelItemProperties
                 // 
-                labelItemProperties.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                labelItemProperties.AutoSize = true;
-                labelItemProperties.Location = new Point(370, 13);
-                labelItemProperties.Name = nameof(labelItemProperties);
-                labelItemProperties.Size = new Size(81, 13);
-                labelItemProperties.TabIndex = 6;
-                labelItemProperties.Text = "Item Properties";
+                _labelItemProperties.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _labelItemProperties.AutoSize = true;
+                _labelItemProperties.Location = new Point(370, 13);
+                _labelItemProperties.Name = nameof(_labelItemProperties);
+                _labelItemProperties.Size = new Size(81, 13);
+                _labelItemProperties.TabIndex = 6;
+                _labelItemProperties.Text = "Item Properties";
                 // 
                 // labelWorkspaceCollection
                 // 
-                labelWorkspaceCollection.AutoSize = true;
-                labelWorkspaceCollection.Location = new Point(12, 13);
-                labelWorkspaceCollection.Name = nameof(labelWorkspaceCollection);
-                labelWorkspaceCollection.Size = new Size(142, 13);
-                labelWorkspaceCollection.TabIndex = 0;
-                labelWorkspaceCollection.Text = "Workspace Collection";
+                _labelWorkspaceCollection.AutoSize = true;
+                _labelWorkspaceCollection.Location = new Point(12, 13);
+                _labelWorkspaceCollection.Name = nameof(_labelWorkspaceCollection);
+                _labelWorkspaceCollection.Size = new Size(142, 13);
+                _labelWorkspaceCollection.TabIndex = 0;
+                _labelWorkspaceCollection.Text = "Workspace Collection";
                 // 
                 // buttonAddPage
                 // 
-                buttonAddPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddPage.Image = GeneralImageResources.add;
-                buttonAddPage.ImageAlign = ContentAlignment.MiddleLeft;
-                buttonAddPage.Location = new Point(272, 114);
-                buttonAddPage.Name = nameof(buttonAddPage);
-                buttonAddPage.Size = new Size(95, 28);
-                buttonAddPage.TabIndex = 4;
-                buttonAddPage.Text = " Page";
-                buttonAddPage.TextAlign = ContentAlignment.MiddleLeft;
-                buttonAddPage.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddPage.UseVisualStyleBackColor = true;
-                buttonAddPage.Click += buttonAddPage_Click;
+                _buttonAddPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddPage.Image = GeneralImageResources.add;
+                _buttonAddPage.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddPage.Location = new Point(272, 114);
+                _buttonAddPage.Name = nameof(_buttonAddPage);
+                _buttonAddPage.Size = new Size(95, 28);
+                _buttonAddPage.TabIndex = 4;
+                _buttonAddPage.Text = " Page";
+                _buttonAddPage.TextAlign = ContentAlignment.MiddleLeft;
+                _buttonAddPage.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddPage.UseVisualStyleBackColor = true;
+                _buttonAddPage.Click += buttonAddPage_Click;
                 // 
                 // buttonAddCell
                 // 
-                buttonAddCell.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddCell.Image = GeneralImageResources.add;
-                buttonAddCell.ImageAlign = ContentAlignment.MiddleLeft;
-                buttonAddCell.Location = new Point(272, 148);
-                buttonAddCell.Name = nameof(buttonAddCell);
-                buttonAddCell.Size = new Size(95, 28);
-                buttonAddCell.TabIndex = 9;
-                buttonAddCell.Text = " Cell";
-                buttonAddCell.TextAlign = ContentAlignment.MiddleLeft;
-                buttonAddCell.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddCell.UseVisualStyleBackColor = true;
-                buttonAddCell.Click += buttonAddCell_Click;
+                _buttonAddCell.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddCell.Image = GeneralImageResources.add;
+                _buttonAddCell.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddCell.Location = new Point(272, 148);
+                _buttonAddCell.Name = nameof(_buttonAddCell);
+                _buttonAddCell.Size = new Size(95, 28);
+                _buttonAddCell.TabIndex = 9;
+                _buttonAddCell.Text = " Cell";
+                _buttonAddCell.TextAlign = ContentAlignment.MiddleLeft;
+                _buttonAddCell.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddCell.UseVisualStyleBackColor = true;
+                _buttonAddCell.Click += buttonAddCell_Click;
                 // 
                 // buttonAddSequence
                 // 
-                buttonAddSequence.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddSequence.Image = GeneralImageResources.add;
-                buttonAddSequence.ImageAlign = ContentAlignment.MiddleLeft;
-                buttonAddSequence.Location = new Point(272, 182);
-                buttonAddSequence.Name = nameof(buttonAddSequence);
-                buttonAddSequence.Size = new Size(95, 28);
-                buttonAddSequence.TabIndex = 9;
-                buttonAddSequence.Text = " Sequence";
-                buttonAddSequence.TextAlign = ContentAlignment.MiddleLeft;
-                buttonAddSequence.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddSequence.UseVisualStyleBackColor = true;
-                buttonAddSequence.Click += buttonAddSequence_Click;
+                _buttonAddSequence.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddSequence.Image = GeneralImageResources.add;
+                _buttonAddSequence.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddSequence.Location = new Point(272, 182);
+                _buttonAddSequence.Name = nameof(_buttonAddSequence);
+                _buttonAddSequence.Size = new Size(95, 28);
+                _buttonAddSequence.TabIndex = 9;
+                _buttonAddSequence.Text = " Sequence";
+                _buttonAddSequence.TextAlign = ContentAlignment.MiddleLeft;
+                _buttonAddSequence.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddSequence.UseVisualStyleBackColor = true;
+                _buttonAddSequence.Click += buttonAddSequence_Click;
 
-                AcceptButton = buttonOK;
+                AcceptButton = _buttonOk;
                 AutoScaleDimensions = new SizeF(6F, 13F);
                 AutoScaleMode = AutoScaleMode.Font;
                 ClientSize = new Size(634, 414);
                 ControlBox = false;
-                Controls.Add(treeView);
-                Controls.Add(buttonMoveUp);
-                Controls.Add(buttonMoveDown);
-                Controls.Add(buttonAddPage);
-                Controls.Add(buttonAddCell);
-                Controls.Add(buttonAddSequence);
-                Controls.Add(propertyGrid);
-                Controls.Add(buttonDelete);
-                Controls.Add(buttonOK);
-                Controls.Add(labelWorkspaceCollection);
-                Controls.Add(labelItemProperties);
+                Controls.Add(_treeView);
+                Controls.Add(_buttonMoveUp);
+                Controls.Add(_buttonMoveDown);
+                Controls.Add(_buttonAddPage);
+                Controls.Add(_buttonAddCell);
+                Controls.Add(_buttonAddSequence);
+                Controls.Add(_propertyGrid);
+                Controls.Add(_buttonDelete);
+                Controls.Add(_buttonOk);
+                Controls.Add(_labelWorkspaceCollection);
+                Controls.Add(_labelItemProperties);
                 VisibleChanged += OnVisibleChanged;
                 Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 MinimumSize = new Size(501, 344);
@@ -1028,25 +1028,25 @@ namespace Krypton.Workspace
                 {
                     // Need to link the property browser to a site otherwise Image properties cannot be
                     // edited because it cannot navigate to the owning project for its resources
-                    propertyGrid.Site = new PropertyGridSite(Context, propertyGrid);
+                    _propertyGrid.Site = new PropertyGridSite(Context, _propertyGrid);
 
                     // Cache a lookup of all items before changes are made
                     _beforeItems = CreateItemsDictionary(Items);
 
                     // Add all the top level clones
-                    treeView.Nodes.Clear();
+                    _treeView.Nodes.Clear();
                     foreach (Component item in Items)
                     {
                         AddMenuTreeNode(item, null);
                     }
 
                     // Expand to show all entries
-                    treeView.ExpandAll();
+                    _treeView.ExpandAll();
 
                     // Select the first node
-                    if (treeView.Nodes.Count > 0)
+                    if (_treeView.Nodes.Count > 0)
                     {
-                        treeView.SelectedNode = treeView.Nodes[0];
+                        _treeView.SelectedNode = _treeView.Nodes[0];
                     }
 
                     UpdateButtons();
@@ -1071,10 +1071,10 @@ namespace Krypton.Workspace
             private void buttonOK_Click(object sender, EventArgs e)
             {
                 // Create an array with all the root items
-                var rootItems = new object[treeView.Nodes.Count];
+                var rootItems = new object[_treeView.Nodes.Count];
                 for (var i = 0; i < rootItems.Length; i++)
                 {
-                    rootItems[i] = ((MenuTreeNode)treeView.Nodes[i]).Item;
+                    rootItems[i] = ((MenuTreeNode)_treeView.Nodes[i]).Item;
                 }
 
                 // Cache a lookup of all items after changes are made
@@ -1090,13 +1090,13 @@ namespace Krypton.Workspace
                 Context.OnComponentChanged();
 
                 // Clear down contents of tree as this form can be reused
-                treeView.Nodes.Clear();
+                _treeView.Nodes.Clear();
             }
 
             private void buttonMoveUp_Click(object sender, EventArgs e)
             {
                 // If we have a selected node
-                MenuTreeNode node = (MenuTreeNode)treeView.SelectedNode;
+                MenuTreeNode node = (MenuTreeNode)_treeView.SelectedNode;
                 if (node != null)
                 {
                     NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
@@ -1150,7 +1150,7 @@ namespace Krypton.Workspace
 
                             // Remove cell from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
-                            TreeNodeCollection parentCollection = (node.Parent == null ? treeView.Nodes : node.Parent.Nodes);
+                            TreeNodeCollection parentCollection = (node.Parent == null ? _treeView.Nodes : node.Parent.Nodes);
                             parentNode?.SequenceItem.Children.Remove(node.CellItem);
                             parentCollection.Remove(node);
 
@@ -1159,7 +1159,7 @@ namespace Krypton.Workspace
                             {
                                 // Add cell to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)previousNode.Parent;
-                                parentCollection = (previousNode.Parent == null ? treeView.Nodes : previousNode.Parent.Nodes);
+                                parentCollection = (previousNode.Parent == null ? _treeView.Nodes : previousNode.Parent.Nodes);
                                 var pageIndex = parentCollection.IndexOf(previousNode);
 
                                 // If the current and previous nodes are inside different cells
@@ -1190,7 +1190,7 @@ namespace Krypton.Workspace
 
                             // Remove sequence from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
-                            TreeNodeCollection parentCollection = (node.Parent == null ? treeView.Nodes : node.Parent.Nodes);
+                            TreeNodeCollection parentCollection = (node.Parent == null ? _treeView.Nodes : node.Parent.Nodes);
                             parentNode?.SequenceItem.Children.Remove(node.SequenceItem);
                             parentCollection.Remove(node);
 
@@ -1199,7 +1199,7 @@ namespace Krypton.Workspace
                             {
                                 // Add sequence to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)previousNode.Parent;
-                                parentCollection = (previousNode.Parent == null ? treeView.Nodes : previousNode.Parent.Nodes);
+                                parentCollection = (previousNode.Parent == null ? _treeView.Nodes : previousNode.Parent.Nodes);
                                 var pageIndex = parentCollection.IndexOf(previousNode);
 
                                 // If the current and previous nodes are inside different cells
@@ -1227,7 +1227,7 @@ namespace Krypton.Workspace
                 }
 
                 // Ensure the target node is still selected
-                treeView.SelectedNode = node;
+                _treeView.SelectedNode = node;
 
                 UpdateButtons();
                 UpdatePropertyGrid();
@@ -1236,7 +1236,7 @@ namespace Krypton.Workspace
             private void buttonMoveDown_Click(object sender, EventArgs e)
             {
                 // If we have a selected node
-                MenuTreeNode node = (MenuTreeNode)treeView.SelectedNode;
+                MenuTreeNode node = (MenuTreeNode)_treeView.SelectedNode;
                 if (node != null)
                 {
                     NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
@@ -1279,7 +1279,7 @@ namespace Krypton.Workspace
 
                             // Remove cell from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
-                            TreeNodeCollection parentCollection = (node.Parent == null ? treeView.Nodes : node.Parent.Nodes);
+                            TreeNodeCollection parentCollection = (node.Parent == null ? _treeView.Nodes : node.Parent.Nodes);
                             parentNode?.SequenceItem.Children.Remove(node.CellItem);
                             parentCollection.Remove(node);
 
@@ -1288,7 +1288,7 @@ namespace Krypton.Workspace
                             {
                                 // Add cell to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
-                                parentCollection = (nextNode.Parent == null ? treeView.Nodes : nextNode.Parent.Nodes);
+                                parentCollection = (nextNode.Parent == null ? _treeView.Nodes : nextNode.Parent.Nodes);
                                 var pageIndex = parentCollection.IndexOf(nextNode);
                                 previousParent?.SequenceItem.Children.Insert(pageIndex + 1, node.CellItem);
                                 parentCollection.Insert(pageIndex + 1, node);
@@ -1308,7 +1308,7 @@ namespace Krypton.Workspace
 
                             // Remove sequence from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
-                            TreeNodeCollection parentCollection = (node.Parent == null ? treeView.Nodes : node.Parent.Nodes);
+                            TreeNodeCollection parentCollection = (node.Parent == null ? _treeView.Nodes : node.Parent.Nodes);
                             parentNode?.SequenceItem.Children.Remove(node.SequenceItem);
                             parentCollection.Remove(node);
 
@@ -1317,7 +1317,7 @@ namespace Krypton.Workspace
                             {
                                 // Add sequence to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
-                                parentCollection = (nextNode.Parent == null ? treeView.Nodes : nextNode.Parent.Nodes);
+                                parentCollection = (nextNode.Parent == null ? _treeView.Nodes : nextNode.Parent.Nodes);
                                 var pageIndex = parentCollection.IndexOf(nextNode);
                                 previousParent?.SequenceItem.Children.Insert(pageIndex + 1, node.SequenceItem);
                                 parentCollection.Insert(pageIndex + 1, node);
@@ -1334,7 +1334,7 @@ namespace Krypton.Workspace
                 }
 
                 // Ensure the target node is still selected
-                treeView.SelectedNode = node;
+                _treeView.SelectedNode = node;
 
                 UpdateButtons();
                 UpdatePropertyGrid();
@@ -1346,7 +1346,7 @@ namespace Krypton.Workspace
                 KryptonPage page = (KryptonPage)CreateInstance(typeof(KryptonPage));
                 TreeNode newNode = new MenuTreeNode(page);
 
-                MenuTreeNode selectedNode = (MenuTreeNode)treeView.SelectedNode;
+                MenuTreeNode selectedNode = (MenuTreeNode)_treeView.SelectedNode;
                 if (selectedNode.CellItem != null)
                 {
                     // Selected node is a cell, so append page to end of cells page collection
@@ -1363,8 +1363,8 @@ namespace Krypton.Workspace
                 }
 
                 // Selected the newly added node
-                treeView.SelectedNode = newNode;
-                treeView.Focus();
+                _treeView.SelectedNode = newNode;
+                _treeView.Focus();
 
                 UpdateButtons();
                 UpdatePropertyGrid();
@@ -1383,11 +1383,11 @@ namespace Krypton.Workspace
                 }
                 newNode.Expand();
 
-                MenuTreeNode selectedNode = (MenuTreeNode)treeView.SelectedNode;
+                MenuTreeNode selectedNode = (MenuTreeNode)_treeView.SelectedNode;
                 if (selectedNode == null)
                 {
                     // Nothing is selected, so add to the root
-                    treeView.Nodes.Add(newNode);
+                    _treeView.Nodes.Add(newNode);
                 }
                 else if (selectedNode.SequenceItem != null)
                 {
@@ -1400,7 +1400,7 @@ namespace Krypton.Workspace
                     if (selectedNode.Parent == null)
                     {
                         // Selected node is cell in root, so insert after it in the root
-                        treeView.Nodes.Insert(treeView.Nodes.IndexOf(selectedNode) + 1, newNode);
+                        _treeView.Nodes.Insert(_treeView.Nodes.IndexOf(selectedNode) + 1, newNode);
                     }
                     else
                     {
@@ -1413,8 +1413,8 @@ namespace Krypton.Workspace
                 }
 
                 // Selected the newly added node
-                treeView.SelectedNode = newNode;
-                treeView.Focus();
+                _treeView.SelectedNode = newNode;
+                _treeView.Focus();
 
                 UpdateButtons();
                 UpdatePropertyGrid();
@@ -1426,18 +1426,18 @@ namespace Krypton.Workspace
                 KryptonWorkspaceSequence sequence = (KryptonWorkspaceSequence)CreateInstance(typeof(KryptonWorkspaceSequence));
                 TreeNode newNode = new MenuTreeNode(sequence);
 
-                MenuTreeNode selectedNode = (MenuTreeNode)treeView.SelectedNode;
+                MenuTreeNode selectedNode = (MenuTreeNode)_treeView.SelectedNode;
                 if (selectedNode == null)
                 {
                     // Nothing is selected, so add to the root
-                    treeView.Nodes.Add(newNode);
+                    _treeView.Nodes.Add(newNode);
                 }
                 else if (selectedNode.CellItem != null)
                 {
                     if (selectedNode.Parent == null)
                     {
                         // Selected node is cell in root, so insert after it in the root
-                        treeView.Nodes.Insert(treeView.Nodes.IndexOf(selectedNode) + 1, newNode);
+                        _treeView.Nodes.Insert(_treeView.Nodes.IndexOf(selectedNode) + 1, newNode);
                     }
                     else
                     {
@@ -1456,8 +1456,8 @@ namespace Krypton.Workspace
                 }
 
                 // Selected the newly added node
-                treeView.SelectedNode = newNode;
-                treeView.Focus();
+                _treeView.SelectedNode = newNode;
+                _treeView.Focus();
 
                 UpdateButtons();
                 UpdatePropertyGrid();
@@ -1465,14 +1465,14 @@ namespace Krypton.Workspace
 
             private void buttonDelete_Click(object sender, EventArgs e)
             {
-                if (treeView.SelectedNode != null)
+                if (_treeView.SelectedNode != null)
                 {
-                    MenuTreeNode treeNode = (MenuTreeNode)treeView.SelectedNode;
+                    MenuTreeNode treeNode = (MenuTreeNode)_treeView.SelectedNode;
 
                     if (treeNode.Parent == null)
                     {
                         // Remove from the root collection
-                        treeView.Nodes.Remove(treeNode);
+                        _treeView.Nodes.Remove(treeNode);
                     }
                     else
                     {
@@ -1491,7 +1491,7 @@ namespace Krypton.Workspace
                         }
                     }
 
-                    treeView.Focus();
+                    _treeView.Focus();
                 }
 
                 UpdateButtons();
@@ -1550,7 +1550,7 @@ namespace Krypton.Workspace
                 do
                 {
                     // Find the previous node
-                    returnNode = RecursiveFind(treeView.Nodes, returnNode, ref found, isPage, isCell, isSequence, true);
+                    returnNode = RecursiveFind(_treeView.Nodes, returnNode, ref found, isPage, isCell, isSequence, true);
 
                     // If we actually found a next node
                     if (returnNode != null)
@@ -1585,7 +1585,7 @@ namespace Krypton.Workspace
                 do
                 {
                     // Find the previous node
-                    returnNode = RecursiveFind(treeView.Nodes, returnNode, ref found, isPage, isCell, isSequence, false);
+                    returnNode = RecursiveFind(_treeView.Nodes, returnNode, ref found, isPage, isCell, isSequence, false);
 
                     // If we actually found a previous node
                     if (returnNode != null)
@@ -1695,26 +1695,26 @@ namespace Krypton.Workspace
 
             private void UpdateButtons()
             {
-                MenuTreeNode node = (MenuTreeNode)treeView.SelectedNode;
+                MenuTreeNode node = (MenuTreeNode)_treeView.SelectedNode;
                 var isNone = (node == null);
                 var isPage = node?.PageItem != null;
                 var isCell = node?.CellItem != null;
                 var isSequence = node?.SequenceItem != null;
 
-                buttonMoveUp.Enabled = !isNone && (PreviousNode(node) != null);
-                buttonMoveDown.Enabled = !isNone && (NextNode(node) != null);
-                buttonAddPage.Enabled = isPage || isCell;
-                buttonAddCell.Enabled = isNone || isCell || isSequence;
-                buttonAddSequence.Enabled = isNone || isCell || isSequence;
-                buttonDelete.Enabled = (node != null);
+                _buttonMoveUp.Enabled = !isNone && (PreviousNode(node) != null);
+                _buttonMoveDown.Enabled = !isNone && (NextNode(node) != null);
+                _buttonAddPage.Enabled = isPage || isCell;
+                _buttonAddCell.Enabled = isNone || isCell || isSequence;
+                _buttonAddSequence.Enabled = isNone || isCell || isSequence;
+                _buttonDelete.Enabled = (node != null);
             }
 
             private void UpdatePropertyGrid()
             {
-                TreeNode node = treeView.SelectedNode;
+                TreeNode node = _treeView.SelectedNode;
                 if (node == null)
                 {
-                    propertyGrid.SelectedObject = null;
+                    _propertyGrid.SelectedObject = null;
                 }
                 else
                 {
@@ -1722,15 +1722,15 @@ namespace Krypton.Workspace
 
                     if (menuNode.PageItem != null)
                     {
-                        propertyGrid.SelectedObject = new PageProxy(menuNode.PageItem);
+                        _propertyGrid.SelectedObject = new PageProxy(menuNode.PageItem);
                     }
                     else if (menuNode.CellItem != null)
                     {
-                        propertyGrid.SelectedObject = new CellProxy(menuNode.CellItem);
+                        _propertyGrid.SelectedObject = new CellProxy(menuNode.CellItem);
                     }
                     else
                     {
-                        propertyGrid.SelectedObject = new SequenceProxy(menuNode.SequenceItem);
+                        _propertyGrid.SelectedObject = new SequenceProxy(menuNode.SequenceItem);
                     }
                 }
             }
@@ -1783,7 +1783,7 @@ namespace Krypton.Workspace
                 }
                 else
                 {
-                    treeView.Nodes.Add(node);
+                    _treeView.Nodes.Add(node);
                 }
 
                 // Add pages from a cell

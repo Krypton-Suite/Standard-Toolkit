@@ -756,6 +756,8 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -2234,7 +2236,7 @@ namespace Krypton.Toolkit
                         // Do we draw an image for the node?
                         if (ImageList != null)
                         {
-                            Image drawImage = null;
+                            Image? drawImage = null;
                             var imageCount = ImageList.Images.Count;
 
                             try

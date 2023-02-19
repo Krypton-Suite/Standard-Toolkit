@@ -57,9 +57,9 @@ namespace Krypton.Navigator
             return _navigator.Owner!.MinimizeBox || _navigator.Owner!.MaximizeBox;
         }
 
-        public override ButtonCheckState GetChecked(PaletteBase palette) => ButtonCheckState.NotCheckButton;
+        public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
 
-        public override ButtonEnabled GetEnabled(PaletteBase palette) =>
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) =>
             // Has the maximize buttons been turned off?
             _navigator.Owner!.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
 

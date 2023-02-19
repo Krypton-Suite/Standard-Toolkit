@@ -326,6 +326,7 @@ namespace Krypton.Navigator
         /// Gets and sets the name of the control.
         /// </summary>
         [Browsable(false)]
+        [AllowNull]
         public new string Name
         {
             get => base.Name;

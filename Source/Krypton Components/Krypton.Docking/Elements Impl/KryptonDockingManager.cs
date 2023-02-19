@@ -33,287 +33,287 @@ namespace Krypton.Docking
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when the user requests a page be closed.")]
-        public event EventHandler<CloseRequestEventArgs> PageCloseRequest;
+        public event EventHandler<CloseRequestEventArgs>? PageCloseRequest;
 
         /// <summary>
         /// Occurs when the user requests a page become docked.
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when the user requests a page become docked.")]
-        public event EventHandler<CancelUniqueNameEventArgs> PageDockedRequest;
+        public event EventHandler<CancelUniqueNameEventArgs>? PageDockedRequest;
 
         /// <summary>
         /// Occurs when the user requests a page become auto hidden.
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when the user requests a page become auto hidden.")]
-        public event EventHandler<CancelUniqueNameEventArgs> PageAutoHiddenRequest;
+        public event EventHandler<CancelUniqueNameEventArgs>? PageAutoHiddenRequest;
 
         /// <summary>
         /// Occurs when the user requests a page become floating.
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when the user requests a page become floating.")]
-        public event EventHandler<CancelUniqueNameEventArgs> PageFloatingRequest;
+        public event EventHandler<CancelUniqueNameEventArgs>? PageFloatingRequest;
 
         /// <summary>
         /// Occurs when the user requests a page become workspace tabbed.
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when the user requests a page become workspace tabbed.")]
-        public event EventHandler<CancelUniqueNameEventArgs> PageWorkspaceRequest;
+        public event EventHandler<CancelUniqueNameEventArgs>? PageWorkspaceRequest;
 
         /// <summary>
         /// Occurs when the user requests a page become navigator tabbed.
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when the user requests a page become navigator tabbed.")]
-        public event EventHandler<CancelUniqueNameEventArgs> PageNavigatorRequest;
+        public event EventHandler<CancelUniqueNameEventArgs>? PageNavigatorRequest;
 
         /// <summary>
         /// Occurs when a docking context menu is about to be shown for a page.
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when a docking context menu is about to be shown for a page.")]
-        public event EventHandler<ContextPageEventArgs> ShowPageContextMenu;
+        public event EventHandler<ContextPageEventArgs>? ShowPageContextMenu;
 
         /// <summary>
         /// Occurs when a dockable workspace context menu is about to be shown for a page.
         /// </summary>
         [Category("User Request")]
         [Description("Occurs when a dockable workspace context menu is about to be shown for a page.")]
-        public event EventHandler<ContextPageEventArgs> ShowWorkspacePageContextMenu;
+        public event EventHandler<ContextPageEventArgs>? ShowWorkspacePageContextMenu;
 
         /// <summary>
         /// Occurs when global docking configuration information is saving.
         /// </summary>
         [Category("Persistence")]
         [Description("Occurs when globaldocking configuration information is saving.")]
-        public event EventHandler<DockGlobalSavingEventArgs> GlobalSaving;
+        public event EventHandler<DockGlobalSavingEventArgs>? GlobalSaving;
 
         /// <summary>
         /// Occurs when global docking configuration information is loading.
         /// </summary>
         [Category("Persistence")]
         [Description("Occurs when global docking configuration information is loading.")]
-        public event EventHandler<DockGlobalLoadingEventArgs> GlobalLoading;
+        public event EventHandler<DockGlobalLoadingEventArgs>? GlobalLoading;
 
         /// <summary>
         /// Occurs when page docking configuration information is saving.
         /// </summary>
         [Category("Persistence")]
         [Description("Occurs when page docking configuration information is saving.")]
-        public event EventHandler<DockPageSavingEventArgs> PageSaving;
+        public event EventHandler<DockPageSavingEventArgs>? PageSaving;
 
         /// <summary>
         /// Occurs when page docking configuration information is loading.
         /// </summary>
         [Category("Persistence")]
         [Description("Occurs when page docking configuration information is loading.")]
-        public event EventHandler<DockPageLoadingEventArgs> PageLoading;
+        public event EventHandler<DockPageLoadingEventArgs>? PageLoading;
 
         /// <summary>
         /// Occurs when docking configuration information is loaded and existing pages have become orphaned because they are not used in the incoming configuration.
         /// </summary>
         [Category("Persistence")]
         [Description("Occurs when docking configuration information is loaded and existing pages have become orphaned because they are not used in the incoming configuration.")]
-        public event EventHandler<PagesEventArgs> OrphanedPages;
+        public event EventHandler<PagesEventArgs>? OrphanedPages;
 
         /// <summary>
         /// Occurs when docking configuration information is loading and a page needs creating to match incoming unique name.
         /// </summary>
         [Category("Persistence")]
         [Description("Occurs when docking configuration information is loading and a page needs creating to match incoming unique name.")]
-        public event EventHandler<RecreateLoadingPageEventArgs> RecreateLoadingPage;
+        public event EventHandler<RecreateLoadingPageEventArgs>? RecreateLoadingPage;
 
         /// <summary>
         /// Occurs when a separator is used to resize an auto hidden dockspace.
         /// </summary>
         [Category("Control Resizing")]
         [Description("Occurs when a separator is used to resize an auto hidden dockspace.")]
-        public event EventHandler<AutoHiddenSeparatorResizeEventArgs> AutoHiddenSeparatorResize;
+        public event EventHandler<AutoHiddenSeparatorResizeEventArgs>? AutoHiddenSeparatorResize;
 
         /// <summary>
         /// Occurs when a separator is used to resize a docked dockspace.
         /// </summary>
         [Category("Control Resizing")]
         [Description("Occurs when a separator is used to resize a docked dockspace.")]
-        public event EventHandler<DockspaceSeparatorResizeEventArgs> DockspaceSeparatorResize;
+        public event EventHandler<DockspaceSeparatorResizeEventArgs>? DockspaceSeparatorResize;
 
         /// <summary>
         /// Occurs when a new auto hidden group is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new auto hidden group is being added.")]
-        public event EventHandler<AutoHiddenGroupEventArgs> AutoHiddenGroupAdding;
+        public event EventHandler<AutoHiddenGroupEventArgs>? AutoHiddenGroupAdding;
 
         /// <summary>
         /// Occurs when an existing auto hidden group is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing auto hidden group is being removed.")]
-        public event EventHandler<AutoHiddenGroupEventArgs> AutoHiddenGroupRemoved;
+        public event EventHandler<AutoHiddenGroupEventArgs>? AutoHiddenGroupRemoved;
 
         /// <summary>
         /// Occurs when a new panel for hosting auto hidden groups is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new panel for hosting auto hidden groups is being added.")]
-        public event EventHandler<AutoHiddenGroupPanelEventArgs> AutoHiddenGroupPanelAdding;
+        public event EventHandler<AutoHiddenGroupPanelEventArgs>? AutoHiddenGroupPanelAdding;
 
         /// <summary>
         /// Occurs when an existing panel for hosting auto hidden groups is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing panel for hosting auto hidden groups is being removed.")]
-        public event EventHandler<AutoHiddenGroupPanelEventArgs> AutoHiddenGroupPanelRemoved;
+        public event EventHandler<AutoHiddenGroupPanelEventArgs>? AutoHiddenGroupPanelRemoved;
 
         /// <summary>
         /// Occurs when a new dockable workspace control is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new dockable workspace control is being addd.")]
-        public event EventHandler<DockableWorkspaceEventArgs> DockableWorkspaceAdded;
+        public event EventHandler<DockableWorkspaceEventArgs>? DockableWorkspaceAdded;
 
         /// <summary>
         /// Occurs when an existing dockable workspace control is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing dockable workspace control is being removed.")]
-        public event EventHandler<DockableWorkspaceEventArgs> DockableWorkspaceRemoved;
+        public event EventHandler<DockableWorkspaceEventArgs>? DockableWorkspaceRemoved;
 
         /// <summary>
         /// Occurs when a new dockable navigator control is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new dockable navigator control is being addd.")]
-        public event EventHandler<DockableNavigatorEventArgs> DockableNavigatorAdded;
+        public event EventHandler<DockableNavigatorEventArgs>? DockableNavigatorAdded;
 
         /// <summary>
         /// Occurs when an existing dockable navigator control is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing dockable navigator control is being removed.")]
-        public event EventHandler<DockableNavigatorEventArgs> DockableNavigatorRemoved;
+        public event EventHandler<DockableNavigatorEventArgs>? DockableNavigatorRemoved;
 
         /// <summary>
         /// Occurs when a new dockable workspace control cell is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new dockable workspace control cell is being added.")]
-        public event EventHandler<DockableWorkspaceCellEventArgs> DockableWorkspaceCellAdding;
+        public event EventHandler<DockableWorkspaceCellEventArgs>? DockableWorkspaceCellAdding;
 
         /// <summary>
         /// Occurs when an existing dockable workspace control cell is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing dockable workspace control cell is being removed.")]
-        public event EventHandler<DockableWorkspaceCellEventArgs> DockableWorkspaceCellRemoved;
+        public event EventHandler<DockableWorkspaceCellEventArgs>? DockableWorkspaceCellRemoved;
 
         /// <summary>
         /// Occurs when a new dockspace control is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new dockspace control is being added.")]
-        public event EventHandler<DockspaceEventArgs> DockspaceAdding;
+        public event EventHandler<DockspaceEventArgs>? DockspaceAdding;
 
         /// <summary>
         /// Occurs when an existing dockspace control is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing dockspace control is being removed.")]
-        public event EventHandler<DockspaceEventArgs> DockspaceRemoved;
+        public event EventHandler<DockspaceEventArgs>? DockspaceRemoved;
 
         /// <summary>
         /// Occurs when a new dockspace control cell is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new dockspace control cell is being added.")]
-        public event EventHandler<DockspaceCellEventArgs> DockspaceCellAdding;
+        public event EventHandler<DockspaceCellEventArgs>? DockspaceCellAdding;
 
         /// <summary>
         /// Occurs when an existing dockspace control cell is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing dockspace control cell is being removed.")]
-        public event EventHandler<DockspaceCellEventArgs> DockspaceCellRemoved;
+        public event EventHandler<DockspaceCellEventArgs>? DockspaceCellRemoved;
 
         /// <summary>
         /// Occurs when a new dockspace separator control is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new dockspace separator control is being added.")]
-        public event EventHandler<DockspaceSeparatorEventArgs> DockspaceSeparatorAdding;
+        public event EventHandler<DockspaceSeparatorEventArgs>? DockspaceSeparatorAdding;
 
         /// <summary>
         /// Occurs when an existing dockspace separator control is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing dockspace separator control is being removed.")]
-        public event EventHandler<DockspaceSeparatorEventArgs> DockspaceSeparatorRemoved;
+        public event EventHandler<DockspaceSeparatorEventArgs>? DockspaceSeparatorRemoved;
 
         /// <summary>
         /// Occurs when a new floatspace control is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new floatspace control is being added.")]
-        public event EventHandler<FloatspaceEventArgs> FloatspaceAdding;
+        public event EventHandler<FloatspaceEventArgs>? FloatspaceAdding;
 
         /// <summary>
         /// Occurs when an existing floatspace control is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing floatspace control is being removed.")]
-        public event EventHandler<FloatspaceEventArgs> FloatspaceRemoved;
+        public event EventHandler<FloatspaceEventArgs>? FloatspaceRemoved;
 
         /// <summary>
         /// Occurs when a new floatspace control cell is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new floatspace control cell is being added.")]
-        public event EventHandler<FloatspaceCellEventArgs> FloatspaceCellAdding;
+        public event EventHandler<FloatspaceCellEventArgs>? FloatspaceCellAdding;
 
         /// <summary>
         /// Occurs when an existing floatspace control cell is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing floatspace control cell is being removed.")]
-        public event EventHandler<FloatspaceCellEventArgs> FloatspaceCellRemoved;
+        public event EventHandler<FloatspaceCellEventArgs>? FloatspaceCellRemoved;
 
         /// <summary>
         /// Occurs when a new floating window is being added.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when a new floating window is being added.")]
-        public event EventHandler<FloatingWindowEventArgs> FloatingWindowAdding;
+        public event EventHandler<FloatingWindowEventArgs>? FloatingWindowAdding;
 
         /// <summary>
         /// Occurs when an existing floating window is being removed.
         /// </summary>
         [Category("Control Adding/Removed")]
         [Description("Occurs when an existing floating window is being removed.")]
-        public event EventHandler<FloatingWindowEventArgs> FloatingWindowRemoved;
+        public event EventHandler<FloatingWindowEventArgs>? FloatingWindowRemoved;
 
         /// <summary>
         /// Occurs when an auto hidden page showing state changes.
         /// </summary>
         [Category("State Changed")]
         [Description("Occurs when an auto hidden page showing state changes.")]
-        public event EventHandler<AutoHiddenShowingStateEventArgs> AutoHiddenShowingStateChanged;
+        public event EventHandler<AutoHiddenShowingStateEventArgs>? AutoHiddenShowingStateChanged;
 
         /// <summary>
         /// Occurs when a drag drop operation has ended with success.
         /// </summary>
         [Category(@"Docking")]
         [Description("Occurs when a drag drop operation has ended with success.")]
-        public event EventHandler DoDragDropEnd;
+        public event EventHandler? DoDragDropEnd;
 
         /// <summary>
         /// Occurs when a drag drop operation has been quit.
         /// </summary>
         [Category(@"Docking")]
         [Description("Occurs when a drag drop operation has been quit.")]
-        public event EventHandler DoDragDropQuit;
+        public event EventHandler? DoDragDropQuit;
         #endregion
 
         #region Identity
@@ -1573,12 +1573,15 @@ namespace Krypton.Docking
                         {
                             // Find the target cell and the index of the restore page
                             KryptonWorkspaceCell? cell = restoreElement.CellForPage(uniqueName);
-                            int pageIndex = cell?.Pages.IndexOf(cell.Pages[uniqueName]) ?? 0;
+                            if (cell != null)
+                            {
+                                int pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
 
-                            // Insert the page at the same index as the restore page
-                            restoreElement.CellInsert(cell, pageIndex, new[] { page });
-                            restoreElement.SelectPage(uniqueName);
-                            restoreElement.DockspaceControl.Select();
+                                // Insert the page at the same index as the restore page
+                                restoreElement.CellInsert(cell, pageIndex, new[] { page });
+                                restoreElement.SelectPage(uniqueName);
+                                restoreElement.DockspaceControl.Select();
+                            }
                         }
                         else
                         {
@@ -1645,12 +1648,15 @@ namespace Krypton.Docking
                         {
                             // Find the target cell and the index of the restore page
                             KryptonWorkspaceCell? cell = restoreElement.CellForPage(uniqueName);
-                            int pageIndex = cell?.Pages.IndexOf(cell.Pages[uniqueName]) ?? 0;
+                            if (cell != null)
+                            {
+                                int pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
 
-                            // Insert the page at the same index as the restore page
-                            restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, new[] { page });
-                            restoreElement.SelectPage(uniqueName);
-                            restoreElement.FloatingWindow.Select();
+                                // Insert the page at the same index as the restore page
+                                restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, new[] { page });
+                                restoreElement.SelectPage(uniqueName);
+                                restoreElement.FloatingWindow.Select();
+                            }
                         }
                         else
                         {
@@ -2108,10 +2114,13 @@ namespace Krypton.Docking
                         {
                             // Find the target cell and the index of the restore page
                             KryptonWorkspaceCell? cell = restoreElement.CellForPage(switchUniqueName);
-                            int pageIndex = cell?.Pages.IndexOf(cell.Pages[switchUniqueName]) ?? 0;
+                            if (cell != null)
+                            {
+                                int pageIndex = cell.Pages.IndexOf(cell.Pages[switchUniqueName]);
 
-                            // Insert the set of pages at the same index as the restore page
-                            restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, switchPages.ToArray());
+                                // Insert the set of pages at the same index as the restore page
+                                restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, switchPages.ToArray());
+                            }
 
                             // Make sure the same page is selected as was selected in the docked source
                             if (selectedPage != null)
@@ -2231,10 +2240,13 @@ namespace Krypton.Docking
                     {
                         // Find the target cell and the index of the restore page
                         KryptonWorkspaceCell? cell = restoreElement.CellForPage(switchUniqueName);
-                        int pageIndex = cell?.Pages.IndexOf(cell.Pages[switchUniqueName]) ?? 0;
+                        if (cell != null)
+                        {
+                            int pageIndex = cell.Pages.IndexOf(cell.Pages[switchUniqueName]);
 
-                        // Insert the set of pages at the same index as the restore page
-                        restoreElement.CellInsert(cell, pageIndex, switchPages[i]);
+                            // Insert the set of pages at the same index as the restore page
+                            restoreElement.CellInsert(cell, pageIndex, switchPages[i]);
+                        }
 
                         // Make sure the same page is selected as was selected in the floating source
                         if (switchUniqueName == selectedPage)
@@ -2402,13 +2414,13 @@ namespace Krypton.Docking
             if (FindPageLocation(uniqueName) == DockingLocation.AutoHidden)
             {
                 // Grab the auto hidden group docking element that we expect to contain the target unique name 
-                KryptonDockingAutoHiddenGroup? autoHiddenGroup = (KryptonDockingAutoHiddenGroup)ExpectPageElement(uniqueName, typeof(KryptonDockingAutoHiddenGroup));
+                KryptonDockingAutoHiddenGroup autoHiddenGroup = (KryptonDockingAutoHiddenGroup)ExpectPageElement(uniqueName, typeof(KryptonDockingAutoHiddenGroup));
                 // Find the sibling docked edge so we can add/restore pages
-                KryptonDockingEdgeDocked? edgeDocked = autoHiddenGroup?.EdgeDockedElement;
+                KryptonDockingEdgeDocked? edgeDocked = autoHiddenGroup.EdgeDockedElement;
                 if (edgeDocked != null)
                 {
                     // Grab the set of visible pages in the auto hidden group
-                    var visiblePages = autoHiddenGroup!.VisiblePages();
+                    var visiblePages = autoHiddenGroup.VisiblePages();
                     if (visiblePages.Length > 0)
                     {
                         // Use events to determine which pages in the cell should be switched
@@ -3037,7 +3049,7 @@ namespace Krypton.Docking
             };
 
             var atLeastOneFloating = false;
-            KryptonPage? firstFloatingPage = null;
+            KryptonPage firstFloatingPage = null!;
             foreach (KryptonPage? page in pages.Where(static page => page is not KryptonStorePage))
             {
                 // Cannot drag a null page reference
@@ -3065,7 +3077,7 @@ namespace Krypton.Docking
             if (atLeastOneFloating)
             {
                 // Can we find an existing floating store page...
-                if (FindStorePageElement(DockingLocation.Floating, firstFloatingPage!) is KryptonDockingFloatspace floatspace)
+                if (FindStorePageElement(DockingLocation.Floating, firstFloatingPage) is KryptonDockingFloatspace floatspace)
                 {
                     if (floatspace.GetParentType(typeof(KryptonDockingFloatingWindow)) is KryptonDockingFloatingWindow
                         {
@@ -3081,7 +3093,7 @@ namespace Krypton.Docking
                         dragManager.FloatingWindow = floatingWindow.FloatingWindow;
 
                         // Convert the existing page location, if any, to store and restore it in this floating window
-                        KryptonPage[] firstFloatingPages = { firstFloatingPage! };
+                        KryptonPage[] firstFloatingPages = { firstFloatingPage };
                         PropogateAction(DockingPropogateAction.StorePages, firstFloatingPages);
                         floatingWindow.PropogateAction(DockingPropogateAction.RestorePages, firstFloatingPages);
 
@@ -3104,7 +3116,7 @@ namespace Krypton.Docking
 
                         // Convert the append pages to store pages and then append to the same cell as the just restore page above
                         PropogateAction(DockingPropogateAction.StorePages, appendUniqueNames.ToArray());
-                        KryptonWorkspaceCell? cell = floatingWindow.CellForPage(firstFloatingPage!.UniqueName);
+                        KryptonWorkspaceCell? cell = floatingWindow.CellForPage(firstFloatingPage.UniqueName);
                         cell?.Pages.AddRange(appendPages.ToArray());
                     }
                 }

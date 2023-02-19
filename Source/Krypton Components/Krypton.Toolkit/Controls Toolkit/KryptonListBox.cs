@@ -701,6 +701,8 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -775,7 +777,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedItem
+        public object? SelectedItem
         {
             get => _listBox.SelectedItem;
             set => _listBox.SelectedItem = value;
@@ -1215,7 +1217,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item) => _listBox.GetItemText(item);
+        public string? GetItemText(object? item) => _listBox.GetItemText(item);
 
         /// <summary>
         /// Maintains performance while items are added to the ListBox one at a time by preventing the control from drawing until the EndUpdate method is called.

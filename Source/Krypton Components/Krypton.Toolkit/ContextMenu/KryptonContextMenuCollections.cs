@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
 
             // The pile is the root item for the new column
             columns.Add(menuItemPile);
-            
+
             // Child items are placed inside the column stack
             return menuItemPile.ItemStack;
         }
