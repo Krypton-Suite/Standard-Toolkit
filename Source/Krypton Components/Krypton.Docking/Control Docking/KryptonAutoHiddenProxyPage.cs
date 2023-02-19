@@ -158,7 +158,8 @@ namespace Krypton.Docking
             get => Page?.ToolTipImageTransparentColor ?? Color.Empty;
             set
             {
-                if (Page != null) Page.ToolTipImageTransparentColor = value;
+                if (Page != null) 
+                    Page.ToolTipImageTransparentColor = value;
             }
         }
 
@@ -170,7 +171,8 @@ namespace Krypton.Docking
             get => Page?.ToolTipTitle ?? string.Empty;
             set
             {
-                if (Page != null) Page.ToolTipTitle = value;
+                if (Page != null) 
+                    Page.ToolTipTitle = value;
             }
         }
 
@@ -182,7 +184,8 @@ namespace Krypton.Docking
             get => Page?.ToolTipBody ?? string.Empty;
             set
             {
-                if (Page != null) Page.ToolTipBody = value;
+                if (Page != null) 
+                    Page.ToolTipBody = value;
             }
         }
 
@@ -194,7 +197,8 @@ namespace Krypton.Docking
             get => Page?.ToolTipStyle ?? default;
             set
             {
-                if (Page != null) Page.ToolTipStyle = value;
+                if (Page != null) 
+                    Page.ToolTipStyle = value;
             }
         }
 
@@ -206,7 +210,8 @@ namespace Krypton.Docking
             get => Page?.KryptonContextMenu;
             set
             {
-                if (Page != null) Page.KryptonContextMenu = value;
+                if (Page != null) 
+                    Page.KryptonContextMenu = value;
             }
         }
 
@@ -218,7 +223,8 @@ namespace Krypton.Docking
             get => Page?.UniqueName ?? string.Empty;
             set
             {
-                if (Page != null) Page.UniqueName = value;
+                if (Page != null) 
+                    Page.UniqueName = value;
             }
         }
 
@@ -244,7 +250,8 @@ namespace Krypton.Docking
             get => Page?.Flags ?? 0;
             set
             {
-                if (Page != null) Page.Flags = value;
+                if (Page != null) 
+                    Page.Flags = value;
             }
         }
 
@@ -277,7 +284,8 @@ namespace Krypton.Docking
             get => Page is { LastVisibleSet: true };
             set
             {
-                if (Page != null) Page.LastVisibleSet = value;
+                if (Page != null) 
+                    Page.LastVisibleSet = value;
             }
         }
 
@@ -286,12 +294,14 @@ namespace Krypton.Docking
         {
             add
             {
-                if (Page != null) Page.AppearancePropertyChanged += value;
+                if (Page != null) 
+                    Page.AppearancePropertyChanged += value;
             }
 
             remove
             {
-                if (Page != null) Page.AppearancePropertyChanged -= value;
+                if (Page != null) 
+                    Page.AppearancePropertyChanged -= value;
             }
         }
         #endregion

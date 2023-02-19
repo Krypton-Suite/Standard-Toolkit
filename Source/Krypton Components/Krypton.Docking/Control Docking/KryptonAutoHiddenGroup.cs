@@ -24,7 +24,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Occurs when a page is becoming stored.
         /// </summary>
-        public event EventHandler<UniqueNameEventArgs> StoringPage;
+        public event EventHandler<UniqueNameEventArgs>? StoringPage;
         #endregion
 
         #region Identity

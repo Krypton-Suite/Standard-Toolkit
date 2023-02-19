@@ -75,12 +75,12 @@ namespace Krypton.Toolkit
                 memento = cache;
             }
 
-            cache.first = DrawBackExpert(rect, 
+            cache.First = DrawBackExpert(rect, 
                 CommonHelper.MergeColors(backColor1, 0.35f, Color.White, 0.65f),
                 CommonHelper.MergeColors(backColor2, 0.53f, Color.White, 0.65f), 
                 orientation, context.Graphics, memento, true, true);
                 
-            cache.second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, true);
+            cache.Second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, true);
 
             return cache;
         }
@@ -134,19 +134,19 @@ namespace Krypton.Toolkit
 
                     // Dispose of existing values
                     cache.Dispose();
-                    cache.path1 = CreateBorderPath(rect, ITEM_CUT);
-                    cache.path2 = CreateBorderPath(new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2), ITEM_CUT);
-                    cache.path3 = CreateBorderPath(new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4), ITEM_CUT);
-                    cache.brush1 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.4f, backColor1, 0.6f));
-                    cache.brush2 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.2f, backColor1, 0.8f));
-                    cache.brush3 = new SolidBrush(backColor1);
+                    cache.Path1 = CreateBorderPath(rect, ITEM_CUT);
+                    cache.Path2 = CreateBorderPath(new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2), ITEM_CUT);
+                    cache.Path3 = CreateBorderPath(new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4), ITEM_CUT);
+                    cache.Brush1 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.4f, backColor1, 0.6f));
+                    cache.Brush2 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.2f, backColor1, 0.8f));
+                    cache.Brush3 = new SolidBrush(backColor1);
                 }
 
                 using AntiAlias aa = new(context.Graphics);
-                context.Graphics.FillRectangle(cache.brush3, rect);
-                context.Graphics.FillPath(cache.brush1, cache.path1);
-                context.Graphics.FillPath(cache.brush2, cache.path2);
-                context.Graphics.FillPath(cache.brush3, cache.path3);
+                context.Graphics.FillRectangle(cache.Brush3, rect);
+                context.Graphics.FillPath(cache.Brush1, cache.Path1);
+                context.Graphics.FillPath(cache.Brush2, cache.Path2);
+                context.Graphics.FillPath(cache.Brush3, cache.Path3);
             }
 
             return memento;
@@ -208,12 +208,12 @@ namespace Krypton.Toolkit
                 memento = cache;
             }
 
-            cache.first = DrawBackExpert(rect,
+            cache.First = DrawBackExpert(rect,
                 CommonHelper.MergeColors(backColor1, 0.5f, Color.White, 0.5f),
                 CommonHelper.MergeColors(backColor2, 0.5f, Color.White, 0.5f),
                 orientation, context.Graphics, memento, true, false);
 
-            cache.second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, false);
+            cache.Second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, false);
 
             return cache;
         }
@@ -265,8 +265,8 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    cache.backBrush = new SolidBrush(CommonHelper.WhitenColor(backColor1, 0.8f, 0.8f, 0.8f));
-                    cache.innerRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+                    cache.BackBrush = new SolidBrush(CommonHelper.WhitenColor(backColor1, 0.8f, 0.8f, 0.8f));
+                    cache.InnerRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
 
                     RectangleF ellipseRect;
                     PointF ellipseCenter;
@@ -277,31 +277,31 @@ namespace Krypton.Toolkit
                     {
                         default:
                         case VisualOrientation.Top:
-                            cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 90f);
+                            cache.InnerBrush = new LinearGradientBrush(cache.InnerRect, backColor1, backColor2, 90f);
                             ellipseRect = new RectangleF(rect.Left, rect.Top + (ellipseHeight * 2), rect.Width, ellipseHeight * 12);
                             ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Bottom);
                             break;
                         case VisualOrientation.Bottom:
-                            cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 270f);
+                            cache.InnerBrush = new LinearGradientBrush(cache.InnerRect, backColor1, backColor2, 270f);
                             ellipseRect = new RectangleF(rect.Left, rect.Top - (ellipseHeight * 6), rect.Width, ellipseHeight * 12);
                             ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Top);
                             break;
                         case VisualOrientation.Left:
-                            cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 180f);
+                            cache.InnerBrush = new LinearGradientBrush(cache.InnerRect, backColor1, backColor2, 180f);
                             ellipseRect = new RectangleF(rect.Left + (ellipseHeight * 2), rect.Top, ellipseWidth * 12, rect.Height);
                             ellipseCenter = new PointF(ellipseRect.Right, ellipseRect.Top + (ellipseRect.Height / 2));
                             break;
                         case VisualOrientation.Right:
-                            cache.innerBrush = new LinearGradientBrush(rect, backColor1, backColor2, 0f);
+                            cache.InnerBrush = new LinearGradientBrush(rect, backColor1, backColor2, 0f);
                             ellipseRect = new RectangleF(rect.Left - (ellipseHeight * 6), rect.Top, ellipseWidth * 12, rect.Height);
                             ellipseCenter = new PointF(ellipseRect.Left, ellipseRect.Top + (ellipseRect.Height / 2));
                             break;
                     }
 
-                    cache.innerBrush.SetSigmaBellShape(0.5f);
-                    cache.ellipsePath = new GraphicsPath();
-                    cache.ellipsePath.AddEllipse(ellipseRect);
-                    cache.insideLighten = new PathGradientBrush(cache.ellipsePath)
+                    cache.InnerBrush.SetSigmaBellShape(0.5f);
+                    cache.EllipsePath = new GraphicsPath();
+                    cache.EllipsePath.AddEllipse(ellipseRect);
+                    cache.InsideLighten = new PathGradientBrush(cache.EllipsePath)
                     {
                         CenterPoint = ellipseCenter,
                         CenterColor = light ? Color.FromArgb(64, Color.White) : Color.FromArgb(128, Color.White),
@@ -310,9 +310,9 @@ namespace Krypton.Toolkit
                     };
                 }
 
-                context.Graphics.FillRectangle(cache.backBrush, rect);
-                context.Graphics.FillRectangle(cache.innerBrush, cache.innerRect);
-                context.Graphics.FillRectangle(cache.insideLighten, cache.innerRect);
+                context.Graphics.FillRectangle(cache.BackBrush, rect);
+                context.Graphics.FillRectangle(cache.InnerBrush, cache.InnerRect);
+                context.Graphics.FillRectangle(cache.InsideLighten, cache.InnerRect);
             }
 
             return memento;
@@ -350,12 +350,12 @@ namespace Krypton.Toolkit
                 {
                     // Dispose of existing values
                     cache.Dispose();
-                    cache.solidBrush = new SolidBrush(color1);
+                    cache.SolidBrush = new SolidBrush(color1);
                 }
 
-                if (cache.solidBrush != null)
+                if (cache.SolidBrush != null)
                 {
-                    g.FillRectangle(cache.solidBrush, drawRect);
+                    g.FillRectangle(cache.SolidBrush, drawRect);
                 }
             }
 
@@ -403,21 +403,21 @@ namespace Krypton.Toolkit
                         // Update to draw the inside area instead
                         drawRect.Inflate(-1, -1);
 
-                        cache.drawRect = drawRect;
-                        cache.clipPath = new GraphicsPath();
-                        cache.clipPath.AddLine(drawRect.X + 1, drawRect.Y, drawRect.Right - 1, drawRect.Y);
-                        cache.clipPath.AddLine(drawRect.Right - 1, drawRect.Y, drawRect.Right, drawRect.Y + 1);
-                        cache.clipPath.AddLine(drawRect.Right, drawRect.Y + 1, drawRect.Right, drawRect.Bottom - 2);
-                        cache.clipPath.AddLine(drawRect.Right, drawRect.Bottom - 2, drawRect.Right - 2, drawRect.Bottom);
-                        cache.clipPath.AddLine(drawRect.Right - 2, drawRect.Bottom, drawRect.Left + 1, drawRect.Bottom);
-                        cache.clipPath.AddLine(drawRect.Left + 1, drawRect.Bottom, drawRect.Left, drawRect.Bottom - 2);
-                        cache.clipPath.AddLine(drawRect.Left, drawRect.Bottom - 2, drawRect.Left, drawRect.Y + 1);
-                        cache.clipPath.AddLine(drawRect.Left, drawRect.Y + 1, drawRect.X + 1, drawRect.Y);
+                        cache.DrawRect = drawRect;
+                        cache.ClipPath = new GraphicsPath();
+                        cache.ClipPath.AddLine(drawRect.X + 1, drawRect.Y, drawRect.Right - 1, drawRect.Y);
+                        cache.ClipPath.AddLine(drawRect.Right - 1, drawRect.Y, drawRect.Right, drawRect.Y + 1);
+                        cache.ClipPath.AddLine(drawRect.Right, drawRect.Y + 1, drawRect.Right, drawRect.Bottom - 2);
+                        cache.ClipPath.AddLine(drawRect.Right, drawRect.Bottom - 2, drawRect.Right - 2, drawRect.Bottom);
+                        cache.ClipPath.AddLine(drawRect.Right - 2, drawRect.Bottom, drawRect.Left + 1, drawRect.Bottom);
+                        cache.ClipPath.AddLine(drawRect.Left + 1, drawRect.Bottom, drawRect.Left, drawRect.Bottom - 2);
+                        cache.ClipPath.AddLine(drawRect.Left, drawRect.Bottom - 2, drawRect.Left, drawRect.Y + 1);
+                        cache.ClipPath.AddLine(drawRect.Left, drawRect.Y + 1, drawRect.X + 1, drawRect.Y);
                     }
                     else
                     {
-                        cache.clipPath = new GraphicsPath();
-                        cache.clipPath.AddRectangle(drawRect);
+                        cache.ClipPath = new GraphicsPath();
+                        cache.ClipPath.AddRectangle(drawRect);
                     }
 
                     // Create rectangle that covers the enter area
@@ -427,7 +427,7 @@ namespace Krypton.Toolkit
                     if (gradientRect is { Width: > 0, Height: > 0 })
                     {
                         // Draw entire area in a gradient color effect
-                        cache.entireBrush = new LinearGradientBrush(gradientRect, CommonHelper.WhitenColor(color1, 0.92f, 0.92f, 0.92f), color1, AngleFromOrientation(orientation))
+                        cache.EntireBrush = new LinearGradientBrush(gradientRect, CommonHelper.WhitenColor(color1, 0.92f, 0.92f, 0.92f), color1, AngleFromOrientation(orientation))
                         {
                             Blend = _rounded1Blend
                         };
@@ -460,9 +460,9 @@ namespace Krypton.Toolkit
                             break;
                     }
 
-                    cache.ellipsePath = new GraphicsPath();
-                    cache.ellipsePath.AddEllipse(ellipseRect);
-                    cache.insideLighten = new PathGradientBrush(cache.ellipsePath)
+                    cache.EllipsePath = new GraphicsPath();
+                    cache.EllipsePath.AddEllipse(ellipseRect);
+                    cache.InsideLighten = new PathGradientBrush(cache.EllipsePath)
                     {
                         CenterPoint = ellipseCenter,
                         CenterColor = color2,
@@ -471,11 +471,11 @@ namespace Krypton.Toolkit
                     };
                 }
 
-                if (cache.entireBrush != null)
+                if (cache.EntireBrush != null)
                 {
-                    using Clipping clip = new(g, cache.clipPath);
-                    g.FillRectangle(cache.entireBrush, cache.drawRect);
-                    g.FillPath(cache.insideLighten, cache.ellipsePath);
+                    using Clipping clip = new(g, cache.ClipPath);
+                    g.FillRectangle(cache.EntireBrush, cache.DrawRect);
+                    g.FillPath(cache.InsideLighten, cache.EllipsePath);
                 }
             }
 

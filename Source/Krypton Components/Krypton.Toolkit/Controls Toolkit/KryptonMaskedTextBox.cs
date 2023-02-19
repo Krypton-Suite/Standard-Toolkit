@@ -654,6 +654,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -774,7 +776,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MaskedTextProvider MaskedTextProvider => _maskedTextBox.MaskedTextProvider;
+        public MaskedTextProvider? MaskedTextProvider => _maskedTextBox.MaskedTextProvider;
 
         /// <summary>
         /// Gets a value indicating whether all required and optional inputs have been entered into the input mask.
@@ -1268,7 +1270,7 @@ namespace Krypton.Toolkit
         /// Converts the user input string to an instance of the validating type.
         /// </summary>
         /// <returns></returns>
-        public object ValidateText() => _maskedTextBox.ValidateText();
+        public object? ValidateText() => _maskedTextBox.ValidateText();
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1860,7 +1862,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -1869,13 +1871,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
 
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

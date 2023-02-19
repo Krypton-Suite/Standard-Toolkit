@@ -56,49 +56,49 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Behavior")]
         [Description("Occurs when the separator is about to be moved and requests the rectangle of allowed movement.")]
-        public event EventHandler<SplitterMoveRectMenuArgs> SplitterMoveRect;
+        public event EventHandler<SplitterMoveRectMenuArgs>? SplitterMoveRect;
 
         /// <summary>
         /// Occurs when the separator move finishes and a move has occurred.
         /// </summary>
         [Category("Behavior")]
         [Description("Occurs when the separator move finishes and a move has occurred.")]
-        public event SplitterEventHandler SplitterMoved;
+        public event SplitterEventHandler? SplitterMoved;
 
         /// <summary>
         /// Occurs when the separator has moved to a new position.
         /// </summary>
         [Category("Behavior")]
         [Description("Occurs when the separator has moved to a new position.")]
-        public event SplitterCancelEventHandler SplitterMoving;
+        public event SplitterCancelEventHandler? SplitterMoving;
 
         /// <summary>
         /// Occurs when the user clicks the close button for a page.
         /// </summary>
         [Category("Behavior")]
         [Description("Occurs when the user clicks the close button for a page.")]
-        public event EventHandler<UniqueNameEventArgs> PageCloseClicked;
+        public event EventHandler<UniqueNameEventArgs>? PageCloseClicked;
 
         /// <summary>
         /// Occurs when the user clicks the auto hidden button for a page.
         /// </summary>
         [Category("Behavior")]
         [Description("Occurs when the user clicks the auto hidden button for a page.")]
-        public event EventHandler<UniqueNameEventArgs> PageAutoHiddenClicked;
+        public event EventHandler<UniqueNameEventArgs>? PageAutoHiddenClicked;
 
         /// <summary>
         /// Occurs when a page requests that a drop down menu be shown.
         /// </summary>
         [Category("Behavior")]
         [Description("Occurs when the user clicks the drop down button for a page.")]
-        public event EventHandler<CancelDropDownEventArgs> PageDropDownClicked;
+        public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
 
         /// <summary>
         /// Occurs when an auto hidden page showing state changes.
         /// </summary>
         [Category("Behavior")]
         [Description("Occurs when an auto hidden page showing state changes.")]
-        public event EventHandler<AutoHiddenShowingStateEventArgs> AutoHiddenShowingStateChanged;
+        public event EventHandler<AutoHiddenShowingStateEventArgs>? AutoHiddenShowingStateChanged;
         #endregion
 
         #region Identity
@@ -274,7 +274,7 @@ namespace Krypton.Docking
         /// <param name="page">Reference to page for display.</param>
         /// <param name="group">Reference to auto hidden group that displays the page.</param>
         /// <param name="select">Should the sliding out page become selected.</param>
-        public void SlideOut([DisallowNull] KryptonPage page, KryptonAutoHiddenGroup group, bool select)
+        public void SlideOut(KryptonPage? page, KryptonAutoHiddenGroup group, bool select)
         {
             // Check to see if we allowed to perform operations
             if (Disposing || IsDisposed)

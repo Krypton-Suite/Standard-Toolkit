@@ -66,10 +66,10 @@ namespace Krypton.Toolkit
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerDraw(Control control,
-                                     PaletteRedirect? redirector,
+                                     [DisallowNull] PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase variableSpecs,
                                      ButtonSpecCollectionBase fixedSpecs,
-                                     ViewDrawDocker[] viewDockers,
+                                     [DisallowNull] ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
                                      PaletteMetricInt[] viewMetricIntOutside,
                                      PaletteMetricInt[] viewMetricIntInside,
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                    viewMetricPaddings, getRenderer, needPaint)
         {
             Debug.Assert(viewDockers != null);
-            Debug.Assert(viewDockers.Length == viewMetrics.Length);
+            Debug.Assert(viewDockers!.Length == viewMetrics.Length);
             Debug.Assert(viewDockers.Length == viewMetricPaddings.Length);
 
             // Remember references

@@ -29,17 +29,17 @@ namespace Krypton.Docking
         /// <summary>
         /// Occurs when the user clicks a page header and so requests it be shown.
         /// </summary>
-        public event EventHandler<KryptonPageEventArgs> PageClicked;
+        public event EventHandler<KryptonPageEventArgs>? PageClicked;
 
         /// <summary>
         /// Occurs when the user hovers the mouse over a page in the group.
         /// </summary>
-        public event EventHandler<KryptonPageEventArgs> PageHoverStart;
+        public event EventHandler<KryptonPageEventArgs>? PageHoverStart;
 
         /// <summary>
         /// Occurs when the hover over a page ends.
         /// </summary>
-        public event EventHandler<EventArgs> PageHoverEnd;
+        public event EventHandler<EventArgs>? PageHoverEnd;
         #endregion
 
         #region Identity
@@ -329,7 +329,7 @@ namespace Krypton.Docking
                     {
                         // Only add real pages and not just placeholders
                         KryptonPage? page = AutoHiddenGroupControl.Pages[i];
-                        if ((page != null) && page is not KryptonStorePage)
+                        if (page is { } and not KryptonStorePage)
                         {
                             // Remember the real page is inside a proxy!
                             KryptonAutoHiddenProxyPage? proxyPage = page as KryptonAutoHiddenProxyPage;
@@ -444,12 +444,12 @@ namespace Krypton.Docking
                 {
                     xmlWriter.WriteStartElement("KP");
                     xmlWriter.WriteAttributeString(@"UN", page.UniqueName);
-                    xmlWriter.WriteAttributeString(@"V", CommonHelper.BoolToString(page.LastVisibleSet));
-                    xmlWriter.WriteAttributeString(@"S", CommonHelper.BoolToString(page is KryptonStorePage));
+                    xmlWriter.WriteAttributeString(@"V", CommonHelper.BoolToString(page.LastVisibleSet)!);
+                    xmlWriter.WriteAttributeString(@"S", CommonHelper.BoolToString(page is KryptonStorePage)!);
 
                     // Give event handlers a chance to save custom data with the page
                     xmlWriter.WriteStartElement("CPD");
-                    DockPageSavingEventArgs args = new(manager, xmlWriter, page);
+                    var args = new DockPageSavingEventArgs(manager, xmlWriter, page);
                     manager?.RaisePageSaving(args);
                     xmlWriter.WriteEndElement();
 
@@ -563,8 +563,8 @@ namespace Krypton.Docking
                 if (page == null)
                 {
                     // Generate event so developer can create and supply the page now
-                    RecreateLoadingPageEventArgs args = new(uniqueName);
-                    manager.RaiseRecreateLoadingPage(args);
+                    var args = new RecreateLoadingPageEventArgs(uniqueName);
+                    manager?.RaiseRecreateLoadingPage(args);
                     if (!args.Cancel)
                     {
                         page = args.Page;
@@ -583,7 +583,7 @@ namespace Krypton.Docking
                     page.Visible = CommonHelper.StringToBool(boolVisible);
 
                     // Create a proxy around the page and append it
-                    KryptonAutoHiddenProxyPage proxyPage = new(page);
+                    var proxyPage = new KryptonAutoHiddenProxyPage(page);
                     AutoHiddenGroupControl.Pages.Add(proxyPage);
                 }
             }
@@ -601,7 +601,7 @@ namespace Krypton.Docking
             var finished = xmlReader.IsEmptyElement;
 
             // Generate event so custom data can be loaded and/or the page to be added can be modified
-            DockPageLoadingEventArgs pageLoading = new(manager, xmlReader, page);
+            var pageLoading = new DockPageLoadingEventArgs(manager, xmlReader, page);
             manager.RaisePageLoading(pageLoading);
 
             // Read everything until we get the end of custom data marker
@@ -713,7 +713,7 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the auto hidden group to be customized by event handlers
-                AutoHiddenGroupEventArgs groupArgs = new(AutoHiddenGroupControl, this);
+                var groupArgs = new AutoHiddenGroupEventArgs(AutoHiddenGroupControl, this);
                 dockingManager.RaiseAutoHiddenGroupRemoved(groupArgs);
             }
 

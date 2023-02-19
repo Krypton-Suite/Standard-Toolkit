@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">The Control to add to the control collection.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Add(Control value)
+        public override void Add(Control? value)
         {
             if (AllowRemoveInternal)
             {
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">The Control to remove from the Control.ControlCollection.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Remove(Control value)
+        public override void Remove(Control? value)
         {
             if (AllowRemoveInternal)
             {
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="key">The name of the child control to remove.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void RemoveByKey(string key)
+        public override void RemoveByKey(string? key)
         {
             if (AllowRemoveInternal)
             {

@@ -1128,14 +1128,14 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c.Parent != null)
+            if (c!.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent.Controls is KryptonControlCollection cc)
+            if (parent!.Controls is KryptonControlCollection cc)
             {
                 cc.AddInternal(c);
             }
@@ -1155,7 +1155,7 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is inside a parent collection
-            if (c.Parent != null)
+            if (c!.Parent != null)
             {
                 // Then must use the internal method for adding a new instance
                 // If the control collection is one of our internal collections...
@@ -1430,6 +1430,7 @@ namespace Krypton.Toolkit
         /// <param name="str">String to output.</param>
         public static void LogOutput(string str)
         {
+            // TODO: Make this thread aware !
             FileInfo fi = new(Application.ExecutablePath);
             using var writer = new StreamWriter(fi.DirectoryName + @"LogOutput.txt", true, Encoding.ASCII);
             writer.Write(DateTime.Now.ToLongTimeString() + @" :  ");
@@ -1442,7 +1443,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Component to test.</param>
         /// <returns>True if in design mode; otherwise false.</returns>
-        public static bool DesignMode(Component c)
+        public static bool DesignMode(Component? c)
         {
             // Cache the info needed to sneak access to the component protected property
             if (_cachedDesignModePI == null)

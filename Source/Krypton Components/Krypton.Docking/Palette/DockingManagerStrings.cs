@@ -45,7 +45,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Occurs whenever a property has changed value.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity

@@ -164,6 +164,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -754,7 +756,7 @@ namespace Krypton.Toolkit
         /// <returns>True to allow; otherwise false.</returns>
         private bool CanProcessMnemonic()
         {
-            Control c = this;
+            Control? c = this;
 
             // Test each control in parent chain
             while (c != null)
@@ -835,11 +837,12 @@ namespace Krypton.Toolkit
         {
             // Get the actual strip instance
             // ReSharper disable RedundantBaseQualifier
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
             // ReSharper restore RedundantBaseQualifier
 
             // Make sure it has the correct renderer
-            cms.Renderer = CreateToolStripRenderer();
+            if (cms != null) 
+                cms.Renderer = CreateToolStripRenderer();
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e)

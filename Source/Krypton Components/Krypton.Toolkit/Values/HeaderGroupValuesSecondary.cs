@@ -58,6 +58,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading text.
         /// </summary>
         [DefaultValue(nameof(Description))]
+        [AllowNull]
         public override string Heading
         {
             get => base.Heading;

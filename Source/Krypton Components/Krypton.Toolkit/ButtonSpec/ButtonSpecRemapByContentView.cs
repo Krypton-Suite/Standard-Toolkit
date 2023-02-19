@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
         public ButtonSpecRemapByContentView(PaletteBase? target,
-                                            ButtonSpec buttonSpec)
+            [DisallowNull] ButtonSpec buttonSpec)
             : base(target, buttonSpec)
         {
         }
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the foreground to use for color map redirection.
         /// </summary>
-        public ViewDrawContent Foreground { get; set; }
+        public ViewDrawContent? Foreground { get; set; }
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the state of the remapping area
         /// </summary>
-        public override PaletteState PaletteState => Foreground.State;
+        public override PaletteState PaletteState => Foreground?.State ?? PaletteState.Normal;
 
         #endregion
     }

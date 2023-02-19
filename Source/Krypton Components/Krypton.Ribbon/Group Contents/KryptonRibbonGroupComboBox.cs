@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
@@ -277,8 +277,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the combo box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    ComboBox.Palette = Ribbon.GetResolvedPalette();
-                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
+                    ComboBox.Palette = Ribbon!.GetResolvedPalette();
+                    Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
         }

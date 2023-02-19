@@ -37,13 +37,13 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of drop down button images.</param>
         public PaletteRedirectDropDownButton(PaletteBase? target,
-                                             DropDownButtonImages images)
+                                             [DisallowNull] DropDownButtonImages images)
             : base(target)
         {
             Debug.Assert(images != null);
 
             // Remember incoming target
-            _images = images;
+            _images = images!;
         }
         #endregion
 
@@ -55,15 +55,15 @@ namespace Krypton.Toolkit
         public override Image? GetDropDownButtonImage(PaletteState state)
         {
             // Grab state specific image
-            Image retImage = state switch
-             {
-                 PaletteState.Disabled => _images.Disabled,
-                 PaletteState.Normal   => _images.Normal,
-                 PaletteState.Tracking => _images.Tracking,
-                 PaletteState.Pressed  => _images.Pressed,
-                 _                     => null
-             }; 
-            
+            Image? retImage = state switch
+            {
+                PaletteState.Disabled => _images.Disabled,
+                PaletteState.Normal => _images.Normal,
+                PaletteState.Tracking => _images.Tracking,
+                PaletteState.Pressed => _images.Pressed,
+                _ => null
+            };
+
             // Not found, then get the common image
             if (retImage == null)
             {
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             }
 
             // Not found, then inherit from target
-            return retImage ?? Target.GetDropDownButtonImage(state);
+            return retImage ?? Target?.GetDropDownButtonImage(state);
         }
         #endregion
     }

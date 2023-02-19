@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuItems class.
         /// </summary>
         /// <param name="children">Array of initial child items.</param>
-        public KryptonContextMenuItems(KryptonContextMenuItemBase[] children)
+        public KryptonContextMenuItems(KryptonContextMenuItemBase[]? children)
         {
             // Default fields
             _standardStyle = true;
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase? this[int index] => Items[index];
+        public override KryptonContextMenuItemBase this[int index] => Items[index];
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectImageColumn.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectImageColumn?.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

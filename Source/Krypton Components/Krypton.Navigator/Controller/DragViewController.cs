@@ -32,22 +32,22 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the left mouse button is pressed down.
         /// </summary>
-        public event EventHandler LeftMouseDown;
+        public event EventHandler? LeftMouseDown;
 
         /// <summary>
         /// Occurs when the right mouse button is pressed down.
         /// </summary>
-        public event EventHandler RightMouseDown;
+        public event EventHandler? RightMouseDown;
 
         /// <summary>
         /// Occurs when the left mouse double click.
         /// </summary>
-        public event EventHandler LeftDoubleClick;
+        public event EventHandler? LeftDoubleClick;
 
         /// <summary>
         /// Occurs when start of drag operation occurs.
         /// </summary>
-        public event EventHandler<DragStartEventCancelArgs> DragStart;
+        public event EventHandler<DragStartEventCancelArgs>? DragStart;
 
         /// <summary>
         /// Occurs when drag moves.
@@ -77,7 +77,7 @@ namespace Krypton.Navigator
             MousePoint = CommonHelper.NullPoint;
             AllowDragging = true;
             _dragging = false;
-            Target = target;
+            Target = target!;
             _lastClick = DateTime.Now.AddDays(-1);
         }
         #endregion
@@ -213,7 +213,7 @@ namespace Krypton.Navigator
                 // Mouse is no longer over the target
 
                 // Not tracking the mouse means a null value
-                MousePoint = CommonHelper.NullPoint; 
+                MousePoint = CommonHelper.NullPoint;
 
                 // If leaving the view then cannot be capturing mouse input anymore
                 Captured = false;
@@ -299,10 +299,11 @@ namespace Krypton.Navigator
                     }
 
                     // Recalculate if the mouse is over the button area
+                    // TODO: What is this doing ? i.e. should the return value be used ?
                     Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
                 }
             }
-            
+
             return Captured;
         }
         #endregion
@@ -347,6 +348,7 @@ namespace Krypton.Navigator
                 }
 
                 // Recalculate if the mouse is over the button area
+                // TODO: What is this doing ? i.e. should the return value be used ?
                 Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
             }
         }

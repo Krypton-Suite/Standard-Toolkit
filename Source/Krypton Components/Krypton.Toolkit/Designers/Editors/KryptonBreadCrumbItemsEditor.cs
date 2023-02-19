@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
                 /// </summary>
-                public IContainer Container => null;
+                public IContainer? Container => null;
 
                 /// <summary>
                 /// Determines whether the component is in design mode when implemented by a class.
@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets or sets the name of the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public string Name
+                public string? Name
                 {
                     get => null;
                     set { }

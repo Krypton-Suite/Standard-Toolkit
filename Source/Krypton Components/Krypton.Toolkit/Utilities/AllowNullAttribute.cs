@@ -3,7 +3,7 @@
 
 namespace System.Diagnostics.CodeAnalysis
 {
-#if NETFRAMEWORK || NETCOREAPP // https://github.com/dotnet/designs/blob/main/accepted/2020/net5/net5.md#preprocessor-symbols
+#if NETFRAMEWORK  // https://github.com/dotnet/designs/blob/main/accepted/2020/net5/net5.md#preprocessor-symbols
     /// THIS FILE WILL BE CONDITIONALLY REMOVED VIA THE `CSPROJ` FILE
     /// <summary>Specifies that <see langword="null" /> is allowed as an input even if the corresponding type disallows it.</summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, Inherited = false)]
@@ -18,15 +18,20 @@ namespace System.Diagnostics.CodeAnalysis
     }
 
     /// <summary>Specifies that an output may be <see langword="null" /> even if the corresponding type disallows it.</summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue, Inherited = false)]
+    [AttributeUsage(
+        AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue,
+        Inherited = false)]
     public sealed class MaybeNullAttribute : Attribute
     {
     }
 
     /// <summary>Specifies that an output is not <see langword="null" /> even if the corresponding type allows it. Specifies that an input argument was not <see langword="null" /> when the call returns.</summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue, Inherited = false)]
+    [AttributeUsage(
+        AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue,
+        Inherited = false)]
     public sealed class NotNullAttribute : Attribute
     {
     }
+
 #endif
 }

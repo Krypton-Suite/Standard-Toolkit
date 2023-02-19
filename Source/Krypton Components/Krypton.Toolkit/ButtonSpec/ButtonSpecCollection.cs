@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         protected ButtonSpecCollectionBase([DisallowNull] object owner)
         {
             Debug.Assert(owner != null);
-            Owner = owner;
+            Owner = owner!;
         }
         #endregion
 
@@ -107,11 +107,10 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ButtonSpecCollection<T> : ButtonSpecCollectionBase,
                                            IList,
-                                           IList<T>,
-                                           ICollection,
-                                           ICollection<T> where T : ButtonSpec
-                                         
-                                         
+                                           IList<T>
+                                           //ICollection,
+                                           //ICollection<T>
+                                           where T : ButtonSpec
     {
         #region Instance Fields
         private readonly List<T> _specs;
@@ -144,7 +143,7 @@ namespace Krypton.Toolkit
         public int Add([DisallowNull] object value)
         {
             // Use strongly typed implementation
-            Add(value as T);
+            Add((value as T)!);
 
             // Index is the last button spec in the collection
             return Count - 1;
@@ -169,7 +168,7 @@ namespace Krypton.Toolkit
         /// <returns>True if button spec found; otherwise false.</returns>
         public bool Contains([DisallowNull] object value) =>
             // Use strongly typed implementation
-            Contains(value as T);
+            Contains((value as T)!);
 
         /// <summary>
         /// Determines the index of the specified spec in the collection.
@@ -178,7 +177,7 @@ namespace Krypton.Toolkit
         /// <returns>-1 if not found; otherwise index position.</returns>
         public int IndexOf([DisallowNull] object value) =>
             // Use strongly typed implementation
-            IndexOf(value as T);
+            IndexOf((value as T)!);
 
         /// <summary>
         /// Inserts a button spec to the collection at the specified index.
@@ -187,7 +186,7 @@ namespace Krypton.Toolkit
         /// <param name="value">Object reference.</param>
         public void Insert(int index, [DisallowNull] object value) =>
             // Use strongly typed implementation
-            Insert(index, value as T);
+            Insert(index, (value as T)!);
 
         /// <summary>
         /// Gets a value indicating whether the collection has a fixed size. 
@@ -200,7 +199,7 @@ namespace Krypton.Toolkit
         /// <param name="value">Object reference.</param>
         public void Remove([DisallowNull] object value) =>
             // Use strongly typed implementation
-            Remove(value as T);
+            Remove((value as T)!);
 
         /// <summary>
         /// Gets or sets the button spec at the specified index.
@@ -224,7 +223,7 @@ namespace Krypton.Toolkit
         public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.IndexOf(item);
+            return _specs.IndexOf(item!);
         }
 
         /// <summary>
@@ -246,7 +245,7 @@ namespace Krypton.Toolkit
             // Not allow to add the same button spec more than once
             if (_specs.Contains(item))
             {
-                throw new ArgumentOutOfRangeException(nameof(item), "T already in collection");
+                throw new ArgumentOutOfRangeException(nameof(item), @"T already in collection");
             }
 
             // Generate before insert event
@@ -333,7 +332,7 @@ namespace Krypton.Toolkit
             // Not allow to add the same button spec more than once
             if (_specs.Contains(item))
             {
-                throw new ArgumentOutOfRangeException(nameof(item), "T already in collection");
+                throw new ArgumentOutOfRangeException(nameof(item), @"T already in collection");
             }
 
             // Generate inserting event
@@ -354,7 +353,7 @@ namespace Krypton.Toolkit
         public bool Contains([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.Contains(item);
+            return _specs.Contains(item!);
         }
 
         /// <summary>
@@ -388,16 +387,16 @@ namespace Krypton.Toolkit
             Debug.Assert(item != null);
 
             // Cache the index of the button spec
-            var index = IndexOf(item);
+            var index = IndexOf(item!);
 
             // Generate before event
-            OnRemoving(new ButtonSpecEventArgs(item, index));
+            OnRemoving(new ButtonSpecEventArgs(item!, index));
 
             // Remove from the internal list
-            var ret = _specs.Remove(item);
+            var ret = _specs.Remove(item!);
 
             // Generate after event
-            OnRemoved(new ButtonSpecEventArgs(item, index));
+            OnRemoved(new ButtonSpecEventArgs(item!, index));
 
             return ret;
         }

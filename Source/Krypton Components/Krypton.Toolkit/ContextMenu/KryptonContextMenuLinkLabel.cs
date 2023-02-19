@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private bool _autoClose;
         private string _text;
         private string? _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateNormalRedirect;
         private readonly PaletteContentInheritRedirect _stateVisitedRedirect;
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         private readonly PaletteContentInheritOverride _overrideVisited;
         private readonly PaletteContentInheritOverride _overrideNotVisited;
         private readonly PaletteContentInheritOverride _overridePressed;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private LabelStyle _style;
         #endregion
 
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             _imageTransparentColor = Color.Empty;
             _style = LabelStyle.NormalPanel;
             _autoClose = true;
-            
+
             // Create the redirectors
             _stateNormalRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
             _stateVisitedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         {
             get => LinkBehaviorNormal.LinkBehavior;
 
-            set 
+            set
             {
                 if (LinkBehaviorNormal.LinkBehavior != value)
                 {
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         {
             get => _autoClose;
 
-            set 
+            set
             {
                 if (_autoClose != value)
                 {
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         {
             get => _text;
 
-            set 
+            set
             {
                 if (_text != value)
                 {
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         {
             get => _extraText;
 
-            set 
+            set
             {
                 if (_extraText != value)
                 {
@@ -285,7 +285,7 @@ namespace Krypton.Toolkit
         {
             get => _image;
 
-            set 
+            set
             {
                 if (_image != value)
                 {
@@ -302,11 +302,12 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Link label image color to make transparent.")]
         [Localizable(true)]
+        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
 
-            set 
+            set
             {
                 if (_imageTransparentColor != value)
                 {
@@ -316,7 +317,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets access to the link label normal instance specific appearance values.
@@ -439,7 +440,7 @@ namespace Krypton.Toolkit
             _stateNormalRedirect.Style = contentStyle;
             _stateVisitedRedirect.Style = contentStyle;
             _stateNotVisitedRedirect.Style = contentStyle;
-            _statePressedRedirect.Style = contentStyle; 
+            _statePressedRedirect.Style = contentStyle;
             _stateFocusRedirect.Style = contentStyle;
         }
         #endregion

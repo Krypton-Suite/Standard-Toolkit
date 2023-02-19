@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     public abstract class ViewBase : GlobalId,
                                      IDisposable,
-                                     IList<ViewBase>,
-                                     ICollection<ViewBase>,
-                                     IEnumerable<ViewBase>
+                                     IList<ViewBase>
+    //ICollection<ViewBase>,
+    //IEnumerable<ViewBase>
     {
         #region Instance Fields
 
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual Control OwningControl
         {
-            get => _owningControl ?? Parent?.OwningControl;
+            get => _owningControl;
 
             set => _owningControl = value;
         }
@@ -213,14 +213,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiX
         {
-            get 
+            get
             {
                 if (_factorDpiX <= 0.1)
                 {
                     InitialiseFactors();
                 }
 
-                return _factorDpiX; 
+                return _factorDpiX;
             }
         }
 
@@ -249,14 +249,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiY
         {
-            get 
+            get
             {
                 if (_factorDpiY <= 0.1)
                 {
                     InitialiseFactors();
                 }
 
-                return _factorDpiY; 
+                return _factorDpiY;
             }
         }
 
@@ -453,7 +453,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated key controller.
         /// </summary>
-        public virtual IKeyController KeyController
+        public virtual IKeyController? KeyController
         {
             [DebuggerStepThrough]
             get;
@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated source controller.
         /// </summary>
-        public virtual ISourceController SourceController
+        public virtual ISourceController? SourceController
         {
             [DebuggerStepThrough]
             get;
@@ -476,7 +476,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Mouse has entered the view.
         /// </summary>
-        public virtual IMouseController FindMouseController() =>
+        public virtual IMouseController? FindMouseController() =>
             // Use mouse controller as first preference
             MouseController ?? Parent?.FindMouseController();
 
@@ -715,7 +715,7 @@ namespace Krypton.Toolkit
                     if (IsEnableDependant)
                     {
                         // If dependant view is disabled, then so are we
-                        if (!_enableDependantView.Enabled)
+                        if (_enableDependantView is { Enabled: false })
                         {
                             return PaletteState.Disabled;
                         }
@@ -776,7 +776,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Get and set the view the enabled state of this view element is dependant on.
         /// </summary>
-        public virtual ViewBase DependantEnabledState
+        public virtual ViewBase? DependantEnabledState
         {
             [DebuggerStepThrough]
             get => _enableDependantView;
@@ -797,7 +797,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets a value indicating if view enabled state is depedant on another view.
+        /// Gets a value indicating if view enabled state is dependent on another view.
         /// </summary>
         public virtual bool IsEnableDependant
         {

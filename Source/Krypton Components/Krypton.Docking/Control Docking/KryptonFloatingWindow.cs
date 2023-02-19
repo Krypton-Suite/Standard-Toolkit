@@ -28,12 +28,12 @@ namespace Krypton.Docking
         /// <summary>
         /// Occurs when the window close is requested and provides the set of pages visible.
         /// </summary>
-        public event EventHandler<UniqueNamesEventArgs> WindowCloseClicked;
+        public event EventHandler<UniqueNamesEventArgs>? WindowCloseClicked;
 
         /// <summary>
         /// Occurs when the window needs to be drag and dropped by its caption.
         /// </summary>
-        public event EventHandler<ScreenAndOffsetEventArgs> WindowCaptionDragging;
+        public event EventHandler<ScreenAndOffsetEventArgs>? WindowCaptionDragging;
         #endregion
         
         #region Identity

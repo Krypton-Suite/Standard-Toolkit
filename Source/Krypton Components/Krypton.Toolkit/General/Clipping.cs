@@ -20,8 +20,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly Graphics? _graphics;
-        private readonly Region _previousRegion;
-        private Region _newRegion;
+        private readonly Region? _previousRegion;
+        private Region? _newRegion;
         #endregion
 
         #region Identity
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         {
 
         }
-        
+
         /// <summary>
         /// Initialize a new instance of the Clipping class.
         /// </summary>
@@ -48,21 +48,23 @@ namespace Krypton.Toolkit
             _graphics = graphics;
 
             // Save the existing clipping region
-            _previousRegion = _graphics.Clip;
+            _previousRegion = _graphics?.Clip;
 
             // Add clipping of path to existing clipping region
-            _newRegion = _previousRegion.Clone();
-             
-            if (exclude)
+            _newRegion = _previousRegion?.Clone();
+            if (_newRegion != null)
             {
-                _newRegion.Exclude(path);
-            }
-            else
-            {
-                _newRegion.Intersect(path);
-            }
+                if (exclude)
+                {
+                    _newRegion.Exclude(path);
+                }
+                else
+                {
+                    _newRegion.Intersect(path);
+                }
 
-            _graphics.Clip = _newRegion;
+                _graphics!.Clip = _newRegion;
+            }
         }
 
         /// <summary>
@@ -87,21 +89,24 @@ namespace Krypton.Toolkit
             _graphics = graphics;
 
             // Save the existing clipping region
-            _previousRegion = _graphics.Clip;
+            _previousRegion = _graphics?.Clip;
 
             // Add clipping of region to existing clipping region
-            _newRegion = _previousRegion.Clone();
+            _newRegion = _previousRegion?.Clone();
 
-            if (exclude)
+            if (_newRegion != null)
             {
-                _newRegion.Exclude(region);
-            }
-            else
-            {
-                _newRegion.Intersect(region);
-            }
+                if (exclude)
+                {
+                    _newRegion.Exclude(region);
+                }
+                else
+                {
+                    _newRegion.Intersect(region);
+                }
 
-            _graphics.Clip = _newRegion;
+                _graphics!.Clip = _newRegion;
+            }
         }
 
         /// <summary>
@@ -126,21 +131,24 @@ namespace Krypton.Toolkit
             _graphics = graphics;
 
             // Save the existing clipping region
-            _previousRegion = _graphics.Clip;
+            _previousRegion = _graphics?.Clip;
 
             // Add clipping of rectangle to existing clipping region
-            _newRegion = _previousRegion.Clone();
+            _newRegion = _previousRegion?.Clone();
 
-            if (exclude)
+            if (_newRegion != null)
             {
-                _newRegion.Exclude(rect);
-            }
-            else
-            {
-                _newRegion.Intersect(rect);
-            }
+                if (exclude)
+                {
+                    _newRegion.Exclude(rect);
+                }
+                else
+                {
+                    _newRegion.Intersect(rect);
+                }
 
-            _graphics.Clip = _newRegion;
+                _graphics!.Clip = _newRegion;
+            }
         }
 
         /// <summary>
@@ -155,7 +163,10 @@ namespace Krypton.Toolkit
                     // Restore the original clipping region
                     _graphics.Clip = _previousRegion;
                 }
-                catch { }
+                catch
+                {
+                    // TODO: Log this out
+                }
             }
 
             if (_newRegion != null)
@@ -166,7 +177,10 @@ namespace Krypton.Toolkit
                     _newRegion.Dispose();
                     _newRegion = null;
                 }
-                catch { }
+                catch
+                {
+                    // TODO: Log this out
+                }
             }
             GC.SuppressFinalize(this);
         }

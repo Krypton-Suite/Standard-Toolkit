@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private Graphics? _graphics;
-        private Control _topControl;
+        private Control? _topControl;
         private bool _disposeGraphics;
         private readonly bool _disposeManager;
         #endregion
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the graphics instance used for rendering operations.
         /// </summary>
-        public Graphics? Graphics
+        public Graphics Graphics
         {
             get 
             {
@@ -163,6 +163,7 @@ namespace Krypton.Toolkit
                 if (_graphics == null)
                 {
                     // If the control has been created...
+                    // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                     if (Control.IsHandleCreated)
                     {
                         // Get the graphics instance from the control

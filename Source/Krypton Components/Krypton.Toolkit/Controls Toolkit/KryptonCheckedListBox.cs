@@ -380,7 +380,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Instance Fields
-            private object _innerArray;
+            private object? _innerArray;
             private readonly ViewManager? _viewManager;
             private readonly KryptonCheckedListBox _kryptonCheckedListBox;
             private readonly IntPtr _screenDC;
@@ -719,7 +719,7 @@ namespace Krypton.Toolkit
                                                                                         BindingFlags.NonPublic |
                                                                                         BindingFlags.GetField);
 
-                        _innerArray = pi.GetValue(Items, Array.Empty<object>());
+                        _innerArray = pi?.GetValue(Items, Array.Empty<object>());
                     }
 
                     return _innerArray;
@@ -1295,6 +1295,8 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;

@@ -79,49 +79,49 @@ namespace Krypton.Docking
         /// </summary>
         [Category("DockableWorkspace")]
         [Description("Occurs when the focus moves to be inside the KryptonWorkspaceCell instance.")]
-        public event EventHandler<WorkspaceCellEventArgs> CellGainsFocus;
+        public event EventHandler<WorkspaceCellEventArgs>? CellGainsFocus;
 
         /// <summary>
         /// Occurs when the focus moves away from inside the KryptonWorkspaceCell instance.
         /// </summary>
         [Category("DockableWorkspace")]
         [Description("Occurs when the focus moves away from inside the KryptonWorkspaceCell instance.")]
-        public event EventHandler<WorkspaceCellEventArgs> CellLosesFocus;
+        public event EventHandler<WorkspaceCellEventArgs>? CellLosesFocus;
 
         /// <summary>
         /// Occurs when a page is being inserted into a cell.
         /// </summary>
         [Category("DockableWorkspace")]
         [Description("Occurs when a page is being inserted into a cell.")]
-        public event EventHandler<KryptonPageEventArgs> CellPageInserting;
+        public event EventHandler<KryptonPageEventArgs>? CellPageInserting;
 
         /// <summary>
         /// Occurs when a page requests that it be closed.
         /// </summary>
         [Category("DockableWorkspace")]
         [Description("Occurs when a page requests that it be closed.")]
-        public event EventHandler<UniqueNameEventArgs> PageCloseClicked;
+        public event EventHandler<UniqueNameEventArgs>? PageCloseClicked;
 
         /// <summary>
         /// Occurs when a page requests that it be auto hidden state switched.
         /// </summary>
         [Category("DockableWorkspace")]
         [Description("Occurs when a page requests that it be auto hidden state switched.")]
-        public event EventHandler<UniqueNameEventArgs> PageAutoHiddenClicked;
+        public event EventHandler<UniqueNameEventArgs>? PageAutoHiddenClicked;
 
         /// <summary>
         /// Occurs when a page requests that a drop down menu be shown.
         /// </summary>
         [Category("DockableWorkspace")]
         [Description("Occurs when a page drop down menu is requested from a header button.")]
-        public event EventHandler<CancelDropDownEventArgs> PageDropDownClicked;
+        public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
 
         /// <summary>
         /// Occurs when a page or set of pages have been double clicked.
         /// </summary>
         [Category("DockableWorkspace")]
         [Description("Occurs when a page or set of pages have been double clicked.")]
-        public event EventHandler<UniqueNamesEventArgs> PagesDoubleClicked;
+        public event EventHandler<UniqueNamesEventArgs>? PagesDoubleClicked;
         #endregion
 
         #region Identity
@@ -770,7 +770,7 @@ namespace Krypton.Docking
                     // Do we need to show a context menu
                     if (!args.Cancel && CommonHelper.ValidKryptonContextMenu(args.KryptonContextMenu))
                     {
-                        args.KryptonContextMenu.Show(this, MousePosition);
+                        args.KryptonContextMenu?.Show(this, MousePosition);
                     }
                 }
             }

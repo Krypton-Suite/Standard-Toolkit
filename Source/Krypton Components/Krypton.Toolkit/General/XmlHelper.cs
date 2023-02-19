@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <param name="name">Attribute name.</param>
         /// <param name="value">Attribute value.</param>
         /// <param name="defaultValue">Default value.</param>
-        public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string value, string defaultValue = @"")
+        public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string? value, string defaultValue = @"")
         {
             if (!string.IsNullOrEmpty(value) && (value != defaultValue))
             {
@@ -60,13 +60,13 @@ namespace Krypton.Toolkit
         /// <param name="xmlWriter">Xml writer to save information into.</param>
         /// <param name="name">Name of image to save.</param>
         /// <param name="image">Image to persist.</param>
-        public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap image)
+        public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap? image)
         {
             // Only store if we have an actual image to persist
             if (image != null)
             {
                 // Convert the Image into base64 so it can be used in xml
-                MemoryStream memory = new();
+                using var memory = new MemoryStream();
                 image.Save(memory, image.RawFormat);
                 memory.Position = 0;
                 var base64 = Convert.ToBase64String(memory.ToArray());
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
 
             // Convert the bytes back into an Image
-            using MemoryStream memory = new(bytes);
+            using var memory = new MemoryStream(bytes);
             try
             {
                 return new Bitmap(memory);

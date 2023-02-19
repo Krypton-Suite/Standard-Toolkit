@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer;
+            _getRenderer = getRenderer!;
 
             if (_viewMetrics != null)
             {
@@ -402,16 +402,10 @@ namespace Krypton.Toolkit
         public bool DesignerGetHitTest(Point pt)
         {
             // Search all buttons for any that contain the provided point
-            foreach (ButtonSpecView buttonView in _specLookup.Values)
-            {
-                if (buttonView.ViewButton is { Visible: true, Enabled: true } &&
-                    buttonView.ViewButton.ClientRectangle.Contains(pt))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return _specLookup.Values.Any(buttonView => 
+                buttonView.ViewButton is { Visible: true, Enabled: true } 
+                && buttonView.ViewButton.ClientRectangle.Contains(pt)
+                );
         }
 
         /// <summary>
@@ -442,15 +436,11 @@ namespace Krypton.Toolkit
         /// <returns>ButtonSpec reference if found; otherwise null.</returns>
         public virtual ButtonSpec? GetButtonSpecFromView(ViewDrawButton viewButton)
         {
-            foreach (ButtonSpecView specView in _specLookup.Values)
-            {
-                if (specView.ViewButton == viewButton)
-                {
-                    return specView.ButtonSpec;
-                }
-            }
-
-            return null;
+            return (from specView in _specLookup.Values 
+                    where specView.ViewButton == viewButton 
+                    select specView.ButtonSpec
+                    )
+                .FirstOrDefault();
         }
 
         /// <summary>
@@ -460,20 +450,12 @@ namespace Krypton.Toolkit
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
         public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align)
         {
-            foreach (ButtonSpecView specView in _specLookup.Values)
-            {
-                // Is the button actually visible/enabled
-                if (specView.ViewCenter.Visible && 
-                    specView.ViewButton.Enabled)
-                {
-                    if (specView.ButtonSpec.Edge == align)
-                    {
-                        return specView.ViewButton;
-                    }
-                }
-            }
-
-            return null;
+            return (from specView in _specLookup.Values 
+                    where specView.ViewCenter.Visible && specView.ViewButton.Enabled 
+                    where specView.ButtonSpec.Edge == align 
+                    select specView.ViewButton
+                    )
+                .FirstOrDefault();
         }
 
         /// <summary>
@@ -582,7 +564,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public virtual PaletteRedirect? CreateButtonSpecRemap(PaletteRedirect? redirector,
-                                                             ButtonSpec buttonSpec) =>
+            [DisallowNull] ButtonSpec buttonSpec) =>
             new ButtonSpecRemapByContentView(redirector, buttonSpec);
 
         #endregion
@@ -656,10 +638,11 @@ namespace Krypton.Toolkit
                                                  int viewDockerIndex)
         {
             // Cast the remapping palette to the correct type
-            ButtonSpecRemapByContentView remapPalette = (ButtonSpecRemapByContentView)buttonView.RemapPalette;
-            
-            // Update button with the foreground used for colour mapping
-            remapPalette.Foreground = GetDockerForeground(viewDockerIndex);
+            if (buttonView?.RemapPalette is ButtonSpecRemapByContentView remapPalette)
+            {
+                // Update button with the foreground used for colour mapping
+                remapPalette.Foreground = GetDockerForeground(viewDockerIndex);
+            }
         }
 
         /// <summary>

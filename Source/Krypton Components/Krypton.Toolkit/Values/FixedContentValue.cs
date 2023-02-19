@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         [Description(@"Main text.")]
         [Localizable(true)]
         [DefaultValue(@"")]
-        public string ShortText { get; set; }
+        public string? ShortText { get; set; }
 
         private bool ShouldSerializeShortText() => !string.IsNullOrEmpty(ShortText);
 
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         [Description(@"Supplementary text.")]
         [Localizable(true)]
         [DefaultValue(@"")]
-        public string LongText { get; set; }
+        public string? LongText { get; set; }
 
         private bool ShouldSerializeLongText() => !string.IsNullOrEmpty(LongText);
 
