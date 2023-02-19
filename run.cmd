@@ -1,10 +1,10 @@
-:: Last updated: Saturday 18th February, 2023 @ 18:00
+:: Last updated: Sunday 19th February, 2023 @ 8:00
 
 @echo off
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.8. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.8a. Please select an option below.
 
 @echo ==============================================================================================
 
@@ -73,7 +73,7 @@ echo 2. Build canary version using Visual Studio 2022
 echo 3. Build stable version using Visual Studio 2022
 echo 4. Go back to main menu
 
-set /p answer="Enter number (1 - 4): "
+set /p answer="Enter number or letter (1 - 4, a - *): "
 if %answer%==1 (goto buildnightlyusingvisualstudio2022)
 if %answer%==a (goto rebuildproject)
 if %answer%==2 (goto buildcanaryusingvisualstudio2022)
