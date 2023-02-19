@@ -26,6 +26,8 @@
 		</ItemGroup>
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" />
 	</Target>
+
+	<Target Name="Rebuild" DependsOnTargets="Clean;Build" />
 	
 	<Target Name="CleanPackages">
 		<ItemGroup>

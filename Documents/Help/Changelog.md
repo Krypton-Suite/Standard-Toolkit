@@ -5,6 +5,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#950](https://github.com/Krypton-Suite/Standard-Toolkit/issues/950), Please add `-t:rebuild` to the msbuild command line
+    - **Note:** This option is _only_ available for building `nightly` binaries
 * Removed .NET Core 3.1 and .NET 5 references from NuGet package descriptions
 * Add `AllowFormIntegrate` option to `KryptonRibbon`s action list, for easier access
 * Resolved [#929](https://github.com/Krypton-Suite/Standard-Toolkit/issues/929), `KryptonRibbon` 'disappears' while running the application

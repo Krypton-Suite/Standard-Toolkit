@@ -1,29 +1,31 @@
-:: Last updated: Monday 13th February, 2023 @ 11:00
+:: Last updated: Sunday 19th February, 2023 @ 8:00
 
 @echo off
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.7. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.8a. Please select an option below.
 
 @echo ==============================================================================================
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Clean, Build and create NuGet packages
-echo 5. Debug project
-echo 6. NuGet Tools
-echo 7. End
+::echo 4. Rebuild project
+::echo 4. Clean, Build and create NuGet packages
+echo 4. Debug project
+echo 5. NuGet Tools
+echo 6. End
 
-set /p answer="Enter number (1 - 7): "
+set /p answer="Enter number (1 - 6): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandcreatenugetpackages)
-if %answer%==5 (goto debugproject)
-if %answer%==6 (goto nugettools)
-if %answer%==7 (goto exitbuildsystem)
+::if %answer%==4 (goto rebuildproject)
+::if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==4 (goto debugproject)
+if %answer%==5 (goto nugettools)
+if %answer%==6 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -40,19 +42,21 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-echo 4. Clean, Build and create NuGet packages
-echo 5. Debug project
-echo 6. NuGet Tools
-echo 7. End
+::echo 4. Rebuild project
+::echo 4. Clean, Build and create NuGet packages
+echo 4. Debug project
+echo 5. NuGet Tools
+echo 6. End
 
-set /p answer="Enter number (1 - 7): "
+set /p answer="Enter number (1 - 6): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandcreatenugetpackages)
-if %answer%==5 (goto debugproject)
-if %answer%==6 (goto nugettools)
-if %answer%==7 (goto exitbuildsystem)
+::if %answer%==4 (goto rebuildproject)
+::if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==4 (goto debugproject)
+if %answer%==5 (goto nugettools)
+if %answer%==6 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -64,12 +68,14 @@ goto mainmenu
 cls
 
 echo 1. Build nightly version using Visual Studio 2022
+echo    a. Rebuild project
 echo 2. Build canary version using Visual Studio 2022
 echo 3. Build stable version using Visual Studio 2022
 echo 4. Go back to main menu
 
-set /p answer="Enter number (1 - 4): "
+set /p answer="Enter number or letter (1 - 4, a - *): "
 if %answer%==1 (goto buildnightlyusingvisualstudio2022)
+if %answer%==a (goto rebuildproject)
 if %answer%==2 (goto buildcanaryusingvisualstudio2022)
 if %answer%==3 (goto buildstableusingvisualstudio2022)
 if %answer%==4 (goto mainmenu)
@@ -391,6 +397,12 @@ pause
 
 :: ===================================================================================================
 
+:rebuildproject
+cls
+
+cd Scripts
+
+rebuild-build-nightly-2022.cmd
 
 :: ===================================================================================================
 
