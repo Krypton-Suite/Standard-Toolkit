@@ -20,6 +20,7 @@ internal static class FXAssembly
     // .NET Framework, if those are referenced in .NET project.
     // internal const string Version = "4.0.0.0";
 
+    // NOTE: For every new .NET major version, the below **must** be updated, otherwise the compiler will throw the CSC0117 error
     // SKC: Not sure what the above is saying, but it's does not seem to make the controls work !
 #if NETFRAMEWORK || NETCOREAPP3_1
     internal const string Version = "4.0.0.0";
