@@ -12,7 +12,7 @@
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
-// Taken from Winforms (5 or 6) Github ($\src\System.Windows.Forms\src\AssemblyRef.cs)
+// Taken from WinForms (5 or 6) Github ($\src\System.Windows.Forms\src\AssemblyRef.cs)
 // And then applied .NetFramework requirements for the designers
 internal static class FXAssembly
 {
