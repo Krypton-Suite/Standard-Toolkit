@@ -37,16 +37,16 @@ internal static class FXAssembly
 internal static class AssemblyRef
 {
     internal const string MicrosoftPublicKey = "b03f5f7f11d50a3a";
-    internal const string SystemDesign = "System.Design, Version=" + FXAssembly.Version + ", Culture=neutral, PublicKeyToken=" + MicrosoftPublicKey;
+    internal const string SystemDesign = $@"System.Design, Version={FXAssembly.Version} , Culture = neutral, PublicKeyToken = {MicrosoftPublicKey}";
 #if NETFRAMEWORK
-    internal const string SystemDrawingDesign = "System.Design, Version=" + FXAssembly.Version + ", Culture=neutral, PublicKeyToken=" + MicrosoftPublicKey;
+    internal const string SystemDrawingDesign = $@"System.Design, Version={FXAssembly.Version}, Culture = neutral, PublicKeyToken = {MicrosoftPublicKey}";
 #else
-    internal const string SystemDrawingDesign = "System.Drawing.Design, Version=" + FXAssembly.Version + ", Culture=neutral, PublicKeyToken=" + MicrosoftPublicKey;
+    internal const string SystemDrawingDesign = $@"System.Drawing.Design, Version={FXAssembly.Version} + , Culture=neutral, PublicKeyToken={MicrosoftPublicKey}";
 #endif
-    internal const string SystemDrawing = "System.Drawing, Version=" + FXAssembly.Version + ", Culture=neutral, PublicKeyToken=" + MicrosoftPublicKey;
+    internal const string SystemDrawing = $@"System.Drawing, Version={FXAssembly.Version} + , Culture=neutral, PublicKeyToken={MicrosoftPublicKey}";
 #if NETFRAMEWORK
-    internal const string SystemWinformsDesign = "System.Design, Version=" + FXAssembly.Version + ", Culture=neutral, PublicKeyToken=" + MicrosoftPublicKey;
+    internal const string SystemWinformsDesign = $@"System.Design, Version={FXAssembly.Version}, Culture=neutral, PublicKeyToken={MicrosoftPublicKey}";
 #else
-    internal const string SystemWinformsDesign = "System.Windows.Forms.Design, Version=" + FXAssembly.Version + ", Culture=neutral, PublicKeyToken=" + MicrosoftPublicKey;
+    internal const string SystemWinformsDesign = $@"System.Windows.Forms.Design, Version={FXAssembly.Version} + , Culture=neutral, PublicKeyToken={MicrosoftPublicKey}";
 #endif
 }
