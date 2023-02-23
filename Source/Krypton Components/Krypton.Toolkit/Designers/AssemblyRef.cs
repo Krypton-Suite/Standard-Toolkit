@@ -19,7 +19,7 @@ internal static class FXAssembly
     // NB: this must never-ever change to facilitate type-forwarding from
     // .NET Framework, if those are referenced in .NET project.
     // internal const string Version = "4.0.0.0";
-    
+
     // SKC: Not sure what the above is saying, but it's does not seem to make the controls work !
 #if NETFRAMEWORK || NETCOREAPP3_1
     internal const string Version = "4.0.0.0";
@@ -29,6 +29,8 @@ internal static class FXAssembly
     internal const string Version = "6.0.0.0";
 #elif NET7_0
     internal const string Version = "7.0.0.0";
+#elif NET8_0
+    internal const string Version = "8.0.0.0";
 #endif
 }
 
