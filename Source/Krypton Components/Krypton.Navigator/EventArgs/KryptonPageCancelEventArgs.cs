@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page effected by event.</param>
         /// <param name="index">Index of page in the owning collection.</param>
-        public KryptonPageCancelEventArgs(KryptonPage page, int index)
+        public KryptonPageCancelEventArgs(KryptonPage? page, int index)
             : base(page, index)
         {
         }

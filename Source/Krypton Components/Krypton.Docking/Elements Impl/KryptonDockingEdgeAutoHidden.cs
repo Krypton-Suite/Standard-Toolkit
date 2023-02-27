@@ -54,18 +54,18 @@ namespace Krypton.Docking
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 Dock = DockingHelper.DockStyleFromDockEdge(edge, false)
             };
-            _panel.Disposed += OnPanelDisposed;
+            _panel.Disposed += OnPanelDisposed!;
 
             // Create the panel that slides into/out of view to show selected auto host entry
             _slidePanel = new KryptonAutoHiddenSlidePanel(control, edge, _panel);
-            _slidePanel.SplitterMoveRect += OnSlidePanelSeparatorMoveRect;
-            _slidePanel.SplitterMoved += OnSlidePanelSeparatorMoved;
-            _slidePanel.SplitterMoving += OnSlidePanelSeparatorMoving;
-            _slidePanel.PageCloseClicked += OnSlidePanelPageCloseClicked;
-            _slidePanel.PageAutoHiddenClicked += OnSlidePanelPageAutoHiddenClicked;
-            _slidePanel.PageDropDownClicked += OnSlidePanelPageDropDownClicked;
-            _slidePanel.AutoHiddenShowingStateChanged += OnSlidePanelAutoHiddenShowingStateChanged;
-            _slidePanel.Disposed += OnSlidePanelDisposed;
+            _slidePanel.SplitterMoveRect += OnSlidePanelSeparatorMoveRect!;
+            _slidePanel.SplitterMoved += OnSlidePanelSeparatorMoved!;
+            _slidePanel.SplitterMoving += OnSlidePanelSeparatorMoving!;
+            _slidePanel.PageCloseClicked += OnSlidePanelPageCloseClicked!;
+            _slidePanel.PageAutoHiddenClicked += OnSlidePanelPageAutoHiddenClicked!;
+            _slidePanel.PageDropDownClicked += OnSlidePanelPageDropDownClicked!;
+            _slidePanel.AutoHiddenShowingStateChanged += OnSlidePanelAutoHiddenShowingStateChanged!;
+            _slidePanel.Disposed += OnSlidePanelDisposed!;
 
             Control.Controls.Add(_panel);
         }
@@ -129,10 +129,12 @@ namespace Krypton.Docking
                 case DockingPropogateAction.StorePages:
                     // Ask the sliding panel to remove its display if an incoming name matches
                     if (uniqueNames != null)
+                    {
                         foreach (var uniqueName in uniqueNames)
                         {
                             _slidePanel.HideUniqueName(uniqueName);
                         }
+                    }
 
                     break;
                 case DockingPropogateAction.Loading:
@@ -144,16 +146,16 @@ namespace Krypton.Docking
                     _slidePanel.HideUniqueName();
                     break;
                 case DockingPropogateAction.StringChanged:
-                {
-                    // Pushed changed strings to the tooltips
-                    KryptonDockingManager? dockingManager = DockingManager;
-                    if (dockingManager?.Strings != null)
                     {
-                        _slidePanel.DockspaceControl.PinTooltip = dockingManager.Strings.TextDock;
-                        _slidePanel.DockspaceControl.CloseTooltip = dockingManager.Strings.TextClose;
-                        _slidePanel.DockspaceControl.DropDownTooltip = dockingManager.Strings.TextWindowLocation;
+                        // Pushed changed strings to the tooltips
+                        KryptonDockingManager? dockingManager = DockingManager;
+                        if (dockingManager?.Strings != null)
+                        {
+                            _slidePanel.DockspaceControl.PinTooltip = dockingManager.Strings.TextDock;
+                            _slidePanel.DockspaceControl.CloseTooltip = dockingManager.Strings.TextClose;
+                            _slidePanel.DockspaceControl.DropDownTooltip = dockingManager.Strings.TextWindowLocation;
+                        }
                     }
-                }
                     break;
             }
 
@@ -248,7 +250,7 @@ namespace Krypton.Docking
             else
             {
                 // Create a new auto hidden group and then reload it
-                KryptonDockingAutoHiddenGroup autoHiddenGroup = AppendAutoHiddenGroup(xmlReader.GetAttribute(@"N"));
+                KryptonDockingAutoHiddenGroup autoHiddenGroup = AppendAutoHiddenGroup(xmlReader.GetAttribute(@"N")!);
                 autoHiddenGroup.LoadElementFromXml(xmlReader, pages);
             }
         }
@@ -259,10 +261,10 @@ namespace Krypton.Docking
         {
             // Create the new auto hidden group instance and add into our collection
             KryptonDockingAutoHiddenGroup groupElement = new(name, Edge);
-            groupElement.PageClicked += OnDockingAutoHiddenGroupClicked;
-            groupElement.PageHoverStart += OnDockingAutoHiddenGroupHoverStart;
-            groupElement.PageHoverEnd += OnDockingAutoHiddenGroupHoverEnd;
-            groupElement.Disposed += OnDockingAutoHiddenGroupDisposed;
+            groupElement.PageClicked += OnDockingAutoHiddenGroupClicked!;
+            groupElement.PageHoverStart += OnDockingAutoHiddenGroupHoverStart!;
+            groupElement.PageHoverEnd += OnDockingAutoHiddenGroupHoverEnd!;
+            groupElement.Disposed += OnDockingAutoHiddenGroupDisposed!;
             InternalInsert(index, groupElement);
 
             // Events are generated from the parent docking manager
@@ -302,10 +304,10 @@ namespace Krypton.Docking
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
             KryptonDockingAutoHiddenGroup groupElement = (KryptonDockingAutoHiddenGroup)sender;
-            groupElement.PageClicked -= OnDockingAutoHiddenGroupClicked;
-            groupElement.PageHoverStart -= OnDockingAutoHiddenGroupHoverStart;
-            groupElement.PageHoverEnd -= OnDockingAutoHiddenGroupHoverEnd;
-            groupElement.Disposed -= OnDockingAutoHiddenGroupDisposed;
+            groupElement.PageClicked -= OnDockingAutoHiddenGroupClicked!;
+            groupElement.PageHoverStart -= OnDockingAutoHiddenGroupHoverStart!;
+            groupElement.PageHoverEnd -= OnDockingAutoHiddenGroupHoverEnd!;
+            groupElement.Disposed -= OnDockingAutoHiddenGroupDisposed!;
 
             // Remove the element from our child collection as it is no longer valid
             InternalRemove(groupElement);
@@ -314,7 +316,7 @@ namespace Krypton.Docking
         private void OnPanelDisposed(object sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
-            _panel.Disposed -= OnPanelDisposed;
+            _panel.Disposed -= OnPanelDisposed!;
 
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;
@@ -338,13 +340,13 @@ namespace Krypton.Docking
         private void OnSlidePanelDisposed(object sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
-            _slidePanel.SplitterMoveRect -= OnSlidePanelSeparatorMoveRect;
-            _slidePanel.SplitterMoved -= OnSlidePanelSeparatorMoved;
-            _slidePanel.SplitterMoving -= OnSlidePanelSeparatorMoving;
-            _slidePanel.PageCloseClicked -= OnSlidePanelPageCloseClicked;
-            _slidePanel.PageAutoHiddenClicked -= OnSlidePanelPageAutoHiddenClicked;
-            _slidePanel.PageDropDownClicked -= OnSlidePanelPageDropDownClicked;
-            _slidePanel.Disposed -= OnPanelDisposed;
+            _slidePanel.SplitterMoveRect -= OnSlidePanelSeparatorMoveRect!;
+            _slidePanel.SplitterMoved -= OnSlidePanelSeparatorMoved!;
+            _slidePanel.SplitterMoving -= OnSlidePanelSeparatorMoving!;
+            _slidePanel.PageCloseClicked -= OnSlidePanelPageCloseClicked!;
+            _slidePanel.PageAutoHiddenClicked -= OnSlidePanelPageAutoHiddenClicked!;
+            _slidePanel.PageDropDownClicked -= OnSlidePanelPageDropDownClicked!;
+            _slidePanel.Disposed -= OnPanelDisposed!;
 
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;
@@ -434,7 +436,9 @@ namespace Krypton.Docking
         {
             // Generate event so that the appropriate context menu options are presented and actioned
             KryptonDockingManager? dockingManager = DockingManager;
-            if (dockingManager != null)
+            if (dockingManager != null
+                && e is { Page: { }, KryptonContextMenu: { } }
+                )
             {
                 e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
             }
@@ -456,7 +460,7 @@ namespace Krypton.Docking
 
             // Adjust for any showing auto hidden panels at the edges
             foreach (Control child in Control.Controls.Cast<Control>()
-                         .Where(static child => child.Visible 
+                         .Where(static child => child.Visible
                                      && child is KryptonAutoHiddenPanel)
                      )
             {

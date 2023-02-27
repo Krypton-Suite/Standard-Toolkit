@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
         public event EventHandler DesignTimeAddCheckBox;
 
         /// <summary>
-        /// Occurs when the design time wants to add a radoi button.
+        /// Occurs when the design time wants to add a radio button.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbonTab RibbonTab
+        public override KryptonRibbonTab? RibbonTab
         {
             get => base.RibbonTab;
 
@@ -340,10 +340,7 @@ namespace Krypton.Ribbon
                             }
                             break;
                         case GroupItemSize.Small:
-                            if (_itemSizeMin != GroupItemSize.Small)
-                            {
-                                _itemSizeMin = GroupItemSize.Small;
-                            }
+                            _itemSizeMin = GroupItemSize.Small;
                             break;
                     }
 
@@ -379,10 +376,7 @@ namespace Krypton.Ribbon
                     switch (_itemSizeMin)
                     {
                         case GroupItemSize.Large:
-                            if (_itemSizeMax != GroupItemSize.Large)
-                            {
-                                _itemSizeMax = GroupItemSize.Large;
-                            }
+                            _itemSizeMax = GroupItemSize.Large;
                             break;
                         case GroupItemSize.Medium:
                             if (_itemSizeMax == GroupItemSize.Small)

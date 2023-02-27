@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly PaletteDoubleMetricRedirect _paletteItemHighlight;
+        private readonly PaletteDoubleMetricRedirect? _paletteItemHighlight;
         private readonly ViewDrawMenuImageColumn _imageColumn;
         private ColumnToWidth _columnToWidth;
         #endregion

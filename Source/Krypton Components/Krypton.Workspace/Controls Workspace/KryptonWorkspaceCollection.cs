@@ -68,18 +68,13 @@ namespace Krypton.Workspace
             {
                 foreach (Component c in this)
                 {
-                    // If we have a cell and that cell wants to be visible then we are done
-                    if ((c is KryptonWorkspaceCell { WorkspaceVisible: true }))
+                    switch (c)
                     {
-                        return true;
-                    }
-                    else
-                    {
+                        // If we have a cell and that cell wants to be visible then we are done
+                        case KryptonWorkspaceCell { WorkspaceVisible: true }:
                         // If we have a sequence and it is visible and contains a visible cell then we are done
-                        if ((c is KryptonWorkspaceSequence { WorkspaceVisible: true, Children.ContainsVisibleCell: true }))
-                        {
+                        case KryptonWorkspaceSequence { WorkspaceVisible: true, Children.ContainsVisibleCell: true }:
                             return true;
-                        }
                     }
                 }
 
@@ -103,14 +98,14 @@ namespace Krypton.Workspace
                 workspaceItem.MaximizeRestoreClicked += OnChildMaximizeRestoreClicked;
             }
 
-            if (e.Item is KryptonWorkspaceCell cell)
+            switch (e.Item)
             {
-                cell.WorkspaceParent = _sequence;
-            }
-
-            if (e.Item is KryptonWorkspaceSequence sequence)
-            {
-                sequence.WorkspaceParent = _sequence;
+                case KryptonWorkspaceCell cell:
+                    cell.WorkspaceParent = _sequence;
+                    break;
+                case KryptonWorkspaceSequence sequence:
+                    sequence.WorkspaceParent = _sequence;
+                    break;
             }
 
             OnPropertyChanged(@"Children");
@@ -130,14 +125,14 @@ namespace Krypton.Workspace
                 workspaceItem.MaximizeRestoreClicked -= OnChildMaximizeRestoreClicked;
             }
 
-            if (e.Item is KryptonWorkspaceCell cell)
+            switch (e.Item)
             {
-                cell.WorkspaceParent = null;
-            }
-
-            if (e.Item is KryptonWorkspaceSequence sequence)
-            {
-                sequence.WorkspaceParent = null;
+                case KryptonWorkspaceCell cell:
+                    cell.WorkspaceParent = null;
+                    break;
+                case KryptonWorkspaceSequence sequence:
+                    sequence.WorkspaceParent = null;
+                    break;
             }
 
             OnPropertyChanged(@"Children");
@@ -160,14 +155,14 @@ namespace Krypton.Workspace
                     workspaceItem.MaximizeRestoreClicked -= OnChildMaximizeRestoreClicked;
                 }
 
-                if (c is KryptonWorkspaceCell cell)
+                switch (c)
                 {
-                    cell.WorkspaceParent = null;
-                }
-
-                if (c is KryptonWorkspaceSequence sequence)
-                {
-                    sequence.WorkspaceParent = null;
+                    case KryptonWorkspaceCell cell:
+                        cell.WorkspaceParent = null;
+                        break;
+                    case KryptonWorkspaceSequence sequence:
+                        sequence.WorkspaceParent = null;
+                        break;
                 }
             }
         }

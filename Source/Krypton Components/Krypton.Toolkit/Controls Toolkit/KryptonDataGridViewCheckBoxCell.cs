@@ -145,20 +145,17 @@ namespace Krypton.Toolkit
                 {
                     CheckState checkState = CheckState.Unchecked;
 
-                    if (formattedValue is CheckState state)
+                    switch (formattedValue)
                     {
-                        checkState = state;
-                    }
-                    else if (formattedValue is bool b)
-                    {
-                        if (b)
-                        {
+                        case CheckState state:
+                            checkState = state;
+                            break;
+                        case bool b when b:
                             checkState = CheckState.Checked;
-                        }
-                        else
-                        {
+                            break;
+                        case bool b:
                             checkState = CheckState.Unchecked;
-                        }
+                            break;
                     }
 
                     // Is this cell the currently active cell

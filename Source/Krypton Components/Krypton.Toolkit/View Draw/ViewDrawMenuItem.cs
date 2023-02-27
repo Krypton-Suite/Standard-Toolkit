@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            PaletteDouble splitPalette;
+            PaletteDouble? splitPalette;
 
             // Make sure we are using the correct palette for state
             switch (State)

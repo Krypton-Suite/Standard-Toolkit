@@ -360,41 +360,43 @@ namespace Krypton.Ribbon
                 // Only interested in visible children!
                 if (child.Visible)
                 {
-                    // Is this a container item
-                    if (child is IRibbonViewGroupContainerView container)
+                    switch (child)
                     {
-                        container.GetGroupKeyTips(keyTipList);
-                    }
-                    else if (child is IRibbonViewGroupItemView item)
-                    {
-                        item.GetGroupKeyTips(keyTipList, lineHint);
+                        // Is this a container item
+                        case IRibbonViewGroupContainerView container:
+                            container.GetGroupKeyTips(keyTipList);
+                            break;
+                        case IRibbonViewGroupItemView item:
+                            item.GetGroupKeyTips(keyTipList, lineHint);
 
-                        // Depending on size we check to adjust the lint hint
-                        switch (_currentSize)
-                        {
-                            case GroupItemSize.Large:
-                                if (visibleIndex == _split1Large)
-                                {
-                                    lineHint = 5;
-                                }
-                                break;
-                            case GroupItemSize.Medium:
-                                if (visibleIndex == _split1Medium)
-                                {
-                                    lineHint = 5;
-                                }
-                                break;
-                            case GroupItemSize.Small:
-                                if (visibleIndex == _split1Small)
-                                {
-                                    lineHint = 2;
-                                }
-                                else if (visibleIndex == _split2Small)
-                                {
-                                    lineHint = 3;
-                                }
-                                break;
-                        }
+                            // Depending on size we check to adjust the lint hint
+                            switch (_currentSize)
+                            {
+                                case GroupItemSize.Large:
+                                    if (visibleIndex == _split1Large)
+                                    {
+                                        lineHint = 5;
+                                    }
+                                    break;
+                                case GroupItemSize.Medium:
+                                    if (visibleIndex == _split1Medium)
+                                    {
+                                        lineHint = 5;
+                                    }
+                                    break;
+                                case GroupItemSize.Small:
+                                    if (visibleIndex == _split1Small)
+                                    {
+                                        lineHint = 2;
+                                    }
+                                    else if (visibleIndex == _split2Small)
+                                    {
+                                        lineHint = 3;
+                                    }
+                                    break;
+                            }
+
+                            break;
                     }
 
                     // Track number of visible items, as the split indexes are based on 

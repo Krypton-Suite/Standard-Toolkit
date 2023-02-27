@@ -40,9 +40,9 @@ namespace Krypton.Navigator
         private readonly PaletteRedirectMetric? _redirectNavigatorBar;
         private readonly PaletteRedirectDouble? _redirectNavigatorPage;
         private readonly PaletteRedirectDoubleMetric? _redirectNavigatorSeparator;
-        private readonly PaletteNavigatorRedirect _stateCommon;
-        private readonly PaletteNavigator _stateDisabled;
-        private readonly PaletteNavigator _stateNormal;
+        private readonly PaletteNavigatorRedirect? _stateCommon;
+        private readonly PaletteNavigator? _stateDisabled;
+        private readonly PaletteNavigator? _stateNormal;
         private readonly NeedPaintHandler _needDisabledPaint;
         private readonly NeedPaintHandler _needNormalPaint;
         private BoolFlags31 _flags;
@@ -307,7 +307,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteNavigatorRedirect StateCommon
+        public virtual PaletteNavigatorRedirect? StateCommon
         {
             [DebuggerStepThrough]
             get => _stateCommon;
@@ -321,7 +321,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteNavigator StateDisabled
+        public virtual PaletteNavigator? StateDisabled
         {
             [DebuggerStepThrough]
             get => _stateDisabled;
@@ -335,7 +335,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteNavigator StateNormal
+        public virtual PaletteNavigator? StateNormal
         {
             [DebuggerStepThrough]
             get => _stateNormal;
@@ -798,9 +798,9 @@ namespace Krypton.Navigator
         /// <param name="selected">State palette for inheriting selected values.</param>
         /// <param name="focus">State palette for inheriting focus values.</param>
         public virtual void SetInherit(Control alignControl,
-                                       PaletteNavigatorRedirect common,
-                                       PaletteNavigator disabled,
-                                       PaletteNavigator normal,
+                                       PaletteNavigatorRedirect? common,
+                                       PaletteNavigator? disabled,
+                                       PaletteNavigator? normal,
                                        PaletteNavigatorOtherEx tracking,
                                        PaletteNavigatorOtherEx pressed,
                                        PaletteNavigatorOther selected,

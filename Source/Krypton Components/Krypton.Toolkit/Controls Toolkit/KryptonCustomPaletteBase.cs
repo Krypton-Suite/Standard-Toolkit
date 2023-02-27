@@ -5613,7 +5613,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        private void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             // Only raise the need to paint if updates have not been suspended
             if (_suspendCount == 0)

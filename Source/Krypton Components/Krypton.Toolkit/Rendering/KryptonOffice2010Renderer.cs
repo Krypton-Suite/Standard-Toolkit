@@ -1250,17 +1250,17 @@ namespace Krypton.Toolkit
                     // Ensure we have cached the objects we need
                     UpdateCache();
 
-                    if (splitButton is { Pressed: false, ButtonPressed: true })
+                    switch (splitButton)
                     {
-                        DrawGradientToolSplitItem(g, splitButton, _gradientPressed, _gradientTracking, _gradientSplit);
-                    }
-                    else if (splitButton is { Pressed: true, ButtonPressed: false })
-                    {
-                        DrawContextMenuHeader(g, splitButton);
-                    }
-                    else
-                    {
-                        DrawGradientToolSplitItem(g, splitButton, _gradientTracking, _gradientTracking, _gradientSplit);
+                        case { Pressed: false, ButtonPressed: true }:
+                            DrawGradientToolSplitItem(g, splitButton, _gradientPressed, _gradientTracking, _gradientSplit);
+                            break;
+                        case { Pressed: true, ButtonPressed: false }:
+                            DrawContextMenuHeader(g, splitButton);
+                            break;
+                        default:
+                            DrawGradientToolSplitItem(g, splitButton, _gradientTracking, _gradientTracking, _gradientSplit);
+                            break;
                     }
                 }
                 else

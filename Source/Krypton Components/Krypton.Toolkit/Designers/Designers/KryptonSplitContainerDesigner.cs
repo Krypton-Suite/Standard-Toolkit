@@ -99,14 +99,13 @@ namespace Krypton.Toolkit
         {
             if (_splitContainer != null)
             {
-                // Get the control designer for the requested indexed child control
-                if (internalControlIndex == 0)
+                switch (internalControlIndex)
                 {
-                    return _designerHost.GetDesigner(_splitContainer.Panel1) as ControlDesigner;
-                }
-                else if (internalControlIndex == 1)
-                {
-                    return _designerHost.GetDesigner(_splitContainer.Panel2) as ControlDesigner;
+                    // Get the control designer for the requested indexed child control
+                    case 0:
+                        return _designerHost.GetDesigner(_splitContainer.Panel1) as ControlDesigner;
+                    case 1:
+                        return _designerHost.GetDesigner(_splitContainer.Panel2) as ControlDesigner;
                 }
             }
 

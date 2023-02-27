@@ -67,8 +67,8 @@ namespace Krypton.Toolkit
         /// <param name="glyph">Glyph to be drawn.</param>
         /// <param name="needPaintHandler">Delegate for requests repainting.</param>
         public ViewDrawMonthUpDown(IPaletteTriple paletteState,
-                                   IPaletteMetric paletteMetric,
-                                   IContentValues buttonValues,
+                                   IPaletteMetric? paletteMetric,
+                                   IContentValues? buttonValues,
                                    DrawMonthCalendarGlyph glyph,
                                    NeedPaintHandler needPaintHandler)        
             : base(paletteState, paletteState, paletteState, paletteState, 

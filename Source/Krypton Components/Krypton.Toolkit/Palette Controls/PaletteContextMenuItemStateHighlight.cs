@@ -41,8 +41,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirectItemHighlight">Redirector for the ItemHighlight.</param>
         /// <param name="redirectItemSplit">Redirector for the ItemSplit.</param>
-        public PaletteContextMenuItemStateHighlight(PaletteDoubleMetricRedirect redirectItemHighlight,
-                                                    PaletteDoubleRedirect redirectItemSplit)
+        public PaletteContextMenuItemStateHighlight(PaletteDoubleMetricRedirect? redirectItemHighlight,
+                                                    PaletteDoubleRedirect? redirectItemSplit)
         {
             ItemHighlight = new PaletteDoubleMetric(redirectItemHighlight);
             ItemSplit = new PaletteDouble(redirectItemSplit);
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble ItemSplit { get; }
+        public PaletteDouble? ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 

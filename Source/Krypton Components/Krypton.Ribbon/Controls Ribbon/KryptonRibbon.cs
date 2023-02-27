@@ -56,8 +56,8 @@ namespace Krypton.Ribbon
         // Private
         private NeedPaintHandler _needPaintGroups;
         private VisualPopupMinimized? _minimizedPopup;
-        private KryptonContextMenu _kcm;
-        private EventHandler _kcmFinishDelegate;
+        private KryptonContextMenu? _kcm;
+        private EventHandler? _kcmFinishDelegate;
         private IntPtr _keyboardFocusWindow;
         private bool _keyboardFocusCaret;
         private bool _designHelpers;
@@ -1736,7 +1736,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             // When in minimized mode...
             if (RealMinimizedMode)
@@ -3198,14 +3198,14 @@ namespace Krypton.Ribbon
 
         private void OnRibbonQATButtonsRemoved(object sender, TypedCollectionEventArgs<Component> e)
         {
-            IQuickAccessToolbarButton qatButton = e.Item as IQuickAccessToolbarButton;
+            IQuickAccessToolbarButton? qatButton = e.Item as IQuickAccessToolbarButton;
             Debug.Assert(qatButton != null);
 
             // Stop tracking changes in button properties
-            qatButton.PropertyChanged -= OnQATButtonPropertyChanged;
+            qatButton!.PropertyChanged -= OnQATButtonPropertyChanged;
 
             // Remove the backreference
-            qatButton?.SetRibbon(null);
+            qatButton.SetRibbon(null);
 
             // Display not updated until a layout occurs
             PerformNeedPaint(true);
@@ -3214,7 +3214,7 @@ namespace Krypton.Ribbon
             CaptionArea.QATButtonsChanged();
         }
 
-        private void OnNeedPaintMinimizedGroups(object sender, NeedLayoutEventArgs e)
+        private void OnNeedPaintMinimizedGroups(object? sender, NeedLayoutEventArgs e)
         {
             // When in minimized mode...
             if (RealMinimizedMode)
@@ -3232,7 +3232,7 @@ namespace Krypton.Ribbon
 
         private void OnQATButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Changein button property requires a layout effect change
+            // Changing button property requires a layout effect change
             PerformNeedPaint(true);
 
             // If the buttons are integrated into caption area then needs laying out as well
@@ -3281,7 +3281,7 @@ namespace Krypton.Ribbon
         private void UpdateMinimizedPopup()
         {
             // Update the screen location of popup to reflect a change in selected tab
-            _minimizedPopup.Show(TabsArea, _drawMinimizedPanel);
+            _minimizedPopup?.Show(TabsArea, _drawMinimizedPanel);
         }
 
         private void OnMinimizedPopupDisposed(object sender, EventArgs e)
@@ -3309,7 +3309,7 @@ namespace Krypton.Ribbon
             KryptonContextMenuItem menuItem = (KryptonContextMenuItem)sender;
 
             // Find index of the item to toggle
-            var index = (int)menuItem.Tag;
+            var index = (int)(menuItem.Tag ?? -1);
 
             // Double check the index is still valid
             if ((index >= 0) && (index < QATButtons.Count))

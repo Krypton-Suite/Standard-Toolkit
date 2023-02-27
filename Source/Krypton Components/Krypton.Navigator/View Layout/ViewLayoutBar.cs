@@ -1009,13 +1009,14 @@ namespace Krypton.Navigator
             // Do we need to apply right to left by aligning in opposite direction?
             if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
             {
-                if (align == RelativePositionAlign.Near)
+                switch (align)
                 {
-                    align = RelativePositionAlign.Far;
-                }
-                else if (align == RelativePositionAlign.Far)
-                {
-                    align = RelativePositionAlign.Near;
+                    case RelativePositionAlign.Near:
+                        align = RelativePositionAlign.Far;
+                        break;
+                    case RelativePositionAlign.Far:
+                        align = RelativePositionAlign.Near;
+                        break;
                 }
             }
 
@@ -1047,13 +1048,14 @@ namespace Krypton.Navigator
             // Do we need to apply right to left by aligning in opposite direction?
             if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
             {
-                if (align == RelativePositionAlign.Near)
+                switch (align)
                 {
-                    align = RelativePositionAlign.Far;
-                }
-                else if (align == RelativePositionAlign.Far)
-                {
-                    align = RelativePositionAlign.Near;
+                    case RelativePositionAlign.Near:
+                        align = RelativePositionAlign.Far;
+                        break;
+                    case RelativePositionAlign.Far:
+                        align = RelativePositionAlign.Near;
+                        break;
                 }
             }
 

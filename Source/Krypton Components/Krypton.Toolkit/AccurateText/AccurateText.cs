@@ -270,23 +270,25 @@ namespace Krypton.Toolkit
 
                     try
                     {
-                        if (Application.RenderWithVisualStyles && composition && glowing)
+                        switch (Application.RenderWithVisualStyles)
                         {
-                            DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                                                       SystemColors.ActiveCaptionText, true);
-                        }
-                        else if (Application.RenderWithVisualStyles && composition)
-                        {
-                            //Check if correct in all cases
-                            SolidBrush? tmpBrush = brush as SolidBrush;
-                            Color tmpColor = tmpBrush?.Color ?? SystemColors.ActiveCaptionText;
+                            case true when composition && glowing:
+                                DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
+                                    SystemColors.ActiveCaptionText, true);
+                                break;
+                            case true when composition:
+                            {
+                                //Check if correct in all cases
+                                SolidBrush? tmpBrush = brush as SolidBrush;
+                                Color tmpColor = tmpBrush?.Color ?? SystemColors.ActiveCaptionText;
 
-                            DrawCompositionText(g, memento.Text, memento.Font, rect, state,
-                              tmpColor, true, memento.Format);
-                        }
-                        else
-                        {
-                            g.DrawString(memento.Text, memento.Font, brush, rect, memento.Format);
+                                DrawCompositionText(g, memento.Text, memento.Font, rect, state,
+                                    tmpColor, true, memento.Format);
+                                break;
+                            }
+                            default:
+                                g.DrawString(memento.Text, memento.Font, brush, rect, memento.Format);
+                                break;
                         }
                     }
                     catch
@@ -674,41 +676,37 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            // Hotkey Prefix
-            if (sf.HotkeyPrefix == HotkeyPrefix.None)
+            switch (sf.HotkeyPrefix)
             {
-                flags &= TextFormatFlags.NoPrefix;
-            }
-            else if (sf.HotkeyPrefix == HotkeyPrefix.Hide)
-            {
-                flags &= TextFormatFlags.HidePrefix;
-            }
-
-            // Text Padding
-            if (sf.FormatFlags == StringFormatFlags.FitBlackBox)
-            {
-                flags &= TextFormatFlags.NoPadding;
+                // Hotkey Prefix
+                case HotkeyPrefix.None:
+                    flags &= TextFormatFlags.NoPrefix;
+                    break;
+                case HotkeyPrefix.Hide:
+                    flags &= TextFormatFlags.HidePrefix;
+                    break;
             }
 
-            // Text Wrapping
-            if (sf.FormatFlags == StringFormatFlags.NoWrap)
+            switch (sf.FormatFlags)
             {
-                flags &= TextFormatFlags.SingleLine;
-            }
-            else if (sf.FormatFlags == StringFormatFlags.LineLimit)
-            {
-                flags &= TextFormatFlags.TextBoxControl;
-            }
-
-            // Other Flags
-            if (sf.FormatFlags == StringFormatFlags.DirectionRightToLeft)
-            {
-                flags &= TextFormatFlags.RightToLeft;
-            }
-
-            if (sf.FormatFlags == StringFormatFlags.NoClip)
-            {
-                flags &= TextFormatFlags.NoClipping;
+                // Text Padding
+                case StringFormatFlags.FitBlackBox:
+                    flags &= TextFormatFlags.NoPadding;
+                    break;
+                // Text Wrapping
+                case StringFormatFlags.NoWrap:
+                    flags &= TextFormatFlags.SingleLine;
+                    break;
+                case StringFormatFlags.LineLimit:
+                    flags &= TextFormatFlags.TextBoxControl;
+                    break;
+                // Other Flags
+                case StringFormatFlags.DirectionRightToLeft:
+                    flags &= TextFormatFlags.RightToLeft;
+                    break;
+                case StringFormatFlags.NoClip:
+                    flags &= TextFormatFlags.NoClipping;
+                    break;
             }
 
             return flags;

@@ -522,17 +522,15 @@ namespace Krypton.Ribbon
             // Process each component inside the container
             foreach (Component component in Container.GetChildComponents())
             {
-                // If the component is itself a container...
-                if (component is IRibbonGroupContainer container)
+                switch (component)
                 {
-                    AutoUpdateContainer(container);
-                }
-                else
-                {
+                    // If the component is itself a container...
+                    case IRibbonGroupContainer container:
+                        AutoUpdateContainer(container);
+                        break;
                     // If this is another radio button...
-                    if (component is KryptonRibbonGroupRadioButton radioButton)
+                    case KryptonRibbonGroupRadioButton radioButton:
                     {
-
                         // Do not process ourself!
                         if (radioButton != this)
                         {
@@ -542,6 +540,8 @@ namespace Krypton.Ribbon
                                 radioButton.Checked = false;
                             }
                         }
+
+                        break;
                     }
                 }
             }

@@ -1402,25 +1402,19 @@ namespace Krypton.Toolkit
         /// <param name="host">Designer host used if provided.</param>
         public static void DestroyInstance(object instance, IDesignerHost? host)
         {
-            if (instance is IComponent component)
+            switch (instance)
             {
                 // Use designer to remove component if possible
-                if (host != null)
-                {
+                case IComponent component when host != null:
                     host.DestroyComponent(component);
-                }
-                else
-                {
+                    break;
+                case IComponent component:
                     component.Dispose();
-                }
-            }
-            else
-            {
+                    break;
                 // Fallback to calling any exposed dispose method
-                if (instance is IDisposable disposable)
-                {
+                case IDisposable disposable:
                     disposable.Dispose();
-                }
+                    break;
             }
         }
 

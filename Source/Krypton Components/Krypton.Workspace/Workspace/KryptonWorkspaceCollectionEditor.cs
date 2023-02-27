@@ -49,19 +49,19 @@ namespace Krypton.Workspace
                 /// Gets access to the common page appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigatorRedirect StateCommon => _item.StateCommon;
+                public PaletteNavigatorRedirect? StateCommon => _item.StateCommon;
 
                 /// <summary>
                 /// Gets access to the disabled page appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator StateDisabled => _item.StateDisabled;
+                public PaletteNavigator? StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal page appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator StateNormal => _item.StateNormal;
+                public PaletteNavigator? StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking page appearance entries.
@@ -432,19 +432,19 @@ namespace Krypton.Workspace
                 /// Gets access to the common navigator appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigatorRedirect StateCommon => _item.StateCommon;
+                public PaletteNavigatorRedirect? StateCommon => _item.StateCommon;
 
                 /// <summary>
                 /// Gets access to the disabled navigator appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator StateDisabled => _item.StateDisabled;
+                public PaletteNavigator? StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal navigator appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator StateNormal => _item.StateNormal;
+                public PaletteNavigator? StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking navigator appearance entries.
@@ -1752,21 +1752,27 @@ namespace Krypton.Workspace
                 // Add item to the dictionary
                 dictItems.Add(baseItem, baseItem);
 
-                // Add pages from a cell
-                if (baseItem is KryptonWorkspaceCell cell)
+                switch (baseItem)
                 {
-                    foreach (Component item in cell.Pages)
+                    // Add pages from a cell
+                    case KryptonWorkspaceCell cell:
                     {
-                        AddItemsToDictionary(dictItems, item);
-                    }
-                }
+                        foreach (Component item in cell.Pages)
+                        {
+                            AddItemsToDictionary(dictItems, item);
+                        }
 
-                // Add children from a sequence
-                if (baseItem is KryptonWorkspaceSequence sequence)
-                {
-                    foreach (Component item in sequence.Children)
+                        break;
+                    }
+                    // Add children from a sequence
+                    case KryptonWorkspaceSequence sequence:
                     {
-                        AddItemsToDictionary(dictItems, item);
+                        foreach (Component item in sequence.Children)
+                        {
+                            AddItemsToDictionary(dictItems, item);
+                        }
+
+                        break;
                     }
                 }
             }
@@ -1786,21 +1792,27 @@ namespace Krypton.Workspace
                     _treeView.Nodes.Add(node);
                 }
 
-                // Add pages from a cell
-                if (item is KryptonWorkspaceCell cell)
+                switch (item)
                 {
-                    foreach (Component page in cell.Pages)
+                    // Add pages from a cell
+                    case KryptonWorkspaceCell cell:
                     {
-                        AddMenuTreeNode(page, node);
-                    }
-                }
+                        foreach (Component page in cell.Pages)
+                        {
+                            AddMenuTreeNode(page, node);
+                        }
 
-                // Add children from a sequence
-                if (item is KryptonWorkspaceSequence sequence)
-                {
-                    foreach (Component child in sequence.Children)
+                        break;
+                    }
+                    // Add children from a sequence
+                    case KryptonWorkspaceSequence sequence:
                     {
-                        AddMenuTreeNode(child, node);
+                        foreach (Component child in sequence.Children)
+                        {
+                            AddMenuTreeNode(child, node);
+                        }
+
+                        break;
                     }
                 }
             }

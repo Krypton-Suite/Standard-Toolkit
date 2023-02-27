@@ -32,11 +32,11 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonMaskedTextBox _kryptonMaskedTextBox;
             private bool _mouseOver;
-            private string _hint;
+            private string? _hint;
             #endregion
 
             #region Property
-            public string Hint
+            public string? Hint
             {
                 get => _hint;
 
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
@@ -465,25 +465,25 @@ namespace Krypton.Toolkit
 
             // Create the internal text box used for containing content
             _maskedTextBox = new InternalMaskedTextBox(this);
-            _maskedTextBox.TrackMouseEnter += OnMaskedTextBoxMouseChange;
-            _maskedTextBox.TrackMouseLeave += OnMaskedTextBoxMouseChange;
-            _maskedTextBox.TextAlignChanged += OnMaskedTextBoxTextAlignChanged;
-            _maskedTextBox.TextChanged += OnMaskedTextBoxTextChanged;
-            _maskedTextBox.HideSelectionChanged += OnMaskedTextBoxHideSelectionChanged;
-            _maskedTextBox.ModifiedChanged += OnMaskedTextBoxModifiedChanged;
-            _maskedTextBox.ReadOnlyChanged += OnMaskedTextBoxReadOnlyChanged;
-            _maskedTextBox.MaskChanged += OnMaskedMaskChanged;
-            _maskedTextBox.IsOverwriteModeChanged += OnMaskedIsOverwriteModeChanged;
-            _maskedTextBox.MaskInputRejected += OnMaskedMaskInputRejected;
-            _maskedTextBox.TypeValidationCompleted += OnMaskedTypeValidationCompleted;
-            _maskedTextBox.GotFocus += OnMaskedTextBoxGotFocus;
-            _maskedTextBox.LostFocus += OnMaskedTextBoxLostFocus;
-            _maskedTextBox.KeyDown += OnMaskedTextBoxKeyDown;
-            _maskedTextBox.KeyUp += OnMaskedTextBoxKeyUp;
-            _maskedTextBox.KeyPress += OnMaskedTextBoxKeyPress;
-            _maskedTextBox.PreviewKeyDown += OnMaskedTextBoxPreviewKeyDown;
-            _maskedTextBox.Validating += OnMaskedTextBoxValidating;
-            _maskedTextBox.Validated += OnMaskedTextBoxValidated;
+            _maskedTextBox.TrackMouseEnter += OnMaskedTextBoxMouseChange!;
+            _maskedTextBox.TrackMouseLeave += OnMaskedTextBoxMouseChange!;
+            _maskedTextBox.TextAlignChanged += OnMaskedTextBoxTextAlignChanged!;
+            _maskedTextBox.TextChanged += OnMaskedTextBoxTextChanged!;
+            _maskedTextBox.HideSelectionChanged += OnMaskedTextBoxHideSelectionChanged!;
+            _maskedTextBox.ModifiedChanged += OnMaskedTextBoxModifiedChanged!;
+            _maskedTextBox.ReadOnlyChanged += OnMaskedTextBoxReadOnlyChanged!;
+            _maskedTextBox.MaskChanged += OnMaskedMaskChanged!;
+            _maskedTextBox.IsOverwriteModeChanged += OnMaskedIsOverwriteModeChanged!;
+            _maskedTextBox.MaskInputRejected += OnMaskedMaskInputRejected!;
+            _maskedTextBox.TypeValidationCompleted += OnMaskedTypeValidationCompleted!;
+            _maskedTextBox.GotFocus += OnMaskedTextBoxGotFocus!;
+            _maskedTextBox.LostFocus += OnMaskedTextBoxLostFocus!;
+            _maskedTextBox.KeyDown += OnMaskedTextBoxKeyDown!;
+            _maskedTextBox.KeyUp += OnMaskedTextBoxKeyUp!;
+            _maskedTextBox.KeyPress += OnMaskedTextBoxKeyPress!;
+            _maskedTextBox.PreviewKeyDown += OnMaskedTextBoxPreviewKeyDown!;
+            _maskedTextBox.Validating += OnMaskedTextBoxValidating!;
+            _maskedTextBox.Validated += OnMaskedTextBoxValidated!;
 
             // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_maskedTextBox);
@@ -514,8 +514,8 @@ namespace Krypton.Toolkit
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager();
-            ToolTipManager.ShowToolTip += OnShowToolTip;
-            ToolTipManager.CancelToolTip += OnCancelToolTip;
+            ToolTipManager.ShowToolTip += OnShowToolTip!;
+            ToolTipManager.CancelToolTip += OnCancelToolTip!;
             _buttonManager.ToolTipManager = ToolTipManager;
 
             // Add text box to the controls collection
@@ -553,11 +553,17 @@ namespace Krypton.Toolkit
         public float CornerRoundingRadius
         {
             get => _cornerRoundingRadius;
-
             set => SetCornerRoundingRadius(value);
         }
 
-        public string Hint { get => _maskedTextBox.Hint; set => _maskedTextBox.Hint = value; }
+        /// <summary>
+        /// Hint text placed into empty control
+        /// </summary>
+        public string? Hint
+        {
+            get => _maskedTextBox.Hint;
+            set => _maskedTextBox.Hint = value;
+        }
 
         private bool ShouldSerializeHint() => !string.IsNullOrWhiteSpace(Hint);
 
@@ -724,6 +730,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public string SelectedText
         {
             get => _maskedTextBox.SelectedText;
@@ -971,6 +978,7 @@ namespace Krypton.Toolkit
         [MergableProperty(false)]
         [DefaultValue("")]
         [Localizable(true)]
+        [AllowNull]
         public string Mask
         {
             get => _maskedTextBox.Mask;
@@ -1291,7 +1299,7 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => MaskedTextBox != null && MaskedTextBox.Focus();
+        public new bool Focus() => MaskedTextBox?.Focus() == true;
 
         /// <summary>
         /// Activates the control.
@@ -1381,7 +1389,7 @@ namespace Krypton.Toolkit
             }
 
             // Check if any of the button specs want the point
-            return (_buttonManager != null) && _buttonManager.DesignerGetHitTest(pt);
+            return _buttonManager?.DesignerGetHitTest(pt) == true;
         }
 
         /// <summary>
@@ -1390,9 +1398,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1585,7 +1593,7 @@ namespace Krypton.Toolkit
             // Ensure the height is correct
             AdjustHeight(false);
 
-            // Let base class calulcate fill rectangle
+            // Let base class calculate fill rectangle
             base.OnLayout(levent);
 
             // Only use layout logic if control is fully initialized or if being forced
@@ -1680,7 +1688,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {
@@ -1917,22 +1925,25 @@ namespace Krypton.Toolkit
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
                         _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                     }
                 }
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object sender, EventArgs e)
+        {
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
+            _visualPopupToolTip = null;
+        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
             VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;

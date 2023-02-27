@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbon Ribbon { get; private set; }
+        public KryptonRibbon? Ribbon { get; private set; }
 
         /// <summary>
         /// Gets and sets the application button image.
@@ -376,7 +376,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning instance.</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void SetRibbon(KryptonRibbon ribbon)
+        public void SetRibbon(KryptonRibbon? ribbon)
         {
             Ribbon = ribbon;
         }

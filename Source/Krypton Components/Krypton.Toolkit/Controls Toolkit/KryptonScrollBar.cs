@@ -602,64 +602,68 @@ namespace Krypton.Toolkit
 
             Focus();
 
-            if (e.Button == MouseButtons.Left)
+            switch (e.Button)
             {
-                // prevents showing the context menu if pressing the right mouse
-                // button while holding the left
-                ContextMenuStrip = null;
-
-                Point mouseLocation = e.Location;
-
-                if (_thumbRectangle.Contains(mouseLocation))
+                case MouseButtons.Left:
                 {
-                    _thumbClicked = true;
-                    _thumbPosition = _orientation == ScrollBarOrientation.Vertical ? mouseLocation.Y - _thumbRectangle.Y : mouseLocation.X - _thumbRectangle.X;
-                    _thumbState = ScrollBarState.Pressed;
+                    // prevents showing the context menu if pressing the right mouse
+                    // button while holding the left
+                    ContextMenuStrip = null;
 
-                    Invalidate(_thumbRectangle);
-                }
-                else if (_topArrowRectangle.Contains(mouseLocation))
-                {
-                    _topArrowClicked = true;
-                    _topButtonState = ScrollBarArrowButtonState.UpPressed;
+                    Point mouseLocation = e.Location;
 
-                    Invalidate(_topArrowRectangle);
-
-                    ProgressThumb(true);
-                }
-                else if (_bottomArrowRectangle.Contains(mouseLocation))
-                {
-                    _bottomArrowClicked = true;
-                    _bottomButtonState = ScrollBarArrowButtonState.DownPressed;
-
-                    Invalidate(_bottomArrowRectangle);
-
-                    ProgressThumb(true);
-                }
-                else
-                {
-                    _trackPosition =
-                       _orientation == ScrollBarOrientation.Vertical ?
-                          mouseLocation.Y : mouseLocation.X;
-
-                    if (_trackPosition <
-                       (_orientation == ScrollBarOrientation.Vertical ?
-                          _thumbRectangle.Y : _thumbRectangle.X))
+                    if (_thumbRectangle.Contains(mouseLocation))
                     {
-                        _topBarClicked = true;
+                        _thumbClicked = true;
+                        _thumbPosition = _orientation == ScrollBarOrientation.Vertical ? mouseLocation.Y - _thumbRectangle.Y : mouseLocation.X - _thumbRectangle.X;
+                        _thumbState = ScrollBarState.Pressed;
+
+                        Invalidate(_thumbRectangle);
+                    }
+                    else if (_topArrowRectangle.Contains(mouseLocation))
+                    {
+                        _topArrowClicked = true;
+                        _topButtonState = ScrollBarArrowButtonState.UpPressed;
+
+                        Invalidate(_topArrowRectangle);
+
+                        ProgressThumb(true);
+                    }
+                    else if (_bottomArrowRectangle.Contains(mouseLocation))
+                    {
+                        _bottomArrowClicked = true;
+                        _bottomButtonState = ScrollBarArrowButtonState.DownPressed;
+
+                        Invalidate(_bottomArrowRectangle);
+
+                        ProgressThumb(true);
                     }
                     else
                     {
-                        _bottomBarClicked = true;
+                        _trackPosition =
+                            _orientation == ScrollBarOrientation.Vertical ?
+                                mouseLocation.Y : mouseLocation.X;
+
+                        if (_trackPosition <
+                            (_orientation == ScrollBarOrientation.Vertical ?
+                                _thumbRectangle.Y : _thumbRectangle.X))
+                        {
+                            _topBarClicked = true;
+                        }
+                        else
+                        {
+                            _bottomBarClicked = true;
+                        }
+
+                        ProgressThumb(true);
                     }
 
-                    ProgressThumb(true);
+                    break;
                 }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                _trackPosition =
-                   _orientation == ScrollBarOrientation.Vertical ? e.Y : e.X;
+                case MouseButtons.Right:
+                    _trackPosition =
+                        _orientation == ScrollBarOrientation.Vertical ? e.Y : e.X;
+                    break;
             }
         }
 
@@ -937,42 +941,36 @@ namespace Krypton.Toolkit
                 return true;
             }
 
-            if (keyData == Keys.PageUp)
+            switch (keyData)
             {
-                Value = GetValue(false, true);
+                case Keys.PageUp:
+                    Value = GetValue(false, true);
 
-                return true;
-            }
-
-            if (keyData == Keys.PageDown)
-            {
-                if (_value + _largeChange > _maximum)
+                    return true;
+                case Keys.PageDown:
                 {
+                    if (_value + _largeChange > _maximum)
+                    {
+                        Value = _maximum;
+                    }
+                    else
+                    {
+                        Value += _largeChange;
+                    }
+
+                    return true;
+                }
+                case Keys.Home:
+                    Value = _minimum;
+
+                    return true;
+                case Keys.End:
                     Value = _maximum;
-                }
-                else
-                {
-                    Value += _largeChange;
-                }
 
-                return true;
+                    return true;
+                default:
+                    return base.ProcessDialogKey(keyData);
             }
-
-            if (keyData == Keys.Home)
-            {
-                Value = _minimum;
-
-                return true;
-            }
-
-            if (keyData == Keys.End)
-            {
-                Value = _maximum;
-
-                return true;
-            }
-
-            return base.ProcessDialogKey(keyData);
         }
 
         /// <summary>

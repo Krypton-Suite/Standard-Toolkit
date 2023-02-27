@@ -57,8 +57,8 @@ namespace Krypton.Toolkit
                               IPaletteTriple paletteNormal,
                               IPaletteTriple paletteTracking,
                               IPaletteTriple palettePressed,
-                              IPaletteMetric paletteMetric,
-                              IContentValues buttonValues,
+                              IPaletteMetric? paletteMetric,
+                              IContentValues? buttonValues,
                               VisualOrientation orientation,
                               bool useMnemonic)
             : this(paletteDisabled, paletteNormal, paletteTracking, palettePressed,
@@ -88,8 +88,8 @@ namespace Krypton.Toolkit
                               IPaletteTriple paletteCheckedNormal,
                               IPaletteTriple paletteCheckedTracking,
                               IPaletteTriple paletteCheckedPressed,
-                              IPaletteMetric paletteMetric,
-                              IContentValues buttonValues,
+                              IPaletteMetric? paletteMetric,
+                              IContentValues? buttonValues,
                               VisualOrientation orientation,
                               bool useMnemonic)
         {

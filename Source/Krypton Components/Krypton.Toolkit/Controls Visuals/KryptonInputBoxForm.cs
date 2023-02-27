@@ -139,13 +139,14 @@ namespace Krypton.Toolkit
 
         private void Response_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            switch (e.KeyCode)
             {
-                _buttonOk.PerformClick();
-            }
-            else if (e.KeyCode == Keys.Escape)
-            {
-                _buttonCancel.PerformClick();
+                case Keys.Enter:
+                    _buttonOk.PerformClick();
+                    break;
+                case Keys.Escape:
+                    _buttonCancel.PerformClick();
+                    break;
             }
         }
 

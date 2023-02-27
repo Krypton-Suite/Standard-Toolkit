@@ -1268,26 +1268,25 @@ namespace Krypton.Docking
             // Try and find as an existing page inside the hierarchy
             DockingElement? element = FindPageElement(uniqueName) as DockingElement;
 
-            // If exists as a dockspace page...
-            if (element is KryptonDockingDockspace)
+            switch (element)
             {
+                // If exists as a dockspace page...
                 // Find the edge the dockspace is against and return the matching docked edge
-                if (element.GetParentType(typeof(KryptonDockingEdgeDocked)) is KryptonDockingEdgeDocked edge)
-                {
+                case KryptonDockingDockspace when element.GetParentType(typeof(KryptonDockingEdgeDocked)) is KryptonDockingEdgeDocked edge:
                     return edge;
-                }
-            }
-
-            // If exists as a auto hidden group page...
-            if (element is KryptonDockingAutoHiddenGroup)
-            {
-                if (element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge)
+                // If exists as a auto hidden group page...
+                case KryptonDockingAutoHiddenGroup:
                 {
-                    // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
-                    if (edge[@"Docked"] is KryptonDockingEdgeDocked edgeDocked)
+                    if (element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge)
                     {
-                        return edgeDocked;
+                        // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
+                        if (edge[@"Docked"] is KryptonDockingEdgeDocked edgeDocked)
+                        {
+                            return edgeDocked;
+                        }
                     }
+
+                    break;
                 }
             }
 
@@ -1329,27 +1328,26 @@ namespace Krypton.Docking
             // Try and find as an existing page inside the hierarchy
             DockingElement? element = FindPageElement(uniqueName) as DockingElement;
 
-            // If exists as a dockspace page...
-            if (element is KryptonDockingDockspace)
+            switch (element)
             {
-                if (element.GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge edge)
+                // If exists as a dockspace page...
+                case KryptonDockingDockspace:
                 {
-                    // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
-                    if (edge[@"AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
+                    if (element.GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge edge)
                     {
-                        return edgeAutoHidden;
+                        // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
+                        if (edge[@"AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
+                        {
+                            return edgeAutoHidden;
+                        }
                     }
-                }
-            }
 
-            // If exists as a auto hidden group page...
-            if (element is KryptonDockingAutoHiddenGroup)
-            {
-                // Find the edge the dockspace is against and return the matching auto hidden edge
-                if (element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge)
-                {
-                    return edge;
+                    break;
                 }
+                // If exists as a auto hidden group page...
+                // Find the edge the dockspace is against and return the matching auto hidden edge
+                case KryptonDockingAutoHiddenGroup when element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge:
+                    return edge;
             }
 
             // Second preference is to find an existing store page inside an auto hidden group element

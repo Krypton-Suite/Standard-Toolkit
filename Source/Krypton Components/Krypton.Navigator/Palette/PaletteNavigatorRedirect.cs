@@ -253,7 +253,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining header group appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteNavigatorHeaderGroupRedirect HeaderGroup { get; }
+        public PaletteNavigatorHeaderGroupRedirect? HeaderGroup { get; }
 
         private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
 
@@ -305,7 +305,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPaddingRedirect Separator { get; }
+        public PaletteSeparatorPaddingRedirect? Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 
@@ -397,7 +397,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Internal
-        internal PalettePageRedirect PalettePage { get; }
+        internal PalettePageRedirect? PalettePage { get; }
 
         internal PaletteBorderStyle BorderEdgeStyle
         {

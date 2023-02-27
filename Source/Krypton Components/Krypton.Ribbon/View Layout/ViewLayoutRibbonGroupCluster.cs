@@ -596,20 +596,20 @@ namespace Krypton.Ribbon
                             Remove(regenEdge[item]);
                         }
 
-                        if (item is ViewDrawRibbonGroupClusterButton clusterButton)
+                        switch (item)
                         {
-                            clusterButton.MaxBorderEdges = maxBorders;
-                            clusterButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;
-                            clusterButton.ConstantBorder = itemConstantBorder;
-                            clusterButton.DrawNonTrackingAreas = itemDrawNonTrackingAreas;
-                        }
-
-                        if (item is ViewDrawRibbonGroupClusterColorButton clusterColorButton)
-                        {
-                            clusterColorButton.MaxBorderEdges = maxBorders;
-                            clusterColorButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;
-                            clusterColorButton.ConstantBorder = itemConstantBorder;
-                            clusterColorButton.DrawNonTrackingAreas = itemDrawNonTrackingAreas;
+                            case ViewDrawRibbonGroupClusterButton clusterButton:
+                                clusterButton.MaxBorderEdges = maxBorders;
+                                clusterButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;
+                                clusterButton.ConstantBorder = itemConstantBorder;
+                                clusterButton.DrawNonTrackingAreas = itemDrawNonTrackingAreas;
+                                break;
+                            case ViewDrawRibbonGroupClusterColorButton clusterColorButton:
+                                clusterColorButton.MaxBorderEdges = maxBorders;
+                                clusterColorButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;
+                                clusterColorButton.ConstantBorder = itemConstantBorder;
+                                clusterColorButton.DrawNonTrackingAreas = itemDrawNonTrackingAreas;
+                                break;
                         }
                     }
                 }

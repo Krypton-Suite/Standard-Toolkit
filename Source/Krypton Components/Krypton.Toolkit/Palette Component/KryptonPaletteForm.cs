@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common control appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect StateCommon => _stateCommon;
+        public PaletteDoubleRedirect? StateCommon => _stateCommon;
 
         private bool ShouldSerializeStateCommon() => !_stateCommon.IsDefault;
 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining inactive form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble StateInactive => _stateDisabled;
+        public PaletteDouble? StateInactive => _stateDisabled;
 
         private bool ShouldSerializeStateInactive() => !_stateDisabled.IsDefault;
 
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining active form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble StateActive => _stateNormal;
+        public PaletteDouble? StateActive => _stateNormal;
 
         private bool ShouldSerializeStateActive() => !_stateNormal.IsDefault;
 

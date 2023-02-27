@@ -18,16 +18,16 @@ namespace Krypton.Toolkit
     public class ViewDrawSeparator : ViewLeaf
     {
         #region Instance Fields
-        internal IPaletteDouble _paletteDisabled;
-        internal IPaletteDouble _paletteNormal;
-        internal IPaletteDouble _paletteTracking;
-        internal IPaletteDouble _palettePressed;
-        internal IPaletteMetric _metricDisabled;
-        internal IPaletteMetric _metricNormal;
-        internal IPaletteMetric _metricTracking;
-        internal IPaletteMetric _metricPressed;
-        internal IPaletteDouble _palette;
-        internal IPaletteMetric _metric;
+        internal IPaletteDouble? _paletteDisabled;
+        internal IPaletteDouble? _paletteNormal;
+        internal IPaletteDouble? _paletteTracking;
+        internal IPaletteDouble? _palettePressed;
+        internal IPaletteMetric? _metricDisabled;
+        internal IPaletteMetric? _metricNormal;
+        internal IPaletteMetric? _metricTracking;
+        internal IPaletteMetric? _metricPressed;
+        internal IPaletteDouble? _palette;
+        internal IPaletteMetric? _metric;
 
         #endregion
 
@@ -45,10 +45,10 @@ namespace Krypton.Toolkit
         /// <param name="metricPressed">Palette source for pressed metric values.</param>
         /// <param name="metricPadding">Metric used to get padding values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawSeparator(IPaletteDouble paletteDisabled, IPaletteDouble paletteNormal,
-                                 IPaletteDouble paletteTracking, IPaletteDouble palettePressed,
-                                 IPaletteMetric metricDisabled,  IPaletteMetric metricNormal,
-                                 IPaletteMetric metricTracking,  IPaletteMetric metricPressed,
+        public ViewDrawSeparator(IPaletteDouble? paletteDisabled, IPaletteDouble? paletteNormal,
+                                 IPaletteDouble? paletteTracking, IPaletteDouble? palettePressed,
+                                 IPaletteMetric? metricDisabled,  IPaletteMetric? metricNormal,
+                                 IPaletteMetric? metricTracking,  IPaletteMetric? metricPressed,
                                  PaletteMetricPadding metricPadding,
                                  Orientation orientation)
         {
@@ -131,14 +131,14 @@ namespace Krypton.Toolkit
         /// <param name="metricNormal">Palette source for normal metric values.</param>
         /// <param name="metricTracking">Palette source for tracking metric values.</param>
         /// <param name="metricPressed">Palette source for pressed metric values.</param>
-        public void SetPalettes(IPaletteDouble paletteDisabled,
-                                IPaletteDouble paletteNormal,
-                                IPaletteDouble paletteTracking,
-                                IPaletteDouble palettePressed,
-                                IPaletteMetric metricDisabled,
-                                IPaletteMetric metricNormal,
-                                IPaletteMetric metricTracking,
-                                IPaletteMetric metricPressed)
+        public void SetPalettes(IPaletteDouble? paletteDisabled,
+                                IPaletteDouble? paletteNormal,
+                                IPaletteDouble? paletteTracking,
+                                IPaletteDouble? palettePressed,
+                                IPaletteMetric? metricDisabled,
+                                IPaletteMetric? metricNormal,
+                                IPaletteMetric? metricTracking,
+                                IPaletteMetric? metricPressed)
         {
             Debug.Assert(paletteDisabled != null);
             Debug.Assert(paletteNormal != null);

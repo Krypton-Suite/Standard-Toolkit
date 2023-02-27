@@ -699,18 +699,17 @@ namespace Krypton.Toolkit
                 return false;
             }
 
-            // We allow all non-keyboard messages
-            if (m.Msg is < 0x100 or > 0x108)
+            switch (m.Msg)
             {
-                return false;
-            }
-
-            // If the user presses the escape key, windows keys or any system key
-            if (((m.Msg == 0x100) && (((int)m.WParam.ToInt64()) == 0x1B)) ||
-                ((m.Msg == 0x100) && (((int)m.WParam.ToInt64()) == 0x5B)) ||
-                (m.Msg == 0x104))
-            {
-                _controller.AbortMoving();
+                // We allow all non-keyboard messages
+                case < 0x100 or > 0x108:
+                    return false;
+                // If the user presses the escape key, windows keys or any system key
+                case 0x100 when (((int)m.WParam.ToInt64()) == 0x1B):
+                case 0x100 when (((int)m.WParam.ToInt64()) == 0x5B):
+                case 0x104:
+                    _controller.AbortMoving();
+                    break;
             }
 
             // We filter out all keyboard messages

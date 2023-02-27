@@ -1074,21 +1074,27 @@ namespace Krypton.Toolkit
                 // Add item to the dictionary
                 dictItems.Add(baseItem, baseItem);
 
-                // Add children of an items collection
-                if (baseItem is KryptonContextMenuItems items)
+                switch (baseItem)
                 {
-                    foreach (KryptonContextMenuItemBase childItem in items.Items)
+                    // Add children of an items collection
+                    case KryptonContextMenuItems items:
                     {
-                        AddItemsToDictionary(dictItems, childItem);
-                    }
-                }
+                        foreach (KryptonContextMenuItemBase childItem in items.Items)
+                        {
+                            AddItemsToDictionary(dictItems, childItem);
+                        }
 
-                // Add children of an item
-                if (baseItem is KryptonContextMenuItem item)
-                {
-                    foreach (KryptonContextMenuItemBase childItem in item.Items)
+                        break;
+                    }
+                    // Add children of an item
+                    case KryptonContextMenuItem item:
                     {
-                        AddItemsToDictionary(dictItems, childItem);
+                        foreach (KryptonContextMenuItemBase childItem in item.Items)
+                        {
+                            AddItemsToDictionary(dictItems, childItem);
+                        }
+
+                        break;
                     }
                 }
             }

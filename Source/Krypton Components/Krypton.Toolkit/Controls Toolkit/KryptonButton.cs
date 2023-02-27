@@ -271,37 +271,34 @@ namespace Krypton.Toolkit
             {
                 _useAsUACElevationButton = value;
 
-                //if (_customUACShieldSize.Height > 0 && _customUACShieldSize.Width > 0)
-                //{
-                //    ShowUACShield(value, UACShieldIconSize.Custom, _customUACShieldSize.Width, _customUACShieldSize.Height);
-                //}
-                //else if (_uacShieldIconSize != UACShieldIconSize.Custom)
-                //{
-                //    ShowUACShield(value, _uacShieldIconSize);
-                //}
-                if (_uacShieldIconSize == UACShieldIconSize.ExtraSmall)
+                switch (_uacShieldIconSize)
                 {
-                    ShowUACShield(value, UACShieldIconSize.ExtraSmall);
-                }
-                else if (_uacShieldIconSize == UACShieldIconSize.Small)
-                {
-                    ShowUACShield(value, UACShieldIconSize.Small);
-                }
-                else if (_uacShieldIconSize == UACShieldIconSize.Medium)
-                {
-                    ShowUACShield(value, UACShieldIconSize.Medium);
-                }
-                else if (_uacShieldIconSize == UACShieldIconSize.Large)
-                {
-                    ShowUACShield(value, UACShieldIconSize.Large);
-                }
-                else if (_uacShieldIconSize == UACShieldIconSize.ExtraLarge)
-                {
-                    ShowUACShield(value, UACShieldIconSize.ExtraLarge);
-                }
-                else
-                {
-                    ShowUACShield(value, UACShieldIconSize.ExtraSmall);
+                    //if (_customUACShieldSize.Height > 0 && _customUACShieldSize.Width > 0)
+                    //{
+                    //    ShowUACShield(value, UACShieldIconSize.Custom, _customUACShieldSize.Width, _customUACShieldSize.Height);
+                    //}
+                    //else if (_uacShieldIconSize != UACShieldIconSize.Custom)
+                    //{
+                    //    ShowUACShield(value, _uacShieldIconSize);
+                    //}
+                    case UACShieldIconSize.ExtraSmall:
+                        ShowUACShield(value, UACShieldIconSize.ExtraSmall);
+                        break;
+                    case UACShieldIconSize.Small:
+                        ShowUACShield(value, UACShieldIconSize.Small);
+                        break;
+                    case UACShieldIconSize.Medium:
+                        ShowUACShield(value, UACShieldIconSize.Medium);
+                        break;
+                    case UACShieldIconSize.Large:
+                        ShowUACShield(value, UACShieldIconSize.Large);
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        ShowUACShield(value, UACShieldIconSize.ExtraLarge);
+                        break;
+                    default:
+                        ShowUACShield(value, UACShieldIconSize.ExtraSmall);
+                        break;
                 }
             }
         }

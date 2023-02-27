@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                        IPaletteMetric
     {
         #region Instance Fields
-        private PaletteDoubleMetricRedirect _inherit;
+        private PaletteDoubleMetricRedirect? _inherit;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteDoubleMetric class.
         /// </summary>
         /// <param name="inherit">Source for palette defaulted values.</param>
-        public PaletteDoubleMetric(PaletteDoubleMetricRedirect inherit)
+        public PaletteDoubleMetric(PaletteDoubleMetricRedirect? inherit)
             : this(inherit, null)
         {
         }
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for palette defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleMetric(PaletteDoubleMetricRedirect inherit,
+        public PaletteDoubleMetric(PaletteDoubleMetricRedirect? inherit,
                                    NeedPaintHandler needPaint)
             : base(inherit, needPaint)
         {
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteDoubleMetricRedirect inherit)
+        public void SetInherit(PaletteDoubleMetricRedirect? inherit)
         {
             base.SetInherit(inherit);
             _inherit = inherit;

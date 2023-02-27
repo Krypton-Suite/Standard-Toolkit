@@ -344,7 +344,7 @@ namespace Krypton.Toolkit
             Clear();
 
             // Walk up the bread crumb trail
-            KryptonBreadCrumbItem item = _kryptonBreadCrumb.SelectedItem;
+            KryptonBreadCrumbItem? item = _kryptonBreadCrumb.SelectedItem;
             while (item != null)
             {
 

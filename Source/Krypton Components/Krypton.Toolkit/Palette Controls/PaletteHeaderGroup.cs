@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                       IPaletteMetric
     {
         #region Instance Fields
-        private IPaletteMetric _inherit;
+        private IPaletteMetric? _inherit;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="inheritHeaderPrimary">Source for inheriting primary header defaulted values.</param>
         /// <param name="inheritHeaderSecondary">Source for inheriting secondary header defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroup(PaletteHeaderGroupRedirect inheritHeaderGroup,
+        public PaletteHeaderGroup(PaletteHeaderGroupRedirect? inheritHeaderGroup,
                                   PaletteHeaderPaddingRedirect inheritHeaderPrimary,
                                   PaletteHeaderPaddingRedirect inheritHeaderSecondary,
                                   NeedPaintHandler needPaint)
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritHeaderGroup">Source for inheriting.</param>
-        public void SetInherit(PaletteHeaderGroup inheritHeaderGroup)
+        public void SetInherit(PaletteHeaderGroup? inheritHeaderGroup)
         {
             base.SetInherit(inheritHeaderGroup);
             _inherit = inheritHeaderGroup;

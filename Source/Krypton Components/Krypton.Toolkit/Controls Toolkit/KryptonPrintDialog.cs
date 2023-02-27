@@ -127,36 +127,44 @@ namespace Krypton.Toolkit
 
             if (!handled)
             {
-                if ((msg == PI.WM_.COMMAND)
-                    && (_editHwnd == lparam)
-                    && (PI.HIWORD(wparam) == PI.EN_CHANGE)
-                    )
+                switch (msg)
                 {
-                    var text = new StringBuilder(8);
-                    PI.GetWindowText(_editHwnd.Value, text, 8);
-                    _collateCheckbox.Enabled = int.Parse(text.ToString()) > 1;
-                }
-                else if (msg == PI.WM_.PRINTCLIENT )
-                {
-                    // Supposedly finished init, so go finalise the checkboxes and radios
-                    foreach (var control in _commonDialogHandler.Controls)
+                    case PI.WM_.COMMAND 
+                    when (_editHwnd == lparam) 
+                         && (PI.HIWORD(wparam) == PI.EN_CHANGE):
                     {
-                        if (control.Button is KryptonCheckBox checkBox)
-                        {
-                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                            checkBox.Checked = state != PI.BST_.UNCHECKED;
-                        }
-                        else if (control.Button is KryptonRadioButton radioBut)
-                        {
-                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                            radioBut.Checked = state != PI.BST_.UNCHECKED;
-                        }
+                        var text = new StringBuilder(8);
+                        PI.GetWindowText(_editHwnd.Value, text, 8);
+                        _collateCheckbox.Enabled = int.Parse(text.ToString()) > 1;
+                        break;
                     }
-                }
-                else if (msg == PI.WM_.ERASEBKGND)
-                {
-                    // Got to prevent the CommonDialog redrawing over the KryptonControls !!
-                    return IntPtr.Zero;
+                    case PI.WM_.PRINTCLIENT:
+                    {
+                        // Supposedly finished init, so go finalise the checkboxes and radios
+                        foreach (var control in _commonDialogHandler.Controls)
+                        {
+                            switch (control.Button)
+                            {
+                                case KryptonCheckBox checkBox:
+                                {
+                                    var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                                    checkBox.Checked = state != PI.BST_.UNCHECKED;
+                                    break;
+                                }
+                                case KryptonRadioButton radioBut:
+                                {
+                                    var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                                    radioBut.Checked = state != PI.BST_.UNCHECKED;
+                                    break;
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                    case PI.WM_.ERASEBKGND:
+                        // Got to prevent the CommonDialog redrawing over the KryptonControls !!
+                        return IntPtr.Zero;
                 }
 
                 Debug.WriteLine(@"0x{0:X} : {1}", msg, hWnd);

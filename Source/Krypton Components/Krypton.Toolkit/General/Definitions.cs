@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the month calendar common appearance entries.
         /// </summary>
-        PaletteMonthCalendarRedirect StateCommon { get; }
+        PaletteMonthCalendarRedirect? StateCommon { get; }
 
         /// <summary>
         /// Gets access to the month calendar normal appearance entries.
@@ -1763,7 +1763,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="sender">Source of the call.</param>
     /// <param name="e">A NeedLayoutEventArgs containing event information.</param>
-    public delegate void NeedPaintHandler(object sender, NeedLayoutEventArgs e);
+    public delegate void NeedPaintHandler(object? sender, NeedLayoutEventArgs e);
 
     /// <summary>
     /// Signature of method that provides a point as the data.

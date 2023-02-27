@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         /// <param name="manager">Reference to owning manager.</param>
         /// <param name="buttonSpec">Access</param>
         public ButtonSpecViewRibbon(PaletteRedirect? redirector,
-                                    IPaletteMetric paletteMetric,
+                                    IPaletteMetric? paletteMetric,
                                     PaletteMetricPadding metricPadding,
                                     ButtonSpecManagerBase manager,
                                     ButtonSpec buttonSpec)

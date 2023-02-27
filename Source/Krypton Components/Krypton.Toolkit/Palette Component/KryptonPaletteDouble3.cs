@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public abstract class KryptonPaletteDouble3 : Storage
     {
         #region Instance Fields
-        internal PaletteDoubleRedirect _stateCommon;
-        internal PaletteDouble _stateDisabled;
-        internal PaletteDouble _stateNormal;
+        internal PaletteDoubleRedirect? _stateCommon;
+        internal PaletteDouble? _stateDisabled;
+        internal PaletteDouble? _stateNormal;
         #endregion
 
         #region Identity

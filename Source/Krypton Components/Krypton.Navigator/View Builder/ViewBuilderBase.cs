@@ -89,8 +89,8 @@ namespace Krypton.Navigator
             Debug.Assert(_constructed == false);
 
             // Save provided references
-            Navigator = navigator;
-            ViewManager = manager;
+            Navigator = navigator!;
+            ViewManager = manager!;
             Redirector = redirector;
             _constructed = true;
 
@@ -107,7 +107,7 @@ namespace Krypton.Navigator
             Debug.Assert(Navigator != null);
 
             // Unhook from the navigator events
-            Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
+            Navigator!.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
 
             // No longer constructed
             _constructed = false;
@@ -312,7 +312,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element that is being activated.</param>
         /// <returns>True to give navigator the focus; otherwise false.</returns>
-        public virtual bool GiveNavigatorFocus(ViewBase element) => false;
+        public virtual bool GiveNavigatorFocus(ViewBase? element) => false;
 
         /// <summary>
         /// User has used the keyboard to select the currently selected page.
@@ -663,7 +663,7 @@ namespace Krypton.Navigator
             [DebuggerStepThrough]
             get =>
                 // Only create the delegate when it is first needed
-                _needPaintDelegate ??= OnNeedPaint;
+                _needPaintDelegate ??= OnNeedPaint!;
         }
 
         /// <summary>
@@ -689,7 +689,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             // Pass paint request onto the navigator control itself
             Navigator.PerformNeedPaint(e.NeedLayout);
@@ -713,6 +713,9 @@ namespace Krypton.Navigator
         /// <param name="e">Property changed details.</param>
         protected virtual void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (Navigator.StateCommon == null)
+                return;
+            
             switch (e.PropertyName)
             {
                 case @"PanelBackStyle":
@@ -720,11 +723,14 @@ namespace Krypton.Navigator
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"PageBackStyle":
-                    Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
+                    if (Navigator.StateCommon.PalettePage != null)
+                        Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
                     Navigator.PerformNeedPagePaint(true);
                     break;
                 case @"GroupBackStyle":
-                    Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
+                    if (Navigator.ChildPanel != null)
+                        Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
+                    Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
                     Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;

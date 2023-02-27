@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item highlight appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleMetricRedirect ItemHighlight { get; }
+        public PaletteDoubleMetricRedirect? ItemHighlight { get; }
 
         private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
 
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item image column appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect ItemImageColumn { get; }
+        public PaletteDoubleRedirect? ItemImageColumn { get; }
 
         private bool ShouldSerializeItemImageColumn() => !ItemImageColumn.IsDefault;
 
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect ItemSplit { get; }
+        public PaletteDoubleRedirect? ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 
@@ -271,7 +271,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator items appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect Separator { get; }
+        public PaletteDoubleRedirect? Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

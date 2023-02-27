@@ -304,59 +304,64 @@ namespace Krypton.Toolkit
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
-            // We need to snoop the need to show a context menu
-            if (m.Msg == PI.WM_.CONTEXTMENU)
+            switch (m.Msg)
             {
-                // Only interested in overriding the behavior when we have a krypton context menu...
-                if (KryptonContextMenu != null)
+                // We need to snoop the need to show a context menu
+                case PI.WM_.CONTEXTMENU:
                 {
-                    // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
-
-                    // If keyboard activated, the menu position is centered
-                    if (((int)(long)m.LParam) == -1)
+                    // Only interested in overriding the behavior when we have a krypton context menu...
+                    if (KryptonContextMenu != null)
                     {
-                        mousePt = new Point(Width / 2, Height / 2);
-                    }
-                    else
-                    {
-                        mousePt = PointToClient(mousePt);
+                        // Extract the screen mouse position (if might not actually be provided)
+                        Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
-                        // Mouse point up and left 1 pixel so that the mouse overlaps the top left corner
-                        // of the showing context menu just like it happens for a ContextMenuStrip.
-                        mousePt.X -= 1;
-                        mousePt.Y -= 1;
+                        // If keyboard activated, the menu position is centered
+                        if (((int)(long)m.LParam) == -1)
+                        {
+                            mousePt = new Point(Width / 2, Height / 2);
+                        }
+                        else
+                        {
+                            mousePt = PointToClient(mousePt);
+
+                            // Mouse point up and left 1 pixel so that the mouse overlaps the top left corner
+                            // of the showing context menu just like it happens for a ContextMenuStrip.
+                            mousePt.X -= 1;
+                            mousePt.Y -= 1;
+                        }
+
+                        // If the mouse position is within our client area
+                        if (ClientRectangle.Contains(mousePt))
+                        {
+                            // Show the context menu
+                            KryptonContextMenu.Show(this, PointToScreen(mousePt));
+
+                            // We eat the message!
+                            return;
+                        }
                     }
 
-                    // If the mouse position is within our client area
-                    if (ClientRectangle.Contains(mousePt))
-                    {
-                        // Show the context menu
-                        KryptonContextMenu.Show(this, PointToScreen(mousePt));
-
-                        // We eat the message!
-                        return;
-                    }
+                    break;
                 }
-            }
-            else if (m.Msg == PI.WM_.WINDOWPOSCHANGED)
-            {
-                // Do the move thing first
-                base.WndProc(ref m);
-                PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-                if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
+                case PI.WM_.WINDOWPOSCHANGED:
                 {
-                    if (_backGroundPanel.Parent != null
-                        && Parent != null)
+                    // Do the move thing first
+                    base.WndProc(ref m);
+                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
+                    if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
                     {
-                        var index = Parent.Controls.GetChildIndex(this);
-                        Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
-                        BackGroundPanel_Refreshed();
+                        if (_backGroundPanel.Parent != null
+                            && Parent != null)
+                        {
+                            var index = Parent.Controls.GetChildIndex(this);
+                            Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
+                            BackGroundPanel_Refreshed();
+                        }
                     }
-                }
 
-                // We ate the message!
-                return;
+                    // We ate the message!
+                    return;
+                }
             }
 
 

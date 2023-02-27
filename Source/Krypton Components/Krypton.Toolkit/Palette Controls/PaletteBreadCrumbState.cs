@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBreadCrumbState(PaletteBreadCrumbRedirect redirect,
+        public PaletteBreadCrumbState(PaletteBreadCrumbRedirect? redirect,
                                       NeedPaintHandler needPaint) =>
             BreadCrumb = new PaletteTriple(redirect.BreadCrumb, needPaint);
 

@@ -808,22 +808,20 @@ namespace Krypton.Docking
             {
                 if (e.Item is KryptonStorePage page)
                 {
-                    if ((sender is KryptonDockspace dockspace) 
-                        && (dockspace.CellForPage(e.Item) != null))
+                    switch (sender)
                     {
+                        case KryptonDockspace dockspace 
+                        when (dockspace.CellForPage(e.Item) != null):
                         // Prevent this existing store page from being removed due to the Propagate action below. This can
                         // occur because a cell with pages is added in one go and so insert events are generated for the
                         // existing pages inside the cell to ensure that the event is always fired consistently.
-                        IgnoreStorePage = page;
-                    }
-
-                    if ((sender is KryptonDockableWorkspace workspace) 
-                        && (workspace.CellForPage(e.Item) != null))
-                    {
-                        // Prevent this existing store page from being removed due to the Propagate action below. This can
-                        // occur because a cell with pages is added in one go and so insert events are generated for the
-                        // existing pages inside the cell to ensure that the event is always fired consistently.
-                        IgnoreStorePage = page;
+                        case KryptonDockableWorkspace workspace 
+                        when (workspace.CellForPage(e.Item) != null):
+                            // Prevent this existing store page from being removed due to the Propagate action below. This can
+                            // occur because a cell with pages is added in one go and so insert events are generated for the
+                            // existing pages inside the cell to ensure that the event is always fired consistently.
+                            IgnoreStorePage = page;
+                            break;
                     }
                 }
 

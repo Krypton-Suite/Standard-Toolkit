@@ -20,7 +20,7 @@ namespace Krypton.Navigator
 
         #region Instance Fields
         private readonly KryptonNavigator _navigator;
-        private readonly KryptonPage _page;
+        private readonly KryptonPage? _page;
         #endregion
 
         #region Identity
@@ -37,7 +37,7 @@ namespace Krypton.Navigator
         /// <param name="page">Reference to page for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupPage([DisallowNull] KryptonNavigator navigator,
-            [DisallowNull] KryptonPage page,
+            [DisallowNull] KryptonPage? page,
                                IRenderer? renderer)
             : base(renderer, true)
         {
@@ -93,7 +93,9 @@ namespace Krypton.Navigator
             // the navigator and add it inside as a child of ourself
             _navigator.BorrowChildPanel();
             if (_navigator.ChildPanel != null)
+            {
                 Controls.Add(_navigator.ChildPanel);
+            }
         }
 
         /// <summary>

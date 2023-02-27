@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// Provides a back reference to the owning ribbon control instance.
         /// </summary>
         /// <param name="ribbon">Reference to owning instance.</param>
-        void SetRibbon(KryptonRibbon ribbon);
+        void SetRibbon(KryptonRibbon? ribbon);
 
         /// <summary>
         /// Gets the entry image.
@@ -119,17 +119,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the owning ribbon control instance.
         /// </summary>
-        KryptonRibbon Ribbon { get; set; }
+        KryptonRibbon? Ribbon { get; set; }
 
         /// <summary>
         /// Gets and sets the owning ribbon tab instance.
         /// </summary>
-        KryptonRibbonTab RibbonTab { get; set; }
+        KryptonRibbonTab? RibbonTab { get; set; }
 
         /// <summary>
         /// Gets and sets the owning ribbon container instance.
         /// </summary>
-        KryptonRibbonGroupContainer RibbonContainer { get; set; }
+        KryptonRibbonGroupContainer? RibbonContainer { get; set; }
 
         /// <summary>
         /// Gets the visible state of the item.
@@ -479,7 +479,7 @@ namespace Krypton.Ribbon
     /// Signature of a click event that expects the provided finish delegate to be called when associated actions are completed.
     /// </summary>
     /// <param name="sender">Event source.</param>
-    /// <param name="clickFinished">Delegate for finish notication.</param>
+    /// <param name="clickFinished">Delegate for finish notification.</param>
     public delegate void ClickAndFinishHandler(object sender, EventHandler clickFinished);
     #endregion
 }

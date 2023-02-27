@@ -25,19 +25,17 @@ namespace Krypton.Toolkit
         {
             get
             {
-                // Desktop composition is only available on Vista upwards
-                if (Environment.OSVersion.Version.Major < 6)
+                switch (Environment.OSVersion.Version.Major)
                 {
-                    return false;
-                }
-                else if (Environment.OSVersion.Version.Major < 10)
-                {
-                    // Ask the desktop window manager is composition is currently enabled
-                    return PI.Dwm.IsCompositionEnabled();
-                }
-                else //Win 10
-                {
-                    return UserSystemPreferencesService.IsTransparencyEnabled;
+                    // Desktop composition is only available on Vista upwards
+                    case < 6:
+                        return false;
+                    case < 10:
+                        // Ask the desktop window manager is composition is currently enabled
+                        return PI.Dwm.IsCompositionEnabled();
+                    //Win 10
+                    default:
+                        return UserSystemPreferencesService.IsTransparencyEnabled;
                 }
             }
         }
