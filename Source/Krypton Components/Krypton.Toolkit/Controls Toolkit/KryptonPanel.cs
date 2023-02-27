@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly PaletteDoubleRedirect _stateCommon;
-        private readonly PaletteDouble _stateDisabled;
-        private readonly PaletteDouble _stateNormal;
+        private readonly PaletteDoubleRedirect? _stateCommon;
+        private readonly PaletteDouble? _stateDisabled;
+        private readonly PaletteDouble? _stateNormal;
         #endregion
 
         #region Identity
@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
         /// <param name="stateCommon">Common appearance state to inherit from.</param>
         /// <param name="stateDisabled">Disabled appearance state.</param>
         /// <param name="stateNormal">Normal appearance state.</param>
-        public KryptonPanel(PaletteDoubleRedirect stateCommon,
-                            PaletteDouble stateDisabled,
-                            PaletteDouble stateNormal)
+        public KryptonPanel(PaletteDoubleRedirect? stateCommon,
+                            PaletteDouble? stateDisabled,
+                            PaletteDouble? stateNormal)
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 

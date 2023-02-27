@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavOutlookMini(KryptonNavigator navigator,
-                                      KryptonPage page,
+                                      KryptonPage? page,
                                       VisualOrientation orientation)
             : base(navigator, page, orientation,
                    navigator.StateDisabled.MiniButton,
@@ -56,7 +56,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the page this view represents.
         /// </summary>
-        public override KryptonPage Page
+        public override KryptonPage? Page
         {
             set
             {

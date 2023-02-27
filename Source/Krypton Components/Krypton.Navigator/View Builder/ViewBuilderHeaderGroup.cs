@@ -303,9 +303,13 @@ namespace Krypton.Navigator
                             if (!ce.Cancel)
                             {
                                 if (!shift)
+                                {
                                     SelectNextPage(Navigator.SelectedPage, true, true);
+                                }
                                 else
+                                {
                                     SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                }
                             }
                         }
                         return true;

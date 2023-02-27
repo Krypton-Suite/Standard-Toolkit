@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item image highlight entries.
         /// </summary>
-        public PaletteDoubleMetricRedirect ItemHighlight { get; }
+        public PaletteDoubleMetricRedirect? ItemHighlight { get; }
 
         #endregion
 
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item split appearance entries.
         /// </summary>
-        public PaletteDoubleRedirect ItemSplit { get; }
+        public PaletteDoubleRedirect? ItemSplit { get; }
 
         #endregion
 

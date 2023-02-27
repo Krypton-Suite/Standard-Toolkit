@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteListState(PaletteListStateRedirect inherit,
+        public PaletteListState(PaletteListStateRedirect? inherit,
                                 NeedPaintHandler needPaint)
             : base(inherit, needPaint) =>
             Item = new PaletteTriple(inherit.Item, needPaint);

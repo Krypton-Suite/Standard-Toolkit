@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class PaletteRedirectDouble : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteDouble _disabled;
-        private IPaletteDouble _normal;
-        private IPaletteDouble _pressed;
-        private IPaletteDouble _tracking;
+        private IPaletteDouble? _disabled;
+        private IPaletteDouble? _normal;
+        private IPaletteDouble? _pressed;
+        private IPaletteDouble? _tracking;
         private IPaletteDouble _checkedNormal;
         private IPaletteDouble _checkedPressed;
         private IPaletteDouble _checkedTracking;
@@ -54,8 +54,8 @@ namespace Krypton.Toolkit
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         public PaletteRedirectDouble(PaletteBase? target,
-                                     IPaletteDouble disabled,
-                                     IPaletteDouble normal)
+                                     IPaletteDouble? disabled,
+                                     IPaletteDouble? normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
         {
         }
@@ -69,10 +69,10 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
         public PaletteRedirectDouble(PaletteBase? target,
-                                     IPaletteDouble disabled,
-                                     IPaletteDouble normal,
-                                     IPaletteDouble pressed,
-                                     IPaletteDouble tracking)
+                                     IPaletteDouble? disabled,
+                                     IPaletteDouble? normal,
+                                     IPaletteDouble? pressed,
+                                     IPaletteDouble? tracking)
             : this(target, disabled, normal, pressed, tracking, null, null, null, null, null)
         {
         }
@@ -91,10 +91,10 @@ namespace Krypton.Toolkit
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
         public PaletteRedirectDouble(PaletteBase? target,
-                                     IPaletteDouble disabled,
-                                     IPaletteDouble normal,
-                                     IPaletteDouble pressed,
-                                     IPaletteDouble tracking,
+                                     IPaletteDouble? disabled,
+                                     IPaletteDouble? normal,
+                                     IPaletteDouble? pressed,
+                                     IPaletteDouble? tracking,
                                      IPaletteDouble checkedNormal,
                                      IPaletteDouble checkedPressed,
                                      IPaletteDouble checkedTracking,
@@ -121,8 +121,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public virtual void SetRedirectStates(IPaletteDouble disabled,
-                                              IPaletteDouble normal)
+        public virtual void SetRedirectStates(IPaletteDouble? disabled,
+                                              IPaletteDouble? normal)
         {
             _disabled = disabled;
             _normal = normal;
@@ -137,10 +137,10 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public virtual void SetRedirectStates(IPaletteDouble disabled,
-                                              IPaletteDouble normal,
-                                              IPaletteDouble pressed,
-                                              IPaletteDouble tracking)
+        public virtual void SetRedirectStates(IPaletteDouble? disabled,
+                                              IPaletteDouble? normal,
+                                              IPaletteDouble? pressed,
+                                              IPaletteDouble? tracking)
         {
             _disabled = disabled;
             _normal = normal;

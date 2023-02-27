@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawCheckBox _drawCheckBox;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
-        private readonly ShortTextValue _contentValues;
+        private readonly ShortTextValue? _contentValues;
         private bool _mouseOver;
         private bool _alwaysActive;
         private ButtonStyle _style;
@@ -935,7 +935,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteListStateRedirect StateCommon { get; }
+        public PaletteListStateRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -1129,7 +1129,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 

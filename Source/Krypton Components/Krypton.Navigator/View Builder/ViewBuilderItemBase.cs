@@ -259,8 +259,8 @@ namespace Krypton.Navigator
         /// </summary>
         public override void UpdateStatePalettes()
         {
-            PaletteNavigator paletteState;
-            PaletteNavigatorRedirect paletteCommon;
+            PaletteNavigator? paletteState;
+            PaletteNavigatorRedirect? paletteCommon;
             
             // If whole navigator is disabled then all views are disabled
             var enabled = Navigator.Enabled;
@@ -529,7 +529,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element that is being activated.</param>
         /// <returns>True to give navigator the focus; otherwise false.</returns>
-        public override bool GiveNavigatorFocus(ViewBase element)
+        public override bool GiveNavigatorFocus(ViewBase? element)
         {
             // Only need to take the focus if we do not already have it
             if (!_hasFocus)
@@ -581,9 +581,13 @@ namespace Krypton.Navigator
                         if (!ce.Cancel)
                         {
                             if (!shift)
+                            {
                                 SelectNextPage(Navigator.SelectedPage, true, true);
+                            }
                             else
+                            {
                                 SelectPreviousPage(Navigator.SelectedPage, true, true);
+                            }
                         }
                     }
 
@@ -750,7 +754,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page for which the check button is to be created.</param>
         /// <param name="orientation">Initial orientation of the check button.</param>
-        protected virtual INavCheckItem CreateCheckItem(KryptonPage page,
+        protected virtual INavCheckItem CreateCheckItem(KryptonPage? page,
                                                         VisualOrientation orientation)
         {
             // Create a check button view element
@@ -941,7 +945,7 @@ namespace Krypton.Navigator
             VisualOrientation orientation = ConvertButtonBorderBackOrientation();
 
             // Create a check button to represent each krypton page
-            foreach (KryptonPage page in Navigator.Pages)
+            foreach (KryptonPage? page in Navigator.Pages)
             {
                 // Create the draw view element for the check item
                 INavCheckItem checkItem = CreateCheckItem(page, orientation);
@@ -1138,7 +1142,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnItemPageInserted(object sender, TypedCollectionEventArgs<KryptonPage> e)
+        private void OnItemPageInserted(object sender, TypedCollectionEventArgs<KryptonPage?> e)
         {
             if (!Navigator.IsDisposed && (_events > 0))
             {

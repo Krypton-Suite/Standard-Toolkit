@@ -808,7 +808,7 @@ namespace Krypton.Toolkit
         private PaletteBackStyle _dropBackStyle;
         private InputControlStyle _inputControlStyle;
         private bool? _fixedActive;
-        private readonly FixedContentValue _contentValues;
+        private readonly FixedContentValue? _contentValues;
         private ButtonStyle _style;
         private readonly ViewDrawButton _drawButton;
         private readonly ViewDrawPanel _drawPanel;
@@ -2578,7 +2578,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {

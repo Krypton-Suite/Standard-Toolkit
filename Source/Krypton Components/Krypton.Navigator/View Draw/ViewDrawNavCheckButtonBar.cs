@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavCheckButtonBar(KryptonNavigator navigator,
-                                         KryptonPage page,
+                                         KryptonPage? page,
                                          VisualOrientation orientation)
             : base(navigator, page, orientation)
         {
@@ -45,7 +45,7 @@ namespace Krypton.Navigator
         /// <param name="stateSelected">Source for selected state values.</param>
         /// <param name="stateFocused">Source for focused state values.</param>
         public ViewDrawNavCheckButtonBar(KryptonNavigator navigator,
-                                         KryptonPage page,
+                                         KryptonPage? page,
                                          VisualOrientation orientation,
                                          IPaletteTriple stateDisabled,
                                          IPaletteTriple stateNormal,

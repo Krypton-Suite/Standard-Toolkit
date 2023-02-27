@@ -72,15 +72,20 @@ namespace Krypton.Ribbon
 
                 // Grab the view manager handling the focus view
                 ViewBase focusView = null;
-                if (c is VisualPopupGroup popGroup)
+                switch (c)
                 {
-                    ViewRibbonPopupGroupManager manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
-                    focusView = manager.FocusView;
-                }
-                else if (c is VisualPopupMinimized minimized)
-                {
-                    ViewRibbonMinimizedManager manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
-                    focusView = manager.FocusView;
+                    case VisualPopupGroup popGroup:
+                    {
+                        ViewRibbonPopupGroupManager manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
+                        focusView = manager.FocusView;
+                        break;
+                    }
+                    case VisualPopupMinimized minimized:
+                    {
+                        ViewRibbonMinimizedManager manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
+                        focusView = manager.FocusView;
+                        break;
+                    }
                 }
 
                 // When in keyboard mode...

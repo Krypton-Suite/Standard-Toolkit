@@ -207,58 +207,64 @@ namespace Krypton.Docking
                 targets.Add(new DragTargetControlEdge(screenRect, rectsHot[2], rectsDraw[2], DragTargetHint.EdgeTop | DragTargetHint.ExcludeCluster, this, KryptonPageFlags.DockingAllowDocked, true));
                 targets.Add(new DragTargetControlEdge(screenRect, rectsHot[3], rectsDraw[3], DragTargetHint.EdgeBottom | DragTargetHint.ExcludeCluster, this, KryptonPageFlags.DockingAllowDocked, true));
 
-                // If we have no designated inner element when we have to decide if we can place edge drag drop targets based on the
-                // available space at the center of the control after taking into account any edge docked controls already in place.
-                if (_innerElement == null)
+                switch (_innerElement)
                 {
-                    // Find the inner rectangle after taking docked controls into account 
-                    Size tl = Size.Empty;
-                    Size br = Control.ClientSize;
-                    foreach (Control c in Control.Controls.Cast<Control>().Where(static c => c.Visible))
+                    // If we have no designated inner element when we have to decide if we can place edge drag drop targets based on the
+                    // available space at the center of the control after taking into account any edge docked controls already in place.
+                    case null:
                     {
-                        switch (c.Dock)
+                        // Find the inner rectangle after taking docked controls into account 
+                        Size tl = Size.Empty;
+                        Size br = Control.ClientSize;
+                        foreach (Control c in Control.Controls.Cast<Control>().Where(static c => c.Visible))
                         {
-                            case DockStyle.Left:
-                                tl.Width = Math.Max(tl.Width, c.Right);
-                                break;
-                            case DockStyle.Right:
-                                br.Width = Math.Min(br.Width, c.Left);
-                                break;
-                            case DockStyle.Top:
-                                tl.Height = Math.Max(tl.Height, c.Bottom);
-                                break;
-                            case DockStyle.Bottom:
-                                br.Height = Math.Min(br.Height, c.Top);
-                                break;
+                            switch (c.Dock)
+                            {
+                                case DockStyle.Left:
+                                    tl.Width = Math.Max(tl.Width, c.Right);
+                                    break;
+                                case DockStyle.Right:
+                                    br.Width = Math.Min(br.Width, c.Left);
+                                    break;
+                                case DockStyle.Top:
+                                    tl.Height = Math.Max(tl.Height, c.Bottom);
+                                    break;
+                                case DockStyle.Bottom:
+                                    br.Height = Math.Min(br.Height, c.Top);
+                                    break;
+                            }
                         }
-                    }
 
-                    // If there is inner space available
-                    Rectangle innerRect = new(tl.Width, tl.Height, br.Width - tl.Width, br.Height - tl.Height);
-                    if (innerRect is { Width: > 0, Height: > 0 })
-                    {
-                        Rectangle innerScreenRect = Control.RectangleToScreen(innerRect);
-                        var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
-                        var innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[0], innerRectsDraw[0], DragTargetHint.EdgeLeft, this, KryptonPageFlags.DockingAllowDocked, false));
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[1], innerRectsDraw[1], DragTargetHint.EdgeRight, this, KryptonPageFlags.DockingAllowDocked, false));
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[2], innerRectsDraw[2], DragTargetHint.EdgeTop, this, KryptonPageFlags.DockingAllowDocked, false));
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[3], innerRectsDraw[3], DragTargetHint.EdgeBottom, this, KryptonPageFlags.DockingAllowDocked, false));
-                    }
-                }
-                else if (_innerElement is KryptonDockingNavigator dockingNavigator)
-                {
+                        // If there is inner space available
+                        Rectangle innerRect = new(tl.Width, tl.Height, br.Width - tl.Width, br.Height - tl.Height);
+                        if (innerRect is { Width: > 0, Height: > 0 })
+                        {
+                            Rectangle innerScreenRect = Control.RectangleToScreen(innerRect);
+                            var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
+                            var innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[0], innerRectsDraw[0], DragTargetHint.EdgeLeft, this, KryptonPageFlags.DockingAllowDocked, false));
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[1], innerRectsDraw[1], DragTargetHint.EdgeRight, this, KryptonPageFlags.DockingAllowDocked, false));
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[2], innerRectsDraw[2], DragTargetHint.EdgeTop, this, KryptonPageFlags.DockingAllowDocked, false));
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[3], innerRectsDraw[3], DragTargetHint.EdgeBottom, this, KryptonPageFlags.DockingAllowDocked, false));
+                        }
 
-                    // If there is inner space available
-                    Rectangle innerScreenRect = dockingNavigator.DockableNavigatorControl.RectangleToScreen(dockingNavigator.DockableNavigatorControl.ClientRectangle);
-                    if (innerScreenRect is { Width: > 0, Height: > 0 })
+                        break;
+                    }
+                    case KryptonDockingNavigator dockingNavigator:
                     {
-                        var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
-                        var innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[0], innerRectsDraw[0], DragTargetHint.EdgeLeft, this, KryptonPageFlags.DockingAllowDocked, false));
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[1], innerRectsDraw[1], DragTargetHint.EdgeRight, this, KryptonPageFlags.DockingAllowDocked, false));
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[2], innerRectsDraw[2], DragTargetHint.EdgeTop, this, KryptonPageFlags.DockingAllowDocked, false));
-                        targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[3], innerRectsDraw[3], DragTargetHint.EdgeBottom, this, KryptonPageFlags.DockingAllowDocked, false));
+                        // If there is inner space available
+                        Rectangle innerScreenRect = dockingNavigator.DockableNavigatorControl.RectangleToScreen(dockingNavigator.DockableNavigatorControl.ClientRectangle);
+                        if (innerScreenRect is { Width: > 0, Height: > 0 })
+                        {
+                            var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
+                            var innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[0], innerRectsDraw[0], DragTargetHint.EdgeLeft, this, KryptonPageFlags.DockingAllowDocked, false));
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[1], innerRectsDraw[1], DragTargetHint.EdgeRight, this, KryptonPageFlags.DockingAllowDocked, false));
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[2], innerRectsDraw[2], DragTargetHint.EdgeTop, this, KryptonPageFlags.DockingAllowDocked, false));
+                            targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[3], innerRectsDraw[3], DragTargetHint.EdgeBottom, this, KryptonPageFlags.DockingAllowDocked, false));
+                        }
+
+                        break;
                     }
                 }
 

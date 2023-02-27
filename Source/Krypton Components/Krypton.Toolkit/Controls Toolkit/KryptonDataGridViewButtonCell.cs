@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private bool _styleSet;
         private ButtonStyle _buttonStyle;
         private PaletteTripleToPalette _palette;
-        private ShortTextValue _shortTextValue;
+        private ShortTextValue? _shortTextValue;
         private ViewDrawButton _viewButton;
         private Rectangle _contentBounds;
         #endregion

@@ -25,9 +25,9 @@ namespace Krypton.Toolkit
         /// <param name="inheritSeparator">Source for inheriting separator defaulted values.</param>
         /// <param name="inheritMetric">Source for inheriting separator metric values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteSplitContainer(IPaletteDouble inheritSplitContainer,
-                                     IPaletteDouble inheritSeparator,
-                                     IPaletteMetric inheritMetric,
+        public PaletteSplitContainer(IPaletteDouble? inheritSplitContainer,
+                                     IPaletteDouble? inheritSeparator,
+                                     IPaletteMetric? inheritMetric,
                                      NeedPaintHandler needPaint)
             : base(inheritSplitContainer, needPaint) =>
             // Create the embedded separator palette information
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding Separator { get; }
+        public PaletteSeparatorPadding? Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

@@ -90,7 +90,7 @@ namespace Krypton.Navigator
         /// </summary>
         public override void UpdateStatePalettes()
         {
-            PaletteNavigator paletteState;
+            PaletteNavigator? paletteState;
 
             // If whole navigator is disabled then all views are disabled
             var enabled = Navigator.Enabled;

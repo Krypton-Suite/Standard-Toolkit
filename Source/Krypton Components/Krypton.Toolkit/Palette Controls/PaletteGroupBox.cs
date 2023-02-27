@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting palette defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteGroupBox(PaletteGroupBoxRedirect inherit,
+        public PaletteGroupBox(PaletteGroupBoxRedirect? inherit,
                                NeedPaintHandler needPaint)
             : base(inherit, needPaint) =>
             Content = new PaletteContent(inherit.PaletteContent, needPaint);

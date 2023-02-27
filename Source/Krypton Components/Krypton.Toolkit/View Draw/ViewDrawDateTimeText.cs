@@ -378,14 +378,15 @@ namespace Krypton.Toolkit
                         // Get the actual month number entered
                         var monthNumber = int.Parse(_inputDigits);
 
-                        // If two digits is not valid then use just the last digit
-                        if (monthNumber > 12)
+                        switch (monthNumber)
                         {
-                            monthNumber -= 10;
-                        }
-                        else if (monthNumber == 0)
-                        {
-                            monthNumber = 10;
+                            // If two digits is not valid then use just the last digit
+                            case > 12:
+                                monthNumber -= 10;
+                                break;
+                            case 0:
+                                monthNumber = 10;
+                                break;
                         }
 
                         // Set the new date using the month number
@@ -1066,24 +1067,27 @@ namespace Krypton.Toolkit
                     // A zero year makes to change to the date
                     if (yearNumber != 0)
                     {
-                        if (digits.Length == 2)
+                        switch (digits.Length)
                         {
-                            // Two digits causes the century/millenium to be auto added
-                            if (yearNumber >= 30)
+                            case 2:
                             {
-                                yearNumber += 1900;
-                            }
-                            else
-                            {
-                                yearNumber += 2000;
-                            }
+                                // Two digits causes the century/millenium to be auto added
+                                if (yearNumber >= 30)
+                                {
+                                    yearNumber += 1900;
+                                }
+                                else
+                                {
+                                    yearNumber += 2000;
+                                }
 
-                            dt = dt.AddYears(yearNumber - dt.Year);
-                        }
-                        else if (digits.Length == 4)
-                        {
-                            // Four digits causes us to attempt to use that date
-                            dt = dt.AddYears(yearNumber - dt.Year);
+                                dt = dt.AddYears(yearNumber - dt.Year);
+                                break;
+                            }
+                            case 4:
+                                // Four digits causes us to attempt to use that date
+                                dt = dt.AddYears(yearNumber - dt.Year);
+                                break;
                         }
                     }
                 }
@@ -1231,13 +1235,14 @@ namespace Krypton.Toolkit
             {
                 if (FragFormat.StartsWith("t"))
                 {
-                    if ((dt.Hour > 11) && am)
+                    switch (dt.Hour)
                     {
-                        dt = dt.AddHours(-12);
-                    }
-                    else if ((dt.Hour < 12) && !am)
-                    {
-                        dt = dt.AddHours(12);
+                        case > 11 when am:
+                            dt = dt.AddHours(-12);
+                            break;
+                        case < 12 when !am:
+                            dt = dt.AddHours(12);
+                            break;
                     }
                 }
 

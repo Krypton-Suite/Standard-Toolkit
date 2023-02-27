@@ -426,7 +426,7 @@ namespace Krypton.Toolkit
                 if (value != _selectedItem)
                 {
                     // Check that the item has a chain that ends at our root item or is null
-                    KryptonBreadCrumbItem temp = value;
+                    KryptonBreadCrumbItem? temp = value;
                     while ((temp != null) && (temp != RootItem))
                     {
                         temp = temp.Parent;
@@ -451,7 +451,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common bread crumb appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBreadCrumbRedirect StateCommon { get; }
+        public PaletteBreadCrumbRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -658,7 +658,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteBreadCrumbRedirect GetStateCommon() => StateCommon;
+        internal PaletteBreadCrumbRedirect? GetStateCommon() => StateCommon;
 
         internal PaletteRedirect? GetRedirector() => Redirector;
 
@@ -674,7 +674,7 @@ namespace Krypton.Toolkit
                 if (SelectedItem != null)
                 {
                     // Check that the current selected item has a chain that ends at our root
-                    KryptonBreadCrumbItem temp = SelectedItem;
+                    KryptonBreadCrumbItem? temp = SelectedItem;
                     while ((temp != null) && (temp != RootItem))
                     {
                         temp = temp.Parent;

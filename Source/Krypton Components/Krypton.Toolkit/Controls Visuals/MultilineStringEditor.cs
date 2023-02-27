@@ -127,13 +127,14 @@ namespace Krypton.Toolkit
         protected override void WndProc(ref Message m)
         {
             var handled = false;
-            if (m.Msg == PI.WM_.NCHITTEST)
+            switch (m.Msg)
             {
-                handled = OnNcHitTest(ref m);
-            }
-            else if (m.Msg == PI.WM_.GETMINMAXINFO)
-            {
-                handled = OnGetMinMaxInfo(ref m);
+                case PI.WM_.NCHITTEST:
+                    handled = OnNcHitTest(ref m);
+                    break;
+                case PI.WM_.GETMINMAXINFO:
+                    handled = OnGetMinMaxInfo(ref m);
+                    break;
             }
 
             if (!handled)

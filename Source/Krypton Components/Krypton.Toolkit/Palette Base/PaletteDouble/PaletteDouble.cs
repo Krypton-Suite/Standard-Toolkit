@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteDouble class.
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
-        public PaletteDouble(IPaletteDouble inherit)
+        public PaletteDouble(IPaletteDouble? inherit)
             : this(inherit, null)
         {
         }
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDouble(IPaletteDouble inherit,
+        public PaletteDouble(IPaletteDouble? inherit,
                              NeedPaintHandler needPaint)
         {
             // Store the provided paint notification delegate
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteDouble inherit)
+        public void SetInherit(IPaletteDouble? inherit)
         {
             _back.SetInherit(inherit.PaletteBack);
             _border.SetInherit(inherit.PaletteBorder);
@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

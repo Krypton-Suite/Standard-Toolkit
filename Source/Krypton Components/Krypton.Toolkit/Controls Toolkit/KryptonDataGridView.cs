@@ -691,94 +691,97 @@ namespace Krypton.Toolkit
                 }
             }
 
-            // Is this a data cell?
-            if ((rowIndex >= 0) && (columnIndex >= 0))
+            switch (rowIndex)
             {
-                switch (retState)
-                {
-                    default:
-                    case PaletteState.Normal:
-                        paletteBack = StateNormal.DataCell.Back;
-                        paletteBorder = StateNormal.DataCell.Border;
-                        paletteContent = StateNormal.DataCell.Content;
-                        break;
-                    case PaletteState.Disabled:
-                        paletteBack = StateDisabled.DataCell.Back;
-                        paletteBorder = StateDisabled.DataCell.Border;
-                        paletteContent = StateDisabled.DataCell.Content;
-                        break;
-                    case PaletteState.CheckedNormal:
-                        paletteBack = StateSelected.DataCell.Back;
-                        paletteBorder = StateSelected.DataCell.Border;
-                        paletteContent = StateSelected.DataCell.Content;
-                        break;
-                }
-            }
-            else if (rowIndex < 0)
-            {
-                // Negative row index means it is a header cell
-                switch (retState)
-                {
-                    default:
-                    case PaletteState.Normal:
-                        paletteBack = StateNormal.HeaderColumn.Back;
-                        paletteBorder = StateNormal.HeaderColumn.Border;
-                        paletteContent = StateNormal.HeaderColumn.Content;
-                        break;
-                    case PaletteState.Disabled:
-                        paletteBack = StateDisabled.HeaderColumn.Back;
-                        paletteBorder = StateDisabled.HeaderColumn.Border;
-                        paletteContent = StateDisabled.HeaderColumn.Content;
-                        break;
-                    case PaletteState.Tracking:
-                        paletteBack = StateTracking.HeaderColumn.Back;
-                        paletteBorder = StateTracking.HeaderColumn.Border;
-                        paletteContent = StateTracking.HeaderColumn.Content;
-                        break;
-                    case PaletteState.Pressed:
-                        paletteBack = StatePressed.HeaderColumn.Back;
-                        paletteBorder = StatePressed.HeaderColumn.Border;
-                        paletteContent = StatePressed.HeaderColumn.Content;
-                        break;
-                    case PaletteState.CheckedNormal:
-                        paletteBack = StateSelected.HeaderColumn.Back;
-                        paletteBorder = StateSelected.HeaderColumn.Border;
-                        paletteContent = StateSelected.HeaderColumn.Content;
-                        break;
-                }
-            }
-            else
-            {
-                // Negative column index means it is a row cell
-                switch (retState)
-                {
-                    default:
-                    case PaletteState.Normal:
-                        paletteBack = StateNormal.HeaderRow.Back;
-                        paletteBorder = StateNormal.HeaderRow.Border;
-                        paletteContent = StateNormal.HeaderRow.Content;
-                        break;
-                    case PaletteState.Disabled:
-                        paletteBack = StateDisabled.HeaderRow.Back;
-                        paletteBorder = StateDisabled.HeaderRow.Border;
-                        paletteContent = StateDisabled.HeaderRow.Content;
-                        break;
-                    case PaletteState.Tracking:
-                        paletteBack = StateTracking.HeaderRow.Back;
-                        paletteBorder = StateTracking.HeaderRow.Border;
-                        paletteContent = StateTracking.HeaderRow.Content;
-                        break;
-                    case PaletteState.Pressed:
-                        paletteBack = StatePressed.HeaderRow.Back;
-                        paletteBorder = StatePressed.HeaderRow.Border;
-                        paletteContent = StatePressed.HeaderRow.Content;
-                        break;
-                    case PaletteState.CheckedNormal:
-                        paletteBack = StateSelected.HeaderRow.Back;
-                        paletteBorder = StateSelected.HeaderRow.Border;
-                        paletteContent = StateSelected.HeaderRow.Content;
-                        break;
-                }
+                // Is this a data cell?
+                case >= 0 when (columnIndex >= 0):
+                    switch (retState)
+                    {
+                        default:
+                        case PaletteState.Normal:
+                            paletteBack = StateNormal.DataCell.Back;
+                            paletteBorder = StateNormal.DataCell.Border;
+                            paletteContent = StateNormal.DataCell.Content;
+                            break;
+                        case PaletteState.Disabled:
+                            paletteBack = StateDisabled.DataCell.Back;
+                            paletteBorder = StateDisabled.DataCell.Border;
+                            paletteContent = StateDisabled.DataCell.Content;
+                            break;
+                        case PaletteState.CheckedNormal:
+                            paletteBack = StateSelected.DataCell.Back;
+                            paletteBorder = StateSelected.DataCell.Border;
+                            paletteContent = StateSelected.DataCell.Content;
+                            break;
+                    }
+
+                    break;
+                case < 0:
+                    // Negative row index means it is a header cell
+                    switch (retState)
+                    {
+                        default:
+                        case PaletteState.Normal:
+                            paletteBack = StateNormal.HeaderColumn.Back;
+                            paletteBorder = StateNormal.HeaderColumn.Border;
+                            paletteContent = StateNormal.HeaderColumn.Content;
+                            break;
+                        case PaletteState.Disabled:
+                            paletteBack = StateDisabled.HeaderColumn.Back;
+                            paletteBorder = StateDisabled.HeaderColumn.Border;
+                            paletteContent = StateDisabled.HeaderColumn.Content;
+                            break;
+                        case PaletteState.Tracking:
+                            paletteBack = StateTracking.HeaderColumn.Back;
+                            paletteBorder = StateTracking.HeaderColumn.Border;
+                            paletteContent = StateTracking.HeaderColumn.Content;
+                            break;
+                        case PaletteState.Pressed:
+                            paletteBack = StatePressed.HeaderColumn.Back;
+                            paletteBorder = StatePressed.HeaderColumn.Border;
+                            paletteContent = StatePressed.HeaderColumn.Content;
+                            break;
+                        case PaletteState.CheckedNormal:
+                            paletteBack = StateSelected.HeaderColumn.Back;
+                            paletteBorder = StateSelected.HeaderColumn.Border;
+                            paletteContent = StateSelected.HeaderColumn.Content;
+                            break;
+                    }
+
+                    break;
+                default:
+                    // Negative column index means it is a row cell
+                    switch (retState)
+                    {
+                        default:
+                        case PaletteState.Normal:
+                            paletteBack = StateNormal.HeaderRow.Back;
+                            paletteBorder = StateNormal.HeaderRow.Border;
+                            paletteContent = StateNormal.HeaderRow.Content;
+                            break;
+                        case PaletteState.Disabled:
+                            paletteBack = StateDisabled.HeaderRow.Back;
+                            paletteBorder = StateDisabled.HeaderRow.Border;
+                            paletteContent = StateDisabled.HeaderRow.Content;
+                            break;
+                        case PaletteState.Tracking:
+                            paletteBack = StateTracking.HeaderRow.Back;
+                            paletteBorder = StateTracking.HeaderRow.Border;
+                            paletteContent = StateTracking.HeaderRow.Content;
+                            break;
+                        case PaletteState.Pressed:
+                            paletteBack = StatePressed.HeaderRow.Back;
+                            paletteBorder = StatePressed.HeaderRow.Border;
+                            paletteContent = StatePressed.HeaderRow.Content;
+                            break;
+                        case PaletteState.CheckedNormal:
+                            paletteBack = StateSelected.HeaderRow.Back;
+                            paletteBorder = StateSelected.HeaderRow.Border;
+                            paletteContent = StateSelected.HeaderRow.Content;
+                            break;
+                    }
+
+                    break;
             }
 
             return retState;
@@ -890,7 +893,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1210,40 +1213,42 @@ namespace Krypton.Toolkit
                         // Must remember to release resources!
                         borderPath.Dispose();
 
-                        // If this is a column header cell
-                        if (e is { RowIndex: -1, ColumnIndex: >= 0 })
+                        switch (e)
                         {
-                            // If this column needs a sort glyph drawn
-                            if (Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection != SortOrder.None)
+                            // If this is a column header cell
+                            case { RowIndex: -1, ColumnIndex: >= 0 }:
                             {
-                                // Draw the sort glyph and update the remainder cell bounds left over
-                                tempCellBounds = Renderer.RenderGlyph.DrawGridSortGlyph(renderContext, Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection, tempCellBounds, paletteContent, state, rtl);
-                            }
-
-                            // If this column supports icons, see if it has any.
-                            if (Columns[e.ColumnIndex] is IIconCell iconColumn)
-                            {
-                                foreach (IconSpec spec in iconColumn.IconSpecs)
+                                // If this column needs a sort glyph drawn
+                                if (Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection != SortOrder.None)
                                 {
-                                    if (spec.Icon == null)
-                                    {
-                                        continue;
-                                    }
-                                    // Draw icon and update the remainder cell bounds left over
-                                    var iconWidth = spec.Icon.Width + 5;
-                                    var width = tempCellBounds.Width - iconWidth;
-                                    Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
-                                        tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
-                                    renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                    tempCellBounds = new Rectangle(tempCellBounds.X +
-                                                                   (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
+                                    // Draw the sort glyph and update the remainder cell bounds left over
+                                    tempCellBounds = Renderer.RenderGlyph.DrawGridSortGlyph(renderContext, Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection, tempCellBounds, paletteContent, state, rtl);
                                 }
+
+                                // If this column supports icons, see if it has any.
+                                if (Columns[e.ColumnIndex] is IIconCell iconColumn)
+                                {
+                                    foreach (IconSpec spec in iconColumn.IconSpecs)
+                                    {
+                                        if (spec.Icon == null)
+                                        {
+                                            continue;
+                                        }
+                                        // Draw icon and update the remainder cell bounds left over
+                                        var iconWidth = spec.Icon.Width + 5;
+                                        var width = tempCellBounds.Width - iconWidth;
+                                        Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
+                                            tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
+                                        renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
+                                        tempCellBounds = new Rectangle(tempCellBounds.X +
+                                                                       (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
+                                    }
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
                             // If this is a row header cell
-                            if (e is { RowIndex: >= 0, ColumnIndex: -1 })
+                            case { RowIndex: >= 0, ColumnIndex: -1 }:
                             {
                                 // By default there is no glyph needed for the row
                                 GridRowGlyph glpyh = GridRowGlyph.None;
@@ -1300,8 +1305,8 @@ namespace Krypton.Toolkit
 
                                     // Calculate the icon rectangle
                                     Rectangle iconBounds = new(tempCellBounds.Right + 1, tempCellBounds.Top,
-                                                                         beforeCellBounds.Width - tempCellBounds.Width,
-                                                                         tempCellBounds.Height);
+                                        beforeCellBounds.Width - tempCellBounds.Width,
+                                        tempCellBounds.Height);
 
                                     // Cache the icon area
                                     if (_rowCache.ContainsKey(e.RowIndex))
@@ -1321,40 +1326,41 @@ namespace Krypton.Toolkit
                                         _rowCache.Remove(e.RowIndex);
                                     }
                                 }
+
+                                break;
                             }
-                            else
+                            // Is this a data cell
+                            case { RowIndex: >= 0, ColumnIndex: >= 0 }:
                             {
-                                // Is this a data cell
-                                if (e is { RowIndex: >= 0, ColumnIndex: >= 0 })
+                                // If this cell supports icons, see if it has any.
+                                if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
                                 {
-                                    // If this cell supports icons, see if it has any.
-                                    if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
+                                    foreach (IconSpec spec in iconColumn.IconSpecs)
                                     {
-                                        foreach (IconSpec spec in iconColumn.IconSpecs)
+                                        if (spec.Icon == null)
                                         {
-                                            if (spec.Icon == null)
-                                            {
-                                                continue;
-                                            }
-
-                                            // Draw icon and update the remainder cell bounds left over
-                                            var iconWidth = spec.Icon.Width + 5;
-                                            var width = tempCellBounds.Width - iconWidth;
-                                            Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
-                                                tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
-                                            renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                            tempCellBounds = new Rectangle(tempCellBounds.X +
-                                                                           (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
+                                            continue;
                                         }
-                                    }
 
-                                    // Is there an error icon associated with the cell that needs showing
-                                    if (ShowCellErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText))
-                                    {
-                                        // Draw error icon and update the remainder cell bounds left over
-                                        tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
+                                        // Draw icon and update the remainder cell bounds left over
+                                        var iconWidth = spec.Icon.Width + 5;
+                                        var width = tempCellBounds.Width - iconWidth;
+                                        Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
+                                            tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
+                                        renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
+                                        tempCellBounds = new Rectangle(tempCellBounds.X +
+                                                                       (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
                                     }
                                 }
+
+                                // Is there an error icon associated with the cell that needs showing
+                                if (ShowCellErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText))
+                                {
+                                    // Draw error icon and update the remainder cell bounds left over
+                                    tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
+                                }
+
+                                break;
                             }
                         }
 

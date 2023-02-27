@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigator(PaletteNavigatorRedirect redirect,
+        public PaletteNavigator(PaletteNavigatorRedirect? redirect,
                                 NeedPaintHandler needPaint)
             : base(redirect, needPaint)
         {
@@ -63,7 +63,7 @@ namespace Krypton.Navigator
         /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritNavigator">Source for inheriting.</param>
-        public void SetInherit(PaletteNavigator inheritNavigator)
+        public void SetInherit(PaletteNavigator? inheritNavigator)
         {
             // Setup inheritance references for storage objects
             base.SetInherit(inheritNavigator);
@@ -177,7 +177,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining header group appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteNavigatorHeaderGroup HeaderGroup { get; }
+        public PaletteNavigatorHeaderGroup? HeaderGroup { get; }
 
         private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
 
@@ -216,7 +216,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding Separator { get; }
+        public PaletteSeparatorPadding? Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 
@@ -249,7 +249,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Internal
-        internal PalettePage PalettePage { get; }
+        internal PalettePage? PalettePage { get; }
 
         #endregion
     }

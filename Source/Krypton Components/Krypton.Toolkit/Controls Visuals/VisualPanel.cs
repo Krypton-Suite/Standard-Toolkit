@@ -144,16 +144,16 @@ namespace Krypton.Toolkit
                 // Unhook from any current menu strip
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
-                    base.ContextMenuStrip.Closed -= OnContextMenuClosed;
+                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening!;
+                    base.ContextMenuStrip.Closed -= OnContextMenuClosed!;
                     base.ContextMenuStrip = null;
                 }
 
                 // Must unhook from the palette paint event
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= OnNeedPaint;
-                    _palette.ButtonSpecChanged -= OnButtonSpecChanged;
+                    _palette.PalettePaint -= OnNeedPaint!;
+                    _palette.ButtonSpecChanged -= OnButtonSpecChanged!;
                 }
 
                 UnattachGlobalEvents();
@@ -162,7 +162,10 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null;
                 _localPalette = null;
-                Redirector.Target = null;
+                if (Redirector != null)
+                {
+                    Redirector.Target = null;
+                }
             }
 
             base.Dispose(disposing);
@@ -244,8 +247,8 @@ namespace Krypton.Toolkit
                 // Unhook from any current menu strip
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
-                    base.ContextMenuStrip.Closed -= OnContextMenuClosed;
+                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening!;
+                    base.ContextMenuStrip.Closed -= OnContextMenuClosed!;
                 }
 
                 // Let parent handle actual storage
@@ -254,8 +257,8 @@ namespace Krypton.Toolkit
                 // Hook into the strip being shown (so we can set the correct renderer)
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening += OnContextMenuStripOpening;
-                    base.ContextMenuStrip.Closed += OnContextMenuClosed;
+                    base.ContextMenuStrip.Opening += OnContextMenuStripOpening!;
+                    base.ContextMenuStrip.Closed += OnContextMenuClosed!;
                 }
             }
         }
@@ -276,16 +279,16 @@ namespace Krypton.Toolkit
                 {
                     if (_kryptonContextMenu != null)
                     {
-                        _kryptonContextMenu.Closed -= OnContextMenuClosed;
-                        _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed;
+                        _kryptonContextMenu.Closed -= OnContextMenuClosed!;
+                        _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed!;
                     }
 
                     _kryptonContextMenu = value;
 
                     if (_kryptonContextMenu != null)
                     {
-                        _kryptonContextMenu.Closed += OnContextMenuClosed;
-                        _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed;
+                        _kryptonContextMenu.Closed += OnContextMenuClosed!;
+                        _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed!;
                     }
                 }
             }
@@ -425,7 +428,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer!.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets or sets the background image displayed in the control.
@@ -608,7 +611,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
+        protected ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -639,7 +642,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -777,12 +780,12 @@ namespace Krypton.Toolkit
         {
             if (attach)
             {
-                KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+                KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged!;
                 SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
             }
             else
             {
-                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged!;
                 SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
             }
         }
@@ -1167,8 +1170,10 @@ namespace Krypton.Toolkit
             ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            if (cms != null) 
+            if (cms != null)
+            {
                 cms.Renderer = CreateToolStripRenderer();
+            }
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e)

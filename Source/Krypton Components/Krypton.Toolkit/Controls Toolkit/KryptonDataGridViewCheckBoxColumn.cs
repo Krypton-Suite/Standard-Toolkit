@@ -226,17 +226,16 @@ namespace Krypton.Toolkit
                         DataGridView.InvalidateColumn(Index);
                     }
 
-                    if (value 
-                        && DefaultCellStyle.NullValue is bool and false
-                        )
+                    switch (value)
                     {
-                        DefaultCellStyle.NullValue = CheckState.Indeterminate;
-                    }
-                    else if (!value 
-                             && (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate)
-                             )
-                    {
-                        DefaultCellStyle.NullValue = false;
+                        case true 
+                        when DefaultCellStyle.NullValue is bool and false:
+                            DefaultCellStyle.NullValue = CheckState.Indeterminate;
+                            break;
+                        case false 
+                             when (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate):
+                            DefaultCellStyle.NullValue = false;
+                            break;
                     }
                 }
             }

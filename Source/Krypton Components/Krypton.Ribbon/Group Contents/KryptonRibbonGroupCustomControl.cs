@@ -138,7 +138,10 @@ namespace Krypton.Ribbon
             {
                 // Note: This will not be here when the designer is performing it's actions ??
                 if (CustomControl is VisualControlBase vcb)
+                {
                     return vcb.ToolTipValues;
+                }
+
                 // Note: Should really pass these values into the `CustomControl` after it has been created !
                 return _toolTipValues; 
             }

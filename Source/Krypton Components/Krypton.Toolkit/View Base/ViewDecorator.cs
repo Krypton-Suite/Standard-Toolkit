@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public abstract class ViewDecorator : ViewBase
     {
         #region Instance Fields
-        private ViewBase _child;
+        private ViewBase? _child;
         #endregion
 
         #region Identity
@@ -65,8 +65,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override bool Enabled
         {
-            get => _child.Enabled;
-            set => _child.Enabled = value;
+            get => _child?.Enabled ?? false;
+            set => _child!.Enabled = value;
         }
         #endregion
 
@@ -76,8 +76,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override bool Visible
         {
-            get => _child.Visible;
-            set => _child.Visible = value;
+            get => _child?.Visible ?? false;
+            set => _child!.Visible = value;
         }
         #endregion
 
@@ -87,8 +87,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override Rectangle ClientRectangle
         {
-            get => _child.ClientRectangle;
-            set => _child.ClientRectangle = value;
+            get => _child?.ClientRectangle ?? Rectangle.Empty;
+            set => _child!.ClientRectangle = value;
         }
 
         /// <summary>
@@ -96,8 +96,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override Point ClientLocation
         {
-            get => _child.ClientLocation;
-            set => _child.ClientLocation = value;
+            get => _child?.ClientLocation ?? Point.Empty;
+            set => _child!.ClientLocation = value;
         }
 
         /// <summary>
@@ -105,8 +105,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override Size ClientSize
         {
-            get => _child.ClientSize;
-            set => _child.ClientSize = value;
+            get => _child?.ClientSize ?? Size.Empty;
+            set => _child!.ClientSize = value;
         }
 
         /// <summary>
@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override int ClientWidth
         {
-            get => _child.ClientWidth;
-            set => _child.ClientWidth = value;
+            get => _child?.ClientWidth ?? 0;
+            set => _child!.ClientWidth = value;
         }
 
         /// <summary>
@@ -123,8 +123,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override int ClientHeight
         {
-            get => _child.ClientHeight;
-            set => _child.ClientHeight = value;
+            get => _child?.ClientHeight ?? 0;
+            set => _child!.ClientHeight = value;
         }
         #endregion
 
@@ -134,7 +134,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context) => _child.EvalTransparentPaint(context);
+        public override bool EvalTransparentPaint(ViewContext context) => _child?.EvalTransparentPaint(context) ?? false;
 
         #endregion
 
@@ -143,13 +143,13 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) => _child.GetPreferredSize(context);
+        public override Size GetPreferredSize(ViewLayoutContext context) => _child?.GetPreferredSize(context) ?? Size.Empty;
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context) => _child.Layout(context);
+        public override void Layout(ViewLayoutContext context) => _child?.Layout(context);
 
         #endregion
 
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context) => _child.Render(context);
+        public override void Render(RenderContext context) => _child?.Render(context);
 
         #endregion
 
@@ -167,100 +167,100 @@ namespace Krypton.Toolkit
         /// Append a view to the collection.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
-        public override void Add(ViewBase item) => _child.Add(item);
+        public override void Add(ViewBase item) => _child?.Add(item);
 
         /// <summary>
         /// Remove all views from the collection.
         /// </summary>
-        public override void Clear() => _child.Clear();
+        public override void Clear() => _child?.Clear();
 
         /// <summary>
         /// Determines whether the collection contains the view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool Contains(ViewBase item) => _child.Contains(item);
+        public override bool Contains(ViewBase item) => _child?.Contains(item) ?? false;
 
         /// <summary>
         /// Determines whether any part of the view hierarchy is the specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool ContainsRecurse(ViewBase? item) => _child.ContainsRecurse(item);
+        public override bool ContainsRecurse(ViewBase? item) => _child?.ContainsRecurse(item) ?? false;
 
         /// <summary>
         /// Copies views to specified array starting at particular index.
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public override void CopyTo(ViewBase[] array, int arrayIndex) => _child.CopyTo(array, arrayIndex);
+        public override void CopyTo(ViewBase[] array, int arrayIndex) => _child?.CopyTo(array, arrayIndex);
 
         /// <summary>
         /// Removes first occurrence of specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase item) => _child.Remove(item);
+        public override bool Remove(ViewBase item) => _child?.Remove(item) ?? false;
 
         /// <summary>
         /// Gets the number of views in collection.
         /// </summary>
-        public override int Count => _child.Count;
+        public override int Count => _child?.Count ?? 0;
 
         /// <summary>
         /// Determines the index of the specified view in the collection.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public override int IndexOf(ViewBase item) => _child.IndexOf(item);
+        public override int IndexOf(ViewBase item) => _child?.IndexOf(item) ?? -1;
 
         /// <summary>
         /// Inserts a view to the collection at the specified index.
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
-        public override void Insert(int index, ViewBase item) => _child.Insert(index, item);
+        public override void Insert(int index, ViewBase item) => _child?.Insert(index, item);
 
         /// <summary>
         /// Removes the view at the specified index.
         /// </summary>
         /// <param name="index">Remove index.</param>
-        public override void RemoveAt(int index) => _child.RemoveAt(index);
+        public override void RemoveAt(int index) => _child?.RemoveAt(index);
 
         /// <summary>
         /// Gets or sets the view at the specified index.
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase this[int index] 
-        { 
-            get => _child[index];
-            set => _child[index] = value;
+        public override ViewBase this[int index]
+        {
+            get => _child![index];
+            set => _child![index] = value;
         }
 
         /// <summary>
         /// Shallow enumerate forward over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerator<ViewBase> GetEnumerator() => _child.GetEnumerator();
+        public override IEnumerator<ViewBase> GetEnumerator() => _child!.GetEnumerator();
 
         /// <summary>
         /// Deep enumerate forward over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase> Recurse() => _child.Recurse();
+        public override IEnumerable<ViewBase> Recurse() => _child!.Recurse();
 
         /// <summary>
         /// Shallow enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase> Reverse() => _child.Reverse();
+        public override IEnumerable<ViewBase> Reverse() => _child!.Reverse();
 
         /// <summary>
         /// Deep enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase> ReverseRecurse() => _child.ReverseRecurse();
+        public override IEnumerable<ViewBase> ReverseRecurse() => _child!.ReverseRecurse();
 
         #endregion
 
@@ -270,26 +270,26 @@ namespace Krypton.Toolkit
         /// </summary>
         public override IMouseController? MouseController
         {
-            get => _child.MouseController;
-            set => _child.MouseController = value;
+            get => _child?.MouseController;
+            set => _child!.MouseController = value;
         }
 
         /// <summary>
         /// Gets and sets the associated key controller.
         /// </summary>
-        public override IKeyController KeyController
+        public override IKeyController? KeyController
         {
-            get => _child.KeyController;
-            set => _child.KeyController = value;
+            get => _child?.KeyController;
+            set => _child!.KeyController = value;
         }
 
         /// <summary>
         /// Gets and sets the associated source controller.
         /// </summary>
-        public override ISourceController SourceController
+        public override ISourceController? SourceController
         {
-            get => _child.SourceController;
-            set => _child.SourceController = value;
+            get => _child?.SourceController;
+            set => _child!.SourceController = value;
         }
         #endregion
 
@@ -391,8 +391,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public override PaletteState ElementState
         {
-            get => _child.ElementState;
-            set => _child.ElementState = value;
+            get => _child!.ElementState;
+            set => _child!.ElementState = value;
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace Krypton.Toolkit
         public override PaletteState State
         {
             [DebuggerStepThrough]
-            get => _child.State;
+            get => _child!.State;
         }
         #endregion
 
@@ -411,19 +411,19 @@ namespace Krypton.Toolkit
         /// </summary>
         public override PaletteState FixedState
         {
-            get => _child.FixedState;
-            set => _child.FixedState = value;
+            get => _child!.FixedState;
+            set => _child!.FixedState = value;
         }
 
         /// <summary>
         /// Clear down the use of the fixed state
         /// </summary>
-        public override void ClearFixedState() => _child.ClearFixedState();
+        public override void ClearFixedState() => _child?.ClearFixedState();
 
         /// <summary>
         /// Gets a value indicating if view is using a fixed state.
         /// </summary>
-        public override bool IsFixed => _child.IsFixed;
+        public override bool IsFixed => _child?.IsFixed ?? false;
 
         #endregion
 
@@ -431,16 +431,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Get and set the view the enabled state of this view element is dependant on.
         /// </summary>
-        public override ViewBase DependantEnabledState
+        public override ViewBase? DependantEnabledState
         {
-            get => _child.DependantEnabledState;
-            set => _child.DependantEnabledState = value;
+            get => _child?.DependantEnabledState;
+            set => _child!.DependantEnabledState = value;
         }
 
         /// <summary>
-        /// Gets a value indicating if view enabled state is depedant on another view.
+        /// Gets a value indicating if view enabled state is dependant on another view.
         /// </summary>
-        public override bool IsEnableDependant => _child.IsEnableDependant;
+        public override bool IsEnableDependant => _child?.IsEnableDependant ?? false;
 
         #endregion
 
@@ -450,7 +450,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase? ViewFromPoint(Point pt) => _child.ViewFromPoint(pt);
+        public override ViewBase? ViewFromPoint(Point pt) => _child?.ViewFromPoint(pt);
 
         #endregion
     }

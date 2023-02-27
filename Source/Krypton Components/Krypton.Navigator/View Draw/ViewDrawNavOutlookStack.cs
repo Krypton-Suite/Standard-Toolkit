@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavOutlookStack(KryptonNavigator navigator,
-                                       KryptonPage page,
+                                       KryptonPage? page,
                                        VisualOrientation orientation)
             : base(navigator, page, orientation) =>
             // Are we mapping for the full or the mini mode?

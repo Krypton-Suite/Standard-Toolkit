@@ -66,7 +66,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Owning navigator instance.</param>
         /// <param name="page">Page this ribbon tab represents.</param>
         public ViewDrawNavRibbonTab(KryptonNavigator navigator,
-                                    KryptonPage page)
+                                    KryptonPage? page)
         {
             Debug.Assert(navigator != null);
             Debug.Assert(page != null);
@@ -203,7 +203,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the page this ribbon tab represents.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets the navigator this check item is inside.
@@ -437,7 +437,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             _needPaint?.Invoke(this, e);
         }

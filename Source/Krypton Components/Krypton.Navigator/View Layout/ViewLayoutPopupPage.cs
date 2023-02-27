@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly KryptonNavigator _navigator;
-        private readonly KryptonPage _page;
+        private readonly KryptonPage? _page;
         #endregion
 
         #region Identity
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to owning navigator control.</param>
         /// <param name="page">Page to the positioned.</param>
         public ViewLayoutPopupPage(KryptonNavigator navigator,
-                                   KryptonPage page)
+                                   KryptonPage? page)
         {
             Debug.Assert(navigator != null);
             Debug.Assert(page != null);

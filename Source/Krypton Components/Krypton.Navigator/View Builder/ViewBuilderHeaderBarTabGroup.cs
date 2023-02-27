@@ -597,7 +597,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void SetPalettes(PaletteHeaderGroup palette)
+        private void SetPalettes(PaletteHeaderGroup? palette)
         {
             _viewHeadingPrimary.SetPalettes(palette.HeaderPrimary.Back, palette.HeaderPrimary.Border, palette.HeaderPrimary);
             _viewHeadingSecondary.SetPalettes(palette.HeaderSecondary.Back, palette.HeaderSecondary.Border, palette.HeaderSecondary);

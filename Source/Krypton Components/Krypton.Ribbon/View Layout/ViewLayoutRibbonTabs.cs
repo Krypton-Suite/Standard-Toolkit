@@ -376,27 +376,31 @@ namespace Krypton.Ribbon
 
                         var childHeight = _cachedSizes[i].Height;
 
-                        if (child is ViewDrawRibbonTab tab)
+                        switch (child)
                         {
-                            // Tabs need an extra pixel height as a separator gap
-                            childHeight++;
-
-                            // Cache number of tabs encountered
-                            _cachedAllTabCount++;
-
-                            // Cache number of non-context tabs encountered
-                            if (string.IsNullOrEmpty(tab.RibbonTab?.ContextName))
+                            case ViewDrawRibbonTab tab:
                             {
-                                _cachedNonContextTabCount++;
-                            }
-                        }
-                        else if (child is ViewDrawRibbonDesignTab)
-                        {
-                            // Tabs need an extra pixel height as a separator gap
-                            childHeight++;
+                                // Tabs need an extra pixel height as a separator gap
+                                childHeight++;
 
-                            // Cache number of tabs encountered
-                            _cachedAllTabCount++;
+                                // Cache number of tabs encountered
+                                _cachedAllTabCount++;
+
+                                // Cache number of non-context tabs encountered
+                                if (string.IsNullOrEmpty(tab.RibbonTab?.ContextName))
+                                {
+                                    _cachedNonContextTabCount++;
+                                }
+
+                                break;
+                            }
+                            case ViewDrawRibbonDesignTab:
+                                // Tabs need an extra pixel height as a separator gap
+                                childHeight++;
+
+                                // Cache number of tabs encountered
+                                _cachedAllTabCount++;
+                                break;
                         }
 
                         // Find maximum height encountered

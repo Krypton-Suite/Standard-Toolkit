@@ -38,7 +38,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page for which the check button is to be created.</param>
         /// <param name="orientation">Initial orientation of the check button.</param>
-        protected override INavCheckItem CreateCheckItem(KryptonPage page,
+        protected override INavCheckItem CreateCheckItem(KryptonPage? page,
                                                          VisualOrientation orientation)
         {
             // Create a check button view element

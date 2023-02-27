@@ -65,9 +65,9 @@ namespace Krypton.Toolkit
                                      (BorderColor2 == Color.Empty) &&
                                      (BorderColorStyle == PaletteColorStyle.Inherit) &&
                                      (BorderColorAlign == PaletteRectangleAlign.Inherit) &&
-                                     (BorderColorAngle == -1) &&
+                                     (BorderColorAngle == -1f) &&
                                      (BorderWidth == -1) &&
-                                     (BorderRounding == -1) &&
+                                     (BorderRounding == -1f) &&
                                      (BorderImage == null) &&
                                      (BorderImageStyle == PaletteImageStyle.Inherit) &&
                                      (BorderImageAlign == PaletteRectangleAlign.Inherit);
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private IPaletteBorder _inherit;
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         #endregion
 
         #region Events
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBorder(IPaletteBorder inherit,
+        public PaletteBorder([DisallowNull] IPaletteBorder inherit,
                              NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -318,9 +318,13 @@ namespace Krypton.Toolkit
             get
             {
                 if (_storage?.BorderColor1 != null)
+                {
                     return _storage.BorderColor1;
+                }
                 else
+                {
                     return Color.Empty;
+                }
             }
 
             set
@@ -546,7 +550,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBorderColorAngle(PaletteState state) => ColorAngle != -1 ? ColorAngle : _inherit.GetBorderColorAngle(state);
+        public float GetBorderColorAngle(PaletteState state) => ColorAngle != -1f ? ColorAngle : _inherit.GetBorderColorAngle(state);
         #endregion
 
         #region Width
@@ -622,7 +626,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != -1)
+                    if (value != -1f)
                     {
                         _storage = new InternalStorage
                         {
@@ -640,7 +644,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public float GetBorderRounding(PaletteState state) => Rounding != -1 ? Rounding : _inherit.GetBorderRounding(state);
+        public float GetBorderRounding(PaletteState state) => Rounding != -1f ? Rounding : _inherit.GetBorderRounding(state);
         #endregion
 
         #region Image

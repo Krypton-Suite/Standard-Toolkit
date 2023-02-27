@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
+        protected void OnNeedPaint(object? sender, bool needLayout)
         {
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);

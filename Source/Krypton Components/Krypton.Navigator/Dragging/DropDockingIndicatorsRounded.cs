@@ -108,25 +108,23 @@ namespace Krypton.Navigator
             var xHalf = _dragData.DockWindowSize.Width / 2;
 
             Point location;
-            if (_dragData.ShowLeft && _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: false })
+            switch (_dragData.ShowLeft)
             {
-                location = new Point(screenRect.Left + 10, yMid - yHalf);
-            }
-            else if (!_dragData.ShowLeft && _dragData is { ShowRight: true, ShowMiddle: false } and { ShowTop: false, ShowBottom: false })
-            {
-                location = new Point(screenRect.Right - _dragData.DockWindowSize.Width - 10, yMid - yHalf);
-            }
-            else if (!_dragData.ShowLeft && _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: true, ShowBottom: false })
-            {
-                location = new Point(xMid - xHalf, screenRect.Top + 10);
-            }
-            else if (!_dragData.ShowLeft && _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: true })
-            {
-                location = new Point(xMid - xHalf, screenRect.Bottom - _dragData.DockWindowSize.Height - 10);
-            }
-            else
-            {
-                location = new Point(xMid - xHalf, yMid - yHalf);
+                case true when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: false }:
+                    location = new Point(screenRect.Left + 10, yMid - yHalf);
+                    break;
+                case false when _dragData is { ShowRight: true, ShowMiddle: false } and { ShowTop: false, ShowBottom: false }:
+                    location = new Point(screenRect.Right - _dragData.DockWindowSize.Width - 10, yMid - yHalf);
+                    break;
+                case false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: true, ShowBottom: false }:
+                    location = new Point(xMid - xHalf, screenRect.Top + 10);
+                    break;
+                case false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: true }:
+                    location = new Point(xMid - xHalf, screenRect.Bottom - _dragData.DockWindowSize.Height - 10);
+                    break;
+                default:
+                    location = new Point(xMid - xHalf, yMid - yHalf);
+                    break;
             }
 
             // Update the image for display

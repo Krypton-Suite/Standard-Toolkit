@@ -147,25 +147,26 @@ namespace Krypton.Navigator
         /// <returns>True if capturing input; otherwise false.</returns>
         public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            // Only interested in left mouse pressing down
-            if (button == MouseButtons.Left)
+            switch (button)
             {
-                // Capturing mouse input
-                c.Capture = true;
-                Captured = true;
-                _draggingAttempt = false;
+                // Only interested in left mouse pressing down
+                case MouseButtons.Left:
+                    // Capturing mouse input
+                    c.Capture = true;
+                    Captured = true;
+                    _draggingAttempt = false;
 
-                // Always indicate the left mouse was pressed
-                OnLeftMouseDown(EventArgs.Empty);
+                    // Always indicate the left mouse was pressed
+                    OnLeftMouseDown(EventArgs.Empty);
 
-                // Remember point when mouse when pressed, in case we want to start a drag/drop operation
-                _dragRect = new Rectangle(pt, Size.Empty);
-                _dragRect.Inflate(SystemInformation.DragSize);
-            }
-            else if (button == MouseButtons.Right)
-            {
-                // Always indicate the right mouse was pressed
-                OnRightMouseDown(EventArgs.Empty);
+                    // Remember point when mouse when pressed, in case we want to start a drag/drop operation
+                    _dragRect = new Rectangle(pt, Size.Empty);
+                    _dragRect.Inflate(SystemInformation.DragSize);
+                    break;
+                case MouseButtons.Right:
+                    // Always indicate the right mouse was pressed
+                    OnRightMouseDown(EventArgs.Empty);
+                    break;
             }
 
             return Captured;

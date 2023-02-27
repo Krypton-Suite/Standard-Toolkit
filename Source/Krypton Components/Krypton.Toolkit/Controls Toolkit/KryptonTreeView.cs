@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutSeparator _layoutImage;
         private readonly ViewLayoutSeparator _layoutImageState;
         private readonly InternalTreeView _treeView;
-        private readonly FixedContentValue _contentValues;
+        private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
@@ -1797,7 +1797,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {

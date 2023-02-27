@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <param name="rect">Rectangle to be drawn.</param>
         /// <param name="edges">True if the edges needs to be drawn.</param>
         /// <param name="sender">Sender of the message..</param>
-        public void PaintRectangle(Graphics? g, Rectangle rect, bool edges, Control sender)
+        public void PaintRectangle(Graphics? g, Rectangle rect, bool edges, Control? sender)
         {
             // If we are rendering using desktop window composition and using the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chrome
@@ -113,26 +113,37 @@ namespace Krypton.Ribbon
                     border.Render(context);
                 }
 
-                if (_ribbon.RibbonShape == PaletteRibbonShape.Office2010)
+                if (g == null)
                 {
-                    //Adjust Color of the gradient
-                    Color gradientColor = KryptonManager.CurrentGlobalPalette == KryptonManager.PaletteOffice2010Black
-                        ? Color.FromArgb(39, 39, 39)
-                        : Color.White;
+                    return;
+                }
 
-                    using LinearGradientBrush backBrush = new(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f);
-                    backBrush.Blend = _compBlend;
-                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                }
-                else if (_ribbon.RibbonShape == PaletteRibbonShape.Office2013)
+                switch (_ribbon.RibbonShape)
                 {
-                    using SolidBrush backBrush = new(Color.White);
-                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                }
-                else if (_ribbon.RibbonShape == PaletteRibbonShape.Microsoft365)
-                {
-                    using SolidBrush backBrush = new(Color.White);
-                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
+                    case PaletteRibbonShape.Office2010:
+                    {
+                        //Adjust Color of the gradient
+                        Color gradientColor = KryptonManager.CurrentGlobalPalette == KryptonManager.PaletteOffice2010Black
+                            ? Color.FromArgb(39, 39, 39)
+                            : Color.White;
+
+                        using LinearGradientBrush backBrush = new(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f);
+                        backBrush.Blend = _compBlend;
+                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
+                        break;
+                    }
+                    case PaletteRibbonShape.Office2013:
+                    {
+                        using SolidBrush backBrush = new(Color.White);
+                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
+                        break;
+                    }
+                    case PaletteRibbonShape.Microsoft365:
+                    {
+                        using SolidBrush backBrush = new(Color.White);
+                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
+                        break;
+                    }
                 }
             }
         }

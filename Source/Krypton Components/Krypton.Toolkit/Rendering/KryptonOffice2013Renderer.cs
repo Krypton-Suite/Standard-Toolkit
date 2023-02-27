@@ -545,33 +545,36 @@ namespace Krypton.Toolkit
                     {
                         e.TextColor = KCT.MenuItemText;
                     }
-                    else if ((e is { ToolStrip: StatusStrip, Item: { Pressed: false, Selected: false } }))
-                    {
-                        e.TextColor = KCT.StatusStripText;
-                    }
-                    else if ((e is { ToolStrip: StatusStrip, Item: { Pressed: false, Selected: true } }))
-                    {
-                        e.TextColor = KCT.MenuItemText;
-                    }
-                    else if ((e is { ToolStrip: ToolStrip, Item: { Pressed: false, Selected: true } }))
-                    {
-                        e.TextColor = KCT.MenuItemText;
-                    }
-                    else if ((e is { ToolStrip: ContextMenuStrip, Item: { Pressed: false, Selected: false } }))
-                    {
-                        e.TextColor = KCT.MenuItemText;
-                    }
-                    else if (e.ToolStrip is ToolStripDropDownMenu)
-                    {
-                        e.TextColor = KCT.MenuItemText;
-                    }
-                    else if ((e.Item is ToolStripButton { Checked: true }))
-                    {
-                        e.TextColor = KCT.MenuItemText;
-                    }
                     else
                     {
-                        e.TextColor = KCT.ToolStripText;
+                        switch (e)
+                        {
+                            case { ToolStrip: StatusStrip, Item: { Pressed: false, Selected: false } }:
+                                e.TextColor = KCT.StatusStripText;
+                                break;
+                            case { ToolStrip: StatusStrip, Item: { Pressed: false, Selected: true } }:
+                            case { ToolStrip: ToolStrip, Item: { Pressed: false, Selected: true } }:
+                            case { ToolStrip: ContextMenuStrip, Item: { Pressed: false, Selected: false } }:
+                                e.TextColor = KCT.MenuItemText;
+                                break;
+                            default:
+                            {
+                                if (e.ToolStrip is ToolStripDropDownMenu)
+                                {
+                                    e.TextColor = KCT.MenuItemText;
+                                }
+                                else if ((e.Item is ToolStripButton { Checked: true }))
+                                {
+                                    e.TextColor = KCT.MenuItemText;
+                                }
+                                else
+                                {
+                                    e.TextColor = KCT.ToolStripText;
+                                }
+
+                                break;
+                            }
+                        }
                     }
                 }
 
@@ -810,53 +813,56 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         {
-            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
+            switch (e.ToolStrip)
             {
-                // Make sure the font is current
-                if (e.ToolStrip.Font != KCT.MenuStripFont)
+                case ContextMenuStrip or ToolStripDropDownMenu:
                 {
-                    e.ToolStrip.Font = KCT.MenuStripFont;
-                }
+                    // Make sure the font is current
+                    if (e.ToolStrip.Font != KCT.MenuStripFont)
+                    {
+                        e.ToolStrip.Font = KCT.MenuStripFont;
+                    }
 
-                // Create border and clipping paths
-                using GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, _cutContextMenu),
-                    clipPath = CreateClipBorderPath(e.AffectedBounds, _cutContextMenu);
-                // Clip all drawing to within the border path
-                using Clipping clipping = new(e.Graphics, clipPath);
-                // Create the background brush
-                using SolidBrush backBrush = new(KCT.ToolStripDropDownBackground);
-                e.Graphics.FillPath(backBrush, borderPath);
-            }
-            else if (e.ToolStrip is StatusStrip)
-            {
-                // Make sure the font is current
-                if (e.ToolStrip.Font != KCT.StatusStripFont)
+                    // Create border and clipping paths
+                    using GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, _cutContextMenu),
+                        clipPath = CreateClipBorderPath(e.AffectedBounds, _cutContextMenu);
+                    // Clip all drawing to within the border path
+                    using Clipping clipping = new(e.Graphics, clipPath);
+                    // Create the background brush
+                    using SolidBrush backBrush = new(KCT.ToolStripDropDownBackground);
+                    e.Graphics.FillPath(backBrush, borderPath);
+                    break;
+                }
+                case StatusStrip:
                 {
-                    e.ToolStrip.Font = KCT.StatusStripFont;
-                }
+                    // Make sure the font is current
+                    if (e.ToolStrip.Font != KCT.StatusStripFont)
+                    {
+                        e.ToolStrip.Font = KCT.StatusStripFont;
+                    }
 
-                // We do not paint the top two pixel lines, as they are drawn by the status strip border render method
-                RectangleF backRect = new(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
+                    // We do not paint the top two pixel lines, as they are drawn by the status strip border render method
+                    RectangleF backRect = new(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
 
-                // Cannot paint a zero sized area
-                if (backRect is { Width: > 0, Height: > 0 })
-                {
-                    //using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
-                    //                                                               KCT.StatusStripGradientBegin,
-                    //                                                               KCT.StatusStripGradientEnd,
-                    //                                                               90f))
-                    //{
-                    //    backBrush.Blend = _stripBlend;
-                    //    e.Graphics.FillRectangle(backBrush, backRect);
-                    //}
-                    using SolidBrush backBrush = new(KCT.StatusStripGradientEnd);
-                    e.Graphics.FillRectangle(backBrush, backRect);
+                    // Cannot paint a zero sized area
+                    if (backRect is { Width: > 0, Height: > 0 })
+                    {
+                        //using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
+                        //                                                               KCT.StatusStripGradientBegin,
+                        //                                                               KCT.StatusStripGradientEnd,
+                        //                                                               90f))
+                        //{
+                        //    backBrush.Blend = _stripBlend;
+                        //    e.Graphics.FillRectangle(backBrush, backRect);
+                        //}
+                        using SolidBrush backBrush = new(KCT.StatusStripGradientEnd);
+                        e.Graphics.FillRectangle(backBrush, backRect);
+                    }
+
+                    break;
                 }
-            }
-            else
-            {
                 // Make sure the font is current
-                if (e.ToolStrip is MenuStrip)
+                case MenuStrip:
                 {
                     if (e.ToolStrip.Font != KCT.MenuStripFont)
                     {
@@ -864,8 +870,9 @@ namespace Krypton.Toolkit
                     }
 
                     base.OnRenderToolStripBackground(e);
+                    break;
                 }
-                else
+                default:
                 {
                     if (e.ToolStrip.Font != KCT.ToolStripFont)
                     {
@@ -879,16 +886,16 @@ namespace Krypton.Toolkit
                         if (e.ToolStrip.Orientation == Orientation.Horizontal)
                         {
                             using (LinearGradientBrush backBrush = new(backRect,
-                                                                                           KCT.ToolStripGradientBegin,
-                                                                                           KCT.ToolStripGradientEnd,
-                                                                                           90f))
+                                       KCT.ToolStripGradientBegin,
+                                       KCT.ToolStripGradientEnd,
+                                       90f))
                             {
                                 backBrush.Blend = _stripBlend;
                                 e.Graphics.FillRectangle(backBrush, backRect);
                             }
 
                             using (Pen darkBorder = new(KCT.ToolStripBorder),
-                                       lightBorder = new(KCT.ToolStripGradientBegin))
+                                   lightBorder = new(KCT.ToolStripGradientBegin))
                             {
                                 e.Graphics.DrawLine(lightBorder, 0, 2, 0, e.ToolStrip.Height - 2);
                                 e.Graphics.DrawLine(lightBorder, e.ToolStrip.Width - 2, 0, e.ToolStrip.Width - 2, e.ToolStrip.Height - 2);
@@ -898,16 +905,16 @@ namespace Krypton.Toolkit
                         else
                         {
                             using (LinearGradientBrush backBrush = new(backRect,
-                                                                                           KCT.ToolStripGradientBegin,
-                                                                                           KCT.ToolStripGradientEnd,
-                                                                                           0f))
+                                       KCT.ToolStripGradientBegin,
+                                       KCT.ToolStripGradientEnd,
+                                       0f))
                             {
                                 backBrush.Blend = _stripBlend;
                                 e.Graphics.FillRectangle(backBrush, backRect);
                             }
 
                             using (Pen darkBorder = new(KCT.ToolStripBorder),
-                                       lightBorder = new(KCT.ToolStripGradientBegin))
+                                   lightBorder = new(KCT.ToolStripGradientBegin))
                             {
                                 e.Graphics.DrawLine(lightBorder, 1, 0, e.ToolStrip.Width - 2, 0);
                                 e.Graphics.DrawLine(lightBorder, 1, e.ToolStrip.Height - 2, e.ToolStrip.Width - 2, e.ToolStrip.Height - 2);
@@ -915,6 +922,8 @@ namespace Krypton.Toolkit
                             }
                         }
                     }
+
+                    break;
                 }
             }
         }
@@ -927,49 +936,53 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
         {
-            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
+            switch (e.ToolStrip)
             {
-                // If there is a connected area to be drawn
-                if (!e.ConnectedArea.IsEmpty)
+                case ContextMenuStrip or ToolStripDropDownMenu:
                 {
-                    using SolidBrush excludeBrush = new(KCT.ToolStripDropDownBackground);
-                    e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
-                }
+                    // If there is a connected area to be drawn
+                    if (!e.ConnectedArea.IsEmpty)
+                    {
+                        using SolidBrush excludeBrush = new(KCT.ToolStripDropDownBackground);
+                        e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
+                    }
 
-                // Create border and clipping paths
-                using GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu),
-                    insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu),
-                    clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu);
-                // Create the different pen colors we need
-                using Pen borderPen = new(KCT.MenuBorder),
-                    insidePen = new(KCT.ToolStripDropDownBackground);
-                // Clip all drawing to within the border path
-                using Clipping clipping = new(e.Graphics, clipPath);
-                // Drawing with anti aliasing to create smoother appearance
-                using (AntiAlias aa = new(e.Graphics))
+                    // Create border and clipping paths
+                    using GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu),
+                        insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu),
+                        clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu);
+                    // Create the different pen colors we need
+                    using Pen borderPen = new(KCT.MenuBorder),
+                        insidePen = new(KCT.ToolStripDropDownBackground);
+                    // Clip all drawing to within the border path
+                    using Clipping clipping = new(e.Graphics, clipPath);
+                    // Drawing with anti aliasing to create smoother appearance
+                    using (AntiAlias aa = new(e.Graphics))
+                    {
+                        // Draw the inside area first
+                        e.Graphics.DrawPath(insidePen, insidePath);
+
+                        // Draw the border area second, so any overlapping gives it priority
+                        e.Graphics.DrawPath(borderPen, borderPath);
+                    }
+
+                    // Draw the pixel at the bottom right of the context menu
+                    e.Graphics.DrawLine(borderPen, e.AffectedBounds.Right, e.AffectedBounds.Bottom,
+                        e.AffectedBounds.Right - 1, e.AffectedBounds.Bottom - 1);
+                    break;
+                }
+                case StatusStrip:
                 {
-                    // Draw the inside area first
-                    e.Graphics.DrawPath(insidePen, insidePath);
-
-                    // Draw the border area second, so any overlapping gives it priority
-                    e.Graphics.DrawPath(borderPen, borderPath);
+                    // Draw two lines at top of the status strip
+                    using Pen darkBorder = new(KCT.ToolStripBorder),
+                        lightBorder = new(KCT.SeparatorLight);
+                    e.Graphics.DrawLine(darkBorder, 0, 0, e.ToolStrip.Width - 1, 0);
+                    e.Graphics.DrawLine(lightBorder, 0, 1, e.ToolStrip.Width - 1, 1);
+                    break;
                 }
-
-                // Draw the pixel at the bottom right of the context menu
-                e.Graphics.DrawLine(borderPen, e.AffectedBounds.Right, e.AffectedBounds.Bottom,
-                    e.AffectedBounds.Right - 1, e.AffectedBounds.Bottom - 1);
-            }
-            else if (e.ToolStrip is StatusStrip)
-            {
-                // Draw two lines at top of the status strip
-                using Pen darkBorder = new(KCT.ToolStripBorder),
-                    lightBorder = new(KCT.SeparatorLight);
-                e.Graphics.DrawLine(darkBorder, 0, 0, e.ToolStrip.Width - 1, 0);
-                e.Graphics.DrawLine(lightBorder, 0, 1, e.ToolStrip.Width - 1, 1);
-            }
-            else
-            {
-                base.OnRenderToolStripBorder(e);
+                default:
+                    base.OnRenderToolStripBorder(e);
+                    break;
             }
         }
         #endregion
@@ -1237,17 +1250,17 @@ namespace Krypton.Toolkit
                     // Ensure we have cached the objects we need
                     UpdateCache();
 
-                    if (splitButton is { Pressed: false, ButtonPressed: true })
+                    switch (splitButton)
                     {
-                        DrawGradientToolSplitItem(g, splitButton, _gradientPressed, _gradientTracking, _gradientSplit);
-                    }
-                    else if (splitButton is { Pressed: true, ButtonPressed: false })
-                    {
-                        DrawContextMenuHeader(g, splitButton);
-                    }
-                    else
-                    {
-                        DrawGradientToolSplitItem(g, splitButton, _gradientTracking, _gradientTracking, _gradientSplit);
+                        case { Pressed: false, ButtonPressed: true }:
+                            DrawGradientToolSplitItem(g, splitButton, _gradientPressed, _gradientTracking, _gradientSplit);
+                            break;
+                        case { Pressed: true, ButtonPressed: false }:
+                            DrawContextMenuHeader(g, splitButton);
+                            break;
+                        default:
+                            DrawGradientToolSplitItem(g, splitButton, _gradientTracking, _gradientTracking, _gradientSplit);
+                            break;
                     }
                 }
                 else

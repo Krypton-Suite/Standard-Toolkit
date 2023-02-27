@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorOtherEx(PaletteNavigatorRedirect redirect,
+        public PaletteNavigatorOtherEx(PaletteNavigatorRedirect? redirect,
                                        NeedPaintHandler needPaint)
             : base(redirect, needPaint) =>
             // Create the palette storage
@@ -60,7 +60,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding Separator { get; }
+        public PaletteSeparatorPadding? Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

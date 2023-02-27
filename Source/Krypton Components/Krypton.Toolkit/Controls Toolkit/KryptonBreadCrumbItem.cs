@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         public class BreadCrumbItems : TypedCollection<KryptonBreadCrumbItem>
         {
             #region Instance Fields
-            private readonly KryptonBreadCrumbItem _owner;
+            private readonly KryptonBreadCrumbItem? _owner;
             #endregion
 
             #region Identity
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the BreadCrumbItems class.
             /// </summary>
             /// <param name="owner">Reference to owning item.</param>
-            internal BreadCrumbItems(KryptonBreadCrumbItem owner) => _owner = owner;
+            internal BreadCrumbItems(KryptonBreadCrumbItem? owner) => _owner = owner;
 
             #endregion
 
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonBreadCrumbItem Parent { get; internal set; }
+        public KryptonBreadCrumbItem? Parent { get; internal set; }
 
         #endregion
 
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
             base.OnPropertyChanged(e);
 
             // If we have a parent instance
-            KryptonBreadCrumbItem parent = Parent;
+            KryptonBreadCrumbItem? parent = Parent;
             if (parent != null)
             {
                 // Find the root instance

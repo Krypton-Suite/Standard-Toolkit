@@ -24,7 +24,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page effected by event.</param>
         /// <param name="index">Index of page in the owning collection.</param>
         /// <param name="screenRect">Screen rectangle for showing the popup.</param>
-        public PopupPageEventArgs(KryptonPage page, 
+        public PopupPageEventArgs(KryptonPage? page, 
                                   int index, 
                                   Rectangle screenRect)
             : base(page, index) =>

@@ -2345,7 +2345,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette?.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system check box
             if (drawImage == null)
@@ -2396,7 +2396,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette?.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system check box
             if (drawImage == null)
@@ -2430,14 +2430,14 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public override Size GetRadioButtonPreferredSize(ViewLayoutContext context,
-                                                         PaletteBase palette,
+                                                         [DisallowNull] PaletteBase palette,
                                                          bool enabled,
                                                          bool checkState,
                                                          bool tracking,
                                                          bool pressed)
         {
             // Grab an image appropriate to the state
-            Image drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
             if (drawImage == null)
             {
@@ -2487,7 +2487,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette?.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system radio button
             if (drawImage == null)
@@ -2519,12 +2519,12 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public override Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            PaletteBase? palette,
+                                                            [DisallowNull] PaletteBase? palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation)
         {
             // Grab an image appropriate to the state
-            Image drawImage = palette.GetDropDownButtonImage(state);
+            Image? drawImage = palette.GetDropDownButtonImage(state);
 
             // Get the image defined size
             Size imageSize = Size.Empty;
@@ -2573,7 +2573,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette?.GetDropDownButtonImage(state);
+            Image? drawImage = palette.GetDropDownButtonImage(state);
             if (drawImage != null)
             {
                 DrawImageHelper(context, drawImage, Color.Empty,
@@ -3333,7 +3333,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         public override bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                                  IPaletteBorder? paletteBorder,
+                                                  [DisallowNull] IPaletteBorder? paletteBorder,
                                                   PaletteState state)
         {
             // If the border takes up some visual space
@@ -3500,7 +3500,7 @@ namespace Krypton.Toolkit
                                             Orientation orientation,
                                             bool volumeControl)
         {
-            // The position indicator leavesa gap at the left/right ends for horizontal and top/bottom for vertical
+            // The position indicator leaves a gap at the left/right ends for horizontal and top/bottom for vertical
             // so we do not draw that last pixel so that when the indicator is at the end the track does not stick out
             if (orientation == Orientation.Horizontal)
             {
@@ -3577,9 +3577,9 @@ namespace Krypton.Toolkit
                                                     Orientation orientation,
                                                     TickStyle tickStyle)
         {
-            GraphicsPath outside = null;
-            GraphicsPath border = null;
-            GraphicsPath inside = null;
+            GraphicsPath? outside = null;
+            GraphicsPath? border = null;
+            GraphicsPath? inside = null;
 
             if (orientation == Orientation.Horizontal)
             {
@@ -3587,13 +3587,13 @@ namespace Krypton.Toolkit
                 {
                     case TickStyle.None:
                     case TickStyle.Both:
-                        CreatePositionPathsBoth(drawRect, ref outside, ref border, ref inside);
+                        CreatePositionPathsBoth(drawRect, out outside, out border, out inside);
                         break;
                     case TickStyle.TopLeft:
-                        CreatePositionPathsTop(drawRect, ref outside, ref border, ref inside);
+                        CreatePositionPathsTop(drawRect, out outside, out border, out inside);
                         break;
                     case TickStyle.BottomRight:
-                        CreatePositionPathsBottom(drawRect, ref outside, ref border, ref inside);
+                        CreatePositionPathsBottom(drawRect, out outside, out border, out inside);
                         break;
                 }
             }
@@ -3603,18 +3603,21 @@ namespace Krypton.Toolkit
                 {
                     case TickStyle.None:
                     case TickStyle.Both:
-                        CreatePositionPathsBoth(drawRect, ref outside, ref border, ref inside);
+                        CreatePositionPathsBoth(drawRect, out outside, out border, out inside);
                         break;
                     case TickStyle.TopLeft:
-                        CreatePositionPathsLeft(drawRect, ref outside, ref border, ref inside);
+                        CreatePositionPathsLeft(drawRect, out outside, out border, out inside);
                         break;
                     case TickStyle.BottomRight:
-                        CreatePositionPathsRight(drawRect, ref outside, ref border, ref inside);
+                        CreatePositionPathsRight(drawRect, out outside, out border, out inside);
                         break;
                 }
             }
 
-            if ((outside != null) && (border != null) && (inside != null))
+            if ((outside != null) 
+                && (border != null) 
+                && (inside != null)
+                )
             {
                 using (AntiAlias aa = new(context.Graphics))
                 {
@@ -3647,9 +3650,9 @@ namespace Krypton.Toolkit
         }
 
         private void CreatePositionPathsBoth(Rectangle drawRect,
-                                             ref GraphicsPath outside,
-                                             ref GraphicsPath border,
-                                             ref GraphicsPath inside)
+                                             out GraphicsPath? outside,
+                                             out GraphicsPath? border,
+                                             out GraphicsPath? inside)
         {
             outside = CreatePositionPathsBoth(drawRect);
             drawRect.Inflate(-1, -1);
@@ -3676,9 +3679,9 @@ namespace Krypton.Toolkit
         }
 
         private void CreatePositionPathsBottom(Rectangle drawRect,
-                                               ref GraphicsPath outside,
-                                               ref GraphicsPath border,
-                                               ref GraphicsPath inside)
+                                               out GraphicsPath? outside,
+                                               out GraphicsPath? border,
+                                               out GraphicsPath? inside)
         {
             outside = CreatePositionPathsBottom(drawRect);
             drawRect.Inflate(-1, -1);
@@ -3706,9 +3709,9 @@ namespace Krypton.Toolkit
         }
 
         private void CreatePositionPathsTop(Rectangle drawRect,
-                                            ref GraphicsPath outside,
-                                            ref GraphicsPath border,
-                                            ref GraphicsPath inside)
+                                            out GraphicsPath? outside,
+                                            out GraphicsPath? border,
+                                            out GraphicsPath? inside)
         {
             outside = CreatePositionPathsTop(drawRect);
             drawRect.Inflate(-1, -1);
@@ -3735,9 +3738,9 @@ namespace Krypton.Toolkit
         }
 
         private void CreatePositionPathsRight(Rectangle drawRect,
-                                              ref GraphicsPath outside,
-                                              ref GraphicsPath border,
-                                              ref GraphicsPath inside)
+                                              out GraphicsPath? outside,
+                                              out GraphicsPath? border,
+                                              out GraphicsPath? inside)
         {
             outside = CreatePositionPathsRight(drawRect);
             drawRect.Inflate(-1, -1);
@@ -3764,9 +3767,9 @@ namespace Krypton.Toolkit
         }
 
         private void CreatePositionPathsLeft(Rectangle drawRect,
-                                              ref GraphicsPath outside,
-                                              ref GraphicsPath border,
-                                              ref GraphicsPath inside)
+                                              out GraphicsPath? outside,
+                                              out GraphicsPath? border,
+                                              out GraphicsPath? inside)
         {
             outside = CreatePositionPathsLeft(drawRect);
             drawRect.Inflate(-1, -1);
@@ -4288,7 +4291,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
                     break;
                 case PaletteDrawBorders.BottomRight:
-                    // Reduce the width and height by 1 pixel for drawing into rectFangle
+                    // Reduce the width and height by 1 pixel for drawing into rectangle
                     rectF.Width -= 1;
                     rectF.Height -= 1;
 
@@ -5234,7 +5237,7 @@ namespace Krypton.Toolkit
                     break;
                 case PaletteImageStyle.TopMiddle:
                     brush.WrapMode = WrapMode.Clamp;
-                    brush.TranslateTransform(rect.Left + ((rect.Width - image.Width) / 2), rect.Top);
+                    brush.TranslateTransform(rect.Left + ((rect.Width - image.Width) / 2.0f), rect.Top);
                     break;
                 case PaletteImageStyle.TopRight:
                     brush.WrapMode = WrapMode.Clamp;
@@ -5242,15 +5245,15 @@ namespace Krypton.Toolkit
                     break;
                 case PaletteImageStyle.CenterLeft:
                     brush.WrapMode = WrapMode.Clamp;
-                    brush.TranslateTransform(rect.Left, rect.Top + ((rect.Height - image.Height) / 2));
+                    brush.TranslateTransform(rect.Left, rect.Top + ((rect.Height - image.Height) / 2.0f));
                     break;
                 case PaletteImageStyle.CenterMiddle:
                     brush.WrapMode = WrapMode.Clamp;
-                    brush.TranslateTransform(rect.Left + ((rect.Width - image.Width) / 2), rect.Top + ((rect.Height - image.Height) / 2));
+                    brush.TranslateTransform(rect.Left + ((rect.Width - image.Width) / 2.0f), rect.Top + ((rect.Height - image.Height) / 2.0f));
                     break;
                 case PaletteImageStyle.CenterRight:
                     brush.WrapMode = WrapMode.Clamp;
-                    brush.TranslateTransform(rect.Right - image.Width, rect.Top + ((rect.Height - image.Height) / 2));
+                    brush.TranslateTransform(rect.Right - image.Width, rect.Top + ((rect.Height - image.Height) / 2.0f));
                     break;
                 case PaletteImageStyle.BottomLeft:
                     brush.WrapMode = WrapMode.Clamp;
@@ -5258,7 +5261,7 @@ namespace Krypton.Toolkit
                     break;
                 case PaletteImageStyle.BottomMiddle:
                     brush.WrapMode = WrapMode.Clamp;
-                    brush.TranslateTransform(rect.Left + ((rect.Width - image.Width) / 2), rect.Bottom - image.Height);
+                    brush.TranslateTransform(rect.Left + ((rect.Width - image.Width) / 2.0f), rect.Bottom - image.Height);
                     break;
                 case PaletteImageStyle.BottomRight:
                     brush.WrapMode = WrapMode.Clamp;
@@ -5308,7 +5311,7 @@ namespace Krypton.Toolkit
             // Convert to a pixel aligned rectangle
             Rectangle rect;
 
-            // Do we have any non-integeer numbers to convert
+            // Do we have any non-integer numbers to convert
             if ((Math.Round(rectF.X) != rectF.X) ||
                 (Math.Round(rectF.Y) != rectF.Y) ||
                 (Math.Round(rectF.Width) != rectF.Width) ||
@@ -5460,7 +5463,7 @@ namespace Krypton.Toolkit
             rect.X++;
             rect.Y++;
 
-            // Size is smaller in both directions because of offseting
+            // Size is smaller in both directions because of off-seting
             rect.Width--;
             rect.Height--;
 
@@ -5621,7 +5624,7 @@ namespace Krypton.Toolkit
                                                            int allocatedHeight)
         {
             // Get the krypton form that contains this control
-            KryptonForm kryptonForm = OwningKryptonForm(context.TopControl);
+            KryptonForm? kryptonForm = OwningKryptonForm(context.TopControl);
 
             // Not interested if not inside a krypton form
             if (kryptonForm != null)
@@ -5642,7 +5645,7 @@ namespace Krypton.Toolkit
                                                      Font font)
         {
             // Get the krypton form that contains this control
-            KryptonForm kryptonForm = OwningKryptonForm(context.TopControl);
+            KryptonForm? kryptonForm = OwningKryptonForm(context.TopControl);
 
             // Not interested if not inside a krypton form
             if (kryptonForm != null)
@@ -5670,7 +5673,7 @@ namespace Krypton.Toolkit
             return font;
         }
 
-        private static KryptonForm OwningKryptonForm(Control c)
+        private static KryptonForm? OwningKryptonForm(Control? c)
         {
             // Climb chain looking for the Krypton Form instance
             while ((c != null) && c is not KryptonForm)
@@ -6241,14 +6244,15 @@ namespace Krypton.Toolkit
             // If drawing from right to left...
             if (rtl == RightToLeft.Yes)
             {
-                // Then invert the near and far positioning
-                if (drawH == PaletteRelativeAlign.Near)
+                switch (drawH)
                 {
-                    drawH = PaletteRelativeAlign.Far;
-                }
-                else if (drawH == PaletteRelativeAlign.Far)
-                {
-                    drawH = PaletteRelativeAlign.Near;
+                    // Then invert the near and far positioning
+                    case PaletteRelativeAlign.Near:
+                        drawH = PaletteRelativeAlign.Far;
+                        break;
+                    case PaletteRelativeAlign.Far:
+                        drawH = PaletteRelativeAlign.Near;
+                        break;
                 }
             }
 
@@ -6683,6 +6687,9 @@ namespace Krypton.Toolkit
                                                       Color border,
                                                       RenderDragDockingData dragData)
         {
+            if (g == null) throw new ArgumentNullException(nameof(g));
+            if (dragData == null) throw new ArgumentNullException(nameof(dragData));
+
             Color start = Color.FromArgb(190, 190, 190);
             using Pen borderPen = new(border);
             using SolidBrush insideBrush = new(inside);
@@ -6808,6 +6815,8 @@ namespace Krypton.Toolkit
                                                 Color inactiveColor,
                                                 RenderDragDockingData dragData)
         {
+            if (g == null) throw new ArgumentNullException(nameof(g));
+
             Color borderColour = ControlPaint.Dark(activeColor);
 
             // Draw border around the window square
@@ -11859,7 +11868,7 @@ namespace Krypton.Toolkit
             public Color ImageTransparentColor;
             public Rectangle ImageRect;
             public PaletteTextTrim ShortTextTrimming;
-            public AccurateTextMemento ShortTextMemento;
+            public AccurateTextMemento? ShortTextMemento;
             public Rectangle ShortTextRect;
             public TextRenderingHint ShortTextHint;
             public PaletteTextTrim LongTextTrimming;

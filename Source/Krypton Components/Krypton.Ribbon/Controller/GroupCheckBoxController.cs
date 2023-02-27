@@ -116,20 +116,20 @@ namespace Krypton.Ribbon
         /// <returns>True if capturing input; otherwise false.</returns>
         public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            // Only interested in left mouse pressing down
-            if (button == MouseButtons.Left)
+            switch (button)
             {
-               // Capturing mouse input
-                Captured = true;
+                // Only interested in left mouse pressing down
+                case MouseButtons.Left:
+                    // Capturing mouse input
+                    Captured = true;
 
-                // Update the visual state
-                UpdateTargetState(pt);
-            }
-
-            // Remember the user has pressed the right mouse button down
-            if (button == MouseButtons.Right)
-            {
-                _rightButtonDown = true;
+                    // Update the visual state
+                    UpdateTargetState(pt);
+                    break;
+                // Remember the user has pressed the right mouse button down
+                case MouseButtons.Right:
+                    _rightButtonDown = true;
+                    break;
             }
 
             return Captured;

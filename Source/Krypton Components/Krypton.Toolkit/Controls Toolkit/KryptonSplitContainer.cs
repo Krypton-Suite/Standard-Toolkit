@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common split container appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSplitContainerRedirect StateCommon { get; }
+        public PaletteSplitContainerRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding StateTracking { get; }
+        public PaletteSeparatorPadding? StateTracking { get; }
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding StatePressed { get; }
+        public PaletteSeparatorPadding? StatePressed { get; }
 
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
@@ -537,24 +537,26 @@ namespace Krypton.Toolkit
                     // Orientation determines the width/height to use
                     if (Orientation == Orientation.Vertical)
                     {
-                        if (_fixedPanel == FixedPanel.Panel1)
+                        switch (_fixedPanel)
                         {
-                            _fixedDistance = Panel1.Width;
-                        }
-                        else if (_fixedPanel == FixedPanel.Panel2)
-                        {
-                            _fixedDistance = Panel2.Width;
+                            case FixedPanel.Panel1:
+                                _fixedDistance = Panel1.Width;
+                                break;
+                            case FixedPanel.Panel2:
+                                _fixedDistance = Panel2.Width;
+                                break;
                         }
                     }
                     else
                     {
-                        if (_fixedPanel == FixedPanel.Panel1)
+                        switch (_fixedPanel)
                         {
-                            _fixedDistance = Panel1.Height;
-                        }
-                        else if (_fixedPanel == FixedPanel.Panel2)
-                        {
-                            _fixedDistance = Panel2.Height;
+                            case FixedPanel.Panel1:
+                                _fixedDistance = Panel1.Height;
+                                break;
+                            case FixedPanel.Panel2:
+                                _fixedDistance = Panel2.Height;
+                                break;
                         }
                     }
                 }

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteDataGridViewRedirect : Storage
     {
         #region Instance Fields
-        private readonly PaletteDoubleRedirect _background;
+        private readonly PaletteDoubleRedirect? _background;
         private readonly PaletteDataGridViewTripleRedirect _dataCell;
         private readonly PaletteDataGridViewTripleRedirect _headerColumn;
         private readonly PaletteDataGridViewTripleRedirect _headerRow;
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBackground() => !_background.IsDefault;
 
-        internal IPaletteDouble BackgroundDouble => _background;
+        internal IPaletteDouble? BackgroundDouble => _background;
 
         #endregion
 
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

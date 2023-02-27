@@ -227,7 +227,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
@@ -237,8 +237,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the masked text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    MaskedTextBox.Palette = Ribbon.GetResolvedPalette();
-                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
+                    MaskedTextBox.Palette = value.GetResolvedPalette();
+                    value.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
         }
@@ -268,7 +268,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonMaskedTextBox MaskedTextBox { get; private set; }
+        public KryptonMaskedTextBox? MaskedTextBox { get; private set; }
 
         /// <summary>
         /// Gets and sets the key tip for the ribbon group masked text box.
@@ -278,6 +278,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Ribbon group masked text box key tip.")]
         [DefaultValue("X")]
+        [AllowNull]
         public string KeyTip
         {
             get => _keyTip;
@@ -286,10 +287,10 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
-                _keyTip = value.ToUpper();
+                _keyTip = value!.ToUpper();
             }
         }
 
@@ -362,8 +363,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
-            get => MaskedTextBox.MinimumSize;
-            set => MaskedTextBox.MinimumSize = value;
+            get => MaskedTextBox!.MinimumSize;
+            set => MaskedTextBox!.MinimumSize = value;
         }
 
         /// <summary>
@@ -374,8 +375,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
-            get => MaskedTextBox.MaximumSize;
-            set => MaskedTextBox.MaximumSize = value;
+            get => MaskedTextBox!.MaximumSize;
+            set => MaskedTextBox!.MaximumSize = value;
         }
 
         /// <summary>
@@ -427,10 +428,11 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [AllowNull]
         public string Text
         {
-            get => MaskedTextBox.Text;
-            set => MaskedTextBox.Text = value;
+            get => MaskedTextBox?.Text ?? string.Empty;
+            set => MaskedTextBox!.Text = value;
         }
 
         /// <summary>
@@ -438,16 +440,17 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool Modified => MaskedTextBox.Modified;
+        public bool Modified => MaskedTextBox!.Modified;
 
         /// <summary>
         /// Gets and sets the selected text within the control.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public string SelectedText
         {
-            get => MaskedTextBox.SelectedText;
+            get => MaskedTextBox?.SelectedText ?? string.Empty;
             set => MaskedTextBox.SelectedText = value;
         }
 
@@ -458,7 +461,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionLength
         {
-            get => MaskedTextBox.SelectionLength;
+            get => MaskedTextBox?.SelectionLength ?? 0;
             set => MaskedTextBox.SelectionLength = value;
         }
 
@@ -469,7 +472,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionStart
         {
-            get => MaskedTextBox.SelectionStart;
+            get => MaskedTextBox?.SelectionStart ?? 0;
             set => MaskedTextBox.SelectionStart = value;
         }
 
@@ -478,32 +481,32 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int TextLength => MaskedTextBox.TextLength;
+        public int TextLength => MaskedTextBox?.TextLength ?? 0;
 
         /// <summary>
         /// Gets a value that specifies whether new user input overwrites existing input.
         /// </summary>
         [Browsable(false)]
-        public bool IsOverwriteMode => MaskedTextBox.IsOverwriteMode;
+        public bool IsOverwriteMode => MaskedTextBox?.IsOverwriteMode ?? false;
 
         /// <summary>
         /// Gets a value indicating whether all required inputs have been entered into the input mask.
         /// </summary>
         [Browsable(false)]
-        public bool MaskCompleted => MaskedTextBox.MaskCompleted;
+        public bool MaskCompleted => MaskedTextBox?.MaskCompleted ?? false;
 
         /// <summary>
         /// Gets a clone of the mask provider associated with this instance of the masked text box control.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MaskedTextProvider MaskedTextProvider => MaskedTextBox.MaskedTextProvider;
+        public MaskedTextProvider? MaskedTextProvider => MaskedTextBox?.MaskedTextProvider;
 
         /// <summary>
         /// Gets a value indicating whether all required and optional inputs have been entered into the input mask.
         /// </summary>
         [Browsable(false)]
-        public bool MaskFull => MaskedTextBox.MaskFull;
+        public bool MaskFull => MaskedTextBox?.MaskFull ?? false;
 
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the edit control.
@@ -512,7 +515,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int MaxLength
         {
-            get => MaskedTextBox.MaxLength;
+            get => MaskedTextBox?.MaxLength ?? 0;
             set => MaskedTextBox.MaxLength = value;
         }
 
@@ -523,7 +526,7 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public Type? ValidatingType
         {
-            get => MaskedTextBox.ValidatingType;
+            get => MaskedTextBox?.ValidatingType;
             set => MaskedTextBox.ValidatingType = value;
         }
 
@@ -532,11 +535,11 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates how the text should be aligned for edit controls.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), @"Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
-            get => MaskedTextBox.TextAlign;
+            get => MaskedTextBox?.TextAlign ?? HorizontalAlignment.Left;
             set => MaskedTextBox.TextAlign = value;
         }
 
@@ -550,7 +553,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public char PromptChar
         {
-            get => MaskedTextBox.PromptChar;
+            get => MaskedTextBox?.PromptChar ?? '_';
             set => MaskedTextBox.PromptChar = value;
         }
 
@@ -562,7 +565,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool AllowPromptAsInput
         {
-            get => MaskedTextBox.AllowPromptAsInput;
+            get => MaskedTextBox?.AllowPromptAsInput ?? false;
             set => MaskedTextBox.AllowPromptAsInput = value;
         }
 
@@ -575,7 +578,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AsciiOnly
         {
-            get => MaskedTextBox.AsciiOnly;
+            get => MaskedTextBox?.AsciiOnly ?? false;
             set => MaskedTextBox.AsciiOnly = value;
         }
 
@@ -587,7 +590,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool BeepOnError
         {
-            get => MaskedTextBox.BeepOnError;
+            get => MaskedTextBox?.BeepOnError ?? false;
             set => MaskedTextBox.BeepOnError = value;
         }
 
@@ -599,7 +602,7 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.All)]
         public CultureInfo Culture
         {
-            get => MaskedTextBox.Culture;
+            get => MaskedTextBox?.Culture ?? CultureInfo.InvariantCulture;
             set => MaskedTextBox.Culture = value;
         }
 
@@ -611,10 +614,10 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), @"IncludeLiterals")]
         public MaskFormat CutCopyMaskFormat
         {
-            get => MaskedTextBox.CutCopyMaskFormat;
+            get => MaskedTextBox?.CutCopyMaskFormat ?? MaskFormat.IncludeLiterals;
             set => MaskedTextBox.CutCopyMaskFormat = value;
         }
 
@@ -627,7 +630,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool HidePromptOnLeave
         {
-            get => MaskedTextBox.HidePromptOnLeave;
+            get => MaskedTextBox?.HidePromptOnLeave ?? false;
             set => MaskedTextBox.HidePromptOnLeave = value;
         }
 
@@ -636,10 +639,10 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates the masked text box input character typing mode.")]
-        [DefaultValue(typeof(InsertKeyMode), "Default")]
+        [DefaultValue(typeof(InsertKeyMode), @"Default")]
         public InsertKeyMode InsertKeyMode
         {
-            get => MaskedTextBox.InsertKeyMode;
+            get => MaskedTextBox?.InsertKeyMode ?? InsertKeyMode.Default;
             set => MaskedTextBox.InsertKeyMode = value;
         }
 
@@ -652,9 +655,10 @@ namespace Krypton.Ribbon
         [MergableProperty(false)]
         [DefaultValue("")]
         [Localizable(true)]
+        [AllowNull]
         public string Mask
         {
-            get => MaskedTextBox.Mask;
+            get => MaskedTextBox?.Mask ?? string.Empty;
             set => MaskedTextBox.Mask = value;
         }
 
@@ -666,7 +670,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool HideSelection
         {
-            get => MaskedTextBox.HideSelection;
+            get => MaskedTextBox?.HideSelection ?? true;
             set => MaskedTextBox.HideSelection = value;
         }
 
@@ -679,7 +683,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get => MaskedTextBox.ReadOnly;
+            get => MaskedTextBox?.ReadOnly ?? false;
             set => MaskedTextBox.ReadOnly = value;
         }
 
@@ -691,7 +695,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool RejectInputOnFirstFailure
         {
-            get => MaskedTextBox.RejectInputOnFirstFailure;
+            get => MaskedTextBox?.RejectInputOnFirstFailure ?? false;
             set => MaskedTextBox.RejectInputOnFirstFailure = value;
         }
 
@@ -703,7 +707,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool ResetOnPrompt
         {
-            get => MaskedTextBox.ResetOnPrompt;
+            get => MaskedTextBox?.ResetOnPrompt ?? true;
             set => MaskedTextBox.ResetOnPrompt = value;
         }
 
@@ -715,7 +719,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool ResetOnSpace
         {
-            get => MaskedTextBox.ResetOnSpace;
+            get => MaskedTextBox?.ResetOnSpace ?? true;
             set => MaskedTextBox.ResetOnSpace = value;
         }
 
@@ -727,7 +731,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool SkipLiterals
         {
-            get => MaskedTextBox.SkipLiterals;
+            get => MaskedTextBox?.SkipLiterals ?? true;
             set => MaskedTextBox.SkipLiterals = value;
         }
 
@@ -740,7 +744,7 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.Repaint)]
         public MaskFormat TextMaskFormat
         {
-            get => MaskedTextBox.TextMaskFormat;
+            get => MaskedTextBox?.TextMaskFormat ?? MaskFormat.IncludeLiterals;
             set => MaskedTextBox.TextMaskFormat = value;
         }
 
@@ -754,7 +758,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public char PasswordChar
         {
-            get => MaskedTextBox.PasswordChar;
+            get => MaskedTextBox?.PasswordChar ?? '\0';
             set => MaskedTextBox.PasswordChar = value;
         }
 
@@ -767,7 +771,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
         {
-            get => MaskedTextBox.UseSystemPasswordChar;
+            get => MaskedTextBox?.UseSystemPasswordChar ?? false;
             set => MaskedTextBox.UseSystemPasswordChar = value;
         }
 
@@ -779,7 +783,7 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public ContextMenuStrip? ContextMenuStrip
         {
-            get => MaskedTextBox.ContextMenuStrip;
+            get => MaskedTextBox?.ContextMenuStrip;
             set => MaskedTextBox.ContextMenuStrip = value;
         }
 
@@ -791,7 +795,7 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => MaskedTextBox.KryptonContextMenu;
+            get => MaskedTextBox?.KryptonContextMenu;
             set => MaskedTextBox.KryptonContextMenu = value;
         }
 
@@ -808,7 +812,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
-            get => MaskedTextBox.AllowButtonSpecToolTips;
+            get => MaskedTextBox?.AllowButtonSpecToolTips ?? false;
             set => MaskedTextBox.AllowButtonSpecToolTips = value;
         }
 
@@ -820,7 +824,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {
-            get => MaskedTextBox.AllowButtonSpecToolTipPriority;
+            get => MaskedTextBox?.AllowButtonSpecToolTipPriority ?? false;
             set => MaskedTextBox.AllowButtonSpecToolTipPriority = value;
         }
 
@@ -1156,7 +1160,10 @@ namespace Krypton.Ribbon
 
         private void OnRibbonPaletteChanged(object sender, EventArgs e)
         {
-            MaskedTextBox.Palette = Ribbon.GetResolvedPalette();
+            if (MaskedTextBox != null)
+            {
+                MaskedTextBox.Palette = Ribbon?.GetResolvedPalette();
+            }
         }
         #endregion
     }

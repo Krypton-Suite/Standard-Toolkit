@@ -38,19 +38,19 @@ namespace Krypton.Toolkit
         public ButtonSpecManagerLayout(Control control,
                                        PaletteRedirect? redirector,
                                        ButtonSpecCollectionBase? variableSpecs,
-                                       ButtonSpecCollectionBase fixedSpecs,
+                                       ButtonSpecCollectionBase? fixedSpecs,
                                        ViewLayoutDocker[] viewDockers,
                                        IPaletteMetric[] viewMetrics,
                                        PaletteMetricInt[] viewMetricInt,
                                        PaletteMetricPadding[] viewMetricPaddings,
                                        GetToolStripRenderer getRenderer,
                                        NeedPaintHandler needPaint)
-            : this(control, redirector, variableSpecs, fixedSpecs, 
+            : this(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricInt, viewMetricInt,
                    viewMetricPaddings, getRenderer, needPaint)
         {
         }
-            
+
         /// <summary>
         /// Initialize a new instance of the ButtonSpecManagerLayout class.
         /// </summary>
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         public ButtonSpecManagerLayout(Control control,
                                        PaletteRedirect? redirector,
                                        ButtonSpecCollectionBase? variableSpecs,
-                                       ButtonSpecCollectionBase fixedSpecs,
+                                       ButtonSpecCollectionBase? fixedSpecs,
                                        ViewLayoutDocker[] viewDockers,
                                        IPaletteMetric[] viewMetrics,
                                        PaletteMetricInt[] viewMetricIntOutside,
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
                                        PaletteMetricPadding[] viewMetricPaddings,
                                        GetToolStripRenderer getRenderer,
                                        NeedPaintHandler needPaint)
-            : base(control, redirector, variableSpecs, fixedSpecs, 
+            : base(control, redirector, variableSpecs, fixedSpecs,
                    viewMetrics, viewMetricIntOutside, viewMetricIntInside,
                    viewMetricPaddings, getRenderer, needPaint)
         {

@@ -20,8 +20,8 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private KryptonPage _page;
-        private NeedPaintHandler _needPaint;
+        private KryptonPage? _page;
+        private NeedPaintHandler? _needPaint;
         private PageButtonController _buttonController;
         private DateTime _lastClick;
 
@@ -58,7 +58,7 @@ namespace Krypton.Navigator
         /// <param name="orientation">Orientation for the check button.</param>
         /// <param name="overflow">Button is used on the overflow bar.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          KryptonPage page,
+                                          [DisallowNull] KryptonPage? page,
                                           VisualOrientation orientation,
                                           bool overflow)
             : this(navigator, page, orientation,
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          KryptonPage page,
+            [DisallowNull] KryptonPage? page,
                                           VisualOrientation orientation)
             : this(navigator, page, orientation,
                    page.StateDisabled.CheckButton, 
@@ -103,7 +103,7 @@ namespace Krypton.Navigator
         /// <param name="stateSelected">Source for selected state values.</param>
         /// <param name="stateFocused">Source for focused state values.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          KryptonPage page,
+                                          KryptonPage? page,
                                           VisualOrientation orientation,
                                           IPaletteTriple stateDisabled,
                                           IPaletteTriple stateNormal,
@@ -199,7 +199,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -245,7 +245,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the page this view represents.
         /// </summary>
-        public virtual KryptonPage Page
+        public virtual KryptonPage? Page
         {
             get => _page;
 
@@ -352,7 +352,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the button spec manager used for this button.
         /// </summary>
-        public ButtonSpecNavManagerLayoutBar ButtonSpecManager { get; private set; }
+        public ButtonSpecNavManagerLayoutBar? ButtonSpecManager { get; private set; }
 
         #endregion
 
@@ -363,8 +363,11 @@ namespace Krypton.Navigator
         public virtual void UpdateButtonSpecMapping()
         {
             // Define a default mapping for text color and recreate to use that new setting
-            ButtonSpecManager.SetRemapTarget(Navigator.Bar.CheckButtonStyle);
-            ButtonSpecManager.RecreateButtons();
+            if (ButtonSpecManager != null)
+            {
+                ButtonSpecManager.SetRemapTarget(Navigator.Bar.CheckButtonStyle);
+                ButtonSpecManager.RecreateButtons();
+            }
         }
         #endregion
 
@@ -412,7 +415,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             _needPaint?.Invoke(this, e);
         }
@@ -449,7 +452,7 @@ namespace Krypton.Navigator
             if ((Navigator.SelectedPage != _page) && Navigator.AllowTabSelect)
             {
                 // This event might have caused the page to be removed or hidden and so check the page is still present before selecting it
-                if (Navigator.ChildPanel.Controls.Contains(_page) && _page.LastVisibleSet)
+                if (Navigator.ChildPanel?.Controls.Contains(_page) == true && _page.LastVisibleSet)
                 {
                     Navigator.SelectedPage = _page;
                 }

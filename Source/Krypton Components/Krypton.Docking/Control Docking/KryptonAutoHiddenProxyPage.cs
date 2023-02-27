@@ -110,7 +110,10 @@ namespace Krypton.Docking
             get => Page?.ImageSmall;
             set
             {
-                if (Page != null) Page.ImageSmall = value;
+                if (Page != null)
+                {
+                    Page.ImageSmall = value;
+                }
             }
         }
 
@@ -122,7 +125,10 @@ namespace Krypton.Docking
             get => Page?.ImageMedium;
             set
             {
-                if (Page != null) Page.ImageMedium = value;
+                if (Page != null)
+                {
+                    Page.ImageMedium = value;
+                }
             }
         }
 
@@ -134,7 +140,10 @@ namespace Krypton.Docking
             get => Page?.ImageLarge;
             set
             {
-                if (Page != null) Page.ImageLarge = value;
+                if (Page != null)
+                {
+                    Page.ImageLarge = value;
+                }
             }
         }
 
@@ -146,7 +155,10 @@ namespace Krypton.Docking
             get => Page?.ToolTipImage;
             set
             {
-                if (Page != null) Page.ToolTipImage = value;
+                if (Page != null)
+                {
+                    Page.ToolTipImage = value;
+                }
             }
         }
 
@@ -158,8 +170,10 @@ namespace Krypton.Docking
             get => Page?.ToolTipImageTransparentColor ?? Color.Empty;
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.ToolTipImageTransparentColor = value;
+                }
             }
         }
 
@@ -171,8 +185,10 @@ namespace Krypton.Docking
             get => Page?.ToolTipTitle ?? string.Empty;
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.ToolTipTitle = value;
+                }
             }
         }
 
@@ -184,8 +200,10 @@ namespace Krypton.Docking
             get => Page?.ToolTipBody ?? string.Empty;
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.ToolTipBody = value;
+                }
             }
         }
 
@@ -197,8 +215,10 @@ namespace Krypton.Docking
             get => Page?.ToolTipStyle ?? default;
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.ToolTipStyle = value;
+                }
             }
         }
 
@@ -210,8 +230,10 @@ namespace Krypton.Docking
             get => Page?.KryptonContextMenu;
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.KryptonContextMenu = value;
+                }
             }
         }
 
@@ -223,8 +245,10 @@ namespace Krypton.Docking
             get => Page?.UniqueName ?? string.Empty;
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.UniqueName = value;
+                }
             }
         }
 
@@ -250,8 +274,10 @@ namespace Krypton.Docking
             get => Page?.Flags ?? 0;
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.Flags = value;
+                }
             }
         }
 
@@ -284,8 +310,10 @@ namespace Krypton.Docking
             get => Page is { LastVisibleSet: true };
             set
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.LastVisibleSet = value;
+                }
             }
         }
 
@@ -294,14 +322,18 @@ namespace Krypton.Docking
         {
             add
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.AppearancePropertyChanged += value;
+                }
             }
 
             remove
             {
-                if (Page != null) 
+                if (Page != null)
+                {
                     Page.AppearancePropertyChanged -= value;
+                }
             }
         }
         #endregion

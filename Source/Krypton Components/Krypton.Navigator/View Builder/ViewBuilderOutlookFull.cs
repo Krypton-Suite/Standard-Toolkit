@@ -197,7 +197,7 @@ namespace Krypton.Navigator
         /// <param name="checkButtonOrient">Orientation of the check button.</param>
         /// <param name="dockFar">Docking position of the check button.</param>
         /// <returns></returns>
-        protected override ViewDrawNavOutlookOverflow CreateOverflowItem(KryptonPage page, 
+        protected override ViewDrawNavOutlookOverflow CreateOverflowItem(KryptonPage? page, 
                                                                          VisualOrientation checkButtonOrient,
                                                                          ViewDockStyle dockFar)
         {

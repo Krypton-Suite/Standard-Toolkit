@@ -676,21 +676,28 @@ namespace Krypton.Ribbon
                         }
                     }
 
-                    // Update the begin line
-                    if (_offset < 0)
+                    switch (_offset)
                     {
-                        // Ensure the old top line can be displayed during scrolling
-                        if ((_beginLine == -1) || (_beginLine > prevTopLine))
+                        // Update the begin line
+                        case < 0:
                         {
-                            _beginLine = prevTopLine;
+                            // Ensure the old top line can be displayed during scrolling
+                            if ((_beginLine == -1) || (_beginLine > prevTopLine))
+                            {
+                                _beginLine = prevTopLine;
+                            }
+
+                            break;
                         }
-                    }
-                    else if (_offset > 0)
-                    {
-                        // Ensure the old top line can be displayed during scrolling
-                        if ((_beginLine == -1) || (_beginLine < prevTopLine))
+                        case > 0:
                         {
-                            _beginLine = prevTopLine;
+                            // Ensure the old top line can be displayed during scrolling
+                            if ((_beginLine == -1) || (_beginLine < prevTopLine))
+                            {
+                                _beginLine = prevTopLine;
+                            }
+
+                            break;
                         }
                     }
                 }

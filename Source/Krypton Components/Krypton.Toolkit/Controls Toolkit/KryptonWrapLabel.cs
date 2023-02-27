@@ -841,8 +841,10 @@ namespace Krypton.Toolkit
             // ReSharper restore RedundantBaseQualifier
 
             // Make sure it has the correct renderer
-            if (cms != null) 
+            if (cms != null)
+            {
                 cms.Renderer = CreateToolStripRenderer();
+            }
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e)

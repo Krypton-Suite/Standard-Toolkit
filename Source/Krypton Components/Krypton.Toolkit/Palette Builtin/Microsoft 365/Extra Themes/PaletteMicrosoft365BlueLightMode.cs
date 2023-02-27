@@ -792,17 +792,14 @@ namespace Krypton.Toolkit
 
                         case PaletteState.Pressed:
                         case PaletteState.Tracking:
-                            if (style == PaletteBackStyle.TabLowProfile)
+                            switch (style)
                             {
-                                return Color.Empty;
-                            }
-                            else if (style == PaletteBackStyle.TabHighProfile)
-                            {
-                                return state == PaletteState.Tracking ? _buttonBackColors[2] : _buttonBackColors[4];
-                            }
-                            else
-                            {
-                                return SystemColors.Window;
+                                case PaletteBackStyle.TabLowProfile:
+                                    return Color.Empty;
+                                case PaletteBackStyle.TabHighProfile:
+                                    return state == PaletteState.Tracking ? _buttonBackColors[2] : _buttonBackColors[4];
+                                default:
+                                    return SystemColors.Window;
                             }
 
                         case PaletteState.CheckedNormal:

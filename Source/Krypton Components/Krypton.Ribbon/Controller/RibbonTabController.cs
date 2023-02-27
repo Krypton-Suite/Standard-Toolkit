@@ -103,23 +103,26 @@ namespace Krypton.Ribbon
         {
             if (Active)
             {
-                // Only interested in left mouse pressing down
-                if (button == MouseButtons.Left)
+                switch (button)
                 {
-                    // Can only click if enabled
-                    if (_target.Enabled)
+                    // Only interested in left mouse pressing down
+                    case MouseButtons.Left:
                     {
-                        // Generate a click event
-                        OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                    }
+                        // Can only click if enabled
+                        if (_target.Enabled)
+                        {
+                            // Generate a click event
+                            OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+                        }
 
-                    // Update the visual state
-                    UpdateTargetState(c);
-                }
-                else if (button == MouseButtons.Right)
-                {
-                    // Remember the user has pressed the right mouse button down
-                    _rightButtonDown = true;
+                        // Update the visual state
+                        UpdateTargetState(c);
+                        break;
+                    }
+                    case MouseButtons.Right:
+                        // Remember the user has pressed the right mouse button down
+                        _rightButtonDown = true;
+                        break;
                 }
             }
 

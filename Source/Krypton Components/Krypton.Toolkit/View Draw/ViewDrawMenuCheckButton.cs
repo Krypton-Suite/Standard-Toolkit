@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
-        private readonly FixedContentValue _contentValues;
+        private readonly FixedContentValue? _contentValues;
         private readonly ViewLayoutDocker _outerDocker;
         private readonly ViewLayoutDocker _innerDocker;
         private KryptonCommand _cachedCommand;

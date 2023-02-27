@@ -195,7 +195,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             get => base.Ribbon;
 
@@ -218,7 +218,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbonTab RibbonTab
+        public override KryptonRibbonTab? RibbonTab
         {
             get => base.RibbonTab;
 
@@ -353,10 +353,7 @@ namespace Krypton.Ribbon
                             }
                             break;
                         case GroupItemSize.Small:
-                            if (_itemSizeMin != GroupItemSize.Small)
-                            {
-                                _itemSizeMin = GroupItemSize.Small;
-                            }
+                            _itemSizeMin = GroupItemSize.Small;
                             break;
                     }
 
@@ -391,10 +388,7 @@ namespace Krypton.Ribbon
                     switch (_itemSizeMin)
                     {
                         case GroupItemSize.Large:
-                            if (_itemSizeMax != GroupItemSize.Large)
-                            {
-                                _itemSizeMax = GroupItemSize.Large;
-                            }
+                            _itemSizeMax = GroupItemSize.Large;
                             break;
                         case GroupItemSize.Medium:
                             if (_itemSizeMax == GroupItemSize.Small)
@@ -609,7 +603,10 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupTripleCleared(object sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
-            if ((Ribbon != null) && (RibbonTab != null) && (Ribbon.SelectedTab == RibbonTab))
+            if ((Ribbon != null) 
+                && (RibbonTab != null) 
+                && (Ribbon.SelectedTab == RibbonTab)
+                )
             {
                 Ribbon.PerformNeedPaint(true);
             }
@@ -628,7 +625,10 @@ namespace Krypton.Ribbon
             e.Item.ItemSizeCurrent = ItemSizeCurrent;
 
             // Only need to update display if this tab is selected and the group is visible
-            if ((Ribbon != null) && (RibbonTab != null) && (Ribbon.SelectedTab == RibbonTab))
+            if ((Ribbon != null) 
+                && (RibbonTab != null) 
+                && (Ribbon.SelectedTab == RibbonTab)
+                )
             {
                 Ribbon.PerformNeedPaint(true);
             }
@@ -642,7 +642,10 @@ namespace Krypton.Ribbon
             e.Item.RibbonContainer = null;
 
             // Only need to update display if this tab is selected and the group was visible
-            if ((Ribbon != null) && (RibbonTab != null) && (Ribbon.SelectedTab == RibbonTab))
+            if ((Ribbon != null) 
+                && (RibbonTab != null) 
+                && (Ribbon.SelectedTab == RibbonTab)
+                )
             {
                 Ribbon.PerformNeedPaint(true);
             }

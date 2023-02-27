@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawSplitCanvas(IPaletteBack paletteBack,
                                    IPaletteBorder paletteBorder,
-                                   IPaletteMetric paletteMetric,
+                                   IPaletteMetric? paletteMetric,
                                    PaletteMetricPadding metricPadding,
                                    VisualOrientation orientation)
         {
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric PaletteMetric
+        public IPaletteMetric? PaletteMetric
         {
             [DebuggerStepThrough]
             get;
@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for the metric.</param>
         public virtual void SetPalettes(IPaletteBack paletteBack, 
                                         IPaletteBorder paletteBorder,
-                                        IPaletteMetric paletteMetric)
+                                        IPaletteMetric? paletteMetric)
         {
             Debug.Assert(paletteBorder != null);
             Debug.Assert(paletteBack != null);

@@ -325,7 +325,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element that is being activated.</param>
         /// <returns>True to give navigator the focus; otherwise false.</returns>
-        public override bool GiveNavigatorFocus(ViewBase element)
+        public override bool GiveNavigatorFocus(ViewBase? element)
         {
             // Only need to take the focus if we do not already have it
             if (!_hasFocus)
@@ -377,9 +377,13 @@ namespace Krypton.Navigator
                             if (!ce.Cancel)
                             {
                                 if (!shift)
+                                {
                                     SelectNextPage(Navigator.SelectedPage, true, true);
+                                }
                                 else
+                                {
                                     SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                }
                             }
                         }
                         return true;
@@ -605,7 +609,7 @@ namespace Krypton.Navigator
             var dockTopLeft = (alignment != RelativePositionAlign.Far);
 
             // Create a check button to represent each krypton page
-            foreach (KryptonPage page in Navigator.Pages)
+            foreach (KryptonPage? page in Navigator.Pages)
             {
                 // Create the draw view element for the check button and provide page it represents
                 ViewDrawNavCheckButtonStack checkButton = new(Navigator, page, checkButtonOrient);
@@ -765,7 +769,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPageInserted(object sender, TypedCollectionEventArgs<KryptonPage> e)
+        private void OnPageInserted(object sender, TypedCollectionEventArgs<KryptonPage?> e)
         {
             if (!Navigator.IsDisposed && _events)
             {

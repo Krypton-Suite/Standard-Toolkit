@@ -681,7 +681,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderGroupRedirect StateCommon { get; }
+        public PaletteHeaderGroupRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -691,7 +691,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderGroup StateDisabled { get; }
+        public PaletteHeaderGroup? StateDisabled { get; }
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -701,7 +701,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderGroup StateNormal { get; }
+        public PaletteHeaderGroup? StateNormal { get; }
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
@@ -1039,7 +1039,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsInitialized || !e.NeedLayout)
             {
@@ -1061,29 +1061,31 @@ namespace Krypton.Toolkit
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == PI.WM_.WINDOWPOSCHANGING)
+            switch (m.Msg)
             {
-                // First time around we need to create the obscurer
-                if (_obscurer == null)
+                case PI.WM_.WINDOWPOSCHANGING:
                 {
-                    _obscurer = new ScreenObscurer();
+                    // First time around we need to create the obscurer
+                    if (_obscurer == null)
+                    {
+                        _obscurer = new ScreenObscurer();
+                    }
+
+                    // Obscure the display area of the control
+                    if (!IsDisposed && IsHandleCreated && !DesignMode)
+                    {
+                        _obscurer.Cover(this);
+                    }
+
+                    // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
+                    // ensure the obscurer is removed using this async delegate call
+                    BeginInvoke(_removeObscurer);
+                    break;
                 }
-
-                // Obscure the display area of the control
-                if (!IsDisposed && IsHandleCreated && !DesignMode)
-                {
-                    _obscurer.Cover(this);
-                }
-
-                // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
-                // ensure the obscurer is removed using this async delegate call
-                BeginInvoke(_removeObscurer);
-            }
-
-            if (m.Msg == PI.WM_.WINDOWPOSCHANGED)
-            {
-                // Uncover from the covered area
-                _obscurer?.Uncover();
+                case PI.WM_.WINDOWPOSCHANGED:
+                    // Uncover from the covered area
+                    _obscurer?.Uncover();
+                    break;
             }
 
             base.WndProc(ref m);

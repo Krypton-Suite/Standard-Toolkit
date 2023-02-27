@@ -797,7 +797,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the page this check item represents.
         /// </summary>
-        KryptonPage Page { get; }
+        KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets the navigator this check item is inside.

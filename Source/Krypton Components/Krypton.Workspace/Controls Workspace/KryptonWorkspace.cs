@@ -575,7 +575,7 @@ namespace Krypton.Workspace
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common split container appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSplitContainerRedirect StateCommon { get; }
+        public PaletteSplitContainerRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -605,7 +605,7 @@ namespace Krypton.Workspace
         [Category(@"Visuals")]
         [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding StateTracking { get; }
+        public PaletteSeparatorPadding? StateTracking { get; }
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
@@ -615,7 +615,7 @@ namespace Krypton.Workspace
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding StatePressed { get; }
+        public PaletteSeparatorPadding? StatePressed { get; }
 
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 

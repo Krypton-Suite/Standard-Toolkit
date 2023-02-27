@@ -472,14 +472,14 @@ namespace Krypton.Workspace
             // Persist each child sequence/cell in turn
             foreach (object child in Children)
             {
-                if (child is KryptonWorkspaceSequence sequence)
+                switch (child)
                 {
-                    sequence.SaveToXml(workspace, xmlWriter);
-                }
-
-                if (child is KryptonWorkspaceCell cell)
-                {
-                    cell.SaveToXml(workspace, xmlWriter);
+                    case KryptonWorkspaceSequence sequence:
+                        sequence.SaveToXml(workspace, xmlWriter);
+                        break;
+                    case KryptonWorkspaceCell cell:
+                        cell.SaveToXml(workspace, xmlWriter);
+                        break;
                 }
             }
 
@@ -556,14 +556,14 @@ namespace Krypton.Workspace
 
             foreach (object child in Children)
             {
-                if (child is KryptonWorkspaceSequence sequence)
+                switch (child)
                 {
-                    sequence.DebugOutput(indent + 1);
-                }
-
-                if (child is KryptonWorkspaceCell cell)
-                {
-                    cell.DebugOutput(indent + 1);
+                    case KryptonWorkspaceSequence sequence:
+                        sequence.DebugOutput(indent + 1);
+                        break;
+                    case KryptonWorkspaceCell cell:
+                        cell.DebugOutput(indent + 1);
+                        break;
                 }
             }
         }
@@ -664,15 +664,15 @@ namespace Krypton.Workspace
                         Component leaf = sequence.Children[0];
                         sequence.Children.RemoveAt(0);
 
-                        // Use the sequence size in the promoted child so the display remains constant
-                        if (leaf is KryptonWorkspaceCell cell)
+                        switch (leaf)
                         {
-                            cell.StarSize = sequence.StarSize;
-                        }
-
-                        if (leaf is KryptonWorkspaceSequence workspaceSequence)
-                        {
-                            workspaceSequence.StarSize = sequence.StarSize;
+                            // Use the sequence size in the promoted child so the display remains constant
+                            case KryptonWorkspaceCell cell:
+                                cell.StarSize = sequence.StarSize;
+                                break;
+                            case KryptonWorkspaceSequence workspaceSequence:
+                                workspaceSequence.StarSize = sequence.StarSize;
+                                break;
                         }
 
                         // Replace the sequence with its leaf child

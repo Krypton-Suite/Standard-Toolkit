@@ -136,14 +136,15 @@ namespace Krypton.Toolkit
                 // Store new value
                 _hue = value;
 
-                // Limit check inside range of 0 -> 1
-                if (_hue > 1)
+                switch (_hue)
                 {
-                    _hue = 1;
-                }
-                else if (_hue < 0)
-                {
-                    _hue = 0;
+                    // Limit check inside range of 0 -> 1
+                    case > 1:
+                        _hue = 1;
+                        break;
+                    case < 0:
+                        _hue = 0;
+                        break;
                 }
             }
         }
@@ -162,14 +163,15 @@ namespace Krypton.Toolkit
                 // Store new value
                 _saturation = value;
 
-                // Limit check inside range of 0 -> 1
-                if (_saturation > 1)
+                switch (_saturation)
                 {
-                    _saturation = 1;
-                }
-                else if (_saturation < 0)
-                {
-                    _saturation = 0;
+                    // Limit check inside range of 0 -> 1
+                    case > 1:
+                        _saturation = 1;
+                        break;
+                    case < 0:
+                        _saturation = 0;
+                        break;
                 }
             }
         }
@@ -188,14 +190,15 @@ namespace Krypton.Toolkit
                 // Store new value
                 _luminance = value;
 
-                // Limit check inside range of 0 -> 1
-                if (_luminance > 1)
+                switch (_luminance)
                 {
-                    _luminance = 1;
-                }
-                else if (_luminance < 0)
-                {
-                    _luminance = 0;
+                    // Limit check inside range of 0 -> 1
+                    case > 1:
+                        _luminance = 1;
+                        break;
+                    case < 0:
+                        _luminance = 0;
+                        break;
                 }
             }
         }

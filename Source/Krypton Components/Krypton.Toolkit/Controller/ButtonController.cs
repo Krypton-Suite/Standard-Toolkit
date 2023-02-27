@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the user data associated with the controller.
         /// </summary>
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         #endregion
 
@@ -285,63 +285,70 @@ namespace Krypton.Toolkit
                 // If the button is not enabled then we do nothing on a mouse down
                 if (Target.Enabled)
                 {
-                    // Only interested in left mouse pressing down
-                    if (button == MouseButtons.Left)
+                    switch (button)
                     {
-                        // Capturing mouse input
-                        Captured = true;
-                        _draggingAttempt = false;
-
-                        // Use event to discover the rectangle that causes dragging to begin
-                        ButtonDragRectangleEventArgs args = new(pt);
-                        OnButtonDragRectangle(args);
-                        _dragRect = args.DragRect;
-                        _preDragOffset = args.PreDragOffset;
-
-                        if (!_fixedPressed)
+                        // Only interested in left mouse pressing down
+                        case MouseButtons.Left:
                         {
-                            // Update the visual state
-                            UpdateTargetState(pt);
+                            // Capturing mouse input
+                            Captured = true;
+                            _draggingAttempt = false;
 
-                            // Do we become fixed in the pressed state until RemoveFixed is called?
-                            if (BecomesFixed)
+                            // Use event to discover the rectangle that causes dragging to begin
+                            ButtonDragRectangleEventArgs args = new(pt);
+                            OnButtonDragRectangle(args);
+                            _dragRect = args.DragRect;
+                            _preDragOffset = args.PreDragOffset;
+
+                            if (!_fixedPressed)
                             {
-                                _fixedPressed = true;
-                            }
+                                // Update the visual state
+                                UpdateTargetState(pt);
 
-                            // Indicate that the mouse wants to select the elment
-                            OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-
-                            // Generate a click event if we generate click on mouse down
-                            if (ClickOnDown)
-                            {
-                                OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-
-                                // If we need to perform click repeats then use a timer...
-                                if (Repeat)
+                                // Do we become fixed in the pressed state until RemoveFixed is called?
+                                if (BecomesFixed)
                                 {
-                                    _repeatTimer = new System.Windows.Forms.Timer
+                                    _fixedPressed = true;
+                                }
+
+                                // Indicate that the mouse wants to select the elment
+                                OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+
+                                // Generate a click event if we generate click on mouse down
+                                if (ClickOnDown)
+                                {
+                                    OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+
+                                    // If we need to perform click repeats then use a timer...
+                                    if (Repeat)
                                     {
-                                        Interval = SystemInformation.DoubleClickTime
-                                    };
-                                    _repeatTimer.Tick += OnRepeatTimer;
-                                    _repeatTimer.Start();
+                                        _repeatTimer = new System.Windows.Forms.Timer
+                                        {
+                                            Interval = SystemInformation.DoubleClickTime
+                                        };
+                                        _repeatTimer.Tick += OnRepeatTimer;
+                                        _repeatTimer.Start();
+                                    }
                                 }
                             }
+
+                            break;
                         }
-                    }
-                    else if (button == MouseButtons.Right)
-                    {
-                        if (!_fixedPressed)
+                        case MouseButtons.Right:
                         {
-                            // Do we become fixed in the pressed state until RemoveFixed is called?
-                            if (BecomesRightFixed)
+                            if (!_fixedPressed)
                             {
-                                _fixedPressed = true;
+                                // Do we become fixed in the pressed state until RemoveFixed is called?
+                                if (BecomesRightFixed)
+                                {
+                                    _fixedPressed = true;
+                                }
+
+                                // Indicate the right mouse was used on the button
+                                OnRightClick(new MouseEventArgs(MouseButtons.Right, 1, pt.X, pt.Y, 0));
                             }
 
-                            // Indicate the right mouse was used on the button
-                            OnRightClick(new MouseEventArgs(MouseButtons.Right, 1, pt.X, pt.Y, 0));
+                            break;
                         }
                     }
                 }

@@ -878,9 +878,13 @@ namespace Krypton.Ribbon
             get
             {
                 if (_integrated)
+                {
                     return _captionQAT;
+                }
                 else
+                {
                     return _nonCaptionQAT;
+                }
             }
         }
         #endregion
@@ -898,7 +902,9 @@ namespace Krypton.Ribbon
 
             // A change in integrated caption visibility
             if (before != _captionQAT.Visible)
+            {
                 QATButtonsChanged();
+            }
         }
         #endregion
 
@@ -933,7 +939,9 @@ namespace Krypton.Ribbon
         {
             // Do we need to layout and paint the custom chrome?
             if (UsingCustomChrome)
+            {
                 OnIntegratedNeedPaint(this, new NeedLayoutEventArgs(true));
+            }
         }
         #endregion
 
@@ -984,9 +992,13 @@ namespace Krypton.Ribbon
             get
             {
                 if (_kryptonForm != null)
+                {
                     return _kryptonForm.RealWindowBorders;
+                }
                 else
+                {
                     return Padding.Empty;
+                }
             }
         }
 
@@ -1035,7 +1047,9 @@ namespace Krypton.Ribbon
                     // Search the context title elements for a match
                     foreach (ViewBase child in ContextTitles)
                         if ((child is ViewDrawRibbonContextTitle) && child.ClientRectangle.Contains(formPt))
+                        {
                             return false;
+                        }
                 }
             }
 
@@ -1187,7 +1201,9 @@ namespace Krypton.Ribbon
 
                     // Must be at least the minimum for the application button and spacing gap above it
                     if (height >= MIN_INTEGRATED_HEIGHT)
+                    {
                         integrated = true;
+                    }
 
                     // Update width of the separator used in place of the app button when app button not visible
                     _spaceInsteadOfAppButton.SeparatorSize = new Size(_kryptonForm.RealWindowBorders.Left, 0);
@@ -1200,7 +1216,9 @@ namespace Krypton.Ribbon
 
                 // If told to prevent the integration, then prevent it now
                 if (PreventIntegration && overrideIntegrated)
+                {
                     overrideIntegrated = false;
+                }
 
                 // Is there a change in integrated requirements?
                 if (overrideIntegrated != _integrated)
@@ -1305,7 +1323,9 @@ namespace Krypton.Ribbon
             if (_kryptonForm is { ApplyCustomChrome: true, ApplyComposition: true })
                 // When integrated into composition we need to repaint whenever the
                 // owning form changes active status, as we are drawing the caption
+            {
                 PerformNeedPaint(true);
+            }
         }
 
         private void OnAppButtonNeedPaint(object sender, NeedLayoutEventArgs e)
