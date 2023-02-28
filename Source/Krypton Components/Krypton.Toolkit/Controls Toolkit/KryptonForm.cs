@@ -92,7 +92,6 @@ namespace Krypton.Toolkit
         private bool _firstCheckView;
         private bool _lastNotNormal;
         private bool _useDropShadow;
-        private bool _useSystemBackColor;
         private StatusStrip? _statusStrip;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
@@ -198,8 +197,6 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
-
-            _useSystemBackColor = false;
         }
 
         /// <summary>
@@ -406,21 +403,6 @@ namespace Krypton.Toolkit
                 _useDropShadow = value;
 
                 UpdateDropShadowDraw(_useDropShadow);
-            }
-        }
-
-        [Category(@"Appearence")]
-        [Description(@"If set to true, then the back color will be set to 'Color.Control'. If not, then a KryptonPanel will be used.")]
-        [DefaultValue(true)]
-        public bool UseSystemBackColor
-        {
-            get => _useSystemBackColor;
-
-            set
-            {
-                _useSystemBackColor = value;
-
-                Invalidate();
             }
         }
 

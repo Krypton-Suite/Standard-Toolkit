@@ -38,6 +38,7 @@ namespace Krypton.Toolkit
         private bool _insideUpdateComposition;
         private bool _captured;
         private bool _disposing;
+        private bool _useSystemBackColor;
         private int _compositionHeight;
         private int _ignoreCount;
         private ViewBase? _capturedElement;
@@ -48,6 +49,7 @@ namespace Krypton.Toolkit
         private ShadowValues _shadowValues;
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
+        private KryptonPanel kpnlBackground;
         private BlurManager _blurManager;
         #endregion
 
@@ -100,6 +102,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualForm()
         {
+            InitializeComponent();
+
             // Automatically redraw whenever the size of the window changes
             SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -136,6 +140,8 @@ namespace Krypton.Toolkit
 #endif
             // Note: Will not handle movement between monitors
             UpdateDpiFactors();
+
+            _useSystemBackColor = true;
         }
 
 
@@ -176,6 +182,22 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>If set to true, then the back color will be set to 'Color.Control'. If not, then a KryptonPanel will be used.</summary>
+        [Category(@"Appearence")]
+        [Description(@"If set to true, then the back color will be set to 'Color.Control'. If not, then a KryptonPanel will be used.")]
+        [DefaultValue(true)]
+        public bool UseSystemBackColor
+        {
+            get => _useSystemBackColor;
+
+            set
+            {
+                _useSystemBackColor = value;
+
+                Invalidate();
+            }
+        }
 
         /// <summary>
         /// Gets the DpiX of the view.
@@ -1952,5 +1974,28 @@ namespace Krypton.Toolkit
             // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
         }
 
+        private void InitializeComponent()
+        {
+            this.kpnlBackground = new Krypton.Toolkit.KryptonPanel();
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlBackground)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // kpnlBackground
+            // 
+            this.kpnlBackground.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kpnlBackground.Location = new System.Drawing.Point(0, 0);
+            this.kpnlBackground.Name = "kpnlBackground";
+            this.kpnlBackground.Size = new System.Drawing.Size(284, 261);
+            this.kpnlBackground.TabIndex = 0;
+            // 
+            // VisualForm
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.kpnlBackground);
+            this.Name = "VisualForm";
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlBackground)).EndInit();
+            this.ResumeLayout(false);
+
+        }
     }
 }
