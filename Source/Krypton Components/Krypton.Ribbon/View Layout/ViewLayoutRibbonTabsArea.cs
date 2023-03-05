@@ -57,8 +57,8 @@ namespace Krypton.Ribbon
         private readonly ViewLayoutRibbonContextTitles _layoutContexts;
         private readonly AppButtonController _appButtonController;
         private readonly AppTabController _appTabController;
-        private VisualPopupToolTip _visualPopupToolTip;
-        private VisualPopupAppMenu _appMenu;
+        private VisualPopupToolTip? _visualPopupToolTip;
+        private VisualPopupAppMenu? _appMenu;
         private DateTime _lastAppButtonClick;
 
         // Fixed button specifications
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
 
         // Monitoring the containing form and mdi status
         private Timer _invalidateTimer;
-        private Form _formContainer;
-        private Form _activeMdiChild;
+        private Form? _formContainer;
+        private Form? _activeMdiChild;
         private int _paintCount;
         private bool _setVisible;
         #endregion
@@ -93,11 +93,11 @@ namespace Krypton.Ribbon
         /// <param name="captionArea">Reference to the caption area.</param>
         /// <param name="layoutContexts">Reference to layout of the context area.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonTabsArea(KryptonRibbon ribbon,
-                                        PaletteRedirect? redirect,
-                                        ViewDrawRibbonCaptionArea captionArea,
-                                        ViewLayoutRibbonContextTitles layoutContexts,
-                                        NeedPaintHandler needPaintDelegate)
+        public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] PaletteRedirect? redirect,
+                                        [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
+                                        [DisallowNull] ViewLayoutRibbonContextTitles layoutContexts,
+                                        [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(redirect != null);
@@ -106,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _captionArea = captionArea;
-            _appButtonController = captionArea.AppButtonController;
-            _appTabController = captionArea.AppTabController;
-            _layoutContexts = layoutContexts;
-            NeedPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
+            _captionArea = captionArea!;
+            _appButtonController = _captionArea.AppButtonController;
+            _appTabController = _captionArea.AppTabController;
+            _layoutContexts = layoutContexts!;
+            NeedPaintDelegate = needPaintDelegate!;
 
             // Default other state
             _setVisible = true;
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
             if (!_ribbon.IsDisposed)
             {
                 // Find the top most form we are inside
-                Form topForm = _ribbon.FindForm();
+                Form? topForm = _ribbon.FindForm();
 
                 // Just in case we have not been created as yet
                 if (topForm != null)
@@ -399,7 +399,7 @@ namespace Krypton.Ribbon
             if (elapsed.TotalMilliseconds < SystemInformation.DoubleClickTime)
             {
                 // Close down the associated application window
-                Form ownerForm = _ribbon.FindForm();
+                Form? ownerForm = _ribbon.FindForm();
                 ownerForm?.Close();
             }
         }
@@ -412,7 +412,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the button specification manager.
         /// </summary>
-        public ButtonSpecManagerLayoutRibbon ButtonSpecManager { get; private set; }
+        public ButtonSpecManagerLayoutRibbon? ButtonSpecManager { get; private set; }
 
         /// <summary>
         /// Recreate the button specifications.
@@ -521,7 +521,7 @@ namespace Krypton.Ribbon
             Add(tabsDocker, ViewDockStyle.Fill);
 
             // Create button specification collection manager
-            PaletteRedirect? aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);
+            PaletteRedirect aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);
             ButtonSpecManager = new ButtonSpecManagerLayoutRibbon(_ribbon, aeroOverrideText, _ribbon.ButtonSpecs, _buttonSpecsFixed,
                                                                new[] { tabsDocker },
                                                                new IPaletteMetric[] { _ribbon.StateCommon },
@@ -531,7 +531,7 @@ namespace Krypton.Ribbon
                                                                NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             ButtonSpecManager.ToolTipManager = ToolTipManager;
@@ -593,7 +593,7 @@ namespace Krypton.Ribbon
         private void OnRibbonMdiChildActivate(object sender, EventArgs e)
         {
             // Cast to correct type
-            Form topForm = sender as Form;
+            Form? topForm = sender as Form;
 
             // Unhook from watching any previous mdi child
             if (_activeMdiChild != null)
@@ -601,7 +601,7 @@ namespace Krypton.Ribbon
                 _activeMdiChild.SizeChanged -= OnRibbonMdiChildSizeChanged;
             }
 
-            _activeMdiChild = topForm.ActiveMdiChild;
+            _activeMdiChild = topForm?.ActiveMdiChild;
 
             // Start watching any new mdi child
             if (_activeMdiChild != null)
@@ -613,7 +613,7 @@ namespace Krypton.Ribbon
             _buttonSpecClose.MdiChild = _activeMdiChild;
             _buttonSpecRestore.MdiChild = _activeMdiChild;
             _buttonSpecMin.MdiChild = _activeMdiChild;
-            ButtonSpecManager.RecreateButtons();
+            ButtonSpecManager?.RecreateButtons();
             PerformNeedPaint(true);
 
             // We never want the mdi child window to have a system menu, we provide the 
@@ -631,7 +631,7 @@ namespace Krypton.Ribbon
         private void OnRibbonMdiChildSizeChanged(object sender, EventArgs e)
         {
             // Update pendant buttons to reflect new child state
-            ButtonSpecManager.RecreateButtons();
+            ButtonSpecManager?.RecreateButtons();
             PerformNeedPaint(true);
         }
 
@@ -776,7 +776,7 @@ namespace Krypton.Ribbon
             if (!_ribbon.IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = _ribbon.FindForm();
+                Form? topForm = _ribbon.FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -785,7 +785,7 @@ namespace Krypton.Ribbon
                 // Never show tooltips are design time
                 if (!_ribbon.InDesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.SuperTip;
                     bool shadow = true;
                     Rectangle screenRect = new(e.ControlMousePosition, new Size(1, 1));
@@ -793,8 +793,8 @@ namespace Krypton.Ribbon
                     // If the target is the application button
                     switch (e.Target)
                     {
-                        case ViewLayoutRibbonAppButton _:
-                        case ViewLayoutRibbonAppTab _:
+                        case ViewLayoutRibbonAppButton:
+                        case ViewLayoutRibbonAppTab:
                             // Create a content that recovers values from a the ribbon for the app button/tab
                             AppButtonToolTipToContent appButtonContent = new(_ribbon);
 
@@ -834,7 +834,7 @@ namespace Krypton.Ribbon
                         default:
                             {
                                 // Find the button spec associated with the tooltip request
-                                ButtonSpec buttonSpec = ButtonSpecManager.ButtonSpecFromView(e.Target);
+                                ButtonSpec? buttonSpec = ButtonSpecManager?.ButtonSpecFromView(e.Target);
 
                                 // If the tooltip is for a button spec
                                 if (buttonSpec != null)

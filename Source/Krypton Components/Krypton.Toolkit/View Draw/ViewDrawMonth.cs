@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         private readonly PaletteBorderEdgeRedirect _borderEdgeRedirect;
         private readonly PaletteBorderEdge _borderEdge;
         private readonly ButtonSpecManagerDraw _buttonManager;
-        private readonly CalendarButtonSpecCollection _buttonSpecs;
+        private readonly CalendarButtonSpecCollection? _buttonSpecs;
         private readonly ButtonSpecCalendar _arrowPrev;
         private readonly ButtonSpecCalendar _arrowNext;
         private string _header;
