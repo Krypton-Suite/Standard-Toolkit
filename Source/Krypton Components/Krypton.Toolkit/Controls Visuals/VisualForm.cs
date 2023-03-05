@@ -142,6 +142,9 @@ namespace Krypton.Toolkit
             UpdateDpiFactors();
 
             _useSystemBackColor = true;
+
+            // Temp
+            kpnlBackground.Visible = false;
         }
 
 
