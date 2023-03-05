@@ -467,7 +467,7 @@ namespace Krypton.Navigator
                         if (_selectedPage != null)
                         {
                             // Create event information
-                            KryptonPageCancelEventArgs e1 = new(_selectedPage, Pages.IndexOf(_selectedPage));
+                            var e1 = new KryptonPageCancelEventArgs(_selectedPage, Pages.IndexOf(_selectedPage));
 
                             // Give event handlers a chance to cancel the deselection of the current page
                             OnDeselecting(e1);
@@ -480,7 +480,7 @@ namespace Krypton.Navigator
                         }
 
                         // Create event information
-                        KryptonPageCancelEventArgs e2 = new(value, Pages.IndexOf(value));
+                        var e2 = new KryptonPageCancelEventArgs(value, Pages.IndexOf(value));
 
                         // Give event handlers a chance to cancel the selection of the new page
                         OnSelecting(e2);
@@ -1551,7 +1551,7 @@ namespace Krypton.Navigator
                 // Create the event arguments
                 if (SelectedPage != null)
                 {
-                    DirectionActionEventArgs e = new(SelectedPage,
+                    var e = new DirectionActionEventArgs(SelectedPage,
                         SelectedIndex,
                         Button.PreviousButtonAction);
 
@@ -1585,7 +1585,7 @@ namespace Krypton.Navigator
                 // Create the event arguments
                 if (SelectedPage != null)
                 {
-                    DirectionActionEventArgs e = new(SelectedPage,
+                    var e = new DirectionActionEventArgs(SelectedPage,
                         SelectedIndex,
                         Button.NextButtonAction);
 
@@ -1647,7 +1647,7 @@ namespace Krypton.Navigator
                     if (Pages.Contains(page))
                     {
                         // Create the event arguments
-                        CloseActionEventArgs e = new(page,
+                        var e = new CloseActionEventArgs(page,
                                                                           Pages.IndexOf(page),
                                                                           Button.CloseButtonAction);
 
@@ -1709,145 +1709,98 @@ namespace Krypton.Navigator
         /// Raises the TabCountChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected virtual void OnTabCountChanged(EventArgs e)
-        {
-            TabCountChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTabCountChanged(EventArgs e) => TabCountChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabVisibleCountChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnTabVisibleCountChanged(EventArgs e)
-        {
-            TabVisibleCountChanged?.Invoke(this, e);
-        }
+        protected internal virtual void OnTabVisibleCountChanged(EventArgs e) => TabVisibleCountChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabClicked event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing the event args.</param>
-        protected internal virtual void OnTabClicked(KryptonPageEventArgs e)
-        {
-            TabClicked?.Invoke(this, e);
-        }
+        protected internal virtual void OnTabClicked(KryptonPageEventArgs e) => TabClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabDoubleClicked event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing the event args.</param>
-        protected internal virtual void OnTabDoubleClicked(KryptonPageEventArgs e)
-        {
-            TabDoubleClicked?.Invoke(this, e);
-        }
+        protected internal virtual void OnTabDoubleClicked(KryptonPageEventArgs e) => TabDoubleClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PrimaryHeaderLeftClicked event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnPrimaryHeaderLeftClicked(EventArgs e)
-        {
-            PrimaryHeaderLeftClicked?.Invoke(this, e);
-        }
+        protected internal virtual void OnPrimaryHeaderLeftClicked(EventArgs e) => PrimaryHeaderLeftClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PrimaryHeaderRightClicked event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnPrimaryHeaderRightClicked(EventArgs e)
-        {
-            PrimaryHeaderRightClicked?.Invoke(this, e);
-        }
+        protected internal virtual void OnPrimaryHeaderRightClicked(EventArgs e) => PrimaryHeaderRightClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PrimaryHeaderDoubleClicked event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnPrimaryHeaderDoubleClicked(EventArgs e)
-        {
-            PrimaryHeaderDoubleClicked?.Invoke(this, e);
-        }
+        protected internal virtual void OnPrimaryHeaderDoubleClicked(EventArgs e) => PrimaryHeaderDoubleClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the OutlookDropDown event.
         /// </summary>
         /// <param name="kcm">Context menu about to be Displayed.</param>
-        protected internal virtual void OnOutlookDropDown(KryptonContextMenu kcm)
-        {
-            OutlookDropDown?.Invoke(this, new KryptonContextMenuEventArgs(SelectedPage, SelectedIndex, kcm));
-        }
+        protected internal virtual void OnOutlookDropDown(KryptonContextMenu kcm) => OutlookDropDown?.Invoke(this, new KryptonContextMenuEventArgs(SelectedPage, SelectedIndex, kcm));
 
         /// <summary>
         /// Raises the DisplayPopupPage event.
         /// </summary>
         /// <param name="e">A PopupPageEventArgs containing event data.</param>
-        protected internal virtual void OnDisplayPopupPage(PopupPageEventArgs e)
-        {
-            DisplayPopupPage?.Invoke(this, e);
-        }
+        protected internal virtual void OnDisplayPopupPage(PopupPageEventArgs e) => DisplayPopupPage?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ShowContextMenu event.
         /// </summary>
         /// <param name="e">A ShowContextMenuArgs containing event data.</param>
-        protected internal virtual void OnShowContextMenu(ShowContextMenuArgs e)
-        {
-            ShowContextMenu?.Invoke(this, e);
-        }
+        protected internal virtual void OnShowContextMenu(ShowContextMenuArgs e) => ShowContextMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CtrlTabStart event.
         /// </summary>
         /// <param name="e">An CtrlTabCancelEventArgs containing event details.</param>
-        protected internal virtual void OnCtrlTabStart(CtrlTabCancelEventArgs e)
-        {
-            CtrlTabStart?.Invoke(this, e);
-        }
+        protected internal virtual void OnCtrlTabStart(CtrlTabCancelEventArgs e) => CtrlTabStart?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CtrlTabWrap event.
         /// </summary>
         /// <param name="e">An CtrlTabCancelEventArgs containing event details.</param>
-        protected internal virtual void OnCtrlTabWrap(CtrlTabCancelEventArgs e)
-        {
-            CtrlTabWrap?.Invoke(this, e);
-        }
+        protected internal virtual void OnCtrlTabWrap(CtrlTabCancelEventArgs e) => CtrlTabWrap?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabMouseHoverStart event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing event details.</param>
-        protected virtual void OnTabMouseHoverStart(KryptonPageEventArgs e)
-        {
-            TabMouseHoverStart?.Invoke(this, e);
-        }
+        protected virtual void OnTabMouseHoverStart(KryptonPageEventArgs e) => TabMouseHoverStart?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabMouseHoverEnd event.
         /// </summary>
         /// <param name="e">An EventArgs containing event details.</param>
-        protected virtual void OnTabMouseHoverEnd(EventArgs e)
-        {
-            TabMouseHoverEnd?.Invoke(this, e);
-        }
+        protected virtual void OnTabMouseHoverEnd(EventArgs e) => TabMouseHoverEnd?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabMoved event.
         /// </summary>
         /// <param name="e">An TabMovedEventArgs containing event details.</param>
-        protected internal virtual void OnTabMoved(TabMovedEventArgs e)
-        {
-            TabMoved?.Invoke(this, e);
-        }
+        protected internal virtual void OnTabMoved(TabMovedEventArgs e) => TabMoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ViewBuilderPropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the property that has changed.</param>
-        protected internal virtual void OnViewBuilderPropertyChanged(string propertyName)
-        {
-            ViewBuilderPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected internal virtual void OnViewBuilderPropertyChanged(string propertyName) => ViewBuilderPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         #endregion
 
         #region Protected
@@ -1924,10 +1877,7 @@ namespace Krypton.Navigator
 
         internal PaletteRedirect? InternalRedirector => Redirector;
 
-        internal void InternalForceViewLayout()
-        {
-            ForceViewLayout();
-        }
+        internal void InternalForceViewLayout() => ForceViewLayout();
 
         internal ToolTipManager HoverManager { get; private set; }
 
@@ -1979,14 +1929,11 @@ namespace Krypton.Navigator
             }
         }
 
-        internal KryptonPage? FirstActionPage()
-        {
+        internal KryptonPage? FirstActionPage() =>
             // Search from start of collection to the end
-            return Pages?.FirstOrDefault(static page => page is { LastVisibleSet: true, Enabled: true });
+            Pages?.FirstOrDefault(static page => page is { LastVisibleSet: true, Enabled: true });
 
-            // Nothing visible in entire collection
-        }
-
+        // Nothing visible in entire collection
         internal KryptonPage? LastActionPage()
         {
             // Search backwards from end of collection to start
@@ -2319,16 +2266,12 @@ namespace Krypton.Navigator
         private void CreateInternalObjects()
         {
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(ToolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
 
             // Create the manager for handling hovering
-            HoverManager = new ToolTipManager
-            {
-                ShowInterval = 400,
-                CloseInterval = 400
-            };
+            HoverManager = new ToolTipManager(ToolTipValues);
             HoverManager.ShowToolTip += OnStartHover;
             HoverManager.CancelToolTip += OnEndHover;
         }
@@ -2484,7 +2427,7 @@ namespace Krypton.Navigator
                     DismissPopups();
 
                     // Cast to correct type
-                    KryptonPage page = (KryptonPage)sender;
+                    KryptonPage? page = sender as KryptonPage;
 
                     // Is this page in our collection and a child control
                     if (Pages.Contains(page)
@@ -2494,7 +2437,7 @@ namespace Krypton.Navigator
                         if (AllowTabSelect)
                         {
                             // If the page is becoming visible
-                            if (page.LastVisibleSet)
+                            if (page!.LastVisibleSet)
                             {
                                 // If there is no current page selected, then it must become selected
                                 SelectedPage ??= page;
@@ -2531,7 +2474,7 @@ namespace Krypton.Navigator
                 // Inform the view builder that a page has changed enabled state
                 if (ViewBuilder != null)
                 {
-                    KryptonPage page = (KryptonPage)sender;
+                    KryptonPage? page = sender as KryptonPage;
                     ViewBuilder.PageEnabledStateChanged(page);
                 }
             }
@@ -2545,7 +2488,7 @@ namespace Krypton.Navigator
                 )
             {
                 // Cast to correct type
-                KryptonPage page = (KryptonPage)sender;
+                KryptonPage? page = sender as KryptonPage;
 
                 // If the page is the currently selected one...
                 if (SelectedPage == page)
@@ -2574,7 +2517,7 @@ namespace Krypton.Navigator
                 DismissPopups();
 
                 // Cast to correct type
-                KryptonPage page = (KryptonPage)sender;
+                KryptonPage? page = sender as KryptonPage;
 
                 // Inform the current view builder of flags change
                 ViewBuilder.PageFlagsChanged(page, e.Flags);
@@ -2813,7 +2756,8 @@ namespace Krypton.Navigator
                     foreach (KryptonPage page in Pages)
                     {
                         // Only update pages that do not match the incoming type
-                        if ((excludeType == null) || !(page.GetType() == excludeType))
+                        if ((excludeType == null) 
+                            || !(page.GetType() == excludeType))
                         {
                             page.Visible = visible;
                             ViewBuilder.PageVisibleStateChanged(page);
@@ -2863,7 +2807,7 @@ namespace Krypton.Navigator
 
                     // Kill any existing contents and add a items collection for the page entries
                     contextMenu.Items.Clear();
-                    KryptonContextMenuItems contextMenuItems = new();
+                    var contextMenuItems = new KryptonContextMenuItems();
                     contextMenu.Items.Add(contextMenuItems);
 
                     // Process each page for those that need adding to context strip
@@ -2873,7 +2817,8 @@ namespace Krypton.Navigator
                     {
                         // We always add the currently selected page and 
                         // any other that is both visible and enabled
-                        if ((page == SelectedPage) || page is { LastVisibleSet: true, Enabled: true })
+                        if ((page == SelectedPage) 
+                            || page is { LastVisibleSet: true, Enabled: true })
                         {
                             // Add a vertical break after every 20 items
                             if ((menuItems > 0) && ((menuItems % 20) == 0))
@@ -2886,7 +2831,7 @@ namespace Krypton.Navigator
                             }
 
                             // Create a menu item for the page
-                            KryptonContextMenuItem pageMenuItem = new(page.GetTextMapping(Button.ContextMenuMapText),
+                            var pageMenuItem = new KryptonContextMenuItem(page.GetTextMapping(Button.ContextMenuMapText),
                                                                                              page.GetImageMapping(Button.ContextMenuMapImage),
                                                                                              OnContextMenuClick)
                             {
@@ -2908,7 +2853,7 @@ namespace Krypton.Navigator
                     }
 
                     // Create the event arguments
-                    ContextActionEventArgs cae = new(SelectedPage,
+                    var cae = new ContextActionEventArgs(SelectedPage,
                                                                             SelectedIndex,
                                                                             Button.ContextButtonAction,
                                                                             contextMenu);
@@ -2959,7 +2904,7 @@ namespace Krypton.Navigator
                         if (ToolTips.AllowPageToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            PageToToolTipMapping pageMapping = new(toolTipPage,
+                            var pageMapping = new PageToToolTipMapping(toolTipPage,
                                                                                        ToolTips.MapImage,
                                                                                        ToolTips.MapText,
                                                                                        ToolTips.MapExtraText);
@@ -2985,7 +2930,7 @@ namespace Krypton.Navigator
                             if (ToolTips.AllowButtonSpecToolTips)
                             {
                                 // Create a helper object to provide tooltip values
-                                ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                                var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                                 // Is there actually anything to show for the tooltip
                                 if (buttonSpecMapping.HasContent)
@@ -3263,17 +3208,13 @@ namespace Krypton.Navigator
             return false;
         }
 
-        private void OnViewManagerLayoutBefore(object sender, EventArgs e)
-        {
+        private void OnViewManagerLayoutBefore(object sender, EventArgs e) =>
             // Tell the view to perform pre layout actions
             ViewBuilder?.PreLayout();
-        }
 
-        private void OnViewManagerLayoutAfter(object sender, EventArgs e)
-        {
+        private void OnViewManagerLayoutAfter(object sender, EventArgs e) =>
             // Tell the view to perform post layout actions
             ViewBuilder?.PostLayout();
-        }
 
         private void ResetCachedKryptonContextMenu()
         {

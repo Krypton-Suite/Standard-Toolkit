@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                                                        Calendar.GetToolStripDelegate, _needPaintDelegate);
 
             // Create the manager for handling tooltips
-            _toolTipManager = new ToolTipManager();
+            _toolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
             _toolTipManager.ShowToolTip += OnShowToolTip;
             _toolTipManager.CancelToolTip += OnCancelToolTip;
             ButtonManager.ToolTipManager = _toolTipManager;
@@ -797,7 +797,7 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!Calendar.InDesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.ToolTip;
 
                     bool shadow = true;

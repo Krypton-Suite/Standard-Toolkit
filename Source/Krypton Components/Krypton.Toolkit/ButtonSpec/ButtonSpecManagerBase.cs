@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer;
+            _getRenderer = getRenderer!;
 
             if (_viewMetrics != null)
             {
