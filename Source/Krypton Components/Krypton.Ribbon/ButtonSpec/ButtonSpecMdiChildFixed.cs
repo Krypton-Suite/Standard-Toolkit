@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning krypton form.
         /// </summary>
-        public Form MdiChild { get; set; }
+        public Form? MdiChild { get; set; }
 
         #endregion
 
