@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
 
             // Disable 'UseDropShadow' on creation
 #pragma warning disable CS0618
-            UseDropShadow = false;
+            _useDropShadow = false;
 #pragma warning restore CS0618
         }
 
@@ -415,10 +415,10 @@ namespace Krypton.Toolkit
         /// </value>
         [Category(@"Appearance")]
         [Description(@"Is the user currently an administrator.")]
-        public bool IsInAdministratorMode 
-        { 
-            get => _isInAdministratorMode; 
-            private set => _isInAdministratorMode = value; 
+        public bool IsInAdministratorMode
+        {
+            get => _isInAdministratorMode;
+            private set => _isInAdministratorMode = value;
         }
 
         /// <summary>
@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), 
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE),
          Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
         public float CornerRoundingRadius
         {
@@ -617,7 +617,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
-        [DefaultValue(null), 
+        [DefaultValue(null),
          Description(@"Defines an active control for this window.")]
         public new Control? ActiveControl
         {
@@ -636,7 +636,7 @@ namespace Krypton.Toolkit
         /// <summary>Arranges the current window title alignment.</summary>
         /// <value>The current window title alignment.</value>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"), 
+        [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"),
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
 

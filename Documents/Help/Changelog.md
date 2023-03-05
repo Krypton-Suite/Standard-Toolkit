@@ -3,7 +3,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
-* Implemented [#686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/686),  Extend ToolTipManager designer to also allow "open/close" interval properties.
+* Add action list options to `KryptonCommand`
+* Implemented [#686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/686), Extend ToolTipManager designer to also allow "open/close" interval properties.
 * Implemented [#950](https://github.com/Krypton-Suite/Standard-Toolkit/issues/950), Please add `-t:rebuild` to the msbuild command line
     - **Note:** This option is _only_ available for building `nightly` binaries
 * Removed .NET Core 3.1 and .NET 5 references from NuGet package descriptions

@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the background drawing style.
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         {
             get => _breadCrumb.PaletteMode;
 
-            set 
+            set
             {
                 if (_breadCrumb.PaletteMode != value)
                 {
@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

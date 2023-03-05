@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonBorderEdgeActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonBorderEdgeActionList(KryptonBorderEdgeDesigner owner) 
+        public KryptonBorderEdgeActionList(KryptonBorderEdgeDesigner owner)
             : base(owner.Component)
         {
             _borderEdge = owner.Component as KryptonBorderEdge;
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         {
             get => _borderEdge.BorderStyle;
 
-            set 
+            set
             {
                 if (_borderEdge.BorderStyle != value)
                 {
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         {
             get => _borderEdge.PaletteMode;
 
-            set 
+            set
             {
                 if (_borderEdge.PaletteMode != value)
                 {

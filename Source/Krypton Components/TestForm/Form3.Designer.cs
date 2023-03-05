@@ -36,7 +36,9 @@
             this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton3 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup2 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonRibbon1
@@ -68,15 +70,26 @@
             this.kryptonRibbonGroupButton2,
             this.kryptonRibbonGroupButton3});
             // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Location = new System.Drawing.Point(193, 194);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.Size = new System.Drawing.Size(100, 100);
+            this.kryptonPanel1.TabIndex = 1;
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonRibbon1);
             this.Name = "Form3";
             this.Text = "Form3";
+            this.Controls.SetChildIndex(this.kryptonRibbon1, 0);
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +105,6 @@
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton2;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton3;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup2;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
     }
 }
