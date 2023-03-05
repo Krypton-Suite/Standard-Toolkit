@@ -859,7 +859,7 @@ namespace Krypton.Toolkit
                                                          NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(ToolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;

@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
             ToolTipValues = new ToolTipValues(NeedPaintDelegate);
             // Create the manager for handling tooltips
             // ReSharper disable once UseObjectOrCollectionInitializer
-            _toolTipManager = new ToolTipManager();
+            _toolTipManager = new ToolTipManager(ToolTipValues);
             _toolTipManager.ShowToolTip += OnShowToolTip;
             _toolTipManager.CancelToolTip += OnCancelToolTip;
         }

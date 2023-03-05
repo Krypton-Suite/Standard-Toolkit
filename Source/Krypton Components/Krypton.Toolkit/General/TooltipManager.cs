@@ -18,9 +18,11 @@ namespace Krypton.Toolkit
     public class ToolTipManager
     {
         #region Instance Fields
-        private readonly System.Windows.Forms.Timer _startTimer, _stopTimer;
-        private ViewBase _startTarget;
-        private ViewBase _currentTarget;
+        private readonly System.Windows.Forms.Timer _startTimer;
+        private readonly System.Windows.Forms.Timer _detectMoveTimer;
+        private readonly System.Windows.Forms.Timer _closeTimer;
+        private ViewBase? _startTarget;
+        private ViewBase? _currentTarget;
         private bool _showingToolTips;
         #endregion
 
@@ -40,20 +42,28 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the TooltipManager class.
         /// </summary>
-        public ToolTipManager()
+        public ToolTipManager(ToolTipValues toolTipValues)
         {
+            // TODO: Setup callbacks when the interval are changed programmatically
             _startTimer = new System.Windows.Forms.Timer
             {
-                Interval = 1200
+                Interval = toolTipValues.ShowIntervalDelay
             };
             _startTimer.Tick += OnStartTimerTick;
 
-            _stopTimer = new System.Windows.Forms.Timer
+            _closeTimer = new System.Windows.Forms.Timer
             {
-                Interval = 100
+                Interval = toolTipValues.CloseIntervalDelay
             };
-            _stopTimer.Tick += OnStopTimerTick;
+            _closeTimer.Tick += OnCloseTimerTick;
+
+            _detectMoveTimer = new System.Windows.Forms.Timer
+            {
+                Interval = 100 // ReShowDelay
+            };
+            _detectMoveTimer.Tick += OnStopDetectMoveTimerTick;
         }
+
         #endregion
 
         #region Public
@@ -81,7 +91,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public int CloseInterval
         {
-            get => _stopTimer.Interval;
+            get => _closeTimer.Interval;
 
             set
             {
@@ -91,7 +101,7 @@ namespace Krypton.Toolkit
                     value = 1;
                 }
 
-                _stopTimer.Interval = value;
+                _closeTimer.Interval = value;
             }
         }
         #endregion
@@ -126,6 +136,7 @@ namespace Krypton.Toolkit
                         {
                             // Stop the currently running start timer
                             _startTimer.Stop();
+                            _closeTimer.Stop();
 
                             // Restart the timer and associate it with the target
                             _startTarget = targetElement;
@@ -164,7 +175,8 @@ namespace Krypton.Toolkit
         {
             // Stop any timers
             _startTimer.Stop();
-            _stopTimer.Stop();
+            _detectMoveTimer.Stop();
+            _closeTimer.Stop();
 
             // Remove tracking of any elements
             _currentTarget = null;
@@ -209,8 +221,9 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Restart the stop timer
-                    _stopTimer.Stop();
-                    _stopTimer.Start();
+                    _detectMoveTimer.Stop();
+                    _detectMoveTimer.Start();
+                    _closeTimer.Stop();
                 }
                 catch { }
             }
@@ -253,7 +266,8 @@ namespace Krypton.Toolkit
                 _showingToolTips = true;
 
                 // Raise event requesting the tooltip be shown
-                OnShowToolTip(new ToolTipEventArgs(_startTarget, Control.MousePosition));
+                OnShowToolTip(new ToolTipEventArgs(_startTarget!, Control.MousePosition));
+                _closeTimer.Start();
             }
             else
             {
@@ -262,10 +276,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnStopTimerTick(object sender, EventArgs e)
+        private void OnStopDetectMoveTimerTick(object sender, EventArgs e)
         {
             // One tick timer, so always stop
-            _stopTimer.Stop();
+            _detectMoveTimer.Stop();
 
             // Is the target is not the same as the currently showing tooltip
             if ((_currentTarget != _startTarget)
@@ -277,6 +291,7 @@ namespace Krypton.Toolkit
                 _showingToolTips = false;
 
                 // Raises event indicating the tooltip should be removed
+                _closeTimer.Stop();
                 OnCancelToolTip();
 
                 // If we are over a new target then show straight away
@@ -294,6 +309,14 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void OnCloseTimerTick(object sender, EventArgs e)
+        {
+            // Raises event indicating the tooltip should be removed
+            _closeTimer.Stop();
+            OnCancelToolTip();
+        }
+
         #endregion
     }
 }

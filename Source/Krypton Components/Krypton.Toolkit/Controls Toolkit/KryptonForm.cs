@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
+        private readonly FormFixedButtonSpecCollection? _buttonSpecsFixed;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawForm _drawDocker;
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         private HeaderStyle _headerStylePrev;
         private FormWindowState _regionWindowState;
         private FormWindowState _lastWindowState;
-        private string _textExtra;
+        private string? _textExtra;
         private string _oldText;
         private static bool _isInAdministratorMode;
         private bool _allowFormChrome;
@@ -173,10 +173,10 @@ namespace Krypton.Toolkit
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetForm },
                                                        new[] { PaletteMetricPadding.HeaderButtonPaddingForm },
                                                        CreateToolStripRenderer,
-                                                       OnButtonManagerNeedPaint);
+                                                       OnButtonManagerNeedPaint!);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
@@ -240,9 +240,10 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The extra text associated with the control.")]
         [DefaultValue("")]
-        public string TextExtra
+        [AllowNull]
+        public string? TextExtra
         {
-            get => _textExtra;
+            get => _textExtra ?? string.Empty;
 
             set
             {
@@ -355,11 +356,11 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(PaletteBorderStyle), "FormMain")]
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => StateCommon.BorderStyle;
+            get => StateCommon!.BorderStyle;
 
             set
             {
-                if (StateCommon.BorderStyle != value)
+                if (StateCommon!.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(false);
@@ -375,11 +376,11 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(PaletteBackStyle), "FormMain")]
         public PaletteBackStyle GroupBackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(false);
@@ -428,7 +429,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteFormRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => StateCommon is { IsDefault: false };
 
         /// <summary>
         /// Gets access to the inactive form appearance entries.
@@ -501,7 +502,8 @@ namespace Krypton.Toolkit
             Debug.Assert(element != null);
             Debug.Assert(_drawHeading != null);
 
-            if (!IsDisposed)
+            if (!IsDisposed
+                && _drawHeading != null)
             {
                 // If injecting a new fill item for the caption content area
                 if (style == ViewDockStyle.Fill)
@@ -520,7 +522,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just add to the docking edge requested
-                    _drawHeading.Add(element, style);
+                    _drawHeading.Add(element!, style);
                 }
             }
         }
@@ -554,7 +556,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just remove the specified elements
-                    _drawHeading.Remove(element);
+                    _drawHeading.Remove(element!);
                 }
             }
         }
@@ -810,7 +812,7 @@ namespace Krypton.Toolkit
         /// Gets the long text used as the secondary caption title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetLongText() => _textExtra;
+        public string GetLongText() => TextExtra!;
 
         #endregion
 
