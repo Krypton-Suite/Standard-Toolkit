@@ -199,6 +199,8 @@ namespace Krypton.Toolkit
             }
         }
 
+        public KryptonPanel BackgroundPanel => kpnlBackground;
+
         /// <summary>
         /// Gets the DpiX of the view.
         /// </summary>
@@ -974,6 +976,14 @@ namespace Krypton.Toolkit
 
             base.OnShown(e);
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            kpnlBackground.Visible = !_useSystemBackColor;
+
+            base.OnPaint(e);
+        }
+
         #endregion
 
         #region Protected Virtual
@@ -1364,7 +1374,7 @@ namespace Krypton.Toolkit
             // If the window proc has decided it is in the CAPTION or CLIENT areas
             // then we might have something of our own in that area that we want to
             // override the return value for. So process it ourself.
-            if (m.Result == (IntPtr)PI.HT.CAPTION 
+            if (m.Result == (IntPtr)PI.HT.CAPTION
                     || m.Result == (IntPtr)PI.HT.CLIENT)
             {
                 // Extract the point in screen coordinates

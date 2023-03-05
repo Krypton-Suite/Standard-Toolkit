@@ -31,6 +31,7 @@
             this.kryptonNavigator1 = new Krypton.Navigator.KryptonNavigator();
             this.kryptonPage1 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage2 = new Krypton.Navigator.KryptonPage();
+            this.kryptonCommand1 = new Krypton.Toolkit.KryptonCommand();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).BeginInit();
             this.kryptonNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage1)).BeginInit();
@@ -39,9 +40,11 @@
             // 
             // kryptonNavigator1
             // 
+            this.kryptonNavigator1.ControlKryptonFormFeatures = false;
             this.kryptonNavigator1.Location = new System.Drawing.Point(100, 86);
             this.kryptonNavigator1.Name = "kryptonNavigator1";
             this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
+            this.kryptonNavigator1.Owner = null;
             this.kryptonNavigator1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
             this.kryptonNavigator1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage1,
@@ -75,6 +78,10 @@
             this.kryptonPage2.ToolTipTitle = "Page ToolTip";
             this.kryptonPage2.UniqueName = "c08d902170ef42ca99616b72c6dbbd89";
             // 
+            // kryptonCommand1
+            // 
+            this.kryptonCommand1.Text = "kryptonCommand1";
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -96,5 +103,6 @@
         private Krypton.Navigator.KryptonNavigator kryptonNavigator1;
         private Krypton.Navigator.KryptonPage kryptonPage1;
         private Krypton.Navigator.KryptonPage kryptonPage2;
+        private Krypton.Toolkit.KryptonCommand kryptonCommand1;
     }
 }
