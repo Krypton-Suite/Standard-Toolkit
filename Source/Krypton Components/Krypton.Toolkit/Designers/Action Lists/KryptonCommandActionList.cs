@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
             // This can be null when deleting a component instance at design time
             if (_command != null)
             {
-                // Add the list of bread crumb specific actions
+                // Add the list of command specific actions
                 actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
                 actions.Add(new DesignerActionPropertyItem(nameof(Text), @"Text", nameof(Appearance), @"Command text."));
                 actions.Add(new DesignerActionPropertyItem(nameof(ImageSmall), @"Image Small", nameof(Appearance), @"Command small image."));
