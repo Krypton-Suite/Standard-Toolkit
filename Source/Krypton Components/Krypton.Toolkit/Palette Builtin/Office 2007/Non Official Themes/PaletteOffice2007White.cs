@@ -40,6 +40,47 @@ namespace Krypton.Toolkit
         private static readonly Image _silverHelpPressed = HelpIconResources.Office2007HelpIconPressed;
         private static readonly Image _silverHelpDisabled = HelpIconResources.Office2007HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
+
+        #region Toolbar Images
+
+        private static readonly Image _formToolbarButtonSpecNewNormal = GenericToolbarImageResources.NewDocument;
+        private static readonly Image _formToolbarButtonSpecNewHover = GenericToolbarImageResources.NewDocument;
+        private static readonly Image _formToolbarButtonSpecNewDisabled = GenericToolbarImageResources.NewDocument;
+
+        private static readonly Image _formToolbarButtonSpecOpenNormal = GenericToolbarImageResources.Open;
+        private static readonly Image _formToolbarButtonSpecOpenHover = GenericToolbarImageResources.Open;
+        private static readonly Image _formToolbarButtonSpecOpenDisabled = GenericToolbarImageResources.Open;
+
+        private static readonly Image _formToolbarButtonSpecSaveNormal = GenericToolbarImageResources.Save;
+        private static readonly Image _formToolbarButtonSpecSaveHover = GenericToolbarImageResources.Save;
+        private static readonly Image _formToolbarButtonSpecSaveDisabled = GenericToolbarImageResources.Save;
+
+        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.SaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAsHover = GenericToolbarImageResources.SaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.SaveAs;
+
+        private static readonly Image _formToolbarButtonSpecCutNormal = GenericToolbarImageResources.Cut;
+        private static readonly Image _formToolbarButtonSpecCutHover = GenericToolbarImageResources.Cut;
+        private static readonly Image _formToolbarButtonSpecCutDisabled = GenericToolbarImageResources.Cut;
+
+        private static readonly Image _formToolbarButtonSpecCopyNormal = GenericToolbarImageResources.Copy;
+        private static readonly Image _formToolbarButtonSpecCopyHover = GenericToolbarImageResources.Copy;
+        private static readonly Image _formToolbarButtonSpecCopyDisabled = GenericToolbarImageResources.Copy;
+
+        private static readonly Image _formToolbarButtonSpecPasteNormal = GenericToolbarImageResources.Paste;
+        private static readonly Image _formToolbarButtonSpecPasteHover = GenericToolbarImageResources.Paste;
+        private static readonly Image _formToolbarButtonSpecPasteDisabled = GenericToolbarImageResources.Paste;
+
+        private static readonly Image _formToolbarButtonSpecUndoNormal = GenericToolbarImageResources.Undo;
+        private static readonly Image _formToolbarButtonSpecUndoHover = GenericToolbarImageResources.Undo;
+        private static readonly Image _formToolbarButtonSpecUndoDisabled = GenericToolbarImageResources.Undo;
+
+        private static readonly Image _formToolbarButtonSpecRedoNormal = GenericToolbarImageResources.Redo;
+        private static readonly Image _formToolbarButtonSpecRedoHover = GenericToolbarImageResources.Redo;
+        private static readonly Image _formToolbarButtonSpecRedoDisabled = GenericToolbarImageResources.Redo;
+
+        #endregion
+
         private static readonly Color[] _trackBarColors = new Color[] { Color.Red,      // Tick marks
                                                                         Color.FromArgb(166, 170, 175),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track
@@ -292,12 +333,12 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Office2007BlueRadioButtonResources.RadioButton2007BlueD, 
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverN, 
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverT, 
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverP, 
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueDC, 
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverNC, 
+            _radioButtonArray = new Image[]{Office2007BlueRadioButtonResources.RadioButton2007BlueD,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverN,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverT,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverP,
+                                            Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverNC,
                                             Office2007SilverRadioButtonResources.RadioButton2007SilverTC,
                                             Office2007SilverRadioButtonResources.RadioButton2007SilverPC };
         }
