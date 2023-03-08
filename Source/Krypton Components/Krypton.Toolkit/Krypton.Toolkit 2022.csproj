@@ -449,6 +449,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>StarImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\SystemToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SystemToolbarImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\TreeItemImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -772,6 +777,10 @@
         <EmbeddedResource Update="Resources\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>StarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SystemToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SystemToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\TreeItemImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

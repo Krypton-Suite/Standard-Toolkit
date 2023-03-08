@@ -18,15 +18,18 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private ButtonSpecAny _helpButtonSpec;
+        private ButtonSpecAny? _helpButtonSpec;
 
         #endregion
 
         #region Public
 
-        public ButtonSpecAny HelpButton
+        /// <summary>Gets or sets the help button.</summary>
+        /// <value>The help button.</value>
+        [DefaultValue(null), Description(@"Access to the help button spec.")]
+        public ButtonSpecAny? HelpButton
         {
-            get => _helpButtonSpec;
+            get => _helpButtonSpec ?? new();
             set { _helpButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -34,12 +37,10 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonHelpCommand" /> class.</summary>
         public KryptonHelpCommand()
         {
-            switch (KryptonManager.InternalGlobalPaletteMode)
-            {
-
-            }
+            _helpButtonSpec = null;
         }
 
         #endregion
@@ -93,26 +94,37 @@ namespace Krypton.Toolkit
                     UpdateImage(HelpIconResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2010DarkGray:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010Blue:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010BlueDarkMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010BlueLightMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010Silver:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010SilverDarkMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010SilverLightMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010White:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010Black:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010BlackDarkMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2013White:
                     break;

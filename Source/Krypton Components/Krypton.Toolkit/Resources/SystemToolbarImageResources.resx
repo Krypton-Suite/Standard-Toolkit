@@ -118,64 +118,52 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Microsoft365HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarCopyDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarCopyDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarCopyNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarCopyNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarCutDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarCutDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarCutNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarCutNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarNewDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarNewDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2003HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2003HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarNewNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarNewNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2003HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2003HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarOpenDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarOpenDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2003HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2003HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarOpenNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarOpenNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarPasteDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarPasteDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarPasteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarPasteNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarRedoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarRedoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarRedoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarRedoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarSaveDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarSaveDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarSaveNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarSaveNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarUndoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarUndoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010HelpIconPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalHelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalHelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalHelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalHelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemToolbarUndoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SystemToolbarUndoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
