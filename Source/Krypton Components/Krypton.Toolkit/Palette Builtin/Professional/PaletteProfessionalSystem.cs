@@ -2927,6 +2927,79 @@ namespace Krypton.Toolkit
 
                 case PaletteButtonSpecStyle.Generic:
                     return null;
+
+                case PaletteButtonSpecStyle.New:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecNewHover,
+                        PaletteState.Normal => _formToolbarButtonSpecNewNormal,
+                        _ => _formToolbarButtonSpecNewDisabled
+                    };
+
+                case PaletteButtonSpecStyle.Open:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecOpenHover,
+                        PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
+                        _ => _formToolbarButtonSpecOpenDisabled
+                    };
+
+                case PaletteButtonSpecStyle.Save:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecSaveHover,
+                        PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
+                        _ => _formToolbarButtonSpecSaveDisabled
+                    };
+
+                case PaletteButtonSpecStyle.SaveAs:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecSaveAsHover,
+                        PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
+                        _ => _formToolbarButtonSpecSaveAsDisabled
+                    };
+
+                case PaletteButtonSpecStyle.Cut:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecCutHover,
+                        PaletteState.Normal => _formToolbarButtonSpecCutNormal,
+                        _ => _formToolbarButtonSpecCutDisabled
+                    };
+
+                case PaletteButtonSpecStyle.Copy:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecCopyHover,
+                        PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
+                        _ => _formToolbarButtonSpecCopyDisabled
+                    };
+
+                case PaletteButtonSpecStyle.Paste:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecPasteHover,
+                        PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
+                        _ => _formToolbarButtonSpecPasteDisabled
+                    };
+
+                case PaletteButtonSpecStyle.Undo:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecUndoHover,
+                        PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
+                        _ => _formToolbarButtonSpecUndoDisabled
+                    };
+
+                case PaletteButtonSpecStyle.Redo:
+                    return state switch
+                    {
+                        PaletteState.Tracking => _formToolbarButtonSpecRedoHover,
+                        PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
+                        _ => _formToolbarButtonSpecRedoDisabled
+                    };
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);

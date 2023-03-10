@@ -421,6 +421,60 @@ namespace Krypton.Toolkit
                     PaletteState.Normal => _formHelpNormal,
                     _ => _formHelpDisabled
                 },
+                PaletteButtonSpecStyle.New => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecNewHover,
+                    PaletteState.Normal => _formToolbarButtonSpecNewNormal,
+                    _ => _formToolbarButtonSpecNewDisabled
+                },
+                PaletteButtonSpecStyle.Open => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecOpenHover,
+                    PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
+                    _ => _formToolbarButtonSpecOpenDisabled
+                },
+                PaletteButtonSpecStyle.Save => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecSaveHover,
+                    PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
+                    _ => _formToolbarButtonSpecSaveDisabled
+                },
+                PaletteButtonSpecStyle.SaveAs => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecSaveAsHover,
+                    PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
+                    _ => _formToolbarButtonSpecSaveAsDisabled
+                },
+                PaletteButtonSpecStyle.Cut => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecCutHover,
+                    PaletteState.Normal => _formToolbarButtonSpecCutNormal,
+                    _ => _formToolbarButtonSpecCutDisabled
+                },
+                PaletteButtonSpecStyle.Copy => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecCopyHover,
+                    PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
+                    _ => _formToolbarButtonSpecCopyDisabled
+                },
+                PaletteButtonSpecStyle.Paste => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecPasteHover,
+                    PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
+                    _ => _formToolbarButtonSpecPasteDisabled
+                },
+                PaletteButtonSpecStyle.Undo => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecUndoHover,
+                    PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
+                    _ => _formToolbarButtonSpecUndoDisabled
+                },
+                PaletteButtonSpecStyle.Redo => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecRedoHover,
+                    PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
+                    _ => _formToolbarButtonSpecRedoDisabled
+                },
                 _ => base.GetButtonSpecImage(style, state)
             };
         }
