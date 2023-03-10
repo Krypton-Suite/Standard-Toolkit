@@ -143,5 +143,10 @@ namespace TestForm
 
             form3.ShowDialog();
         }
+
+        private void kryptonHelpCommand1_Execute(object sender, System.EventArgs e)
+        {
+            KryptonMessageBox.Show(@"Hello World!");
+        }
     }
 }

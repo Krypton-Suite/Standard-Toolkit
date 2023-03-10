@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
@@ -46,6 +47,8 @@
             this.buttonSpecAny7 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny8 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny9 = new Krypton.Toolkit.ButtonSpecAny();
+            this.bsHelp = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonHelpCommand1 = new Krypton.Toolkit.KryptonHelpCommand();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -141,10 +144,6 @@
             this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
             this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365BlackDarkMode;
-            // 
             // buttonSpecAny2
             // 
             this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.New;
@@ -190,6 +189,19 @@
             this.buttonSpecAny9.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Redo;
             this.buttonSpecAny9.UniqueName = "7d671b8ea94f44419983e71c70353e7f";
             // 
+            // bsHelp
+            // 
+            this.bsHelp.Enabled = Krypton.Toolkit.ButtonEnabled.True;
+            this.bsHelp.KryptonCommand = this.kryptonHelpCommand1;
+            this.bsHelp.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormHelp;
+            this.bsHelp.UniqueName = "bcd86d4cc522416687d43465380b044a";
+            // 
+            // kryptonHelpCommand1
+            // 
+            this.kryptonHelpCommand1.HelpButton = this.bsHelp;
+            this.kryptonHelpCommand1.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonHelpCommand1.ImageSmall")));
+            this.kryptonHelpCommand1.Execute += new System.EventHandler(this.kryptonHelpCommand1_Execute);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,7 +215,8 @@
             this.buttonSpecAny6,
             this.buttonSpecAny7,
             this.buttonSpecAny8,
-            this.buttonSpecAny9});
+            this.buttonSpecAny9,
+            this.bsHelp});
             this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.kryptonPanel1);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -237,5 +250,7 @@
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny7;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny8;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny9;
+        private Krypton.Toolkit.ButtonSpecAny bsHelp;
+        private Krypton.Toolkit.KryptonHelpCommand kryptonHelpCommand1;
     }
 }
