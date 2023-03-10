@@ -10,8 +10,6 @@
  */
 #endregion
 
-
-
 namespace Krypton.Toolkit
 {
     #region Class: PaletteOffice2010BlueDarkMode
