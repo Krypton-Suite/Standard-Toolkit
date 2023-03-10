@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the help button.</summary>
         /// <value>The help button.</value>
-        [DefaultValue(null), Description(@"Access to the help button spec.")]
+        [AllowNull, DefaultValue(null), Description(@"Access to the help button spec.")]
         public ButtonSpecAny? HelpButton
         {
             get => _helpButtonSpec ?? new();
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonHelpCommand" /> class.</summary>
         public KryptonHelpCommand()
         {
-            _helpButtonSpec = null;
+            // An empty constructor...
         }
 
         #endregion
