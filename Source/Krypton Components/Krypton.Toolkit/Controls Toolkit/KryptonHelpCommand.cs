@@ -124,49 +124,70 @@ namespace Krypton.Toolkit
                     UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Office2013White:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365DarkGray:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365Black:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365BlackDarkMode:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365Blue:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365BlueDarkMode:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365BlueLightMode:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365Silver:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365SilverDarkMode:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365SilverLightMode:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365White:
+                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.SparkleBlue:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleBlueDarkMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleBlueLightMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleOrange:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleOrangeDarkMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleOrangeLightMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparklePurple:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparklePurpleDarkMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparklePurpleLightMode:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Custom:
+                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
