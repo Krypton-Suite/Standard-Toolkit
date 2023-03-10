@@ -22,6 +22,14 @@ namespace Krypton.Toolkit
 
         private ButtonImageStates? _imageStates;
 
+        private Image? _activeImage;
+
+        private Image? _disabledImage;
+
+        private Image? _normalImage;
+
+        private Image? _pressedImage;
+
         #endregion
 
         #region Public
