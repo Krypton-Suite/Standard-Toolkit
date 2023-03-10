@@ -20,6 +20,8 @@ namespace Krypton.Toolkit
 
         private ButtonSpecAny? _helpButtonSpec;
 
+        private ButtonImageStates? _imageStates;
+
         #endregion
 
         #region Public
@@ -32,6 +34,16 @@ namespace Krypton.Toolkit
             get => _helpButtonSpec ?? new();
             set { _helpButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
+
+        /// <summary>
+        /// Gets access to the state specific images for the help button.
+        /// </summary>
+        [Category(@"Appearance")]
+        [Description(@"State specific images for the help button.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonImageStates? ImageStates { get => _imageStates ?? new(); set { _imageStates = value; UpdateImageStates(KryptonManager.InternalGlobalPaletteMode); } }
+
+        private bool ShouldSerializeImageStates() => !_imageStates.IsDefault;
 
         #endregion
 
@@ -51,8 +63,14 @@ namespace Krypton.Toolkit
         /// <param name="helpImage">The help image.</param>
         private void UpdateImage(Image helpImage) => ImageSmall = helpImage;
 
+        private void AddImageStates(Image activeImage, Image disabledImage, Image normalImage)
+        {
+
+        }
+
         private void UpdateImage(PaletteMode mode)
         {
+
             switch (mode)
             {
                 case PaletteMode.Global:
@@ -191,6 +209,107 @@ namespace Krypton.Toolkit
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
+        }
+        private void UpdateImageStates(PaletteMode mode)
+        {
+            if (_helpButtonSpec != null)
+            {
+                switch (mode)
+                {
+                    case PaletteMode.Global:
+                        break;
+                    case PaletteMode.ProfessionalSystem:
+                        break;
+                    case PaletteMode.ProfessionalOffice2003:
+                        break;
+                    case PaletteMode.Office2007DarkGray:
+                        break;
+                    case PaletteMode.Office2007Blue:
+                        break;
+                    case PaletteMode.Office2007BlueDarkMode:
+                        break;
+                    case PaletteMode.Office2007BlueLightMode:
+                        break;
+                    case PaletteMode.Office2007Silver:
+                        break;
+                    case PaletteMode.Office2007SilverDarkMode:
+                        break;
+                    case PaletteMode.Office2007SilverLightMode:
+                        break;
+                    case PaletteMode.Office2007White:
+                        break;
+                    case PaletteMode.Office2007Black:
+                        break;
+                    case PaletteMode.Office2007BlackDarkMode:
+                        break;
+                    case PaletteMode.Office2010DarkGray:
+                        break;
+                    case PaletteMode.Office2010Blue:
+                        break;
+                    case PaletteMode.Office2010BlueDarkMode:
+                        break;
+                    case PaletteMode.Office2010BlueLightMode:
+                        break;
+                    case PaletteMode.Office2010Silver:
+                        break;
+                    case PaletteMode.Office2010SilverDarkMode:
+                        break;
+                    case PaletteMode.Office2010SilverLightMode:
+                        break;
+                    case PaletteMode.Office2010White:
+                        break;
+                    case PaletteMode.Office2010Black:
+                        break;
+                    case PaletteMode.Office2010BlackDarkMode:
+                        break;
+                    case PaletteMode.Office2013DarkGray:
+                        break;
+                    case PaletteMode.Office2013White:
+                        break;
+                    case PaletteMode.Microsoft365DarkGray:
+                        break;
+                    case PaletteMode.Microsoft365Black:
+                        break;
+                    case PaletteMode.Microsoft365BlackDarkMode:
+                        break;
+                    case PaletteMode.Microsoft365Blue:
+                        break;
+                    case PaletteMode.Microsoft365BlueDarkMode:
+                        break;
+                    case PaletteMode.Microsoft365BlueLightMode:
+                        break;
+                    case PaletteMode.Microsoft365Silver:
+                        break;
+                    case PaletteMode.Microsoft365SilverDarkMode:
+                        break;
+                    case PaletteMode.Microsoft365SilverLightMode:
+                        break;
+                    case PaletteMode.Microsoft365White:
+                        break;
+                    case PaletteMode.SparkleBlue:
+                        break;
+                    case PaletteMode.SparkleBlueDarkMode:
+                        break;
+                    case PaletteMode.SparkleBlueLightMode:
+                        break;
+                    case PaletteMode.SparkleOrange:
+                        break;
+                    case PaletteMode.SparkleOrangeDarkMode:
+                        break;
+                    case PaletteMode.SparkleOrangeLightMode:
+                        break;
+                    case PaletteMode.SparklePurple:
+                        break;
+                    case PaletteMode.SparklePurpleDarkMode:
+                        break;
+                    case PaletteMode.SparklePurpleLightMode:
+                        break;
+                    case PaletteMode.Custom:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+                }
             }
         }
 
