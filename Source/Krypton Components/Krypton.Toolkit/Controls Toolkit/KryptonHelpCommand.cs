@@ -65,15 +65,18 @@ namespace Krypton.Toolkit
         /// <param name="activeImage">The active image.</param>
         /// <param name="disabledImage">The disabled image.</param>
         /// <param name="normalImage">The normal image.</param>
-        private void AddImageStates(Image activeImage, Image disabledImage, Image normalImage)
+        /// <param name="pressedImage">The pressed image.</param>
+        private void AddImageStates(Image? activeImage, Image disabledImage, Image normalImage, Image? pressedImage)
         {
             if (_imageStates != null)
             {
-                _imageStates.ImageDisabled = disabledImage;
+                _imageStates.ImageDisabled = disabledImage ?? null;
 
                 _imageStates.ImageNormal = normalImage;
 
                 _imageStates.ImageTracking = activeImage;
+
+                _imageStates.ImagePressed = pressedImage ?? null;
             }
 
             if (_helpButtonSpec != null && _imageStates != null)
@@ -83,6 +86,8 @@ namespace Krypton.Toolkit
                 _helpButtonSpec.ImageStates.ImageNormal = _imageStates.ImageNormal;
 
                 _helpButtonSpec.ImageStates.ImageTracking = _imageStates.ImageTracking;
+
+                _helpButtonSpec.ImageStates.ImagePressed = _imageStates.ImagePressed;
             }
         }
 
@@ -238,8 +243,10 @@ namespace Krypton.Toolkit
                     case PaletteMode.Global:
                         break;
                     case PaletteMode.ProfessionalSystem:
+                        AddImageStates(null, HelpIconResources.ProfessionalHelpIconDisabled, HelpIconResources.ProfessionalHelpIconNormal, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
+                        AddImageStates(null, HelpIconResources.ProfessionalHelpIconDisabled, HelpIconResources.ProfessionalHelpIconNormal, null);
                         break;
                     case PaletteMode.Office2007DarkGray:
                         break;
