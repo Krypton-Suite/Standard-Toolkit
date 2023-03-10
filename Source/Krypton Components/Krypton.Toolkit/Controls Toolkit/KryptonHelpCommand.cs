@@ -61,9 +61,29 @@ namespace Krypton.Toolkit
         /// <param name="helpImage">The help image.</param>
         private void UpdateImage(Image helpImage) => ImageSmall = helpImage;
 
+        /// <summary>Adds the image states.</summary>
+        /// <param name="activeImage">The active image.</param>
+        /// <param name="disabledImage">The disabled image.</param>
+        /// <param name="normalImage">The normal image.</param>
         private void AddImageStates(Image activeImage, Image disabledImage, Image normalImage)
         {
+            if (_imageStates != null)
+            {
+                _imageStates.ImageDisabled = disabledImage;
 
+                _imageStates.ImageNormal = normalImage;
+
+                _imageStates.ImageTracking = activeImage;
+            }
+
+            if (_helpButtonSpec != null && _imageStates != null)
+            {
+                _helpButtonSpec.ImageStates.ImageDisabled = _imageStates.ImageDisabled;
+
+                _helpButtonSpec.ImageStates.ImageNormal = _imageStates.ImageNormal;
+
+                _helpButtonSpec.ImageStates.ImageTracking = _imageStates.ImageTracking;
+            }
         }
 
         private void UpdateImage(PaletteMode mode)
