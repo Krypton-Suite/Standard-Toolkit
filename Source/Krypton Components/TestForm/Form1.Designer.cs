@@ -144,6 +144,10 @@
             this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
             this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010Blue;
+            // 
             // buttonSpecAny2
             // 
             this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.New;

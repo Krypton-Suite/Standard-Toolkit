@@ -35,13 +35,11 @@ namespace Krypton.Toolkit
             set { _helpButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
-        /// <summary>
-        /// Gets access to the state specific images for the help button.
-        /// </summary>
-        [AllowNull, Category(@"Appearance"), Description(@"State specific images for the help button."), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ButtonImageStates? ImageStates { get => _imageStates ?? new(); set { _imageStates = value; UpdateImageStates(KryptonManager.InternalGlobalPaletteMode); } }
-
-        private bool ShouldSerializeImageStates() => !_imageStates.IsDefault;
+        /* /// <summary>
+         /// Gets access to the state specific images for the help button.
+         /// </summary>
+         [AllowNull, Category(@"Appearance"), Description(@"State specific images for the help button."), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+         public ButtonImageStates? ImageStates { get => _imageStates ?? new(); set { _imageStates = value; UpdateImageStates(KryptonManager.InternalGlobalPaletteMode); } }*/
 
         #endregion
 
