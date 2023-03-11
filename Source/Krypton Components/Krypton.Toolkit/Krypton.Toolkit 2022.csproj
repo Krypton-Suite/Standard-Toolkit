@@ -294,6 +294,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>DropDownArrowImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\GenericToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericToolbarImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\GridImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -358,6 +363,11 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>KryptonGenericResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2003ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2003ToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\Office2007BlackRadioButtonResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -443,6 +453,11 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>StarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SystemToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SystemToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\TreeItemImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -644,6 +659,10 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>DropDownArrowImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GenericToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\GridImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>GridImageResources.Designer.cs</LastGenOutput>
@@ -695,6 +714,10 @@
         <EmbeddedResource Update="Resources\KryptonGenericResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>KryptonGenericResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2003ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2003ToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2007BlackRadioButtonResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -763,6 +786,10 @@
         <EmbeddedResource Update="Resources\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>StarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SystemToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SystemToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\TreeItemImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

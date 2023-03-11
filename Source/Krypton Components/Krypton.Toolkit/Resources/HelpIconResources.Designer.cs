@@ -63,6 +63,56 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365HelpIconDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365HelpIconDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365HelpIconDisabledV2 {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365HelpIconDisabledV2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365HelpIconHover {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365HelpIconHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365HelpIconNormal {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365HelpIconNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365HelpIconPressed {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365HelpIconPressed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2003HelpIconDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2003HelpIconDisabled", resourceCulture);
@@ -186,56 +236,6 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap Office2010HelpIconPressed {
             get {
                 object obj = ResourceManager.GetObject("Office2010HelpIconPressed", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Office365HelpIconDisabled {
-            get {
-                object obj = ResourceManager.GetObject("Office365HelpIconDisabled", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Office365HelpIconDisabledV2 {
-            get {
-                object obj = ResourceManager.GetObject("Office365HelpIconDisabledV2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Office365HelpIconHover {
-            get {
-                object obj = ResourceManager.GetObject("Office365HelpIconHover", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Office365HelpIconNormal {
-            get {
-                object obj = ResourceManager.GetObject("Office365HelpIconNormal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Office365HelpIconPressed {
-            get {
-                object obj = ResourceManager.GetObject("Office365HelpIconPressed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

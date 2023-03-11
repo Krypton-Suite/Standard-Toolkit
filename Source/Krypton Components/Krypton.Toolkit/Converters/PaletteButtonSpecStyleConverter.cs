@@ -44,7 +44,16 @@ namespace Krypton.Toolkit
             new(PaletteButtonSpecStyle.WorkspaceMaximize, "Workspace Maximize"),
             new(PaletteButtonSpecStyle.WorkspaceRestore, "Workspace Restore"),
             new(PaletteButtonSpecStyle.RibbonMinimize, "Ribbon Minimize"),
-            new(PaletteButtonSpecStyle.RibbonExpand, "Ribbon Expand")
+            new(PaletteButtonSpecStyle.RibbonExpand, "Ribbon Expand"),
+            new(PaletteButtonSpecStyle.New, @"New"),
+            new(PaletteButtonSpecStyle.Open, @"Open"),
+            new(PaletteButtonSpecStyle.Save, @"Save"),
+            new(PaletteButtonSpecStyle.SaveAs, @"Save As"),
+            new(PaletteButtonSpecStyle.Cut, @"Cut"),
+            new(PaletteButtonSpecStyle.Copy, @"Copy"),
+            new(PaletteButtonSpecStyle.Paste, @"Paste"),
+            new(PaletteButtonSpecStyle.Undo, @"Undo"),
+            new(PaletteButtonSpecStyle.Redo, @"Redo")
         };
         #endregion
 
