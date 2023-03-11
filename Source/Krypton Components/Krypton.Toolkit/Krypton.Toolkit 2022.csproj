@@ -409,6 +409,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Office2010SilverRadioButtonResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\Office2013ControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2013ControlBoxResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\ProfessionalButtonSpecResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -750,6 +755,10 @@
         <EmbeddedResource Update="Resources\Office2010SilverRadioButtonResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2010SilverRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2013ControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2013ControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\ProfessionalButtonSpecResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
