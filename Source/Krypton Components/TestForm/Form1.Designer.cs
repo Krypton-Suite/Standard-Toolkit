@@ -85,10 +85,9 @@
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(25, 190);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(161, 21);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom)
-            | Krypton.Toolkit.PaletteDrawBorders.Left)
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | Krypton.Toolkit.PaletteDrawBorders.Left) 
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Inherit;
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 4;
             // 
@@ -151,72 +150,52 @@
             // 
             // buttonSpecAny2
             // 
-            this.buttonSpecAny2.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny2.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.New;
             this.buttonSpecAny2.UniqueName = "18ecc139f2254e42a53c2028cfca8f5c";
             // 
             // buttonSpecAny1
             // 
-            this.buttonSpecAny1.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny1.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Open;
             this.buttonSpecAny1.UniqueName = "3751d4a69d0d420586c1567d0b9adfa3";
             // 
             // buttonSpecAny3
             // 
-            this.buttonSpecAny3.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny3.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny3.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Save;
             this.buttonSpecAny3.UniqueName = "5378f91fbfe24ef29e5f7c28dcd4ef83";
             // 
             // buttonSpecAny4
             // 
-            this.buttonSpecAny4.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny4.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny4.Type = Krypton.Toolkit.PaletteButtonSpecStyle.SaveAs;
             this.buttonSpecAny4.UniqueName = "8c65e58b191240039ac9f199a50ffeef";
             // 
             // buttonSpecAny5
             // 
-            this.buttonSpecAny5.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny5.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny5.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Cut;
             this.buttonSpecAny5.UniqueName = "1a4a214557e443e18dd4e4dce0d6362a";
             // 
             // buttonSpecAny6
             // 
-            this.buttonSpecAny6.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny6.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny6.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Copy;
             this.buttonSpecAny6.UniqueName = "4fc58d985a6c45d5b5151f9be3e19e23";
             // 
             // buttonSpecAny7
             // 
-            this.buttonSpecAny7.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny7.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny7.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Paste;
             this.buttonSpecAny7.UniqueName = "0f2faa1862a949a7a609272d435898db";
             // 
             // buttonSpecAny8
             // 
-            this.buttonSpecAny8.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny8.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny8.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Undo;
             this.buttonSpecAny8.UniqueName = "cac73c524b924a8db102dde24f44995a";
             // 
             // buttonSpecAny9
             // 
-            this.buttonSpecAny9.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny9.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny9.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Redo;
             this.buttonSpecAny9.UniqueName = "7d671b8ea94f44419983e71c70353e7f";
             // 
             // bsHelp
             // 
             this.bsHelp.Enabled = Krypton.Toolkit.ButtonEnabled.True;
-            this.bsHelp.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.bsHelp.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.bsHelp.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormHelp;
             this.bsHelp.UniqueName = "bcd86d4cc522416687d43465380b044a";
             // 
@@ -224,7 +203,7 @@
             // 
             this.kryptonHelpCommand1.HelpButton = this.bsHelp;
             this.kryptonHelpCommand1.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonHelpCommand1.ImageSmall")));
-            this.kryptonHelpCommand1.Execute += new System.EventHandler(this.kryptonHelpCommand1_Execute);
+            this.kryptonHelpCommand1.Text = "kryptonHelpCommand1";
             // 
             // Form1
             // 
