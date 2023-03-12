@@ -82,26 +82,55 @@ namespace Krypton.Toolkit
         /// <param name="pressedImage">The pressed image.</param>
         private void AddImageStates(Image? activeImage, Image disabledImage, Image normalImage, Image? pressedImage)
         {
-            if (_imageStates != null)
+            if (_helpButtonSpec != null)
             {
-                _imageStates.ImageDisabled = disabledImage ?? null;
+                _helpButtonSpec.ImageStates.ImageDisabled = disabledImage;
 
-                _imageStates.ImageNormal = normalImage;
+                _helpButtonSpec.ImageStates.ImageTracking = activeImage ?? null;
 
-                _imageStates.ImageTracking = activeImage;
+                _helpButtonSpec.ImageStates.ImageNormal = normalImage;
 
-                _imageStates.ImagePressed = pressedImage ?? null;
+                _helpButtonSpec.ImageStates.ImagePressed = pressedImage ?? null;
             }
+        }
 
-            if (_helpButtonSpec != null && _imageStates != null)
+        private void UpdateActiveImage(Image activeImage)
+        {
+            _activeImage = activeImage;
+
+            if (_helpButtonSpec != null)
             {
-                _helpButtonSpec.ImageStates.ImageDisabled = _imageStates.ImageDisabled;
+                _helpButtonSpec.ImageStates.ImageTracking = _activeImage;
+            }
+        }
 
-                _helpButtonSpec.ImageStates.ImageNormal = _imageStates.ImageNormal;
+        private void UpdateDisabledImage(Image disabledImage)
+        {
+            _disabledImage = disabledImage;
 
-                _helpButtonSpec.ImageStates.ImageTracking = _imageStates.ImageTracking;
+            if (_helpButtonSpec != null)
+            {
+                _helpButtonSpec.ImageStates.ImageDisabled = disabledImage;
+            }
+        }
 
-                _helpButtonSpec.ImageStates.ImagePressed = _imageStates.ImagePressed;
+        private void UpdateNormalImage(Image normalImage)
+        {
+            _normalImage = normalImage;
+
+            if (_helpButtonSpec != null)
+            {
+                _helpButtonSpec.ImageStates.ImageNormal = normalImage;
+            }
+        }
+
+        private void UpdatePressedImage(Image pressedImage)
+        {
+            _pressedImage = pressedImage;
+
+            if (_helpButtonSpec != null)
+            {
+                _helpButtonSpec.ImageStates.ImagePressed = pressedImage;
             }
         }
 

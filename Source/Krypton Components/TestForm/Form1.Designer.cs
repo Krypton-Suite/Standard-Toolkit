@@ -85,8 +85,8 @@
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(25, 190);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(161, 21);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom)
+            | Krypton.Toolkit.PaletteDrawBorders.Left)
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Inherit;
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -222,12 +222,8 @@
             // 
             // kryptonHelpCommand1
             // 
-            this.kryptonHelpCommand1.ActiveImage = null;
-            this.kryptonHelpCommand1.DisabledImage = null;
             this.kryptonHelpCommand1.HelpButton = this.bsHelp;
             this.kryptonHelpCommand1.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonHelpCommand1.ImageSmall")));
-            this.kryptonHelpCommand1.NormalImage = null;
-            this.kryptonHelpCommand1.PressedImage = null;
             this.kryptonHelpCommand1.Execute += new System.EventHandler(this.kryptonHelpCommand1_Execute);
             // 
             // Form1
