@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
                     UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Office2013White:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Office2013ControlBoxResources.Office2013HelpNormal);
                     break;
                 case PaletteMode.Microsoft365DarkGray:
                     UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
