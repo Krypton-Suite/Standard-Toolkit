@@ -94,6 +94,8 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Updates the active image.</summary>
+        /// <param name="activeImage">The active image.</param>
         private void UpdateActiveImage(Image activeImage)
         {
             _activeImage = activeImage;
@@ -104,6 +106,8 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Updates the disabled image.</summary>
+        /// <param name="disabledImage">The disabled image.</param>
         private void UpdateDisabledImage(Image disabledImage)
         {
             _disabledImage = disabledImage;
@@ -114,6 +118,8 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Updates the normal image.</summary>
+        /// <param name="normalImage">The normal image.</param>
         private void UpdateNormalImage(Image normalImage)
         {
             _normalImage = normalImage;
@@ -124,6 +130,8 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Updates the pressed image.</summary>
+        /// <param name="pressedImage">The pressed image.</param>
         private void UpdatePressedImage(Image pressedImage)
         {
             _pressedImage = pressedImage;
@@ -134,6 +142,9 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Updates the image.</summary>
+        /// <param name="mode">The mode.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateImage(PaletteMode mode)
         {
 
@@ -286,6 +297,9 @@ namespace Krypton.Toolkit
             UpdatePressedImage(mode);
         }
 
+        /// <summary>Updates the active image.</summary>
+        /// <param name="mode">The mode.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateActiveImage(PaletteMode mode)
         {
             switch (mode)
@@ -385,21 +399,315 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Updates the disabled image.</summary>
+        /// <param name="mode">The mode.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateDisabledImage(PaletteMode mode)
         {
-
+            switch (mode)
+            {
+                case PaletteMode.Global:
+                    break;
+                case PaletteMode.ProfessionalSystem:
+                    break;
+                case PaletteMode.ProfessionalOffice2003:
+                    break;
+                case PaletteMode.Office2007DarkGray:
+                    break;
+                case PaletteMode.Office2007Blue:
+                    break;
+                case PaletteMode.Office2007BlueDarkMode:
+                    break;
+                case PaletteMode.Office2007BlueLightMode:
+                    break;
+                case PaletteMode.Office2007Silver:
+                    break;
+                case PaletteMode.Office2007SilverDarkMode:
+                    break;
+                case PaletteMode.Office2007SilverLightMode:
+                    break;
+                case PaletteMode.Office2007White:
+                    break;
+                case PaletteMode.Office2007Black:
+                    break;
+                case PaletteMode.Office2007BlackDarkMode:
+                    break;
+                case PaletteMode.Office2010DarkGray:
+                    break;
+                case PaletteMode.Office2010Blue:
+                    break;
+                case PaletteMode.Office2010BlueDarkMode:
+                    break;
+                case PaletteMode.Office2010BlueLightMode:
+                    break;
+                case PaletteMode.Office2010Silver:
+                    break;
+                case PaletteMode.Office2010SilverDarkMode:
+                    break;
+                case PaletteMode.Office2010SilverLightMode:
+                    break;
+                case PaletteMode.Office2010White:
+                    break;
+                case PaletteMode.Office2010Black:
+                    break;
+                case PaletteMode.Office2010BlackDarkMode:
+                    break;
+                case PaletteMode.Office2013DarkGray:
+                    break;
+                case PaletteMode.Office2013White:
+                    break;
+                case PaletteMode.Microsoft365DarkGray:
+                    break;
+                case PaletteMode.Microsoft365Black:
+                    break;
+                case PaletteMode.Microsoft365BlackDarkMode:
+                    break;
+                case PaletteMode.Microsoft365Blue:
+                    break;
+                case PaletteMode.Microsoft365BlueDarkMode:
+                    break;
+                case PaletteMode.Microsoft365BlueLightMode:
+                    break;
+                case PaletteMode.Microsoft365Silver:
+                    break;
+                case PaletteMode.Microsoft365SilverDarkMode:
+                    break;
+                case PaletteMode.Microsoft365SilverLightMode:
+                    break;
+                case PaletteMode.Microsoft365White:
+                    break;
+                case PaletteMode.SparkleBlue:
+                    break;
+                case PaletteMode.SparkleBlueDarkMode:
+                    break;
+                case PaletteMode.SparkleBlueLightMode:
+                    break;
+                case PaletteMode.SparkleOrange:
+                    break;
+                case PaletteMode.SparkleOrangeDarkMode:
+                    break;
+                case PaletteMode.SparkleOrangeLightMode:
+                    break;
+                case PaletteMode.SparklePurple:
+                    break;
+                case PaletteMode.SparklePurpleDarkMode:
+                    break;
+                case PaletteMode.SparklePurpleLightMode:
+                    break;
+                case PaletteMode.Custom:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
         }
 
+        /// <summary>Updates the normal image.</summary>
+        /// <param name="mode">The mode.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateNormalImage(PaletteMode mode)
         {
-
+            switch (mode)
+            {
+                case PaletteMode.Global:
+                    break;
+                case PaletteMode.ProfessionalSystem:
+                    break;
+                case PaletteMode.ProfessionalOffice2003:
+                    break;
+                case PaletteMode.Office2007DarkGray:
+                    break;
+                case PaletteMode.Office2007Blue:
+                    break;
+                case PaletteMode.Office2007BlueDarkMode:
+                    break;
+                case PaletteMode.Office2007BlueLightMode:
+                    break;
+                case PaletteMode.Office2007Silver:
+                    break;
+                case PaletteMode.Office2007SilverDarkMode:
+                    break;
+                case PaletteMode.Office2007SilverLightMode:
+                    break;
+                case PaletteMode.Office2007White:
+                    break;
+                case PaletteMode.Office2007Black:
+                    break;
+                case PaletteMode.Office2007BlackDarkMode:
+                    break;
+                case PaletteMode.Office2010DarkGray:
+                    break;
+                case PaletteMode.Office2010Blue:
+                    break;
+                case PaletteMode.Office2010BlueDarkMode:
+                    break;
+                case PaletteMode.Office2010BlueLightMode:
+                    break;
+                case PaletteMode.Office2010Silver:
+                    break;
+                case PaletteMode.Office2010SilverDarkMode:
+                    break;
+                case PaletteMode.Office2010SilverLightMode:
+                    break;
+                case PaletteMode.Office2010White:
+                    break;
+                case PaletteMode.Office2010Black:
+                    break;
+                case PaletteMode.Office2010BlackDarkMode:
+                    break;
+                case PaletteMode.Office2013DarkGray:
+                    break;
+                case PaletteMode.Office2013White:
+                    break;
+                case PaletteMode.Microsoft365DarkGray:
+                    break;
+                case PaletteMode.Microsoft365Black:
+                    break;
+                case PaletteMode.Microsoft365BlackDarkMode:
+                    break;
+                case PaletteMode.Microsoft365Blue:
+                    break;
+                case PaletteMode.Microsoft365BlueDarkMode:
+                    break;
+                case PaletteMode.Microsoft365BlueLightMode:
+                    break;
+                case PaletteMode.Microsoft365Silver:
+                    break;
+                case PaletteMode.Microsoft365SilverDarkMode:
+                    break;
+                case PaletteMode.Microsoft365SilverLightMode:
+                    break;
+                case PaletteMode.Microsoft365White:
+                    break;
+                case PaletteMode.SparkleBlue:
+                    break;
+                case PaletteMode.SparkleBlueDarkMode:
+                    break;
+                case PaletteMode.SparkleBlueLightMode:
+                    break;
+                case PaletteMode.SparkleOrange:
+                    break;
+                case PaletteMode.SparkleOrangeDarkMode:
+                    break;
+                case PaletteMode.SparkleOrangeLightMode:
+                    break;
+                case PaletteMode.SparklePurple:
+                    break;
+                case PaletteMode.SparklePurpleDarkMode:
+                    break;
+                case PaletteMode.SparklePurpleLightMode:
+                    break;
+                case PaletteMode.Custom:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
         }
 
+        /// <summary>Updates the pressed image.</summary>
+        /// <param name="mode">The mode.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdatePressedImage(PaletteMode mode)
         {
-
+            switch (mode)
+            {
+                case PaletteMode.Global:
+                    break;
+                case PaletteMode.ProfessionalSystem:
+                    break;
+                case PaletteMode.ProfessionalOffice2003:
+                    break;
+                case PaletteMode.Office2007DarkGray:
+                    break;
+                case PaletteMode.Office2007Blue:
+                    break;
+                case PaletteMode.Office2007BlueDarkMode:
+                    break;
+                case PaletteMode.Office2007BlueLightMode:
+                    break;
+                case PaletteMode.Office2007Silver:
+                    break;
+                case PaletteMode.Office2007SilverDarkMode:
+                    break;
+                case PaletteMode.Office2007SilverLightMode:
+                    break;
+                case PaletteMode.Office2007White:
+                    break;
+                case PaletteMode.Office2007Black:
+                    break;
+                case PaletteMode.Office2007BlackDarkMode:
+                    break;
+                case PaletteMode.Office2010DarkGray:
+                    break;
+                case PaletteMode.Office2010Blue:
+                    break;
+                case PaletteMode.Office2010BlueDarkMode:
+                    break;
+                case PaletteMode.Office2010BlueLightMode:
+                    break;
+                case PaletteMode.Office2010Silver:
+                    break;
+                case PaletteMode.Office2010SilverDarkMode:
+                    break;
+                case PaletteMode.Office2010SilverLightMode:
+                    break;
+                case PaletteMode.Office2010White:
+                    break;
+                case PaletteMode.Office2010Black:
+                    break;
+                case PaletteMode.Office2010BlackDarkMode:
+                    break;
+                case PaletteMode.Office2013DarkGray:
+                    break;
+                case PaletteMode.Office2013White:
+                    break;
+                case PaletteMode.Microsoft365DarkGray:
+                    break;
+                case PaletteMode.Microsoft365Black:
+                    break;
+                case PaletteMode.Microsoft365BlackDarkMode:
+                    break;
+                case PaletteMode.Microsoft365Blue:
+                    break;
+                case PaletteMode.Microsoft365BlueDarkMode:
+                    break;
+                case PaletteMode.Microsoft365BlueLightMode:
+                    break;
+                case PaletteMode.Microsoft365Silver:
+                    break;
+                case PaletteMode.Microsoft365SilverDarkMode:
+                    break;
+                case PaletteMode.Microsoft365SilverLightMode:
+                    break;
+                case PaletteMode.Microsoft365White:
+                    break;
+                case PaletteMode.SparkleBlue:
+                    break;
+                case PaletteMode.SparkleBlueDarkMode:
+                    break;
+                case PaletteMode.SparkleBlueLightMode:
+                    break;
+                case PaletteMode.SparkleOrange:
+                    break;
+                case PaletteMode.SparkleOrangeDarkMode:
+                    break;
+                case PaletteMode.SparkleOrangeLightMode:
+                    break;
+                case PaletteMode.SparklePurple:
+                    break;
+                case PaletteMode.SparklePurpleDarkMode:
+                    break;
+                case PaletteMode.SparklePurpleLightMode:
+                    break;
+                case PaletteMode.Custom:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
         }
 
+        /// <summary>Updates the image states.</summary>
+        /// <param name="mode">The mode.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateImageStates(PaletteMode mode)
         {
             if (_helpButtonSpec != null)
