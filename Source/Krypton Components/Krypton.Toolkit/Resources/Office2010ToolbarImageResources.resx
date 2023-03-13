@@ -117,34 +117,53 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="kryptonManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 11</value>
-  </metadata>
-  <metadata name="kryptonHelpCommand1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>166, 11</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="kryptonHelpCommand1.ImageSmall" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAABAxJREFUSEutlk9oXUUUxkMWIUgJjyS+1Gcs9iERwUUtrnRh0U3duAqKXQVeEMXq
-        oou2G9ehoLyXxEcVwU18zcJFGkHbmIUgBJEagsZQtaKWmIKthdJQbGI7n79v7ry83Cb9Q3Hgu+fOzDnf
-        uefMzJnbtqm1Jxnb8PBwe6VSKSD3IoeQI6ABppN03+N7gfVy9rdrUcnKoAvifcg6WOR9BbkMzoLvk3Tf
-        45633j5kF/LuzlAsgsNgCayCz8FRjF9CPoN8Okn3j6Z561n/MOPFRLV9Q6mM0gTyMpgB+yuV4e4XD9V3
-        7D72Z6G3drO/dzSULd33uOczvah/OdmXoctHxITz7wgmeHcKquDRvur1zp5RPdk7qtcgn+yphYWe0bAI
-        FnprYdLjnree9W0Hh+3NUwQtR3ScS6foL+QIsrtYXevsqekARHPgH8iElGV8r8U+42EO5wesj2237YF5
-        nLqupgNH4UVeAv6CEgQdEB3k65dNvJk8OthAyOZqUQ99ddjeGQHmM2+718Hbz7vDu2VPsbreiZNBDM5n
-        RBn6xoIe+0B64iPp8Q+lh8ZbThLOE/mg7eHcA8xn3oIj8TmYB87nDr50ACczfN1NG/vLH35feuWk9MmP
-        0unfpKmfpddPB+0+3voI9Kw/g+MB8yS+efM7kiHg7ffy/kPHO1B0FKubjKODHy5K19allVVpdU3644r0
-        1mzLSYZgu0HzmC/xDjkSL9QZ4FQ9gFI1n3fp3W+li9eCvvhVenVaaiwFrd8I+vQn6ZF6JN/QJWVV85gv
-        8Y44kgY4RWcXSgUwi2JrgXnfOSaVSFmZNXnqY6k+L63dkE7+opgy6zd1bY9Tr/MuYN6GI5nGyRQoodAN
-        5uygCRta9uHoDdZh9nfpAilbuSod+SqoyHh04GisW4tb3lu5BKbMbycudqdwEiNhwWMk0dAyvXs3OQK3
-        s39Lb85IA+yyzEEORKKC+cxr/rgmDOTXJBHjkCiyL9w5HvTO19IiG2DsO6m/ns4I8xupjQhxTeD0Nj4D
-        Ruxkm93lXZLCT8YP0n/+hHTwS+mFSfcZ9/wmHbBld5nfC7/tOUE5nhPDJCXSNU4ETtWxb7L05SKo3eGc
-        8HD+6mAZZCc+Oyu5E9/P7vrsnHT9X+nEkg/orWnixGNne6cemG/jxPuSytcuahBwLaImZbl3ep5rSG/P
-        Bj07kdIVEedj7cJJrnaBrHa50YlVGMQqDFIVDlThEKtwRrgFd6zC5o0O3BhwNK7/jsSF7T0Q7xOI4n0C
-        2SR3yALvi5Ais/vE8837BFLbOU1b75NmY7JsBXAJeI/f180IfDPetsWIUI53PO+5Ox7EOz7Je7njt/+p
-        QCn+rQD/fcS/FXDXvxVw738rtKhkZfA//He1tf0HrJR/EQL6Y7EAAAAASUVORK5CYII=
-</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Office2010ToolbarCopyDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarCopyDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarCopyNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarCopyNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarCutDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarCutDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarCutNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarCutNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarNewDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarNewDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarNewNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarNewNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarOpenDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarOpenDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarOpenNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarOpenNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarPasteDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPasteDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarPasteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPasteNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarRedoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarRedoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarRedoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarRedoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarSaveDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarSaveDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarSaveNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarSaveNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarUndoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarUndoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarUndoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarUndoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
