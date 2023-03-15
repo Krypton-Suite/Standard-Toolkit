@@ -203,6 +203,46 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarSaveAllDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarSaveAllDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarSaveAllNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarSaveAllNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarSaveAsDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarSaveAsDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarSaveAsNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarSaveAsNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2007ToolbarSaveDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2007ToolbarSaveDisabled", resourceCulture);

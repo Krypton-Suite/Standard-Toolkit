@@ -1,9 +1,6 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
@@ -12,11 +9,10 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// Allows the user to change themes using a <see cref="KryptonComboBox"/>.
-    /// </summary>
-    /// <seealso cref="Krypton.Toolkit.KryptonComboBox" />
-    public class KryptonThemeComboBox : KryptonComboBox
+    [DesignerCategory(@"code")]
+    [ToolboxItem(true)]
+    [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ContextMenuStrip | ToolStripItemDesignerAvailability.MenuStrip | ToolStripItemDesignerAvailability.ToolStrip)]
+    public class KryptonThemeToolStripComboBox : ToolStripComboBox
     {
         #region Instance Fields
         private readonly ICollection<string> _supportedThemesNames;
@@ -65,15 +61,20 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Constructor
+        #region Idendity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
-        public KryptonThemeComboBox()
+        /// <summary>Initializes a new instance of the <see cref="KryptonThemeToolStripComboBox" /> class.</summary>
+        public KryptonThemeToolStripComboBox()
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
 
             _supportedThemesNames = ThemeManager.SupportedInternalThemeNames;
+
+            Items.AddRange(_supportedThemesNames.ToArray());
+
             _selectedIndex = 33;
+
+            SelectedIndex = _selectedIndex;
         }
         #endregion
 
@@ -85,32 +86,19 @@ namespace Krypton.Toolkit
         /// </returns>
         public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
 
-        /// <summary>Resets to the default theme. The default theme is 'Microsoft 365 - Blue' (33).</summary>
-        public void ResetToDefault() => SelectedIndex = 33;
-
         #endregion
 
         #region Protected Overrides
 
-        /// <inheritdoc />
-        protected override void OnCreateControl()
-        {
-            base.OnCreateControl();
-            Items.AddRange(_supportedThemesNames.ToArray());
-            SelectedIndex = _selectedIndex;
-        }
-
-        /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             ThemeManager.ApplyTheme(Text, Manager);
 
-            ThemeSelectedIndex = SelectedIndex;
+            ThemeSelectedIndex = _selectedIndex;
 
             base.OnSelectedIndexChanged(e);
-            if ((ThemeManager.GetThemeManagerMode(Text) == PaletteMode.Custom)
-                && (KryptonCustomPalette != null)
-               )
+
+            if ((ThemeManager.GetThemeManagerMode(Text) == PaletteMode.Custom) && (KryptonCustomPalette != null))
             {
                 Manager.GlobalPalette = KryptonCustomPalette;
             }
@@ -119,6 +107,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Removed Designer visibility
+
         /// <summary>
         /// Gets and sets the text associated associated with the control.
         /// </summary>
@@ -155,8 +144,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new DrawMode DrawMode
         {
-            get => base.DrawMode;
-            set => base.DrawMode = value;
+            get => ComboBox.DrawMode;
+            set => ComboBox.DrawMode = value;
         }
 
         /// <summary>
@@ -172,5 +161,4 @@ namespace Krypton.Toolkit
 
         #endregion
     }
-
 }

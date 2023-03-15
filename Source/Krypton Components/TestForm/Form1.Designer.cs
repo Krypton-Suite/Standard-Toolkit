@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.kryptonThemeToolStripComboBox1 = new Krypton.Toolkit.KryptonThemeToolStripComboBox();
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
@@ -51,11 +53,13 @@
             this.kryptonHelpCommand1 = new Krypton.Toolkit.KryptonHelpCommand();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.toolStrip1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
@@ -68,6 +72,23 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(600, 366);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kryptonThemeToolStripComboBox1});
+            this.toolStrip1.Location = new System.Drawing.Point(25, 13);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(166, 25);
+            this.toolStrip1.TabIndex = 7;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // kryptonThemeToolStripComboBox1
+            // 
+            this.kryptonThemeToolStripComboBox1.Name = "kryptonThemeToolStripComboBox1";
+            this.kryptonThemeToolStripComboBox1.Size = new System.Drawing.Size(121, 25);
             // 
             // kryptonButton2
             // 
@@ -145,10 +166,6 @@
             this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
             this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2013White;
-            // 
             // buttonSpecAny2
             // 
             this.buttonSpecAny2.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
@@ -215,6 +232,7 @@
             // bsHelp
             // 
             this.bsHelp.Enabled = Krypton.Toolkit.ButtonEnabled.True;
+            this.bsHelp.ImageStates.ImageTracking = ((System.Drawing.Image)(resources.GetObject("bsHelp.ImageStates.ImageTracking")));
             this.bsHelp.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
             this.bsHelp.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.bsHelp.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormHelp;
@@ -250,6 +268,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -276,5 +296,7 @@
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny9;
         private Krypton.Toolkit.ButtonSpecAny bsHelp;
         private Krypton.Toolkit.KryptonHelpCommand kryptonHelpCommand1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private Krypton.Toolkit.KryptonThemeToolStripComboBox kryptonThemeToolStripComboBox1;
     }
 }

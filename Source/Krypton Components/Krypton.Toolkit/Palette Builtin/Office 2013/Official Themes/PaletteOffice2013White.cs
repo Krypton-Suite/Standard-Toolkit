@@ -59,41 +59,41 @@ namespace Krypton.Toolkit
 
         #region Toolbar Images
 
-        private static readonly Image _formToolbarButtonSpecNewNormal = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewHover = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = GenericToolbarImageResources.NewDocument;
+        private static readonly Image _formToolbarButtonSpecNewNormal = Office2013ToolbarImageResources.Office2013ToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewHover = Office2013ToolbarImageResources.Office2013ToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewDisabled = Office2013ToolbarImageResources.Office2013ToolbarNewDisabled;
 
-        private static readonly Image _formToolbarButtonSpecOpenNormal = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenHover = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = GenericToolbarImageResources.Open;
+        private static readonly Image _formToolbarButtonSpecOpenNormal = Office2013ToolbarImageResources.Office2013ToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenHover = Office2013ToolbarImageResources.Office2013ToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenDisabled = Office2013ToolbarImageResources.Office2013ToolbarOpenDisabled;
 
-        private static readonly Image _formToolbarButtonSpecSaveNormal = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveHover = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = GenericToolbarImageResources.Save;
+        private static readonly Image _formToolbarButtonSpecSaveNormal = Office2013ToolbarImageResources.Office2013ToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveHover = Office2013ToolbarImageResources.Office2013ToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveDisabled = Office2013ToolbarImageResources.Office2013ToolbarSaveDisabled;
 
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsHover = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.SaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAsNormal = Office2013ToolbarImageResources.Office2013ToolbarSaveAsNormal;
+        private static readonly Image _formToolbarButtonSpecSaveAsHover = Office2013ToolbarImageResources.Office2013ToolbarSaveAsNormal;
+        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = Office2013ToolbarImageResources.Office2013ToolbarSaveAsDisabled;
 
-        private static readonly Image _formToolbarButtonSpecCutNormal = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutHover = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = GenericToolbarImageResources.Cut;
+        private static readonly Image _formToolbarButtonSpecCutNormal = Office2013ToolbarImageResources.Office2013ToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutHover = Office2013ToolbarImageResources.Office2013ToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutDisabled = Office2013ToolbarImageResources.Office2013ToolbarCutDisabled;
 
-        private static readonly Image _formToolbarButtonSpecCopyNormal = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyHover = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = GenericToolbarImageResources.Copy;
+        private static readonly Image _formToolbarButtonSpecCopyNormal = Office2013ToolbarImageResources.Office2013ToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyHover = Office2013ToolbarImageResources.Office2013ToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyDisabled = Office2013ToolbarImageResources.Office2013ToolbarCopyDisabled;
 
-        private static readonly Image _formToolbarButtonSpecPasteNormal = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteHover = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = GenericToolbarImageResources.Paste;
+        private static readonly Image _formToolbarButtonSpecPasteNormal = Office2013ToolbarImageResources.Office2013ToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteHover = Office2013ToolbarImageResources.Office2013ToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteDisabled = Office2013ToolbarImageResources.Office2013ToolbarPasteDisabled;
 
-        private static readonly Image _formToolbarButtonSpecUndoNormal = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoHover = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = GenericToolbarImageResources.Undo;
+        private static readonly Image _formToolbarButtonSpecUndoNormal = Office2013ToolbarImageResources.Office2013ToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoHover = Office2013ToolbarImageResources.Office2013ToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoDisabled = Office2013ToolbarImageResources.Office2013ToolbarUndoDisabled;
 
-        private static readonly Image _formToolbarButtonSpecRedoNormal = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoHover = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = GenericToolbarImageResources.Redo;
+        private static readonly Image _formToolbarButtonSpecRedoNormal = Office2013ToolbarImageResources.Office2013ToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoHover = Office2013ToolbarImageResources.Office2013ToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoDisabled = Office2013ToolbarImageResources.Office2013ToolbarRedoDisabled;
 
         #endregion
 

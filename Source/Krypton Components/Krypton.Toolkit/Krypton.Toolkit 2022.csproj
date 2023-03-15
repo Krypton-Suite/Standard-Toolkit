@@ -364,6 +364,16 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>KryptonGenericResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\Microsoft365HelpIconResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Microsoft365HelpIconResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Microsoft365ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Microsoft365ToolbarImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\Office2003ToolbarImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -734,6 +744,14 @@
         <EmbeddedResource Update="Resources\KryptonGenericResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>KryptonGenericResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Microsoft365HelpIconResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Microsoft365HelpIconResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Microsoft365ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Microsoft365ToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2003ToolbarImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>

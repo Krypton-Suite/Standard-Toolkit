@@ -154,6 +154,18 @@
   <data name="Office2013ToolbarRedoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2013ToolbarRedoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2013ToolbarSaveAllDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013ToolbarSaveAllDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2013ToolbarSaveAllNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013ToolbarSaveAllNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2013ToolbarSaveAsDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013ToolbarSaveAsDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2013ToolbarSaveAsNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013ToolbarSaveAsNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2013ToolbarSaveDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2013ToolbarSaveDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
