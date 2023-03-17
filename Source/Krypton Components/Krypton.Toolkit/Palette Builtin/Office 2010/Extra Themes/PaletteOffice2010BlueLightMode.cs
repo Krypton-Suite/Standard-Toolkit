@@ -60,41 +60,61 @@ namespace Krypton.Toolkit
 
         #region Toolbar Images
 
-        private static readonly Image _formToolbarButtonSpecNewNormal = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewHover = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = GenericToolbarImageResources.NewDocument;
+        private static readonly Image _formToolbarButtonSpecNewNormal = Office2010ToolbarImageResources.Office2010ToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewActive = Office2010ToolbarImageResources.Office2010ToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewDisabled = Office2010ToolbarImageResources.Office2010ToolbarNewDisabled;
 
-        private static readonly Image _formToolbarButtonSpecOpenNormal = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenHover = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = GenericToolbarImageResources.Open;
+        private static readonly Image _formToolbarButtonSpecOpenNormal = Office2010ToolbarImageResources.Office2010ToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenActive = Office2010ToolbarImageResources.Office2010ToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenDisabled = Office2010ToolbarImageResources.Office2010ToolbarOpenDisabled;
 
-        private static readonly Image _formToolbarButtonSpecSaveNormal = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveHover = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = GenericToolbarImageResources.Save;
+        private static readonly Image _formToolbarButtonSpecSaveNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveActive = Office2010ToolbarImageResources.Office2010ToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveDisabled = Office2010ToolbarImageResources.Office2010ToolbarSaveDisabled;
 
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsHover = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.SaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAllNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal;
+        private static readonly Image _formToolbarButtonSpecSaveAllActive = Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal;
+        private static readonly Image _formToolbarButtonSpecSaveAllDisabled = Office2010ToolbarImageResources.Office2010ToolbarSaveAllDisabled;
 
-        private static readonly Image _formToolbarButtonSpecCutNormal = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutHover = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = GenericToolbarImageResources.Cut;
+        private static readonly Image _formToolbarButtonSpecSaveAsNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal;
+        private static readonly Image _formToolbarButtonSpecSaveAsActive = Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal;
+        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = Office2010ToolbarImageResources.Office2010ToolbarSaveAsDisabled;
 
-        private static readonly Image _formToolbarButtonSpecCopyNormal = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyHover = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = GenericToolbarImageResources.Copy;
+        private static readonly Image _formToolbarButtonSpecCutNormal = Office2010ToolbarImageResources.Office2010ToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutActive = Office2010ToolbarImageResources.Office2010ToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutDisabled = Office2010ToolbarImageResources.Office2010ToolbarCutDisabled;
 
-        private static readonly Image _formToolbarButtonSpecPasteNormal = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteHover = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = GenericToolbarImageResources.Paste;
+        private static readonly Image _formToolbarButtonSpecCopyNormal = Office2010ToolbarImageResources.Office2010ToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyActive = Office2010ToolbarImageResources.Office2010ToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyDisabled = Office2010ToolbarImageResources.Office2010ToolbarCopyDisabled;
 
-        private static readonly Image _formToolbarButtonSpecUndoNormal = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoHover = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = GenericToolbarImageResources.Undo;
+        private static readonly Image _formToolbarButtonSpecPasteNormal = Office2010ToolbarImageResources.Office2010ToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteActive = Office2010ToolbarImageResources.Office2010ToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteDisabled = Office2010ToolbarImageResources.Office2010ToolbarPasteDisabled;
 
-        private static readonly Image _formToolbarButtonSpecRedoNormal = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoHover = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = GenericToolbarImageResources.Redo;
+        private static readonly Image _formToolbarButtonSpecUndoNormal = Office2010ToolbarImageResources.Office2010ToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoActive = Office2010ToolbarImageResources.Office2010ToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoDisabled = Office2010ToolbarImageResources.Office2010ToolbarUndoDisabled;
+
+        private static readonly Image _formToolbarButtonSpecRedoNormal = Office2010ToolbarImageResources.Office2010ToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoActive = Office2010ToolbarImageResources.Office2010ToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoDisabled = Office2010ToolbarImageResources.Office2010ToolbarRedoDisabled;
+
+        private static readonly Image _formToolbarButtonSpecPageSetupNormal = Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal;
+        private static readonly Image _formToolbarButtonSpecPageSetupActive = Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal;
+        private static readonly Image _formToolbarButtonSpecPageSetupDisabled = Office2010ToolbarImageResources.Office2010ToolbarPageSetupDisabled;
+
+        private static readonly Image _formToolbarButtonSpecPrintPreviewNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal;
+        private static readonly Image _formToolbarButtonSpecPrintPreviewActive = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal;
+        private static readonly Image _formToolbarButtonSpecPrintPreviewDisabled = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled;
+
+        private static readonly Image _formToolbarButtonSpecPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintNormal;
+        private static readonly Image _formToolbarButtonSpecPrintActive = Office2010ToolbarImageResources.Office2010ToolbarPrintNormal;
+        private static readonly Image _formToolbarButtonSpecPrintDisabled = Office2010ToolbarImageResources.Office2010ToolbarPrintDisabled;
+
+        private static readonly Image _formToolbarButtonSpecQuickPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal;
+        private static readonly Image _formToolbarButtonSpecQuickPrintActive = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal;
+        private static readonly Image _formToolbarButtonSpecQuickPrintDisabled = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintDisabled;
 
         #endregion
 
@@ -443,57 +463,87 @@ namespace Krypton.Toolkit
                 },
                 PaletteButtonSpecStyle.New => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecNewHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecNewActive,
                     PaletteState.Normal => _formToolbarButtonSpecNewNormal,
                     _ => _formToolbarButtonSpecNewDisabled
                 },
                 PaletteButtonSpecStyle.Open => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecOpenHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecOpenActive,
                     PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
                     _ => _formToolbarButtonSpecOpenDisabled
                 },
                 PaletteButtonSpecStyle.Save => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecSaveActive,
                     PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
                     _ => _formToolbarButtonSpecSaveDisabled
                 },
                 PaletteButtonSpecStyle.SaveAs => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAsHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecSaveAsActive,
                     PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
                     _ => _formToolbarButtonSpecSaveAsDisabled
                 },
+                PaletteButtonSpecStyle.SaveAll => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecSaveAllActive,
+                    PaletteState.Normal => _formToolbarButtonSpecSaveAllNormal,
+                    _ => _formToolbarButtonSpecSaveAllDisabled
+                },
                 PaletteButtonSpecStyle.Cut => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecCutHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecCutActive,
                     PaletteState.Normal => _formToolbarButtonSpecCutNormal,
                     _ => _formToolbarButtonSpecCutDisabled
                 },
                 PaletteButtonSpecStyle.Copy => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecCopyHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecCopyActive,
                     PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
                     _ => _formToolbarButtonSpecCopyDisabled
                 },
                 PaletteButtonSpecStyle.Paste => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecPasteHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecPasteActive,
                     PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
                     _ => _formToolbarButtonSpecPasteDisabled
                 },
                 PaletteButtonSpecStyle.Undo => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecUndoHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecUndoActive,
                     PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
                     _ => _formToolbarButtonSpecUndoDisabled
                 },
                 PaletteButtonSpecStyle.Redo => state switch
                 {
-                    PaletteState.Tracking => _formToolbarButtonSpecRedoHover,
+                    PaletteState.Tracking => _formToolbarButtonSpecRedoActive,
                     PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
                     _ => _formToolbarButtonSpecRedoDisabled
+                },
+                PaletteButtonSpecStyle.PageSetup => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecPageSetupActive,
+                    PaletteState.Normal => _formToolbarButtonSpecPageSetupNormal,
+                    _ => _formToolbarButtonSpecPageSetupDisabled
+                },
+                PaletteButtonSpecStyle.PrintPreview => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecPrintPreviewActive,
+                    PaletteState.Normal => _formToolbarButtonSpecPrintPreviewNormal,
+                    _ => _formToolbarButtonSpecPrintPreviewDisabled
+                },
+                PaletteButtonSpecStyle.Print => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecPrintActive,
+                    PaletteState.Normal => _formToolbarButtonSpecPrintNormal,
+                    _ => _formToolbarButtonSpecPrintDisabled
+                },
+                PaletteButtonSpecStyle.QuickPrint => state switch
+                {
+                    PaletteState.Tracking => _formToolbarButtonSpecQuickPrintActive,
+                    PaletteState.Normal => _formToolbarButtonSpecQuickPrintNormal,
+                    _ => _formToolbarButtonSpecQuickPrintDisabled
                 },
                 _ => base.GetButtonSpecImage(style, state)
             };
