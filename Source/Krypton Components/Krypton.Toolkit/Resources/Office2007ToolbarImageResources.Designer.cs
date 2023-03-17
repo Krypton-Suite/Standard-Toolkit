@@ -163,6 +163,26 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarPageSetupDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarPageSetupDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarPageSetupNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarPageSetupNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2007ToolbarPasteDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2007ToolbarPasteDisabled", resourceCulture);
@@ -176,6 +196,66 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap Office2007ToolbarPasteNormal {
             get {
                 object obj = ResourceManager.GetObject("Office2007ToolbarPasteNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarPrintDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarPrintDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarPrintNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarPrintNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarPrintPreviewDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarPrintPreviewDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarPrintPreviewNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarPrintPreviewNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarQuickPrintDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarQuickPrintDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ToolbarQuickPrintNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ToolbarQuickPrintNormal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
