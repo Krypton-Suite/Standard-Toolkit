@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Allows the user to choose their theme.</summary>
     public partial class KryptonThemeSelector : KryptonForm
     {
         #region Instance Fields
@@ -28,10 +29,11 @@ namespace Krypton.Toolkit
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeSelector" /> class.</summary>
-        /// <param name="themeSelectedIndex">Index of the theme selected.</param>
-        /// <param name="mode">The mode.</param>
-        /// <param name="header">The header.</param>
-        public KryptonThemeSelector(int? themeSelectedIndex, PaletteMode? mode, string? header)
+        /// <param name="themeSelectedIndex" default="33">Index of the theme selected.</param>
+        /// <param name="mode" default="PaletteMode.Microsoft365Blue">The palette mode.</param>
+        /// <param name="header" default="Choose a theme:">The label header text.</param>
+        /// <param name="displayResetButton" default="true">Displays the reset button.</param>
+        public KryptonThemeSelector(int? themeSelectedIndex = 33, PaletteMode? mode = PaletteMode.Microsoft365Blue, string? header = @"Choose a theme:", bool? displayResetButton = true)
         {
             InitializeComponent();
 
@@ -40,6 +42,8 @@ namespace Krypton.Toolkit
             _paletteMode = mode ?? PaletteMode.Microsoft365Blue;
 
             klblHeader.Text = header ?? @"Choose a theme:";
+
+            kbtnReset.Enabled = displayResetButton ?? true;
 
             kbtnCancel.Text = KryptonManager.Strings.Cancel;
 

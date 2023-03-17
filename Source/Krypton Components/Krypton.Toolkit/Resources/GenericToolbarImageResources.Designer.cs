@@ -113,6 +113,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap QuickPrint {
+            get {
+                object obj = ResourceManager.GetObject("QuickPrint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Redo {
             get {
                 object obj = ResourceManager.GetObject("Redo", resourceCulture);

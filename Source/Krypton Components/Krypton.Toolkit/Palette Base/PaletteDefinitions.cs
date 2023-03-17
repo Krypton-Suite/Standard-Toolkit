@@ -3321,6 +3321,8 @@ namespace Krypton.Toolkit
         Save,
         /// <summary>Specifies the save as button specification.</summary>
         SaveAs,
+        /// <summary>Specifies the save all button specification.</summary>
+        SaveAll,
         /// <summary>Specifies the cut button specification.</summary>
         Cut,
         /// <summary>Specifies the copy button specification.</summary>
@@ -3330,7 +3332,15 @@ namespace Krypton.Toolkit
         /// <summary>Specifies the undo button specification.</summary>
         Undo,
         /// <summary>Specifies the redo button specification.</summary>
-        Redo
+        Redo,
+        /// <summary>Specifies the page setup button specification.</summary>
+        PageSetup,
+        /// <summary>Specifies the print preview button specification.</summary>
+        PrintPreview,
+        /// <summary>Specifies the print button specification.</summary>
+        Print,
+        /// <summary>Specifies the quick print button specification.</summary>
+        QuickPrint
     }
     #endregion
 
