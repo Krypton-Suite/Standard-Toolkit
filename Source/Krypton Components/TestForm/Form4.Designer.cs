@@ -36,7 +36,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "Form4";
-            this.ShowIntegratedToolBar = true;
             this.Text = "Form4";
             this.ResumeLayout(false);
 

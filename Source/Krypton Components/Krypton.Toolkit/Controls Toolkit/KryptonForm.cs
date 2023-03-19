@@ -1935,21 +1935,6 @@ namespace Krypton.Toolkit
             }
             else
             {
-                // Note: Does this need to be a loop?
-                //if (ButtonSpecs.Contains(toolbarButtons))
-                //{
-                //    ButtonSpecs.Remove(toolbarButtons);
-
-                //    //_integratedToolbarButtonCollection.
-                //}
-
-                //foreach (ButtonSpecAny item in ButtonSpecs)
-                //{
-                //    ButtonSpecs.Remove(item);
-                //}
-
-                //_integratedToolbarButtonCollection = null;
-
                 if (_integratedToolbarButtonCollection != null && _integratedToolbarButtonCollection.Length > 0)
                 {
                     foreach (ButtonSpecAny button in _integratedToolbarButtonCollection)
@@ -1957,6 +1942,8 @@ namespace Krypton.Toolkit
                         button.Visible = false;
                     }
                 }
+
+                // Note: Should we clear out **all** ButtonSpecs?
             }
         }
 
