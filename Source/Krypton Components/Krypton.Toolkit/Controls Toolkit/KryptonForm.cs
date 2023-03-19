@@ -1924,6 +1924,14 @@ namespace Krypton.Toolkit
                 ButtonSpecs.AddRange(toolbarButtons);
 
                 _integratedToolbarButtonCollection = toolbarButtons;
+
+                if (_integratedToolbarButtonCollection != null && _integratedToolbarButtonCollection.Length > 0)
+                {
+                    foreach (ButtonSpecAny button in _integratedToolbarButtonCollection)
+                    {
+                        button.Visible = true;
+                    }
+                }
             }
             else
             {
@@ -1935,12 +1943,20 @@ namespace Krypton.Toolkit
                 //    //_integratedToolbarButtonCollection.
                 //}
 
-                foreach (ButtonSpecAny item in ButtonSpecs)
-                {
-                    ButtonSpecs.Remove(item);
-                }
+                //foreach (ButtonSpecAny item in ButtonSpecs)
+                //{
+                //    ButtonSpecs.Remove(item);
+                //}
 
-                _integratedToolbarButtonCollection = null;
+                //_integratedToolbarButtonCollection = null;
+
+                if (_integratedToolbarButtonCollection != null && _integratedToolbarButtonCollection.Length > 0)
+                {
+                    foreach (ButtonSpecAny button in _integratedToolbarButtonCollection)
+                    {
+                        button.Visible = false;
+                    }
+                }
             }
         }
 
