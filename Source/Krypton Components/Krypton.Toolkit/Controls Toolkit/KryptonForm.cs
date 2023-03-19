@@ -92,6 +92,7 @@ namespace Krypton.Toolkit
         private bool _firstCheckView;
         private bool _lastNotNormal;
         private bool _useDropShadow;
+        private bool _showIntegratedToolbar;
         private StatusStrip? _statusStrip;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
@@ -197,6 +198,8 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
+
+            _showIntegratedToolbar = false;
         }
 
         /// <summary>
@@ -302,6 +305,12 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets buttonspecs that make up the integrated tool bar.</summary>
+        [Category(@"Visuals")]
+        [Description(@"Shows a set of toolbar buttons in the title bar.")]
+        [DefaultValue(false)]
+        public bool ShowIntegratedToolBar { get => _showIntegratedToolbar; set { _showIntegratedToolbar = value; SetupIntegratedToolBar(value); } }
 
         /// <summary>
         /// Gets and sets the header style for a main form.
@@ -1845,6 +1854,22 @@ namespace Krypton.Toolkit
 
             return form.IsInAdministratorMode;
         }
+        #endregion
+
+        #region Integrated Toolbar
+
+        private void SetupIntegratedToolBar(bool visible)
+        {
+            if (visible)
+            {
+
+            }
+            else
+            {
+                
+            }
+        }
+
         #endregion
     }
 }
