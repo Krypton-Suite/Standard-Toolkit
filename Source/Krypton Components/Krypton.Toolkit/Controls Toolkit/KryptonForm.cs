@@ -1802,6 +1802,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Admin Code
+
         /// <summary>
         /// Gets the has current instance got administrative rights.
         /// </summary>
@@ -1814,59 +1815,116 @@ namespace Krypton.Toolkit
 
                 var hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
+                _isInAdministratorMode = hasAdministrativeRights;
+
                 if (hasAdministrativeRights)
                 {
-                    SetIsInAdministratorMode(true);
-
                     return true;
                 }
                 else
                 {
-                    SetIsInAdministratorMode(false);
-
                     return false;
                 }
             }
             catch
             {
-                SetIsInAdministratorMode(false);
+                _isInAdministratorMode = false;
 
                 return false;
             }
-        }
-
-        /// <summary>Sets the is in administrator mode.</summary>
-        /// <param name="value">if set to <c>true</c> [value].</param>
-        public static void SetIsInAdministratorMode(bool value)
-        {
-            // TODO: @wagnerp: what is this supposed to be doing ?
-            KryptonForm form = new();
-
-            //form.IsInAdministratorMode = value;
-        }
-
-        /// <summary>Gets the is in administrator mode.</summary>
-        /// <returns>IsInAdministratorMode</returns>
-        public static bool GetIsInAdministratorMode()
-        {
-            // TODO: @wagnerp: what is this supposed to be doing ?
-            KryptonForm form = new();
-
-            return form.IsInAdministratorMode;
         }
         #endregion
 
         #region Integrated Toolbar
 
+        /// <summary>
+        /// Setups the integrated tool bar.
+        /// </summary>
+        /// <param name="visible">if set to <c>true</c> [visible].</param>
+        /// <returns></returns>
         private void SetupIntegratedToolBar(bool visible)
         {
+            #region Toolbar Items
+
+            ButtonSpecAny bsaNew,
+                bsaOpen,
+                bsaSave,
+                bsaSaveAs,
+                bsaSaveAll,
+                bsaCut,
+                bsaCopy,
+                bsaPaste,
+                bsaPageSetup,
+                bsaPrintPreview,
+                bsaPrint,
+                bsaQuickPrint;
+
+            bsaNew = new();
+
+            bsaOpen = new();
+
+            bsaSave = new();
+
+            bsaSaveAs = new();
+
+            bsaSaveAll = new();
+
+            bsaCut = new();
+
+            bsaCopy = new();
+
+            bsaPaste = new();
+
+            bsaPageSetup = new();
+
+            bsaPrintPreview = new();
+
+            bsaPrint = new();
+
+            bsaQuickPrint = new();
+
+            bsaNew.Type = PaletteButtonSpecStyle.New;
+
+            bsaOpen.Type = PaletteButtonSpecStyle.Open;
+
+            bsaSave.Type = PaletteButtonSpecStyle.Save;
+
+            bsaSaveAll.Type = PaletteButtonSpecStyle.SaveAll;
+
+            bsaSaveAs.Type = PaletteButtonSpecStyle.SaveAs;
+
+            bsaCut.Type = PaletteButtonSpecStyle.Cut;
+
+            bsaCopy.Type = PaletteButtonSpecStyle.Copy;
+
+            bsaPaste.Type = PaletteButtonSpecStyle.Paste;
+
+            bsaPageSetup.Type = PaletteButtonSpecStyle.PageSetup;
+
+            bsaPrintPreview.Type = PaletteButtonSpecStyle.PrintPreview;
+
+            bsaPrint.Type = PaletteButtonSpecStyle.Print;
+
+            bsaQuickPrint.Type = PaletteButtonSpecStyle.QuickPrint;
+
+            ButtonSpecAny[] toolbarButtons = {
+                bsaNew, bsaOpen, bsaSave, bsaSaveAs, bsaSaveAll, bsaCut, bsaCopy, bsaPaste, bsaPageSetup,
+                bsaPrintPreview, bsaPrint, bsaQuickPrint
+            };
+
+            #endregion
+
             if (visible)
             {
-
+                ButtonSpecs.AddRange(toolbarButtons);
             }
             else
             {
-                
+                // Note: Does this need to be a loop?
+                if (ButtonSpecs.Contains(toolbarButtons))
+                {
+                    ButtonSpecs.Remove(toolbarButtons);
+                }
             }
         }
 
