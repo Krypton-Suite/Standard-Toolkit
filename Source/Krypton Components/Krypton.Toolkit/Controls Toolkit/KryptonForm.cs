@@ -100,6 +100,8 @@ namespace Krypton.Toolkit
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
 
+        private ButtonSpecAny[] _integratedToolbarButtonCollection;
+
         #endregion
 
         #region Identity
@@ -648,6 +650,8 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"),
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
+
+        public ButtonSpecAny[] IntegratedToolBarButtonCollection { get => _integratedToolbarButtonCollection; private set => _integratedToolbarButtonCollection = value; }
 
         #endregion
 
@@ -1910,6 +1914,8 @@ namespace Krypton.Toolkit
             if (visible)
             {
                 ButtonSpecs.AddRange(toolbarButtons);
+
+                _integratedToolbarButtonCollection = toolbarButtons;
             }
             else
             {
@@ -1917,6 +1923,8 @@ namespace Krypton.Toolkit
                 if (ButtonSpecs.Contains(toolbarButtons))
                 {
                     ButtonSpecs.Remove(toolbarButtons);
+
+                    //_integratedToolbarButtonCollection.
                 }
             }
         }
