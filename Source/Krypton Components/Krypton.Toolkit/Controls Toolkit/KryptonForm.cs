@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
 
-        private ButtonSpecAny[] _integratedToolbarButtonCollection;
+        private ButtonSpecAny[]? _integratedToolbarButtonCollection;
 
         #endregion
 
@@ -202,6 +202,8 @@ namespace Krypton.Toolkit
 #pragma warning restore CS0618
 
             _showIntegratedToolbar = false;
+
+            _integratedToolbarButtonCollection = null;
         }
 
         /// <summary>
@@ -651,7 +653,13 @@ namespace Krypton.Toolkit
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
 
-        public ButtonSpecAny[] IntegratedToolBarButtonCollection { get => _integratedToolbarButtonCollection; private set => _integratedToolbarButtonCollection = value; }
+        /// <summary>Gets the integrated tool bar button collection.</summary>
+        /// <value>The integrated tool bar button collection.</value>
+        [Category(@"Visuals")]
+        [DefaultValue(null)]
+        [Description(@"Gets access to the integrated toolbar items.")]
+        [AllowNull]
+        public ButtonSpecAny[]? IntegratedToolBarButtonCollection { get => _integratedToolbarButtonCollection; private set => _integratedToolbarButtonCollection = value; }
 
         #endregion
 
@@ -1904,7 +1912,7 @@ namespace Krypton.Toolkit
 
             bsaQuickPrint.Type = PaletteButtonSpecStyle.QuickPrint;
 
-            ButtonSpecAny[] toolbarButtons = {
+            ButtonSpecAny[]? toolbarButtons = {
                 bsaNew, bsaOpen, bsaSave, bsaSaveAs, bsaSaveAll, bsaCut, bsaCopy, bsaPaste, bsaPageSetup,
                 bsaPrintPreview, bsaPrint, bsaQuickPrint
             };
@@ -1931,6 +1939,8 @@ namespace Krypton.Toolkit
                 {
                     ButtonSpecs.Remove(item);
                 }
+
+                _integratedToolbarButtonCollection = null;
             }
         }
 

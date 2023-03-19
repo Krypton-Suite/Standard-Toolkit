@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
         /// Append an array of button spec instances.
         /// </summary>
         /// <param name="array">Array of instances.</param>
-        public void AddRange(T[] array)
+        public void AddRange(T[]? array)
         {
             foreach (T item in array)
             {
