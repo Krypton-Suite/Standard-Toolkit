@@ -1817,14 +1817,7 @@ namespace Krypton.Toolkit
 
                 _isInAdministratorMode = hasAdministrativeRights;
 
-                if (hasAdministrativeRights)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return hasAdministrativeRights;
             }
             catch
             {
