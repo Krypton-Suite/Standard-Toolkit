@@ -310,7 +310,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets buttonspecs that make up the integrated tool bar.</summary>
         [Category(@"Visuals")]
-        [Description(@"Shows a set of toolbar buttons in the title bar.")]
+        [Description(@"Shows a set of toolbar buttons in the title bar. (Caution: This is quite buggy!)")]
         [DefaultValue(false)]
         public bool ShowIntegratedToolBar { get => _showIntegratedToolbar; set { _showIntegratedToolbar = value; SetupIntegratedToolBar(value); } }
 
@@ -1920,11 +1920,16 @@ namespace Krypton.Toolkit
             else
             {
                 // Note: Does this need to be a loop?
-                if (ButtonSpecs.Contains(toolbarButtons))
-                {
-                    ButtonSpecs.Remove(toolbarButtons);
+                //if (ButtonSpecs.Contains(toolbarButtons))
+                //{
+                //    ButtonSpecs.Remove(toolbarButtons);
 
-                    //_integratedToolbarButtonCollection.
+                //    //_integratedToolbarButtonCollection.
+                //}
+
+                foreach (ButtonSpecAny item in ButtonSpecs)
+                {
+                    ButtonSpecs.Remove(item);
                 }
             }
         }

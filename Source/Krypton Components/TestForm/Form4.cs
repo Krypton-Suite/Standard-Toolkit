@@ -8,9 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Krypton.Toolkit;
+
 namespace TestForm
 {
-    public partial class Form4 : Form
+    public partial class Form4 : KryptonForm
     {
         public Form4()
         {

@@ -90,6 +90,7 @@
             this.Controls.Add(this.kryptonNavigator1);
             this.Name = "Form4";
             this.Text = "Form4";
+            this.Controls.SetChildIndex(this.kryptonNavigator1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).EndInit();
             this.kryptonNavigator1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage1)).EndInit();
