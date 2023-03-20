@@ -22,7 +22,7 @@ public enum PaletteMode
     /// Specifies the renderer defined by the KryptonManager be used.
     /// </summary>
     Global,
-    
+
     /// <summary>
     /// Specifies a professional appearance based on system settings.
     /// </summary>
@@ -114,7 +114,7 @@ public enum PaletteMode
     /// Specifies the light Blue color variant of the Office 2010 appearance.
     /// </summary>
     Office2010BlueLightMode,
-    
+
     /// <summary>
     /// Specifies the Silver color variant of the Office 2010 appearance.
     /// </summary>
@@ -144,7 +144,7 @@ public enum PaletteMode
     /// Specifies the dark Black color variant of the Office 2010 appearance.
     /// </summary>
     Office2010BlackDarkMode,
-    
+
     // Note: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the dark Gray color variant of the Office 2013 appearance.
@@ -196,7 +196,7 @@ public enum PaletteMode
     /// Specifies the light Blue color variant of the Microsoft 365 appearance.
     /// </summary>
     Microsoft365BlueLightMode,
-    
+
     /// <summary>
     /// Specifies the Silver color variant of the Microsoft 365 appearance.
     /// </summary>

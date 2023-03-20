@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
                                            IRibbonKeyTipTarget
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly ViewDrawRibbonGroupButtonBackBorder _target;
         private NeedPaintHandler _needPaint;
         private Rectangle _splitRectangle;
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source control instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupButtonController(KryptonRibbon ribbon,
+        public GroupButtonController(KryptonRibbon? ribbon,
                                      ViewDrawRibbonGroupButtonBackBorder target,
                                      NeedPaintHandler needPaint)
         {

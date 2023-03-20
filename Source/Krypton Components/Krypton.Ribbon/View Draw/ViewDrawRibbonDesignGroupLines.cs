@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbonGroupLines _ribbonLines;
+        private readonly KryptonRibbonGroupLines? _ribbonLines;
         private ContextMenuStrip _cms;
         private readonly Padding _padding; // = new(0, 2, 2, 4);
         #endregion
@@ -64,10 +64,10 @@ namespace Krypton.Ribbon
         /// <param name="ribbonLines">Associated ribbon group lines.</param>
         /// <param name="currentSize">Size the view should use.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonDesignGroupLines(KryptonRibbon ribbon,
-                                              KryptonRibbonGroupLines ribbonLines,
+        public ViewDrawRibbonDesignGroupLines(KryptonRibbon? ribbon,
+                                              KryptonRibbonGroupLines? ribbonLines,
                                               GroupItemSize currentSize,
-                                              NeedPaintHandler needPaint)
+                                              NeedPaintHandler? needPaint)
             : base(ribbon, needPaint)
         {
             Debug.Assert(ribbonLines != null);
@@ -125,6 +125,7 @@ namespace Krypton.Ribbon
         protected override void OnClick(object sender, EventArgs e)
         {
             // Create the context strip the first time around
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (_cms == null)
             {
                 _cms = new ContextMenuStrip
@@ -173,7 +174,7 @@ namespace Krypton.Ribbon
             if (CommonHelper.ValidContextMenuStrip(_cms))
             {
                 // Find the screen area of this view item
-                Rectangle screenRect = Ribbon.ViewRectangleToScreen(this);
+                Rectangle screenRect = Ribbon!.ViewRectangleToScreen(this);
 
                 // Make sure the popup is shown in a compatible way with any popups
                 VisualPopupManager.Singleton.ShowContextMenuStrip(_cms, new Point(screenRect.X, screenRect.Bottom));
@@ -182,80 +183,47 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddButton(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddButton();
-        }
+        private void OnAddButton(object sender, EventArgs e) => _ribbonLines!.OnDesignTimeAddButton();
 
-        private void OnAddColorButton(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddColorButton();
-        }
+        private void OnAddColorButton(object sender, EventArgs e) => _ribbonLines!.OnDesignTimeAddColorButton();
 
-        private void OnAddCheckBox(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddCheckBox();
-        }
+        private void OnAddCheckBox(object sender, EventArgs e) => _ribbonLines!.OnDesignTimeAddCheckBox();
 
         private void OnAddRadioButton(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddRadioButton();
-        }
+        => _ribbonLines!.OnDesignTimeAddRadioButton();
 
         private void OnAddCluster(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddCluster();
-        }
+        => _ribbonLines!.OnDesignTimeAddCluster();
 
         private void OnAddLabel(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddLabel();
-        }
+        => _ribbonLines!.OnDesignTimeAddLabel();
 
         private void OnAddCustomControl(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddCustomControl();
-        }
+        => _ribbonLines!.OnDesignTimeAddCustomControl();
 
         private void OnAddTextBox(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddTextBox();
-        }
+        => _ribbonLines!.OnDesignTimeAddTextBox();
 
         private void OnAddMaskedTextBox(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddMaskedTextBox();
-        }
+        => _ribbonLines!.OnDesignTimeAddMaskedTextBox();
 
         private void OnAddRichTextBox(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddRichTextBox();
-        }
+        => _ribbonLines!.OnDesignTimeAddRichTextBox();
 
         private void OnAddComboBox(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddComboBox();
-        }
+        => _ribbonLines!.OnDesignTimeAddComboBox();
 
         private void OnAddNumericUpDown(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddNumericUpDown();
-        }
+        => _ribbonLines!.OnDesignTimeAddNumericUpDown();
 
         private void OnAddDomainUpDown(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddDomainUpDown();
-        }
+        => _ribbonLines!.OnDesignTimeAddDomainUpDown();
 
         private void OnAddDateTimePicker(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddDateTimePicker();
-        }
+        => _ribbonLines!.OnDesignTimeAddDateTimePicker();
 
         private void OnAddTrackBar(object sender, EventArgs e)
-        {
-            _ribbonLines.OnDesignTimeAddTrackBar();
-        }
+        => _ribbonLines!.OnDesignTimeAddTrackBar();
         #endregion
     }
 }

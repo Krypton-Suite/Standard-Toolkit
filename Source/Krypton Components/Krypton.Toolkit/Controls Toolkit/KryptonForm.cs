@@ -102,6 +102,8 @@ namespace Krypton.Toolkit
 
         private ButtonSpecAny[]? _integratedToolbarButtonCollection;
 
+        private IntegratedToolBarValues _integratedToolbarValues;
+
         #endregion
 
         #region Identity
@@ -204,6 +206,8 @@ namespace Krypton.Toolkit
             _showIntegratedToolbar = false;
 
             _integratedToolbarButtonCollection = null;
+
+            IntegratedToolBarValues = new IntegratedToolBarValues(this);
         }
 
         /// <summary>
@@ -660,6 +664,13 @@ namespace Krypton.Toolkit
         //[Description(@"Gets access to the integrated toolbar items.")]
         //[AllowNull]
         //public ButtonSpecAny[]? IntegratedToolBarButtonCollection { get => _integratedToolbarButtonCollection; private set => _integratedToolbarButtonCollection = value; }
+
+        [Category(@"Visuals")]
+        [Description(@"Gets access to the integrated toolbar values.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public IntegratedToolBarValues IntegratedToolBarValues { get; }
+
+        public bool ShouldSerializeIntegratedToolBarValues() => !IntegratedToolBarValues.IsDefault;
 
         #endregion
 
