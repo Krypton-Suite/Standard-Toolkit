@@ -52,13 +52,16 @@ namespace Krypton.Ribbon
                                     Rectangle clientRect,
                                     PaletteState state)
         {
-            Color c = state == PaletteState.Normal
-                ? ribbon!.StateCommon.RibbonGeneral.GetRibbonGroupSeparatorDark(PaletteState.Normal)
-                : ribbon!.StateCommon.RibbonGroupButton.Back.GetBackColor1(PaletteState.Tracking);
+            if (ribbon != null)
+            {
+                Color c = state == PaletteState.Normal
+                    ? ribbon.StateCommon.RibbonGeneral.GetRibbonGroupSeparatorDark(PaletteState.Normal)
+                    : ribbon.StateCommon.RibbonGroupButton.Back.GetBackColor1(PaletteState.Tracking);
 
-            // Draw entire area in color
-            using SolidBrush darkBrush = new(c);
-            context.Graphics.FillRectangle(darkBrush, clientRect);
+                // Draw entire area in color
+                using SolidBrush darkBrush = new(c);
+                context.Graphics.FillRectangle(darkBrush, clientRect);
+            }
         }
         #endregion
 
