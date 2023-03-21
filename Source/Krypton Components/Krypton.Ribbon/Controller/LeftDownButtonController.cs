@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
             _mouseOver = true;
 
             // Get the form we are inside
-            KryptonForm ownerForm = Ribbon.FindKryptonForm();
+            KryptonForm? ownerForm = Ribbon.FindKryptonForm();
             _active = ownerForm is { WindowActive: true } ||
                       VisualPopupManager.Singleton.IsTracking ||
                       Ribbon.InDesignMode ||

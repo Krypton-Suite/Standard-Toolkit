@@ -1,27 +1,40 @@
-﻿namespace Krypton.Toolkit;
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
 
-/// <summary>
-/// Specifies the enabled state of a button specification.
-/// </summary>
-public enum PaletteButtonEnabled
+namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Specifies enabled state should be inherited.
+    /// Specifies the enabled state of a button specification.
     /// </summary>
-    Inherit,
+    public enum PaletteButtonEnabled
+    {
+        /// <summary>
+        /// Specifies enabled state should be inherited.
+        /// </summary>
+        Inherit,
 
-    /// <summary>
-    /// Specifies button should take enabled state from container control state.
-    /// </summary>
-    Container,
+        /// <summary>
+        /// Specifies button should take enabled state from container control state.
+        /// </summary>
+        Container,
 
-    /// <summary>
-    /// Specifies button should be enabled.
-    /// </summary>
-    True,
+        /// <summary>
+        /// Specifies button should be enabled.
+        /// </summary>
+        True,
 
-    /// <summary>
-    /// Specifies button should be disabled.
-    /// </summary>
-    False
+        /// <summary>
+        /// Specifies button should be disabled.
+        /// </summary>
+        False
+    }
 }

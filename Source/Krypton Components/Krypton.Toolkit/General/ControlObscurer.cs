@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Control to obscure.</param>
         /// <param name="designMode">Is the source in design mode.</param>
-        public ScreenObscurer(Control c, bool designMode)
+        public ScreenObscurer(Control? c, bool designMode)
         {
             // Check the incoming control is valid
             if (c is { IsDisposed: false } && !designMode)

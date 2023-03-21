@@ -718,7 +718,7 @@ namespace Krypton.Ribbon
         /// <param name="compositionArea">Reference to the composition element.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon ribbon,
-                                         [DisallowNull] PaletteRedirect redirect,
+                                         [DisallowNull] PaletteRedirect? redirect,
                                          [DisallowNull] ViewDrawRibbonComposition compositionArea,
                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
