@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the associated finish delegate.
         /// </summary>
-        public EventHandler FinishDelegate { get; }
+        public EventHandler? FinishDelegate { get; }
 
         #endregion
 

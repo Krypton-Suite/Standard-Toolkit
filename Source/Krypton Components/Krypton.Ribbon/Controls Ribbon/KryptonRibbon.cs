@@ -1522,7 +1522,10 @@ namespace Krypton.Ribbon
                 // We only want letters and digits and not control keys such as arrow left/right
                 if (char.IsLetterOrDigit(key))
                 {
-                    _keyTipControlE.AppendKeyPress(key);
+                    if (_keyTipControlE != null)
+                    {
+                        _keyTipControlE.AppendKeyPress(key);
+                    }
                     return true;
                 }
             }
@@ -1650,7 +1653,10 @@ namespace Krypton.Ribbon
             // If we want to intercept key pressed for use with key tips
             if (KeyboardMode && InKeyTipsMode)
             {
-                _keyTipControlE.AppendKeyPress(char.ToUpper(e.KeyChar));
+                if (_keyTipControlE != null)
+                {
+                    _keyTipControlE.AppendKeyPress(char.ToUpper(e.KeyChar));
+                }
             }
             else
             {
@@ -2276,10 +2282,7 @@ namespace Krypton.Ribbon
             }
 
             // Get the first near edge button (the last near button is the leftmost one!)
-            if (view == null)
-            {
-                view = TabsArea!.ButtonSpecManager!.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
-            }
+            view ??= TabsArea!.ButtonSpecManager!.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
             if (view == null)
             {
@@ -2296,16 +2299,8 @@ namespace Krypton.Ribbon
             }
 
             // Move across to any far defined buttons
-            if (view == null)
-            {
-                view = TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
-            }
-
             // Move across to any inherit defined buttons
-            if (view == null)
-            {
-                view = TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-            }
+            view ??= TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far) ?? TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
             // Move back to the application button/tab
             if (view == null)

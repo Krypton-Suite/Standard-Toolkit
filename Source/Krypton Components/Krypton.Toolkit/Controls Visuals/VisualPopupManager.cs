@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         private bool _filtering;
         private int _suspended;
         private ContextMenuStrip _cms;
-        private EventHandler _cmsFinishDelegate;
+        private EventHandler? _cmsFinishDelegate;
         #endregion
 
         #region Identity
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <param name="cmsFinishDelegate">Delegate to call when strip dismissed.</param>
         public void ShowContextMenuStrip(ContextMenuStrip cms, 
                                          Point screenPt,
-                                         EventHandler cmsFinishDelegate)
+                                         EventHandler? cmsFinishDelegate)
         {
             Debug.Assert(cms != null);
 

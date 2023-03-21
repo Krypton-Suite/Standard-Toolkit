@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonSpecManagerLayoutAppButton(ViewContextMenuManager viewManager,
+        public ButtonSpecManagerLayoutAppButton(ViewContextMenuManager? viewManager,
                                                 Control control,
                                                 PaletteRedirect? redirector,
                                                 ButtonSpecCollectionBase variableSpecs,
@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the view manager associated with the button specs.
         /// </summary>
-        public ViewContextMenuManager ViewManager { get; }
+        public ViewContextMenuManager? ViewManager { get; }
 
         #endregion
 

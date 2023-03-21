@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonAppButton _appButtonBottom;
         private readonly ViewLayoutStack _viewColumns;
         private ViewLayoutDocker _viewButtonSpecDocker;
-        private ButtonSpecManagerLayout _buttonManager;
+        private ButtonSpecManagerLayout? _buttonManager;
         private readonly Rectangle _rectAppButtonBottomHalf;
         private readonly Rectangle _rectAppButtonTopHalf;
         #endregion
@@ -332,7 +332,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the view manager for the context menu.
         /// </summary>
-        public ViewContextMenuManager ViewContextMenuManager => (ViewContextMenuManager)ViewManager;
+        public ViewContextMenuManager? ViewContextMenuManager => (ViewContextMenuManager)ViewManager;
 
         /// <summary>
         /// Should a mouse down at the provided point cause an end to popup tracking.
@@ -375,7 +375,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return ViewContextMenuManager.DoesStackedClientMouseDownBecomeCurrent(m, pt);
+                return ViewContextMenuManager != null && ViewContextMenuManager.DoesStackedClientMouseDownBecomeCurrent(m, pt);
             }
         }
 
@@ -452,17 +452,20 @@ namespace Krypton.Ribbon
             using RenderContext context = new(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
-            borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
-            borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+            if (Renderer != null)
+            {
+                GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+                borderRect.Inflate(-1, -1);
+                GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+                borderRect.Inflate(-1, -1);
+                GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
 
-            // Update the region of the popup to be the border path
-            Region = new Region(borderPath1);
+                // Update the region of the popup to be the border path
+                Region = new Region(borderPath1);
 
-            // Inform the shadow to use the same paths for drawing the shadow
-            DefineShadowPaths(borderPath1, borderPath2, borderPath3);
+                // Inform the shadow to use the same paths for drawing the shadow
+                DefineShadowPaths(borderPath1, borderPath2, borderPath3);
+            }
         }
 
         /// <summary>
@@ -512,17 +515,20 @@ namespace Krypton.Ribbon
                 _palette = palette;
 
                 // Update redirector to use palette as source for obtaining values
-                Redirector.Target = _palette;
+                if (Redirector != null) Redirector.Target = _palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
-
-                // Hook to new palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint += OnPaletteNeedPaint;
-                    _palette.BasePaletteChanged += OnBaseChanged;
-                    _palette.BaseRendererChanged += OnBaseChanged;
+                    Renderer = _palette.GetRenderer();
+
+                    // Hook to new palette events
+                    if (_palette != null)
+                    {
+                        _palette.PalettePaint += OnPaletteNeedPaint;
+                        _palette.BasePaletteChanged += OnBaseChanged;
+                        _palette.BaseRendererChanged += OnBaseChanged;
+                    }
                 }
             }
         }
@@ -530,7 +536,7 @@ namespace Krypton.Ribbon
         private void OnBaseChanged(object sender, EventArgs e)
         {
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();
+            if (_palette != null) Renderer = _palette.GetRenderer();
         }
 
         private void OnButtonSpecPaint(object sender, NeedLayoutEventArgs e)
@@ -538,16 +544,11 @@ namespace Krypton.Ribbon
             OnNeedPaint(sender, new NeedLayoutEventArgs(false));
         }
 
-        private void OnProviderClosing(object sender, CancelEventArgs e)
-        {
-            _ribbon?.OnAppButtonMenuClosing(e);
-        }
+        private void OnProviderClosing(object sender, CancelEventArgs e) => _ribbon?.OnAppButtonMenuClosing(e);
 
-        private void OnProviderClose(object sender, CloseReasonEventArgs e)
-        {
+        private void OnProviderClose(object sender, CloseReasonEventArgs e) =>
             // Remove ourself from being shown
             VisualPopupManager.Singleton.EndPopupTracking(this);
-        }
 
         private void OnProviderClose(object sender, EventArgs e)
         {
@@ -555,7 +556,7 @@ namespace Krypton.Ribbon
             IContextMenuProvider provider = (IContextMenuProvider)sender;
             _provider.Dispose -= OnProviderClose;
 
-            // Kill this poup window
+            // Kill this popup window
             Dispose();
         }
         #endregion

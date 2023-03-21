@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image for the item ToolTip.
         /// </summary>
-        Image GetToolTipImage();
+        Image? GetToolTipImage();
 
         /// <summary>
         /// Gets the color to draw as transparent in the ToolTipImage.

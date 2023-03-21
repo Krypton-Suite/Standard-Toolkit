@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly PaletteRedirect? _redirector;
         private readonly PaletteTripleRedirect _palette;
-        private readonly EventHandler _finishDelegate;
+        private readonly EventHandler? _finishDelegate;
         private ButtonController _controller;
         #endregion
 

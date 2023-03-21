@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
         private List<ViewDrawRibbonKeyTip> _viewList;
         private string _prefix;
         private readonly bool _showDisabled;
-        private Timer _redrawTimer = null;
+        private Timer? _redrawTimer = null;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control instance.</param>
         /// <param name="keyTips">List of key tips.</param>
         /// <param name="showDisabled">True to show disabled entries, otherwise enabled.</param>
-        public KeyTipControl(KryptonRibbon ribbon, 
+        public KeyTipControl(KryptonRibbon ribbon,
                              KeyTipInfoList keyTips,
                              bool showDisabled)
         {
