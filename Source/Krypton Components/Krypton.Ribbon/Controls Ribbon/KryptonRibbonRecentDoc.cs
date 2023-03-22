@@ -76,7 +76,7 @@ namespace Krypton.Ribbon
                     value = @"Recent Document";
                 }
 
-                if (value != null && value != _text)
+                if (value != _text)
                 {
                     _text = value;
                 }
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
 
             set
             {
-                if (value != null && value != _imageTransparentColor)
+                if (value != _imageTransparentColor)
                 {
                     _imageTransparentColor = value;
                 }

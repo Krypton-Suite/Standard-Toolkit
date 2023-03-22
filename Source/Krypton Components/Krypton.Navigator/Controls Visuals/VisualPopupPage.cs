@@ -45,8 +45,8 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Remember references needed later
-            _navigator = navigator!;
-            _page = page!;
+            _navigator = navigator;
+            _page = page;
 
             // Always create the layout that positions the actual page
             ViewLayoutPopupPage layoutPage = new(_navigator, _page);

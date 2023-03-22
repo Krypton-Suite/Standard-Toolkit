@@ -106,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            _captionArea = captionArea!;
+            _ribbon = ribbon;
+            _captionArea = captionArea;
             _appButtonController = _captionArea.AppButtonController;
             _appTabController = _captionArea.AppTabController;
-            _layoutContexts = layoutContexts!;
-            NeedPaintDelegate = needPaintDelegate!;
+            _layoutContexts = layoutContexts;
+            NeedPaintDelegate = needPaintDelegate;
 
             // Default other state
             _setVisible = true;

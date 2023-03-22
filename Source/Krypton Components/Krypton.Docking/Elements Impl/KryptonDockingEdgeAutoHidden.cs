@@ -54,18 +54,18 @@ namespace Krypton.Docking
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 Dock = DockingHelper.DockStyleFromDockEdge(edge, false)
             };
-            _panel.Disposed += OnPanelDisposed!;
+            _panel.Disposed += OnPanelDisposed;
 
             // Create the panel that slides into/out of view to show selected auto host entry
             _slidePanel = new KryptonAutoHiddenSlidePanel(control, edge, _panel);
-            _slidePanel.SplitterMoveRect += OnSlidePanelSeparatorMoveRect!;
-            _slidePanel.SplitterMoved += OnSlidePanelSeparatorMoved!;
-            _slidePanel.SplitterMoving += OnSlidePanelSeparatorMoving!;
-            _slidePanel.PageCloseClicked += OnSlidePanelPageCloseClicked!;
-            _slidePanel.PageAutoHiddenClicked += OnSlidePanelPageAutoHiddenClicked!;
-            _slidePanel.PageDropDownClicked += OnSlidePanelPageDropDownClicked!;
-            _slidePanel.AutoHiddenShowingStateChanged += OnSlidePanelAutoHiddenShowingStateChanged!;
-            _slidePanel.Disposed += OnSlidePanelDisposed!;
+            _slidePanel.SplitterMoveRect += OnSlidePanelSeparatorMoveRect;
+            _slidePanel.SplitterMoved += OnSlidePanelSeparatorMoved;
+            _slidePanel.SplitterMoving += OnSlidePanelSeparatorMoving;
+            _slidePanel.PageCloseClicked += OnSlidePanelPageCloseClicked;
+            _slidePanel.PageAutoHiddenClicked += OnSlidePanelPageAutoHiddenClicked;
+            _slidePanel.PageDropDownClicked += OnSlidePanelPageDropDownClicked;
+            _slidePanel.AutoHiddenShowingStateChanged += OnSlidePanelAutoHiddenShowingStateChanged;
+            _slidePanel.Disposed += OnSlidePanelDisposed;
 
             Control.Controls.Add(_panel);
         }
@@ -261,10 +261,10 @@ namespace Krypton.Docking
         {
             // Create the new auto hidden group instance and add into our collection
             KryptonDockingAutoHiddenGroup groupElement = new(name, Edge);
-            groupElement.PageClicked += OnDockingAutoHiddenGroupClicked!;
-            groupElement.PageHoverStart += OnDockingAutoHiddenGroupHoverStart!;
-            groupElement.PageHoverEnd += OnDockingAutoHiddenGroupHoverEnd!;
-            groupElement.Disposed += OnDockingAutoHiddenGroupDisposed!;
+            groupElement.PageClicked += OnDockingAutoHiddenGroupClicked;
+            groupElement.PageHoverStart += OnDockingAutoHiddenGroupHoverStart;
+            groupElement.PageHoverEnd += OnDockingAutoHiddenGroupHoverEnd;
+            groupElement.Disposed += OnDockingAutoHiddenGroupDisposed;
             InternalInsert(index, groupElement);
 
             // Events are generated from the parent docking manager
@@ -304,10 +304,10 @@ namespace Krypton.Docking
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
             KryptonDockingAutoHiddenGroup groupElement = (KryptonDockingAutoHiddenGroup)sender;
-            groupElement.PageClicked -= OnDockingAutoHiddenGroupClicked!;
-            groupElement.PageHoverStart -= OnDockingAutoHiddenGroupHoverStart!;
-            groupElement.PageHoverEnd -= OnDockingAutoHiddenGroupHoverEnd!;
-            groupElement.Disposed -= OnDockingAutoHiddenGroupDisposed!;
+            groupElement.PageClicked -= OnDockingAutoHiddenGroupClicked;
+            groupElement.PageHoverStart -= OnDockingAutoHiddenGroupHoverStart;
+            groupElement.PageHoverEnd -= OnDockingAutoHiddenGroupHoverEnd;
+            groupElement.Disposed -= OnDockingAutoHiddenGroupDisposed;
 
             // Remove the element from our child collection as it is no longer valid
             InternalRemove(groupElement);
@@ -316,7 +316,7 @@ namespace Krypton.Docking
         private void OnPanelDisposed(object sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
-            _panel.Disposed -= OnPanelDisposed!;
+            _panel.Disposed -= OnPanelDisposed;
 
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;
@@ -340,13 +340,13 @@ namespace Krypton.Docking
         private void OnSlidePanelDisposed(object sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
-            _slidePanel.SplitterMoveRect -= OnSlidePanelSeparatorMoveRect!;
-            _slidePanel.SplitterMoved -= OnSlidePanelSeparatorMoved!;
-            _slidePanel.SplitterMoving -= OnSlidePanelSeparatorMoving!;
-            _slidePanel.PageCloseClicked -= OnSlidePanelPageCloseClicked!;
-            _slidePanel.PageAutoHiddenClicked -= OnSlidePanelPageAutoHiddenClicked!;
-            _slidePanel.PageDropDownClicked -= OnSlidePanelPageDropDownClicked!;
-            _slidePanel.Disposed -= OnPanelDisposed!;
+            _slidePanel.SplitterMoveRect -= OnSlidePanelSeparatorMoveRect;
+            _slidePanel.SplitterMoved -= OnSlidePanelSeparatorMoved;
+            _slidePanel.SplitterMoving -= OnSlidePanelSeparatorMoving;
+            _slidePanel.PageCloseClicked -= OnSlidePanelPageCloseClicked;
+            _slidePanel.PageAutoHiddenClicked -= OnSlidePanelPageAutoHiddenClicked;
+            _slidePanel.PageDropDownClicked -= OnSlidePanelPageDropDownClicked;
+            _slidePanel.Disposed -= OnPanelDisposed;
 
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;

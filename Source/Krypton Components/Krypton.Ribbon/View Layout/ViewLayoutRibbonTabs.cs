@@ -62,8 +62,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            _needPaint = needPaint;
 
             // Create cache of draw elements
             _tabCache = new ViewDrawRibbonTabList();
@@ -446,7 +446,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonTabs();
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             var x = ClientLocation.X;
 

@@ -12,6 +12,8 @@
  */
 #endregion
 
+// ReSharper disable RedundantCast
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -103,7 +105,7 @@ namespace Krypton.Ribbon
             {
                 Interval = 120
             };
-            _trackingEventTimer.Tick += OnTrackingTick;
+            _trackingEventTimer.Tick += OnTrackingTick!;
 
             // Create content storage
             Images = new GalleryImages(NeedPaintDelegate);
@@ -474,14 +476,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnImageListChanged(EventArgs e)
-        => ImageListChanged?.Invoke(this, e);
+        => ImageListChanged(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnSelectedIndexChanged(EventArgs e)
-        => SelectedIndexChanged?.Invoke(this, e);
+        => SelectedIndexChanged(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
@@ -490,7 +492,7 @@ namespace Krypton.Ribbon
         protected virtual void OnTrackingImage(ImageSelectEventArgs e)
         {
             _eventTrackingIndex = e.ImageIndex;
-            TrackingImage?.Invoke(this, e);
+            TrackingImage(this, e);
         }
 
         /// <summary>
@@ -498,7 +500,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="e">An GalleryDropMenuEventArgs containing the event data.</param>
         protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e)
-        => GalleryDropMenu?.Invoke(this, e);
+        => GalleryDropMenu(this, e);
         #endregion
 
         #region Protected Overrides
@@ -841,15 +843,15 @@ namespace Krypton.Ribbon
                 {
                     if (item is KryptonContextMenuImageSelect itemSelect)
                     {
-                        itemSelect.SelectedIndexChanged += OnDropImageSelect;
-                        itemSelect.TrackingImage += OnDropImageTracking;
+                        itemSelect.SelectedIndexChanged += OnDropImageSelect!;
+                        itemSelect.TrackingImage += OnDropImageTracking!;
                     }
                 }
 
                 // Need to know when the menu is dismissed
                 if (args.KryptonContextMenu != null)
                 {
-                    args.KryptonContextMenu.Closed += OnDropMenuClosed;
+                    args.KryptonContextMenu.Closed += OnDropMenuClosed!;
 
                     // Remember the delegate we need to fire when the menu is dismissed
                     _finishDelegate = finishDelegate;
@@ -873,15 +875,15 @@ namespace Krypton.Ribbon
                 TrackingIndex = -1;
 
                 // Unhook from events
-                _dropMenu.Closed -= OnDropMenuClosed;
+                _dropMenu.Closed -= OnDropMenuClosed!;
 
                 // Unhook from the image select events
                 foreach (KryptonContextMenuItemBase item in _dropMenu.Items)
                 {
                     if (item is KryptonContextMenuImageSelect itemSelect)
                     {
-                        itemSelect.SelectedIndexChanged -= OnDropImageSelect;
-                        itemSelect.TrackingImage -= OnDropImageTracking;
+                        itemSelect.SelectedIndexChanged -= OnDropImageSelect!;
+                        itemSelect.TrackingImage -= OnDropImageTracking!;
                     }
                 }
 

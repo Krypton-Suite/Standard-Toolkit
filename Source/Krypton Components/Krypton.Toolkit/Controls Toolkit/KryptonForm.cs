@@ -539,7 +539,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just add to the docking edge requested
-                    _drawHeading.Add(element!, style);
+                    _drawHeading.Add(element, style);
                 }
             }
         }
@@ -573,7 +573,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just remove the specified elements
-                    _drawHeading.Remove(element!);
+                    _drawHeading.Remove(element);
                 }
             }
         }

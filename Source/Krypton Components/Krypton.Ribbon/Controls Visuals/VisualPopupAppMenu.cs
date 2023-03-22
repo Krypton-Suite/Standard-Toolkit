@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
             {
                 _viewColumns
             };
-            mainBackground.KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager);
+            mainBackground.KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager!);
             return mainBackground;
         }
 
@@ -218,21 +218,21 @@ namespace Krypton.Ribbon
             _drawOutsideBorder = new PaletteBorderToPalette(Redirector, PaletteBorderStyle.ControlRibbonAppMenu);
             _drawOutsideDocker = new ViewDrawRibbonAppMenu(_drawOutsideBack, _drawOutsideBorder, _appButtonBottom, _rectAppButtonBottomHalf)
             {
-                KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager)
+                KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager!)
             };
             _drawOutsideDocker.Add(_drawOutsideBacking, ViewDockStyle.Fill);
         }
 
         private void CreateButtonManager(RibbonAppButton appButton)
         {
-            _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager,
+            _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager!,
                                                                   this, Redirector, appButton.AppButtonSpecs, null,
                                                                   new[] { _viewButtonSpecDocker },
                                                                   new IPaletteMetric[] { _ribbon.StateCommon },
                                                                   new[] { PaletteMetricInt.None },
                                                                   new[] { PaletteMetricPadding.RibbonAppButton },
                                                                   CreateToolStripRenderer,
-                                                                  OnButtonSpecPaint);
+                                                                  OnButtonSpecPaint!);
 
             _buttonManager.RecreateButtons();
         }

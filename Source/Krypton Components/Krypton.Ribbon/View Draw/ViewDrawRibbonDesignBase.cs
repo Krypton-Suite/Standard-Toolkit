@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Reduce our size by a padding around the element
             ClientRectangle = new Rectangle(ClientLocation.X + OuterPadding.Left,

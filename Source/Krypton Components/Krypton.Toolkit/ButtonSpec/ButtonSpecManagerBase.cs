@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer;
 
             if (_viewMetrics != null)
             {
@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
             if (_variableSpecs != null)
             {
                 // Need to hook into changes in the button collection
-                _variableSpecs.Inserted += OnButtonSpecInserted!;
-                _variableSpecs.Removed += OnButtonSpecRemoved!;
+                _variableSpecs.Inserted += OnButtonSpecInserted;
+                _variableSpecs.Removed += OnButtonSpecRemoved;
             }
         }
         #endregion
@@ -194,8 +194,8 @@ namespace Krypton.Toolkit
             if (_variableSpecs != null)
             {
                 // Unhook from button collection events
-                _variableSpecs.Inserted -= OnButtonSpecInserted!;
-                _variableSpecs.Removed -= OnButtonSpecRemoved!;
+                _variableSpecs.Inserted -= OnButtonSpecInserted;
+                _variableSpecs.Removed -= OnButtonSpecRemoved;
             }
 
             // Destruct each of the button views
@@ -799,7 +799,7 @@ namespace Krypton.Toolkit
                 ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
 
                 // Hook in to the button spec change event
-                buttonSpec.ButtonSpecPropertyChanged += OnPropertyChanged!;
+                buttonSpec.ButtonSpecPropertyChanged += OnPropertyChanged;
 
                 return buttonView;
             }
@@ -810,7 +810,7 @@ namespace Krypton.Toolkit
         private void RemoveButtonSpec(ButtonSpec buttonSpec)
         {
             // Unhook from button spec events
-            buttonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged!;
+            buttonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged;
 
             // Get the button view from the button spec
             ButtonSpecView? buttonView = _specLookup[buttonSpec];

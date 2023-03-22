@@ -157,17 +157,20 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager.FocusView);
+            if (ViewOverflowManager != null)
+            {
+                ViewBase? view = ViewQATContents.GetPreviousQATView(ViewOverflowManager.FocusView);
 
-            // Rotate around to the last item
-            if (view == null)
-            {
-                SetLastFocusItem();
-            }
-            else
-            {
-                ViewOverflowManager.FocusView = view;
-                PerformNeedPaint(false);
+                // Rotate around to the last item
+                if (view == null)
+                {
+                    SetLastFocusItem();
+                }
+                else
+                {
+                    ViewOverflowManager.FocusView = view;
+                    PerformNeedPaint(false);
+                }
             }
         }
         #endregion

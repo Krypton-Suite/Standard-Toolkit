@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
                                        NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
             SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
             _border = new ViewDrawRibbonQATBorder(_ribbon, needPaintDelegate, true);
@@ -245,7 +245,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return base.GetPreferredSize(context!);
+            return base.GetPreferredSize(context);
         }
 
         /// <summary>

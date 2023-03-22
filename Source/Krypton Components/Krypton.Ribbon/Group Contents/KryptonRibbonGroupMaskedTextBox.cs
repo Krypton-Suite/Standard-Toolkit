@@ -290,7 +290,7 @@ namespace Krypton.Ribbon
                     value = @"X";
                 }
 
-                _keyTip = value!.ToUpper();
+                _keyTip = value.ToUpper();
             }
         }
 

@@ -480,7 +480,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page!, property!);
+            base.PageAppearanceChanged(page, property);
         }
 
         /// <summary>
