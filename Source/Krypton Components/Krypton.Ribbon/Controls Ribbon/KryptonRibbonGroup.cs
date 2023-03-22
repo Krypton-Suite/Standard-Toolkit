@@ -479,7 +479,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase GroupView { get; set; }
+        public ViewBase? GroupView { get; set; }
 
         #endregion
 

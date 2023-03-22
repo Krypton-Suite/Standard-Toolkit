@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ViewDrawTrackTrack _drawTrack;
+        private readonly ViewDrawTrackTrack? _drawTrack;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the track position element.
         /// </summary>
-        public ViewDrawTrackPosition ViewDrawTrackPosition { get; }
+        public ViewDrawTrackPosition? ViewDrawTrackPosition { get; }
 
         /// <summary>
         /// Gets and sets the enabled state of the element.

@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         private LabelStyle _style;
         private VisualOrientation _orientation;
         private readonly CheckBoxController _controller;
-        private readonly ViewLayoutDocker _layoutDocker;
-        private readonly ViewLayoutCenter _layoutCenter;
-        private readonly ViewDrawCheckBox _drawCheckBox;
-        private readonly ViewDrawContent _drawContent;
+        private readonly ViewLayoutDocker? _layoutDocker;
+        private readonly ViewLayoutCenter? _layoutCenter;
+        private readonly ViewDrawCheckBox? _drawCheckBox;
+        private readonly ViewDrawContent? _drawContent;
         private readonly PaletteContentInheritRedirect _paletteCommonRedirect;
         private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly PaletteContentInheritOverride _overrideNormal;

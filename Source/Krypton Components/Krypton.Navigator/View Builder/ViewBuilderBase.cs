@@ -169,14 +169,14 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public abstract KryptonPage? PageFromView(ViewBase element);
+        public abstract KryptonPage? PageFromView(ViewBase? element);
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public abstract ButtonSpec? ButtonSpecFromView(ViewBase element);
+        public abstract ButtonSpec? ButtonSpecFromView(ViewBase? element);
 
         /// <summary>
         /// Ensure the correct state palettes are being used.

@@ -72,7 +72,7 @@ namespace Krypton.Workspace
 
         #region Instance Fields
         // Internal fields
-        private readonly ViewDrawPanel _drawPanel;
+        private readonly ViewDrawPanel? _drawPanel;
         private SeparatorStyle _separatorStyle;
         private readonly WorkspaceItemToSeparator _workspaceToSeparator;
         private readonly CellPageNotify _cellPageNotify;
@@ -2580,7 +2580,7 @@ namespace Krypton.Workspace
                 // Remove all view separators no longer needed
                 for (var i = _drawPanel.Count - 1; i >= 0; i--)
                 {
-                    ViewDrawWorkspaceSeparator separator = _drawPanel[i] as ViewDrawWorkspaceSeparator;
+                    ViewDrawWorkspaceSeparator? separator = _drawPanel[i] as ViewDrawWorkspaceSeparator;
                     if (!separators.Contains(separator))
                     {
                         _drawPanel.Remove(separator);
@@ -3291,7 +3291,7 @@ namespace Krypton.Workspace
                 if (info[i].WorkspaceItem != null)
                 {
                     // If no separator is associated with workspace, then create one now
-                    if (!_workspaceToSeparator.TryGetValue(info[i].WorkspaceItem, out ViewDrawWorkspaceSeparator viewSeparator))
+                    if (!_workspaceToSeparator.TryGetValue(info[i].WorkspaceItem, out ViewDrawWorkspaceSeparator? viewSeparator))
                     {
                         // Create a view for the separator area
                         viewSeparator = new ViewDrawWorkspaceSeparator(this, info[i].WorkspaceItem, seq.Orientation)

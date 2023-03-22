@@ -23,11 +23,11 @@ namespace Krypton.Ribbon
         private IPaletteBorder _drawOutsideBorder;
         private readonly AppButtonMenuProvider _provider;
         private ViewDrawRibbonAppMenu _drawOutsideDocker;
-        private ViewDrawRibbonAppMenuOuter _drawOutsideBacking;
-        private ViewDrawRibbonAppMenuInner _drawInnerBacking;
+        private ViewDrawRibbonAppMenuOuter? _drawOutsideBacking;
+        private ViewDrawRibbonAppMenuInner? _drawInnerBacking;
         private ViewDrawRibbonAppButton _appButtonBottom;
-        private readonly ViewLayoutStack _viewColumns;
-        private ViewLayoutDocker _viewButtonSpecDocker;
+        private readonly ViewLayoutStack? _viewColumns;
+        private ViewLayoutDocker? _viewButtonSpecDocker;
         private ButtonSpecManagerLayout? _buttonManager;
         private readonly Rectangle _rectAppButtonBottomHalf;
         private readonly Rectangle _rectAppButtonTopHalf;
@@ -134,11 +134,11 @@ namespace Krypton.Ribbon
                 _viewColumns.Add(new ViewLayoutSeparator(0, _ribbon.RibbonAppButton.AppButtonMinRecentSize.Height));
 
                 // Use a layout that draws the background color of the recent docs area
-                ViewDrawRibbonAppMenuDocs recentDocsBack = new(_ribbon);
+                ViewDrawRibbonAppMenuDocs? recentDocsBack = new(_ribbon);
                 _viewColumns.Add(recentDocsBack);
 
                 // Stack the document entries vertically
-                ViewLayoutStack documentStack = new(false);
+                ViewLayoutStack? documentStack = new(false);
                 recentDocsBack.Add(documentStack);
 
                 // Use fixed width separator to enforce a minimum width to column
@@ -167,9 +167,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private ViewDrawCanvas CreateInsideCanvas()
+        private ViewDrawCanvas? CreateInsideCanvas()
         {
-            ViewDrawCanvas mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
+            ViewDrawCanvas? mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
             {
                 _viewColumns
             };
@@ -177,7 +177,7 @@ namespace Krypton.Ribbon
             return mainBackground;
         }
 
-        private void CreateInnerBacking(ViewBase fillElement)
+        private void CreateInnerBacking(ViewBase? fillElement)
         {
             _drawInnerBacking = new ViewDrawRibbonAppMenuInner(_ribbon)
             {

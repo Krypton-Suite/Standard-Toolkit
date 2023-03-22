@@ -26,13 +26,13 @@ namespace Krypton.Ribbon
         private readonly NeedPaintHandler _needPaint;
         private PaletteBackInheritForced _backForced;
         private PaletteBorderInheritForced _borderForced;
-        private ViewDrawRibbonGroupButtonBackBorder _viewMediumSmall;
-        private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
-        private ViewDrawRibbonGroupClusterColorButtonImage _viewMediumSmallImage;
-        private ViewDrawRibbonGroupClusterColorButtonText _viewMediumSmallText1;
-        private ViewDrawRibbonDropArrow _viewMediumSmallDropArrow;
-        private ViewLayoutRibbonSeparator _viewMediumSmallText2Sep1;
-        private ViewLayoutRibbonSeparator _viewMediumSmallText2Sep2;
+        private ViewDrawRibbonGroupButtonBackBorder? _viewMediumSmall;
+        private ViewLayoutRibbonRowCenter? _viewMediumSmallCenter;
+        private ViewDrawRibbonGroupClusterColorButtonImage? _viewMediumSmallImage;
+        private ViewDrawRibbonGroupClusterColorButtonText? _viewMediumSmallText1;
+        private ViewDrawRibbonDropArrow? _viewMediumSmallDropArrow;
+        private ViewLayoutRibbonSeparator? _viewMediumSmallText2Sep1;
+        private ViewLayoutRibbonSeparator? _viewMediumSmallText2Sep2;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -366,7 +366,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            ViewLayoutDocker? contentLayout = new();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupClusterColorButtonImage(_ribbon, GroupClusterColorButton);
@@ -377,7 +377,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep1 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding? imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };

@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private readonly PaletteBorderInheritRedirect _borderRedirect;
         private PaletteBorderEdge _stateCurrent;
         private PaletteState _state;
-        private readonly ViewDrawPanel _drawPanel;
+        private readonly ViewDrawPanel? _drawPanel;
         #endregion
 
         #region Identity

@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private bool _mouseOver;
         private readonly NeedPaintHandler _needPaint;
-        private readonly ViewLayoutDocker _target;
+        private readonly ViewLayoutDocker? _target;
         #endregion
 
         #region Events
@@ -46,7 +46,7 @@ namespace Krypton.Ribbon
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
         public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
-            [DisallowNull] ViewLayoutDocker target,
+            [DisallowNull] ViewLayoutDocker? target,
             [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase? newView = null;
+            ViewBase newView = null;
 
             switch (e.KeyData)
             {

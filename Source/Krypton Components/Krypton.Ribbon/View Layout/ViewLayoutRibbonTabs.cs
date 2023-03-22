@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Tab for which view element is needed.</param>
         /// <returns>View element for tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab)
+        public ViewDrawRibbonTab GetViewForRibbonTab(KryptonRibbonTab? ribbonTab)
         {
             return ribbonTab == null 
                 ? null 
@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for drawing the first visible ribbon tab.
         /// </summary>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForFirstRibbonTab()
+        public ViewDrawRibbonTab GetViewForFirstRibbonTab()
         {
             foreach (ViewBase child in this)
             {
@@ -200,7 +200,7 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonTab? GetViewForPreviousRibbonTab(KryptonRibbonTab ribbonTab)
         {
             var found = false;
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase? child in Reverse())
             {
                 // Cast to correct type
                 // Only interested in tab views
@@ -226,9 +226,9 @@ namespace Krypton.Ribbon
         /// Gets the view element for drawing the last visible ribbon tab.
         /// </summary>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForLastRibbonTab()
+        public ViewDrawRibbonTab GetViewForLastRibbonTab()
         {
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase? child in Reverse())
             {
                 if (child.Visible && (child is ViewDrawRibbonTab tab))
                 {
@@ -615,7 +615,7 @@ namespace Krypton.Ribbon
                 if (IsRibbonVisible(ribbonTab, contextName))
                 {
                     // Get the matching indexed items
-                    ViewDrawRibbonTab drawTab = _tabCache[i];
+                    ViewDrawRibbonTab? drawTab = _tabCache[i];
 
                     // Every tab needs a draw tab element followed by a separator
                     Add(drawTab);

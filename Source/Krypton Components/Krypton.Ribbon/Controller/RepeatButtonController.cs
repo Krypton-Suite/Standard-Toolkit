@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private bool _captured;
         private bool _mouseOver;
-        private readonly ViewBase _target;
+        private readonly ViewBase? _target;
         private NeedPaintHandler _needPaint;
         private readonly Timer _repeatTimer;
         #endregion
@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="target">Target for state changes.</param>
         public RepeatButtonController(KryptonRibbon ribbon,
-                                      ViewBase target,
+                                      ViewBase? target,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);

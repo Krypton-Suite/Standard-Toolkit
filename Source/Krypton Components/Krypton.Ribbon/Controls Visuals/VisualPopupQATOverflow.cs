@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon? _ribbon;
-        private readonly ViewDrawRibbonQATOverflow _viewQAT;
+        private readonly ViewDrawRibbonQATOverflow? _viewQAT;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         /// <param name="contents">Reference to original contents which has overflow items.</param>
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupQATOverflow(KryptonRibbon? ribbon,
-                                      ViewLayoutRibbonQATContents contents,
+                                      ViewLayoutRibbonQATContents? contents,
                                       IRenderer? renderer)
             : base(renderer, true)
         {
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the quick access toolbar contents view.
         /// </summary>
-        public ViewLayoutRibbonQATContents ViewQATContents { get; }
+        public ViewLayoutRibbonQATContents? ViewQATContents { get; }
 
         #endregion
 
@@ -135,7 +135,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase? view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
+            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
 
             // Rotate around to the first item
             if (view == null)
@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
             // Find the previous item in sequence
             if (ViewOverflowManager != null)
             {
-                ViewBase? view = ViewQATContents.GetPreviousQATView(ViewOverflowManager.FocusView);
+                ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager.FocusView);
 
                 // Rotate around to the last item
                 if (view == null)

@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="displayPadding">Padding to use around area.</param>
         /// <param name="child">Child to add into view hierarchy.</param>
-        public ViewLayoutPadding(Padding displayPadding, ViewBase child)
+        public ViewLayoutPadding(Padding displayPadding, ViewBase? child)
         {
             _displayPadding = displayPadding;
             Add(child);

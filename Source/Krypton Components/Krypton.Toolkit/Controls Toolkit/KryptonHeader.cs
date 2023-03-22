@@ -47,8 +47,8 @@ namespace Krypton.Toolkit
 
         private HeaderStyle _style;
         private VisualOrientation _orientation;
-        private readonly ViewDrawDocker _drawDocker;
-        private readonly ViewDrawContent _drawContent;
+        private readonly ViewDrawDocker? _drawDocker;
+        private readonly ViewDrawContent? _drawContent;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private float _cornerRoundingRadius;
         private VisualPopupToolTip _visualPopupToolTip;

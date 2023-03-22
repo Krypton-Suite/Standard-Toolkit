@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated separator source.
         /// </summary>
-        public ISeparatorSource Source { get; set; }
+        public ISeparatorSource? Source { get; set; }
 
         #endregion
 

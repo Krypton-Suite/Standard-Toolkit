@@ -115,12 +115,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view centering that contains the button.
         /// </summary>
-        public ViewLayoutCenter ViewCenter { get; }
+        public ViewLayoutCenter? ViewCenter { get; }
 
         /// <summary>
         /// Gets access to the view centering that contains the button.
         /// </summary>
-        public ViewDrawButton? ViewButton { get; }
+        public ViewDrawButton ViewButton { get; }
 
         /// <summary>
         /// Gets access to the remapping palette.
@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Paint delegate.</param>
         /// <param name="clickHandler">Reference to click handler.</param>
         /// <returns>Controller instance.</returns>
-        public virtual ButtonSpecViewControllers CreateController(ViewDrawButton viewButton,
+        public virtual ButtonSpecViewControllers CreateController(ViewDrawButton? viewButton,
                                                                   NeedPaintHandler needPaint,
                                                                   MouseEventHandler clickHandler)
         {

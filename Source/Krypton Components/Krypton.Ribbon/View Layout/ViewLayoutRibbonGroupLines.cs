@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon? _ribbon;
         private readonly KryptonRibbonGroupLines? _ribbonLines;
-        private ViewDrawRibbonDesignGroupLines _viewAddItem;
+        private ViewDrawRibbonDesignGroupLines? _viewAddItem;
         private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         private ItemToView _itemToView;
@@ -218,7 +218,7 @@ namespace Krypton.Ribbon
             ViewBase? view = null;
 
             // Scan all the children, which must be containers
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase? child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -314,7 +314,7 @@ namespace Krypton.Ribbon
             ViewBase? view = null;
 
             // Scan all the children, which must be containers
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase? child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -741,7 +741,7 @@ namespace Krypton.Ribbon
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonLines!.Items)
             {
-                ViewBase itemView;
+                ViewBase? itemView;
 
                 // Do we already have a view for this item definition
                 if (_itemToView.ContainsKey(item))

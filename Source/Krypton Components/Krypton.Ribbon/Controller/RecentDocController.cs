@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private bool _mouseOver;
-        private readonly ViewDrawRibbonAppMenuRecentDec _menuItem;
+        private readonly ViewDrawRibbonAppMenuRecentDec? _menuItem;
         private NeedPaintHandler _needPaint;
 
         #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         /// <param name="menuItem">Target menu item view element.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public RecentDocController(ViewContextMenuManager viewManager,
-                                   ViewDrawRibbonAppMenuRecentDec menuItem,
+                                   ViewDrawRibbonAppMenuRecentDec? menuItem,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(viewManager != null);
@@ -106,7 +106,7 @@ namespace Krypton.Ribbon
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView() => _menuItem;
+        public ViewBase? GetActiveView() => _menuItem;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.

@@ -22,9 +22,9 @@ namespace Krypton.Navigator
         #endregion
         
         #region Instance Fields
-        protected ViewLayoutPageShow _oldRoot;
-        protected ViewLayoutDocker _viewLayout;
-        protected ViewLayoutScrollViewport _viewScrollViewport;
+        protected ViewLayoutPageShow? _oldRoot;
+        protected ViewLayoutDocker? _viewLayout;
+        protected ViewLayoutScrollViewport? _viewScrollViewport;
         private PageToNavCheckButton? _pageLookup;
         private PageToButtonEdge _buttonEdgeLookup;
         private bool _hasFocus;
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage? PageFromView(ViewBase element)
+        public override KryptonPage? PageFromView(ViewBase? element)
         {
             if (_pageLookup != null)
             {
@@ -90,7 +90,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase? element)
         {
             // Check each page level button spec
             return _pageLookup?.Select(pair => pair.Value.ButtonSpecFromView(element)).FirstOrDefault(static bs => bs != null);
@@ -612,7 +612,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage? page in Navigator.Pages)
             {
                 // Create the draw view element for the check button and provide page it represents
-                ViewDrawNavCheckButtonStack checkButton = new(Navigator, page, checkButtonOrient);
+                ViewDrawNavCheckButtonStack? checkButton = new(Navigator, page, checkButtonOrient);
 
                 // Provide the drag rectangle when requested for this button
                 checkButton.ButtonDragRectangle += OnCheckButtonDragRect;
@@ -628,7 +628,7 @@ namespace Krypton.Navigator
                 checkButton.Orientation = checkButtonOrient;
 
                 // Create the border edge for use next to the check button
-                ViewDrawBorderEdge buttonEdge = new(buttonEdgePalette, buttonEdgeOrient)
+                ViewDrawBorderEdge? buttonEdge = new(buttonEdgePalette, buttonEdgeOrient)
                 {
                     Visible = page.LastVisibleSet
                 };
@@ -681,7 +681,7 @@ namespace Krypton.Navigator
         private void DestructCheckButtons()
         {
             // Must tell each check button it is no longer required
-            foreach (ViewDrawNavCheckButtonBase checkButton in _pageLookup.Values)
+            foreach (ViewDrawNavCheckButtonBase? checkButton in _pageLookup.Values)
             {
                 // Must unhook from events
                 checkButton.ButtonDragRectangle -= OnCheckButtonDragRect;
@@ -696,7 +696,7 @@ namespace Krypton.Navigator
             }
 
             // Must tell each border edge it is no longer required
-            foreach (ViewDrawBorderEdge buttonEdge in _buttonEdgeLookup.Values)
+            foreach (ViewDrawBorderEdge? buttonEdge in _buttonEdgeLookup.Values)
             {
                 // Dispose of element gracefully
                 buttonEdge.Dispose();
@@ -815,8 +815,8 @@ namespace Krypton.Navigator
             if (!Navigator.IsDisposed && _events)
             {
                 // Get the associated check button view element
-                ViewDrawNavCheckButtonBase checkButton = _pageLookup[e.Item];
-                ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[e.Item];
+                ViewDrawNavCheckButtonBase? checkButton = _pageLookup[e.Item];
+                ViewDrawBorderEdge? buttonEdge = _buttonEdgeLookup[e.Item];
 
                 // Must unhook from events
                 checkButton.ButtonDragRectangle -= OnCheckButtonDragRect;
@@ -880,8 +880,8 @@ namespace Krypton.Navigator
                 if (_pageLookup.ContainsKey(page))
                 {
                     // Get the associated view elements
-                    ViewDrawNavCheckButtonBase checkButton = _pageLookup[page];
-                    ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[page];
+                    ViewDrawNavCheckButtonBase? checkButton = _pageLookup[page];
+                    ViewDrawBorderEdge? buttonEdge = _buttonEdgeLookup[page];
 
                     checkButton.Checked = (Navigator.SelectedPage == page);
                     checkButton.Orientation = checkButtonOrient;
@@ -969,7 +969,7 @@ namespace Krypton.Navigator
         private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            ViewDrawNavCheckButtonStack reorderView = (ViewDrawNavCheckButtonStack)sender;
+            ViewDrawNavCheckButtonStack? reorderView = (ViewDrawNavCheckButtonStack)sender;
 
             // Scan the collection of children
             var foundReorderView = false;
@@ -977,7 +977,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // If the mouse is over this button
-                ViewDrawNavCheckButtonStack childView = (ViewDrawNavCheckButtonStack)_pageLookup[page];
+                ViewDrawNavCheckButtonStack? childView = (ViewDrawNavCheckButtonStack)_pageLookup[page];
                 if (childView.ClientRectangle.Contains(e.PointOffset))
                 {
                     // Only interested if mouse over a different check button
@@ -1063,7 +1063,7 @@ namespace Krypton.Navigator
         private void RecreateView()
         {
             // Remove all the existing layout content except the old root at postiion 0
-            ViewBase firstChild = _viewLayout[0];
+            ViewBase? firstChild = _viewLayout[0];
             _viewLayout.Clear();
             _viewLayout.Add(firstChild);
 
@@ -1078,8 +1078,8 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // Grab the page associated view elements
-                ViewDrawNavCheckButtonStack checkButton = (ViewDrawNavCheckButtonStack)_pageLookup[page];
-                ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[page];
+                ViewDrawNavCheckButtonStack? checkButton = (ViewDrawNavCheckButtonStack)_pageLookup[page];
+                ViewDrawBorderEdge? buttonEdge = _buttonEdgeLookup[page];
 
                 // Add to the child collection with the correct docking style
                 if (dockTopLeft)

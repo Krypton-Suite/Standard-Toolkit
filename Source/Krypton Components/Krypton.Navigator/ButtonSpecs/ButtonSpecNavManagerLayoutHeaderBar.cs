@@ -43,7 +43,7 @@ namespace Krypton.Navigator
                                                    PaletteRedirect? redirector,
                                                    ButtonSpecCollectionBase variableSpecs,
                                                    ButtonSpecCollectionBase fixedSpecs,
-                                                   ViewLayoutDocker[] viewDockers,
+                                                   ViewLayoutDocker?[] viewDockers,
                                                    IPaletteMetric[] viewMetrics,
                                                    PaletteMetricInt[] viewMetricIntOutside,
                                                    PaletteMetricInt[] viewMetricIntInside,

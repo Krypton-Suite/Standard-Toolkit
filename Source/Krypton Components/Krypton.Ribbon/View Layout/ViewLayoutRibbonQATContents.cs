@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
 
         private readonly NeedPaintHandler _needPaint;
         private QATButtonToView _qatButtonToView;
-        private ViewDrawRibbonQATExtraButton? _extraButton;
+        private ViewDrawRibbonQATExtraButton _extraButton;
 
         #endregion
 
@@ -386,7 +386,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetFirstQATView()
+        public ViewBase GetFirstQATView()
         {
             // Scan all the buttons looking for one that is enabled and visible
             foreach (ViewBase qatView in _qatButtonToView.Values)
@@ -407,7 +407,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase? GetLastQATView()
+        public ViewBase GetLastQATView()
         {
             // If showing the extra button, then use that
             if (_extraButton != null)
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetNextQATView(ViewBase? qatButton)
+        public ViewBase GetNextQATView(ViewBase qatButton)
         {
             var found = false;
 
@@ -475,7 +475,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetPreviousQATView(ViewBase? qatButton)
+        public ViewBase GetPreviousQATView(ViewBase qatButton)
         {
             // If the provided view is the extra button, then implicitly already found previous entry
             var found = (qatButton != null) && (qatButton == _extraButton);

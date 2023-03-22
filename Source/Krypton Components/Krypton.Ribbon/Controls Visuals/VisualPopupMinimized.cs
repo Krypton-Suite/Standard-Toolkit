@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetLastFocusItem()
         {
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
+            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
@@ -212,8 +212,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void Show(ViewLayoutRibbonTabsArea tabsArea,
-                         ViewDrawPanel drawMinimizedPanel)
+        public void Show(ViewLayoutRibbonTabsArea? tabsArea,
+                         ViewDrawPanel? drawMinimizedPanel)
         {
             // Show at the calculated position
             Show(CalculatePopupRect(tabsArea, drawMinimizedPanel));
@@ -224,8 +224,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void UpdatePosition(ViewLayoutRibbonTabsArea tabsArea,
-                                   ViewDrawPanel drawMinimizedPanel)
+        public void UpdatePosition(ViewLayoutRibbonTabsArea? tabsArea,
+                                   ViewDrawPanel? drawMinimizedPanel)
         {
             // Move to the newly calculated position
             Rectangle popupRect = CalculatePopupRect(tabsArea, drawMinimizedPanel);
@@ -264,8 +264,8 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private Rectangle CalculatePopupRect(ViewLayoutRibbonTabsArea tabsArea,
-                                             ViewDrawPanel drawMinimizedPanel)
+        private Rectangle CalculatePopupRect(ViewLayoutRibbonTabsArea? tabsArea,
+                                             ViewDrawPanel? drawMinimizedPanel)
         {
             Size popupSize;
 

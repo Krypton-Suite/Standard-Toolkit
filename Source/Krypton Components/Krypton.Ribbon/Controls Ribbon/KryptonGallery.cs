@@ -31,14 +31,14 @@ namespace Krypton.Ribbon
         #region Instance Fields
 
         private readonly PaletteGalleryBackBorder _backBorder;
-        private readonly ViewLayoutRibbonGalleryButtons _buttonsLayout;
-        private readonly ViewDrawRibbonGalleryButton _buttonUp;
-        private readonly ViewDrawRibbonGalleryButton _buttonDown;
-        private readonly ViewDrawRibbonGalleryButton _buttonContext;
-        private readonly ViewLayoutRibbonGalleryItems _drawItems;
+        private readonly ViewLayoutRibbonGalleryButtons? _buttonsLayout;
+        private readonly ViewDrawRibbonGalleryButton? _buttonUp;
+        private readonly ViewDrawRibbonGalleryButton? _buttonDown;
+        private readonly ViewDrawRibbonGalleryButton? _buttonContext;
+        private readonly ViewLayoutRibbonGalleryItems? _drawItems;
         private ImageList? _imageList;
-        private readonly ViewLayoutDocker _layoutDocker;
-        private readonly ViewDrawDocker _drawDocker;
+        private readonly ViewLayoutDocker? _layoutDocker;
+        private readonly ViewDrawDocker? _drawDocker;
         private bool? _fixedActive;
         private Size _preferredItemSize;
         private bool _mouseOver;
@@ -760,7 +760,7 @@ namespace Krypton.Ribbon
             set => _preferredItemSize = value;
         }
 
-        internal KryptonRibbon Ribbon { get; set; }
+        internal KryptonRibbon? Ribbon { get; set; }
 
         internal void OnDropButton()
         {

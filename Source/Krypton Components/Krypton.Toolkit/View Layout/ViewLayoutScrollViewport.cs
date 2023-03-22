@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
         public ViewLayoutScrollViewport(VisualControl rootControl,
-                                        ViewBase viewportFiller,
+                                        ViewBase? viewportFiller,
                                         PaletteBorderEdge paletteBorderEdge,
                                         IPaletteMetric paletteMetrics,
                                         PaletteMetricPadding metricPadding,
@@ -348,7 +348,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view control instance.
         /// </summary>
-        public ViewLayoutControl ViewControl
+        public ViewLayoutControl? ViewControl
         {
             [DebuggerStepThrough]
             get;
@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the vertical scrollbar view.
         /// </summary>
-        public ViewDrawScrollBar ScrollbarV
+        public ViewDrawScrollBar? ScrollbarV
         {
             [DebuggerStepThrough]
             get;
@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the horizontl scrollbar view.
         /// </summary>
-        public ViewDrawScrollBar ScrollbarH
+        public ViewDrawScrollBar? ScrollbarH
         {
             [DebuggerStepThrough]
             get;
@@ -384,7 +384,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the vertical border edge view.
         /// </summary>
-        public ViewDrawBorderEdge BorderEdgeV
+        public ViewDrawBorderEdge? BorderEdgeV
         {
             [DebuggerStepThrough]
             get;
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the horizontal border edge view.
         /// </summary>
-        public ViewDrawBorderEdge BorderEdgeH
+        public ViewDrawBorderEdge? BorderEdgeH
         {
             [DebuggerStepThrough]
             get;

@@ -29,14 +29,14 @@ namespace Krypton.Ribbon
         private readonly GalleryController _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
-        private ViewDrawRibbonGroupButtonBackBorder _viewLarge;
-        private ViewLayoutRibbonRowCenter _viewLargeCenter;
-        private ViewDrawRibbonGroupGalleryImage _viewLargeImage;
-        private ViewDrawRibbonGroupGalleryText _viewLargeText1;
-        private ViewDrawRibbonGroupGalleryText _viewLargeText2;
-        private ViewDrawRibbonDropArrow _viewLargeDropArrow;
-        private ViewLayoutRibbonSeparator _viewLargeText2Sep1;
-        private ViewLayoutRibbonSeparator _viewLargeText2Sep2;
+        private ViewDrawRibbonGroupButtonBackBorder? _viewLarge;
+        private ViewLayoutRibbonRowCenter? _viewLargeCenter;
+        private ViewDrawRibbonGroupGalleryImage? _viewLargeImage;
+        private ViewDrawRibbonGroupGalleryText? _viewLargeText1;
+        private ViewDrawRibbonGroupGalleryText? _viewLargeText2;
+        private ViewDrawRibbonDropArrow? _viewLargeDropArrow;
+        private ViewLayoutRibbonSeparator? _viewLargeText2Sep1;
+        private ViewLayoutRibbonSeparator? _viewLargeText2Sep2;
         #endregion
 
         #region Identity
@@ -560,11 +560,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            ViewLayoutDocker? contentLayout = new();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupGalleryImage(_ribbon, GroupGallery);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding? largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };

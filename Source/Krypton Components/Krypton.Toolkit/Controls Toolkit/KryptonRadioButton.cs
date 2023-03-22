@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         private LabelStyle _style;
         private VisualOrientation _orientation;
         private readonly RadioButtonController _controller;
-        private readonly ViewLayoutDocker _layoutDocker;
-        private readonly ViewLayoutCenter _layoutCenter;
-        private readonly ViewDrawRadioButton _drawRadioButton;
-        private readonly ViewDrawContent _drawContent;
+        private readonly ViewLayoutDocker? _layoutDocker;
+        private readonly ViewLayoutCenter? _layoutCenter;
+        private readonly ViewDrawRadioButton? _drawRadioButton;
+        private readonly ViewDrawContent? _drawContent;
         private readonly PaletteContentInheritRedirect _paletteCommonRedirect;
         private readonly PaletteRedirectRadioButton _paletteRadioButtonImages;
         private readonly PaletteContentInheritOverride _overrideNormal;

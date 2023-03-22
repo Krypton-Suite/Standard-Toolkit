@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Paint delegate.</param>
         /// <param name="clickHandler">Reference to click handler.</param>
         /// <returns>Controller instance.</returns>
-        public override ButtonSpecViewControllers CreateController(ViewDrawButton viewButton,
+        public override ButtonSpecViewControllers CreateController(ViewDrawButton? viewButton,
                                                                    NeedPaintHandler needPaint,
                                                                    MouseEventHandler clickHandler)
         {

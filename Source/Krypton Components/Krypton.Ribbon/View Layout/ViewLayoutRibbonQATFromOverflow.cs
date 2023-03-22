@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private readonly ViewLayoutRibbonQATContents _contents;
+        private readonly ViewLayoutRibbonQATContents? _contents;
         #endregion
 
         #region Identity
@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
                                                KryptonRibbon ribbon,
                                                NeedPaintHandler needPaint,
                                                bool showExtraButton,
-                                               ViewLayoutRibbonQATContents contents)
+                                               ViewLayoutRibbonQATContents? contents)
             : base(ribbon, needPaint, showExtraButton)
         {
             Debug.Assert(parentControl != null);

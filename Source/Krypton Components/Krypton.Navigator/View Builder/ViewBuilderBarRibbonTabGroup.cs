@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderBarRibbonTabGroup : ViewBuilderBarRibbonTabBase
     {
         #region Instance Fields
-        private ViewLayoutInsetOverlap _layoutOverlap;
+        private ViewLayoutInsetOverlap? _layoutOverlap;
         #endregion
 
         #region Public
@@ -44,7 +44,7 @@ namespace Krypton.Navigator
             };
 
             // Create the view element that lays out the check buttons
-            ViewLayoutBarForTabs layoutBar = new(Navigator.StateCommon.Bar,
+            ViewLayoutBarForTabs? layoutBar = new(Navigator.StateCommon.Bar,
                                                                       PaletteMetricInt.RibbonTabGap,
                                                                       Navigator.Bar.ItemSizing,
                                                                       Navigator.Bar.ItemAlignment,

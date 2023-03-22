@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderHeaderBarCheckButtonOnly : ViewBuilderHeaderBarCheckButtonBase
     {
         #region Instance Fields
-        protected ViewLayoutDocker _layoutPanelDocker;
+        protected ViewLayoutDocker? _layoutPanelDocker;
         #endregion
 
         #region Public

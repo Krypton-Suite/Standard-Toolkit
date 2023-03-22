@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly PaletteTripleMetricRedirect _palette;
-        private readonly ViewDrawDocker _drawDocker;
-        private readonly ViewDrawContent _drawContent;
+        private readonly ViewDrawDocker? _drawDocker;
+        private readonly ViewDrawContent? _drawContent;
         private readonly IContentValues _contentValues;
         #endregion
 
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target"></param>
         /// <param name="controlMousePosition"></param>
-        public void ShowRelativeTo(ViewBase target, Point controlMousePosition)
+        public void ShowRelativeTo(ViewBase? target, Point controlMousePosition)
         {
             PopupPositionValues position;
             if (_contentValues is ToolTipValues toolTipValues)

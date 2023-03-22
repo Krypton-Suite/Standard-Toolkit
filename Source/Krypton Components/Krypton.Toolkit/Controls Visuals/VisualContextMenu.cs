@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         private PaletteBase _palette;
         private readonly ContextMenuProvider _provider;
         private ViewDrawDocker _drawDocker;
-        private readonly ViewLayoutStack _viewColumns;
+        private readonly ViewLayoutStack? _viewColumns;
 
         #endregion
 
@@ -422,12 +422,12 @@ namespace Krypton.Toolkit
             items.GenerateView(_provider, this, _viewColumns, true, true);
 
             // Create the control panel canvas
-            ViewDrawCanvas mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
+            ViewDrawCanvas? mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
             {
                 _viewColumns
             };
 
-            ViewLayoutDocker layoutDocker = new();
+            ViewLayoutDocker? layoutDocker = new();
             Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);

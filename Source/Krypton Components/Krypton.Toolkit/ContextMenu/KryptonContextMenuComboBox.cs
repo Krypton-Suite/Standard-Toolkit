@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             throw new NotImplementedException();
         }
 
-        public override ViewBase GenerateView(IContextMenuProvider provider, object parent, ViewLayoutStack columns, bool standardStyle,
+        public override ViewBase? GenerateView(IContextMenuProvider provider, object parent, ViewLayoutStack? columns, bool standardStyle,
             bool imageColumn)
         {
             throw new NotImplementedException();

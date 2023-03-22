@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields
-        private readonly ViewDrawButton _drawButton;
+        private readonly ViewDrawButton? _drawButton;
         private ButtonStyle _style;
         private readonly ButtonController _buttonController;
         private readonly PaletteRedirectDropDownButton _paletteDropDownButtonImages;
@@ -773,7 +773,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view element for the button.
         /// </summary>
-        protected virtual ViewDrawButton ViewDrawButton => _drawButton;
+        protected virtual ViewDrawButton? ViewDrawButton => _drawButton;
         #endregion
 
         #region Implementation

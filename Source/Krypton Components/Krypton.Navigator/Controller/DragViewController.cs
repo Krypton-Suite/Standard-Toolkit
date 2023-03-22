@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the DragViewController class.
         /// </summary>
         /// <param name="target">Target for state changes.</param>
-        public DragViewController([DisallowNull] ViewBase target)
+        public DragViewController([DisallowNull] ViewBase? target)
         {
             Debug.Assert(target != null);
 
@@ -359,7 +359,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase Target { get; }
+        public ViewBase? Target { get; }
 
         #endregion
 

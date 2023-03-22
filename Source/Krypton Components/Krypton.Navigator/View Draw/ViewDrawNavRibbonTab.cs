@@ -51,8 +51,8 @@ namespace Krypton.Navigator
         private readonly RibbonTabToContent _contentProvider;
         private VisualOrientation _borderBackOrient;
         private NeedPaintHandler _needPaint;
-        private readonly ViewDrawContent _viewContent;
-        private readonly ViewLayoutDocker _layoutDocker;
+        private readonly ViewDrawContent? _viewContent;
+        private readonly ViewLayoutDocker? _layoutDocker;
         private PaletteRibbonShape _lastRibbonShape;
         private IDisposable[] _mementos;
         private DateTime _lastClick;
@@ -198,7 +198,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the view associated with the ribbon tab.
         /// </summary>
-        public ViewBase View => this;
+        public ViewBase? View => this;
 
         /// <summary>
         /// Gets the page this ribbon tab represents.
@@ -256,7 +256,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec? ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
+        public ButtonSpec? ButtonSpecFromView(ViewBase? element) => ButtonSpecManager?.ButtonSpecFromView(element);
 
         /// <summary>
         /// Gets access to the button spec manager used for this button.

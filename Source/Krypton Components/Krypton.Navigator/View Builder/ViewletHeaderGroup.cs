@@ -19,11 +19,11 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private ViewDrawDocker _viewGroup;
-        private ViewDrawDocker _viewHeadingPrimary;
-        private ViewDrawContent _viewContentPrimary;
-        private ViewDrawDocker _viewHeadingSecondary;
-        private ViewDrawContent _viewContentSecondary;
+        private ViewDrawDocker? _viewGroup;
+        private ViewDrawDocker? _viewHeadingPrimary;
+        private ViewDrawContent? _viewContentPrimary;
+        private ViewDrawDocker? _viewHeadingSecondary;
+        private ViewDrawContent? _viewContentSecondary;
         private ButtonSpecManagerDraw _buttonManager;
         private readonly NeedPaintHandler _needPaintDelegate;
         #endregion
@@ -66,7 +66,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="filler">View element to fill in the header group.</param>
         /// <returns>The root of the header group hierarchy.</returns>
-        public ViewDrawDocker Construct(ViewBase filler)
+        public ViewDrawDocker? Construct(ViewBase? filler)
         {
             CreateHeaderGroupView(filler);
             CreateButtonSpecManager();
@@ -108,7 +108,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec? ButtonSpecFromView(ViewBase element) =>
+        public ButtonSpec? ButtonSpecFromView(ViewBase? element) =>
             // Ask the button manager for the button spec for this element
             _buttonManager.ButtonSpecFromView(element);
 
@@ -285,7 +285,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void CreateHeaderGroupView(ViewBase filler)
+        private void CreateHeaderGroupView(ViewBase? filler)
         {
             // Create the top level group view
             _viewGroup = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.Back,
@@ -376,7 +376,7 @@ namespace Krypton.Navigator
             SetHeaderPosition(_viewHeadingSecondary, _viewContentSecondary, Navigator.Header.HeaderPositionSecondary);
         }
 
-        private void SetHeaderStyle(ViewDrawDocker drawDocker,
+        private void SetHeaderStyle(ViewDrawDocker? drawDocker,
                                     PaletteTripleMetricRedirect palette,
                                     HeaderStyle style)
         {
@@ -436,8 +436,8 @@ namespace Krypton.Navigator
             }
         }
 
-        private void SetHeaderPosition(ViewDrawCanvas canvas,
-                                       ViewDrawContent content,
+        private void SetHeaderPosition(ViewDrawCanvas? canvas,
+                                       ViewDrawContent? content,
                                        VisualOrientation position)
         {
             switch (position)

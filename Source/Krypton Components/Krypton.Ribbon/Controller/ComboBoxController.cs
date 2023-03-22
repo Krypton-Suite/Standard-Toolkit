@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -23,8 +24,8 @@ namespace Krypton.Ribbon
                                         IRibbonKeyTipTarget
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
-        private readonly KryptonRibbonGroupComboBox _comboBox;
+        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbonGroupComboBox? _comboBox;
         private readonly ViewDrawRibbonGroupComboBox _target;
         #endregion
 
@@ -35,8 +36,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="comboBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public ComboBoxController(KryptonRibbon ribbon,
-                                  KryptonRibbonGroupComboBox comboBox,
+        public ComboBoxController(KryptonRibbon? ribbon,
+                                  KryptonRibbonGroupComboBox? comboBox,
                                   ViewDrawRibbonGroupComboBox target)
         {
             Debug.Assert(ribbon != null);
@@ -56,11 +57,17 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if ((_comboBox.LastComboBox?.ComboBox != null) 
-                && _comboBox.LastComboBox.ComboBox.CanFocus)
+            if (_comboBox != null)
             {
-                _ribbon.LostFocusLosesKeyboard = false;
-                _comboBox.LastComboBox.ComboBox.Focus();
+                if ((_comboBox.LastComboBox?.ComboBox != null)
+                    && _comboBox.LastComboBox.ComboBox.CanFocus)
+                {
+                    if (_ribbon != null)
+                    {
+                        _ribbon.LostFocusLosesKeyboard = false;
+                    }
+                    _comboBox.LastComboBox.ComboBox.Focus();
+                }
             }
         }
 
@@ -79,10 +86,13 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public void KeyDown(Control c, KeyEventArgs e)
+        public void KeyDown(Control? c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            if (_ribbon != null)
+            {
+                c = _ribbon.GetControllerControl(c);
+            }
 
             switch (c)
             {
@@ -124,28 +134,31 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         public void KeyTipSelect(KryptonRibbon ribbon)
         {
-            // Can the combobox take the focus
-            if (_comboBox.LastComboBox.CanFocus)
+            if (_comboBox != null)
             {
-                // Prevent the ribbon from killing keyboard mode when it loses the focus,
-                // as this causes the tracking windows to be killed and we want them kept
-                ribbon.LostFocusLosesKeyboard = false;
-
-                // Prevent the restore of focus when we fill the keyboard mode, as the focus
-                // has been placed on the textbox and so focus is allowed to change
-                ribbon.IgnoreRestoreFocus = true;
-
-                // Exit the use of keyboard mode
-                ribbon.KillKeyboardMode();
-
-                // Push focus to the specified target control
-                _comboBox.LastComboBox.ComboBox.Focus();
-                // Ensure that the previous ribbon focus is restored when the popup window is dismissed
-
-                // If the textbox is inside a popup window
-                if (_comboBox.LastParentControl is VisualPopupGroup popupGroup)
+                // Can the combobox take the focus
+                if (_comboBox.LastComboBox.CanFocus)
                 {
-                    popupGroup.RestorePreviousFocus = true;
+                    // Prevent the ribbon from killing keyboard mode when it loses the focus,
+                    // as this causes the tracking windows to be killed and we want them kept
+                    ribbon.LostFocusLosesKeyboard = false;
+
+                    // Prevent the restore of focus when we fill the keyboard mode, as the focus
+                    // has been placed on the textbox and so focus is allowed to change
+                    ribbon.IgnoreRestoreFocus = true;
+
+                    // Exit the use of keyboard mode
+                    ribbon.KillKeyboardMode();
+
+                    // Push focus to the specified target control
+                    _comboBox.LastComboBox.ComboBox.Focus();
+                    // Ensure that the previous ribbon focus is restored when the popup window is dismissed
+
+                    // If the textbox is inside a popup window
+                    if (_comboBox.LastParentControl is VisualPopupGroup popupGroup)
+                    {
+                        popupGroup.RestorePreviousFocus = true;
+                    }
                 }
             }
         }
@@ -168,14 +181,20 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
-
-                    // Move across to any far defined buttons
-
-                    // Move across to any inherit defined buttons
-                    if (newView == null)
+                    if (ribbon.TabsArea.ButtonSpecManager != null)
                     {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                        newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ??
+                                  ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign
+                                      .Far);
+
+                        // Move across to any far defined buttons
+
+                        // Move across to any inherit defined buttons
+                        if (newView == null)
+                        {
+                            newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(
+                                PaletteRelativeEdgeAlign.Inherit);
+                        }
                     }
 
                     // Rotate around to application button
@@ -189,7 +208,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
             }
 

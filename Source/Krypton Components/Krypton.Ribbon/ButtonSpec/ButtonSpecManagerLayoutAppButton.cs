@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
                                                 PaletteRedirect? redirector,
                                                 ButtonSpecCollectionBase variableSpecs,
                                                 ButtonSpecCollectionBase fixedSpecs,
-                                                ViewLayoutDocker[] viewDockers,
+                                                ViewLayoutDocker?[] viewDockers,
                                                 IPaletteMetric[] viewMetrics,
                                                 PaletteMetricInt[] viewMetricInt,
                                                 PaletteMetricPadding[] viewMetricPaddings,

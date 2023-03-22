@@ -69,17 +69,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the first target element.
         /// </summary>
-        public ViewBase Target1 { get; set; }
+        public ViewBase? Target1 { get; set; }
 
         /// <summary>
         /// Gets and sets the second target element.
         /// </summary>
-        public ViewBase Target2 { get; set; }
+        public ViewBase? Target2 { get; set; }
 
         /// <summary>
         /// Gets and sets the third target element.
         /// </summary>
-        public ViewBase Target3 { get; set; }
+        public ViewBase? Target3 { get; set; }
 
         /// <summary>
         /// Gets a value indicating if the keyboard was used to request the menu.

@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _captured;
-        private readonly ViewDrawCheckBox _target;
-        private readonly ViewBase _top;
+        private readonly ViewDrawCheckBox? _target;
+        private readonly ViewBase? _top;
         private NeedPaintHandler _needPaint;
         #endregion
 
@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="top">Top element for the check box control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public CheckBoxController(ViewDrawCheckBox target,
-                                  ViewBase top,
+        public CheckBoxController(ViewDrawCheckBox? target,
+                                  ViewBase? top,
                                   NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase Target => _target;
+        public ViewBase? Target => _target;
 
 
         /// <summary>

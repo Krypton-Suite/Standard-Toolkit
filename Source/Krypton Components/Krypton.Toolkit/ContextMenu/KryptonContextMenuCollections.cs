@@ -63,12 +63,12 @@ namespace Krypton.Toolkit
         /// <param name="imageColumn">Should the image column be applied.</param>
         public void GenerateView(IContextMenuProvider provider,
                                  object parent,
-                                 ViewLayoutStack columns,
+                                 ViewLayoutStack? columns,
                                  bool standardStyle,
                                  bool imageColumn)
         {
             // Create the initial column
-            ViewLayoutStack column = AddColumn(columns);
+            ViewLayoutStack? column = AddColumn(columns);
 
             // Process each item in the collection in turn
             foreach (KryptonContextMenuItemBase item in this.Where(static item => item.Visible))
@@ -183,9 +183,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private ViewLayoutStack AddColumn(ViewLayoutStack columns)
+        private ViewLayoutStack? AddColumn(ViewLayoutStack? columns)
         {
-            ViewLayoutStack column = new(false);
+            ViewLayoutStack? column = new(false);
             columns.Add(column);
             return column;
         }
@@ -228,12 +228,12 @@ namespace Krypton.Toolkit
         internal void GenerateView(IContextMenuProvider provider,
                                    KryptonContextMenuItems items,
                                    object parent,
-                                   ViewLayoutStack columns,
+                                   ViewLayoutStack? columns,
                                    bool standardStyle,
                                    bool imageColumn)
         {
             // Create the initial column
-            ViewBase column = AddColumn(provider, items, columns, standardStyle, imageColumn);
+            ViewBase? column = AddColumn(provider, items, columns, standardStyle, imageColumn);
 
             // Process each item in the collection in turn
             foreach (KryptonContextMenuItemBase item in this.Where(static item => item.Visible))
@@ -268,14 +268,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private ViewBase AddColumn(IContextMenuProvider provider,
+        private ViewBase? AddColumn(IContextMenuProvider provider,
                                    KryptonContextMenuItems items,
-                                   ViewLayoutStack columns,
+                                   ViewLayoutStack? columns,
                                    bool standardStyle,
                                    bool imageColumn)
         {
             // Create a pile specific to organising menu items
-            ViewLayoutMenuItemsPile menuItemPile = new(provider, items, standardStyle, imageColumn);
+            ViewLayoutMenuItemsPile? menuItemPile = new(provider, items, standardStyle, imageColumn);
 
             // The pile is the root item for the new column
             columns.Add(menuItemPile);

@@ -73,11 +73,11 @@ namespace Krypton.Toolkit
         private readonly FormFixedButtonSpecCollection? _buttonSpecsFixed;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
-        private readonly ViewDrawForm _drawDocker;
-        private readonly ViewDrawDocker _drawHeading;
-        private readonly ViewDrawContent _drawContent;
-        private readonly ViewDecoratorFixedSize _headingFixedSize;
-        private readonly ViewLayoutNull _layoutNull;
+        private readonly ViewDrawForm? _drawDocker;
+        private readonly ViewDrawDocker? _drawHeading;
+        private readonly ViewDrawContent? _drawContent;
+        private readonly ViewDecoratorFixedSize? _headingFixedSize;
+        private readonly ViewLayoutNull? _layoutNull;
         private HeaderStyle _headerStyle;
         private PaletteRelativeAlign _formTitleAlign;
         private HeaderStyle _headerStylePrev;
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void InjectViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
+        public void InjectViewElement([DisallowNull] ViewBase? element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
             Debug.Assert(_drawHeading != null);
@@ -550,7 +550,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RevokeViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
+        public void RevokeViewElement([DisallowNull] ViewBase? element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
 
@@ -1289,7 +1289,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private void SetHeaderStyle(ViewDrawDocker drawDocker,
+        private void SetHeaderStyle(ViewDrawDocker? drawDocker,
                                     PaletteTripleMetricRedirect palette,
                                     HeaderStyle style)
         {

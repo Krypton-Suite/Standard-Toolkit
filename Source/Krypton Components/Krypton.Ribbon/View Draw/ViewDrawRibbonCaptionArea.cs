@@ -690,14 +690,14 @@ namespace Krypton.Ribbon
         private readonly NeedPaintHandler _needIntegratedDelegate;
         private readonly PaletteCaptionRedirect _redirect;
         private PaletteDoubleRedirect _redirectCaption;
-        private readonly ViewDrawRibbonComposition _compositionArea;
-        private ViewLayoutRibbonAppButton _captionAppButton;
-        private ViewLayoutRibbonAppButton _otherAppButton;
-        private ViewLayoutSeparator _spaceInsteadOfAppButton;
-        private ViewLayoutRibbonQATMini _captionQAT;
-        private ViewLayoutRibbonQATMini _nonCaptionQAT;
+        private readonly ViewDrawRibbonComposition? _compositionArea;
+        private ViewLayoutRibbonAppButton? _captionAppButton;
+        private ViewLayoutRibbonAppButton? _otherAppButton;
+        private ViewLayoutSeparator? _spaceInsteadOfAppButton;
+        private ViewLayoutRibbonQATMini? _captionQAT;
+        private ViewLayoutRibbonQATMini? _nonCaptionQAT;
         private ViewLayoutRibbonContextTitles? _contextTiles;
-        private ViewDrawRibbonCompoRightBorder _compRightBorder;
+        private ViewDrawRibbonCompoRightBorder? _compRightBorder;
         private AppButtonController _appButtonController;
         private AppTabController _appTabController;
         private KryptonForm? _kryptonForm;
@@ -719,7 +719,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon ribbon,
                                          [DisallowNull] PaletteRedirect? redirect,
-                                         [DisallowNull] ViewDrawRibbonComposition compositionArea,
+                                         [DisallowNull] ViewDrawRibbonComposition? compositionArea,
                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
@@ -873,7 +873,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Get the quick access toolbar view that is currently visible
         /// </summary>
-        public ViewLayoutRibbonQATMini VisibleQAT
+        public ViewLayoutRibbonQATMini? VisibleQAT
         {
             get
             {

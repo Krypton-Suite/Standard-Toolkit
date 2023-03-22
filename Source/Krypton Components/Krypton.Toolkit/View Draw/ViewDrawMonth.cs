@@ -40,14 +40,14 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly IKryptonMonthCalendar _calendar;
         private readonly ViewLayoutMonths _months;
-        private readonly ViewDrawDocker _drawHeader;
+        private readonly ViewDrawDocker? _drawHeader;
         private readonly PaletteBorderInheritForced _borderForced;
-        private readonly ViewDrawContent _drawContent;
-        private readonly ViewDrawMonthDayNames _drawMonthDayNames;
-        private readonly ViewDrawBorderEdge _drawBorderEdge;
-        private readonly ViewLayoutWeekCorner _drawWeekCorner;
-        private readonly ViewDrawWeekNumbers _drawWeekNumbers;
-        private readonly ViewLayoutStack _numberStack;
+        private readonly ViewDrawContent? _drawContent;
+        private readonly ViewDrawMonthDayNames? _drawMonthDayNames;
+        private readonly ViewDrawBorderEdge? _drawBorderEdge;
+        private readonly ViewLayoutWeekCorner? _drawWeekCorner;
+        private readonly ViewDrawWeekNumbers? _drawWeekNumbers;
+        private readonly ViewLayoutStack? _numberStack;
         private readonly PaletteBorderEdgeRedirect _borderEdgeRedirect;
         private readonly PaletteBorderEdge _borderEdge;
         private readonly ButtonSpecManagerDraw _buttonManager;
@@ -104,9 +104,9 @@ namespace Krypton.Toolkit
                                                        _calendar.GetToolStripDelegate, needPaintDelegate);
 
             // Create stacks for holding display items
-            ViewLayoutStack namesStack = new(true);
-            ViewLayoutStack weeksStack = new(true);
-            ViewLayoutStack daysStack = new(false);
+            ViewLayoutStack? namesStack = new(true);
+            ViewLayoutStack? weeksStack = new(true);
+            ViewLayoutStack? daysStack = new(false);
             _numberStack = new ViewLayoutStack(false);
             weeksStack.Add(_numberStack);
             weeksStack.Add(daysStack);
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
             _borderEdge = new PaletteBorderEdge(_borderEdgeRedirect, null);
             _drawBorderEdge = new ViewDrawBorderEdge(_borderEdge, Orientation.Vertical);
             _drawWeekNumbers = new ViewDrawWeekNumbers(_calendar, _months);
-            ViewLayoutDocker borderLeftDock = new()
+            ViewLayoutDocker? borderLeftDock = new()
             {
                 { _drawWeekNumbers, ViewDockStyle.Left },
                 { new ViewLayoutSeparator(0, 4), ViewDockStyle.Top },
@@ -136,8 +136,8 @@ namespace Krypton.Toolkit
             // Add border between day names and individual days
             PaletteBorderEdgeRedirect borderEdgeRedirect = new(_calendar.StateNormal.Header.Border, null);
             PaletteBorderEdge borderEdge = new(borderEdgeRedirect, null);
-            ViewDrawBorderEdge drawBorderEdge = new(borderEdge, Orientation.Horizontal);
-            ViewLayoutDocker borderTopDock = new()
+            ViewDrawBorderEdge? drawBorderEdge = new(borderEdge, Orientation.Horizontal);
+            ViewLayoutDocker? borderTopDock = new()
             {
                 { new ViewLayoutSeparator(4, 1), ViewDockStyle.Left },
                 { drawBorderEdge, ViewDockStyle.Fill },
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the days draw element.
         /// </summary>
-        public ViewDrawMonthDays ViewDrawMonthDays { get; }
+        public ViewDrawMonthDays? ViewDrawMonthDays { get; }
 
         /// <summary>
         /// Gets and sets the enabled state of the view.

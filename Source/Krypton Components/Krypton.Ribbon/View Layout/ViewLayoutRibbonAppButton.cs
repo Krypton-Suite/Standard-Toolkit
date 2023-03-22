@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private readonly ViewLayoutRibbonSeparator _separator;
+        private readonly ViewLayoutRibbonSeparator? _separator;
 
         #endregion
 
@@ -101,7 +101,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view element that represents the button.
         /// </summary>
-        public ViewDrawRibbonAppButton AppButton { get; }
+        public ViewDrawRibbonAppButton? AppButton { get; }
 
         #endregion
 
