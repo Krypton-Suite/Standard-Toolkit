@@ -6687,8 +6687,15 @@ namespace Krypton.Toolkit
                                                       Color border,
                                                       RenderDragDockingData dragData)
         {
-            if (g == null) throw new ArgumentNullException(nameof(g));
-            if (dragData == null) throw new ArgumentNullException(nameof(dragData));
+            if (g == null)
+            {
+                throw new ArgumentNullException(nameof(g));
+            }
+
+            if (dragData == null)
+            {
+                throw new ArgumentNullException(nameof(dragData));
+            }
 
             Color start = Color.FromArgb(190, 190, 190);
             using Pen borderPen = new(border);
@@ -6815,7 +6822,10 @@ namespace Krypton.Toolkit
                                                 Color inactiveColor,
                                                 RenderDragDockingData dragData)
         {
-            if (g == null) throw new ArgumentNullException(nameof(g));
+            if (g == null)
+            {
+                throw new ArgumentNullException(nameof(g));
+            }
 
             Color borderColour = ControlPaint.Dark(activeColor);
 

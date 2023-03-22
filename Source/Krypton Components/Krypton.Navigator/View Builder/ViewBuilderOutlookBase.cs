@@ -2231,7 +2231,9 @@ namespace Krypton.Navigator
 
             // Toggle the visible state of the page
             if (menuItem?.Tag is KryptonPage page)
+            {
                 page.Visible = !page.Visible;
+            }
         }
 
         private void ResetCachedKryptonContextMenu()

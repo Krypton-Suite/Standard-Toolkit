@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(qatContents != null);
-            
+
             _ribbon = ribbon;
             QATContents = qatContents;
         }
@@ -142,7 +142,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view that has the focus.
         /// </summary>
-        public ViewBase FocusView
+        public ViewBase? FocusView
         {
             get => _focusView;
 

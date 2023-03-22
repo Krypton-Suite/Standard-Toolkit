@@ -24,8 +24,8 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
-        private readonly ViewDrawRibbonCaptionArea _captionArea;
+        private readonly KryptonRibbon? _ribbon;
+        private readonly ViewDrawRibbonCaptionArea? _captionArea;
         #endregion
 
         #region Identity
@@ -36,9 +36,9 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">View manager instance for managing view display.</param>
         /// <param name="captionArea">View element that manages the custom chrome injection.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupMinimized(KryptonRibbon ribbon,
+        public VisualPopupMinimized(KryptonRibbon? ribbon,
                                     ViewManager viewManager,
-                                    ViewDrawRibbonCaptionArea captionArea,
+                                    ViewDrawRibbonCaptionArea? captionArea,
                                     IRenderer? renderer)
             : base(viewManager, renderer, true)
         {
@@ -93,19 +93,19 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view for the popup group.
         /// </summary>
-        public ViewRibbonMinimizedManager ViewRibbonManager => ViewManager as ViewRibbonMinimizedManager;
+        public ViewRibbonMinimizedManager? ViewRibbonManager => ViewManager as ViewRibbonMinimizedManager;
 
         /// <summary>
         /// Sets focus to the first focus item inside the selected tab.
         /// </summary>
         public void SetFirstFocusItem()
         {
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetFirstFocusItem();
+            ViewBase? newView = _ribbon!.GroupsArea.ViewGroups.GetFirstFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
             {
-                ViewRibbonManager.FocusView = newView;
+                ViewRibbonManager!.FocusView = newView;
                 PerformNeedPaint(false);
             }
         }
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void Show(ViewLayoutRibbonTabsArea tabsArea, 
+        public void Show(ViewLayoutRibbonTabsArea tabsArea,
                          ViewDrawPanel drawMinimizedPanel)
         {
             // Show at the calculated position
@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void UpdatePosition(ViewLayoutRibbonTabsArea tabsArea, 
+        public void UpdatePosition(ViewLayoutRibbonTabsArea tabsArea,
                                    ViewDrawPanel drawMinimizedPanel)
         {
             // Move to the newly calculated position
@@ -242,7 +242,7 @@ namespace Krypton.Ribbon
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.Style |= (int) PI.WS_.CLIPCHILDREN;
+                cp.Style |= (int)PI.WS_.CLIPCHILDREN;
                 return cp;
             }
         }

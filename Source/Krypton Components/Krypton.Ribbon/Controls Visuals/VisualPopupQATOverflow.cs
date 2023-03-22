@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class VisualPopupQATOverflow : VisualPopup
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly ViewDrawRibbonQATOverflow _viewQAT;
 
         #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="contents">Reference to original contents which has overflow items.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupQATOverflow(KryptonRibbon ribbon,
+        public VisualPopupQATOverflow(KryptonRibbon? ribbon,
                                       ViewLayoutRibbonQATContents contents,
                                       IRenderer? renderer)
             : base(renderer, true)
@@ -43,8 +43,8 @@ namespace Krypton.Ribbon
             _viewQAT = new ViewDrawRibbonQATOverflow(ribbon, NeedPaintDelegate);
 
             // Create and add the element used to synch and draw the actual contents
-            ViewQATContents = new ViewLayoutRibbonQATFromOverflow(this, ribbon, 
-                                                                   NeedPaintDelegate, 
+            ViewQATContents = new ViewLayoutRibbonQATFromOverflow(this, ribbon,
+                                                                   NeedPaintDelegate,
                                                                    true, contents);
             _viewQAT.Add(ViewQATContents);
 
@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Ensure the manager believes the mouse has left the area
-                ViewManager.MouseLeave(EventArgs.Empty);
+                ViewManager!.MouseLeave(EventArgs.Empty);
 
                 // Remove all child controls so they do not become disposed
                 for (var i = Controls.Count - 1; i >= 0; i--)
@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the qat overflow manager.
         /// </summary>
-        public ViewRibbonQATOverflowManager ViewOverflowManager => ViewManager as ViewRibbonQATOverflowManager;
+        public ViewRibbonQATOverflowManager? ViewOverflowManager => ViewManager as ViewRibbonQATOverflowManager;
 
         #endregion
 
@@ -104,7 +104,11 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetFirstFocusItem()
         {
-            ViewOverflowManager.FocusView = ViewQATContents.GetFirstQATView();
+            if (ViewOverflowManager != null)
+            {
+                ViewOverflowManager.FocusView = ViewQATContents.GetFirstQATView();
+            }
+
             PerformNeedPaint(false);
         }
         #endregion
@@ -116,7 +120,10 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetLastFocusItem()
         {
-            ViewOverflowManager.FocusView = ViewQATContents.GetLastQATView();
+            if (ViewOverflowManager != null)
+            {
+                ViewOverflowManager.FocusView = ViewQATContents.GetLastQATView();
+            }
             PerformNeedPaint(false);
         }
         #endregion
@@ -128,7 +135,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
+            ViewBase? view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
 
             // Rotate around to the first item
             if (view == null)
@@ -198,7 +205,7 @@ namespace Krypton.Ribbon
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.Style |= (int) PI.WS_.CLIPCHILDREN;
+                cp.Style |= (int)PI.WS_.CLIPCHILDREN;
                 return cp;
             }
         }

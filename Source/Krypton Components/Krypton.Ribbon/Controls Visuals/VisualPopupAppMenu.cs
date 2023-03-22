@@ -515,7 +515,10 @@ namespace Krypton.Ribbon
                 _palette = palette;
 
                 // Update redirector to use palette as source for obtaining values
-                if (Redirector != null) Redirector.Target = _palette;
+                if (Redirector != null)
+                {
+                    Redirector.Target = _palette;
+                }
 
                 // Get the renderer associated with the palette
                 if (_palette != null)
@@ -536,7 +539,10 @@ namespace Krypton.Ribbon
         private void OnBaseChanged(object sender, EventArgs e)
         {
             // Change in base renderer or base palette require we fetch the latest renderer
-            if (_palette != null) Renderer = _palette.GetRenderer();
+            if (_palette != null)
+            {
+                Renderer = _palette.GetRenderer();
+            }
         }
 
         private void OnButtonSpecPaint(object sender, NeedLayoutEventArgs e)

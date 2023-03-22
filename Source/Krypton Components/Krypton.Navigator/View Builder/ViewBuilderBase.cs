@@ -714,8 +714,10 @@ namespace Krypton.Navigator
         protected virtual void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (Navigator.StateCommon == null)
+            {
                 return;
-            
+            }
+
             switch (e.PropertyName)
             {
                 case @"PanelBackStyle":
@@ -724,12 +726,18 @@ namespace Krypton.Navigator
                     break;
                 case @"PageBackStyle":
                     if (Navigator.StateCommon.PalettePage != null)
+                    {
                         Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
+                    }
+
                     Navigator.PerformNeedPagePaint(true);
                     break;
                 case @"GroupBackStyle":
                     if (Navigator.ChildPanel != null)
+                    {
                         Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
+                    }
+
                     Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
                     Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
