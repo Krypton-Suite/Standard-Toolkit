@@ -45,14 +45,14 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Remember references needed later
-            _navigator = navigator!;
-            _page = page!;
+            _navigator = navigator;
+            _page = page;
 
             // Always create the layout that positions the actual page
-            ViewLayoutPopupPage layoutPage = new(_navigator, _page);
+            ViewLayoutPopupPage? layoutPage = new(_navigator, _page);
 
             // Create the internal panel used for containing content
-            ViewDrawCanvas drawGroup = new(_navigator.StateNormal.HeaderGroup.Back,
+            ViewDrawCanvas? drawGroup = new(_navigator.StateNormal.HeaderGroup.Back,
                                                           _navigator.StateNormal.HeaderGroup.Border,
                                                           VisualOrientation.Top)
             {
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
 
                 // Put the page group inside a layout that has separators 
                 // to pad out the sizing to the border size we need
-                ViewLayoutDocker layoutDocker = new()
+                ViewLayoutDocker? layoutDocker = new()
                 {
                     { drawGroup, ViewDockStyle.Fill },
                     { new ViewLayoutSeparator(border), ViewDockStyle.Top },

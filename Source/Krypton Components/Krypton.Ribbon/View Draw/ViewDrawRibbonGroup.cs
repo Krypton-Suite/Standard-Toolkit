@@ -37,19 +37,19 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private VisualPopupGroup _popupGroup;
-        private ViewLayoutDocker _layoutCollapsedMain;
-        private ViewDrawRibbonGroupText _viewCollapsedText1;
-        private ViewDrawRibbonGroupText _viewCollapsedText2;
-        private ViewLayoutRibbonCenterPadding _layoutCollapsedImagePadding;
+        private ViewLayoutDocker? _layoutCollapsedMain;
+        private ViewDrawRibbonGroupText? _viewCollapsedText1;
+        private ViewDrawRibbonGroupText? _viewCollapsedText2;
+        private ViewLayoutRibbonCenterPadding? _layoutCollapsedImagePadding;
         private CollapsedGroupController _collapsedController;
-        private ViewLayoutRibbonTitle _layoutNormalMain;
-        private ViewLayoutRibbonSeparator _layoutNormalSepTop;
-        private ViewLayoutRibbonSeparator _layoutNormalSepLeft;
-        private ViewLayoutRibbonSeparator _layoutNormalSepRight;
-        private ViewLayoutRibbonGroupContent _layoutNormalContent;
-        private ViewLayoutRibbonGroupButton _viewNormalDialog;
-        private ViewLayoutDocker _layoutNormalTitle;
-        private ViewDrawRibbonGroupTitle _viewNormalTitle;
+        private ViewLayoutRibbonTitle? _layoutNormalMain;
+        private ViewLayoutRibbonSeparator? _layoutNormalSepTop;
+        private ViewLayoutRibbonSeparator? _layoutNormalSepLeft;
+        private ViewLayoutRibbonSeparator? _layoutNormalSepRight;
+        private ViewLayoutRibbonGroupContent? _layoutNormalContent;
+        private ViewLayoutRibbonGroupButton? _viewNormalDialog;
+        private ViewLayoutDocker? _layoutNormalTitle;
+        private ViewDrawRibbonGroupTitle? _viewNormalTitle;
         private PaletteRibbonContextBack _paletteContextBackArea;
         private PaletteRibbonContextBack _paletteContextBorder;
         private PaletteRibbonShape _lastRibbonShape;
@@ -221,7 +221,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetFirstFocusItem();
 
@@ -234,7 +234,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetLastFocusItem();
 
@@ -249,9 +249,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (Collapsed)
             {
@@ -280,9 +280,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (Collapsed)
             {
@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
             UpdateShapeValues();
 
             // Ask the normal group content for its possible sizes
-            IRibbonViewGroupSize viewSize = _layoutNormalContent;
+            IRibbonViewGroupSize? viewSize = _layoutNormalContent;
 
             // Get the permutations from the content area
             var retWidths = new List<GroupSizeWidth>();
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
             Collapsed = size == null;
 
             // Pass solution onto the contained view
-            IRibbonViewGroupSize viewSize = _layoutNormalContent;
+            IRibbonViewGroupSize? viewSize = _layoutNormalContent;
             viewSize.SetSolutionSize(size);
         }
 
@@ -663,15 +663,15 @@ namespace Krypton.Ribbon
             _layoutCollapsedMain.KeyController = _collapsedController;
 
             // Reduce layout area to remove the group border
-            ViewLayoutRibbonPadding layoutCollapsedInsidePadding = new(COLLAPSED_PADDING);
+            ViewLayoutRibbonPadding? layoutCollapsedInsidePadding = new(COLLAPSED_PADDING);
             _layoutCollapsedMain.Add(layoutCollapsedInsidePadding, ViewDockStyle.Fill);
 
             // Position at top an area that is padded for containing the image
-            ViewLayoutDocker layoutCollapsedInside = new();
+            ViewLayoutDocker? layoutCollapsedInside = new();
             layoutCollapsedInsidePadding.Add(layoutCollapsedInside);
 
             // Create the layout for the second line of text
-            ViewLayoutRibbonRowCenter layoutCollapsedText2 = new();
+            ViewLayoutRibbonRowCenter? layoutCollapsedText2 = new();
             _viewCollapsedText2 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, false);
             layoutCollapsedText2.Add(_viewCollapsedText2);
             layoutCollapsedText2.Add(new ViewLayoutRibbonSeparator(2, 10, true));
@@ -688,7 +688,7 @@ namespace Krypton.Ribbon
             layoutCollapsedInside.Add(_layoutCollapsedImagePadding, ViewDockStyle.Top);
 
             // Finally we add the actual drawing element for the collapsed group image
-            ViewDrawRibbonGroupImage drawCollapsedImage = new(_ribbon, _ribbonGroup, this);
+            ViewDrawRibbonGroupImage? drawCollapsedImage = new(_ribbon, _ribbonGroup, this);
             _layoutCollapsedImagePadding.Add(drawCollapsedImage);
         }
 

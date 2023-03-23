@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private readonly ViewDrawRibbonGroup _viewGroup;
+        private readonly ViewDrawRibbonGroup? _viewGroup;
         private readonly NeedPaintHandler _needPaintDelegate;
         private ViewBase _focusView;
         private bool _layingOut;
@@ -35,8 +35,8 @@ namespace Krypton.Ribbon
         /// <param name="needPaintDelegate">Delegate for performing painting.</param>
         public ViewRibbonPopupGroupManager(Control control,
                                            KryptonRibbon ribbon,
-                                           ViewBase root,
-                                           ViewDrawRibbonGroup viewGroup,
+                                           ViewBase? root,
+                                           ViewDrawRibbonGroup? viewGroup,
                                            NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {

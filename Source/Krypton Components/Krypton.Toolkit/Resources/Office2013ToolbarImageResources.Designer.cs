@@ -143,6 +143,26 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarPageSetupDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarPageSetupDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarPageSetupNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarPageSetupNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2013ToolbarPasteDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2013ToolbarPasteDisabled", resourceCulture);
@@ -163,6 +183,66 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarPrintDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarPrintDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarPrintNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarPrintNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarPrintPreviewDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarPrintPreviewDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarPrintPreviewNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarPrintPreviewNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarQuickPrintDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarQuickPrintDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarQuickPrintNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarQuickPrintNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2013ToolbarRedoDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2013ToolbarRedoDisabled", resourceCulture);
@@ -176,6 +256,46 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap Office2013ToolbarRedoNormal {
             get {
                 object obj = ResourceManager.GetObject("Office2013ToolbarRedoNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarSaveAllDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarSaveAllDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarSaveAllNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarSaveAllNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarSaveAsDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarSaveAsDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2013ToolbarSaveAsNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2013ToolbarSaveAsNormal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

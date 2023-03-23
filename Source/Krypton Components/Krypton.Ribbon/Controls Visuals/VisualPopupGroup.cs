@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private readonly ViewDrawRibbonGroupsBorder _viewBackground;
+        private readonly ViewDrawRibbonGroupsBorder? _viewBackground;
         private readonly Button _hiddenFocusTarget;
         #endregion
 
@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view for the popup group.
         /// </summary>
-        public ViewDrawRibbonGroup ViewGroup { get; }
+        public ViewDrawRibbonGroup? ViewGroup { get; }
 
         #endregion
 

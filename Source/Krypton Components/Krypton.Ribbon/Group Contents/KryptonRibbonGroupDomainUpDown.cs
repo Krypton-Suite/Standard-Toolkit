@@ -561,7 +561,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon,
+        public override ViewBase? CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint) =>
             new ViewDrawRibbonGroupDomainUpDown(ribbon, this, needPaint);
 
@@ -579,7 +579,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase DomainUpDownView { get; set; }
+        public ViewBase? DomainUpDownView { get; set; }
 
         #endregion
 

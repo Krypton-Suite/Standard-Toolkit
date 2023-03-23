@@ -73,7 +73,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the view associated with the check item.
         /// </summary>
-        public ViewBase View => this;
+        public ViewBase? View => this;
 
         #endregion
 

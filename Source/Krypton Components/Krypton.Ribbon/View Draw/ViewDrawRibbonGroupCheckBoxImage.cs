@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         private readonly Size _smallSize;// = new Size(16, 16);
         private readonly Size _largeSize;// = new Size(32, 32);
         private readonly KryptonRibbonGroupCheckBox _ribbonCheckBox;
-        private readonly ViewDrawCheckBox _drawCheckBox;
+        private readonly ViewDrawCheckBox? _drawCheckBox;
         private readonly bool _large;
         #endregion
 

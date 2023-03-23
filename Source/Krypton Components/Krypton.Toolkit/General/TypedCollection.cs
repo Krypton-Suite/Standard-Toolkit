@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
         public int IndexOf([DisallowNull] T? item)
         {
             Debug.Assert(item != null);
-            return _list.IndexOf(item!);
+            return _list.IndexOf(item);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
             OnRemoving(new TypedCollectionEventArgs<T>(item, index));
 
             // Remove from the internal list
-            var ret = _list.Remove(item!);
+            var ret = _list.Remove(item);
 
             // Generate after event
             OnRemoved(new TypedCollectionEventArgs<T>(item, index));

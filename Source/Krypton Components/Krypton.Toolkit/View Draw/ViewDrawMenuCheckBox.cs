@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
         private readonly FixedContentValue _contentValues;
-        private readonly ViewLayoutCenter _layoutCenter;
-        private readonly ViewLayoutDocker _outerDocker;
-        private readonly ViewLayoutDocker _innerDocker;
+        private readonly ViewLayoutCenter? _layoutCenter;
+        private readonly ViewLayoutDocker? _outerDocker;
+        private readonly ViewLayoutDocker? _innerDocker;
         private KryptonCommand _cachedCommand;
 
         #endregion
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the check box image drawing element.
         /// </summary>
-        public ViewDrawCheckBox ViewDrawCheckBox { get; }
+        public ViewDrawCheckBox? ViewDrawCheckBox { get; }
 
         #endregion
 
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the content drawing element.
         /// </summary>
-        public ViewDrawContent ViewDrawContent { get; }
+        public ViewDrawContent? ViewDrawContent { get; }
 
         #endregion
 

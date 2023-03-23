@@ -28,8 +28,8 @@ namespace Krypton.Ribbon
         private Image? _image;
         private Color _imageTransparentColor;
         private string _text;
-        private string _extraText;
-        private object _tag;
+        private string? _extraText;
+        private object? _tag;
         #endregion
 
         #region Events
@@ -53,7 +53,7 @@ namespace Krypton.Ribbon
             _imageTransparentColor = Color.Empty;
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the main text for the recent document entry.
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
         [Description(@"Main text for the recent document entry.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Recent Document")]
-        public string Text
+        public string? Text
         {
             get => _text;
 
@@ -73,7 +73,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Recent Document";
+                    value = @"Recent Document";
                 }
 
                 if (value != _text)
@@ -92,13 +92,13 @@ namespace Krypton.Ribbon
         [Description(@"Extra text for the recent document entry.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
-        public string ExtraText
+        public string? ExtraText
         {
             get => _extraText;
 
             set
             {
-                if (value != _extraText)
+                if (_extraText != null && value != _extraText)
                 {
                     _extraText = value;
                 }
@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
 
             set
             {
-                if (_image != value)
+                if (_image != null && _image != value)
                 {
                     _image = value;
                 }
@@ -155,13 +155,13 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
             set
             {
-                if (value != _tag)
+                if (value != null && value != _tag)
                 {
                     _tag = value;
                 }
@@ -174,14 +174,12 @@ namespace Krypton.Ribbon
         {
             Tag = null;
         }
-        
+
         /// <summary>
         /// Generates a Click event for the component.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(EventArgs.Empty);
+
         #endregion
 
         #region Protected
@@ -189,10 +187,8 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(this, e);
+
         #endregion
     }
 }

@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private SeparatorStyle _style;
-        private readonly ViewDrawPanel _drawPanel;
-        private readonly ViewDrawSeparator _drawSeparator;
+        private readonly ViewDrawPanel? _drawPanel;
+        private readonly ViewDrawSeparator? _drawSeparator;
         private readonly SeparatorController _separatorController;
         private Orientation _orientation;
         private FixedPanel _fixedPanel;

@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewLayoutInsetOverlap : ViewComposite
     {
         #region Instance Fields
-        private readonly ViewDrawCanvas _drawCanvas;
+        private readonly ViewDrawCanvas? _drawCanvas;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the ViewLayoutInsetOverlap class.
         /// </summary>
-        public ViewLayoutInsetOverlap(ViewDrawCanvas drawCanvas)
+        public ViewLayoutInsetOverlap(ViewDrawCanvas? drawCanvas)
         {
             Debug.Assert(drawCanvas != null);
 

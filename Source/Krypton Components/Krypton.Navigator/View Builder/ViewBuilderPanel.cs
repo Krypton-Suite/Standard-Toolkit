@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderPanel : ViewBuilderBase
     {
         #region Instance Fields
-        private ViewBase _oldRoot;
+        private ViewBase? _oldRoot;
         private ViewDrawPanel _drawPanel;
         #endregion
         
@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage? PageFromView(ViewBase element) =>
+        public override KryptonPage? PageFromView(ViewBase? element) =>
             // There is no view for the page
             null;
 
@@ -79,7 +79,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase? element) =>
             // There is no view for the page
             null;
 

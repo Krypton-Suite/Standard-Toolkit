@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the standard border renderer.
         /// </summary>
-        public IRenderBorder RenderStandardBorder 
+        public IRenderBorder RenderStandardBorder
         {
             [DebuggerStepThrough]
             get => this;
@@ -134,7 +134,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the glyph renderer.
         /// </summary>
-        public IRenderGlyph RenderGlyph 
+        public IRenderGlyph RenderGlyph
         {
             [DebuggerStepThrough]
             get => this;
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
                                                           IPaletteBorder palette,
                                                           VisualOrientation orientation,
                                                           PaletteState state);
-        
+
         /// <summary>
         /// Generate a graphics path that is in the middle of the border.
         /// </summary>
@@ -194,8 +194,8 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <returns>GraphicsPath instance.</returns>
-        public abstract GraphicsPath GetBorderPath(RenderContext context, 
-                                                   Rectangle rect, 
+        public abstract GraphicsPath GetBorderPath(RenderContext context,
+                                                   Rectangle rect,
                                                    IPaletteBorder palette,
                                                    VisualOrientation orientation,
                                                    PaletteState state);
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
                                                  IPaletteBorder palette,
                                                  VisualOrientation orientation,
                                                  PaletteState state);
-        
+
         /// <summary>
         /// Draw border on the inside edge of the specified rectangle.
         /// </summary>
@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette used for drawing.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
-        public abstract void DrawBorder(RenderContext context, 
-                                        Rectangle rect, 
+        public abstract void DrawBorder(RenderContext context,
+                                        Rectangle rect,
                                         IPaletteBorder palette,
                                         VisualOrientation orientation,
                                         PaletteState state);
@@ -241,9 +241,9 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the background.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public abstract IDisposable DrawBack(RenderContext context, 
+        public abstract IDisposable DrawBack(RenderContext context,
                                              Rectangle rect,
-                                             GraphicsPath path, 
+                                             GraphicsPath path,
                                              IPaletteBack palette,
                                              VisualOrientation orientation,
                                              PaletteState state,
@@ -288,7 +288,7 @@ namespace Krypton.Toolkit
                                                   IContentValues values,
                                                   VisualOrientation orientation,
                                                   PaletteState state,
-                                                  bool composition, 
+                                                  bool composition,
                                                   bool glowing);
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Krypton.Toolkit
                                                              Color baseColor1,
                                                              Color baseColor2,
                                                              IDisposable memento);
-        
+
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.
         /// </summary>
@@ -670,7 +670,7 @@ namespace Krypton.Toolkit
                                                            Rectangle cellRect,
                                                            IPaletteContent? paletteContent,
                                                            PaletteState state);
-        
+
 
         /// <summary>
         /// Perform drawing of a ribbon dialog box launcher glyph.
@@ -843,8 +843,8 @@ namespace Krypton.Toolkit
                                                  Size positionSize,
                                                  int minimum,
                                                  int maximum,
-                                                 int frequency);    
- 
+                                                 int frequency);
+
         /// <summary>
         /// Draw the track bar track glyph.
         /// </summary>

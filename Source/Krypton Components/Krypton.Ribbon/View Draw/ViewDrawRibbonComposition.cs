@@ -86,7 +86,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated right border for composition layout.
         /// </summary>
-        public ViewDrawRibbonCompoRightBorder CompRightBorder { get; set; }
+        public ViewDrawRibbonCompoRightBorder? CompRightBorder { get; set; }
 
         #endregion
 

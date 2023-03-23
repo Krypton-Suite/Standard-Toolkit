@@ -12,6 +12,8 @@
  */
 #endregion
 
+// ReSharper disable RedundantCast
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -29,14 +31,14 @@ namespace Krypton.Ribbon
         #region Instance Fields
 
         private readonly PaletteGalleryBackBorder _backBorder;
-        private readonly ViewLayoutRibbonGalleryButtons _buttonsLayout;
-        private readonly ViewDrawRibbonGalleryButton _buttonUp;
-        private readonly ViewDrawRibbonGalleryButton _buttonDown;
-        private readonly ViewDrawRibbonGalleryButton _buttonContext;
-        private readonly ViewLayoutRibbonGalleryItems _drawItems;
-        private ImageList _imageList;
-        private readonly ViewLayoutDocker _layoutDocker;
-        private readonly ViewDrawDocker _drawDocker;
+        private readonly ViewLayoutRibbonGalleryButtons? _buttonsLayout;
+        private readonly ViewDrawRibbonGalleryButton? _buttonUp;
+        private readonly ViewDrawRibbonGalleryButton? _buttonDown;
+        private readonly ViewDrawRibbonGalleryButton? _buttonContext;
+        private readonly ViewLayoutRibbonGalleryItems? _drawItems;
+        private ImageList? _imageList;
+        private readonly ViewLayoutDocker? _layoutDocker;
+        private readonly ViewDrawDocker? _drawDocker;
         private bool? _fixedActive;
         private Size _preferredItemSize;
         private bool _mouseOver;
@@ -48,8 +50,8 @@ namespace Krypton.Ribbon
         private int _cacheTrackingIndex;
         private int _eventTrackingIndex;
         private readonly Timer _trackingEventTimer;
-        private KryptonContextMenu _dropMenu;
-        private EventHandler _finishDelegate;
+        private KryptonContextMenu? _dropMenu;
+        private EventHandler? _finishDelegate;
         #endregion
 
         #region Events
@@ -103,7 +105,7 @@ namespace Krypton.Ribbon
             {
                 Interval = 120
             };
-            _trackingEventTimer.Tick += OnTrackingTick;
+            _trackingEventTimer.Tick += OnTrackingTick!;
 
             // Create content storage
             Images = new GalleryImages(NeedPaintDelegate);
@@ -474,18 +476,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnImageListChanged(EventArgs e)
-        {
-            ImageListChanged?.Invoke(this, e);
-        }
+        => ImageListChanged(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnSelectedIndexChanged(EventArgs e)
-        {
-            SelectedIndexChanged?.Invoke(this, e);
-        }
+        => SelectedIndexChanged(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
@@ -494,7 +492,7 @@ namespace Krypton.Ribbon
         protected virtual void OnTrackingImage(ImageSelectEventArgs e)
         {
             _eventTrackingIndex = e.ImageIndex;
-            TrackingImage?.Invoke(this, e);
+            TrackingImage(this, e);
         }
 
         /// <summary>
@@ -502,9 +500,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="e">An GalleryDropMenuEventArgs containing the event data.</param>
         protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e)
-        {
-            GalleryDropMenu?.Invoke(this, e);
-        }
+        => GalleryDropMenu(this, e);
         #endregion
 
         #region Protected Overrides
@@ -746,9 +742,9 @@ namespace Krypton.Ribbon
 
         internal bool DesignerGetHitTest(Point pt) => false;
 
-        internal Component DesignerComponentFromPoint(Point pt) =>
+        internal Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager!.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         internal void DesignerMouseLeave()
@@ -764,7 +760,7 @@ namespace Krypton.Ribbon
             set => _preferredItemSize = value;
         }
 
-        internal KryptonRibbon Ribbon { get; set; }
+        internal KryptonRibbon? Ribbon { get; set; }
 
         internal void OnDropButton()
         {
@@ -778,7 +774,7 @@ namespace Krypton.Ribbon
         internal void ShownGalleryDropDown(Rectangle screenRect,
                                            KryptonContextMenuPositionH hPosition,
                                            KryptonContextMenuPositionV vPosition,
-                                           EventHandler finishDelegate,
+                                           EventHandler? finishDelegate,
                                            int actualLineItems)
         {
             // First time around create the context menu, otherwise just clear it down
@@ -847,19 +843,22 @@ namespace Krypton.Ribbon
                 {
                     if (item is KryptonContextMenuImageSelect itemSelect)
                     {
-                        itemSelect.SelectedIndexChanged += OnDropImageSelect;
-                        itemSelect.TrackingImage += OnDropImageTracking;
+                        itemSelect.SelectedIndexChanged += OnDropImageSelect!;
+                        itemSelect.TrackingImage += OnDropImageTracking!;
                     }
                 }
 
                 // Need to know when the menu is dismissed
-                args.KryptonContextMenu.Closed += OnDropMenuClosed;
+                if (args.KryptonContextMenu != null)
+                {
+                    args.KryptonContextMenu.Closed += OnDropMenuClosed!;
 
-                // Remember the delegate we need to fire when the menu is dismissed
-                _finishDelegate = finishDelegate;
+                    // Remember the delegate we need to fire when the menu is dismissed
+                    _finishDelegate = finishDelegate;
 
-                // Show the menu to the user
-                args.KryptonContextMenu.Show(this, screenRect, hPosition, vPosition);
+                    // Show the menu to the user
+                    args.KryptonContextMenu.Show(this, screenRect, hPosition, vPosition);
+                }
             }
             else
             {
@@ -876,15 +875,15 @@ namespace Krypton.Ribbon
                 TrackingIndex = -1;
 
                 // Unhook from events
-                _dropMenu.Closed -= OnDropMenuClosed;
+                _dropMenu.Closed -= OnDropMenuClosed!;
 
                 // Unhook from the image select events
                 foreach (KryptonContextMenuItemBase item in _dropMenu.Items)
                 {
                     if (item is KryptonContextMenuImageSelect itemSelect)
                     {
-                        itemSelect.SelectedIndexChanged -= OnDropImageSelect;
-                        itemSelect.TrackingImage -= OnDropImageTracking;
+                        itemSelect.SelectedIndexChanged -= OnDropImageSelect!;
+                        itemSelect.TrackingImage -= OnDropImageTracking!;
                     }
                 }
 

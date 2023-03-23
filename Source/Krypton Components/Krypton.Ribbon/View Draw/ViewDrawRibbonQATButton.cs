@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         private readonly Size _viewSize;
         private readonly KryptonRibbon _ribbon;
         private readonly QATButtonToContent _contentProvider;
-        private readonly ViewDrawContent _drawContent;
+        private readonly ViewDrawContent? _drawContent;
         private IDisposable _mementoBack;
         #endregion
 

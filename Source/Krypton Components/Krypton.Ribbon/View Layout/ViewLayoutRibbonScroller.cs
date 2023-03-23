@@ -28,8 +28,8 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private VisualOrientation _orientation;
-        private readonly ViewDrawRibbonScrollButton _button;
-        private readonly ViewLayoutRibbonSeparator _separator;
+        private readonly ViewDrawRibbonScrollButton? _button;
+        private readonly ViewLayoutRibbonSeparator? _separator;
         private readonly bool _insetForTabs;
         #endregion
 

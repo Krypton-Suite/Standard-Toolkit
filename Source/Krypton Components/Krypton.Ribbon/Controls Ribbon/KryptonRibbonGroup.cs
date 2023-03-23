@@ -479,7 +479,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase GroupView { get; set; }
+        public ViewBase? GroupView { get; set; }
 
         #endregion
 
@@ -492,7 +492,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.Actionoccurred();
+            Ribbon?.ActionOccurred();
 
             DialogBoxLauncherClick?.Invoke(this, e);
         }
@@ -562,9 +562,12 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Setup the back references
-            e.Item.Ribbon = _ribbon;
-            e.Item.RibbonTab = _ribbonTab;
-            e.Item.RibbonGroup = this;
+            if (e.Item != null)
+            {
+                e.Item.Ribbon = _ribbon;
+                e.Item.RibbonTab = _ribbonTab;
+                e.Item.RibbonGroup = this;
+            }
 
             // Only need to update display if this tab is selected and the group is visible
             if ((_ribbon != null)
@@ -579,9 +582,12 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
-            e.Item.RibbonTab = null;
-            e.Item.RibbonGroup = null;
+            if (e.Item != null)
+            {
+                e.Item.Ribbon = null;
+                e.Item.RibbonTab = null;
+                e.Item.RibbonGroup = null;
+            }
 
             // Only need to update display if this tab is selected and the group was visible
             if ((_ribbon != null)

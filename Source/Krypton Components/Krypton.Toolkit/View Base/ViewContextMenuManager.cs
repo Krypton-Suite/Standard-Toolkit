@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Owning control.</param>
         /// <param name="root">Root of the view hierarchy.</param>
-        public ViewContextMenuManager(Control control, ViewBase root)
+        public ViewContextMenuManager(Control control, ViewBase? root)
             : base(control, root)
         {
             // Create timer to notify targets when the standard delay expires

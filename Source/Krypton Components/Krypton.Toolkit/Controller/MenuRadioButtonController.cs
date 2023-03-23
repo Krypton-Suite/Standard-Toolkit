@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         private bool _mouseReallyOver;
         private bool _highlight;
         private bool _mouseDown;
-        private readonly ViewBase _target;
+        private readonly ViewBase? _target;
         private readonly ViewDrawMenuRadioButton _menuRadioButton;
         private NeedPaintHandler _needPaint;
 
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <param name="radioButton">Drawing element that owns radio button display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public MenuRadioButtonController(ViewContextMenuManager viewManager,
-                                         ViewBase target,
+                                         ViewBase? target,
                                          ViewDrawMenuRadioButton radioButton,
                                          NeedPaintHandler needPaint)
         {
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView() => _target;
+        public ViewBase? GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.

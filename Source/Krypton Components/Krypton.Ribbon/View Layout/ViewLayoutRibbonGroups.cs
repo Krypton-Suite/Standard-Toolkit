@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonTab _ribbonTab;
         private NeedPaintHandler _needPaint;
-        private ViewDrawRibbonDesignGroup _viewAddGroup;
+        private ViewDrawRibbonDesignGroup? _viewAddGroup;
         private GroupToView _groupToView;
         private readonly ViewDrawRibbonGroupSepList _groupSepCache;
         private int[] _groupWidths;

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly ToolTipManager _manager;
-        private readonly ViewBase _targetElement;
+        private readonly ViewBase? _targetElement;
         private readonly IMouseController _targetController;
         #endregion
 
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="targetElement">Target element that controller is for.</param>
         /// <param name="targetController">Target controller that we are snooping.</param>
         public ToolTipController([DisallowNull] ToolTipManager manager,
-            [DisallowNull] ViewBase targetElement,
+            [DisallowNull] ViewBase? targetElement,
                                  IMouseController targetController)
         {
             Debug.Assert(manager != null);

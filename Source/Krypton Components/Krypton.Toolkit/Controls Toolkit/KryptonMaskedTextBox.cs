@@ -313,9 +313,9 @@ namespace Krypton.Toolkit
 
         private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
-        private readonly ViewLayoutDocker _drawDockerInner;
-        private readonly ViewDrawDocker _drawDockerOuter;
-        private readonly ViewLayoutFill _layoutFill;
+        private readonly ViewLayoutDocker? _drawDockerInner;
+        private readonly ViewDrawDocker? _drawDockerOuter;
+        private readonly ViewLayoutFill? _layoutFill;
         private readonly InternalMaskedTextBox _maskedTextBox;
         private InputControlStyle _inputControlStyle;
         private bool? _fixedActive;
@@ -465,25 +465,25 @@ namespace Krypton.Toolkit
 
             // Create the internal text box used for containing content
             _maskedTextBox = new InternalMaskedTextBox(this);
-            _maskedTextBox.TrackMouseEnter += OnMaskedTextBoxMouseChange!;
-            _maskedTextBox.TrackMouseLeave += OnMaskedTextBoxMouseChange!;
-            _maskedTextBox.TextAlignChanged += OnMaskedTextBoxTextAlignChanged!;
-            _maskedTextBox.TextChanged += OnMaskedTextBoxTextChanged!;
-            _maskedTextBox.HideSelectionChanged += OnMaskedTextBoxHideSelectionChanged!;
-            _maskedTextBox.ModifiedChanged += OnMaskedTextBoxModifiedChanged!;
-            _maskedTextBox.ReadOnlyChanged += OnMaskedTextBoxReadOnlyChanged!;
-            _maskedTextBox.MaskChanged += OnMaskedMaskChanged!;
-            _maskedTextBox.IsOverwriteModeChanged += OnMaskedIsOverwriteModeChanged!;
-            _maskedTextBox.MaskInputRejected += OnMaskedMaskInputRejected!;
-            _maskedTextBox.TypeValidationCompleted += OnMaskedTypeValidationCompleted!;
-            _maskedTextBox.GotFocus += OnMaskedTextBoxGotFocus!;
-            _maskedTextBox.LostFocus += OnMaskedTextBoxLostFocus!;
-            _maskedTextBox.KeyDown += OnMaskedTextBoxKeyDown!;
-            _maskedTextBox.KeyUp += OnMaskedTextBoxKeyUp!;
-            _maskedTextBox.KeyPress += OnMaskedTextBoxKeyPress!;
-            _maskedTextBox.PreviewKeyDown += OnMaskedTextBoxPreviewKeyDown!;
-            _maskedTextBox.Validating += OnMaskedTextBoxValidating!;
-            _maskedTextBox.Validated += OnMaskedTextBoxValidated!;
+            _maskedTextBox.TrackMouseEnter += OnMaskedTextBoxMouseChange;
+            _maskedTextBox.TrackMouseLeave += OnMaskedTextBoxMouseChange;
+            _maskedTextBox.TextAlignChanged += OnMaskedTextBoxTextAlignChanged;
+            _maskedTextBox.TextChanged += OnMaskedTextBoxTextChanged;
+            _maskedTextBox.HideSelectionChanged += OnMaskedTextBoxHideSelectionChanged;
+            _maskedTextBox.ModifiedChanged += OnMaskedTextBoxModifiedChanged;
+            _maskedTextBox.ReadOnlyChanged += OnMaskedTextBoxReadOnlyChanged;
+            _maskedTextBox.MaskChanged += OnMaskedMaskChanged;
+            _maskedTextBox.IsOverwriteModeChanged += OnMaskedIsOverwriteModeChanged;
+            _maskedTextBox.MaskInputRejected += OnMaskedMaskInputRejected;
+            _maskedTextBox.TypeValidationCompleted += OnMaskedTypeValidationCompleted;
+            _maskedTextBox.GotFocus += OnMaskedTextBoxGotFocus;
+            _maskedTextBox.LostFocus += OnMaskedTextBoxLostFocus;
+            _maskedTextBox.KeyDown += OnMaskedTextBoxKeyDown;
+            _maskedTextBox.KeyUp += OnMaskedTextBoxKeyUp;
+            _maskedTextBox.KeyPress += OnMaskedTextBoxKeyPress;
+            _maskedTextBox.PreviewKeyDown += OnMaskedTextBoxPreviewKeyDown;
+            _maskedTextBox.Validating += OnMaskedTextBoxValidating;
+            _maskedTextBox.Validated += OnMaskedTextBoxValidated;
 
             // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_maskedTextBox);
@@ -514,8 +514,8 @@ namespace Krypton.Toolkit
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(ToolTipValues);
-            ToolTipManager.ShowToolTip += OnShowToolTip!;
-            ToolTipManager.CancelToolTip += OnCancelToolTip!;
+            ToolTipManager.ShowToolTip += OnShowToolTip;
+            ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
 
             // Add text box to the controls collection
@@ -1925,7 +1925,7 @@ namespace Krypton.Toolkit
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
                         _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                     }
                 }
@@ -1943,7 +1943,7 @@ namespace Krypton.Toolkit
         {
             // Unhook events from the specific instance that generated event
             VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;

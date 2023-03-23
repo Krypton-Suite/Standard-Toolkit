@@ -696,9 +696,9 @@ namespace Krypton.Toolkit
 
         private VisualPopupToolTip _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
-        private readonly ViewLayoutDocker _drawDockerInner;
-        private readonly ViewDrawDocker _drawDockerOuter;
-        private readonly ViewLayoutFill _layoutFill;
+        private readonly ViewLayoutDocker? _drawDockerInner;
+        private readonly ViewDrawDocker? _drawDockerOuter;
+        private readonly ViewLayoutFill? _layoutFill;
         private readonly InternalDomainUpDown _domainUpDown;
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;

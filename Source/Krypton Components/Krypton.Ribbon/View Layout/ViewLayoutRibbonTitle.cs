@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
 
             // We adjust the vertical layout position of the bottom docked items
             Rectangle tempRect = context.DisplayRectangle;
-            foreach(ViewBase view in this)
+            foreach(ViewBase? view in this)
             {
                 if (GetDock(view) == ViewDockStyle.Bottom)
                 {

@@ -18,9 +18,9 @@ namespace Krypton.Navigator
     internal abstract class ViewBuilderBarItemBase : ViewBuilderItemBase
     {
         #region Instance Fields
-        protected ViewLayoutDocker _layoutPanelDocker;
-        protected ViewLayoutSeparator _layoutBarSeparatorFirst;
-        protected ViewLayoutSeparator _layoutBarSeparatorLast;
+        protected ViewLayoutDocker? _layoutPanelDocker;
+        protected ViewLayoutSeparator? _layoutBarSeparatorFirst;
+        protected ViewLayoutSeparator? _layoutBarSeparatorLast;
         #endregion
 
         #region Public

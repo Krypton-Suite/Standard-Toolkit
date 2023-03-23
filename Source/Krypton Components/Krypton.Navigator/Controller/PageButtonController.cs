@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PageButtonController(ViewBase target, NeedPaintHandler needPaint)
+        public PageButtonController(ViewBase? target, NeedPaintHandler needPaint)
             : base(target, needPaint)
         {
         }

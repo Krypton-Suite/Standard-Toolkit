@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="viewColumns">Columns view element.</param>
         public ContextMenuProvider(IContextMenuProvider provider,
                                    ViewContextMenuManager viewManager,
-                                   ViewLayoutStack viewColumns,
+                                   ViewLayoutStack? viewColumns,
                                    NeedPaintHandler needPaintDelegate)
         {
             _parent = provider;
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         public ContextMenuProvider(KryptonContextMenu contextMenu,
                                    ViewContextMenuManager viewManager,
-                                   ViewLayoutStack viewColumns,
+                                   ViewLayoutStack? viewColumns,
                                    PaletteBase? palette,
                                    PaletteMode paletteMode,
                                    PaletteRedirect? redirector,
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
         /// <param name="enabled">Enabled state of the context menu.</param>
         public ContextMenuProvider(ViewContextMenuManager viewManager,
-                                   ViewLayoutStack viewColumns,
+                                   ViewLayoutStack? viewColumns,
                                    PaletteBase? palette,
                                    PaletteMode paletteMode,
                                    PaletteContextMenuRedirect stateCommon,
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the layout for context menu columns.
         /// </summary>
-        public ViewLayoutStack ProviderViewColumns { get; }
+        public ViewLayoutStack? ProviderViewColumns { get; }
 
         /// <summary>
         /// Gets access to the context menu specific view manager.

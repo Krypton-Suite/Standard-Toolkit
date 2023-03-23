@@ -144,16 +144,16 @@ namespace Krypton.Toolkit
                 // Unhook from any current menu strip
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening!;
-                    base.ContextMenuStrip.Closed -= OnContextMenuClosed!;
+                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed -= OnContextMenuClosed;
                     base.ContextMenuStrip = null;
                 }
 
                 // Must unhook from the palette paint event
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= OnNeedPaint!;
-                    _palette.ButtonSpecChanged -= OnButtonSpecChanged!;
+                    _palette.PalettePaint -= OnNeedPaint;
+                    _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 }
 
                 UnattachGlobalEvents();
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
                 // Unhook from any current menu strip
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening!;
-                    base.ContextMenuStrip.Closed -= OnContextMenuClosed!;
+                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed -= OnContextMenuClosed;
                 }
 
                 // Let parent handle actual storage
@@ -257,8 +257,8 @@ namespace Krypton.Toolkit
                 // Hook into the strip being shown (so we can set the correct renderer)
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening += OnContextMenuStripOpening!;
-                    base.ContextMenuStrip.Closed += OnContextMenuClosed!;
+                    base.ContextMenuStrip.Opening += OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed += OnContextMenuClosed;
                 }
             }
         }
@@ -279,16 +279,16 @@ namespace Krypton.Toolkit
                 {
                     if (_kryptonContextMenu != null)
                     {
-                        _kryptonContextMenu.Closed -= OnContextMenuClosed!;
-                        _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed!;
+                        _kryptonContextMenu.Closed -= OnContextMenuClosed;
+                        _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed;
                     }
 
                     _kryptonContextMenu = value;
 
                     if (_kryptonContextMenu != null)
                     {
-                        _kryptonContextMenu.Closed += OnContextMenuClosed!;
-                        _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed!;
+                        _kryptonContextMenu.Closed += OnContextMenuClosed;
+                        _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed;
                     }
                 }
             }
@@ -780,12 +780,12 @@ namespace Krypton.Toolkit
         {
             if (attach)
             {
-                KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged!;
+                KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
                 SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
             }
             else
             {
-                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged!;
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
                 SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
             }
         }

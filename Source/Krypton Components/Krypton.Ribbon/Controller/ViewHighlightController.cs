@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                               IMouseController
     {
         #region Instance Fields
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private bool _mouseOver;
         private bool _rightButtonDown;
         #endregion
@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewHightlightController(ViewBase target,
-                                        NeedPaintHandler needPaint)
+        public ViewHightlightController(ViewBase? target,
+                                        NeedPaintHandler? needPaint)
         {
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
@@ -87,7 +87,7 @@ namespace Krypton.Ribbon
         /// <returns>True if capturing input; otherwise false.</returns>
         public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            if (_mouseOver 
+            if (_mouseOver
                 && (button == MouseButtons.Left))
             {
                 OnClick(EventArgs.Empty);
@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -175,7 +175,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase Target { get; }
+        public ViewBase? Target { get; }
 
         /// <summary>
         /// Fires the NeedPaint event.
@@ -200,7 +200,7 @@ namespace Krypton.Ribbon
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Owning control.</param>
-        protected void UpdateTargetState(Control c)
+        protected void UpdateTargetState(Control? c)
         {
             if ((c == null) || c.IsDisposed)
             {
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
             PaletteState newState = _mouseOver ? PaletteState.Tracking : PaletteState.Normal;
 
             // If state has changed
-            if (Target.ElementState != newState)
+            if (Target!.ElementState != newState)
             {
                 Target.ElementState = newState;
 
@@ -235,28 +235,20 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target!.ClientRectangle));
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnContextClick(MouseEventArgs e)
-        {
-            ContextClick?.Invoke(this, e);
-        }
+        protected virtual void OnContextClick(MouseEventArgs e) => ContextClick?.Invoke(this, e);
+
         #endregion
     }
 }

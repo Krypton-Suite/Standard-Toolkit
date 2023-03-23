@@ -148,17 +148,53 @@
   <data name="Office2007ToolbarOpenNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2007ToolbarOpenNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2007ToolbarPageSetupDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarPageSetupDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarPageSetupNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarPageSetupNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2007ToolbarPasteDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2007ToolbarPasteDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2007ToolbarPasteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2007ToolbarPasteNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2007ToolbarPrintDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarPrintDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarPrintNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarPrintNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarPrintPreviewDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarPrintPreviewDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarPrintPreviewNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarPrintPreviewNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarQuickPrintDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarQuickPrintDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarQuickPrintNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarQuickPrintNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2007ToolbarRedoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2007ToolbarRedoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2007ToolbarRedoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2007ToolbarRedoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarSaveAllDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarSaveAllDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarSaveAllNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarSaveAllNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarSaveAsDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarSaveAsDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ToolbarSaveAsNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ToolbarSaveAsNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2007ToolbarSaveDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2007ToolbarSaveDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

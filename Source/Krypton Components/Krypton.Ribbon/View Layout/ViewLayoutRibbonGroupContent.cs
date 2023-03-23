@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private ViewDrawRibbonDesignGroupContainer _viewAddContainer;
+        private ViewDrawRibbonDesignGroupContainer? _viewAddContainer;
         private readonly NeedPaintHandler _needPaint;
         private ContainerToView _containerToView;
         private List<ItemSizeWidth[]> _listWidths;
@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the dialog view reference.
         /// </summary>
-        public ViewLayoutRibbonGroupButton DialogView { get; set; }
+        public ViewLayoutRibbonGroupButton? DialogView { get; set; }
 
         #endregion
 
@@ -177,7 +177,7 @@ namespace Krypton.Ribbon
                 if (view == null)
                 {
                     // Scan all the children, which must be containers
-                    foreach (ViewBase child in Reverse())
+                    foreach (ViewBase? child in Reverse())
                     {
                         // Only interested in visible children!
                         if (child.Visible)
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
             }
 
             // Scan all the children, which must be containers
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase? child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -690,7 +690,7 @@ namespace Krypton.Ribbon
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)
             {
                 // Do we already have a view for this container definition
-                ViewBase containerView = _containerToView.ContainsKey(container)
+                ViewBase? containerView = _containerToView.ContainsKey(container)
                     ? _containerToView[container]
                     : container.CreateView(_ribbon, _needPaint);
 

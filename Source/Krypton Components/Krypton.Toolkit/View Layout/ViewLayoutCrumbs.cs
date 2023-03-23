@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private readonly CrumbToButton _crumbToButton;
         private readonly ButtonToCrumb _buttonToCrumb;
         private MenuItemToCrumb _menuItemToCrumb;
-        private ViewDrawButton _overflowButton;
+        private ViewDrawButton? _overflowButton;
         private bool _showingContextMenu;
         #endregion
 
@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
             {
 
                 // If we do not have a button to represent this crumb...
-                if (!_crumbToButton.TryGetValue(item, out ViewDrawButton crumbButton))
+                if (!_crumbToButton.TryGetValue(item, out ViewDrawButton? crumbButton))
                 {
                     // Setup the button for drawing as a drop down button if required
                     crumbButton = new ViewDrawButton(_kryptonBreadCrumb.StateDisabled.BreadCrumb,

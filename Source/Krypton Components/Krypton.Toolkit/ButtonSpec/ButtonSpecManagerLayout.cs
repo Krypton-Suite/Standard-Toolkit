@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ButtonSpecManagerLayout : ButtonSpecManagerBase
     {
         #region Instance Fields
-        private readonly ViewLayoutDocker[] _viewDockers;
+        private readonly ViewLayoutDocker?[] _viewDockers;
         #endregion
 
         #region Identity
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
                                        PaletteRedirect? redirector,
                                        ButtonSpecCollectionBase? variableSpecs,
                                        ButtonSpecCollectionBase? fixedSpecs,
-                                       ViewLayoutDocker[] viewDockers,
+                                       ViewLayoutDocker?[] viewDockers,
                                        IPaletteMetric[] viewMetrics,
                                        PaletteMetricInt[] viewMetricInt,
                                        PaletteMetricPadding[] viewMetricPaddings,
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                                        PaletteRedirect? redirector,
                                        ButtonSpecCollectionBase? variableSpecs,
                                        ButtonSpecCollectionBase? fixedSpecs,
-                                       ViewLayoutDocker[] viewDockers,
+                                       ViewLayoutDocker?[] viewDockers,
                                        IPaletteMetric[] viewMetrics,
                                        PaletteMetricInt[] viewMetricIntOutside,
                                        PaletteMetricInt[] viewMetricIntInside,
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="viewDocker">View docker reference.</param>
         /// <returns>Index of docker; otherwise -1.</returns>
-        protected override int DockerIndex(ViewBase viewDocker)
+        protected override int DockerIndex(ViewBase? viewDocker)
         {
             for (var i = 0; i < _viewDockers.Length; i++)
             {
@@ -143,11 +143,11 @@ namespace Krypton.Toolkit
         /// <param name="usingSpacers">Are view spacers being used.</param>
         protected override void AddViewToDocker(int i,
                                                 ViewDockStyle dockStyle,
-                                                ViewBase view,
+                                                ViewBase? view,
                                                 bool usingSpacers)
         {
             // Get the indexed docker
-            ViewLayoutDocker viewDocker = _viewDockers[i];
+            ViewLayoutDocker? viewDocker = _viewDockers[i];
 
             // By default add to the end of the children
             var insertIndex = viewDocker.Count;
@@ -176,11 +176,11 @@ namespace Krypton.Toolkit
         /// <param name="spacerL">Spacer for the left side.</param>
         /// <param name="spacerR">Spacer for the right side.</param>
         protected override void AddSpacersToDocker(int i,
-                                                   ViewLayoutMetricSpacer spacerL,
-                                                   ViewLayoutMetricSpacer spacerR)
+                                                   ViewLayoutMetricSpacer? spacerL,
+                                                   ViewLayoutMetricSpacer? spacerR)
         {
             // Get the indexed instance
-            ViewLayoutDocker viewDocker = _viewDockers[i];
+            ViewLayoutDocker? viewDocker = _viewDockers[i];
 
             // Add them into the view docker instance
             viewDocker.Add(spacerL, ViewDockStyle.Left);

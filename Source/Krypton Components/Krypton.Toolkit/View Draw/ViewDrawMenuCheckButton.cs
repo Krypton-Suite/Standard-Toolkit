@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
         private readonly FixedContentValue? _contentValues;
-        private readonly ViewLayoutDocker _outerDocker;
-        private readonly ViewLayoutDocker _innerDocker;
+        private readonly ViewLayoutDocker? _outerDocker;
+        private readonly ViewLayoutDocker? _innerDocker;
         private KryptonCommand _cachedCommand;
 
         #endregion
@@ -208,7 +208,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view element that draws the button.
         /// </summary>
-        public ViewDrawButton ViewDrawButton { get; }
+        public ViewDrawButton? ViewDrawButton { get; }
 
         #endregion
 

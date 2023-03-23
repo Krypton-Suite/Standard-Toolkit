@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ViewBase class.
         /// </summary>
-        protected ViewDecorator(ViewBase child)
+        protected ViewDecorator(ViewBase? child)
         {
             Debug.Assert(child != null);
             _child = child;
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
         /// Append a view to the collection.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
-        public override void Add(ViewBase item) => _child?.Add(item);
+        public override void Add(ViewBase? item) => _child?.Add(item);
 
         /// <summary>
         /// Remove all views from the collection.
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool Contains(ViewBase item) => _child?.Contains(item) ?? false;
+        public override bool Contains(ViewBase? item) => _child?.Contains(item) ?? false;
 
         /// <summary>
         /// Determines whether any part of the view hierarchy is the specified view.
@@ -193,14 +193,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public override void CopyTo(ViewBase[] array, int arrayIndex) => _child?.CopyTo(array, arrayIndex);
+        public override void CopyTo(ViewBase?[] array, int arrayIndex) => _child?.CopyTo(array, arrayIndex);
 
         /// <summary>
         /// Removes first occurrence of specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase item) => _child?.Remove(item) ?? false;
+        public override bool Remove(ViewBase? item) => _child?.Remove(item) ?? false;
 
         /// <summary>
         /// Gets the number of views in collection.
@@ -212,14 +212,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public override int IndexOf(ViewBase item) => _child?.IndexOf(item) ?? -1;
+        public override int IndexOf(ViewBase? item) => _child?.IndexOf(item) ?? -1;
 
         /// <summary>
         /// Inserts a view to the collection at the specified index.
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
-        public override void Insert(int index, ViewBase item) => _child?.Insert(index, item);
+        public override void Insert(int index, ViewBase? item) => _child?.Insert(index, item);
 
         /// <summary>
         /// Removes the view at the specified index.
@@ -232,7 +232,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase this[int index]
+        public override ViewBase? this[int index]
         {
             get => _child![index];
             set => _child![index] = value;
@@ -248,19 +248,19 @@ namespace Krypton.Toolkit
         /// Deep enumerate forward over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase> Recurse() => _child!.Recurse();
+        public override IEnumerable<ViewBase?> Recurse() => _child!.Recurse();
 
         /// <summary>
         /// Shallow enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase> Reverse() => _child!.Reverse();
+        public override IEnumerable<ViewBase?> Reverse() => _child!.Reverse();
 
         /// <summary>
         /// Deep enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase> ReverseRecurse() => _child!.ReverseRecurse();
+        public override IEnumerable<ViewBase?> ReverseRecurse() => _child!.ReverseRecurse();
 
         #endregion
 

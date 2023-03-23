@@ -27,7 +27,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase? element)
         {
             // Check base class for page specific button specs
             ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
@@ -230,7 +230,7 @@ namespace Krypton.Navigator
 
             // Create the header group and fill with the view layout
             _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
-            ViewBase newRoot = _headerGroup.Construct(_viewScrollViewport);
+            ViewBase? newRoot = _headerGroup.Construct(_viewScrollViewport);
 
             // Put the old root as the filler inside stack elements
             _viewLayout.Add(_oldRoot, ViewDockStyle.Fill);

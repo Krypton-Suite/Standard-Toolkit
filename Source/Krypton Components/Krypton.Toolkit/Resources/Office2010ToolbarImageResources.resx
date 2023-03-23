@@ -142,17 +142,53 @@
   <data name="Office2010ToolbarOpenNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010ToolbarOpenNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2010ToolbarPageSetupDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPageSetupDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarPageSetupNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPageSetupNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2010ToolbarPasteDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010ToolbarPasteDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2010ToolbarPasteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010ToolbarPasteNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2010ToolbarPrintDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPrintDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarPrintNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPrintNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarPrintPreviewDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPrintPreviewDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarPrintPreviewNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarPrintPreviewNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarQuickPrintDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarQuickPrintDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarQuickPrintNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarQuickPrintNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2010ToolbarRedoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010ToolbarRedoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2010ToolbarRedoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010ToolbarRedoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarSaveAllDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarSaveAllDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarSaveAllNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarSaveAllNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarSaveAsDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarSaveAsDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ToolbarSaveAsNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010ToolbarSaveAsNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2010ToolbarSaveDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010ToolbarSaveDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

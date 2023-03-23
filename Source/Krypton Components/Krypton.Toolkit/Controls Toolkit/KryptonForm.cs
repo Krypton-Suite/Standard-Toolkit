@@ -73,11 +73,11 @@ namespace Krypton.Toolkit
         private readonly FormFixedButtonSpecCollection? _buttonSpecsFixed;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
-        private readonly ViewDrawForm _drawDocker;
-        private readonly ViewDrawDocker _drawHeading;
-        private readonly ViewDrawContent _drawContent;
-        private readonly ViewDecoratorFixedSize _headingFixedSize;
-        private readonly ViewLayoutNull _layoutNull;
+        private readonly ViewDrawForm? _drawDocker;
+        private readonly ViewDrawDocker? _drawHeading;
+        private readonly ViewDrawContent? _drawContent;
+        private readonly ViewDecoratorFixedSize? _headingFixedSize;
+        private readonly ViewLayoutNull? _layoutNull;
         private HeaderStyle _headerStyle;
         private PaletteRelativeAlign _formTitleAlign;
         private HeaderStyle _headerStylePrev;
@@ -92,12 +92,17 @@ namespace Krypton.Toolkit
         private bool _firstCheckView;
         private bool _lastNotNormal;
         private bool _useDropShadow;
+        private bool _showIntegratedToolbar;
         private StatusStrip? _statusStrip;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
         private float _cornerRoundingRadius;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
+
+        private ButtonSpecAny[]? _integratedToolbarButtonCollection;
+
+        private IntegratedToolBarValues _integratedToolbarValues;
 
         #endregion
 
@@ -197,6 +202,12 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
+
+            _showIntegratedToolbar = false;
+
+            _integratedToolbarButtonCollection = null;
+
+            IntegratedToolBarValues = new IntegratedToolBarValues(this);
         }
 
         /// <summary>
@@ -302,6 +313,12 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets buttonspecs that make up the integrated tool bar.</summary>
+        //[Category(@"Visuals")]
+        //[Description(@"Shows a set of toolbar buttons in the title bar. (Caution: This is quite buggy!)")]
+        //[DefaultValue(false)]
+        //public bool ShowIntegratedToolBar { get => _showIntegratedToolbar; set { _showIntegratedToolbar = value; SetupIntegratedToolBar(value); } }
 
         /// <summary>
         /// Gets and sets the header style for a main form.
@@ -497,7 +514,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void InjectViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
+        public void InjectViewElement([DisallowNull] ViewBase? element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
             Debug.Assert(_drawHeading != null);
@@ -522,7 +539,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just add to the docking edge requested
-                    _drawHeading.Add(element!, style);
+                    _drawHeading.Add(element, style);
                 }
             }
         }
@@ -533,7 +550,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RevokeViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
+        public void RevokeViewElement([DisallowNull] ViewBase? element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
 
@@ -556,7 +573,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just remove the specified elements
-                    _drawHeading.Remove(element!);
+                    _drawHeading.Remove(element);
                 }
             }
         }
@@ -639,6 +656,21 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"),
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
+
+        /// <summary>Gets the integrated tool bar button collection.</summary>
+        /// <value>The integrated tool bar button collection.</value>
+        //[Category(@"Visuals")]
+        //[DefaultValue(null)]
+        //[Description(@"Gets access to the integrated toolbar items.")]
+        //[AllowNull]
+        //public ButtonSpecAny[]? IntegratedToolBarButtonCollection { get => _integratedToolbarButtonCollection; private set => _integratedToolbarButtonCollection = value; }
+
+        [Category(@"Visuals")]
+        [Description(@"Gets access to the integrated toolbar values.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public IntegratedToolBarValues IntegratedToolBarValues { get; }
+
+        public bool ShouldSerializeIntegratedToolBarValues() => !IntegratedToolBarValues.IsDefault;
 
         #endregion
 
@@ -1257,7 +1289,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private void SetHeaderStyle(ViewDrawDocker drawDocker,
+        private void SetHeaderStyle(ViewDrawDocker? drawDocker,
                                     PaletteTripleMetricRedirect palette,
                                     HeaderStyle style)
         {
@@ -1793,6 +1825,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Admin Code
+
         /// <summary>
         /// Gets the has current instance got administrative rights.
         /// </summary>
@@ -1805,46 +1838,126 @@ namespace Krypton.Toolkit
 
                 var hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
-                if (hasAdministrativeRights)
-                {
-                    SetIsInAdministratorMode(true);
+                _isInAdministratorMode = hasAdministrativeRights;
 
-                    return true;
-                }
-                else
-                {
-                    SetIsInAdministratorMode(false);
-
-                    return false;
-                }
+                return hasAdministrativeRights;
             }
             catch
             {
-                SetIsInAdministratorMode(false);
+                _isInAdministratorMode = false;
 
                 return false;
             }
         }
+        #endregion
 
-        /// <summary>Sets the is in administrator mode.</summary>
-        /// <param name="value">if set to <c>true</c> [value].</param>
-        public static void SetIsInAdministratorMode(bool value)
+        #region Integrated Toolbar
+
+        /// <summary>
+        /// Setups the integrated tool bar.
+        /// </summary>
+        /// <param name="visible">if set to <c>true</c> [visible].</param>
+        /// <returns></returns>
+        private void SetupIntegratedToolBar(bool visible)
         {
-            // TODO: @wagnerp: what is this supposed to be doing ?
-            KryptonForm form = new();
+            #region Toolbar Items
 
-            //form.IsInAdministratorMode = value;
+            ButtonSpecAny bsaNew,
+                bsaOpen,
+                bsaSave,
+                bsaSaveAs,
+                bsaSaveAll,
+                bsaCut,
+                bsaCopy,
+                bsaPaste,
+                bsaPageSetup,
+                bsaPrintPreview,
+                bsaPrint,
+                bsaQuickPrint;
+
+            bsaNew = new();
+
+            bsaOpen = new();
+
+            bsaSave = new();
+
+            bsaSaveAs = new();
+
+            bsaSaveAll = new();
+
+            bsaCut = new();
+
+            bsaCopy = new();
+
+            bsaPaste = new();
+
+            bsaPageSetup = new();
+
+            bsaPrintPreview = new();
+
+            bsaPrint = new();
+
+            bsaQuickPrint = new();
+
+            bsaNew.Type = PaletteButtonSpecStyle.New;
+
+            bsaOpen.Type = PaletteButtonSpecStyle.Open;
+
+            bsaSave.Type = PaletteButtonSpecStyle.Save;
+
+            bsaSaveAll.Type = PaletteButtonSpecStyle.SaveAll;
+
+            bsaSaveAs.Type = PaletteButtonSpecStyle.SaveAs;
+
+            bsaCut.Type = PaletteButtonSpecStyle.Cut;
+
+            bsaCopy.Type = PaletteButtonSpecStyle.Copy;
+
+            bsaPaste.Type = PaletteButtonSpecStyle.Paste;
+
+            bsaPageSetup.Type = PaletteButtonSpecStyle.PageSetup;
+
+            bsaPrintPreview.Type = PaletteButtonSpecStyle.PrintPreview;
+
+            bsaPrint.Type = PaletteButtonSpecStyle.Print;
+
+            bsaQuickPrint.Type = PaletteButtonSpecStyle.QuickPrint;
+
+            ButtonSpecAny[]? toolbarButtons = {
+                bsaNew, bsaOpen, bsaSave, bsaSaveAs, bsaSaveAll, bsaCut, bsaCopy, bsaPaste, bsaPageSetup,
+                bsaPrintPreview, bsaPrint, bsaQuickPrint
+            };
+
+            #endregion
+
+            if (visible)
+            {
+                ButtonSpecs.AddRange(toolbarButtons);
+
+                _integratedToolbarButtonCollection = toolbarButtons;
+
+                if (_integratedToolbarButtonCollection != null && _integratedToolbarButtonCollection.Length > 0)
+                {
+                    foreach (ButtonSpecAny button in _integratedToolbarButtonCollection)
+                    {
+                        button.Visible = true;
+                    }
+                }
+            }
+            else
+            {
+                if (_integratedToolbarButtonCollection != null && _integratedToolbarButtonCollection.Length > 0)
+                {
+                    foreach (ButtonSpecAny button in _integratedToolbarButtonCollection)
+                    {
+                        button.Visible = false;
+                    }
+                }
+
+                // Note: Should we clear out **all** ButtonSpecs?
+            }
         }
 
-        /// <summary>Gets the is in administrator mode.</summary>
-        /// <returns>IsInAdministratorMode</returns>
-        public static bool GetIsInAdministratorMode()
-        {
-            // TODO: @wagnerp: what is this supposed to be doing ?
-            KryptonForm form = new();
-
-            return form.IsInAdministratorMode;
-        }
         #endregion
     }
 }

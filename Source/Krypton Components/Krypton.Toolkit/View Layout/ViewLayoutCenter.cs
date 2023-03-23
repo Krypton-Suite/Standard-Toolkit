@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewLayoutCenter class.
         /// </summary>
         /// <param name="childElement">Optional element to add as child.</param>
-        public ViewLayoutCenter(ViewBase childElement)
+        public ViewLayoutCenter(ViewBase? childElement)
             : this(null, PaletteMetricPadding.None, VisualOrientation.Top, childElement)
         {
         }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         public ViewLayoutCenter(IPaletteMetric? paletteMetric,
                                 PaletteMetricPadding metricPadding,
                                 VisualOrientation orientation,
-                                ViewBase childElement)
+                                ViewBase? childElement)
         {
             // Remember provided values
             _paletteMetric = paletteMetric;

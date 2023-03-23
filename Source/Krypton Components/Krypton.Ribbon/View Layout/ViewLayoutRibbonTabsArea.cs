@@ -49,12 +49,12 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private ViewLayoutRibbonScrollPort _tabsViewport;
-        private ViewLayoutSeparator _layoutAppButtonSep;
-        private ViewLayoutRibbonSeparator _leftSeparator;
-        private ViewLayoutRibbonSeparator _rightSeparator;
-        private readonly ViewDrawRibbonCaptionArea _captionArea;
-        private readonly ViewLayoutRibbonContextTitles _layoutContexts;
+        private ViewLayoutRibbonScrollPort? _tabsViewport;
+        private ViewLayoutSeparator? _layoutAppButtonSep;
+        private ViewLayoutRibbonSeparator? _leftSeparator;
+        private ViewLayoutRibbonSeparator? _rightSeparator;
+        private readonly ViewDrawRibbonCaptionArea? _captionArea;
+        private readonly ViewLayoutRibbonContextTitles? _layoutContexts;
         private readonly AppButtonController _appButtonController;
         private readonly AppTabController _appTabController;
         private VisualPopupToolTip? _visualPopupToolTip;
@@ -95,8 +95,8 @@ namespace Krypton.Ribbon
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon ribbon,
                                         [DisallowNull] PaletteRedirect? redirect,
-                                        [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
-                                        [DisallowNull] ViewLayoutRibbonContextTitles layoutContexts,
+                                        [DisallowNull] ViewDrawRibbonCaptionArea? captionArea,
+                                        [DisallowNull] ViewLayoutRibbonContextTitles? layoutContexts,
                                         [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
@@ -106,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            _captionArea = captionArea!;
+            _ribbon = ribbon;
+            _captionArea = captionArea;
             _appButtonController = _captionArea.AppButtonController;
             _appTabController = _captionArea.AppTabController;
-            _layoutContexts = layoutContexts!;
-            NeedPaintDelegate = needPaintDelegate!;
+            _layoutContexts = layoutContexts;
+            NeedPaintDelegate = needPaintDelegate;
 
             // Default other state
             _setVisible = true;
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the view layout used for the application button.
         /// </summary>
-        public ViewLayoutRibbonAppButton LayoutAppButton { get; private set; }
+        public ViewLayoutRibbonAppButton? LayoutAppButton { get; private set; }
 
         #endregion
 
@@ -279,7 +279,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the view layout used for the application tab.
         /// </summary>
-        public ViewLayoutRibbonAppTab LayoutAppTab { get; private set; }
+        public ViewLayoutRibbonAppTab? LayoutAppTab { get; private set; }
 
         #endregion
 
@@ -287,7 +287,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the control that contains the tabs.
         /// </summary>
-        public ViewLayoutControl TabsContainerControl => _tabsViewport.ViewLayoutControl;
+        public ViewLayoutControl? TabsContainerControl => _tabsViewport.ViewLayoutControl;
 
         #endregion
 
@@ -475,7 +475,7 @@ namespace Krypton.Ribbon
             LayoutTabs.NeedPaintDelegate = _tabsViewport.ViewControlPaintDelegate;
 
             // We use a layout docker as a child to prevent buttons going to the left of the app button
-            ViewLayoutDocker tabsDocker = new()
+            ViewLayoutDocker? tabsDocker = new()
             {
 
                 // Place the tabs viewport as the fill inside ourself, the button specs will be placed 

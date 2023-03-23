@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private string _contextName;
         private string _contextTitle;
         private Color _contextColor;
-        private object _tag;
+        private object? _tag;
         #endregion
 
         #region Events
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         {
             get => _contextName;
 
-            set 
+            set
             {
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Context Tools";
+                    value = @"Context Tools";
                 }
 
                 if (value != _contextTitle)
@@ -120,8 +120,8 @@ namespace Krypton.Ribbon
 
             set
             {
-                // We never allow a null or transparent color
-                if ((value == null) || (value == Color.Transparent))
+                // We never allow a empty or transparent color
+                if ((value == Color.Empty) || (value == Color.Transparent))
                 {
                     value = Color.Red;
                 }
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
@@ -157,10 +157,8 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
+
         #endregion
 
         #region Protected
@@ -168,10 +166,8 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         #endregion
     }
 }

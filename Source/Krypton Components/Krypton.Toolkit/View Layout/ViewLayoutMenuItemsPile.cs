@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private readonly PaletteDoubleMetricRedirect? _paletteItemHighlight;
-        private readonly ViewDrawMenuImageColumn _imageColumn;
+        private readonly ViewDrawMenuImageColumn? _imageColumn;
         private ColumnToWidth _columnToWidth;
         #endregion
 
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
 
             // Create and place an image column inside a docker so it appears on the left side
             _imageColumn = new ViewDrawMenuImageColumn(items, provider.ProviderStateCommon.ItemImageColumn);
-            ViewLayoutDocker imageDocker = new()
+            ViewLayoutDocker? imageDocker = new()
             {
                 { _imageColumn, ViewDockStyle.Left }
             };
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
             };
 
             // Use a docker with the item stack as the fill
-            ViewLayoutDocker stackDocker = new()
+            ViewLayoutDocker? stackDocker = new()
             {
                 { ItemStack, ViewDockStyle.Fill }
             };
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the stack containing individual menu items
         /// </summary>
-        public ViewLayoutStack ItemStack { get; }
+        public ViewLayoutStack? ItemStack { get; }
 
         #endregion
 

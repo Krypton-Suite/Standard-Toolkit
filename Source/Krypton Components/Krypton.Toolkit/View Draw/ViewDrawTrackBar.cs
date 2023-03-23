@@ -45,9 +45,9 @@ namespace Krypton.Toolkit
         private int _maximum;
         private int _smallChange;
         private int _largeChange;
-        private readonly ViewLayoutDocker _layoutTop;
-        private readonly ViewDrawTrackTicks _ticksTop;
-        private readonly ViewDrawTrackTicks _ticksBottom;
+        private readonly ViewLayoutDocker? _layoutTop;
+        private readonly ViewDrawTrackTicks? _ticksTop;
+        private readonly ViewDrawTrackTicks? _ticksBottom;
         private readonly NeedPaintHandler _needPaint;
         #endregion
 
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the track position element.
         /// </summary>
-        public ViewDrawTP TrackPosition { get; }
+        public ViewDrawTP? TrackPosition { get; }
 
         /// <summary>
         /// Gets and sets the track bar size.

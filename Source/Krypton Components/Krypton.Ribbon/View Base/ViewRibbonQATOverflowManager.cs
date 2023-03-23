@@ -32,13 +32,13 @@ namespace Krypton.Ribbon
         /// <param name="root">View for group we are tracking.</param>
         public ViewRibbonQATOverflowManager(KryptonRibbon ribbon,
                                             Control control,
-                                            ViewLayoutRibbonQATContents qatContents,
-                                            ViewBase root)
+                                            ViewLayoutRibbonQATContents? qatContents,
+                                            ViewBase? root)
             : base(control, root)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(qatContents != null);
-            
+
             _ribbon = ribbon;
             QATContents = qatContents;
         }
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets a the view that handles the overflow items.
         /// </summary>
-        public ViewLayoutRibbonQATContents QATContents { get; }
+        public ViewLayoutRibbonQATContents? QATContents { get; }
 
         #endregion
 

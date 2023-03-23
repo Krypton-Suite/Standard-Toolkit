@@ -462,7 +462,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets access to the contained view draw panel instance.
             /// </summary>
-            public ViewDrawPanel ViewDrawPanel { get; }
+            public ViewDrawPanel? ViewDrawPanel { get; }
 
             /// <summary>
             /// Gets the item index the mouse is over.
@@ -942,13 +942,13 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedTracking;
         private readonly PaletteTripleOverride _overrideCheckedPressed;
         private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
-        private readonly ViewLayoutDocker _drawDockerInner;
-        private readonly ViewDrawDocker _drawDockerOuter;
+        private readonly ViewLayoutDocker? _drawDockerInner;
+        private readonly ViewDrawDocker? _drawDockerOuter;
         private readonly ViewLayoutDocker _layoutDocker;
-        private readonly ViewLayoutCenter _layoutCenter;
-        private readonly ViewDrawCheckBox _drawCheckBox;
-        private readonly ViewLayoutFill _layoutFill;
-        private readonly ViewDrawButton _drawButton;
+        private readonly ViewLayoutCenter? _layoutCenter;
+        private readonly ViewDrawCheckBox? _drawCheckBox;
+        private readonly ViewLayoutFill? _layoutFill;
+        private readonly ViewDrawButton? _drawButton;
         private readonly InternalCheckedListBox? _listBox;
         private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;

@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             if (this[0].Visible)
             {
                 // The first and only child is the caption content
-                ViewDrawContent caption = (ViewDrawContent)this[0];
+                ViewDrawContent? caption = (ViewDrawContent)this[0];
 
                 // Cache the origina client rectangle before we modify it
                 _cacheClientRect = ClientRectangle;

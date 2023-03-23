@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private LabelStyle _style;
         private VisualOrientation _orientation;
-        private readonly ViewDrawContent _drawContent;
+        private readonly ViewDrawContent? _drawContent;
         private readonly PaletteContentInheritRedirect _paletteCommonRedirect;
         private KryptonCommand? _command;
         private bool _useMnemonic;
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view element for the label.
         /// </summary>
-        protected virtual ViewDrawContent ViewDrawContent => _drawContent;
+        protected virtual ViewDrawContent? ViewDrawContent => _drawContent;
 
         /// <summary>
         /// Gets and sets the enabled state of the target functionality.

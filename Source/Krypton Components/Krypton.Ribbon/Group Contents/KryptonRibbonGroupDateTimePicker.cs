@@ -873,7 +873,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint) => new ViewDrawRibbonGroupDateTimePicker(ribbon, this, needPaint);
+        public override ViewBase? CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint) => new ViewDrawRibbonGroupDateTimePicker(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -889,7 +889,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase DateTimePickerView { get; set; }
+        public ViewBase? DateTimePickerView { get; set; }
 
         #endregion
 

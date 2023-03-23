@@ -51,12 +51,12 @@ namespace Krypton.Toolkit
         private VisualOrientation _position1;
         private VisualOrientation _position2;
         private HeaderGroupCollapsedTarget _collapsedTarget;
-        private readonly ViewDrawDocker _drawDocker;
-        private readonly ViewDrawDocker _drawHeading1;
-        private readonly ViewDrawContent _drawContent1;
-        private readonly ViewDrawDocker _drawHeading2;
-        private readonly ViewDrawContent _drawContent2;
-        private readonly ViewLayoutFill _layoutFill;
+        private readonly ViewDrawDocker? _drawDocker;
+        private readonly ViewDrawDocker? _drawHeading1;
+        private readonly ViewDrawContent? _drawContent1;
+        private readonly ViewDrawDocker? _drawHeading2;
+        private readonly ViewDrawContent? _drawContent2;
+        private readonly ViewLayoutFill? _layoutFill;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip _visualPopupToolTip;
         private ScreenObscurer _obscurer;
@@ -1239,8 +1239,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetHeaderPosition(ViewDrawCanvas canvas,
-                                       ViewDrawContent content,
+        private void SetHeaderPosition(ViewDrawCanvas? canvas,
+                                       ViewDrawContent? content,
                                        VisualOrientation position)
         {
             switch (position)
@@ -1268,7 +1268,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetHeaderStyle(ViewDrawDocker drawDocker,
+        private void SetHeaderStyle(ViewDrawDocker? drawDocker,
                                     PaletteTripleMetricRedirect palette,
                                     HeaderStyle style)
         {

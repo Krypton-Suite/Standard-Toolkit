@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
 
         private readonly NeedPaintHandler _needPaint;
         private QATButtonToView _qatButtonToView;
-        private ViewDrawRibbonQATExtraButton? _extraButton;
+        private ViewDrawRibbonQATExtraButton _extraButton;
 
         #endregion
 
@@ -45,16 +45,16 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon!;
-            _needPaint = needPaint!;
+            Ribbon = ribbon;
+            _needPaint = needPaint;
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
-            
+
             // Create the extra button for customization/overflow
             if (showExtraButton)
             {
-                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon!, needPaint!);
+                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon, needPaint);
                 _extraButton.ClickAndFinish += OnExtraButtonClick;
             }
         }
@@ -144,8 +144,8 @@ namespace Krypton.Ribbon
             foreach (ViewBase child in this)
             {
                 // If visible and we have another key tip available on stack
-                if (child.Visible 
-                    && (keyTipsPool.Count > 0) 
+                if (child.Visible
+                    && (keyTipsPool.Count > 0)
                     && (child is ViewDrawRibbonQATButton viewQAT)
                     )
                 {
@@ -153,11 +153,11 @@ namespace Krypton.Ribbon
                     Rectangle viewRect = ParentControl.RectangleToScreen(viewQAT.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
-                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left, 
+                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
                                                viewRect.Bottom - 2 - borders.Top);
 
                     // Create new key tip that invokes the qat controller
-                    keyTipList.Add(new KeyTipInfo(viewQAT.Enabled, keyTipsPool.Pop(), screenPt, 
+                    keyTipList.Add(new KeyTipInfo(viewQAT.Enabled, keyTipsPool.Pop(), screenPt,
                                                   viewQAT.ClientRectangle, viewQAT.KeyTipTarget));
                 }
             }
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
             SyncChildren(true);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             var x = ClientLocation.X;
             var right = ClientRectangle.Right;
@@ -386,7 +386,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetFirstQATView()
+        public ViewBase GetFirstQATView()
         {
             // Scan all the buttons looking for one that is enabled and visible
             foreach (ViewBase qatView in _qatButtonToView.Values)
@@ -407,7 +407,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase? GetLastQATView()
+        public ViewBase GetLastQATView()
         {
             // If showing the extra button, then use that
             if (_extraButton != null)
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetNextQATView(ViewBase qatButton)
+        public ViewBase GetNextQATView(ViewBase qatButton)
         {
             var found = false;
 
@@ -475,7 +475,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetPreviousQATView(ViewBase? qatButton)
+        public ViewBase GetPreviousQATView(ViewBase qatButton)
         {
             // If the provided view is the extra button, then implicitly already found previous entry
             var found = (qatButton != null) && (qatButton == _extraButton);
@@ -483,13 +483,13 @@ namespace Krypton.Ribbon
             // Extract the set of views into an array
             var qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
             _qatButtonToView.Values.CopyTo(qatViews, 0);
-            
+
             // Search the list in reverse order
             for (var i = qatViews.Length - 1; i >= 0; i--)
             {
                 // Extract the correct view to test
                 ViewDrawRibbonQATButton qatView = qatViews[i];
-                
+
                 if (!found)
                 {
                     found = qatView == qatButton;
@@ -529,7 +529,7 @@ namespace Krypton.Ribbon
             foreach (IQuickAccessToolbarButton qatButton in qatButtons)
             {
                 // Get the currently cached view for the button
-                if (!_qatButtonToView.TryGetValue(qatButton, out ViewDrawRibbonQATButton view))
+                if (!_qatButtonToView.TryGetValue(qatButton, out ViewDrawRibbonQATButton? view))
                 {
                     // If a new button, create a view for it now
                     view = new ViewDrawRibbonQATButton(Ribbon, qatButton, _needPaint);
