@@ -121,7 +121,7 @@ namespace Krypton.Navigator
             var orderedChildren = context.Renderer.RenderTabBorder.GetTabBorderLeftDrawing(TabBorderStyle) ? this : Reverse();
 
             // Ask each child to render in turn
-            foreach (ViewBase? child in orderedChildren)
+            foreach (ViewBase child in orderedChildren)
             {
                 // Only render visible children that are inside the clipping rectangle
                 if (child.Visible && child.ClientRectangle.IntersectsWith(context.ClipRect))

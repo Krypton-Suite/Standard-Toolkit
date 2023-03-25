@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="targetElement">Target element for the mouse message.</param>
         /// <param name="c">Reference to the source control instance.</param>
-        public void MouseEnter(ViewBase? targetElement, Control c)
+        public void MouseEnter(ViewBase targetElement, Control c)
         {
             // Remember the current target
             _currentTarget = targetElement;
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         /// <param name="targetElement">Target element for the mouse message.</param>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public void MouseMove(ViewBase? targetElement, Control c, Point pt)
+        public void MouseMove(ViewBase targetElement, Control c, Point pt)
         {
         }
 
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
-        public void MouseDown(ViewBase? targetElement,
+        public void MouseDown(ViewBase targetElement,
                               Control c,
                               Point pt,
                               MouseButtons button)
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public void MouseUp(ViewBase? targetElement,
+        public void MouseUp(ViewBase targetElement,
                             Control c,
                             Point pt,
                             MouseButtons button)
@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="targetElement">Target element for the mouse message.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public void DoubleClick(ViewBase? targetElement, Point pt)
+        public void DoubleClick(ViewBase targetElement, Point pt)
         {
         }
         #endregion

@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// Process mouse events for a ribbon group date time picker.
     /// </summary>
     internal class DateTimePickerController : GlobalId,
-                                              ISourceController,
+                                              ISourceController,   
                                               IKeyController,
                                               IRibbonKeyTipTarget
     {
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public void KeyDown(Control? c, KeyEventArgs e)
+        public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
             c = _ribbon.GetControllerControl(c);
@@ -153,41 +153,31 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase? newView = null;
+            ViewBase newView = null;
 
             switch (e.KeyData)
             {
                 case Keys.Tab | Keys.Shift:
                 case Keys.Left:
                     // Get the previous focus item for the currently selected page
-                    if (ribbon.GroupsArea != null)
-                    {
-                        newView = ribbon.GroupsArea.ViewGroups!.GetPreviousFocusItem(_target) ??
-                                   ribbon.TabsArea!.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab);
-                    }
+                    newView = ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(_target) ?? ribbon.TabsArea.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab);
 
                     // Got to the actual tab header
                     break;
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    if (ribbon.GroupsArea != null)
-                    {
-                        newView = ribbon.GroupsArea.ViewGroups!.GetNextFocusItem(_target) ??
-                               ribbon.TabsArea!.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign
-                                   .Far);
-                    }
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
                     if (newView == null)
                     {
-                        newView = ribbon.TabsArea!.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
                     }
 
                     // Rotate around to application button
-                    // Note: Smurf-IV: Should this be moved up to line 188?
                     if (newView == null)
                     {
                         if (ribbon.TabsArea.LayoutAppButton.Visible)
@@ -198,7 +188,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }
+                    }                        
                     break;
             }
 

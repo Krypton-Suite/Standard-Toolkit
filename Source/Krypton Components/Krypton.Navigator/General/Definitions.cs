@@ -792,7 +792,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the view associated with the check item.
         /// </summary>
-        ViewBase? View { get; }
+        ViewBase View { get; }
 
         /// <summary>
         /// Gets the page this check item represents.
@@ -824,7 +824,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        ButtonSpec? ButtonSpecFromView(ViewBase? element);
+        ButtonSpec? ButtonSpecFromView(ViewBase element);
 
         /// <summary>
         /// Raises the Click event for the button.

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         private bool _mouseReallyOver;
         private bool _highlight;
         private bool _mouseDown;
-        private readonly ViewBase? _target;
+        private readonly ViewBase _target;
         private readonly ViewDrawMenuCheckBox _menuCheckBox;
         private NeedPaintHandler _needPaint;
 
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <param name="checkBox">Drawing element that owns check box display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public MenuCheckBoxController(ViewContextMenuManager viewManager,
-                                      ViewBase? target,
+                                      ViewBase target,
                                       ViewDrawMenuCheckBox checkBox,
                                       NeedPaintHandler needPaint)
         {
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase? GetActiveView() => _target;
+        public ViewBase GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.

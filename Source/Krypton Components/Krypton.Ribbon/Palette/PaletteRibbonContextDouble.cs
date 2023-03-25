@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         public PaletteRibbonContextDouble([DisallowNull] KryptonRibbon ribbon) 
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             LightBackground = false;
         }
         #endregion

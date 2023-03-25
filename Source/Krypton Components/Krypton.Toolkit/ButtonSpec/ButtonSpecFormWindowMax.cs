@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonSpecFormWindowMax class.
         /// </summary>
         /// <param name="form">Reference to owning krypton form instance.</param>
-        public ButtonSpecFormWindowMax(KryptonForm? form)
+        public ButtonSpecFormWindowMax(KryptonForm form)
             : base(form, PaletteButtonSpecStyle.FormMax)
         {
         }

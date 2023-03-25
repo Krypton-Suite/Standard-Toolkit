@@ -12,7 +12,6 @@
  */
 #endregion
 
-// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -28,7 +27,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private bool _mouseOver;
         private readonly NeedPaintHandler _needPaint;
-        private readonly ViewLayoutDocker? _target;
+        private readonly ViewLayoutDocker _target;
         #endregion
 
         #region Events
@@ -46,16 +45,16 @@ namespace Krypton.Ribbon
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
         public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
-            [DisallowNull] ViewLayoutDocker? target,
-            [DisallowNull] NeedPaintHandler needPaint)
+            [DisallowNull]ViewLayoutDocker target,
+            [DisallowNull]NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon;
-            _target = target;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _target = target!;
+            _needPaint = needPaint!;
         }
         #endregion
 
@@ -148,7 +147,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public virtual void KeyDown(Control? c, KeyEventArgs e)
+        public virtual void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
             c = _ribbon.GetControllerControl(c);
@@ -238,21 +237,25 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect) =>
-            _needPaint(this, new NeedLayoutEventArgs(needLayout, invalidRect));
+                                           Rectangle invalidRect)
+        {
+            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
+        }
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e) => Click(this, e);
-
+        protected virtual void OnClick(MouseEventArgs e)
+        {
+            Click?.Invoke(this, e);
+        }
         #endregion
 
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {
@@ -266,21 +269,14 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    if (ribbon.TabsArea.ButtonSpecManager != null)
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+
+                    // Move across to any far defined buttons
+
+                    // Move across to any inherit defined buttons
+                    if (newView == null)
                     {
-                        newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ??
-                                  ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign
-                                      .Far);
-
-                        // Move across to any far defined buttons
-
-                        // Move across to any inherit defined buttons
-                        if (newView == null)
-                        {
-                            if (ribbon.TabsArea.ButtonSpecManager != null)
-                                newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(
-                                    PaletteRelativeEdgeAlign.Inherit);
-                        }
+                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
                     }
 
                     // Rotate around to application button

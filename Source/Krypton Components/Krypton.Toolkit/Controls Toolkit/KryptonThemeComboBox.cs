@@ -85,9 +85,6 @@ namespace Krypton.Toolkit
         /// </returns>
         public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
 
-        /// <summary>Resets to the default theme. The default theme is 'Microsoft 365 - Blue' (33).</summary>
-        public void ResetToDefault() => SelectedIndex = 33;
-
         #endregion
 
         #region Protected Overrides

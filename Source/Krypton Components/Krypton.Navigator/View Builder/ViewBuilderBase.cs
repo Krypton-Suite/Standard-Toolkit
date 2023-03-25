@@ -79,7 +79,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public virtual void Construct([DisallowNull] KryptonNavigator navigator,
+        public virtual void Construct([DisallowNull] KryptonNavigator navigator, 
             [DisallowNull] ViewManager manager,
             [DisallowNull] PaletteRedirect? redirector)
         {
@@ -89,8 +89,8 @@ namespace Krypton.Navigator
             Debug.Assert(_constructed == false);
 
             // Save provided references
-            Navigator = navigator;
-            ViewManager = manager;
+            Navigator = navigator!;
+            ViewManager = manager!;
             Redirector = redirector;
             _constructed = true;
 
@@ -107,7 +107,7 @@ namespace Krypton.Navigator
             Debug.Assert(Navigator != null);
 
             // Unhook from the navigator events
-            Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
+            Navigator!.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
 
             // No longer constructed
             _constructed = false;
@@ -169,14 +169,14 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public abstract KryptonPage? PageFromView(ViewBase? element);
+        public abstract KryptonPage? PageFromView(ViewBase element);
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public abstract ButtonSpec? ButtonSpecFromView(ViewBase? element);
+        public abstract ButtonSpec? ButtonSpecFromView(ViewBase element);
 
         /// <summary>
         /// Ensure the correct state palettes are being used.
@@ -471,7 +471,7 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectNextPage(KryptonPage? page,
+        public virtual bool SelectNextPage(KryptonPage? page, 
                                            bool wrap,
                                            bool ctrlTab)
         {
@@ -570,7 +570,7 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectPreviousPage(KryptonPage? page,
+        public virtual bool SelectPreviousPage(KryptonPage? page, 
                                                bool wrap,
                                                bool ctrlTab)
         {
@@ -663,7 +663,7 @@ namespace Krypton.Navigator
             [DebuggerStepThrough]
             get =>
                 // Only create the delegate when it is first needed
-                _needPaintDelegate ??= OnNeedPaint;
+                _needPaintDelegate ??= OnNeedPaint!;
         }
 
         /// <summary>
@@ -704,7 +704,7 @@ namespace Krypton.Navigator
         {
             // Pass paint request onto the navigator control itself
             Navigator.PerformNeedPagePaint(e.NeedLayout);
-        }
+        } 
 
         /// <summary>
         /// Process the change in a property that might effect the view builder.
@@ -714,10 +714,8 @@ namespace Krypton.Navigator
         protected virtual void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (Navigator.StateCommon == null)
-            {
                 return;
-            }
-
+            
             switch (e.PropertyName)
             {
                 case @"PanelBackStyle":
@@ -726,32 +724,18 @@ namespace Krypton.Navigator
                     break;
                 case @"PageBackStyle":
                     if (Navigator.StateCommon.PalettePage != null)
-                    {
                         Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
-                    }
-
                     Navigator.PerformNeedPagePaint(true);
                     break;
                 case @"GroupBackStyle":
                     if (Navigator.ChildPanel != null)
-                    {
                         Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
-                    }
-
                     Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
-                    if (Navigator.StateCommon.HeaderGroup != null)
-                    {
-                        Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
-                    }
-
+                    Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"GroupBorderStyle":
-                    if (Navigator.StateCommon.HeaderGroup != null)
-                    {
-                        Navigator.StateCommon.HeaderGroup.BorderStyle = Navigator.Group.GroupBorderStyle;
-                    }
-
+                    Navigator.StateCommon.HeaderGroup.BorderStyle = Navigator.Group.GroupBorderStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
             }
@@ -797,10 +781,10 @@ namespace Krypton.Navigator
                 case NavigatorMode.HeaderBarCheckButtonHeaderGroup:
                     return new ViewBuilderHeaderBarCheckButtonHeaderGroup();
                 case NavigatorMode.OutlookFull:
-                    return new ViewBuilderOutlookFull();
-                case NavigatorMode.OutlookMini:
-                    return new ViewBuilderOutlookMini();
-                case NavigatorMode.HeaderGroup:
+                   return new ViewBuilderOutlookFull();
+               case NavigatorMode.OutlookMini:
+                   return new ViewBuilderOutlookMini();
+               case NavigatorMode.HeaderGroup:
                     return new ViewBuilderHeaderGroup();
                 case NavigatorMode.Group:
                     return new ViewBuilderGroup();

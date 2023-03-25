@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonSpecFormWindowClose class.
         /// </summary>
         /// <param name="form">Reference to owning krypton form instance.</param>
-        public ButtonSpecFormWindowClose(KryptonForm? form)
+        public ButtonSpecFormWindowClose(KryptonForm form)
             : base(form, PaletteButtonSpecStyle.FormClose)
         {
         }

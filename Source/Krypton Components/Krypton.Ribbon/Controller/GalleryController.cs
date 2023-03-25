@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public void KeyDown(Control? c, KeyEventArgs e)
+        public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
             c = _ribbon.GetControllerControl(c);
@@ -138,32 +138,22 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase? newView = null;
+            ViewBase newView = null;
 
             switch (e.KeyData)
             {
                 case Keys.Tab | Keys.Shift:
                 case Keys.Left:
                     // Get the previous focus item for the currently selected page
-                    if (ribbon.GroupsArea != null)
-                    {
-                        newView = ribbon.GroupsArea.ViewGroups!.GetPreviousFocusItem(_target) ??
-                                  ribbon.TabsArea!.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab);
-                    }
+                    newView = ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(_target) ?? ribbon.TabsArea.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab);
 
                     // Got to the actual tab header
                     break;
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    if (ribbon.GroupsArea != null)
-                    {
-                        newView = (ribbon.GroupsArea.ViewGroups!.GetNextFocusItem(_target) ??
-                                  ribbon.TabsArea!.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign
-                                      .Far)) ??
-                                 ribbon.TabsArea!.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign
-                                     .Inherit);
-                    }
+                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
+                              ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -172,15 +162,15 @@ namespace Krypton.Ribbon
                     // Rotate around to application button
                     if (newView == null)
                     {
-                        if (ribbon.TabsArea != null && ribbon.TabsArea.LayoutAppButton!.Visible)
+                        if (ribbon.TabsArea.LayoutAppButton.Visible)
                         {
                             newView = ribbon.TabsArea.LayoutAppButton.AppButton;
                         }
-                        else if (ribbon.TabsArea != null && ribbon.TabsArea.LayoutAppTab!.Visible)
+                        else if (ribbon.TabsArea.LayoutAppTab.Visible)
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }
+                    }                        
                     break;
             }
 

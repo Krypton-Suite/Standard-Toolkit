@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private ViewDrawRibbonTab? _lastTab;
+        private ViewDrawRibbonTab _lastTab;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tab">Reference to first tab of the set.</param>
         /// <param name="context">Reference to owning context details.</param>
-        public ContextTabSet(ViewDrawRibbonTab? tab,
+        public ContextTabSet(ViewDrawRibbonTab tab,
                              KryptonRibbonContext context)
         {
             Debug.Assert(tab != null);
@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the first tab.
         /// </summary>
-        public ViewDrawRibbonTab? FirstTab { get; }
+        public ViewDrawRibbonTab FirstTab { get; }
 
         /// <summary>
         /// Gets a value indicating if the tab is the first in set.
@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
         /// Update the last tab in the set with new refernece.
         /// </summary>
         /// <param name="tab">Reference to new last tab.</param>
-        public void UpdateLastTab(ViewDrawRibbonTab? tab)
+        public void UpdateLastTab(ViewDrawRibbonTab tab)
         {
             Debug.Assert(tab != null);
             _lastTab = tab;

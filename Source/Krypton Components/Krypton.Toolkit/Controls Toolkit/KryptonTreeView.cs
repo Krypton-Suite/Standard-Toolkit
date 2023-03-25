@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets access to the contained view draw panel instance.
             /// </summary>
-            public ViewDrawPanel? ViewDrawPanel { get; }
+            public ViewDrawPanel ViewDrawPanel { get; }
 
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
@@ -309,16 +309,16 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedPressed;
         private readonly PaletteNodeOverride _overrideNormalNode;
         private readonly PaletteRedirectTreeView? _redirectImages;
-        private readonly ViewDrawDocker? _drawDockerOuter;
-        private readonly ViewLayoutFill? _layoutFill;
-        private readonly ViewDrawButton? _drawButton;
-        private readonly ViewDrawCheckBox? _drawCheckBox;
-        private readonly ViewLayoutStack? _layoutCheckBoxStack;
+        private readonly ViewDrawDocker _drawDockerOuter;
+        private readonly ViewLayoutFill _layoutFill;
+        private readonly ViewDrawButton _drawButton;
+        private readonly ViewDrawCheckBox _drawCheckBox;
+        private readonly ViewLayoutStack _layoutCheckBoxStack;
         private readonly ViewLayoutDocker _layoutDocker;
-        private readonly ViewLayoutStack? _layoutImageStack;
-        private readonly ViewLayoutCenter? _layoutImageCenterState;
-        private readonly ViewLayoutSeparator? _layoutImage;
-        private readonly ViewLayoutSeparator? _layoutImageState;
+        private readonly ViewLayoutStack _layoutImageStack;
+        private readonly ViewLayoutCenter _layoutImageCenterState;
+        private readonly ViewLayoutSeparator _layoutImage;
+        private readonly ViewLayoutSeparator _layoutImageState;
         private readonly InternalTreeView _treeView;
         private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
@@ -565,11 +565,11 @@ namespace Krypton.Toolkit
 
             // Create the check box image drawer and place inside element so it is always centered
             _drawCheckBox = new ViewDrawCheckBox(_redirectImages);
-            ViewLayoutCenter? layoutCheckBox = new()
+            ViewLayoutCenter layoutCheckBox = new()
             {
                 _drawCheckBox
             };
-            ViewLayoutSeparator? layoutCheckBoxAfter = new(3, 0);
+            ViewLayoutSeparator layoutCheckBoxAfter = new(3, 0);
             _layoutCheckBoxStack = new ViewLayoutStack(true)
             {
                 layoutCheckBox,
@@ -578,8 +578,8 @@ namespace Krypton.Toolkit
 
             // Stack used to layout the location of the node image
             _layoutImage = new ViewLayoutSeparator(0, 0);
-            ViewLayoutSeparator? layoutImageAfter = new(3, 0);
-            ViewLayoutCenter? layoutImageCenter = new(_layoutImage);
+            ViewLayoutSeparator layoutImageAfter = new(3, 0);
+            ViewLayoutCenter layoutImageCenter = new(_layoutImage);
             _layoutImageStack = new ViewLayoutStack(true)
             {
                 layoutImageCenter,
@@ -645,7 +645,7 @@ namespace Krypton.Toolkit
             };
 
             // Create inner view for placing inside the drawing docker
-            ViewLayoutDocker? drawDockerInner = new()
+            ViewLayoutDocker drawDockerInner = new()
             {
                 { _layoutFill, ViewDockStyle.Fill }
             };

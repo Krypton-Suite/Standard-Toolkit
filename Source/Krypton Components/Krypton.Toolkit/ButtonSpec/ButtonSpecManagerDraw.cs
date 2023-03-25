@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ButtonSpecManagerDraw : ButtonSpecManagerBase
     {
         #region Instance Fields
-        private readonly ViewDrawDocker?[] _viewDockers;
+        private readonly ViewDrawDocker[] _viewDockers;
         #endregion
 
         #region Identity
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
                                      PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
-                                     ViewDrawDocker?[] viewDockers,
+                                     ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
                                      PaletteMetricInt[] viewMetricInt,
                                      PaletteMetricPadding[] viewMetricPaddings,
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                                      [DisallowNull] PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
-                                     [DisallowNull] ViewDrawDocker?[] viewDockers,
+                                     [DisallowNull] ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
                                      PaletteMetricInt[] viewMetricIntOutside,
                                      PaletteMetricInt[] viewMetricIntInside,
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                    viewMetricPaddings, getRenderer, needPaint)
         {
             Debug.Assert(viewDockers != null);
-            Debug.Assert(viewDockers.Length == viewMetrics.Length);
+            Debug.Assert(viewDockers!.Length == viewMetrics.Length);
             Debug.Assert(viewDockers.Length == viewMetricPaddings.Length);
 
             // Remember references
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="viewDocker">View docker reference.</param>
         /// <returns>Index of docker; otherwise -1.</returns>
-        protected override int DockerIndex(ViewBase? viewDocker)
+        protected override int DockerIndex(ViewBase viewDocker)
         {
             for (var i = 0; i < _viewDockers.Length; i++)
             {
@@ -138,10 +138,10 @@ namespace Krypton.Toolkit
         protected override ViewDrawContent? GetDockerForeground(int i)
         {
             // Get the indexed docker
-            ViewDrawDocker? viewDocker = _viewDockers[i];
+            ViewDrawDocker viewDocker = _viewDockers[i];
 
             // Find the child that is used to fill docker
-            foreach (ViewBase? child in viewDocker)
+            foreach (ViewBase child in viewDocker)
             {
                 if (viewDocker.GetDock(child) == ViewDockStyle.Fill)
                 {
@@ -161,11 +161,11 @@ namespace Krypton.Toolkit
         /// <param name="usingSpacers">Are view spacers being used.</param>
         protected override void AddViewToDocker(int i,
                                                 ViewDockStyle dockStyle,
-                                                ViewBase? view,
+                                                ViewBase view,
                                                 bool usingSpacers)
         {
             // Get the indexed docker
-            ViewDrawDocker? viewDocker = _viewDockers[i];
+            ViewDrawDocker viewDocker = _viewDockers[i];
 
             // By default add to the end of the children
             var insertIndex = viewDocker.Count;
@@ -194,11 +194,11 @@ namespace Krypton.Toolkit
         /// <param name="spacerL">Spacer for the left side.</param>
         /// <param name="spacerR">Spacer for the right side.</param>
         protected override void AddSpacersToDocker(int i, 
-                                                   ViewLayoutMetricSpacer? spacerL, 
-                                                   ViewLayoutMetricSpacer? spacerR)
+                                                   ViewLayoutMetricSpacer spacerL, 
+                                                   ViewLayoutMetricSpacer spacerR)
         {
             // Get the indexed instance
-            ViewDrawDocker? viewDocker = _viewDockers[i];
+            ViewDrawDocker viewDocker = _viewDockers[i];
 
             // Add them into the view docker instance
             viewDocker.Add(spacerL, ViewDockStyle.Left);

@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
                                        int end, 
                                        bool enabled)
         {
-            ViewLayoutColorStack? vertical = new();
+            ViewLayoutColorStack vertical = new();
 
             for (var i = start; i < end; i++)
             {

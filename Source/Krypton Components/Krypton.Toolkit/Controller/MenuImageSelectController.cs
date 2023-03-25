@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
     {
         #region Instance Fields
-        private readonly ViewDrawMenuImageSelectItem? _target;
+        private readonly ViewDrawMenuImageSelectItem _target;
         private readonly ViewLayoutMenuItemSelect _layout;
         private readonly ViewContextMenuManager _viewManager;
         private NeedPaintHandler _needPaint;
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <param name="layout">Reference to layout of the image items.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public MenuImageSelectController(ViewContextMenuManager viewManager,
-                                         ViewDrawMenuImageSelectItem? target,
+                                         ViewDrawMenuImageSelectItem target,
                                          ViewLayoutMenuItemSelect layout,
                                          NeedPaintHandler needPaint)
         {
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase? GetActiveView() => _target;
+        public ViewBase GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase? Target => _target;
+        public ViewBase Target => _target;
 
         /// <summary>
         /// Fires the NeedPaint event.

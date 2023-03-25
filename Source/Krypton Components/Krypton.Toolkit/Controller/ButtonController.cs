@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonController(ViewBase? target,
+        public ButtonController(ViewBase target,
                                 NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
@@ -678,7 +678,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase? Target { get; }
+        public ViewBase Target { get; }
 
         /// <summary>
         /// Fires the NeedPaint event.

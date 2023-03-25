@@ -48,11 +48,11 @@ namespace Krypton.Toolkit
 
         private bool _dropDownNavigaton;
         private float _cornerRoundingRadius;
-        private readonly ViewDrawDocker? _drawDocker;
+        private readonly ViewDrawDocker _drawDocker;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip _visualPopupToolTip;
         private KryptonBreadCrumbItem? _selectedItem;
-        private readonly ViewLayoutCrumbs? _layoutCrumbs;
+        private readonly ViewLayoutCrumbs _layoutCrumbs;
         private ButtonStyle _buttonStyle;
         #endregion
 

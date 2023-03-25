@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
         private bool _mouseOver;
         private DateTime _clickTime;
-        private readonly ViewDrawContent? _target;
+        private readonly ViewDrawContent _target;
         private readonly IPaletteContent _paletteDisabled;
         private readonly IPaletteContent _paletteNormal;
         private readonly IPaletteContent _paletteTracking;
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="palettePressed">Palette to use in the pressed state.</param>
         /// <param name="pressed">Override to update with the pressed state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LinkLabelController(ViewDrawContent? target,
+        public LinkLabelController(ViewDrawContent target,
                                    IPaletteContent paletteDisabled,
                                    IPaletteContent paletteNormal,
                                    IPaletteContent paletteTracking,
@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase? Target => _target;
+        public ViewBase Target => _target;
 
         /// <summary>
         /// Set the correct visual state of the target.

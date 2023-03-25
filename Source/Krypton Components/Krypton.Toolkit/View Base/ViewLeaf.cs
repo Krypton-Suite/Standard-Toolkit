@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Add(ViewBase? item) => throw
+        public override void Add(ViewBase item) => throw
             // Can never add a view to a leaf view
             new NotSupportedException(@"Cannot add to a leaf view.");
 
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool Contains(ViewBase? item) =>
+        public override bool Contains(ViewBase item) =>
             // Leaf never contains view
             false;
 
@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public override void CopyTo(ViewBase?[] array, int arrayIndex)
+        public override void CopyTo(ViewBase[] array, int arrayIndex)
         {
             // Nothing to copy
         }
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase? item) =>
+        public override bool Remove(ViewBase item) =>
             // Can never remove with success
             false;
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public override int IndexOf(ViewBase? item) =>
+        public override int IndexOf(ViewBase item) =>
             // Can never find the item
             -1;
 
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Insert(int index, ViewBase? item) => throw
+        public override void Insert(int index, ViewBase item) => throw
             // Can never insert a view to a leaf view
             new NotSupportedException("@Cannot insert to a leaf view.");
 
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase? this[int index] 
+        public override ViewBase this[int index] 
         { 
             get => throw new ArgumentOutOfRangeException(nameof(index));
 
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
         /// Deep enumerate forward over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase?> Recurse()
+        public override IEnumerable<ViewBase> Recurse()
         {
             // A leaf has no child views
             yield break;
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
         /// Shallow enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase?> Reverse()
+        public override IEnumerable<ViewBase> Reverse()
         {
             // A leaf has no child views
             yield break;
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
         /// Deep enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase?> ReverseRecurse()
+        public override IEnumerable<ViewBase> ReverseRecurse()
         {
             // A leaf has no child views
             yield break;

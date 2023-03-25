@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         protected ButtonSpecCollectionBase([DisallowNull] object owner)
         {
             Debug.Assert(owner != null);
-            Owner = owner;
+            Owner = owner!;
         }
         #endregion
 
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
         /// Append an array of button spec instances.
         /// </summary>
         /// <param name="array">Array of instances.</param>
-        public void AddRange(T[]? array)
+        public void AddRange(T[] array)
         {
             foreach (T item in array)
             {
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.IndexOf(item);
+            return _specs.IndexOf(item!);
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace Krypton.Toolkit
         public bool Contains([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.Contains(item);
+            return _specs.Contains(item!);
         }
 
         /// <summary>
@@ -387,16 +387,16 @@ namespace Krypton.Toolkit
             Debug.Assert(item != null);
 
             // Cache the index of the button spec
-            var index = IndexOf(item);
+            var index = IndexOf(item!);
 
             // Generate before event
-            OnRemoving(new ButtonSpecEventArgs(item, index));
+            OnRemoving(new ButtonSpecEventArgs(item!, index));
 
             // Remove from the internal list
-            var ret = _specs.Remove(item);
+            var ret = _specs.Remove(item!);
 
             // Generate after event
-            OnRemoved(new ButtonSpecEventArgs(item, index));
+            OnRemoved(new ButtonSpecEventArgs(item!, index));
 
             return ret;
         }

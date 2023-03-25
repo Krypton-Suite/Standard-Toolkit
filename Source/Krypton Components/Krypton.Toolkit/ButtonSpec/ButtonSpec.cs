@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         private bool _allowInheritText;
         private bool _allowInheritExtraText;
         private bool _allowInheritToolTipTitle;
-        private ViewBase _buttonSpecView;
+        private ViewBase? _buttonSpecView;
         private KryptonCommand? _command;
         private PaletteButtonStyle _style;
         private PaletteButtonOrientation _orientation;
@@ -1006,13 +1006,13 @@ namespace Krypton.Toolkit
         /// Sets the current view associated with the button spec.
         /// </summary>
         /// <param name="view">View element reference.</param>
-        public virtual void SetView(ViewBase view) => _buttonSpecView = view;
+        public virtual void SetView(ViewBase? view) => _buttonSpecView = view;
 
         /// <summary>
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        public virtual ViewBase GetView() => _buttonSpecView;
+        public virtual ViewBase? GetView() => _buttonSpecView;
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.

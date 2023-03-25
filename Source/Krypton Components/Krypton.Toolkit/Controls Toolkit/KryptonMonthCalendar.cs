@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ViewDrawDocker? _drawDocker;
-        private readonly ViewLayoutMonths? _drawMonths;
+        private readonly ViewDrawDocker _drawDocker;
+        private readonly ViewLayoutMonths _drawMonths;
         private readonly PaletteTripleOverride _boldedDisabled;
         private readonly PaletteTripleOverride _boldedNormal;
         private readonly PaletteTripleOverride _boldedTracking;

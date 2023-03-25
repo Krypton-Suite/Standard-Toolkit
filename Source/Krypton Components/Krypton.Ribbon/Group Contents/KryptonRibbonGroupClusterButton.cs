@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         private GroupButtonType _buttonType;
         private ContextMenuStrip? _contextMenuStrip;
         private KryptonContextMenu? _kryptonContextMenu;
-        private EventHandler? _kcmFinishDelegate;
+        private EventHandler _kcmFinishDelegate;
 
         #endregion
 
@@ -464,7 +464,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase? CreateView(KryptonRibbon ribbon,
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             _toolTipValues.NeedPaint = needPaint;
@@ -483,7 +483,7 @@ namespace Krypton.Ribbon
         /// Generates a Click event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler? finishDelegate)
+        public void PerformClick(EventHandler finishDelegate)
         {
             OnClick(finishDelegate);
         }
@@ -500,7 +500,7 @@ namespace Krypton.Ribbon
         /// Generates a DropDown event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformDropDown(EventHandler? finishDelegate)
+        public void PerformDropDown(EventHandler finishDelegate)
         {
             OnDropDown(finishDelegate);
         }
@@ -511,7 +511,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase? ClusterButtonView { get; set; }
+        public ViewBase ClusterButtonView { get; set; }
 
         #endregion
 
@@ -546,7 +546,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler? finishDelegate)
+        protected virtual void OnClick(EventHandler finishDelegate)
         {
             var fireDelegate = true;
 
@@ -602,7 +602,7 @@ namespace Krypton.Ribbon
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnDropDown(EventHandler? finishDelegate)
+        protected virtual void OnDropDown(EventHandler finishDelegate)
         {
             var fireDelegate = true;
 

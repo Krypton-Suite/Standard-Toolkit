@@ -52,17 +52,17 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly ViewDrawDocker? _drawDockerOuter;
-        private readonly ViewLayoutDocker? _drawDockerInner;
-        private readonly ViewLayoutStretch? _dropStretch;
-        private readonly ViewLayoutFit? _upDownFit;
+        private readonly ViewDrawDocker _drawDockerOuter;
+        private readonly ViewLayoutDocker _drawDockerInner;
+        private readonly ViewLayoutStretch _dropStretch;
+        private readonly ViewLayoutFit _upDownFit;
         private readonly PaletteTripleToPalette _paletteDropDown;
         private readonly PaletteTripleToPalette _paletteUpDown;
-        private readonly ViewDrawDateTimeButton? _buttonDropDown;
-        private readonly ViewDrawDateTimeButton? _buttonUp;
-        private readonly ViewDrawDateTimeButton? _buttonDown;
-        private readonly ViewDrawDateTimeText? _drawText;
-        private readonly ViewLayoutCenter? _layoutCheckBox;
+        private readonly ViewDrawDateTimeButton _buttonDropDown;
+        private readonly ViewDrawDateTimeButton _buttonUp;
+        private readonly ViewDrawDateTimeButton _buttonDown;
+        private readonly ViewDrawDateTimeText _drawText;
+        private readonly ViewLayoutCenter _layoutCheckBox;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip _visualPopupToolTip;
         private KryptonContextMenuMonthCalendar _kmc;
@@ -2009,7 +2009,7 @@ namespace Krypton.Toolkit
 
         internal bool InternalDateTimeNull() => _rawDateTime == DBNull.Value;
 
-        internal ViewDrawCheckBox? InternalViewDrawCheckBox { get; }
+        internal ViewDrawCheckBox InternalViewDrawCheckBox { get; }
 
         internal bool IsFixedActive => _fixedActive != null;
 

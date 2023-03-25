@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <returns>Docking setting.</returns>
-        public ViewDockStyle GetDock(ViewBase? child)
+        public ViewDockStyle GetDock(ViewBase child)
         {
             Debug.Assert(child != null);
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <param name="dock">ViewDockStyle setting.</param>
-        public void SetDock(ViewBase? child, ViewDockStyle dock)
+        public void SetDock(ViewBase child, ViewDockStyle dock)
         {
             Debug.Assert(child != null);
 
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <param name="dock">DockStyle setting.</param>
-        public void Add(ViewBase? item, ViewDockStyle dock)
+        public void Add(ViewBase item, ViewDockStyle dock)
         {
             // Add the child to the view
             Add(item);
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
             PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
 
             // Check for edge docking children
-            foreach (ViewBase? child in Reverse())
+            foreach (ViewBase child in Reverse())
             {
                 // Add into the valid child lookup
                 ViewDockStyle dockStyle = GetDock(child);
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
             }
 
             // Check for the fill child last
-            foreach (ViewBase? child in Reverse())
+            foreach (ViewBase child in Reverse())
             {
                 // Only interested in a visible 'fill' child
                 if ((child.Visible || PreferredSizeAll) && (GetDock(child) == ViewDockStyle.Fill))
@@ -376,7 +376,7 @@ namespace Krypton.Toolkit
             PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
             
             // Position all except the filler
-            foreach (ViewBase? child in Reverse()
+            foreach (ViewBase child in Reverse()
                          .Where(child => child.Visible && (GetDock(child) != ViewDockStyle.Fill))
                      )
             {
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
             fillerRect = UpdateFillerRect(fillerRect, context.Control);
 
             // Position any filler last
-            foreach (ViewBase? child in Reverse()
+            foreach (ViewBase child in Reverse()
                          .Where(child => child.Visible && (GetDock(child) == ViewDockStyle.Fill))
                      )
             {
@@ -554,7 +554,7 @@ namespace Krypton.Toolkit
             return style;
         }
 
-        private void UpdateChildBorders(ViewBase? child,
+        private void UpdateChildBorders(ViewBase child,
                                         ViewLayoutContext context,
                                         ref PaletteDrawBorders leftEdges,
                                         ref PaletteDrawBorders rightEdges,

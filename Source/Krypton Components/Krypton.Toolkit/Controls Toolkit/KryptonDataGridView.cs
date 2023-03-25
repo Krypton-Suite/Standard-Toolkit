@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         private PaletteBase? _localPalette;
         private PaletteBase? _palette;
         private PaletteMode _paletteMode;
-        private ViewDrawPanel? _drawPanel;
+        private ViewDrawPanel _drawPanel;
         private SimpleCall _refreshCall;
 
         // States and redirector

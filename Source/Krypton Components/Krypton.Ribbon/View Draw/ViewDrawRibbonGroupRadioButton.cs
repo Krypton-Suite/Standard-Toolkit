@@ -25,17 +25,17 @@ namespace Krypton.Ribbon
         private readonly Padding _largeImagePadding = new(3, 2, 3, 3);
         private readonly Padding _smallImagePadding = new(3);
         private readonly KryptonRibbon _ribbon;
-        private ViewLayoutRibbonRadioButton? _viewLarge;
-        private ViewDrawRibbonGroupRadioButtonImage? _viewLargeImage;
-        private ViewDrawRibbonGroupRadioButtonText? _viewLargeText1;
-        private ViewDrawRibbonGroupRadioButtonText? _viewLargeText2;
+        private ViewLayoutRibbonRadioButton _viewLarge;
+        private ViewDrawRibbonGroupRadioButtonImage _viewLargeImage;
+        private ViewDrawRibbonGroupRadioButtonText _viewLargeText1;
+        private ViewDrawRibbonGroupRadioButtonText _viewLargeText2;
         private GroupRadioButtonController _viewLargeController;
         private readonly EventHandler _finishDelegateLarge;
-        private ViewLayoutRibbonRadioButton? _viewMediumSmall;
-        private ViewLayoutRibbonRowCenter? _viewMediumSmallCenter;
-        private ViewDrawRibbonGroupRadioButtonImage? _viewMediumSmallImage;
-        private ViewDrawRibbonGroupRadioButtonText? _viewMediumSmallText1;
-        private ViewDrawRibbonGroupRadioButtonText? _viewMediumSmallText2;
+        private ViewLayoutRibbonRadioButton _viewMediumSmall;
+        private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
+        private ViewDrawRibbonGroupRadioButtonImage _viewMediumSmallImage;
+        private ViewDrawRibbonGroupRadioButtonText _viewMediumSmallText1;
+        private ViewDrawRibbonGroupRadioButtonText _viewMediumSmallText2;
         private GroupRadioButtonController _viewMediumSmallController;
         private readonly EventHandler _finishDelegateMediumSmall;
         private readonly NeedPaintHandler _needPaint;
@@ -321,7 +321,7 @@ namespace Krypton.Ribbon
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupRadioButtonImage(_ribbon, GroupRadioButton, true);
-            ViewLayoutRibbonCenterPadding? largeImagePadding = new(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -360,7 +360,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupRadioButtonImage(_ribbon, GroupRadioButton, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupRadioButtonText(_ribbon, GroupRadioButton, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupRadioButtonText(_ribbon, GroupRadioButton, false);
-            ViewLayoutRibbonCenterPadding? imagePadding = new(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -389,7 +389,7 @@ namespace Krypton.Ribbon
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
-        private void DefineRootView(ViewBase? view)
+        private void DefineRootView(ViewBase view)
         {
             // Remove any existing view
             Clear();
@@ -463,7 +463,7 @@ namespace Krypton.Ribbon
         private void ActionFinishedLarge(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            _ribbon?.Actionoccurred();
 
             // Remove the fixed pressed appearance
             _viewLargeController.RemoveFixed();
@@ -472,7 +472,7 @@ namespace Krypton.Ribbon
         private void ActionFinishedMediumSmall(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            _ribbon?.Actionoccurred();
 
             // Remove the fixed pressed appearance
             _viewMediumSmallController.RemoveFixed();

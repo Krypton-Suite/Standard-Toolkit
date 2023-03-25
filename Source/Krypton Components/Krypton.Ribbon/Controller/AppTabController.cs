@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the first target element.
         /// </summary>
-        public ViewBase? Target1 { get; set; }
+        public ViewBase Target1 { get; set; }
 
         /// <summary>
         /// Gets and sets the second target element.

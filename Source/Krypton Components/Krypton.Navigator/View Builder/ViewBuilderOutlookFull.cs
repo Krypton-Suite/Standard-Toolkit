@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderOutlookFull : ViewBuilderOutlookBase
     {
         #region Instance Fields
-        private ViewLayoutOutlookFull? _viewOutlook;
+        private ViewLayoutOutlookFull _viewOutlook;
         #endregion
 
         #region Public
@@ -167,7 +167,7 @@ namespace Krypton.Navigator
         /// Creates and returns the view element that laysout the main client area.
         /// </summary>
         /// <returns></returns>
-        protected override ViewBase? CreateMainLayout()
+        protected override ViewBase CreateMainLayout()
         {
             // Layout contains all the stack elements
             _viewLayout = new ViewLayoutDocker
@@ -197,12 +197,12 @@ namespace Krypton.Navigator
         /// <param name="checkButtonOrient">Orientation of the check button.</param>
         /// <param name="dockFar">Docking position of the check button.</param>
         /// <returns></returns>
-        protected override ViewDrawNavOutlookOverflow? CreateOverflowItem(KryptonPage? page, 
+        protected override ViewDrawNavOutlookOverflow CreateOverflowItem(KryptonPage? page, 
                                                                          VisualOrientation checkButtonOrient,
                                                                          ViewDockStyle dockFar)
         {
             // Let base class create the actual check button
-            ViewDrawNavOutlookOverflow? checkButton = base.CreateOverflowItem(page, checkButtonOrient, dockFar);
+            ViewDrawNavOutlookOverflow checkButton = base.CreateOverflowItem(page, checkButtonOrient, dockFar);
 
             // Add to the end of the overflow collection
             _viewOverflowLayout.Add(checkButton, dockFar);

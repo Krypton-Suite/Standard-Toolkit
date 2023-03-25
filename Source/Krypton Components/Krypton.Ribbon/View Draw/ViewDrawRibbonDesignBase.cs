@@ -12,7 +12,6 @@
  */
 #endregion
 
-// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -23,7 +22,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private readonly NeedPaintHandler? _needPaint;
+        private readonly NeedPaintHandler _needPaint;
         private readonly DesignTextToContent _contentProvider;
         #endregion
 
@@ -33,8 +32,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonDesignBase(KryptonRibbon? ribbon,
-                                        NeedPaintHandler? needPaint)
+        public ViewDrawRibbonDesignBase(KryptonRibbon ribbon,
+                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
@@ -67,7 +66,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon control instance.
         /// </summary>
-        public KryptonRibbon? Ribbon { get; }
+        public KryptonRibbon Ribbon { get; }
 
         #endregion
 

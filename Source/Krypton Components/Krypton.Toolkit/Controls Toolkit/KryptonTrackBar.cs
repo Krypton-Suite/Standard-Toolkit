@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     public class KryptonTrackBar : VisualSimpleBase
     {
         #region Instance Fields
-        private readonly ViewDrawTrackBar? _drawTrackBar;
+        private readonly ViewDrawTrackBar _drawTrackBar;
         private readonly PaletteTrackBarStatesOverride _overrideNormal;
         private readonly PaletteTrackBarPositionStatesOverride _overrideTracking;
         private readonly PaletteTrackBarPositionStatesOverride _overridePressed;

@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaintDelegate">Delegate used to when paint changes occur.</param>
         public AppButtonMenuProvider(ViewContextMenuManager viewManager,
                                      KryptonContextMenuItemCollection menuCollection,
-                                     ViewLayoutStack? viewColumns,
+                                     ViewLayoutStack viewColumns,
                                      PaletteBase? palette,
                                      PaletteMode paletteMode,
                                      PaletteRedirect? redirector,
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view to use as the fixed sub menu area.
         /// </summary>
-        public ViewBase? FixedViewBase { get; set; }
+        public ViewBase FixedViewBase { get; set; }
 
         #endregion
 
@@ -214,7 +214,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the layout for context menu columns.
         /// </summary>
-        public ViewLayoutStack? ProviderViewColumns { get; }
+        public ViewLayoutStack ProviderViewColumns { get; }
 
         /// <summary>
         /// Gets access to the context menu specific view manager.

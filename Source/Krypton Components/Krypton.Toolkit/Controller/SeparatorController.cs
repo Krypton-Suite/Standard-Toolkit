@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         private Rectangle _separatorBox;
         private Orientation _separatorOrientation;
         private SeparatorMessageFilter _filter;
-        private readonly ISeparatorSource? _source;
+        private readonly ISeparatorSource _source;
         private SeparatorIndicator _indicator;
 
         #endregion
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// <param name="splitCursors">Show as split or movement cursors.</param>
         /// <param name="drawIndicator">Draw a separator indicator.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public SeparatorController(ISeparatorSource? source,
-                                   ViewBase? target,
+        public SeparatorController(ISeparatorSource source,
+                                   ViewBase target,
                                    bool splitCursors,
                                    bool drawIndicator,
                                    NeedPaintHandler needPaint)

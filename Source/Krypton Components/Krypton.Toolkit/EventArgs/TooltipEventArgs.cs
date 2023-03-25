@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Reference to view element that requires tooltip.</param>
         /// <param name="controlMousePosition">Screen location of mouse when tooltip was required.</param>
-        public ToolTipEventArgs(ViewBase? target, Point controlMousePosition)
+        public ToolTipEventArgs(ViewBase target, Point controlMousePosition)
         {
             //Debug.Assert(target != null);
 
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the view element that is related to the tooltip.
         /// </summary>
-        public ViewBase? Target { get; }
+        public ViewBase Target { get; }
 
         /// <summary>
         /// Gets the screen point of the mouse where tooltip is required.

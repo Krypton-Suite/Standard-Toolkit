@@ -18,8 +18,8 @@ namespace Krypton.Navigator
     internal abstract class ViewBuilderHeaderBarCheckButtonBase : ViewBuilderItemBase
     {
         #region Instance Fields
-        protected ViewDrawDocker? _drawPanelDocker;
-        protected ViewDrawDocker? _viewHeadingBar;
+        protected ViewDrawDocker _drawPanelDocker;
+        protected ViewDrawDocker _viewHeadingBar;
         #endregion
 
         #region Protected
@@ -172,7 +172,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void SetHeaderStyle(ViewDrawDocker? drawDocker,
+        private void SetHeaderStyle(ViewDrawDocker drawDocker,
                                     PaletteTripleMetricRedirect palette,
                                     HeaderStyle style)
         {

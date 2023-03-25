@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the groups border view.
         /// </summary>
-        public ViewDrawRibbonGroupsBorderSynch? ViewGroups { get; }
+        public ViewDrawRibbonGroupsBorderSynch ViewGroups { get; }
 
         #endregion
 

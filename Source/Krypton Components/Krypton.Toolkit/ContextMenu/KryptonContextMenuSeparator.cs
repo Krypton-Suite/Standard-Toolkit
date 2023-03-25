@@ -84,20 +84,20 @@ namespace Krypton.Toolkit
         /// <param name="standardStyle">Draw items with standard or alternate style.</param>
         /// <param name="imageColumn">Draw an image background for the item images.</param>
         /// <returns>ViewBase that is the root of the view hierarchy being added.</returns>
-        public override ViewBase? GenerateView(IContextMenuProvider provider,
+        public override ViewBase GenerateView(IContextMenuProvider provider,
                                               object parent,
-                                              ViewLayoutStack? columns,
+                                              ViewLayoutStack columns,
                                               bool standardStyle,
                                               bool imageColumn)
         {
             if (Horizontal && (parent is KryptonContextMenuItemCollection))
             {
                 // Create a stack of horizontal items inside the item
-                ViewLayoutDocker? docker = new();
+                ViewLayoutDocker docker = new();
 
                 // Take up same space as the image column, so separator starts close to actual text
-                ViewDrawContent? imageContent = new(provider.ProviderStateCommon.ItemImage.Content, new FixedContentValue(null, null, null, Color.Empty), VisualOrientation.Top);
-                ViewDrawMenuImageCanvas? imageCanvas = new(provider.ProviderStateCommon.ItemImage.Back, provider.ProviderStateCommon.ItemImage.Border, 0, true)
+                ViewDrawContent imageContent = new(provider.ProviderStateCommon.ItemImage.Content, new FixedContentValue(null, null, null, Color.Empty), VisualOrientation.Top);
+                ViewDrawMenuImageCanvas imageCanvas = new(provider.ProviderStateCommon.ItemImage.Back, provider.ProviderStateCommon.ItemImage.Border, 0, true)
                 {
                     imageContent
                 };
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
                 docker.Add(new ViewLayoutMenuSepGap(provider.ProviderStateCommon, standardStyle), ViewDockStyle.Left);
 
                 // Separator Display
-                ViewLayoutStack? separatorStack = new(false)
+                ViewLayoutStack separatorStack = new(false)
                 {
                     new ViewLayoutSeparator(1, 1),
                     new ViewDrawMenuSeparator(this, provider.ProviderStateCommon.Separator),

@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderHeaderBarCheckButtonHeaderGroup : ViewBuilderHeaderBarCheckButtonBase
     {
         #region Instance Fields
-        private ViewDrawDocker? _viewGroup;
+        private ViewDrawDocker _viewGroup;
         private ViewletHeaderGroup _headerGroup;
         #endregion
 
@@ -33,7 +33,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase? element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Always check base class first
             ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
