@@ -207,7 +207,7 @@ namespace Krypton.Toolkit
 
             _integratedToolbarButtonCollection = null;
 
-            IntegratedToolBarValues = new IntegratedToolBarValues(this);
+            _integratedToolbarValues = new IntegratedToolBarValues(this);
         }
 
         /// <summary>
@@ -667,7 +667,7 @@ namespace Krypton.Toolkit
 
         [Category(@"Visuals")]
         [Description(@"Gets access to the integrated toolbar values.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IntegratedToolBarValues IntegratedToolBarValues { get; }
 
         public bool ShouldSerializeIntegratedToolBarValues() => !IntegratedToolBarValues.IsDefault;
