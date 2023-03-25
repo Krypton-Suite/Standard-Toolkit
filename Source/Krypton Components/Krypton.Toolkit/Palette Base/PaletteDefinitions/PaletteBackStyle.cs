@@ -147,7 +147,13 @@ namespace Krypton.Toolkit
         /// Specifies a background style appropriate for the first custom control style.
         /// </summary>
         ControlCustom1,
+        /// <summary>
+        /// Specifies a background style appropriate for the second custom control style.
+        /// </summary>
         ControlCustom2,
+        /// <summary>
+        /// Specifies a background style appropriate for the third custom control style.
+        /// </summary>
         ControlCustom3,
 
         /// <summary>
@@ -204,7 +210,13 @@ namespace Krypton.Toolkit
         /// Specifies a background style appropriate for the first custom input control style.
         /// </summary>
         InputControlCustom1,
+        /// <summary>
+        /// Specifies a background style appropriate for the second custom input control style.
+        /// </summary>
         InputControlCustom2,
+        /// <summary>
+        /// Specifies a background style appropriate for the third custom input control style.
+        /// </summary>
         InputControlCustom3,
 
         /// <summary>
@@ -248,17 +260,29 @@ namespace Krypton.Toolkit
         GridBackgroundSheet,
 
         /// <summary>
-        /// Specifies a background style appropriate for column headers in a custom grid style.
+        /// Specifies a background style appropriate for column first headers in a custom grid style.
         /// </summary>
         GridHeaderColumnCustom1,
+        /// <summary>
+        /// Specifies a background style appropriate for column second headers in a custom grid style.
+        /// </summary>
         GridHeaderColumnCustom2,
+        /// <summary>
+        /// Specifies a background style appropriate for column third headers in a custom grid style.
+        /// </summary>
         GridHeaderColumnCustom3,
 
         /// <summary>
-        /// Specifies a background style appropriate for row headers in a custom grid style.
+        /// Specifies a background style appropriate for row first headers in a custom grid style.
         /// </summary>
         GridHeaderRowCustom1,
+        /// <summary>
+        /// Specifies a background style appropriate for row second headers in a custom grid style.
+        /// </summary>
         GridHeaderRowCustom2,
+        /// <summary>
+        /// Specifies a background style appropriate for row third headers in a custom grid style.
+        /// </summary>
         GridHeaderRowCustom3,
 
         /// <summary>

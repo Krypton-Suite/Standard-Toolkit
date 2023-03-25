@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="form">Reference to owning krypton form.</param>
         /// <param name="fixedStyle">Fixed style to use.</param>
-        protected ButtonSpecFormFixed([DisallowNull] KryptonForm form,
+        protected ButtonSpecFormFixed([DisallowNull] KryptonForm? form,
                                    PaletteButtonSpecStyle fixedStyle)
         {
             Debug.Assert(form != null);
@@ -34,8 +34,8 @@ namespace Krypton.Toolkit
 
             // Fix the type
             ProtectedType = fixedStyle;
-        }      
-        #endregion   
+        }
+        #endregion
 
         #region AllowComponent
         /// <summary>
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the owning krypton form.
         /// </summary>
-        protected KryptonForm KryptonForm { get; }
+        protected KryptonForm? KryptonForm { get; }
 
         #endregion
 

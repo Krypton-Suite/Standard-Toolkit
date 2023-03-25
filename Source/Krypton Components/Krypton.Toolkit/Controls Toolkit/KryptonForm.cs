@@ -315,10 +315,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Gets or sets buttonspecs that make up the integrated tool bar.</summary>
-        //[Category(@"Visuals")]
-        //[Description(@"Shows a set of toolbar buttons in the title bar. (Caution: This is quite buggy!)")]
-        //[DefaultValue(false)]
-        //public bool ShowIntegratedToolBar { get => _showIntegratedToolbar; set { _showIntegratedToolbar = value; SetupIntegratedToolBar(value); } }
+        [Category(@"Visuals")]
+        [Description(@"Shows a set of toolbar buttons in the title bar. (Caution: This is quite buggy!)")]
+        [DefaultValue(false)]
+        public bool ShowIntegratedToolBar { get => _showIntegratedToolbar; set { _showIntegratedToolbar = value; SetupIntegratedToolBar(value); } }
 
         /// <summary>
         /// Gets and sets the header style for a main form.
@@ -659,11 +659,11 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the integrated tool bar button collection.</summary>
         /// <value>The integrated tool bar button collection.</value>
-        //[Category(@"Visuals")]
-        //[DefaultValue(null)]
-        //[Description(@"Gets access to the integrated toolbar items.")]
-        //[AllowNull]
-        //public ButtonSpecAny[]? IntegratedToolBarButtonCollection { get => _integratedToolbarButtonCollection; private set => _integratedToolbarButtonCollection = value; }
+        [Category(@"Visuals")]
+        [DefaultValue(null)]
+        [Description(@"Gets access to the integrated toolbar items.")]
+        [AllowNull]
+        public ButtonSpecAny[]? IntegratedToolBarButtonCollection { get => _integratedToolbarButtonCollection; private set => _integratedToolbarButtonCollection = value; }
 
         [Category(@"Visuals")]
         [Description(@"Gets access to the integrated toolbar values.")]
