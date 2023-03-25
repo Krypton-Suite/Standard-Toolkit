@@ -25,22 +25,22 @@ namespace Krypton.Ribbon
         private readonly Padding _smallImagePadding; // = new(3, 3, 3, 3);
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaint;
-        private ViewDrawRibbonGroupButtonBackBorder? _viewLarge;
-        private ViewLayoutRibbonRowCenter? _viewLargeCenter;
-        private ViewDrawRibbonGroupButtonImage? _viewLargeImage;
-        private ViewDrawRibbonGroupButtonText? _viewLargeText1;
-        private ViewDrawRibbonGroupButtonText? _viewLargeText2;
-        private ViewDrawRibbonDropArrow? _viewLargeDropArrow;
-        private ViewLayoutRibbonSeparator? _viewLargeText2Sep1;
-        private ViewLayoutRibbonSeparator? _viewLargeText2Sep2;
-        private ViewDrawRibbonGroupButtonBackBorder? _viewMediumSmall;
-        private ViewLayoutRibbonRowCenter? _viewMediumSmallCenter;
-        private ViewDrawRibbonGroupButtonImage? _viewMediumSmallImage;
-        private ViewDrawRibbonGroupButtonText? _viewMediumSmallText1;
-        private ViewDrawRibbonGroupButtonText? _viewMediumSmallText2;
-        private ViewDrawRibbonDropArrow? _viewMediumSmallDropArrow;
-        private ViewLayoutRibbonSeparator? _viewMediumSmallText2Sep2;
-        private ViewLayoutRibbonSeparator? _viewMediumSmallText2Sep3;
+        private ViewDrawRibbonGroupButtonBackBorder _viewLarge;
+        private ViewLayoutRibbonRowCenter _viewLargeCenter;
+        private ViewDrawRibbonGroupButtonImage _viewLargeImage;
+        private ViewDrawRibbonGroupButtonText _viewLargeText1;
+        private ViewDrawRibbonGroupButtonText _viewLargeText2;
+        private ViewDrawRibbonDropArrow _viewLargeDropArrow;
+        private ViewLayoutRibbonSeparator _viewLargeText2Sep1;
+        private ViewLayoutRibbonSeparator _viewLargeText2Sep2;
+        private ViewDrawRibbonGroupButtonBackBorder _viewMediumSmall;
+        private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
+        private ViewDrawRibbonGroupButtonImage _viewMediumSmallImage;
+        private ViewDrawRibbonGroupButtonText _viewMediumSmallText1;
+        private ViewDrawRibbonGroupButtonText _viewMediumSmallText2;
+        private ViewDrawRibbonDropArrow _viewMediumSmallDropArrow;
+        private ViewLayoutRibbonSeparator _viewMediumSmallText2Sep2;
+        private ViewLayoutRibbonSeparator _viewMediumSmallText2Sep3;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -359,11 +359,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker? contentLayout = new();
+            ViewLayoutDocker contentLayout = new();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupButtonImage(_ribbon, GroupButton, true);
-            ViewLayoutRibbonCenterPadding? largeImagePadding = new(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker? contentLayout = new();
+            ViewLayoutDocker contentLayout = new();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupButtonImage(_ribbon, GroupButton, false);
@@ -424,7 +424,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep3 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding? imagePadding = new(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -451,7 +451,7 @@ namespace Krypton.Ribbon
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
-        private void DefineRootView(ViewBase? view)
+        private void DefineRootView(ViewBase view)
         {
             // Remove any existing view
             Clear();

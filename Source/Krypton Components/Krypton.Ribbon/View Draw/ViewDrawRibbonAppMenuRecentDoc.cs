@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
             ShortcutText = index < 10 ? @"&" + index.ToString() : @"A";
 
             // Use docker to organize horizontal items
-            ViewLayoutDocker? docker = new()
+            ViewLayoutDocker docker = new()
             {
 
                 // End of line gap
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
             // Add the text/extraText/Image entry
             FixedContentValue entryContent = new(recentDoc.Text, recentDoc.ExtraText, recentDoc.Image, recentDoc.ImageTransparentColor);
             RibbonRecentDocsEntryToContent entryPalette = new(ribbon.StateCommon.RibbonGeneral, ribbon.StateCommon.RibbonAppMenuDocsEntry);
-            ViewDrawContent? entryDraw = new(entryPalette, entryContent, VisualOrientation.Top);
+            ViewDrawContent entryDraw = new(entryPalette, entryContent, VisualOrientation.Top);
             docker.Add(entryDraw, ViewDockStyle.Fill);
 
             // Shortcut to Content gap
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
             // Add the shortcut column
             FixedContentValue shortcutContent = new(ShortcutText, null, null, Color.Empty);
             RibbonRecentDocsShortcutToContent shortcutPalette = new(ribbon.StateCommon.RibbonGeneral, ribbon.StateCommon.RibbonAppMenuDocsEntry);
-            ViewDrawRibbonRecentShortcut? shortcutDraw = new(shortcutPalette, shortcutContent);
+            ViewDrawRibbonRecentShortcut shortcutDraw = new(shortcutPalette, shortcutContent);
             docker.Add(shortcutDraw, ViewDockStyle.Left);
 
             // Start of line gap

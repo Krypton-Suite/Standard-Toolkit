@@ -27,13 +27,13 @@ namespace Krypton.Toolkit
         private IPaletteTriple _paletteCheckedTracking;
         private IPaletteTriple _paletteCheckedPressed;
         private readonly PaletteBorderEdgeRedirect _edgeRedirect;
-        private readonly ViewDrawSplitCanvas? _drawCanvas;
-        private readonly ViewDrawContent? _drawContent;
-        private readonly ViewDrawBorderEdge? _drawSplitBorder;
-        private readonly ViewLayoutCenter? _drawDropDown;
-        private readonly ViewDrawDropDownButton? _drawDropDownButton;
+        private readonly ViewDrawSplitCanvas _drawCanvas;
+        private readonly ViewDrawContent _drawContent;
+        private readonly ViewDrawBorderEdge _drawSplitBorder;
+        private readonly ViewLayoutCenter _drawDropDown;
+        private readonly ViewDrawDropDownButton _drawDropDownButton;
         private VisualOrientation _dropDownPosition;
-        private readonly ViewLayoutSeparator? _drawOuterSeparator;
+        private readonly ViewLayoutSeparator _drawOuterSeparator;
         private Rectangle _splitRectangle;
         private Rectangle _nonSplitRectangle;
         private bool _dropDown;
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the contained layout docker.
         /// </summary>
-        public ViewLayoutDocker? LayoutDocker { get; }
+        public ViewLayoutDocker LayoutDocker { get; }
 
         #endregion
 

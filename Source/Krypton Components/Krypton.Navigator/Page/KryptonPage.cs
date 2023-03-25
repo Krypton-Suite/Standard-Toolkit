@@ -25,7 +25,7 @@ namespace Krypton.Navigator
     public class KryptonPage : VisualPanel
     {
         #region Instance Fields
-        private readonly ViewDrawPanel? _drawPanel;
+        private readonly ViewDrawPanel _drawPanel;
         private readonly PaletteRedirectDoubleMetric? _redirectNavigator;
         private readonly PaletteRedirectDoubleMetric? _redirectNavigatorHeaderGroup;
         private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderPrimary;

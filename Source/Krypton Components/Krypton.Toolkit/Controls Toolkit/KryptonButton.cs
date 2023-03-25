@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ViewDrawButton? _drawButton;
+        private readonly ViewDrawButton _drawButton;
         private ButtonStyle _style;
         private readonly ButtonController _buttonController;
         private VisualOrientation _orientation;
@@ -816,7 +816,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view element for the button.
         /// </summary>
-        protected virtual ViewDrawButton? ViewDrawButton => _drawButton;
+        protected virtual ViewDrawButton ViewDrawButton => _drawButton;
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 

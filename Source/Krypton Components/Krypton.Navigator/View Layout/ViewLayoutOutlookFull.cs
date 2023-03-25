@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
         public ViewLayoutOutlookFull(ViewBuilderOutlookBase viewBuilder,
                                      VisualControl rootControl,
-                                     ViewBase? viewportFiller,
+                                     ViewBase viewportFiller,
                                      PaletteBorderEdge paletteBorderEdge,
                                      IPaletteMetric paletteMetrics,
                                      PaletteMetricPadding metricPadding,

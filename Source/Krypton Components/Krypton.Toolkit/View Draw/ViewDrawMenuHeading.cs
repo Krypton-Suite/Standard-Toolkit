@@ -16,8 +16,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly FixedContentValue _contentValues;
-        private readonly ViewDrawDocker? _drawDocker;
-        private readonly ViewDrawContent? _drawContent;
+        private readonly ViewDrawDocker _drawDocker;
+        private readonly ViewDrawContent _drawContent;
         #endregion
 
         #region Identity

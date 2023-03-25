@@ -178,9 +178,9 @@ namespace Krypton.Ribbon
         private void SyncChildrenToContexts()
         {
             // Find any filler child
-            ViewBase? filler = null;
+            ViewBase filler = null;
 
-            foreach(ViewBase? child in this)
+            foreach(ViewBase child in this)
             {
                 if (GetDock(child) == ViewDockStyle.Fill)
                 {
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
             // Add a view element per context and update with correct reference
             for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
-                ViewDrawRibbonContextTitle? viewContext = _contextTitlesCache[i];
+                ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
                 ContextTitleController viewController = (ContextTitleController)viewContext.MouseController;
                 viewContext.ContextTabSet = ViewLayoutRibbonTabs.ContextTabSets[i];
                 viewController.ContextTabSet = viewContext.ContextTabSet;

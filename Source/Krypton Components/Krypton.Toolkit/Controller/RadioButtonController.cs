@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _captured;
-        private readonly ViewDrawRadioButton? _target;
-        private readonly ViewBase? _top;
+        private readonly ViewDrawRadioButton _target;
+        private readonly ViewBase _top;
         private NeedPaintHandler _needPaint;
         #endregion
 
@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="top">Top element for the radio button control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RadioButtonController(ViewDrawRadioButton? target,
-                                     ViewBase? top,
+        public RadioButtonController(ViewDrawRadioButton target,
+                                     ViewBase top,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase? Target => _target;
+        public ViewBase Target => _target;
 
 
         /// <summary>

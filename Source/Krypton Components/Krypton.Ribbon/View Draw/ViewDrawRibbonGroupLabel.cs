@@ -25,17 +25,17 @@ namespace Krypton.Ribbon
         private readonly Padding _smallImagePadding; // = new(3);
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaint;
-        private ViewLayoutDocker? _viewLarge;
-        private ViewLayoutRibbonCenterPadding? _viewLargeImage;
-        private ViewDrawRibbonGroupLabelImage? _viewLargeLabelImage;
-        private ViewDrawRibbonGroupLabelText? _viewLargeText1;
-        private ViewDrawRibbonGroupLabelText? _viewLargeText2;
-        private ViewLayoutDocker? _viewMediumSmall;
-        private ViewLayoutRibbonRowCenter? _viewMediumSmallCenter;
-        private ViewLayoutRibbonCenterPadding? _viewMediumSmallImage;
-        private ViewDrawRibbonGroupLabelImage? _viewMediumSmallLabelImage;
-        private ViewDrawRibbonGroupLabelText? _viewMediumSmallText1;
-        private ViewDrawRibbonGroupLabelText? _viewMediumSmallText2;
+        private ViewLayoutDocker _viewLarge;
+        private ViewLayoutRibbonCenterPadding _viewLargeImage;
+        private ViewDrawRibbonGroupLabelImage _viewLargeLabelImage;
+        private ViewDrawRibbonGroupLabelText _viewLargeText1;
+        private ViewDrawRibbonGroupLabelText _viewLargeText2;
+        private ViewLayoutDocker _viewMediumSmall;
+        private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
+        private ViewLayoutRibbonCenterPadding _viewMediumSmallImage;
+        private ViewDrawRibbonGroupLabelImage _viewMediumSmallLabelImage;
+        private ViewDrawRibbonGroupLabelText _viewMediumSmallText1;
+        private ViewDrawRibbonGroupLabelText _viewMediumSmallText2;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -341,7 +341,7 @@ namespace Krypton.Ribbon
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
-        private void DefineRootView(ViewBase? view)
+        private void DefineRootView(ViewBase view)
         {
             // Remove any existing view
             Clear();

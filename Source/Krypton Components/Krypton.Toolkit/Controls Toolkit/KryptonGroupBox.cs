@@ -29,9 +29,9 @@ namespace Krypton.Toolkit
         private LabelStyle _captionStyle;
         private VisualOrientation _captionEdge;
         private ButtonOrientation _captionOrientation;
-        private readonly ViewDrawGroupBoxDocker? _drawDocker;
-        private readonly ViewDrawContent? _drawContent;
-        private readonly ViewLayoutFill? _layoutFill;
+        private readonly ViewDrawGroupBoxDocker _drawDocker;
+        private readonly ViewDrawContent _drawContent;
+        private readonly ViewLayoutFill _layoutFill;
         private ScreenObscurer _obscurer;
         private readonly EventHandler _removeObscurer;
         private bool _forcedLayout;

@@ -18,9 +18,9 @@ namespace Krypton.Navigator
     internal class ViewLayoutDockerOverlap : ViewLayoutDocker
     {
         #region Instance Fields
-        private readonly ViewDrawCanvas? _drawCanvas;
-        private readonly ViewLayoutInsetOverlap? _layoutOverlap;
-        private readonly ViewLayoutBarForTabs? _layoutTabs;
+        private readonly ViewDrawCanvas _drawCanvas;
+        private readonly ViewLayoutInsetOverlap _layoutOverlap;
+        private readonly ViewLayoutBarForTabs _layoutTabs;
         #endregion
 
         #region Identity
@@ -30,9 +30,9 @@ namespace Krypton.Navigator
         /// <param name="drawCanvas">Canvas used to recover border width/rounding for overlapping.</param>
         /// <param name="layoutOverlap">Overlapping element.</param>
         /// <param name="layoutTabs">Tab item container element.</param>
-        public ViewLayoutDockerOverlap(ViewDrawCanvas? drawCanvas,
-                                       ViewLayoutInsetOverlap? layoutOverlap,
-                                       ViewLayoutBarForTabs? layoutTabs)
+        public ViewLayoutDockerOverlap(ViewDrawCanvas drawCanvas,
+                                       ViewLayoutInsetOverlap layoutOverlap,
+                                       ViewLayoutBarForTabs layoutTabs)
         {
             Debug.Assert(drawCanvas != null);
             Debug.Assert(layoutOverlap != null);

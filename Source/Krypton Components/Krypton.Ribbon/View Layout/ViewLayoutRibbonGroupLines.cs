@@ -12,8 +12,6 @@
  */
 #endregion
 
-// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-// ReSharper disable RedundantAssignment
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -37,10 +35,10 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
-        private readonly KryptonRibbonGroupLines? _ribbonLines;
-        private ViewDrawRibbonDesignGroupLines? _viewAddItem;
-        private readonly NeedPaintHandler? _needPaint;
+        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbonGroupLines _ribbonLines;
+        private ViewDrawRibbonDesignGroupLines _viewAddItem;
+        private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         private ItemToView _itemToView;
         private ViewToItem _viewToItem;
@@ -69,9 +67,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonLines">Reference to lines definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupLines(KryptonRibbon? ribbon,
-                                          KryptonRibbonGroupLines? ribbonLines,
-                                          NeedPaintHandler? needPaint)
+        public ViewLayoutRibbonGroupLines(KryptonRibbon ribbon,
+                                          KryptonRibbonGroupLines ribbonLines,
+                                          NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonLines != null);
@@ -99,20 +97,14 @@ namespace Krypton.Ribbon
             _viewToSmallGap = new ViewToGap();
 
             // Get the initial size used for sizing and positioning
-            if (ribbonLines != null)
-            {
-                ApplySize(ribbonLines.ItemSizeCurrent);
-            }
+            ApplySize(ribbonLines.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
-            if (_ribbonLines != null)
-            {
-                _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
-                _ribbonLines.LinesView = this;
-            }
+            _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
+            _ribbonLines.LinesView = this;
 
             // At design time we want to track the mouse and show feedback
-            if (_ribbon!.InDesignMode)
+            if (_ribbon.InDesignMode)
             {
                 ViewHightlightController controller = new(this, needPaint);
                 controller.ContextClick += OnContextClick;
@@ -137,7 +129,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Must unhook to prevent memory leaks
-                _ribbonLines!.PropertyChanged -= OnLinesPropertyChanged;
+                _ribbonLines.PropertyChanged -= OnLinesPropertyChanged;
             }
 
             base.Dispose(disposing);
@@ -171,7 +163,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -215,10 +207,10 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be containers
-            foreach (ViewBase? child in Reverse())
+            foreach (ViewBase child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -261,7 +253,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -311,10 +303,10 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be containers
-            foreach (ViewBase? child in Reverse())
+            foreach (ViewBase child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -430,7 +422,7 @@ namespace Krypton.Ribbon
             var results = new List<ItemSizeWidth>();
 
             // Are we allowed to be in the large size?
-            if (_ribbonLines!.ItemSizeMaximum == GroupItemSize.Large)
+            if (_ribbonLines.ItemSizeMaximum == GroupItemSize.Large)
             {
                 ApplySize(GroupItemSize.Large);
                 results.Add(new ItemSizeWidth(GroupItemSize.Large, GetPreferredSize(context).Width));
@@ -443,7 +435,7 @@ namespace Krypton.Ribbon
                 ApplySize(GroupItemSize.Medium);
                 ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
-                if (_ribbon!.InDesignHelperMode)
+                if (_ribbon.InDesignHelperMode)
                 {
                     // Only add if we are the first calculation, as in design mode we
                     // always provide a single possible size which is the largest item
@@ -469,7 +461,7 @@ namespace Krypton.Ribbon
                 ApplySize(GroupItemSize.Small);
                 ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
 
-                if (_ribbon!.InDesignHelperMode)
+                if (_ribbon.InDesignHelperMode)
                 {
                     // Only add if we are the first calculation, as in design mode we
                     // always provide a single possible size which is the largest item
@@ -491,7 +483,7 @@ namespace Krypton.Ribbon
 
             // Ensure original value is put back
             ResetSize();
-
+            
             return results.ToArray();
         }
 
@@ -503,7 +495,7 @@ namespace Krypton.Ribbon
         {
             // Update the container definition, which itself will then
             // update all the child items inside the container for us
-            _ribbonLines!.ItemSizeCurrent = size.GroupItemSize;
+            _ribbonLines.ItemSizeCurrent = size.GroupItemSize;
             ApplySize(size.GroupItemSize);
         }
 
@@ -513,7 +505,7 @@ namespace Krypton.Ribbon
         public void ResetSolutionSize()
         {
             // Restore the container back to the defined size
-            _ribbonLines!.ItemSizeCurrent = _ribbonLines.ItemSizeMaximum;
+            _ribbonLines.ItemSizeCurrent = _ribbonLines.ItemSizeMaximum;
             ApplySize(_ribbonLines.ItemSizeCurrent);
         }
 
@@ -532,7 +524,7 @@ namespace Krypton.Ribbon
             _viewToGap.Clear();
 
             var totalWidth = 0;
-            ViewBase? previousChild = null;
+            ViewBase previousChild = null;
 
             // Find the size of each individual visible child item
             for (var i = 0; i < Count; i++)
@@ -542,7 +534,7 @@ namespace Krypton.Ribbon
                 // Only interested in visible items
                 if (child.Visible)
                 {
-                    // Inform cluster if it is immediately after another cluster (and so potentially needs a separator)
+                    // Inform cluster if it is immediatley after another cluster (and so potentially needs a separator)
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild)
                     {
@@ -551,7 +543,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Can we calculate the spacing gap between the previous and this item
-                    if (previousChild != null)
+                    if (previousChild != null) 
                     {
                         if (_viewToItem.ContainsKey(child) &&
                             _viewToItem.ContainsKey(previousChild))
@@ -647,7 +639,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // At design time we draw the selection flap
-            if (_ribbon!.InDesignHelperMode)
+            if (_ribbon.InDesignHelperMode)
             {
                 DesignTimeDraw.DrawFlapArea(_ribbon, context, ClientRectangle, State);
             }
@@ -670,7 +662,7 @@ namespace Krypton.Ribbon
 
                 if (needLayout)
                 {
-                    _ribbon!.PerformLayout();
+                    _ribbon.PerformLayout();
                 }
             }
         }
@@ -727,7 +719,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            CurrentSize = _ribbonLines!.ItemSizeCurrent;
+            CurrentSize = _ribbonLines.ItemSizeCurrent;
         }
 
         private void SyncChildrenToRibbonGroupItems()
@@ -739,9 +731,9 @@ namespace Krypton.Ribbon
             ViewToItem regenViewToItem = new();
 
             // Add a view element for each group item
-            foreach (IRibbonGroupItem item in _ribbonLines!.Items)
+            foreach (IRibbonGroupItem item in _ribbonLines.Items)
             {
-                ViewBase? itemView;
+                ViewBase itemView;
 
                 // Do we already have a view for this item definition
                 if (_itemToView.ContainsKey(item))
@@ -758,7 +750,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Update the visible state of the item
-                itemView.Visible = _ribbon!.InDesignHelperMode || item.Visible;
+                itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
 
                 // We need to keep this association
                 regenItemToView.Add(item, itemView);
@@ -768,7 +760,7 @@ namespace Krypton.Ribbon
             }
 
             // When in design time help mode
-            if (_ribbon!.InDesignHelperMode)
+            if (_ribbon.InDesignHelperMode)
             {
                 // Create the design time 'Add Tab' first time it is needed
                 if (_viewAddItem == null)
@@ -851,7 +843,7 @@ namespace Krypton.Ribbon
             }
 
             // Our height is always the same as a triple, the entire content height
-            preferredSize.Height = _ribbon!.CalculatedValues.GroupTripleHeight;
+            preferredSize.Height = _ribbon.CalculatedValues.GroupTripleHeight;
 
             // At design time we add space for the selection flap
             if (_ribbon.InDesignHelperMode)
@@ -944,9 +936,9 @@ namespace Krypton.Ribbon
                         }
 
                         // Add the spacing gaps before relevant items
-                        if ((_split1Small >= 0)
-                            && (_split1Small < _sizeList.Count)
-                            && (_split2Small >= 0)
+                        if ((_split1Small >= 0) 
+                            && (_split1Small < _sizeList.Count) 
+                            && (_split2Small >= 0) 
                             && (_split2Small < _sizeList.Count)
                             )
                         {
@@ -959,9 +951,9 @@ namespace Krypton.Ribbon
                     }
                     break;
             }
-
+            
             // Our height is always the same as a triple, the entire content height
-            preferredSize.Height = _ribbon!.CalculatedValues.GroupTripleHeight;
+            preferredSize.Height = _ribbon.CalculatedValues.GroupTripleHeight;
 
             // At design time we add space for the selection flap
             if (_ribbon.InDesignHelperMode)
@@ -975,7 +967,7 @@ namespace Krypton.Ribbon
         private void LargeMediumLayout(ViewLayoutContext context, ref int split1)
         {
             var x = ClientLocation.X;
-            var y = ClientLocation.Y + _ribbon!.CalculatedValues.GroupLineGapHeight;
+            var y = ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
 
             // At design time we reserve space at the left side for the selection flap
             if (_ribbon.InDesignHelperMode)
@@ -983,12 +975,12 @@ namespace Krypton.Ribbon
                 x += DesignTimeDraw.FlapWidth;
             }
 
-            ViewBase? previousChild = null;
+            ViewBase previousChild = null;
 
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
             {
-                ViewBase? child = this[i];
+                ViewBase child = this[i];
 
                 // We only position visible items
                 if (child.Visible)
@@ -996,7 +988,7 @@ namespace Krypton.Ribbon
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
-                        // Inform cluster if it is immediately after another cluster (and so potentially needs a separator)
+                        // Inform cluster if it is immediatley after another cluster (and so potentially needs a separator)
                         clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }
@@ -1065,17 +1057,17 @@ namespace Krypton.Ribbon
             var y = ClientLocation.Y;
 
             // At design time we reserve space at the left side for the selection flap
-            if (_ribbon!.InDesignHelperMode)
+            if (_ribbon.InDesignHelperMode)
             {
                 x += DesignTimeDraw.FlapWidth;
             }
 
-            ViewBase? previousChild = null;
+            ViewBase previousChild = null;
 
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
             {
-                ViewBase? child = this[i];
+                ViewBase child = this[i];
 
                 // We only position visible items
                 if (child.Visible)
@@ -1083,7 +1075,7 @@ namespace Krypton.Ribbon
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
-                        // Inform cluster if it is immediately after another item and so needs a start separator
+                        // Inform cluster if it is immediatley after another item and so needs a start separator
                         clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }
@@ -1171,10 +1163,7 @@ namespace Krypton.Ribbon
                 case "ItemSizeMaximum":
                 case "ItemSizeCurrent":
                     // Update with the latest sizing value
-                    if (_ribbonLines != null)
-                    {
-                        ApplySize(_ribbonLines.ItemSizeCurrent);
-                    }
+                    ApplySize(_ribbonLines.ItemSizeCurrent);
                     updateLayout = true;
                     break;
             }
@@ -1182,8 +1171,8 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((_ribbonLines!.RibbonTab != null) &&
-                    (_ribbon!.SelectedTab == _ribbonLines.RibbonTab))
+                if ((_ribbonLines.RibbonTab != null) &&
+                    (_ribbon.SelectedTab == _ribbonLines.RibbonTab))
                 {
                     // ...layout so the visible change is made
                     OnNeedPaint(true);
@@ -1193,9 +1182,9 @@ namespace Krypton.Ribbon
 
         private void OnContextClick(object sender, MouseEventArgs e)
         {
-            if (_ribbon!.InDesignMode)
+            if (_ribbon.InDesignMode)
             {
-                _ribbonLines!.OnDesignTimeContextMenu(e);
+                _ribbonLines.OnDesignTimeContextMenu(e);
             }
         }
         #endregion

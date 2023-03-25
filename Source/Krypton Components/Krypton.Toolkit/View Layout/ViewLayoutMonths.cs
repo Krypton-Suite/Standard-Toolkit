@@ -24,12 +24,12 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly ViewDrawDocker? _drawHeader;
+        private readonly ViewDrawDocker _drawHeader;
         private readonly PaletteBorderInheritForced _borderForced;
         private VisualPopupToolTip _visualPopupToolTip;
-        private readonly ViewDrawToday? _drawToday;
+        private readonly ViewDrawToday _drawToday;
         private readonly ButtonSpecRemapByContentView? _remapPalette;
-        private readonly ViewDrawEmptyContent? _emptyContent;
+        private readonly ViewDrawEmptyContent _emptyContent;
         private readonly PaletteTripleRedirect _palette;
         private readonly ToolTipManager _toolTipManager;
         private CultureInfo _lastCultureInfo;

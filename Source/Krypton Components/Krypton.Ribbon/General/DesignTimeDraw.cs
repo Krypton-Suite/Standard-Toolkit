@@ -47,24 +47,21 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         /// <param name="clientRect">Client rectangle of the source view.</param>
         /// <param name="state">State of element.</param>
-        public static void DrawArea(KryptonRibbon? ribbon,
+        public static void DrawArea(KryptonRibbon ribbon,
                                     RenderContext context,
                                     Rectangle clientRect,
                                     PaletteState state)
         {
-            if (ribbon != null)
-            {
-                Color c = state == PaletteState.Normal
-                    ? ribbon.StateCommon.RibbonGeneral.GetRibbonGroupSeparatorDark(PaletteState.Normal)
-                    : ribbon.StateCommon.RibbonGroupButton.Back.GetBackColor1(PaletteState.Tracking);
+            Color c = state == PaletteState.Normal
+                ? ribbon.StateCommon.RibbonGeneral.GetRibbonGroupSeparatorDark(PaletteState.Normal)
+                : ribbon.StateCommon.RibbonGroupButton.Back.GetBackColor1(PaletteState.Tracking);
 
-                // Draw entire area in color
-                using SolidBrush darkBrush = new(c);
-                context.Graphics.FillRectangle(darkBrush, clientRect);
-            }
+            // Draw entire area in color
+            using SolidBrush darkBrush = new(c);
+            context.Graphics.FillRectangle(darkBrush, clientRect);
         }
         #endregion
-
+ 
         #region DrawFlapArea
         /// <summary>
         /// Draw a design area with a flap on the left hand edge.

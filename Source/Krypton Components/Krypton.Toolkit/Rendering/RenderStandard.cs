@@ -593,7 +593,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Use helper to create a border path on the outside
             return CreateBorderBackPath(true, false, rect,
@@ -635,7 +635,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateBorderBackPath(false,
@@ -679,7 +679,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateBorderBackPath(false,
@@ -722,7 +722,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
 
@@ -854,7 +854,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Is there anything to actually draw?
             if ((rect.Width <= 0)
@@ -1063,7 +1063,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Provide a maximum sized rectangle for placing content into, in 
             // order to work out how much of the space is actually allocated
@@ -1163,7 +1163,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Remember the original value, for use later
             Rectangle cacheDisplayRect = availableRect;
@@ -1322,7 +1322,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Cast the incoming memento to the correct type
             StandardContentMemento standard = (StandardContentMemento)memento;
@@ -1887,7 +1887,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateTabBorderBackPath(context.Control.RightToLeft, state, false, rect,
@@ -1928,7 +1928,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateTabBorderBackPath(context.Control.RightToLeft, state, false, rect,
@@ -1968,7 +1968,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Is there anything to actually draw?
             if (rect is { Width: > 0, Height: > 0 })
@@ -2278,7 +2278,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control.IsDisposed);
+            Debug.Assert(!context.Control!.IsDisposed);
 
             // Do we need to draw the background?
             if (paletteBack.GetBackDraw(state) == InheritBool.True)
@@ -3614,8 +3614,8 @@ namespace Krypton.Toolkit
                 }
             }
 
-            if ((outside != null)
-                && (border != null)
+            if ((outside != null) 
+                && (border != null) 
                 && (inside != null)
                 )
             {
@@ -6687,15 +6687,8 @@ namespace Krypton.Toolkit
                                                       Color border,
                                                       RenderDragDockingData dragData)
         {
-            if (g == null)
-            {
-                throw new ArgumentNullException(nameof(g));
-            }
-
-            if (dragData == null)
-            {
-                throw new ArgumentNullException(nameof(dragData));
-            }
+            if (g == null) throw new ArgumentNullException(nameof(g));
+            if (dragData == null) throw new ArgumentNullException(nameof(dragData));
 
             Color start = Color.FromArgb(190, 190, 190);
             using Pen borderPen = new(border);
@@ -6822,10 +6815,7 @@ namespace Krypton.Toolkit
                                                 Color inactiveColor,
                                                 RenderDragDockingData dragData)
         {
-            if (g == null)
-            {
-                throw new ArgumentNullException(nameof(g));
-            }
+            if (g == null) throw new ArgumentNullException(nameof(g));
 
             Color borderColour = ControlPaint.Dark(activeColor);
 

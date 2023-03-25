@@ -125,8 +125,8 @@ namespace Krypton.Ribbon
         private readonly NeedPaintHandler _needPaintDelegate;
         private Orientation _orientation;
         private readonly ViewBase _viewFiller;
-        private readonly ViewLayoutRibbonScroller? _nearScroller;
-        private readonly ViewLayoutRibbonScroller? _farScroller;
+        private readonly ViewLayoutRibbonScroller _nearScroller;
+        private readonly ViewLayoutRibbonScroller _farScroller;
         private readonly ViewLayoutRibbonTabs _ribbonTabs;
         private readonly RibbonViewControl _viewControlContent;
         private Rectangle _viewClipRect;
@@ -238,7 +238,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the actual control instance.
         /// </summary>
-        public ViewLayoutControl? ViewLayoutControl { get; }
+        public ViewLayoutControl ViewLayoutControl { get; }
 
         #endregion
 
@@ -393,7 +393,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current)
+        public ViewBase? GetNextFocusItem(ViewBase current)
         {
             ViewBase view = null;
 
@@ -420,7 +420,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current)
+        public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
             ViewBase view = null;
 

@@ -139,7 +139,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current)
+        public ViewBase? GetNextFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current)
+        public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
             // Make sure we have a view element to match each tab
             foreach (KryptonRibbonTab tab in Ribbon.RibbonTabs)
             {
-                ViewLayoutRibbonScrollPort? view = null;
+                ViewLayoutRibbonScrollPort view = null;
 
                 // Get the currently cached view for the tab
                 if (_tabToView.ContainsKey(tab))

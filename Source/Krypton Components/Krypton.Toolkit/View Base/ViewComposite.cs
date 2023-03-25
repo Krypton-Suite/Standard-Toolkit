@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public abstract class ViewComposite : ViewBase
     {
         #region Instance Fields
-        private readonly List<ViewBase?> _views;
+        private readonly List<ViewBase> _views;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected ViewComposite() =>
             // Default state
-            _views = new List<ViewBase?>();
+            _views = new List<ViewBase>();
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             var ordering = ReverseRenderOrder ? Reverse() : this;
 
             // Ask each child to render in turn
-            foreach (ViewBase? child in ordering
+            foreach (ViewBase child in ordering
                 .Where(child => child.Visible 
                                 && child.ClientRectangle.IntersectsWith(context.ClipRect))
                 )
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Add(ViewBase? item)
+        public override void Add(ViewBase item)
         {
             // We do not allow null references in the collection
             if (item == null)
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             if (_views != null)
             {
                 // Remove back references
-                foreach (ViewBase? child in _views)
+                foreach (ViewBase child in _views)
                 {
                     child.Parent = null;
                 }
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool Contains(ViewBase? item) =>
+        public override bool Contains(ViewBase item) =>
             // Let type safe collection perform operation
             _views?.Contains(item) ?? false;
 
@@ -261,7 +261,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public override void CopyTo(ViewBase?[] array, int arrayIndex) =>
+        public override void CopyTo(ViewBase[] array, int arrayIndex) =>
             // Let type safe collection perform operation
             _views?.CopyTo(array, arrayIndex);
 
@@ -270,7 +270,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase? item)
+        public override bool Remove(ViewBase item)
         {
             // Let type safe collection perform operation
             var ret = _views?.Remove(item) ?? false;
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public override int IndexOf(ViewBase? item) =>
+        public override int IndexOf(ViewBase item) =>
             // Let type safe collection perform operation
             _views?.IndexOf(item) ?? -1;
 
@@ -304,7 +304,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Insert(int index, ViewBase? item)
+        public override void Insert(int index, ViewBase item)
         {
             // We do not allow null references in the collection
             if (item == null)
@@ -331,7 +331,7 @@ namespace Krypton.Toolkit
             if (_views != null)
             {
                 // Cache reference to removing item
-                ViewBase? item = _views[index];
+                ViewBase item = _views[index];
 
                 // Let type safe collection perform operation
                 _views.RemoveAt(index);
@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase? this[int index] 
+        public override ViewBase this[int index] 
         { 
             get => _views?[index];
 
@@ -361,7 +361,7 @@ namespace Krypton.Toolkit
                 if (_views != null)
                 {
                     // Cache reference to removing item
-                    ViewBase? item = _views[index];
+                    ViewBase item = _views[index];
 
                     // Let type safe collection perform operation
                     _views[index] = value;
@@ -387,15 +387,15 @@ namespace Krypton.Toolkit
         /// Deep enumerate forward over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase?> Recurse()
+        public override IEnumerable<ViewBase> Recurse()
         {
             if (_views != null)
             {
                 // Enumerate each child in turn
-                foreach (ViewBase? view in _views)
+                foreach (ViewBase view in _views)
                 {
                     // Recurse inside the child view
-                    foreach (ViewBase? child in view.Recurse())
+                    foreach (ViewBase child in view.Recurse())
                     {
                         yield return child;
                     }
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         /// Shallow enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase?> Reverse()
+        public override IEnumerable<ViewBase> Reverse()
         {
             if (_views != null)
             {
@@ -426,7 +426,7 @@ namespace Krypton.Toolkit
         /// Deep enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerable<ViewBase?> ReverseRecurse()
+        public override IEnumerable<ViewBase> ReverseRecurse()
         {
             if (_views != null)
             {
@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
                     yield return _views[i];
 
                     // Recurse inside the child view
-                    foreach (ViewBase? child in _views[i].Recurse())
+                    foreach (ViewBase child in _views[i].Recurse())
                     {
                         yield return child;
                     }
@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
                 // we search the children in reverse order as the last child in 
                 // the collection is the top most in the z-order. The mouse is 
                 // therefore testing against the most visible child first.
-                foreach (ViewBase? child in Reverse()
+                foreach (ViewBase child in Reverse()
                     .Where(child => child.Visible)
                     .Where(child => child.ClientRectangle.Contains(pt)))
                 {

@@ -107,8 +107,8 @@ namespace Krypton.Toolkit
             Rectangle childRectangle = ClientRectangle;
 
             // Find the last visible child
-            ViewBase? lastVisible = null;
-            foreach(ViewBase? child in Reverse())
+            ViewBase lastVisible = null;
+            foreach(ViewBase child in Reverse())
             {
                 if (child.Visible)
                 {

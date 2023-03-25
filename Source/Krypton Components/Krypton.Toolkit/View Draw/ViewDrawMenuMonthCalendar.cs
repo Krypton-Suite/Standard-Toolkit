@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly KryptonContextMenuMonthCalendar _monthCalendar;
         private readonly IContextMenuProvider _provider;
-        private readonly ViewLayoutMonths? _layoutMonths;
+        private readonly ViewLayoutMonths _layoutMonths;
         private readonly bool _itemEnabled;
 
         #endregion
