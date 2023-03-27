@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
-        protected PaletteBase()
+        protected PaletteBase ()
         {
             // We need to notice when system color settings change
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
@@ -793,28 +793,10 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.ArrowDown:
                 case PaletteButtonSpecStyle.DropDown:
                     return string.Empty;
-                case PaletteButtonSpecStyle.New:
-                    return @"New";
-                case PaletteButtonSpecStyle.Open:
-                    return @"Open";
-                case PaletteButtonSpecStyle.Save:
-                    return @"Save";
-                case PaletteButtonSpecStyle.SaveAs:
-                    return @"Save As";
-                case PaletteButtonSpecStyle.Cut:
-                    return @"Cut";
-                case PaletteButtonSpecStyle.Copy:
-                    return @"Copy";
-                case PaletteButtonSpecStyle.Paste:
-                    return @"Paste";
-                case PaletteButtonSpecStyle.Undo:
-                    return @"Undo";
-                case PaletteButtonSpecStyle.Redo:
-                    return @"Redo";
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return string.Empty;
+                    return null;
             }
         }
 
@@ -1187,10 +1169,10 @@ namespace Krypton.Toolkit
             set
             {
                 // Is there a change in value?
-                if (((value <= 0)
-                     && _baseFontSize.HasValue)
-                    || ((value > 0)
-                        && (!_baseFontSize.HasValue
+                if (((value <= 0) 
+                     && _baseFontSize.HasValue) 
+                    || ((value > 0) 
+                        && (!_baseFontSize.HasValue 
                             || (_baseFontSize.Value != value)
                         )
                         )

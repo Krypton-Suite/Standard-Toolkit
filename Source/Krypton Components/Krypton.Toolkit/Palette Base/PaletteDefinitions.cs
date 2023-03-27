@@ -3312,25 +3312,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a ribbon expand button specification.
         /// </summary>
-        RibbonExpand,
-        /// <summary>Specifies a new document button specification.</summary>
-        New,
-        /// <summary>Specifies the open button specification.</summary>
-        Open,
-        /// <summary>Specifies the save button specification.</summary>
-        Save,
-        /// <summary>Specifies the save as button specification.</summary>
-        SaveAs,
-        /// <summary>Specifies the cut button specification.</summary>
-        Cut,
-        /// <summary>Specifies the copy button specification.</summary>
-        Copy,
-        /// <summary>Specifies the paste button specification.</summary>
-        Paste,
-        /// <summary>Specifies the undo button specification.</summary>
-        Undo,
-        /// <summary>Specifies the redo button specification.</summary>
-        Redo
+        RibbonExpand
     }
     #endregion
 
