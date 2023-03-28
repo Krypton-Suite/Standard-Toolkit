@@ -640,7 +640,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
+        string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

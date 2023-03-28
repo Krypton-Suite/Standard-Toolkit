@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         private float? _baseFontSize;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
-        private string _themeName;
+        private string? _themeName;
         #endregion
 
         #region Events
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
-        protected PaletteBase ()
+        protected PaletteBase()
         {
             // We need to notice when system color settings change
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
@@ -756,7 +756,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
+        public virtual string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -1169,13 +1169,13 @@ namespace Krypton.Toolkit
             set
             {
                 // Is there a change in value?
-                if (((value <= 0) 
-                     && _baseFontSize.HasValue) 
-                    || ((value > 0) 
-                        && (!_baseFontSize.HasValue 
-                            || (_baseFontSize.Value != value)
-                        )
-                        )
+                if (_baseFontSize != null && (((value <= 0)
+                                               && _baseFontSize.HasValue)
+                                              || ((value > 0)
+                                                  && (!_baseFontSize.HasValue
+                                                      || (_baseFontSize.Value != value)
+                                                  )
+                                              ))
                     )
                 {
                     // Cache new value
@@ -1197,7 +1197,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public virtual string ThemeName { get => _themeName; set => _themeName = value; }
+        public virtual string? ThemeName { get => _themeName; set => _themeName = value; }
 
         public virtual BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
 
@@ -1347,7 +1347,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaletteLayoutEventArgs containing event data.</param>
-        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => PalettePaint?.Invoke(this, e);
+        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => PalettePaint(this, e);
 
         #endregion
 
@@ -1357,7 +1357,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
+        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged(this, e);
 
         #endregion
 
@@ -1367,7 +1367,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBasePaletteChanged(object sender, EventArgs e) => BasePaletteChanged?.Invoke(this, e);
+        protected virtual void OnBasePaletteChanged(object sender, EventArgs e) => BasePaletteChanged(this, e);
 
         #endregion
 
@@ -1377,7 +1377,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBaseRendererChanged(object sender, EventArgs e) => BaseRendererChanged?.Invoke(this, e);
+        protected virtual void OnBaseRendererChanged(object sender, EventArgs e) => BaseRendererChanged(this, e);
 
         #endregion
 
@@ -1387,7 +1387,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged(this, e);
 
         #endregion
     }

@@ -1599,7 +1599,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
+        public override string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
         => GetPaletteButtonSpec(style).GetButtonSpecToolTipTitle(style);
 
         /// <summary>

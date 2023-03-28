@@ -261,7 +261,7 @@
         <Compile Update="Palette Builtin\Professional\PaletteProfessionalSystem.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\PaletteBase.cs">
+        <Compile Update="Palette Builtin\Base\PaletteBase.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Rendering\RenderOffice2010.cs">
@@ -448,6 +448,41 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>StarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Toolbar\GenericToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericToolbarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Toolbar\Office2003ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2003ToolbarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Toolbar\Office2007ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007ToolbarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Toolbar\Office2010ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010ToolbarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Toolbar\Office2013ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2013ToolbarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Toolbar\Office2016ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2016ToolbarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Toolbar\SystemToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SystemToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\TreeItemImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -772,6 +807,34 @@
         <EmbeddedResource Update="Resources\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>StarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Toolbar\GenericToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Toolbar\Office2003ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2003ToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Toolbar\Office2007ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007ToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Toolbar\Office2010ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010ToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Toolbar\Office2013ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2013ToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Toolbar\Office2016ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2016ToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Toolbar\SystemToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SystemToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\TreeItemImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
