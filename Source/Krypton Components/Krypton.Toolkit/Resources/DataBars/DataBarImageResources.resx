@@ -118,25 +118,52 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DisabledDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DisabledDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="databar_generic_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\databar_generic_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DisabledDropDownButton2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DisabledDropDownButton2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Databar_gradient2_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient2_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DisabledDropUpButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DisabledDropUpButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Databar_gradient_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DisabledGalleryDropButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DisabledGalleryDropButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Databar_gradient_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Gallery2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Gallery2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Databar_gradient_pink_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient_pink_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GalleryBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GalleryBlue.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Databar_gradient_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GallerySilverBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GallerySilverBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Databar_gradient_rose_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient_rose_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_gradient_violet_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient_violet_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_gradient_yellow_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_gradient_yellow_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_solid_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_solid_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_solid_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_solid_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_solid_pink_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_solid_pink_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_solid_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_solid_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_solid_rose_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_solid_rose_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_solid_violet_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_solid_violet_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Databar_solid_yellow_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Databar_solid_yellow_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -50,7 +50,15 @@ global using System.Xml;
 global using Krypton.Toolkit.Resources;
 global using Krypton.Toolkit.Resources.Arrows;
 global using Krypton.Toolkit.Resources.CheckBoxes;
+global using Krypton.Toolkit.Resources.ColourScales;
+global using Krypton.Toolkit.Resources.Common;
 global using Krypton.Toolkit.Resources.ControlBox;
+global using Krypton.Toolkit.Resources.Cursors;
+global using Krypton.Toolkit.Resources.DataBars;
+global using Krypton.Toolkit.Resources.DropDown;
+global using Krypton.Toolkit.Resources.Elements;
+global using Krypton.Toolkit.Resources.Gallery;
+global using Krypton.Toolkit.Resources.Generic;
 global using Krypton.Toolkit.Resources.Toolbar;
 
 global using Microsoft.Win32;

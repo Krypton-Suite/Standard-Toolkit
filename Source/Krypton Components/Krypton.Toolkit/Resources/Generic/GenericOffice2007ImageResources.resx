@@ -118,46 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ProfessionalArrowDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalArrowDownButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Office2007Checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalArrowLeftButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalArrowLeftButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalArrowRightButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalArrowRightButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalArrowUpButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalArrowUpButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalCloseButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalCloseButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalContextButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalContextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalDropDownButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalMaximize" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalMaximize.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalNextButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalNextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalPreviousButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalPreviousButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SystemChecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>SystemChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SystemContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>SystemContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SystemIndeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>SystemIndeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007Indeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Office2007Indeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

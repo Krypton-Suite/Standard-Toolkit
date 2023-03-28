@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Krypton.Toolkit.Resources {
+namespace Krypton.Toolkit.Resources.ColourScales {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DataBarImageResources {
+    internal class ColourScaleImageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DataBarImageResources() {
+        internal ColourScaleImageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.DataBarImageResources", typeof(DataBarImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.ColourScales.ColourScaleImageResources", typeof(ColourScaleImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap databar_generic_16 {
+        internal static System.Drawing.Bitmap Colour2scale_generic_16 {
             get {
-                object obj = ResourceManager.GetObject("databar_generic_16", resourceCulture);
+                object obj = ResourceManager.GetObject("Colour2scale_generic_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient_blue_32 {
+        internal static System.Drawing.Bitmap Colour3scale_generic_16 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject("Colour3scale_generic_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient_green_32 {
+        internal static System.Drawing.Bitmap ThreeColours_blue_white_red_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_green_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_blue_white_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient_pink_32 {
+        internal static System.Drawing.Bitmap ThreeColours_green_white_red_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_pink_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_green_white_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient_red_32 {
+        internal static System.Drawing.Bitmap ThreeColours_green_yellow_red_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_green_yellow_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient_rose_32 {
+        internal static System.Drawing.Bitmap ThreeColours_red_white_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_rose_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_red_white_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient_violet_32 {
+        internal static System.Drawing.Bitmap ThreeColours_red_white_green_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_violet_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_red_white_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient_yellow_32 {
+        internal static System.Drawing.Bitmap ThreeColours_red_yellow_green_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_yellow_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_red_yellow_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_gradient2_blue_32 {
+        internal static System.Drawing.Bitmap TwoColours_blue_white_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient2_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_blue_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_solid_blue_32 {
+        internal static System.Drawing.Bitmap TwoColours_green_white_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_green_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_solid_green_32 {
+        internal static System.Drawing.Bitmap TwoColours_pink_white_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_green_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_pink_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_solid_pink_32 {
+        internal static System.Drawing.Bitmap TwoColours_red_white_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_pink_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_red_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_solid_red_32 {
+        internal static System.Drawing.Bitmap TwoColours_violet_white_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_violet_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_solid_rose_32 {
+        internal static System.Drawing.Bitmap TwoColours_white_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_rose_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_white_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_solid_violet_32 {
+        internal static System.Drawing.Bitmap TwoColours_white_green_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_violet_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_white_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +213,49 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Databar_solid_yellow_32 {
+        internal static System.Drawing.Bitmap TwoColours_white_pink_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_yellow_32", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_white_pink_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_red_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_red_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_violet_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_violet_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_yellow_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_yellow_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_yellow_white_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_yellow_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

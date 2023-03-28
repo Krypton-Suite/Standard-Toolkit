@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the MenuTreeNode class.
                 /// </summary>
                 /// <param name="item">Menu item to represent.</param>
-                public MenuTreeNode( KryptonBreadCrumbItem item)
+                public MenuTreeNode(KryptonBreadCrumbItem item)
                 {
                     Item = item;
                     PropertyObject = item;
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
                 // buttonDelete
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.Image = GenericImageResources.delete2;
+                buttonDelete.Image = GenericImageResources.delete;
                 buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 190);
                 buttonDelete.Name = nameof(buttonDelete);
@@ -552,8 +552,8 @@ namespace Krypton.Toolkit
                     if (!(found && forward))
                     {
                         // Searching the child collection of nodes
-                        TreeNode? findNode = RecursiveFind(node.Nodes, target, ref found, forward); 
-                        
+                        TreeNode? findNode = RecursiveFind(node.Nodes, target, ref found, forward);
+
                         // If we found a node to return then return it now
                         if (findNode != null)
                         {
@@ -608,8 +608,8 @@ namespace Krypton.Toolkit
                             var pageIndex = parentCollection.IndexOf(previousNode);
 
                             // If the current and previous nodes are inside the same common node
-                            if (!contained 
-                                && (previousParent != null) 
+                            if (!contained
+                                && (previousParent != null)
                                 && (previousParent != parentNode)
                                 )
                             {
