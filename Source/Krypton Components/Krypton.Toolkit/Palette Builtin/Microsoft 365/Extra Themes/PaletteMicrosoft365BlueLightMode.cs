@@ -50,10 +50,10 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlueRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlueRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlueRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.Office365HelpIconNormal;
-        private static readonly Image _formHelpHover = HelpIconResources.Office365HelpIconHover;
-        private static readonly Image _formHelpPressed = HelpIconResources.Office365HelpIconPressed;
-        private static readonly Image _formHelpDisabled = HelpIconResources.Office365HelpIconDisabled;
+        private static readonly Image _formHelpNormal = HelpIconResources.Microsoft365HelpIconNormal;
+        private static readonly Image _formHelpHover = HelpIconResources.Microsoft365HelpIconHover;
+        private static readonly Image _formHelpPressed = HelpIconResources.Microsoft365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = HelpIconResources.Microsoft365HelpIconDisabled;
 
         #endregion
 
@@ -619,22 +619,37 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        protected PaletteMicrosoft365BlueLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        protected PaletteMicrosoft365BlueLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[]? trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
             Debug.Assert(galleryButtonList != null);
             Debug.Assert(radioButtonArray != null);
 
-            _ribbonColours = schemeColours;
+            if (schemeColours != null)
+            {
+                _ribbonColours = schemeColours;
+            }
 
-            _checkBoxList = checkBoxList;
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
 
-            _galleryButtonList = galleryButtonList;
+            if (galleryButtonList != null)
+            {
+                _galleryButtonList = galleryButtonList;
+            }
 
-            _radioButtonArray = radioButtonArray;
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
 
-            _trackBarColours = trackBarColours;
+            if (trackBarColours != null)
+            {
+                _trackBarColours = trackBarColours;
+            }
 
             DefineFonts();
         }

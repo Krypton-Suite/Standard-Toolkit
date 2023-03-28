@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
 
         #region Colour Arrays
 
-        private static readonly Color[] _trackBarColors = new Color[]
+        private static readonly Color[]? _trackBarColors = new Color[]
         {
             Color.FromArgb(170, 170, 170), // Tick marks
             Color.FromArgb(166, 170, 175), // Top track

@@ -13,10 +13,10 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Provide KryptonColorTableOffice365 values using an array of Color values as the source.
+    /// Provide KryptonColorTableMicrosoft365 values using an array of Color values as the source.
     /// </summary>
     /// <seealso cref="KryptonColorTable" />
-    public class KryptonColorTableOffice365 : KryptonColorTable
+    public class KryptonColorTableMicrosoft365 : KryptonColorTable
     {
         #region Static Fields
         private static readonly Color _contextMenuBackground = Color.White;
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         [SecuritySafeCritical]
-        static KryptonColorTableOffice365()
+        static KryptonColorTableMicrosoft365()
         {
             // Get the font settings from the system
             DefineFonts();
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTableOffice365(Color[] colors,
+        public KryptonColorTableMicrosoft365(Color[] colors,
                                      InheritBool roundedEdges,
                                      PaletteBase palette)
             : base(palette)

@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#986](https://github.com/Krypton-Suite/Standard-Toolkit/issues/986), `ViewBuilderOutlookBase` - Stream cannot be null to initialize a bitmap (thanks to [Angelo](https://github.com/AngeloCresta))
 * Add action list options to `KryptonCommand`
 * Implemented [#686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/686), Extend ToolTipManager designer to also allow "open/close" interval properties.
 * Implemented [#950](https://github.com/Krypton-Suite/Standard-Toolkit/issues/950), Please add `-t:rebuild` to the msbuild command line

@@ -3312,7 +3312,63 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a ribbon expand button specification.
         /// </summary>
-        RibbonExpand
+        RibbonExpand,
+        /// <summary>
+        /// Specifies the new toolbar button specification.
+        /// </summary>
+        New,
+        /// <summary>
+        /// Specifies the open toolbar button specification.
+        /// </summary>
+        Open,
+        /// <summary>
+        /// Specifies the save toolbar button specification.
+        /// </summary>
+        Save,
+        /// <summary>
+        /// Specifies the save as toolbar button specification.
+        /// </summary>
+        SaveAs,
+        /// <summary>
+        /// Specifies the save all toolbar button specification.
+        /// </summary>
+        SaveAll,
+        /// <summary>
+        /// Specifies the cut toolbar button specification.
+        /// </summary>
+        Cut,
+        /// <summary>
+        /// Specifies the copy toolbar button specification.
+        /// </summary>
+        Copy,
+        /// <summary>
+        /// Specifies the paste toolbar button specification.
+        /// </summary>
+        Paste,
+        /// <summary>
+        /// Specifies the undo toolbar button specification.
+        /// </summary>
+        Undo,
+        /// <summary>
+        /// Specifies the redo toolbar button specification.
+        /// </summary>
+        Redo,
+        /// <summary>
+        /// Specifies the page setup toolbar button specification.
+        /// </summary>
+        PageSetup,
+        /// <summary>
+        /// Specifies the print preview toolbar button specification.
+        /// </summary>
+        PrintPreview,
+        /// <summary>
+        /// Specifies the print toolbar button specification.
+        /// </summary>
+        Print,
+        /// <summary>
+        /// Specifies the quick print toolbar button specification.
+        /// </summary>
+        QuickPrint
     }
     #endregion
 

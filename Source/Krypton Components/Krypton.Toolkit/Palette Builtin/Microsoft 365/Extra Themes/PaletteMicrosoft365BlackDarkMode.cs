@@ -39,10 +39,10 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlackRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.Office365HelpIconNormal;
-        private static readonly Image _formHelpHover = HelpIconResources.Office365HelpIconHover;
-        private static readonly Image _formHelpPressed = HelpIconResources.Office365HelpIconPressed;
-        private static readonly Image _formHelpDisabled = HelpIconResources.Office365HelpIconDisabled;
+        private static readonly Image _formHelpNormal = HelpIconResources.Microsoft365HelpIconNormal;
+        private static readonly Image _formHelpHover = HelpIconResources.Microsoft365HelpIconHover;
+        private static readonly Image _formHelpPressed = HelpIconResources.Microsoft365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = HelpIconResources.Microsoft365HelpIconDisabled;
         private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDICloseBlack;
         private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMinBlack;
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
@@ -614,15 +614,30 @@ namespace Krypton.Toolkit
             Debug.Assert(galleryButtonList != null);
             Debug.Assert(radioButtonArray != null);
 
-            _ribbonColours = schemeColours;
+            if (schemeColours != null)
+            {
+                _ribbonColours = schemeColours;
+            }
 
-            _checkBoxList = checkBoxList;
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
 
-            _galleryButtonList = galleryButtonList;
+            if (galleryButtonList != null)
+            {
+                _galleryButtonList = galleryButtonList;
+            }
 
-            _radioButtonArray = radioButtonArray;
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
 
-            _trackBarColours = trackBarColours;
+            if (trackBarColours != null)
+            {
+                _trackBarColours = trackBarColours;
+            }
 
             DefineFonts();
         }
@@ -5178,7 +5193,10 @@ namespace Krypton.Toolkit
         public KryptonColorTable365BlackDarkMode(Color[] colors, InheritBool roundedEdges, PaletteBase palette) : base(palette)
         {
             Debug.Assert(colors != null);
-            _colors = colors;
+            if (colors != null)
+            {
+                _colors = colors;
+            }
             _roundedEdges = roundedEdges;
         }
         #endregion

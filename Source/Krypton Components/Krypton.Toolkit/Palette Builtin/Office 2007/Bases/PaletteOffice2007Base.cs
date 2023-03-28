@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
-    public abstract class PaletteOffice2007Base : PaletteBase 
+    public abstract class PaletteOffice2007Base : PaletteBase
     {
         #region Static Fields
 
@@ -202,12 +202,30 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButtonArray != null);
 
             // Remember incoming sets of values
-            _themeName = themeName;
-            _ribbonColors = schemeColors;
-            _checkBoxList = checkBoxList;
-            _galleryButtonList = galleryButtonList;
-            _radioButtonArray = radioButtonArray;
-            _trackBarColors = trackBarColors;
+            if (themeName != null)
+            {
+                _themeName = themeName;
+            }
+            if (schemeColors != null)
+            {
+                _ribbonColors = schemeColors;
+            }
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
+            if (galleryButtonList != null)
+            {
+                _galleryButtonList = galleryButtonList;
+            }
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
+            if (trackBarColors != null)
+            {
+                _trackBarColors = trackBarColors;
+            }
 
             // Get the font settings from the system
             DefineFonts();

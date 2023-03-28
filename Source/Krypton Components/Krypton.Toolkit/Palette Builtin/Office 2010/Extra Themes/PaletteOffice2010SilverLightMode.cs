@@ -636,11 +636,28 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButtonArray != null);
 
             // Remember incoming sets of values
-            _ribbonColours = schemeColors;
-            _checkBoxList = checkBoxList;
-            _galleryButtonList = galleryButtonList;
-            _radioButtonArray = radioButtonArray;
-            _trackBarColors = trackBarColors;
+            if (schemeColors != null)
+            {
+                _ribbonColours = schemeColors;
+            }
+
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
+
+            if (galleryButtonList != null)
+            {
+                _galleryButtonList = galleryButtonList;
+            }
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
+            if (trackBarColors != null)
+            {
+                _trackBarColors = trackBarColors;
+            }
 
             // Get the font settings from the system
             DefineFonts();
@@ -5218,13 +5235,16 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTable2010SilverLightMode(Color[] colors,
+        public KryptonColorTable2010SilverLightMode(Color[]? colors,
                                      InheritBool roundedEdges,
                                      PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);
-            Colors = colors;
+            if (colors != null)
+            {
+                Colors = colors;
+            }
             UseRoundedEdges = roundedEdges;
         }
         #endregion

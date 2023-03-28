@@ -18,10 +18,10 @@ namespace Krypton.Navigator
     internal class ViewBuilderPanel : ViewBuilderBase
     {
         #region Instance Fields
-        private ViewBase _oldRoot;
+        private ViewBase? _oldRoot;
         private ViewDrawPanel _drawPanel;
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Construct the view appropriate for this builder.
@@ -29,26 +29,31 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator, 
+        public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
                                        PaletteRedirect? redirector)
         {
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector);
+            if (redirector != null)
+            {
+                base.Construct(navigator, manager, redirector);
+            }
 
             // Get the current root element
             _oldRoot = ViewManager.Root;
 
             // Create a canvas for the background
-            _drawPanel = new ViewDrawPanel(Navigator.StateNormal.Back)
+            if (_oldRoot != null)
             {
-
-                // Put the exisint root into the canvas
-                _oldRoot
-            };
+                _drawPanel = new ViewDrawPanel(Navigator.StateNormal?.Back!)
+                {
+                    // Put the exisint root into the canvas
+                    _oldRoot
+                };
+            }
 
             // Update the child panel to have panel appearance
-            Navigator.ChildPanel.PanelBackStyle = Navigator.Panel.PanelBackStyle;
+            Navigator.ChildPanel!.PanelBackStyle = Navigator.Panel.PanelBackStyle;
 
             // Set the correct palettes based on enabled state and selected page
             UpdateStatePalettes();
@@ -109,23 +114,23 @@ namespace Krypton.Navigator
 
             // If whole navigator is disabled then all of view is disabled
             var enabled = Navigator.Enabled;
-            
+
             // If there is no selected page
             if (Navigator.SelectedPage == null)
             {
                 // Then use the state defined in the navigator itself
-                back = Navigator.Enabled ? Navigator.StateNormal.Back : Navigator.StateDisabled.Back;
+                back = (Navigator.Enabled ? Navigator.StateNormal?.Back : Navigator.StateDisabled!.Back)!;
             }
             else
             {
                 // Use state defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    back = Navigator.SelectedPage.StateNormal.Back;
+                    back = Navigator.SelectedPage.StateNormal!.Back;
                 }
                 else
                 {
-                    back = Navigator.SelectedPage.StateDisabled.Back;
+                    back = Navigator.SelectedPage.StateDisabled!.Back;
 
                     // If page is disabled then all of view should look disabled
                     enabled = false;
@@ -158,7 +163,7 @@ namespace Krypton.Navigator
             Navigator.EnabledChanged -= OnEnabledChanged;
 
             // Update the child panel to have group appearance
-            Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
+            Navigator.ChildPanel!.PanelBackStyle = Navigator.Group.GroupBackStyle;
 
             // Remove the old root from the canvas
             _drawPanel.Clear();
@@ -182,12 +187,15 @@ namespace Krypton.Navigator
             switch (e.PropertyName)
             {
                 case @"PanelBackStyle":
-                    Navigator.ChildPanel.PanelBackStyle = Navigator.Panel.PanelBackStyle;
-                    Navigator.StateCommon.BackStyle = Navigator.Panel.PanelBackStyle;
+                    Navigator.ChildPanel!.PanelBackStyle = Navigator.Panel.PanelBackStyle;
+                    Navigator.StateCommon!.BackStyle = Navigator.Panel.PanelBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"GroupBackStyle":
-                    Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
+                    if (Navigator.StateCommon != null)
+                    {
+                        Navigator.StateCommon.HeaderGroup!.BackStyle = Navigator.Group.GroupBackStyle;
+                    }
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:

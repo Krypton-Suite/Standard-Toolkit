@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(64, Color.White),    // Outside position
             Color.FromArgb(80, 81, 82)          // Border (normal) position
         };
-        private static readonly Color[] _schemeOfficeColors = new Color[] { Color.FromArgb(24, 24, 24),    // TextLabelControl
+        private static readonly Color[]? _schemeOfficeColors = new Color[] { Color.FromArgb(24, 24, 24),    // TextLabelControl
                                                                 Color.FromArgb(24, 24, 24),    // TextButtonNormal
                                                                 Color.FromArgb(24, 24, 24),    // TextButtonChecked
                                                                 Color.FromArgb(141, 148, 157),    // ButtonNormalBorder1
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private KryptonColorTable2010SilverDarkMode _table;
-        private readonly Color[] _ribbonColours;
+        private readonly Color[]? _ribbonColours;
         private readonly Color[] _trackBarColors;
         private readonly ImageList _checkBoxList;
         private readonly ImageList _galleryButtonList;
@@ -584,7 +584,7 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">List of images for gallery buttons.</param>
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
-        protected PaletteOffice2010SilverDarkModeBase(Color[] schemeColors,
+        protected PaletteOffice2010SilverDarkModeBase(Color[]? schemeColors,
                                      ImageList checkBoxList,
                                      ImageList galleryButtonList,
                                      Image[] radioButtonArray,
@@ -596,11 +596,27 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButtonArray != null);
 
             // Remember incoming sets of values
-            _ribbonColours = schemeColors;
-            _checkBoxList = checkBoxList;
-            _galleryButtonList = galleryButtonList;
-            _radioButtonArray = radioButtonArray;
-            _trackBarColors = trackBarColors;
+            if (schemeColors != null)
+            {
+                _ribbonColours = schemeColors;
+            }
+
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
+            if (galleryButtonList != null)
+            {
+                _galleryButtonList = galleryButtonList;
+            }
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
+            if (trackBarColors != null)
+            {
+                _trackBarColors = trackBarColors;
+            }
 
             // Get the font settings from the system
             DefineFonts();
@@ -5177,13 +5193,16 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTable2010SilverDarkMode(Color[] colors,
+        public KryptonColorTable2010SilverDarkMode(Color[]? colors,
                                      InheritBool roundedEdges,
                                      PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);
-            Colors = colors;
+            if (colors != null)
+            {
+                Colors = colors;
+            }
             UseRoundedEdges = roundedEdges;
         }
         #endregion
@@ -5192,7 +5211,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the raw set of colors.
         /// </summary>
-        public Color[] Colors { get; }
+        public Color[]? Colors { get; }
 
         #endregion
 

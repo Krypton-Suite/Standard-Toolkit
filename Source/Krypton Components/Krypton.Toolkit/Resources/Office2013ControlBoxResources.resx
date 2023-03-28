@@ -118,64 +118,64 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Microsoft365HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013CloseActive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013CloseActive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013CloseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013CloseDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013CloseNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013CloseNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013ClosePressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013ClosePressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365HelpIconPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Microsoft365HelpIconPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013HelpActive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013HelpActive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2003HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2003HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013HelpDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013HelpDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2003HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2003HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013HelpNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013HelpNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2003HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2003HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013HelpPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013HelpPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MaximiseActive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MaximiseActive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MaximiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MaximiseDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MaximiseNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MaximiseNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MaximisePressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MaximisePressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007HelpIconPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007HelpIconPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MinimiseActive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MinimiseActive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MinimiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MinimiseDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MinimiseNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MinimiseNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013MinimisePressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013MinimisePressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013RestoreActive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013RestoreActive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2010HelpIconPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013RestoreDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013RestoreDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalHelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalHelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013RestoreNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013RestoreNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalHelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ProfessionalHelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2013RestorePressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2013RestorePressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

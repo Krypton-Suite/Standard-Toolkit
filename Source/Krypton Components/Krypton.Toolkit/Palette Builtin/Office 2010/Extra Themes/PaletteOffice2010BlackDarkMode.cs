@@ -909,7 +909,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonColorTable2010BlackDarkMode _table;
+        private KryptonColorTable2010BlackDarkMode? _table;
         private readonly Color[] _ribbonColours;
         private readonly Color[] _trackBarColours;
         private readonly ImageList _checkBoxList;
@@ -957,11 +957,27 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButtonArray != null);
 
             // Remember incoming sets of values
-            _ribbonColours = schemeColors;
-            _checkBoxList = checkBoxList;
-            _galleryButtonList = galleryButtonList;
-            _radioButtonArray = radioButtonArray;
-            _trackBarColours = trackBarColors;
+            if (schemeColors != null)
+            {
+                _ribbonColours = schemeColors;
+            }
+
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
+            if (galleryButtonList != null)
+            {
+                _galleryButtonList = galleryButtonList;
+            }
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
+            if (trackBarColors != null)
+            {
+                _trackBarColours = trackBarColors;
+            }
 
             // Get the font settings from the system
             DefineFonts();
@@ -5567,7 +5583,10 @@ namespace Krypton.Toolkit
             : base(palette)
         {
             Debug.Assert(colors != null);
-            Colors = colors;
+            if (colors != null)
+            {
+                Colors = colors;
+            }
             UseRoundedEdges = roundedEdges;
         }
         #endregion
