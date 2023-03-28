@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Krypton.Toolkit.Resources {
+namespace Krypton.Toolkit.Resources.CheckBoxes {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ProfessionalControlBoxResources {
+    internal class CheckBoxStripResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ProfessionalControlBoxResources() {
+        internal CheckBoxStripResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.ProfessionalControlBoxResources", typeof(ProfessionalControlBoxResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.CheckBoxes.CheckBoxStripResources", typeof(CheckBoxStripResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonCloseDisabled {
+        internal static System.Drawing.Bitmap CheckBoxStrip2007Black {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonCloseDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStrip2007Black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonCloseNormal {
+        internal static System.Drawing.Bitmap CheckBoxStrip2007Blue {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonCloseNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStrip2007Blue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonMaxDisabled {
+        internal static System.Drawing.Bitmap CheckBoxStrip2007Silver {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonMaxDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStrip2007Silver", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonMaxNormal {
+        internal static System.Drawing.Bitmap CheckBoxStrip2010Black {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonMaxNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStrip2010Black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonMinDisabled {
+        internal static System.Drawing.Bitmap CheckBoxStrip2010Blue {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonMinDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStrip2010Blue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonMinNormal {
+        internal static System.Drawing.Bitmap CheckBoxStrip2010Silver {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonMinNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStrip2010Silver", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonRestoreDisabled {
+        internal static System.Drawing.Bitmap CheckBoxStripSparkle {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonRestoreDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStripSparkle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,19 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ProfessionalButtonRestoreNormal {
+        internal static System.Drawing.Bitmap CheckBoxStripSparkleOrange {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalButtonRestoreNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckBoxStripSparkleOrange", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CheckBoxStripSparklePurple {
+            get {
+                object obj = ResourceManager.GetObject("CheckBoxStripSparklePurple", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

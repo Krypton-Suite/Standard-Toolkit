@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Krypton.Toolkit.Resources {
+namespace Krypton.Toolkit.Resources.ControlBox {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.Office2010ControlBoxResources", typeof(Office2010ControlBoxResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.ControlBox.Office2010ControlBoxResources", typeof(Office2010ControlBoxResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _2010ButtonCloseBlackNormal {
+        internal static System.Drawing.Bitmap _2010ButtonClose {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonCloseBlackNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonClose", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _2010ButtonCloseHover {
+        internal static System.Drawing.Bitmap _2010ButtonCloseBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonCloseHover", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonCloseBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _2010ButtonCloseNormal {
+        internal static System.Drawing.Bitmap _2010ButtonCloseH {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonCloseNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonCloseH", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _2010ButtonMaxBlackNormal {
+        internal static System.Drawing.Bitmap _2010ButtonMax {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMaxBlackNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMax", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _2010ButtonMaxNormal {
+        internal static System.Drawing.Bitmap _2010ButtonMaxBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMaxNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMaxBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDIClose {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDIClose", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDIClose", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDICloseBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDICloseBlack", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDICloseBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDIMax {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDIMax", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDIMax", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDIMaxBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDIMaxBlack", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDIMaxBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDIMin {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDIMin", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDIMin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDIMinBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDIMinBlack", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDIMinBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDIRestore {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDIRestore", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDIRestore", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMDIRestoreBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMDIRestoreBlack", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMDIRestoreBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMin {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMin", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonMinBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonMinBlack", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonMinBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonRestore {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonRestore", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonRestore", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -225,17 +225,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap _2010ButtonRestoreBlack {
             get {
-                object obj = ResourceManager.GetObject("2010ButtonRestoreBlack", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Office2010BackMaximiseNormal_13_x_12 {
-            get {
-                object obj = ResourceManager.GetObject("Office2010BackMaximiseNormal_13_x_12", resourceCulture);
+                object obj = ResourceManager.GetObject("_2010ButtonRestoreBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

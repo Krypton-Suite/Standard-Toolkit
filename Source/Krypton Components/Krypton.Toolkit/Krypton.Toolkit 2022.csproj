@@ -279,6 +279,11 @@
         <Compile Update="Rendering\RenderStandard.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Resources\CheckBoxes\CheckBoxStripResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\ColourScaleImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -309,15 +314,10 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\BlueArrowResources.Designer.cs">
+        <Compile Update="Resources\Arrows\BlueArrowResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>BlueArrowResources.resx</DependentUpon>
-        </Compile>
-        <Compile Update="Resources\CheckBoxStripResources.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\CursorResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -369,7 +369,7 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Office2007BlueRadioButtonResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
+        <Compile Update="Resources\ControlBox\Office2007ControlBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>Office2007ControlBoxResources.resx</DependentUpon>
@@ -389,7 +389,7 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Office2010BlueRadioButtonResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\Office2010ControlBoxResources.Designer.cs">
+        <Compile Update="Resources\ControlBox\Office2010ControlBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>Office2010ControlBoxResources.resx</DependentUpon>
@@ -399,7 +399,7 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Office2010SilverRadioButtonResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\Office2013ControlBoxResources.Designer.cs">
+        <Compile Update="Resources\ControlBox\Office2013ControlBoxResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>Office2013ControlBoxResources.resx</DependentUpon>
@@ -409,7 +409,7 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>ProfessionalButtonSpecResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\ProfessionalControlBoxResources.Designer.cs">
+        <Compile Update="Resources\ControlBox\ProfessionalControlBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>ProfessionalControlBoxResources.resx</DependentUpon>
@@ -424,7 +424,7 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>SparkleBlueRadioButtonResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\SparkleControlBoxResources.Designer.cs">
+        <Compile Update="Resources\ControlBox\SparkleControlBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>SparkleControlBoxResources.resx</DependentUpon>
@@ -672,6 +672,10 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\CheckBoxes\CheckBoxStripResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
@@ -696,13 +700,9 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\BlueArrowResources.resx">
+        <EmbeddedResource Update="Resources\Arrows\BlueArrowResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>BlueArrowResources.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <EmbeddedResource Update="Resources\CheckBoxStripResources.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\CursorResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -744,7 +744,7 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2007BlueRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
+        <EmbeddedResource Update="Resources\ControlBox\Office2007ControlBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2007ControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
@@ -760,7 +760,7 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2010BlueRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\Office2010ControlBoxResources.resx">
+        <EmbeddedResource Update="Resources\ControlBox\Office2010ControlBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2010ControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
@@ -768,7 +768,7 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2010SilverRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\Office2013ControlBoxResources.resx">
+        <EmbeddedResource Update="Resources\ControlBox\Office2013ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2013ControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
@@ -776,7 +776,7 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>ProfessionalButtonSpecResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\ProfessionalControlBoxResources.resx">
+        <EmbeddedResource Update="Resources\ControlBox\ProfessionalControlBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>ProfessionalControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
@@ -788,7 +788,7 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>SparkleBlueRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\SparkleControlBoxResources.resx">
+        <EmbeddedResource Update="Resources\ControlBox\SparkleControlBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>SparkleControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>

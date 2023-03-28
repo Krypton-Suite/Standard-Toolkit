@@ -48,6 +48,9 @@ global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 
 global using Krypton.Toolkit.Resources;
+global using Krypton.Toolkit.Resources.Arrows;
+global using Krypton.Toolkit.Resources.CheckBoxes;
+global using Krypton.Toolkit.Resources.ControlBox;
 global using Krypton.Toolkit.Resources.Toolbar;
 
 global using Microsoft.Win32;
