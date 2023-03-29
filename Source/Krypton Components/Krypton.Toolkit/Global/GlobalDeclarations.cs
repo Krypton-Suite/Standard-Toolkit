@@ -49,6 +49,7 @@ global using System.Xml;
 
 global using Krypton.Toolkit.Resources;
 global using Krypton.Toolkit.Resources.Arrows;
+global using Krypton.Toolkit.Resources.ButtonSpecs;
 global using Krypton.Toolkit.Resources.CheckBoxes;
 global using Krypton.Toolkit.Resources.ColourScales;
 global using Krypton.Toolkit.Resources.Common;
@@ -59,7 +60,17 @@ global using Krypton.Toolkit.Resources.DropDown;
 global using Krypton.Toolkit.Resources.Elements;
 global using Krypton.Toolkit.Resources.Gallery;
 global using Krypton.Toolkit.Resources.Generic;
+global using Krypton.Toolkit.Resources.Grid;
+global using Krypton.Toolkit.Resources.MDI;
+global using Krypton.Toolkit.Resources.MessageBox;
+global using Krypton.Toolkit.Resources.Pendants;
+global using Krypton.Toolkit.Resources.Pin;
+global using Krypton.Toolkit.Resources.RadioButtons;
+global using Krypton.Toolkit.Resources.Stars;
 global using Krypton.Toolkit.Resources.Toolbar;
+global using Krypton.Toolkit.Resources.TreeItems;
+global using Krypton.Toolkit.Resources.UAC;
+global using Krypton.Toolkit.Resources.VisualStudio;
 
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;

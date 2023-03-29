@@ -32,8 +32,8 @@ namespace Krypton.Toolkit
 
         #region Images
 
-        private static readonly Image _blueDropDownButton = Office2010Arrows._2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
+        private static readonly Image _blueDropDownButton = Office2010ArrowResources._2010BlueDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources._2010BlueContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlueCloseNormal_25_x_23;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlueCloseDisabled_25_x_23;
         private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010BlueCloseHover_25_x_23;
@@ -50,10 +50,10 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlueRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlueRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlueRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.Microsoft365HelpIconNormal;
-        private static readonly Image _formHelpHover = HelpIconResources.Microsoft365HelpIconHover;
-        private static readonly Image _formHelpPressed = HelpIconResources.Microsoft365HelpIconPressed;
-        private static readonly Image _formHelpDisabled = HelpIconResources.Microsoft365HelpIconDisabled;
+        private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
+        private static readonly Image _formHelpHover = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
+        private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled;
 
         #endregion
 
@@ -313,14 +313,17 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                Office2010BlueRadioButtonResources.RadioButton2010BlueN,
-                Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                Office2010BlueRadioButtonResources.RadioButton2010BlueNC,
-                Office2010BlueRadioButtonResources.RadioButton2010BlueTC,
-                Office2010BlueRadioButtonResources.RadioButton2010BluePC};
+            _radioButtonArray = new Image[]
+            {
+                Office2010RadioButtonImageResources.RadioButton2010BlueD,
+                Office2010RadioButtonImageResources.RadioButton2010BlueN,
+                Office2010RadioButtonImageResources.RadioButton2010BlueT,
+                Office2010RadioButtonImageResources.RadioButton2010BlueP,
+                Office2010RadioButtonImageResources.RadioButton2010BlueDC,
+                Office2010RadioButtonImageResources.RadioButton2010BlueNC,
+                Office2010RadioButtonImageResources.RadioButton2010BlueTC,
+                Office2010RadioButtonImageResources.RadioButton2010BluePC
+            };
         }
 
         /// <summary>

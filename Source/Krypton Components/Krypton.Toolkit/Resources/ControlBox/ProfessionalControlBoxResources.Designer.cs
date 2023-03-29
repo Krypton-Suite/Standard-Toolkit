@@ -139,5 +139,25 @@ namespace Krypton.Toolkit.Resources.ControlBox {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ProfessionalHelpIconDisabled {
+            get {
+                object obj = ResourceManager.GetObject("ProfessionalHelpIconDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ProfessionalHelpIconNormal {
+            get {
+                object obj = ResourceManager.GetObject("ProfessionalHelpIconNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

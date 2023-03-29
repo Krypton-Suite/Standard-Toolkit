@@ -1019,5 +1019,55 @@ namespace Krypton.Toolkit.Resources.ControlBox {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007HelpIconDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2007HelpIconDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007HelpIconDisabledV2 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007HelpIconDisabledV2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007HelpIconHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2007HelpIconHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007HelpIconNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2007HelpIconNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007HelpIconPressed {
+            get {
+                object obj = ResourceManager.GetObject("Office2007HelpIconPressed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

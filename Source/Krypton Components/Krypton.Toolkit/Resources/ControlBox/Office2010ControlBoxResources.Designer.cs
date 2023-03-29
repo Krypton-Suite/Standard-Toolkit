@@ -863,6 +863,56 @@ namespace Krypton.Toolkit.Resources.ControlBox {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2010HelpIconDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2010HelpIconDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010HelpIconDisabledV2 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010HelpIconDisabledV2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010HelpIconHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010HelpIconHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010HelpIconNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2010HelpIconNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010HelpIconPressed {
+            get {
+                object obj = ResourceManager.GetObject("Office2010HelpIconPressed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2010SilverCloseDisabled_13_x_12 {
             get {
                 object obj = ResourceManager.GetObject("Office2010SilverCloseDisabled_13_x_12", resourceCulture);

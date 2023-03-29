@@ -52,10 +52,10 @@ namespace Krypton.Toolkit
         private static readonly Image _silverRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreHover_24_x_24;
         private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreDisabled_24_x_24;
         private static readonly Image _silverRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverRestorePressed_24_x_24;
-        private static readonly Image _silverHelpNormal = HelpIconResources.Office2007HelpIconNormal;
-        private static readonly Image _silverHelpHover = HelpIconResources.Office2007HelpIconHover;
-        private static readonly Image _silverHelpPressed = HelpIconResources.Office2007HelpIconPressed;
-        private static readonly Image _silverHelpDisabled = HelpIconResources.Office2007HelpIconDisabled;
+        private static readonly Image _silverHelpNormal = Office2007ControlBoxResources.Office2007HelpIconNormal;
+        private static readonly Image _silverHelpHover = Office2007ControlBoxResources.Office2007HelpIconHover;
+        private static readonly Image _silverHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
+        private static readonly Image _silverHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
 
         #endregion
@@ -304,14 +304,17 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Office2007BlueRadioButtonResources.RadioButton2007BlueD,
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverN,
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverT,
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverP,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverNC,
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverTC,
-                                            Office2007SilverRadioButtonResources.RadioButton2007SilverPC};
+            _radioButtonArray = new Image[]
+            {
+                Office2007RadioButtonImageResources.RadioButton2007BlueD,
+                Office2007RadioButtonImageResources.RadioButton2007SilverN,
+                Office2007RadioButtonImageResources.RadioButton2007SilverT,
+                Office2007RadioButtonImageResources.RadioButton2007SilverP,
+                Office2007RadioButtonImageResources.RadioButton2007BlueDC,
+                Office2007RadioButtonImageResources.RadioButton2007SilverNC,
+                Office2007RadioButtonImageResources.RadioButton2007SilverTC,
+                Office2007RadioButtonImageResources.RadioButton2007SilverPC
+            };
         }
 
         /// <summary>

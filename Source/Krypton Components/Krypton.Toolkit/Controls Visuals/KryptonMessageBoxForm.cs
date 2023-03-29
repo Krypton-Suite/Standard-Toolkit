@@ -10,6 +10,8 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedParameter.Local
 namespace Krypton.Toolkit
 {
     internal partial class KryptonMessageBoxForm : KryptonForm
@@ -129,117 +131,192 @@ namespace Krypton.Toolkit
 
         private void UpdateIcon()
         {
-            switch (_kryptonMessageBoxIcon)
+            if (OSUtilities.IsWindowsEleven)
             {
-                case KryptonMessageBoxIcon.None:
-                    // Windows XP and before will Beep, Vista and above do not!
-                    if (OS_MAJOR_VERSION < 6)
-                    {
-                        SystemSounds.Beep.Play();
-                    }
-                    break;
-                case KryptonMessageBoxIcon.Hand:
-                    _messageIcon.Image = MessageBoxResources.Hand;
-                    SystemSounds.Hand.Play();
-                    break;
-                case KryptonMessageBoxIcon.SystemHand:
-                    _messageIcon.Image = SystemIcons.Hand.ToBitmap();
-                    SystemSounds.Hand.Play();
-                    break;
-                case KryptonMessageBoxIcon.Question:
-                    _messageIcon.Image = MessageBoxResources.Question;
-                    SystemSounds.Question.Play();
-                    break;
-                case KryptonMessageBoxIcon.SystemQuestion:
-                    _messageIcon.Image = SystemIcons.Question.ToBitmap();
-                    SystemSounds.Question.Play();
-                    break;
-                case KryptonMessageBoxIcon.Exclamation:
-                    _messageIcon.Image = MessageBoxResources.Warning;
-                    SystemSounds.Exclamation.Play();
-                    break;
-                case KryptonMessageBoxIcon.SystemExclamation:
-                    _messageIcon.Image = SystemIcons.Warning.ToBitmap();
-                    SystemSounds.Exclamation.Play();
-                    break;
-                case KryptonMessageBoxIcon.Asterisk:
-                    _messageIcon.Image = OSUtilities.IsWindowsEleven 
-                        ? MessageBoxResources.Asterisk_Windows_11 
-                        : MessageBoxResources.Asterisk;
-                    SystemSounds.Asterisk.Play();
-                    break;
-                case KryptonMessageBoxIcon.SystemAsterisk:
-                    _messageIcon.Image = SystemIcons.Asterisk.ToBitmap();
-                    SystemSounds.Asterisk.Play();
-                    break;
-                case KryptonMessageBoxIcon.Stop:
-                    _messageIcon.Image = MessageBoxResources.Stop;
-                    SystemSounds.Asterisk.Play();
-                    break;
-                case KryptonMessageBoxIcon.Error:
-                    _messageIcon.Image = MessageBoxResources.Critical;
-                    SystemSounds.Asterisk.Play();
-                    break;
-                case KryptonMessageBoxIcon.Warning:
-                    _messageIcon.Image = MessageBoxResources.Warning;
-                    SystemSounds.Exclamation.Play();
-                    break;
-                case KryptonMessageBoxIcon.Information:
-                    _messageIcon.Image = MessageBoxResources.Information;
-                    SystemSounds.Asterisk.Play();
-                    break;
-                case KryptonMessageBoxIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
-                    {
-                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_11;
-                    }
-                    else if (OSUtilities.IsWindowsTen)
-                    {
-                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_10;
-                    }
-                    else
-                    {
-                        _messageIcon.Image = MessageBoxResources.UAC_Shield_Windows_7;
-                    }
-                    break;
-                case KryptonMessageBoxIcon.WindowsLogo:
-                    // Because Windows 11 displays a generic application icon,
-                    // we need to rely on a image instead
-                    if (OSUtilities.IsWindowsEleven)
-                    {
-                        _messageIcon.Image = MessageBoxResources.Windows11;
-                    }
-                    // Windows 10
-                    else if (OSUtilities.IsWindowsTen)
-                    {
-                        _messageIcon.Image = MessageBoxResources.Windows_8_and_10_Logo;
-                    }
-                    else
-                    {
-                        _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
-                    }
-                    break;
-                case KryptonMessageBoxIcon.Application:
-                    if (_applicationImage != null)
-                    {
-                        _messageIcon.Image = _applicationImage;
-                    }
-                    else if (!string.IsNullOrEmpty(_applicationPath))
-                    {
-                        Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
-                        Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                switch (_kryptonMessageBoxIcon)
+                {
+                    case KryptonMessageBoxIcon.None:
+                        // Windows XP and before will Beep, Vista and above do not!
+                        if (OS_MAJOR_VERSION < 6)
+                        {
+                            SystemSounds.Beep.Play();
+                        }
+                        break;
+                    case KryptonMessageBoxIcon.Hand:
+                        _messageIcon.Image = MessageBoxImageResources.Hand;
+                        SystemSounds.Hand.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Question:
+                        _messageIcon.Image = MessageBoxImageResources.Question_Windows_11;
+                        SystemSounds.Question.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Exclamation:
+                        _messageIcon.Image = MessageBoxImageResources.Warning_Windows_11;
+                        SystemSounds.Exclamation.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Asterisk:
+                        _messageIcon.Image = MessageBoxImageResources.Asterisk_Windows_11;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Stop:
+                        _messageIcon.Image = MessageBoxImageResources.Stop;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Error:
+                        _messageIcon.Image = MessageBoxImageResources.Critical_Windows_11;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Warning:
+                        _messageIcon.Image = MessageBoxImageResources.Warning_Windows_11;
+                        SystemSounds.Exclamation.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Information:
+                        _messageIcon.Image = MessageBoxImageResources.Information_Windows_11;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Shield:
+                        _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_11;
+                        break;
+                    case KryptonMessageBoxIcon.WindowsLogo:
+                        _messageIcon.Image = MessageBoxImageResources.Windows11;
+                        break;
+                    case KryptonMessageBoxIcon.Application:
+                        if (_applicationImage != null)
+                        {
+                            _messageIcon.Image = _applicationImage;
+                        }
+                        else if (!string.IsNullOrEmpty(_applicationPath))
+                        {
+                            Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
+                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
-                        _messageIcon.Image = scaledImage;
-                    }
-                    else
-                    {
-                        // Fall back to defaults
+                            _messageIcon.Image = scaledImage;
+                        }
+                        else
+                        {
+                            // Fall back to defaults
+                            _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                        }
+                        break;
+                    case KryptonMessageBoxIcon.SystemApplication:
                         _messageIcon.Image = SystemIcons.Application.ToBitmap();
-                    }
-                    break;
-                case KryptonMessageBoxIcon.SystemApplication:
-                    _messageIcon.Image = SystemIcons.Application.ToBitmap();
-                    break;
+                        break;
+                }
+            }
+            else
+            {
+                switch (_kryptonMessageBoxIcon)
+                {
+                    case KryptonMessageBoxIcon.None:
+                        // Windows XP and before will Beep, Vista and above do not!
+                        if (OS_MAJOR_VERSION < 6)
+                        {
+                            SystemSounds.Beep.Play();
+                        }
+                        break;
+                    case KryptonMessageBoxIcon.Hand:
+                        _messageIcon.Image = MessageBoxImageResources.Hand;
+                        SystemSounds.Hand.Play();
+                        break;
+                    case KryptonMessageBoxIcon.SystemHand:
+                        _messageIcon.Image = SystemIcons.Hand.ToBitmap();
+                        SystemSounds.Hand.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Question:
+                        _messageIcon.Image = MessageBoxImageResources.Question;
+                        SystemSounds.Question.Play();
+                        break;
+                    case KryptonMessageBoxIcon.SystemQuestion:
+                        _messageIcon.Image = SystemIcons.Question.ToBitmap();
+                        SystemSounds.Question.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Exclamation:
+                        _messageIcon.Image = MessageBoxImageResources.Warning;
+                        SystemSounds.Exclamation.Play();
+                        break;
+                    case KryptonMessageBoxIcon.SystemExclamation:
+                        _messageIcon.Image = SystemIcons.Warning.ToBitmap();
+                        SystemSounds.Exclamation.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Asterisk:
+                        _messageIcon.Image = OSUtilities.IsWindowsEleven
+                            ? MessageBoxImageResources.Asterisk_Windows_11
+                            : MessageBoxImageResources.Asterisk;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.SystemAsterisk:
+                        _messageIcon.Image = SystemIcons.Asterisk.ToBitmap();
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Stop:
+                        _messageIcon.Image = MessageBoxImageResources.Stop;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Error:
+                        _messageIcon.Image = MessageBoxImageResources.Critical;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Warning:
+                        _messageIcon.Image = MessageBoxImageResources.Warning;
+                        SystemSounds.Exclamation.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Information:
+                        _messageIcon.Image = MessageBoxImageResources.Information;
+                        SystemSounds.Asterisk.Play();
+                        break;
+                    case KryptonMessageBoxIcon.Shield:
+                        if (OSUtilities.IsWindowsEleven)
+                        {
+                            _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_11;
+                        }
+                        else if (OSUtilities.IsWindowsTen)
+                        {
+                            _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_10;
+                        }
+                        else
+                        {
+                            _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_7;
+                        }
+                        break;
+                    case KryptonMessageBoxIcon.WindowsLogo:
+                        // Because Windows 11 displays a generic application icon,
+                        // we need to rely on a image instead
+                        if (OSUtilities.IsWindowsEleven)
+                        {
+                            _messageIcon.Image = MessageBoxImageResources.Windows11;
+                        }
+                        // Windows 10
+                        else if (OSUtilities.IsWindowsTen)
+                        {
+                            _messageIcon.Image = MessageBoxImageResources.Windows_8_and_10_Logo;
+                        }
+                        else
+                        {
+                            _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
+                        }
+                        break;
+                    case KryptonMessageBoxIcon.Application:
+                        if (_applicationImage != null)
+                        {
+                            _messageIcon.Image = _applicationImage;
+                        }
+                        else if (!string.IsNullOrEmpty(_applicationPath))
+                        {
+                            Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
+                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+
+                            _messageIcon.Image = scaledImage;
+                        }
+                        else
+                        {
+                            // Fall back to defaults
+                            _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                        }
+                        break;
+                    case KryptonMessageBoxIcon.SystemApplication:
+                        _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                        break;
+                }
             }
 
             _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
@@ -418,25 +495,28 @@ namespace Krypton.Toolkit
         {
             try
             {
-                Control control = FromHandle(_showOwner.Handle);
-
-                MethodInfo mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
-                    Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null);
-                mInfoMethod?.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
-                if (_helpInfo != null)
+                if (_showOwner != null)
                 {
-                    if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
-                    {
-                        return;
-                    }
+                    Control control = FromHandle(_showOwner.Handle);
 
-                    if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
+                    MethodInfo mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
+                        Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
+                    mInfoMethod?.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
+                    if (_helpInfo != null)
                     {
-                        Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
-                    }
-                    else
-                    {
-                        Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Navigator, _helpInfo.Param);
+                        if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
+                        {
+                            return;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
+                        {
+                            Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
+                        }
+                        else
+                        {
+                            Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Navigator, _helpInfo.Param);
+                        }
                     }
                 }
             }

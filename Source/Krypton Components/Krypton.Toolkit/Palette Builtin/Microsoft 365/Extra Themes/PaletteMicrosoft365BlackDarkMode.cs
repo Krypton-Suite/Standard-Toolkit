@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
 
         #region Images
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blackDropDownButton = Office2010Arrows._2010BlackDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlackContextMenuSub;
+        private static readonly Image _blackDropDownButton = Office2010ArrowResources._2010BlackDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources._2010BlackContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal_25_x_23;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled_25_x_23;
         private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010BlackCloseHover_25_x_23;
@@ -39,10 +39,10 @@ namespace Krypton.Toolkit
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled_25_x_23;
         private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlackRestoreHover_25_x_23;
         private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.Microsoft365HelpIconNormal;
-        private static readonly Image _formHelpHover = HelpIconResources.Microsoft365HelpIconHover;
-        private static readonly Image _formHelpPressed = HelpIconResources.Microsoft365HelpIconPressed;
-        private static readonly Image _formHelpDisabled = HelpIconResources.Microsoft365HelpIconDisabled;
+        private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
+        private static readonly Image _formHelpHover = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
+        private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled;
         private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDICloseBlack;
         private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMinBlack;
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
@@ -308,14 +308,17 @@ namespace Krypton.Toolkit
 
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
 
-            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverN,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverTC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverPC };
+            _radioButtonArray = new Image[]
+            {
+                Office2010RadioButtonImageResources.RadioButton2010BlueD,
+                Office2010RadioButtonImageResources.RadioButton2010SilverN,
+                Office2010RadioButtonImageResources.RadioButton2010BlueT,
+                Office2010RadioButtonImageResources.RadioButton2010BlueP,
+                Office2010RadioButtonImageResources.RadioButton2010BlueDC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverNC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverTC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverPC
+            };
         }
 
         /// <summary>
