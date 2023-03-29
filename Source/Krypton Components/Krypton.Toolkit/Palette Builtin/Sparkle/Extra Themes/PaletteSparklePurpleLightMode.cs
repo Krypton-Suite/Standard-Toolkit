@@ -307,14 +307,17 @@ namespace Krypton.Toolkit
                 ColorDepth = ColorDepth.Depth24Bit
             };
             _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparklePurple);
-            _radioButtonArray = new Image[]{SparkleBlueRadioButtonResources.RadioButtonSparkleD,
-                                            SparkleBlueRadioButtonResources.RadioButtonSparkleN,
-                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleT,
-                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleP,
-                                            SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
-                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleNC,
-                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleTC,
-                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurplePC};
+            _radioButtonArray = new Image[]
+            {
+                SparkleRadioButtonImageResources.RadioButtonSparkleD,
+                SparkleRadioButtonImageResources.RadioButtonSparkleN,
+                SparkleRadioButtonImageResources.RadioButtonSparklePurpleT,
+                SparkleRadioButtonImageResources.RadioButtonSparklePurpleP,
+                SparkleRadioButtonImageResources.RadioButtonSparkleDC,
+                SparkleRadioButtonImageResources.RadioButtonSparklePurpleNC,
+                SparkleRadioButtonImageResources.RadioButtonSparklePurpleTC,
+                SparkleRadioButtonImageResources.RadioButtonSparklePurplePC
+            };
         }
 
         /// <summary>

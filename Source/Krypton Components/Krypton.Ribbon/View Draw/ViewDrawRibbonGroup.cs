@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupText _viewCollapsedText1;
         private ViewDrawRibbonGroupText _viewCollapsedText2;
         private ViewLayoutRibbonCenterPadding _layoutCollapsedImagePadding;
-        private CollapsedGroupController _collapsedController;
+        private CollapsedGroupController? _collapsedController;
         private ViewLayoutRibbonTitle _layoutNormalMain;
         private ViewLayoutRibbonSeparator _layoutNormalSepTop;
         private ViewLayoutRibbonSeparator _layoutNormalSepLeft;
@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
         private IDisposable _mementoRibbonBackArea;
         private IDisposable _mementoRibbonBackBorder;
         private IDisposable _mementoRibbonBack2;
-        private IDisposable _mementoStandardBack;
+        private IDisposable? _mementoStandardBack;
         private Control _container;
         private bool _collapsed;
         private int _totalBorders;

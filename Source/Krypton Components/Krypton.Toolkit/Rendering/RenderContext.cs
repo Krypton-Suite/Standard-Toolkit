@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="clipRect">Rectangle that needs rendering.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public RenderContext(Control control,
+        public RenderContext(Control? control,
                              Graphics? graphics,
                              Rectangle clipRect,
                              IRenderer? renderer)
@@ -41,8 +41,8 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="clipRect">Rectangle that needs rendering.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public RenderContext(Control control,
-                             Control alignControl,
+        public RenderContext(Control? control,
+                             Control? alignControl,
                              Graphics? graphics,
                              Rectangle clipRect,
                              IRenderer? renderer)
@@ -60,8 +60,8 @@ namespace Krypton.Toolkit
         /// <param name="clipRect">Rectangle that needs rendering.</param>
         /// <param name="renderer">Rendering provider.</param>
         public RenderContext(ViewManager? manager,
-                             Control control, 
-                             Control alignControl,
+                             Control? control,
+                             Control? alignControl,
                              Graphics? graphics,
                              Rectangle clipRect,
                              IRenderer? renderer)

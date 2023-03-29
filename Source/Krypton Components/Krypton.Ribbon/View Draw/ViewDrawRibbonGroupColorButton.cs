@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
                 Point screenPt = Point.Empty;
-                GroupButtonController controller = null;
+                GroupButtonController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)

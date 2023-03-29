@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         /// <returns>Button location.</returns>
         public override HeaderLocation GetLocation(PaletteBase? palette) =>
             // Ask the view builder to recover the correct location
-            Navigator.ViewBuilder.GetFixedButtonLocation(this);
+            Navigator.ViewBuilder!.GetFixedButtonLocation(this);
 
         #endregion
 

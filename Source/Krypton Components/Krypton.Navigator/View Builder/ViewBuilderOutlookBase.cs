@@ -407,7 +407,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // Sometimes the routine is called before the views have been fully setup
             if ((_pageStackLookup != null) && _pageStackLookup.ContainsKey(page) &&
@@ -439,7 +439,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             // Reflect new state in the check button
             UpdateStatePalettes();
@@ -498,7 +498,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="changed">Set of flags that have changed value.</param>
-        public override void PageFlagsChanged(KryptonPage page, KryptonPageFlags changed)
+        public override void PageFlagsChanged(KryptonPage? page, KryptonPageFlags changed)
         {
             // Any change to the overflow bar setting requires a layout to effect
             if ((changed & KryptonPageFlags.PageInOverflowBarForOutlookMode) == KryptonPageFlags.PageInOverflowBarForOutlookMode)

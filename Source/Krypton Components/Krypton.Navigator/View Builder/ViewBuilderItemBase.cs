@@ -147,7 +147,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // It is possible the lookup has not been created yet
             if (_pageLookup != null)
@@ -172,7 +172,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_pageLookup != null)
             {
@@ -233,7 +233,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public override void PageAppearanceChanged(KryptonPage page, string property)
+        public override void PageAppearanceChanged(KryptonPage? page, string? property)
         {
             Debug.Assert(page != null);
             Debug.Assert(property != null);

@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private readonly PaletteBorderToPalette _paletteBorder;
         private readonly PaletteContentToPalette _paletteContent;
         private readonly PaletteRelativeAlign _alignment;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         private IDisposable _mementoContent;
         private readonly NeedPaintHandler _needPaint;
         #endregion

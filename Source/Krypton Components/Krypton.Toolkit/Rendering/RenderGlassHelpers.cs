@@ -53,16 +53,16 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassCenter(RenderContext context,
+        public static IDisposable? DrawBackGlassCenter(RenderContext context,
                                                       Rectangle rect,
                                                       Color backColor1,
                                                       Color backColor2,
                                                       VisualOrientation orientation,
                                                       GraphicsPath path,
-                                                      IDisposable memento)
+                                                      IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -106,16 +106,16 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassBottom(RenderContext context,
+        public static IDisposable? DrawBackGlassBottom(RenderContext context,
                                                       Rectangle rect,
                                                       Color backColor1,
                                                       Color backColor2,
                                                       VisualOrientation orientation,
                                                       GraphicsPath path,
-                                                      IDisposable memento)
+                                                      IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -158,16 +158,16 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassFade(RenderContext context,
+        public static IDisposable? DrawBackGlassFade(RenderContext context,
                                                     Rectangle rect,
                                                     Color backColor1,
                                                     Color backColor2,
                                                     VisualOrientation orientation,
                                                     GraphicsPath path,
-                                                    IDisposable memento)
+                                                    IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -206,13 +206,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassSimpleFull(RenderContext context,
+        public static IDisposable? DrawBackGlassSimpleFull(RenderContext context,
                                                           Rectangle rect,
                                                           Color backColor1,
                                                           Color backColor2,
                                                           VisualOrientation orientation,
                                                           GraphicsPath path,
-                                                          IDisposable memento) =>
+                                                          IDisposable? memento) =>
             DrawBackGlassSimplePercent(context, rect, 
                 backColor1, backColor2, 
                 orientation, path, 
@@ -228,13 +228,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassNormalFull(RenderContext context,
+        public static IDisposable? DrawBackGlassNormalFull(RenderContext context,
                                                           Rectangle rect,
                                                           Color backColor1,
                                                           Color backColor2,
                                                           VisualOrientation orientation,
                                                           GraphicsPath path,
-                                                          IDisposable memento) =>
+                                                          IDisposable? memento) =>
             DrawBackGlassNormalPercent(context, rect,
                 backColor1, backColor2,
                 orientation, path,
@@ -250,13 +250,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassTrackingFull(RenderContext context,
+        public static IDisposable? DrawBackGlassTrackingFull(RenderContext context,
                                                             Rectangle rect,
                                                             Color backColor1,
                                                             Color backColor2,
                                                             VisualOrientation orientation,
                                                             GraphicsPath path,
-                                                            IDisposable memento) =>
+                                                            IDisposable? memento) =>
             DrawBackGlassTrackingPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path,
@@ -272,13 +272,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassCheckedFull(RenderContext context,
+        public static IDisposable? DrawBackGlassCheckedFull(RenderContext context,
                                                            Rectangle rect,
                                                            Color backColor1,
                                                            Color backColor2,
                                                            VisualOrientation orientation,
                                                            GraphicsPath path,
-                                                           IDisposable memento) =>
+                                                           IDisposable? memento) =>
             DrawBackGlassCheckedPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -294,13 +294,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassCheckedTrackingFull(RenderContext context,
+        public static IDisposable? DrawBackGlassCheckedTrackingFull(RenderContext context,
                                                                    Rectangle rect,
                                                                    Color backColor1,
                                                                    Color backColor2,
                                                                    VisualOrientation orientation,
                                                                    GraphicsPath path,
-                                                                   IDisposable memento) =>
+                                                                   IDisposable? memento) =>
             DrawBackGlassCheckedTrackingPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -316,13 +316,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassPressedFull(RenderContext context,
+        public static IDisposable? DrawBackGlassPressedFull(RenderContext context,
                                                            Rectangle rect,
                                                            Color backColor1,
                                                            Color backColor2,
                                                            VisualOrientation orientation,
                                                            GraphicsPath path,
-                                                           IDisposable memento) =>
+                                                           IDisposable? memento) =>
             DrawBackGlassPressedPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -338,13 +338,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassNormalStump(RenderContext context,
+        public static IDisposable? DrawBackGlassNormalStump(RenderContext context,
                                                            Rectangle rect,
                                                            Color backColor1,
                                                            Color backColor2,
                                                            VisualOrientation orientation,
                                                            GraphicsPath path,
-                                                           IDisposable memento) =>
+                                                           IDisposable? memento) =>
             DrawBackGlassNormalPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -360,13 +360,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassTrackingStump(RenderContext context,
+        public static IDisposable? DrawBackGlassTrackingStump(RenderContext context,
                                                              Rectangle rect,
                                                              Color backColor1,
                                                              Color backColor2,
                                                              VisualOrientation orientation,
                                                              GraphicsPath path,
-                                                             IDisposable memento) =>
+                                                             IDisposable? memento) =>
             DrawBackGlassTrackingPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -382,13 +382,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassPressedStump(RenderContext context,
+        public static IDisposable? DrawBackGlassPressedStump(RenderContext context,
                                                             Rectangle rect,
                                                             Color backColor1,
                                                             Color backColor2,
                                                             VisualOrientation orientation,
                                                             GraphicsPath path,
-                                                            IDisposable memento) =>
+                                                            IDisposable? memento) =>
             DrawBackGlassPressedPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -404,13 +404,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassCheckedStump(RenderContext context,
+        public static IDisposable? DrawBackGlassCheckedStump(RenderContext context,
                                                             Rectangle rect,
                                                             Color backColor1,
                                                             Color backColor2,
                                                             VisualOrientation orientation,
                                                             GraphicsPath path,
-                                                            IDisposable memento) =>
+                                                            IDisposable? memento) =>
             DrawBackGlassCheckedPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -426,13 +426,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassCheckedTrackingStump(RenderContext context,
+        public static IDisposable? DrawBackGlassCheckedTrackingStump(RenderContext context,
                                                                     Rectangle rect,
                                                                     Color backColor1,
                                                                     Color backColor2,
                                                                     VisualOrientation orientation,
                                                                     GraphicsPath path,
-                                                                    IDisposable memento) =>
+                                                                    IDisposable? memento) =>
             DrawBackGlassCheckedTrackingPercent(context, rect, 
                 backColor1, backColor2,
                 orientation, path, 
@@ -448,17 +448,17 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassThreeEdge(RenderContext context,
+        public static IDisposable? DrawBackGlassThreeEdge(RenderContext context,
                                                          Rectangle rect,
                                                          Color backColor1,
                                                          Color backColor2,
                                                          VisualOrientation orientation,
                                                          GraphicsPath path,
-                                                         IDisposable memento)
+                                                         IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             var generate = true;
-            MementoBackGlassThreeEdge cache;
+            MementoBackGlassThreeEdge? cache;
 
             // Access a cache instance and decide if cache resources need generating
             if (memento is MementoBackGlassThreeEdge glassThreeEdge)
@@ -520,13 +520,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassNormalSimple(RenderContext context,
+        public static IDisposable? DrawBackGlassNormalSimple(RenderContext context,
                                                             Rectangle rect,
                                                             Color backColor1,
                                                             Color backColor2,
                                                             VisualOrientation orientation,
                                                             GraphicsPath path, 
-                                                            IDisposable memento)
+                                                            IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             // Draw the inside area
@@ -550,13 +550,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassTrackingSimple(RenderContext context,
+        public static IDisposable? DrawBackGlassTrackingSimple(RenderContext context,
                                                               Rectangle rect,
                                                               Color backColor1,
                                                               Color backColor2,
                                                               VisualOrientation orientation,
                                                               GraphicsPath path,
-                                                              IDisposable memento)
+                                                              IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             // Draw the inside area as a glass effect
@@ -576,13 +576,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassCheckedSimple(RenderContext context,
+        public static IDisposable? DrawBackGlassCheckedSimple(RenderContext context,
                                                              Rectangle rect,
                                                              Color backColor1,
                                                              Color backColor2,
                                                              VisualOrientation orientation,
                                                              GraphicsPath path,
-                                                             IDisposable memento)
+                                                             IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             // Draw the inside areas as a glass effect
@@ -602,13 +602,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassCheckedTrackingSimple(RenderContext context,
+        public static IDisposable? DrawBackGlassCheckedTrackingSimple(RenderContext context,
                                                                      Rectangle rect,
                                                                      Color backColor1,
                                                                      Color backColor2,
                                                                      VisualOrientation orientation,
                                                                      GraphicsPath path,
-                                                                     IDisposable memento)
+                                                                     IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             // Draw the inside areas as a glass effect
@@ -628,13 +628,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackGlassPressedSimple(RenderContext context,
+        public static IDisposable? DrawBackGlassPressedSimple(RenderContext context,
                                                              Rectangle rect,
                                                              Color backColor1,
                                                              Color backColor2,
                                                              VisualOrientation orientation,
                                                              GraphicsPath path,
-                                                             IDisposable memento)
+                                                             IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             // Draw the inside areas as a glass effect
@@ -647,17 +647,17 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private static IDisposable DrawBackGlassSimplePercent(RenderContext context,
+        private static IDisposable? DrawBackGlassSimplePercent(RenderContext context,
                                                               Rectangle rect,
                                                               Color backColor1,
                                                               Color backColor2,
                                                               VisualOrientation orientation,
                                                               GraphicsPath path,
                                                               float glassPercent,
-                                                              IDisposable memento)
+                                                              IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -703,17 +703,17 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackGlassNormalPercent(RenderContext context,
+        private static IDisposable? DrawBackGlassNormalPercent(RenderContext context,
                                                               Rectangle rect,
                                                               Color backColor1,
                                                               Color backColor2,
                                                               VisualOrientation orientation,
                                                               GraphicsPath path,
                                                               float glassPercent,
-                                                              IDisposable memento)
+                                                              IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -758,17 +758,17 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackGlassTrackingPercent(RenderContext context,
+        private static IDisposable? DrawBackGlassTrackingPercent(RenderContext context,
                                                                 Rectangle rect,
                                                                 Color backColor1,
                                                                 Color backColor2,
                                                                 VisualOrientation orientation,
                                                                 GraphicsPath path,
                                                                 float glassPercent,
-                                                                IDisposable memento)
+                                                                IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -802,17 +802,17 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackGlassPressedPercent(RenderContext context,
+        private static IDisposable? DrawBackGlassPressedPercent(RenderContext context,
                                                                Rectangle rect,
                                                                Color backColor1,
                                                                Color backColor2,
                                                                VisualOrientation orientation,
                                                                GraphicsPath path,
                                                                float glassPercent,
-                                                               IDisposable memento)
+                                                               IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoTriple cache;
+            MementoTriple? cache;
 
             if (memento is MementoTriple triple)
             {
@@ -852,17 +852,17 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackGlassCheckedPercent(RenderContext context,
+        private static IDisposable? DrawBackGlassCheckedPercent(RenderContext context,
                                                                Rectangle rect,
                                                                Color backColor1,
                                                                Color backColor2,
                                                                VisualOrientation orientation,
                                                                GraphicsPath path,
                                                                float glassPercent,
-                                                               IDisposable memento)
+                                                               IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoTriple cache;
+            MementoTriple? cache;
 
             if (memento is MementoTriple triple)
             {
@@ -904,17 +904,17 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackGlassCheckedTrackingPercent(RenderContext context,
+        private static IDisposable? DrawBackGlassCheckedTrackingPercent(RenderContext context,
                                                                        Rectangle rect,
                                                                        Color backColor1,
                                                                        Color backColor2,
                                                                        VisualOrientation orientation,
                                                                        GraphicsPath path,
                                                                        float glassPercent,
-                                                                       IDisposable memento)
+                                                                       IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoTriple cache;
+            MementoTriple? cache;
 
             if (memento is MementoTriple triple)
             {
@@ -1065,7 +1065,7 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackGlassRadial(RectangleF drawRect,
+        private static IDisposable? DrawBackGlassRadial(RectangleF drawRect,
                                                        Color color1,
                                                        Color color2,
                                                        Color glassColor1,
@@ -1075,9 +1075,9 @@ namespace Krypton.Toolkit
                                                        VisualOrientation orientation,
                                                        Graphics? g,
                                                        float glassPercent,
-                                                       IDisposable memento)
+                                                       IDisposable? memento)
         {
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -1396,7 +1396,7 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackGlassLinear(RectangleF drawRect,
+        private static IDisposable? DrawBackGlassLinear(RectangleF drawRect,
                                                        RectangleF outerRect,
                                                        Color color1,
                                                        Color color2,
@@ -1405,14 +1405,14 @@ namespace Krypton.Toolkit
                                                        VisualOrientation orientation,
                                                        Graphics? g,
                                                        float glassPercent,
-                                                       IDisposable memento)
+                                                       IDisposable? memento)
         {
             // Cannot draw a zero length rectangle
             if (drawRect is { Width: > 0, Height: > 0 } &&
                 outerRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackGlassLinear cache;
+                MementoBackGlassLinear? cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackGlassLinear glassLinear)

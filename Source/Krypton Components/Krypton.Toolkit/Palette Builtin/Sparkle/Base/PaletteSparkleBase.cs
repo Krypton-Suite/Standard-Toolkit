@@ -89,12 +89,12 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleMinI = SparkleControlBoxResources.SparkleButtonMinDisabled;
         private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
         private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
-        private static readonly Image _sparkleHelpA = HelpIconResources.Office2010HelpIconNormal;
-        private static readonly Image _sparkleHelpHover = HelpIconResources.Office2010HelpIconHover;
-        private static readonly Image _sparkleHelpPressed = HelpIconResources.Office2010HelpIconPressed;
-        private static readonly Image _sparkleHelpI = HelpIconResources.Office2010HelpIconDisabled;
+        private static readonly Image _sparkleHelpA = Office2010ControlBoxResources.Office2010HelpIconNormal;
+        private static readonly Image _sparkleHelpHover = Office2010ControlBoxResources.Office2010HelpIconHover;
+        private static readonly Image _sparkleHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
+        private static readonly Image _sparkleHelpI = Office2010ControlBoxResources.Office2010HelpIconDisabled;
         private static readonly Image _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
+        private static readonly Image _contextMenuIndeterminate = SparkleRadioButtonImageResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
         private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;

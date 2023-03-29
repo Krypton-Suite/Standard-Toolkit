@@ -39,7 +39,7 @@ namespace Krypton.Navigator
 
         #region Instance Fields
 
-        private readonly PageButtonController _buttonController;
+        private readonly PageButtonController? _buttonController;
         private readonly IPaletteRibbonGeneral _paletteGeneral;
         private readonly PaletteRibbonTabContentInheritOverride _overrideStateNormal;
         private readonly PaletteRibbonTabContentInheritOverride _overrideStateTracking;
@@ -103,7 +103,7 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create a decorator to interface with the tooltip manager
-            ToolTipController toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
+            ToolTipController? toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
             ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
 
             // Assign controller for handing mouse input

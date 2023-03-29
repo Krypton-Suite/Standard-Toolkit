@@ -36,21 +36,21 @@ namespace Krypton.Navigator
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object? ConvertTo(ITypeDescriptorContext? context, 
-                                         System.Globalization.CultureInfo? culture, 
-                                         object? value, 
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+                                         System.Globalization.CultureInfo? culture,
+                                         object? value,
                                          Type destinationType)
         {
             // Can always convert to a string representation
             if (destinationType == typeof(string))
             {
                 // Cast to correct type
-                ButtonSpecNavFixed buttonSpec = (ButtonSpecNavFixed)value;
+                ButtonSpecNavFixed? buttonSpec = (ButtonSpecNavFixed)value!;
 
                 // Ask the button spec for the correct string
                 return buttonSpec.ToString();
             }
-            
+
             // Let base class attempt other conversions
             return base.ConvertTo(context, culture, value, destinationType);
         }

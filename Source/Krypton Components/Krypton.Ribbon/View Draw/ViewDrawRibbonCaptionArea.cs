@@ -698,8 +698,8 @@ namespace Krypton.Ribbon
         private ViewLayoutRibbonQATMini _nonCaptionQAT;
         private ViewLayoutRibbonContextTitles? _contextTiles;
         private ViewDrawRibbonCompoRightBorder _compRightBorder;
-        private AppButtonController _appButtonController;
-        private AppTabController _appTabController;
+        private AppButtonController? _appButtonController;
+        private AppTabController? _appTabController;
         private KryptonForm? _kryptonForm;
         private bool _integrated;
         private bool _preventIntegration;
@@ -789,7 +789,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the single reference to the application button controller.
         /// </summary>
-        public AppButtonController AppButtonController => _appButtonController;
+        public AppButtonController? AppButtonController => _appButtonController;
 
         #endregion
 
@@ -797,7 +797,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the single reference to the application tab controller.
         /// </summary>
-        public AppTabController AppTabController => _appTabController;
+        public AppTabController? AppTabController => _appTabController;
 
         #endregion
 

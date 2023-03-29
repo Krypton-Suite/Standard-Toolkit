@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Size _viewSize; // = new(22, 22);
         private readonly KryptonRibbon _ribbon;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         private readonly IPaletteBack _paletteBack;
         private readonly PaletteBackInheritForced _paletteBackDraw;
         private readonly PaletteBackLightenColors _paletteBackLight;
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the associated controller.
         /// </summary>
-        public GroupButtonController Controller { get; }
+        public GroupButtonController? Controller { get; }
 
         #endregion
 

@@ -134,7 +134,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public virtual void PageVisibleStateChanged(KryptonPage page)
+        public virtual void PageVisibleStateChanged(KryptonPage? page)
         {
         }
 
@@ -142,7 +142,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public virtual void PageEnabledStateChanged(KryptonPage page)
+        public virtual void PageEnabledStateChanged(KryptonPage? page)
         {
         }
 
@@ -151,7 +151,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public virtual void PageAppearanceChanged(KryptonPage page, string property)
+        public virtual void PageAppearanceChanged(KryptonPage? page, string? property)
         {
         }
 
@@ -160,7 +160,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="changed">Set of flags that have changed value.</param>
-        public virtual void PageFlagsChanged(KryptonPage page, KryptonPageFlags changed)
+        public virtual void PageFlagsChanged(KryptonPage? page, KryptonPageFlags changed)
         {
         }
 

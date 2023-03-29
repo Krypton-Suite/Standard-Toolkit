@@ -549,7 +549,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Internal
-        internal NavFixedButtonSpecCollection FixedSpecs { get; }
+        internal NavFixedButtonSpecCollection? FixedSpecs { get; }
 
         #endregion
 
