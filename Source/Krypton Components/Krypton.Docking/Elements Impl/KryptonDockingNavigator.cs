@@ -79,7 +79,10 @@ namespace Krypton.Docking
                 if (dockingManager != null)
                 {
                     DockableNavigatorEventArgs args = new(DockableNavigatorControl, this);
-                    dockingManager.RaiseDockableNavigatorAdded(args);
+                    if (dockingManager != null)
+                    {
+                        dockingManager.RaiseDockableNavigatorAdded(args);
+                    }
                 }
             }
         }
@@ -648,15 +651,21 @@ namespace Krypton.Docking
         {
             // Create list of the pages that are allowed to be dropped into this navigator
             KryptonPageCollection pages = new();
-            foreach (KryptonPage page in dragData.Pages.Where(static page => page.AreFlagsSet(KryptonPageFlags.DockingAllowNavigator)))
+            if (dragData != null)
             {
-                pages.Add(page);
+
+                foreach (KryptonPage page in dragData.Pages.Where(static page =>
+                            page.AreFlagsSet(KryptonPageFlags.DockingAllowNavigator)))
+                {
+                    pages.Add(page);
+                }
             }
 
             // Do we have any pages left for dragging?
             if (pages.Count > 0)
             {
                 DragTargetList navigatorTargets = DockableNavigatorControl.GenerateDragTargets(new PageDragEndData(this, pages), KryptonPageFlags.DockingAllowNavigator);
+
                 targets.AddRange(navigatorTargets.ToArray());
             }
         }
@@ -722,7 +731,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable navigator element is required.</param>
         /// <returns>KryptonDockingNavigator reference if found; otherwise false.</returns>
-        public override KryptonDockingNavigator? FindDockingNavigator(string uniqueName) => this;
+        public override KryptonDockingNavigator FindDockingNavigator(string uniqueName) => this;
 
         /// <summary>
         /// Gets the number of visible pages.
@@ -756,20 +765,20 @@ namespace Krypton.Docking
 
             // Persist each child page in turn
             KryptonDockingManager? dockingManager = DockingManager;
+
             foreach (KryptonPage page in DockableNavigatorControl.Pages.Where(static page => page.AreFlagsSet(KryptonPageFlags.AllowConfigSave)))
             {
                 xmlWriter.WriteStartElement("KP");
                 XmlHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
                 XmlHelper.TextToXmlAttribute(xmlWriter, @"S", CommonHelper.BoolToString(page is KryptonStorePage)!);
                 XmlHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet)!, @"True");
-
-                // Give event handlers a chance to save custom data with the page
                 xmlWriter.WriteStartElement(@"CPD");
                 DockPageSavingEventArgs args = new(dockingManager, xmlWriter, page);
-                dockingManager.RaisePageSaving(args);
+                if (dockingManager != null)
+                {
+                    dockingManager.RaisePageSaving(args);
+                }
                 xmlWriter.WriteEndElement();
-
-                // Terminate the page element        
                 xmlWriter.WriteEndElement();
             }
 
@@ -841,10 +850,11 @@ namespace Krypton.Docking
                     {
                         // Can we find a provided page to match the incoming layout?
                         page = pages[uniqueName];
-                        if (page == null)
+                        if (page == null && manager != null)
                         {
                             // Generate event so developer can create and supply the page now
                             RecreateLoadingPageEventArgs args = new(uniqueName);
+
                             manager.RaiseRecreateLoadingPage(args);
 
                             if (args is { Cancel: false, Page: { } })
@@ -880,7 +890,10 @@ namespace Krypton.Docking
 
                     // Generate event so custom data can be loaded and/or the page to be added can be modified
                     DockPageLoadingEventArgs pageLoading = new(manager, xmlReader, page);
-                    manager.RaisePageLoading(pageLoading);
+                    if (manager != null)
+                    {
+                        manager.RaisePageLoading(pageLoading);
+                    }
 
                     // Read everything until we get the end of custom data marker
                     while (!finished)
@@ -946,7 +959,11 @@ namespace Krypton.Docking
             // Remove any store page for the unique name of this page being added. In either case of adding a store
             // page or a regular page we want to ensure there does not exist a store page for that same unique name.
             KryptonDockingManager? dockingManager = DockingManager;
-            dockingManager?.PropogateAction(DockingPropogateAction.ClearFillerStoredPages, new[] { e.Item.UniqueName });
+            if (e.Item != null)
+            {
+                dockingManager?.PropogateAction(DockingPropogateAction.ClearFillerStoredPages,
+                    new[] { e.Item.UniqueName });
+            }
         }
 
         private void OnDockableNavigatorBeforePageDrag(object sender, PageDragCancelEventArgs e)
@@ -970,7 +987,7 @@ namespace Krypton.Docking
         {
             // Use event to indicate the page is moving to a navigator and allow it to be cancelled
             KryptonDockingManager? dockingManager = DockingManager;
-            if (dockingManager != null)
+            if (dockingManager != null && e.Page != null)
             {
                 CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
                 dockingManager.RaisePageNavigatorRequest(args);

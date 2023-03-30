@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -70,13 +71,13 @@ namespace Krypton.Navigator
             FormMinimizeButton = new ButtonSpecNavFormMinimize(_navigator);
 
             // Hook into the click events for the buttons
-            PreviousButton.Click += OnPreviousClick;
-            NextButton.Click += OnNextClick;
-            ContextButton.Click += OnContextClick;
-            CloseButton.Click += OnCloseClick;
-            FormCloseButton.Click += OnCloseButtonClick;
-            FormMinimizeButton.Click += OnMinimizeButtonClick;
-            FormMaximizeButton.Click += OnMaximizeButtonClick;
+            PreviousButton.Click += OnPreviousClick!;
+            NextButton.Click += OnNextClick!;
+            ContextButton.Click += OnContextClick!;
+            CloseButton.Click += OnCloseClick!;
+            FormCloseButton.Click += OnCloseButtonClick!;
+            FormMinimizeButton.Click += OnMinimizeButtonClick!;
+            FormMaximizeButton.Click += OnMaximizeButtonClick!;
 
             // Add fixed buttons into the display collection
             if (_navigator.Owner != null && !_navigator.ControlKryptonFormFeatures)

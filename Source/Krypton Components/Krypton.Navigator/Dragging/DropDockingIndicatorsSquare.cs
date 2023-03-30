@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -35,7 +36,7 @@ namespace Krypton.Navigator
         /// <param name="showTop">Show top hot area.</param>
         /// <param name="showBottom">Show bottom hot area.</param>
         /// <param name="showMiddle">Show middle hot area.</param>
-        public DropDockingIndicatorsSquare(IPaletteDragDrop paletteDragDrop, 
+        public DropDockingIndicatorsSquare(IPaletteDragDrop paletteDragDrop,
                                            IRenderer? renderer,
                                            bool showLeft, bool showRight,
                                            bool showTop, bool showBottom,
@@ -48,7 +49,11 @@ namespace Krypton.Navigator
             _dragData = new RenderDragDockingData(showLeft, showRight, showTop, showBottom, showMiddle);
 
             // Ask the renderer to measure the sizing of the indicators that are Displayed
-            _renderer.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop, PaletteDragFeedback.Square);
+            if (_renderer != null)
+            {
+                _renderer.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop,
+                    PaletteDragFeedback.Square);
+            }
 
             // Setup window so that it is transparent to the Silver color and does not have any borders etc...
             BackColor = Color.Silver;
@@ -63,9 +68,9 @@ namespace Krypton.Navigator
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.Manual;
-            Text = "DropIndicators";
+            Text = @"DropIndicators";
             TransparencyKey = Color.Silver;
-            Paint += DropIndicators_Paint;
+            Paint += DropIndicators_Paint!;
         }
         #endregion
 
@@ -174,7 +179,10 @@ namespace Krypton.Navigator
         private void DropIndicators_Paint(object sender, PaintEventArgs e)
         {
             using RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer);
-            _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Square);
+            if (_renderer != null)
+            {
+                _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Square);
+            }
         }
 
         private void DrawPath(Graphics g, Color baseColor, GraphicsPath path)

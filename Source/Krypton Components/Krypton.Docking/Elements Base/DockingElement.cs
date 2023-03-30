@@ -562,9 +562,9 @@ namespace Krypton.Docking
             DemandDockingManager();
 
             // We always allow store pages but check that others are not already present in the docking hierarchy
-            if ( pages != null 
+            if (pages != null
                  && DockingManager != null
-                 && pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)) )
+                 && pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)))
             {
                 throw new ArgumentOutOfRangeException(nameof(pages), @"Cannot perform operation with a page that is already present inside docking hierarchy");
             }

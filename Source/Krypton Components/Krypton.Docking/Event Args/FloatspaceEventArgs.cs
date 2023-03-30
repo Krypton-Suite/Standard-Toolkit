@@ -23,7 +23,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="floatspace">Reference to new floatspace control instance.</param>
         /// <param name="element">Reference to docking floatspace element that is managing the floatspace control.</param>
-        public FloatspaceEventArgs(KryptonFloatspace floatspace,
+        public FloatspaceEventArgs(KryptonFloatspace? floatspace,
                                    KryptonDockingFloatspace element)
         {
             FloatspaceControl = floatspace;
@@ -35,7 +35,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets a reference to the KryptonFloatspace control..
         /// </summary>
-        public KryptonFloatspace FloatspaceControl { get; }
+        public KryptonFloatspace? FloatspaceControl { get; }
 
         /// <summary>
         /// Gets a reference to the KryptonDockingFloatspace that is managing the space control.

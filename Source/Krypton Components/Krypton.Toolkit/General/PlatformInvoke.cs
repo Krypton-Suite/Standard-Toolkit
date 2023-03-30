@@ -23,6 +23,9 @@ using Microsoft.Win32.SafeHandles;
 // ReSharper disable CommentTypo
 // ReSharper disable UnusedType.Local
 // ReSharper disable MemberHidesStaticFromOuterClass
+// ReSharper disable EnumUnderlyingTypeIsInt
+// ReSharper disable UnusedParameter.Local
+// ReSharper disable UnusedVariable
 
 #pragma warning disable 649
 
@@ -3867,7 +3870,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         }
 
         // Constant "FieldInfo" for getting the nativeImage from the Bitmap
-        private static readonly FieldInfo FIELD_INFO_NATIVE_IMAGE = typeof(Bitmap).GetField(@"nativeImage", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo FIELD_INFO_NATIVE_IMAGE = typeof(Bitmap).GetField(@"nativeImage", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic)!;
         /// <summary>
         /// Get the nativeImage field from the bitmap
         /// </summary>

@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -18,9 +19,9 @@ namespace Krypton.Navigator
     public class NavigatorBar : Storage
     {
         #region Static Fields
-        private const int _defaultBarMinimumHeight = 21;
-        private const int _defaultBarFirstItemInset = 0;
-        private const int _defaultBarLastItemInset = 0;
+        private const int DEFAULT_BAR_MINIMUM_HEIGHT = 21;
+        private const int DEFAULT_BAR_FIRST_ITEM_INSET = 0;
+        private const int DEFAULT_BAR_LAST_ITEM_INSET = 0;
         private static readonly Size _defaultItemMinimumSize = new(20, 20);
         private static readonly Size _defaultItemMaximumSize = new(200, 200);
         #endregion
@@ -56,7 +57,7 @@ namespace Krypton.Navigator
                             NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
-            
+
             // Remember back reference
             _navigator = navigator;
 
@@ -68,7 +69,7 @@ namespace Krypton.Navigator
             _barFirstItemInset = 0;
             _barLastItemInset = 0;
             _barOrientation = VisualOrientation.Top;
-            _barMinimumHeight = _defaultBarMinimumHeight;
+            _barMinimumHeight = DEFAULT_BAR_MINIMUM_HEIGHT;
             _barMultiline = BarMultiline.Singleline;
             _checkButtonStyle = ButtonStyle.Standalone;
             _tabStyle = TabStyle.HighProfile;
@@ -92,8 +93,8 @@ namespace Krypton.Navigator
         public override bool IsDefault => ((CheckButtonStyle == ButtonStyle.Standalone) &&
                                            (TabStyle == TabStyle.HighProfile) &&
                                            (TabBorderStyle == TabBorderStyle.RoundedOutsizeMedium) &&
-                                           (BarFirstItemInset == _defaultBarFirstItemInset) &&
-                                           (BarLastItemInset == _defaultBarLastItemInset) &&
+                                           (BarFirstItemInset == DEFAULT_BAR_FIRST_ITEM_INSET) &&
+                                           (BarLastItemInset == DEFAULT_BAR_LAST_ITEM_INSET) &&
                                            (BarMapImage == MapKryptonPageImage.Small) &&
                                            (BarMapText == MapKryptonPageText.TextTitle) &&
                                            (BarMapExtraText == MapKryptonPageText.None) &&
@@ -103,7 +104,7 @@ namespace Krypton.Navigator
                                            (ItemMaximumSize == _defaultItemMaximumSize) &&
                                            (ItemOrientation == ButtonOrientation.Auto) &&
                                            (ItemAlignment == RelativePositionAlign.Near) &&
-                                           (BarMinimumHeight == _defaultBarMinimumHeight) &&
+                                           (BarMinimumHeight == DEFAULT_BAR_MINIMUM_HEIGHT) &&
                                            BarAnimation &&
                                            (BarMultiline == BarMultiline.Singleline));
 
@@ -198,7 +199,7 @@ namespace Krypton.Navigator
         /// </summary>
         public void ResetBarFirstItemInset()
         {
-            BarFirstItemInset = _defaultBarFirstItemInset;
+            BarFirstItemInset = DEFAULT_BAR_FIRST_ITEM_INSET;
         }
         #endregion
 
@@ -229,7 +230,7 @@ namespace Krypton.Navigator
         /// </summary>
         public void ResetBarLastItemInset()
         {
-            BarLastItemInset = _defaultBarLastItemInset;
+            BarLastItemInset = DEFAULT_BAR_LAST_ITEM_INSET;
         }
         #endregion
 
@@ -260,7 +261,7 @@ namespace Krypton.Navigator
         /// </summary>
         public void ResetBarMinimumHeight()
         {
-            BarMinimumHeight = _defaultBarMinimumHeight;
+            BarMinimumHeight = DEFAULT_BAR_MINIMUM_HEIGHT;
         }
         #endregion
 

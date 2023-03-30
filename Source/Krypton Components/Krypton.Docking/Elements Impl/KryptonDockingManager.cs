@@ -14,6 +14,7 @@
 // ReSharper disable MemberCanBeProtected.Global
 
 // ReSharper disable EventNeverSubscribedTo.Global
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Docking
 {
     /// <summary>
@@ -1128,7 +1129,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Reference to page.</param>
         /// <returns>Enumeration value indicating docking location.</returns>
-        public DockingLocation FindPageLocation([DisallowNull] KryptonPage page)
+        public DockingLocation FindPageLocation([DisallowNull] KryptonPage? page)
         {
             // Cannot find a null reference
             if (page == null)
@@ -1207,7 +1208,7 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="page">Reference to page.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public IDockingElement? FindStorePageElement(DockingLocation location,[DisallowNull]  KryptonPage page)
+        public IDockingElement? FindStorePageElement(DockingLocation location, [DisallowNull] KryptonPage page)
         {
             // Cannot find a null reference
             if (page == null)
@@ -1276,18 +1277,18 @@ namespace Krypton.Docking
                     return edge;
                 // If exists as a auto hidden group page...
                 case KryptonDockingAutoHiddenGroup:
-                {
-                    if (element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge)
                     {
-                        // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
-                        if (edge[@"Docked"] is KryptonDockingEdgeDocked edgeDocked)
+                        if (element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge)
                         {
-                            return edgeDocked;
+                            // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
+                            if (edge[@"Docked"] is KryptonDockingEdgeDocked edgeDocked)
+                            {
+                                return edgeDocked;
+                            }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             // First preference is to find an existing store page inside a dockspace element
@@ -1332,18 +1333,18 @@ namespace Krypton.Docking
             {
                 // If exists as a dockspace page...
                 case KryptonDockingDockspace:
-                {
-                    if (element.GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge edge)
                     {
-                        // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
-                        if (edge[@"AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
+                        if (element.GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge edge)
                         {
-                            return edgeAutoHidden;
+                            // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
+                            if (edge[@"AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
+                            {
+                                return edgeAutoHidden;
+                            }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
                 // If exists as a auto hidden group page...
                 // Find the edge the dockspace is against and return the matching auto hidden edge
                 case KryptonDockingAutoHiddenGroup when element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge:
@@ -1507,7 +1508,7 @@ namespace Krypton.Docking
                         {
                             // Find the target index of the restore page
                             KryptonAutoHiddenGroup control = restoreElement.AutoHiddenGroupControl;
-                            var pageIndex = control.Pages.IndexOf(control.Pages[uniqueName]);
+                            var pageIndex = control.Pages.IndexOf(control.Pages[uniqueName]!);
 
                             // Insert the page at the same index as the restore page
                             control.Pages.Insert(pageIndex, new KryptonAutoHiddenProxyPage(page));
@@ -1573,7 +1574,7 @@ namespace Krypton.Docking
                             KryptonWorkspaceCell? cell = restoreElement.CellForPage(uniqueName);
                             if (cell != null)
                             {
-                                int pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
+                                int pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]!);
 
                                 // Insert the page at the same index as the restore page
                                 restoreElement.CellInsert(cell, pageIndex, new[] { page });
@@ -1614,7 +1615,7 @@ namespace Krypton.Docking
             }
 
             // If the named page exists and is not already floating
-            if (ContainsPage(uniqueName) 
+            if (ContainsPage(uniqueName)
                 && (FindPageLocation(uniqueName) != DockingLocation.Floating)
                 )
             {
@@ -1648,7 +1649,7 @@ namespace Krypton.Docking
                             KryptonWorkspaceCell? cell = restoreElement.CellForPage(uniqueName);
                             if (cell != null)
                             {
-                                int pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
+                                int pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]!);
 
                                 // Insert the page at the same index as the restore page
                                 restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, new[] { page });
@@ -1688,7 +1689,7 @@ namespace Krypton.Docking
             }
 
             // If the named page exists and is not already workspace tabbed
-            if (ContainsPage(uniqueName) 
+            if (ContainsPage(uniqueName)
                 && (FindPageLocation(uniqueName) != DockingLocation.Workspace)
                 )
             {
@@ -1720,7 +1721,7 @@ namespace Krypton.Docking
                         if (cell != null)
                         {
                             // Insert the page at the same index as the restore page
-                            var pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
+                            var pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]!);
                             workspaceElement.CellInsert(cell, pageIndex, new[] { page });
                             workspaceElement.SelectPage(uniqueName);
                             workspaceElement.DockableWorkspaceControl?.Select();
@@ -1756,7 +1757,7 @@ namespace Krypton.Docking
             }
 
             // If the named page exists and is not already navigator tabbed
-            if (ContainsPage(uniqueName) 
+            if (ContainsPage(uniqueName)
                 && (FindPageLocation(uniqueName) != DockingLocation.Navigator)
                 )
             {
@@ -1815,7 +1816,7 @@ namespace Krypton.Docking
         /// <param name="page">Reference to page.</param>
         /// <param name="kcm">Reference to context menu.</param>
         /// <returns>True if the context menu should be displayed; otherwise false.</returns>
-        public virtual bool ShowPageContextMenuRequest([DisallowNull] KryptonPage page, [DisallowNull] KryptonContextMenu kcm)
+        public virtual bool ShowPageContextMenuRequest([DisallowNull] KryptonPage? page, [DisallowNull] KryptonContextMenu kcm)
         {
             // Cannot action a null reference
             if (page == null)
@@ -2114,7 +2115,7 @@ namespace Krypton.Docking
                             KryptonWorkspaceCell? cell = restoreElement.CellForPage(switchUniqueName);
                             if (cell != null)
                             {
-                                int pageIndex = cell.Pages.IndexOf(cell.Pages[switchUniqueName]);
+                                int pageIndex = cell.Pages.IndexOf(cell.Pages[switchUniqueName]!);
 
                                 // Insert the set of pages at the same index as the restore page
                                 restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, switchPages.ToArray());
@@ -2240,7 +2241,7 @@ namespace Krypton.Docking
                         KryptonWorkspaceCell? cell = restoreElement.CellForPage(switchUniqueName);
                         if (cell != null)
                         {
-                            int pageIndex = cell.Pages.IndexOf(cell.Pages[switchUniqueName]);
+                            int pageIndex = cell.Pages.IndexOf(cell.Pages[switchUniqueName]!);
 
                             // Insert the set of pages at the same index as the restore page
                             restoreElement.CellInsert(cell, pageIndex, switchPages[i]);
@@ -2379,7 +2380,11 @@ namespace Krypton.Docking
                     }
 
                     // Position the new floating window close to the existing one
-                    floatingElement.FloatingWindow.Location = currentElement.FloatspaceControl.PointToScreen(Point.Empty);
+                    if (currentElement != null)
+                    {
+                        floatingElement.FloatingWindow.Location =
+                            currentElement.FloatspaceControl.PointToScreen(Point.Empty);
+                    }
                     floatingElement.FloatingWindow.Show();
 
                     return floatingElement;
@@ -2593,7 +2598,10 @@ namespace Krypton.Docking
                         cell.Pages.AddRange(pageArray);
 
                         // Add into the root collection so the cells appear in a stack
-                        dockspace.DockspaceControl.Root.Children.Add(cell);
+                        if (dockspace.DockspaceControl.Root.Children != null)
+                        {
+                            dockspace.DockspaceControl.Root.Children.Add(cell);
+                        }
                     }
                 }
 
@@ -2923,7 +2931,10 @@ namespace Krypton.Docking
                         cell.Pages.AddRange(pageArray);
 
                         // Add into the root collection so the cells appear in a stack
-                        dockspace.DockspaceControl.Root.Children.Add(cell);
+                        if (dockspace.DockspaceControl.Root.Children != null)
+                        {
+                            dockspace.DockspaceControl.Root.Children.Add(cell);
+                        }
                     }
                 }
 
@@ -3025,7 +3036,7 @@ namespace Krypton.Docking
         /// <param name="elementOffset">Offset from top left of element causing the drag.</param>
         /// <param name="c">Control that started the drag operation.</param>
         /// <param name="pages">Set of pages requested to be dragged.</param>
-        public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control c, 
+        public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control c,
             [DisallowNull] KryptonPageCollection pages)
         {
             // Cannot drag a null reference
@@ -3081,7 +3092,7 @@ namespace Krypton.Docking
                         {
                             FloatingWindow.Visible: false
                         } floatingWindow)
-                        // If the floating window is not currently visible...
+                    // If the floating window is not currently visible...
                     {
                         using DockingMultiUpdate update = new(this);
                         //...then we can use it for dragging. We want the floating window to become visible and show just the set of pages
@@ -3098,9 +3109,9 @@ namespace Krypton.Docking
                         // Make a list of all pages that should be appended to the floating window
                         var appendUniqueNames = new List<string>();
                         var appendPages = new List<KryptonPage>();
-                        foreach (KryptonPage page in pages.Where(page => 
-                                     page is not KryptonStorePage 
-                                     && (page != firstFloatingPage) 
+                        foreach (KryptonPage page in pages.Where(page =>
+                                     page is not KryptonStorePage
+                                     && (page != firstFloatingPage)
                                      && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
                                 )
                         {
@@ -3134,7 +3145,7 @@ namespace Krypton.Docking
                         // Make a list of all pages that should be appended to the floating window
                         var appendUniqueNames = new List<string>();
                         var appendPages = new List<KryptonPage>();
-                        foreach (KryptonPage page in pages.Where(static page => page is not KryptonStorePage 
+                        foreach (KryptonPage page in pages.Where(static page => page is not KryptonStorePage
                                      && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
                                  )
                         {
@@ -3169,7 +3180,7 @@ namespace Krypton.Docking
         /// <param name="elementOffset">Offset from top left of element causing the drag.</param>
         /// <param name="c">Control that started the drag operation.</param>
         /// <param name="window">Reference to floating window element that should be dragged.</param>
-        public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control? c, 
+        public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control? c,
             [DisallowNull] KryptonDockingFloatingWindow window)
         {
             // Cannot drag a null reference
@@ -3662,25 +3673,25 @@ namespace Krypton.Docking
             switch (FindPageLocation(uniqueName))
             {
                 case DockingLocation.Docked:
-                {
-                    // Unique name page must be inside a Dockspace instance
-                    KryptonDockingDockspace? dockspace = FindPageElement(uniqueName) as KryptonDockingDockspace;
-                    // Find the cell containing the unique name page
-                    return dockspace?.CellForPage(uniqueName);
-                }
+                    {
+                        // Unique name page must be inside a Dockspace instance
+                        KryptonDockingDockspace? dockspace = FindPageElement(uniqueName) as KryptonDockingDockspace;
+                        // Find the cell containing the unique name page
+                        return dockspace?.CellForPage(uniqueName);
+                    }
                 case DockingLocation.Floating:
-                {
-                    // Unique name page must be inside a Dockspace instance
-                    KryptonDockingFloatspace? floatspace = FindPageElement(uniqueName) as KryptonDockingFloatspace;
-                    // Find the cell containing the unique name page
-                    return floatspace?.CellForPage(uniqueName);
-                }
+                    {
+                        // Unique name page must be inside a Dockspace instance
+                        KryptonDockingFloatspace? floatspace = FindPageElement(uniqueName) as KryptonDockingFloatspace;
+                        // Find the cell containing the unique name page
+                        return floatspace?.CellForPage(uniqueName);
+                    }
                 case DockingLocation.Workspace:
-                {
-                    KryptonDockingWorkspace? workspace = FindPageElement(uniqueName) as KryptonDockingWorkspace;
-                    // Find the cell containing the unique name page
-                    return workspace?.CellForPage(uniqueName);
-                }
+                    {
+                        KryptonDockingWorkspace? workspace = FindPageElement(uniqueName) as KryptonDockingWorkspace;
+                        // Find the cell containing the unique name page
+                        return workspace?.CellForPage(uniqueName);
+                    }
                 case DockingLocation.AutoHidden:
                 case DockingLocation.Navigator:
                 case DockingLocation.Custom:
@@ -4205,7 +4216,7 @@ namespace Krypton.Docking
         private void OnDropDownCloseClicked(object sender, EventArgs e)
         {
             KryptonContextMenuItem closeItem = (KryptonContextMenuItem)sender;
-            CloseRequest(new[] { (string)closeItem.Tag });
+            CloseRequest(new[] { (string)closeItem.Tag! });
         }
 
         private static KryptonPage[] ArrayFromCollection(KryptonPageCollection pages)

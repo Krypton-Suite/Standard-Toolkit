@@ -58,7 +58,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
         /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
-        public override KryptonDockingFloating? FindDockingFloating(string uniqueName) => this;
+        public override KryptonDockingFloating FindDockingFloating(string uniqueName) => this;
 
         /// <summary>
         /// Return the floating window element that contains a placeholder for the named page.

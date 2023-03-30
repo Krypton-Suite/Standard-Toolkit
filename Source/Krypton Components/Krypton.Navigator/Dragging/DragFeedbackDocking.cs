@@ -116,20 +116,20 @@ namespace Krypton.Navigator
                 {
                     // Create the docking indicators the first time needed
                     _indicators ??= dragFeedback switch
-                                    {
-                                        PaletteDragFeedback.Rounded => new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-                                            _hintToTarget.ContainsKey(DragTargetHint.Transfer)),
-                                        _ => new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-                                            _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-                                            _hintToTarget.ContainsKey(DragTargetHint.Transfer))
-                                    };
+                    {
+                        PaletteDragFeedback.Rounded => new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.Transfer)),
+                        _ => new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+                            _hintToTarget != null && _hintToTarget.ContainsKey(DragTargetHint.Transfer))
+                    };
 
                     // Ensure window is Displayed in correct location
                     _indicators.ShowRelative(ScreenRect);
@@ -137,11 +137,11 @@ namespace Krypton.Navigator
                     // Hit test against indicators and update display
                     return _indicators.ScreenMouseMove(screenPt) switch
                     {
-                        0x0040 => _hintToTarget[DragTargetHint.EdgeLeft],
-                        0x0080 => _hintToTarget[DragTargetHint.EdgeRight],
-                        0x0100 => _hintToTarget[DragTargetHint.EdgeTop],
-                        0x0200 => _hintToTarget[DragTargetHint.EdgeBottom],
-                        0x0400 => _hintToTarget[DragTargetHint.Transfer],
+                        0x0040 => _hintToTarget![DragTargetHint.EdgeLeft],
+                        0x0080 => _hintToTarget![DragTargetHint.EdgeRight],
+                        0x0100 => _hintToTarget![DragTargetHint.EdgeTop],
+                        0x0200 => _hintToTarget![DragTargetHint.EdgeBottom],
+                        0x0400 => _hintToTarget![DragTargetHint.Transfer],
                         _ => null // Mouse is not over any of the targets
                     };
                 }
@@ -213,39 +213,43 @@ namespace Krypton.Navigator
         /// <param name="dragTargets">List of all drag targets.</param>
         public override void Start(IPaletteDragDrop paletteDragDrop,
                                    IRenderer renderer,
-                                   PageDragEndData? pageDragEndData, 
+                                   PageDragEndData? pageDragEndData,
                                    DragTargetList dragTargets)
         {
-            base.Start(paletteDragDrop, renderer, pageDragEndData, dragTargets);
-
-            if (_solid == null)
+            if (pageDragEndData != null)
             {
-                // Create and show a solid feedback window without it taking focus
-                _solid = new DropSolidWindow(PaletteDragDrop, Renderer);
-                _solid.SetBounds(0, 0, 1, 1, BoundsSpecified.All);
-                _solid.ShowWithoutActivate();
-                _solid.Refresh();
-            }
+                base.Start(paletteDragDrop, renderer, pageDragEndData, dragTargets);
 
-            ClearClusters();
-
-            // Create clusters of related drag targets
-            foreach (DragTarget target in dragTargets)
-            {
-                // Check if the target is actually able to drop inside itself
-                if (target.IsMatch(target.HotRect.Location, pageDragEndData))
+                if (_solid == null)
                 {
-                    // Find the existing cluster for the targets screen rectangle
-                    DockCluster? cluster = FindTargetCluster(target);
+                    // Create and show a solid feedback window without it taking focus
+                    _solid = new DropSolidWindow(PaletteDragDrop, Renderer);
+                    _solid.SetBounds(0, 0, 1, 1, BoundsSpecified.All);
+                    _solid.ShowWithoutActivate();
+                    _solid.Refresh();
+                }
 
-                    // Is the target allowed to be added to the found cluster (if there is one found)
-                    if ((cluster == null) || cluster.ExcludeCluster || ((target.Hint & DragTargetHint.ExcludeCluster) == DragTargetHint.ExcludeCluster))
+                ClearClusters();
+
+                // Create clusters of related drag targets
+                foreach (DragTarget target in dragTargets)
+                {
+                    // Check if the target is actually able to drop inside itself
+                    if (target.IsMatch(target.HotRect.Location, pageDragEndData))
                     {
-                        _clusters.Add(new DockCluster(PaletteDragDrop, Renderer, target));
-                    }
-                    else
-                    {
-                        cluster.Add(target);
+                        // Find the existing cluster for the targets screen rectangle
+                        DockCluster? cluster = FindTargetCluster(target);
+
+                        // Is the target allowed to be added to the found cluster (if there is one found)
+                        if ((cluster == null) || cluster.ExcludeCluster ||
+                            ((target.Hint & DragTargetHint.ExcludeCluster) == DragTargetHint.ExcludeCluster))
+                        {
+                            _clusters.Add(new DockCluster(PaletteDragDrop, Renderer, target));
+                        }
+                        else
+                        {
+                            cluster.Add(target);
+                        }
                     }
                 }
             }
@@ -260,7 +264,7 @@ namespace Krypton.Navigator
         public override DragTarget? Feedback(Point screenPt, DragTarget? target)
         {
             DragTarget? matchTarget = null;
-            
+
             // Update each cluster so it shows/hides docking indicators based on mouse position
             foreach (DragTarget? clusterTarget in _clusters
                          .Select(cluster => cluster.Feedback(screenPt, _dragFeedback))
@@ -292,7 +296,7 @@ namespace Krypton.Navigator
             }
 
             ClearClusters();
-            
+
             base.Quit();
         }
         #endregion
@@ -311,7 +315,7 @@ namespace Krypton.Navigator
 
         private DockCluster? FindTargetCluster(DragTarget target)
         {
-            return _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster.ScreenRect.Equals(target.ScreenRect));
+            return _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster != null && cluster.ScreenRect.Equals(target.ScreenRect));
         }
 
         private DragTarget? FindTarget(Point screenPt, PageDragEndData dragEndData) =>

@@ -129,7 +129,7 @@ namespace Krypton.Docking
             {
                 case DockingPropogateAction.ShowPages:
                 case DockingPropogateAction.HidePages:
-                    if ( uniqueNames != null )
+                    if (uniqueNames != null)
                     {
                         var newVisible = (action == DockingPropogateAction.ShowPages);
                         // Update visible state of pages that are not placeholders
@@ -602,7 +602,10 @@ namespace Krypton.Docking
 
             // Generate event so custom data can be loaded and/or the page to be added can be modified
             var pageLoading = new DockPageLoadingEventArgs(manager, xmlReader, page);
-            manager.RaisePageLoading(pageLoading);
+            if (manager != null)
+            {
+                manager.RaisePageLoading(pageLoading);
+            }
 
             // Read everything until we get the end of custom data marker
             while (!finished)
@@ -664,14 +667,20 @@ namespace Krypton.Docking
         {
             // The auto hidden group contains proxy pages and not the real pages
             KryptonAutoHiddenProxyPage? proxyPage = e.Item as KryptonAutoHiddenProxyPage;
-            OnPageClicked(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            if (proxyPage != null)
+            {
+                OnPageClicked(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            }
         }
 
         private void OnAutoHiddenGroupHoverStart(object sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
             KryptonAutoHiddenProxyPage? proxyPage = e.Item as KryptonAutoHiddenProxyPage;
-            OnPageHoverStart(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            if (proxyPage != null)
+            {
+                OnPageHoverStart(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            }
         }
 
         private void OnAutoHiddenGroupHoverEnd(object sender, EventArgs e)

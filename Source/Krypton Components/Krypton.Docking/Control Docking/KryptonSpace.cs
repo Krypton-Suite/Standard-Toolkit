@@ -143,8 +143,8 @@ namespace Krypton.Docking
             _lookupCellState = new();
 
             // Create delegates so processing happens sync'd with the message queue
-            _visibleUpdate = OnVisibleUpdate!;
-            _focusUpdate = OnFocusUpdate!;
+            _visibleUpdate = OnVisibleUpdate;
+            _focusUpdate = OnFocusUpdate;
             _awaitingFocusUpdate = false;
             AutoHiddenHost = false;
             _closeTooltip = "Close";
@@ -446,13 +446,13 @@ namespace Krypton.Docking
             }
 
             // Hook into cell specific events
-            cell.ShowContextMenu += OnCellShowContextMenu!;
-            cell.SelectedPageChanged += OnCellSelectedPageChanged!;
-            cell.PrimaryHeaderLeftClicked += OnCellPrimaryHeaderLeftClicked!;
-            cell.PrimaryHeaderRightClicked += OnCellPrimaryHeaderRightClicked!;
-            cell.PrimaryHeaderDoubleClicked += OnCellPrimaryHeaderDoubleClicked!;
-            cell.TabDoubleClicked += OnCellTabDoubleClicked!;
-            cell.TabVisibleCountChanged += OnCellTabVisibleCountChanged!;
+            cell.ShowContextMenu += OnCellShowContextMenu;
+            cell.SelectedPageChanged += OnCellSelectedPageChanged;
+            cell.PrimaryHeaderLeftClicked += OnCellPrimaryHeaderLeftClicked;
+            cell.PrimaryHeaderRightClicked += OnCellPrimaryHeaderRightClicked;
+            cell.PrimaryHeaderDoubleClicked += OnCellPrimaryHeaderDoubleClicked;
+            cell.TabDoubleClicked += OnCellTabDoubleClicked;
+            cell.TabVisibleCountChanged += OnCellTabVisibleCountChanged;
             cell.Pages.Inserting += OnCellPagesInserting;
 
             // Create and store per-cell cached state
@@ -494,13 +494,13 @@ namespace Krypton.Docking
             FocusMonitorControl(cell, false);
 
             // Unhook from events so the cell can be garbage collected
-            cell.ShowContextMenu -= OnCellShowContextMenu!;
-            cell.SelectedPageChanged -= OnCellSelectedPageChanged!;
-            cell.PrimaryHeaderLeftClicked -= OnCellPrimaryHeaderLeftClicked!;
-            cell.PrimaryHeaderRightClicked -= OnCellPrimaryHeaderRightClicked!;
-            cell.PrimaryHeaderDoubleClicked -= OnCellPrimaryHeaderDoubleClicked!;
-            cell.TabDoubleClicked -= OnCellTabDoubleClicked!;
-            cell.TabVisibleCountChanged -= OnCellTabVisibleCountChanged!;
+            cell.ShowContextMenu -= OnCellShowContextMenu;
+            cell.SelectedPageChanged -= OnCellSelectedPageChanged;
+            cell.PrimaryHeaderLeftClicked -= OnCellPrimaryHeaderLeftClicked;
+            cell.PrimaryHeaderRightClicked -= OnCellPrimaryHeaderRightClicked;
+            cell.PrimaryHeaderDoubleClicked -= OnCellPrimaryHeaderDoubleClicked;
+            cell.TabDoubleClicked -= OnCellTabDoubleClicked;
+            cell.TabVisibleCountChanged -= OnCellTabVisibleCountChanged;
             cell.Pages.Inserting -= OnCellPagesInserting;
 
             // Remove the per-cell cached state
@@ -528,7 +528,7 @@ namespace Krypton.Docking
                         ToolTipTitle = DropDownTooltip,
                         KryptonContextMenu = new()
                     };
-                    cellState.DropDownButtonSpec.KryptonContextMenu.Opening += OnCellDropDownOpening!;
+                    cellState.DropDownButtonSpec.KryptonContextMenu.Opening += OnCellDropDownOpening;
                     cell.Button.ButtonSpecs.Add(cellState.DropDownButtonSpec);
                 }
 
@@ -547,7 +547,7 @@ namespace Krypton.Docking
                         Type = (AutoHiddenHost ? PaletteButtonSpecStyle.PinHorizontal : PaletteButtonSpecStyle.PinVertical),
                         ToolTipTitle = PinTooltip
                     };
-                    cellState.PinButtonSpec.Click += OnCellAutoHiddenAction!;
+                    cellState.PinButtonSpec.Click += OnCellAutoHiddenAction;
                     cell.Button.ButtonSpecs.Add(cellState.PinButtonSpec);
                 }
 
@@ -573,7 +573,7 @@ namespace Krypton.Docking
                         Type = PaletteButtonSpecStyle.Close,
                         ToolTipTitle = CloseTooltip
                     };
-                    cellState.CloseButtonSpec.Click += OnCellCloseAction!;
+                    cellState.CloseButtonSpec.Click += OnCellCloseAction;
                     cell.Button.ButtonSpecs.Add(cellState.CloseButtonSpec);
                 }
 
@@ -589,17 +589,17 @@ namespace Krypton.Docking
             // Hook/Unhook this control
             if (adding)
             {
-                c.GotFocus += OnFocusChanged!;
-                c.LostFocus += OnFocusChanged!;
-                c.ControlAdded += OnFocusControlAdded!;
-                c.ControlRemoved += OnFocusControlRemoved!;
+                c.GotFocus += OnFocusChanged;
+                c.LostFocus += OnFocusChanged;
+                c.ControlAdded += OnFocusControlAdded;
+                c.ControlRemoved += OnFocusControlRemoved;
             }
             else
             {
-                c.GotFocus -= OnFocusChanged!;
-                c.LostFocus -= OnFocusChanged!;
-                c.ControlAdded -= OnFocusControlAdded!;
-                c.ControlRemoved -= OnFocusControlRemoved!;
+                c.GotFocus -= OnFocusChanged;
+                c.LostFocus -= OnFocusChanged;
+                c.ControlAdded -= OnFocusControlAdded;
+                c.ControlRemoved -= OnFocusControlRemoved;
             }
 
             // Monitor all the child controls as well

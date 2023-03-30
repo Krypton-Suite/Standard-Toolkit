@@ -24,7 +24,7 @@ namespace Krypton.Docking
         /// <param name="manager">Reference to owning docking manager instance.</param>
         /// <param name="xmlWriter">Xml writer for persisting custom data.</param>
         /// <param name="page">Reference to page being saved.</param>
-        public DockPageSavingEventArgs(KryptonDockingManager manager,
+        public DockPageSavingEventArgs(KryptonDockingManager? manager,
                                        XmlWriter xmlWriter,
                                        KryptonPage page)
             : base(manager, xmlWriter) =>

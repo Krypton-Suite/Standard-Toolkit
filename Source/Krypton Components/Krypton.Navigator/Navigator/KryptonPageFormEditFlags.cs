@@ -15,7 +15,7 @@ namespace Krypton.Navigator
     internal partial class KryptonPageFormEditFlags : KryptonForm
     {
         #region Instance Fields
-        private readonly KryptonPage _page;
+        private readonly KryptonPage? _page;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the KryptonPageFormEditFlags class.
         /// </summary>
         /// <param name="page">Reference to page to display flags for.</param>
-        public KryptonPageFormEditFlags(KryptonPage page)
+        public KryptonPageFormEditFlags(KryptonPage? page)
         {
             _page = page;
             InitializeComponent();

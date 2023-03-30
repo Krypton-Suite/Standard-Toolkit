@@ -39,6 +39,11 @@ namespace Krypton.Navigator
         {
             Debug.Assert(value != null);
 
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             // Cast to correct type
 
             // We only allow KryptonPage controls to be added
