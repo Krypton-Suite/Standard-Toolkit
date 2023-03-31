@@ -144,7 +144,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
+        public virtual void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
         {
             int countToUse = Math.Min(Count, uniqueNames?.Length ?? 0);
             // Propagate the action request to all the child elements

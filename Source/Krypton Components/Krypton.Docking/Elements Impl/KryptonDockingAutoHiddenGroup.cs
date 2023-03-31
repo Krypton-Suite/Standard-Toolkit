@@ -55,12 +55,12 @@ namespace Krypton.Docking
 
             // Create a control that will draw tabs for auto hidden pages
             AutoHiddenGroupControl = new KryptonAutoHiddenGroup(edge);
-            AutoHiddenGroupControl.StoringPage += OnAutoHiddenGroupStoringPage;
-            AutoHiddenGroupControl.TabClicked += OnAutoHiddenGroupTabClicked;
-            AutoHiddenGroupControl.TabMouseHoverStart += OnAutoHiddenGroupHoverStart;
-            AutoHiddenGroupControl.TabMouseHoverEnd += OnAutoHiddenGroupHoverEnd;
-            AutoHiddenGroupControl.TabVisibleCountChanged += OnAutoHiddenGroupTabVisibleCountChanged;
-            AutoHiddenGroupControl.Disposed += OnAutoHiddenGroupDisposed;
+            AutoHiddenGroupControl.StoringPage += OnAutoHiddenGroupStoringPage!;
+            AutoHiddenGroupControl.TabClicked += OnAutoHiddenGroupTabClicked!;
+            AutoHiddenGroupControl.TabMouseHoverStart += OnAutoHiddenGroupHoverStart!;
+            AutoHiddenGroupControl.TabMouseHoverEnd += OnAutoHiddenGroupHoverEnd!;
+            AutoHiddenGroupControl.TabVisibleCountChanged += OnAutoHiddenGroupTabVisibleCountChanged!;
+            AutoHiddenGroupControl.Disposed += OnAutoHiddenGroupDisposed!;
         }
         #endregion
 
@@ -123,7 +123,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
         {
             switch (action)
             {
