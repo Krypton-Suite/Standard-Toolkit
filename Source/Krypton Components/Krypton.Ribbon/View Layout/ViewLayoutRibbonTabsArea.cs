@@ -55,8 +55,8 @@ namespace Krypton.Ribbon
         private ViewLayoutRibbonSeparator _rightSeparator;
         private readonly ViewDrawRibbonCaptionArea _captionArea;
         private readonly ViewLayoutRibbonContextTitles _layoutContexts;
-        private readonly AppButtonController _appButtonController;
-        private readonly AppTabController _appTabController;
+        private readonly AppButtonController? _appButtonController;
+        private readonly AppTabController? _appTabController;
         private VisualPopupToolTip? _visualPopupToolTip;
         private VisualPopupAppMenu? _appMenu;
         private DateTime _lastAppButtonClick;

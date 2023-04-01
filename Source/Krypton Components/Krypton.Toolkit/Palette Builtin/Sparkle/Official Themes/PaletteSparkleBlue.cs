@@ -306,14 +306,17 @@ namespace Krypton.Toolkit
             _checkBoxList.ImageSize = new Size(13, 13);
             _checkBoxList.ColorDepth = ColorDepth.Depth24Bit;
             _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkle);
-            _radioButtonArray = new Image[]{SparkleBlueRadioButtonResources.RadioButtonSparkleD,
-                                            SparkleBlueRadioButtonResources.RadioButtonSparkleN,
-                                            SparkleBlueRadioButtonResources.RadioButtonSparkleT,
-                                            SparkleGeneralRadioButtonResources.RadioButtonSparkleP,
-                                            SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
-                                            SparkleBlueRadioButtonResources.RadioButtonSparkleNC,
-                                            SparkleBlueRadioButtonResources.RadioButtonSparkleTC,
-                                            SparkleGeneralRadioButtonResources.RadioButtonSparklePC};
+            _radioButtonArray = new Image[]
+            {
+                SparkleRadioButtonImageResources.RadioButtonSparkleD,
+                SparkleRadioButtonImageResources.RadioButtonSparkleN,
+                SparkleRadioButtonImageResources.RadioButtonSparkleT,
+                SparkleRadioButtonImageResources.RadioButtonSparkleP,
+                SparkleRadioButtonImageResources.RadioButtonSparkleDC,
+                SparkleRadioButtonImageResources.RadioButtonSparkleNC,
+                SparkleRadioButtonImageResources.RadioButtonSparkleTC,
+                SparkleRadioButtonImageResources.RadioButtonSparklePC
+            };
         }
 
         /// <summary>

@@ -84,7 +84,7 @@ namespace Krypton.Navigator
                     // Always enabled
                     return ButtonEnabled.True;
                 case ButtonDisplay.Logic:
-                    return Navigator.ViewBuilder.NextActionEnabled(Navigator.Button.NextButtonAction);
+                    return Navigator.ViewBuilder!.NextActionEnabled(Navigator.Button.NextButtonAction);
                 default:
                     // Should never happen!
                     Debug.Assert(false);

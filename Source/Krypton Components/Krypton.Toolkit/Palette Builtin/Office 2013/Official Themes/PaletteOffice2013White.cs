@@ -34,74 +34,34 @@ namespace Krypton.Toolkit
 
         #region Images
 
-        private static readonly Image _silverDropDownButton = Office2010Arrows._2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
+        private static readonly Image _silverDropDownButton = Office2010ArrowResources._2010BlueDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources._2010BlueContextMenuSub;
         private static readonly Image _formCloseNormal = Office2013ControlBoxResources.Office2013CloseNormal;
         private static readonly Image _formCloseDisabled = Office2013ControlBoxResources.Office2013CloseDisabled;
-        private static readonly Image _formCloseHover = Office2013ControlBoxResources.Office2013CloseActive;
+        private static readonly Image _formCloseActive = Office2013ControlBoxResources.Office2013CloseActive;
         private static readonly Image _formClosePressed = Office2013ControlBoxResources.Office2013ClosePressed;
         private static readonly Image _formMaximiseNormal = Office2013ControlBoxResources.Office2013MaximiseNormal;
         private static readonly Image _formMaximiseDisabled = Office2013ControlBoxResources.Office2013MaximiseDisabled;
-        private static readonly Image _formMaximiseHover = Office2013ControlBoxResources.Office2013MaximiseActive;
+        private static readonly Image _formMaximiseActive = Office2013ControlBoxResources.Office2013MaximiseActive;
         private static readonly Image _formMaximisePressed = Office2013ControlBoxResources.Office2013MaximisePressed;
         private static readonly Image _formMinimiseNormal = Office2013ControlBoxResources.Office2013MinimiseNormal;
-        private static readonly Image _formMinimiseHover = Office2013ControlBoxResources.Office2013MinimiseActive;
+        private static readonly Image _formMinimiseActive = Office2013ControlBoxResources.Office2013MinimiseActive;
         private static readonly Image _formMinimiseDisabled = Office2013ControlBoxResources.Office2013MinimiseDisabled;
         private static readonly Image _formMinimisePressed = Office2013ControlBoxResources.Office2013MinimisePressed;
         private static readonly Image _formRestoreNormal = Office2013ControlBoxResources.Office2013RestoreNormal;
         private static readonly Image _formRestoreDisabled = Office2013ControlBoxResources.Office2013RestoreDisabled;
-        private static readonly Image _formRestoreHover = Office2013ControlBoxResources.Office2013RestoreActive;
+        private static readonly Image _formRestoreActive = Office2013ControlBoxResources.Office2013RestoreActive;
         private static readonly Image _formRestorePressed = Office2013ControlBoxResources.Office2013RestorePressed;
         private static readonly Image _formHelpNormal = Office2013ControlBoxResources.Office2013HelpNormal;
-        private static readonly Image _formHelpHover = Office2013ControlBoxResources.Office2013HelpActive;
+        private static readonly Image _formHelpActive = Office2013ControlBoxResources.Office2013HelpActive;
         private static readonly Image _formHelpPressed = Office2013ControlBoxResources.Office2013HelpPressed;
         private static readonly Image _formHelpDisabled = Office2013ControlBoxResources.Office2013HelpDisabled;
-
-        #region Toolbar Images
-
-        private static readonly Image _formToolbarButtonSpecNewNormal = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewHover = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = GenericToolbarImageResources.NewDocument;
-
-        private static readonly Image _formToolbarButtonSpecOpenNormal = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenHover = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = GenericToolbarImageResources.Open;
-
-        private static readonly Image _formToolbarButtonSpecSaveNormal = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveHover = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = GenericToolbarImageResources.Save;
-
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsHover = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.SaveAs;
-
-        private static readonly Image _formToolbarButtonSpecCutNormal = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutHover = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = GenericToolbarImageResources.Cut;
-
-        private static readonly Image _formToolbarButtonSpecCopyNormal = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyHover = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = GenericToolbarImageResources.Copy;
-
-        private static readonly Image _formToolbarButtonSpecPasteNormal = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteHover = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = GenericToolbarImageResources.Paste;
-
-        private static readonly Image _formToolbarButtonSpecUndoNormal = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoHover = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = GenericToolbarImageResources.Undo;
-
-        private static readonly Image _formToolbarButtonSpecRedoNormal = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoHover = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = GenericToolbarImageResources.Redo;
-
-        #endregion
 
         #endregion
 
         #region Colour Arrays
 
-        private static readonly Color[] _trackBarColors =
+        private static readonly Color[] _trackBarColors = new[]
         {
             Color.Red, // Tick marks
             Color.FromArgb(166, 170, 175), // Top track
@@ -111,7 +71,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(80, 81, 82) // Border (normal) position
         };
 
-        private static readonly Color[] _schemeOfficeColors =
+        private static readonly Color[] _schemeOfficeColors = new[]
         {
             Color.FromArgb(59, 59, 59), // TextLabelControl
             Color.FromArgb(59, 59, 59), // TextButtonNormal
@@ -325,8 +285,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 255, 255), // RibbonGalleryBackNormal
             Color.FromArgb(255, 255, 255), // RibbonGalleryBackTracking
             Color.FromArgb(250, 250, 250), // RibbonGalleryBack1
-            Color.FromArgb(228, 231,
-                235), // RibbonGalleryBack2                                                                                                                                      Color.FromArgb(177, 181, 186),    // RibbonTabTracking1
+            Color.FromArgb(228, 231, 235), // RibbonGalleryBack2                                                                                                                                      Color.FromArgb(177, 181, 186),    // RibbonTabTracking1
             Color.FromArgb(229, 231, 235), // RibbonTabTracking3
             Color.FromArgb(231, 233, 235), // RibbonTabTracking4
             Color.FromArgb(176, 182, 188), // RibbonGroupBorder3
@@ -349,7 +308,6 @@ namespace Krypton.Toolkit
         };
 
         #endregion
-
         #endregion
 
         #region Identity
@@ -368,14 +326,17 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverN,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverTC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverPC };
+            _radioButtonArray = new Image[]
+            {
+                Office2010RadioButtonImageResources.RadioButton2010BlueD,
+                Office2010RadioButtonImageResources.RadioButton2010SilverN,
+                Office2010RadioButtonImageResources.RadioButton2010BlueT,
+                Office2010RadioButtonImageResources.RadioButton2010BlueP,
+                Office2010RadioButtonImageResources.RadioButton2010BlueDC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverNC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverTC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverPC
+            };
         }
 
         /// <summary>
@@ -420,7 +381,7 @@ namespace Krypton.Toolkit
             {
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
-                    PaletteState.Tracking => _formCloseHover,
+                    PaletteState.Tracking => _formCloseActive,
                     PaletteState.Normal => _formCloseNormal,
                     PaletteState.Pressed => _formClosePressed,
                     _ => _formCloseDisabled
@@ -428,84 +389,30 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Normal => _formMinimiseNormal,
-                    PaletteState.Tracking => _formMinimiseHover,
+                    PaletteState.Tracking => _formMinimiseActive,
                     PaletteState.Pressed => _formMinimisePressed,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Normal => _formMaximiseNormal,
-                    PaletteState.Tracking => _formMaximiseHover,
+                    PaletteState.Tracking => _formMaximiseActive,
                     PaletteState.Pressed => _formMaximisePressed,
                     _ => _formMaximiseDisabled
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Normal => _formRestoreNormal,
-                    PaletteState.Tracking => _formRestoreHover,
+                    PaletteState.Tracking => _formRestoreActive,
                     PaletteState.Pressed => _formRestorePressed,
                     _ => _formRestoreDisabled
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
-                    PaletteState.Tracking => _formHelpHover,
+                    PaletteState.Tracking => _formHelpActive,
                     PaletteState.Pressed => _formHelpPressed,
                     PaletteState.Normal => _formHelpNormal,
                     _ => _formHelpDisabled
-                },
-                PaletteButtonSpecStyle.New => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecNewHover,
-                    PaletteState.Normal => _formToolbarButtonSpecNewNormal,
-                    _ => _formToolbarButtonSpecNewDisabled
-                },
-                PaletteButtonSpecStyle.Open => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecOpenHover,
-                    PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
-                    _ => _formToolbarButtonSpecOpenDisabled
-                },
-                PaletteButtonSpecStyle.Save => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveHover,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
-                    _ => _formToolbarButtonSpecSaveDisabled
-                },
-                PaletteButtonSpecStyle.SaveAs => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAsHover,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
-                    _ => _formToolbarButtonSpecSaveAsDisabled
-                },
-                PaletteButtonSpecStyle.Cut => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCutHover,
-                    PaletteState.Normal => _formToolbarButtonSpecCutNormal,
-                    _ => _formToolbarButtonSpecCutDisabled
-                },
-                PaletteButtonSpecStyle.Copy => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCopyHover,
-                    PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
-                    _ => _formToolbarButtonSpecCopyDisabled
-                },
-                PaletteButtonSpecStyle.Paste => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPasteHover,
-                    PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
-                    _ => _formToolbarButtonSpecPasteDisabled
-                },
-                PaletteButtonSpecStyle.Undo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecUndoHover,
-                    PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
-                    _ => _formToolbarButtonSpecUndoDisabled
-                },
-                PaletteButtonSpecStyle.Redo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecRedoHover,
-                    PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
-                    _ => _formToolbarButtonSpecRedoDisabled
                 },
                 _ => base.GetButtonSpecImage(style, state)
             };
@@ -616,13 +523,13 @@ namespace Krypton.Toolkit
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-        private static readonly Color _formCloseBorderTracking = Color.FromArgb(213, 225, 242);
-        private static readonly Color _formCloseBorderPressed = Color.FromArgb(163, 189, 227);
-        private static readonly Color _formCloseBorderCheckedNormal = Color.FromArgb(163, 189, 227);
-        private static readonly Color _formCloseTracking1 = Color.FromArgb(213, 225, 242);
-        private static readonly Color _formCloseTracking2 = Color.FromArgb(213, 225, 242);
-        private static readonly Color _formClosePressed1 = Color.FromArgb(163, 189, 227);
-        private static readonly Color _formClosePressed2 = Color.FromArgb(163, 189, 227);
+        private static readonly Color _formCloseBorderTracking = Color.FromArgb(155, 61, 61);
+        private static readonly Color _formCloseBorderPressed = Color.FromArgb(155, 61, 61);
+        private static readonly Color _formCloseBorderCheckedNormal = Color.FromArgb(155, 61, 61);
+        private static readonly Color _formCloseTracking1 = Color.FromArgb(255, 132, 130);
+        private static readonly Color _formCloseTracking2 = Color.FromArgb(227, 97, 98);
+        private static readonly Color _formClosePressed1 = Color.FromArgb(242, 119, 118);
+        private static readonly Color _formClosePressed2 = Color.FromArgb(206, 85, 84);
         private static readonly Color _formCloseChecked1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
@@ -632,7 +539,7 @@ namespace Krypton.Toolkit
 
         #region Colour Arrays
 
-        private static readonly Color[] _appButtonNormal =
+        private static readonly Color[] _appButtonNormal = new Color[]
         {
             Color.FromArgb(243, 245, 248),
             Color.FromArgb(214, 220, 231),
@@ -641,7 +548,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(206, 213, 225)
         };
 
-        private static readonly Color[] _appButtonTrack =
+        private static readonly Color[] _appButtonTrack = new Color[]
         {
             Color.FromArgb(255, 251, 230),
             Color.FromArgb(248, 230, 143),
@@ -650,7 +557,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(240, 201, 41)
         };
 
-        private static readonly Color[] _appButtonPressed =
+        private static readonly Color[] _appButtonPressed = new Color[]
         {
             Color.FromArgb(235, 227, 196),
             Color.FromArgb(228, 198, 149),
@@ -659,7 +566,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(236, 136, 9)
         };
 
-        private static readonly Color[] _buttonBorderColors =
+        private static readonly Color[] _buttonBorderColors = new Color[]
         {
             Color.FromArgb(180, 180, 180), // Button, Disabled, Border
             Color.FromArgb(205, 230, 247), // Button, Tracking, Border 1
@@ -670,7 +577,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(146, 192, 244) // Button, Checked, Border 2
         };
 
-        private static readonly Color[] _buttonBackColors =
+        private static readonly Color[] _buttonBackColors = new Color[]
         {
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
@@ -681,9 +588,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(146, 192, 244), // Button, Checked, Back 1
             Color.FromArgb(146, 192, 244), // Button, Checked, Back 2
             Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-            Color.FromArgb(255, 249, 196) // Button, Checked Tracking, Back 2
+            Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
         };
-
         #endregion
 
         #endregion

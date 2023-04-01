@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteOffice2013LightGray : PaletteOffice2013Base
     {
-        public PaletteOffice2013LightGray(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColors) : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
+        public PaletteOffice2013LightGray(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[]? trackBarColors) : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
         {
         }
 

@@ -181,13 +181,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the background.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        IDisposable DrawBack(RenderContext context,
+        IDisposable? DrawBack(RenderContext context,
                              Rectangle rect,
                              GraphicsPath path,
                              IPaletteBack palette,
                              VisualOrientation orientation,
                              PaletteState state,
-                             IDisposable memento);
+                             IDisposable? memento);
     }
     #endregion
 

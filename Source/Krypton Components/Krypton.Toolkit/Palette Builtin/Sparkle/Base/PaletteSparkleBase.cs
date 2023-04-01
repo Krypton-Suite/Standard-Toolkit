@@ -89,55 +89,15 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleMinI = SparkleControlBoxResources.SparkleButtonMinDisabled;
         private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
         private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
-        private static readonly Image _sparkleHelpA = HelpIconResources.Office2010HelpIconNormal;
-        private static readonly Image _sparkleHelpHover = HelpIconResources.Office2010HelpIconHover;
-        private static readonly Image _sparkleHelpPressed = HelpIconResources.Office2010HelpIconPressed;
-        private static readonly Image _sparkleHelpI = HelpIconResources.Office2010HelpIconDisabled;
+        private static readonly Image _sparkleHelpA = Office2010ControlBoxResources.Office2010HelpIconNormal;
+        private static readonly Image _sparkleHelpHover = Office2010ControlBoxResources.Office2010HelpIconHover;
+        private static readonly Image _sparkleHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
+        private static readonly Image _sparkleHelpI = Office2010ControlBoxResources.Office2010HelpIconDisabled;
         private static readonly Image _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
+        private static readonly Image _contextMenuIndeterminate = SparkleRadioButtonImageResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
         private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
-
-        #region Toolbar Images
-
-        private static readonly Image _formToolbarButtonSpecNewNormal = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewHover = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = GenericToolbarImageResources.NewDocument;
-
-        private static readonly Image _formToolbarButtonSpecOpenNormal = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenHover = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = GenericToolbarImageResources.Open;
-
-        private static readonly Image _formToolbarButtonSpecSaveNormal = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveHover = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = GenericToolbarImageResources.Save;
-
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsHover = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.SaveAs;
-
-        private static readonly Image _formToolbarButtonSpecCutNormal = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutHover = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = GenericToolbarImageResources.Cut;
-
-        private static readonly Image _formToolbarButtonSpecCopyNormal = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyHover = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = GenericToolbarImageResources.Copy;
-
-        private static readonly Image _formToolbarButtonSpecPasteNormal = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteHover = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = GenericToolbarImageResources.Paste;
-
-        private static readonly Image _formToolbarButtonSpecUndoNormal = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoHover = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = GenericToolbarImageResources.Undo;
-
-        private static readonly Image _formToolbarButtonSpecRedoNormal = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoHover = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = GenericToolbarImageResources.Redo;
-
-        #endregion
 
         private static readonly Color _disabledText = Color.FromArgb(120, 120, 120);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
@@ -235,14 +195,45 @@ namespace Krypton.Toolkit
                                   Image[] radioButtonArray)
         {
             // Save colors for use in the color table
-            _ribbonColors = ribbonColors;
-            _sparkleColors = sparkleColors;
-            _appButtonNormal = appButtonNormal;
-            _appButtonTrack = appButtonTrack;
-            _appButtonPressed = appButtonPressed;
-            _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
-            _checkBoxList = checkBoxList;
-            _radioButtonArray = radioButtonArray;
+            if (ribbonColors != null)
+            {
+                if (ribbonColors != null)
+                {
+                    _ribbonColors = ribbonColors;
+                }
+            }
+
+            if (sparkleColors != null)
+            {
+                if (sparkleColors != null)
+                {
+                    _sparkleColors = sparkleColors;
+                }
+            }
+            if (appButtonNormal != null)
+            {
+                _appButtonNormal = appButtonNormal;
+            }
+            if (appButtonTrack != null)
+            {
+                _appButtonTrack = appButtonTrack;
+            }
+            if (appButtonPressed != null)
+            {
+                _appButtonPressed = appButtonPressed;
+            }
+            if (ribbonGroupCollapsedBorderContextTracking != null)
+            {
+                _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
+            }
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
 
             // Get the font settings from the system
             DefineFonts();
@@ -3227,79 +3218,6 @@ namespace Krypton.Toolkit
                     return _buttonSpecRibbonExpand;
                 case PaletteButtonSpecStyle.Generic:
                     return null;
-
-                case PaletteButtonSpecStyle.New:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecNewHover,
-                        PaletteState.Normal => _formToolbarButtonSpecNewNormal,
-                        _ => _formToolbarButtonSpecNewDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Open:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecOpenHover,
-                        PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
-                        _ => _formToolbarButtonSpecOpenDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Save:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecSaveHover,
-                        PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
-                        _ => _formToolbarButtonSpecSaveDisabled
-                    };
-
-                case PaletteButtonSpecStyle.SaveAs:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecSaveAsHover,
-                        PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
-                        _ => _formToolbarButtonSpecSaveAsDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Cut:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecCutHover,
-                        PaletteState.Normal => _formToolbarButtonSpecCutNormal,
-                        _ => _formToolbarButtonSpecCutDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Copy:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecCopyHover,
-                        PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
-                        _ => _formToolbarButtonSpecCopyDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Paste:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecPasteHover,
-                        PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
-                        _ => _formToolbarButtonSpecPasteDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Undo:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecUndoHover,
-                        PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
-                        _ => _formToolbarButtonSpecUndoDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Redo:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecRedoHover,
-                        PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
-                        _ => _formToolbarButtonSpecRedoDisabled
-                    };
-
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -4834,7 +4752,10 @@ namespace Krypton.Toolkit
                     (!string.IsNullOrEmpty(value) && string.IsNullOrEmpty(_baseFontName)))
                 {
                     // Cache new value
-                    _baseFontName = value;
+                    if (value != null)
+                    {
+                        _baseFontName = value;
+                    }
 
                     // Update fonts to reflect change
                     DefineFonts();

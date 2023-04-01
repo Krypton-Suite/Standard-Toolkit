@@ -52,23 +52,23 @@ namespace Krypton.Toolkit
                 if (e.ToolStrip.Parent.TopLevelControl is Form f)
                 {
                     // Get the mdi control strip instance
-                    PropertyInfo piMCS = typeof(Form).GetProperty(@"MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+                    PropertyInfo? piMCS = typeof(Form).GetProperty(@"MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
                     if (piMCS != null)
                     {
                         var mcs = piMCS.GetValue(f, null);
                         if (mcs != null)
                         {
                             // Get the min/restore/close internal menu items
-                            Type mcsType = mcs.GetType();
-                            FieldInfo fiM = mcsType.GetField("minimize", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
-                            FieldInfo fiR = mcsType.GetField("restore", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
-                            FieldInfo fiC = mcsType.GetField("close", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+                            Type? mcsType = mcs.GetType();
+                            FieldInfo? fiM = mcsType.GetField("minimize", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
+                            FieldInfo? fiR = mcsType.GetField("restore", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
+                            FieldInfo? fiC = mcsType.GetField("close", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
                             if ((fiM != null) && (fiR != null) && (fiC != null))
                             {
 #pragma warning disable IDE0019 // Use pattern matching
-                                ToolStripMenuItem m = fiM.GetValue(mcs) as ToolStripMenuItem;
-                                ToolStripMenuItem r = fiR.GetValue(mcs) as ToolStripMenuItem;
-                                ToolStripMenuItem c = fiC.GetValue(mcs) as ToolStripMenuItem;
+                                ToolStripMenuItem? m = fiM.GetValue(mcs) as ToolStripMenuItem;
+                                ToolStripMenuItem? r = fiR.GetValue(mcs) as ToolStripMenuItem;
+                                ToolStripMenuItem? c = fiC.GetValue(mcs) as ToolStripMenuItem;
 #pragma warning restore IDE0019 // Use pattern matching
                                 if ((m != null) && (r != null) && (c != null))
                                 {
@@ -91,15 +91,15 @@ namespace Krypton.Toolkit
                                     if (specStyle != PaletteButtonSpecStyle.Generic)
                                     {
                                         // Grab the palette pendant details needed for drawing
-                                        Image paletteImage = KCT.Palette.GetButtonSpecImage(specStyle, PaletteState.Normal);
+                                        Image? paletteImage = KCT.Palette.GetButtonSpecImage(specStyle, PaletteState.Normal);
                                         Color transparentColor = KCT.Palette.GetButtonSpecImageTransparentColor(specStyle);
 
                                         // Finally we actually have an image to draw!
                                         if (paletteImage != null)
                                         {
-                                            using ImageAttributes attribs = new();
+                                            using ImageAttributes? attribs = new();
                                             // Setup mapping to make required color transparent
-                                            ColorMap remap = new()
+                                            ColorMap? remap = new()
                                             {
                                                 OldColor = transparentColor,
                                                 NewColor = Color.Transparent

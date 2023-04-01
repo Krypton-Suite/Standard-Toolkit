@@ -82,8 +82,12 @@ namespace Krypton.Navigator
             Stream? streamBlueDown = myAssembly.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueDown.bmp");
 
             // Load the bitmap from stream
-            _moreButtons = new Bitmap(streamBlueUp, true);
-            _fewerButtons = new Bitmap(streamBlueDown, true);
+            if (streamBlueUp != null)
+            {
+                _moreButtons = new Bitmap(streamBlueUp, true);
+            }
+
+            if (streamBlueDown != null) _fewerButtons = new Bitmap(streamBlueDown, true);
         }
         #endregion
 
@@ -146,7 +150,7 @@ namespace Krypton.Navigator
                     KryptonPage page = Navigator.Pages[i];
 
                     // Is this page in the stack?
-                    if (_pageStackLookup.ContainsKey(page))
+                    if (_pageStackLookup != null && _pageStackLookup.ContainsKey(page))
                     {
                         // Get the page related view elements
                         ViewDrawNavCheckButtonBase checkButton = _pageStackLookup[page];
@@ -284,7 +288,10 @@ namespace Krypton.Navigator
             _oldRoot = ViewManager?.Root as ViewLayoutPageShow;
 
             // Create and initialize all objects
-            ViewManager.Root = CreateView();
+            if (ViewManager != null)
+            {
+                ViewManager.Root = CreateView();
+            }
             CreateStackItems();
             CreateOverflowItems();
             CreateSeparatorController();
@@ -359,7 +366,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // We should have a view for representing the page
-                if (_pageStackLookup.ContainsKey(Navigator.SelectedPage))
+                if (_pageStackLookup != null && _pageStackLookup.ContainsKey(Navigator.SelectedPage))
                 {
                     // Get the check button used to represent the selected page
                     ViewDrawNavCheckButtonBase selected = _pageStackLookup[Navigator.SelectedPage];
@@ -367,7 +374,7 @@ namespace Krypton.Navigator
                     // Can only bring page into view if actually visible
                     if (selected.Visible)
                     {
-                        // Make sure the layout is upto date
+                        // Make sure the layout is up to date
                         Navigator.CheckPerformLayout();
                     }
                 }
@@ -400,7 +407,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // Sometimes the routine is called before the views have been fully setup
             if ((_pageStackLookup != null) && _pageStackLookup.ContainsKey(page) &&
@@ -412,7 +419,10 @@ namespace Krypton.Navigator
                 // Reflect new state in the check button
                 _pageStackLookup[page].Visible = showPageStack;
                 _pageOverflowLookup[page].Visible = showPageOverflow;
-                _buttonEdgeLookup[page].Visible = showPageStack;
+                if (_buttonEdgeLookup != null)
+                {
+                    _buttonEdgeLookup[page].Visible = showPageStack;
+                }
             }
 
             // Ensure buttons are recreated to reflect different visible state
@@ -429,7 +439,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             // Reflect new state in the check button
             UpdateStatePalettes();
@@ -488,7 +498,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="changed">Set of flags that have changed value.</param>
-        public override void PageFlagsChanged(KryptonPage page, KryptonPageFlags changed)
+        public override void PageFlagsChanged(KryptonPage? page, KryptonPageFlags changed)
         {
             // Any change to the overflow bar setting requires a layout to effect
             if ((changed & KryptonPageFlags.PageInOverflowBarForOutlookMode) == KryptonPageFlags.PageInOverflowBarForOutlookMode)
@@ -582,7 +592,7 @@ namespace Krypton.Navigator
 
             // Unhook from monitoring the pages collection
             _events = false;
-            Navigator.Pages.Inserted -= OnPageInserted;
+            Navigator.Pages.Inserted -= OnPageInserted!;
             Navigator.Pages.Removed -= OnPageRemoved;
             Navigator.Pages.Cleared -= OnPagesCleared;
 

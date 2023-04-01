@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -20,7 +21,7 @@ namespace Krypton.Navigator
                                            IKeyController
     {
         #region Instance Fields
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private readonly ViewBase _target;
         private bool _fixedTracking;
         private bool _mouseOver;
@@ -40,7 +41,7 @@ namespace Krypton.Navigator
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public OutlookMiniController(ViewBase target,
-            [DisallowNull] NeedPaintHandler needPaint)
+            [DisallowNull] NeedPaintHandler? needPaint)
         {
             Debug.Assert(needPaint != null);
 
@@ -109,7 +110,7 @@ namespace Krypton.Navigator
             // Only interested in left mouse pressing down
             if (button == MouseButtons.Left)
             {
-               // Capturing mouse input
+                // Capturing mouse input
                 Captured = true;
 
                 // Update the visual state
@@ -305,7 +306,7 @@ namespace Krypton.Navigator
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
         [AllowNull]
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -394,10 +395,7 @@ namespace Krypton.Navigator
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(_target, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click(_target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -405,8 +403,12 @@ namespace Krypton.Navigator
         /// <param name="needLayout">Does the palette change require a layout.</param>
         protected virtual void OnNeedPaint(bool needLayout)
         {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
+            if (_needPaint != null)
+            {
+                _needPaint(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
+            }
         }
+
         #endregion
     }
 }

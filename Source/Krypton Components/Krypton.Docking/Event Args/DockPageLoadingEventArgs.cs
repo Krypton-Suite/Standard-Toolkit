@@ -24,7 +24,7 @@ namespace Krypton.Docking
         /// <param name="manager">Reference to owning docking manager instance.</param>
         /// <param name="xmlReading">Xml reader for persisting custom data.</param>
         /// <param name="page">Reference to page being loaded.</param>
-        public DockPageLoadingEventArgs(KryptonDockingManager manager,
+        public DockPageLoadingEventArgs(KryptonDockingManager? manager,
                                         XmlReader xmlReading,
                                         KryptonPage? page)
             : base(manager, xmlReading) =>

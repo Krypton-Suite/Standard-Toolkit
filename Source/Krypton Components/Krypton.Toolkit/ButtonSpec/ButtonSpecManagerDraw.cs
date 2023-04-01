@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
                                      PaletteMetricPadding[] viewMetricPaddings,
                                      GetToolStripRenderer getRenderer,
                                      NeedPaintHandler needPaint)
-            : this(control, redirector, variableSpecs, fixedSpecs, 
+            : this(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricInt, viewMetricInt,
                    viewMetricPaddings, getRenderer, needPaint)
         {
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
                                      PaletteMetricPadding[] viewMetricPaddings,
                                      GetToolStripRenderer getRenderer,
                                      NeedPaintHandler needPaint)
-            : base(control, redirector, variableSpecs, fixedSpecs, 
+            : base(control, redirector, variableSpecs, fixedSpecs,
                    viewMetrics, viewMetricIntOutside, viewMetricIntInside,
                    viewMetricPaddings, getRenderer, needPaint)
         {
@@ -173,7 +173,7 @@ namespace Krypton.Toolkit
             // If using spacers, then insert before the first spacer
             if (usingSpacers)
             {
-                for(var j=0; j<insertIndex; j++)
+                for (var j = 0; j < insertIndex; j++)
                 {
                     if (viewDocker[j] is ViewLayoutMetricSpacer)
                     {
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
                     }
                 }
             }
-            
+
             viewDocker.Insert(insertIndex, view);
             viewDocker.SetDock(view, dockStyle);
         }
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// <param name="i">Index of docker.</param>
         /// <param name="spacerL">Spacer for the left side.</param>
         /// <param name="spacerR">Spacer for the right side.</param>
-        protected override void AddSpacersToDocker(int i, 
-                                                   ViewLayoutMetricSpacer spacerL, 
+        protected override void AddSpacersToDocker(int i,
+                                                   ViewLayoutMetricSpacer spacerL,
                                                    ViewLayoutMetricSpacer spacerR)
         {
             // Get the indexed instance

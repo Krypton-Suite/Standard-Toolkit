@@ -10,6 +10,8 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Docking
 {
     /// <summary>
@@ -95,7 +97,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
         {
             switch (action)
             {
@@ -192,7 +194,7 @@ namespace Krypton.Docking
 
             // Terminate the workspace element
             xmlWriter.WriteFullEndElement();
-        }        
+        }
         #endregion
 
         #region Protected
@@ -210,7 +212,7 @@ namespace Krypton.Docking
         {
             // Grab the requested size and location
             Point location = CommonHelper.StringToPoint(xmlReader.GetAttribute(@"L"));
-            Size clientSize = CommonHelper.StringToSize(xmlReader.GetAttribute(@"S"));
+            Size clientSize = CommonHelper.StringToSize(xmlReader.GetAttribute(@"S")!);
 
             // Find the size of the floating window borders
             var hBorders = FloatingWindow.Width - FloatingWindow.ClientSize.Width;

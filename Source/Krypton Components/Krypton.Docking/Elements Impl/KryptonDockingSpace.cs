@@ -12,6 +12,7 @@
 
 // ReSharper disable MemberCanBeInternal
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Docking
 {
     /// <summary>
@@ -70,34 +71,40 @@ namespace Krypton.Docking
                 {
                     // ...create a new cell and place at the end of the root collection
                     cell = new KryptonWorkspaceCell();
-                    SpaceControl!.Root.Children.Add(cell);
+                    SpaceControl!.Root.Children!.Add(cell);
                 }
 
                 // Add all provided pages into the cell
                 cell.Pages.AddRange(pages);
                 var childMinSize = cell.GetMinSize();
-                SpaceControl.Size = childMinSize;
-                SpaceControl.MinimumSize = childMinSize;
+                if (SpaceControl != null)
+                {
+                    SpaceControl.Size = childMinSize;
+                    SpaceControl.MinimumSize = childMinSize;
+                }
             }
         }
 
         private void ObserveAutoHiddenSlideSize(KryptonPage[] pages)
         {
-            Size currentHintSize = SpaceControl.Size;
-            foreach (Size newPageSize in pages.Select(static page => page.AutoHiddenSlideSize))
+            if (SpaceControl != null)
             {
-                if (currentHintSize.Width < newPageSize.Width)
+                Size currentHintSize = SpaceControl.Size;
+                foreach (Size newPageSize in pages.Select(static page => page.AutoHiddenSlideSize))
                 {
-                    currentHintSize.Width = newPageSize.Width;
+                    if (currentHintSize.Width < newPageSize.Width)
+                    {
+                        currentHintSize.Width = newPageSize.Width;
+                    }
+
+                    if (currentHintSize.Height < newPageSize.Height)
+                    {
+                        currentHintSize.Height = newPageSize.Height;
+                    }
                 }
 
-                if (currentHintSize.Height < newPageSize.Height)
-                {
-                    currentHintSize.Height = newPageSize.Height;
-                }
+                SpaceControl.Size = currentHintSize;
             }
-
-            SpaceControl.Size = currentHintSize;
         }
 
         /// <summary>
@@ -237,7 +244,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
         {
             if (SpaceControl == null)
             {
@@ -353,8 +360,11 @@ namespace Krypton.Docking
                             // Replace the existing page with a placeholder that has the same unique name
                             KryptonWorkspaceCell? cell = SpaceControl.CellForPage(page);
                             KryptonStorePage placeholder = new(uniqueName, _storeName);
-                            cell.Pages.Insert(cell.Pages.IndexOf(page), placeholder);
-                            cell.Pages.Remove(page);
+                            if (cell != null)
+                            {
+                                cell.Pages.Insert(cell.Pages.IndexOf(page), placeholder);
+                                cell.Pages.Remove(page);
+                            }
                         }
                     }
                     break;
@@ -460,7 +470,10 @@ namespace Krypton.Docking
                     if (storePage is KryptonStorePage)
                     {
                         KryptonWorkspaceCell? cell = SpaceControl!.CellForPage(storePage);
-                        cell.Pages.Insert(cell.Pages.IndexOf(storePage), page);
+                        if (cell != null)
+                        {
+                            cell.Pages.Insert(cell.Pages.IndexOf(storePage), page);
+                        }
                     }
                 }
             }
@@ -688,12 +701,15 @@ namespace Krypton.Docking
             xmlWriter.WriteStartElement(XmlElementName);
             xmlWriter.WriteAttributeString(@"N", Name);
             xmlWriter.WriteAttributeString(@"O", Order.ToString());
-            xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(SpaceControl.Size));
+            if (SpaceControl != null)
+            {
+                xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(SpaceControl.Size)!);
 
-            // Output an xml for the contained workspace
-            SpaceControl.PageSaving += OnSpaceControlPageSaving;
-            SpaceControl.SaveLayoutToXml(xmlWriter);
-            SpaceControl.PageSaving -= OnSpaceControlPageSaving;
+                // Output an xml for the contained workspace
+                SpaceControl.PageSaving += OnSpaceControlPageSaving;
+                SpaceControl.SaveLayoutToXml(xmlWriter);
+                SpaceControl.PageSaving -= OnSpaceControlPageSaving;
+            }
 
             // Terminate the workspace element
             xmlWriter.WriteFullEndElement();
@@ -780,9 +796,12 @@ namespace Krypton.Docking
                 _space = value ?? throw new ArgumentNullException(nameof(value));
 
                 // Hook into space events we need to monitor
-                SpaceControl.Disposed += OnSpaceDisposed;
-                SpaceControl.WorkspaceCellAdding += OnSpaceCellAdding;
-                SpaceControl.PageDrop += RaiseSpacePageDrop;
+                if (SpaceControl != null)
+                {
+                    SpaceControl.Disposed += OnSpaceDisposed;
+                    SpaceControl.WorkspaceCellAdding += OnSpaceCellAdding;
+                    SpaceControl.PageDrop += RaiseSpacePageDrop;
+                }
             }
         }
 
@@ -810,12 +829,12 @@ namespace Krypton.Docking
                 {
                     switch (sender)
                     {
-                        case KryptonDockspace dockspace 
+                        case KryptonDockspace dockspace
                         when (dockspace.CellForPage(e.Item) != null):
                         // Prevent this existing store page from being removed due to the Propagate action below. This can
                         // occur because a cell with pages is added in one go and so insert events are generated for the
                         // existing pages inside the cell to ensure that the event is always fired consistently.
-                        case KryptonDockableWorkspace workspace 
+                        case KryptonDockableWorkspace workspace
                         when (workspace.CellForPage(e.Item) != null):
                             // Prevent this existing store page from being removed due to the Propagate action below. This can
                             // occur because a cell with pages is added in one go and so insert events are generated for the
@@ -826,7 +845,10 @@ namespace Krypton.Docking
                 }
 
                 // Remove any store page for the unique name of this page being added.
-                dockingManager.PropogateAction(ClearStoreAction, new[] { e.Item.UniqueName });
+                if (e.Item != null)
+                {
+                    dockingManager.PropogateAction(ClearStoreAction, new[] { e.Item.UniqueName });
+                }
                 IgnoreStorePage = null;
             }
         }
@@ -868,11 +890,14 @@ namespace Krypton.Docking
         protected override void LoadDockingElement(XmlReader xmlReader, KryptonPageCollection pages)
         {
             // Load layout information and use any matching pages in the provided collection
-            SpaceControl.PageLoading += OnSpaceControlPageLoading;
-            SpaceControl.RecreateLoadingPage += OnSpaceControlRecreateLoadingPage;
-            SpaceControl.LoadLayoutFromXml(xmlReader, pages);
-            SpaceControl.PageLoading -= OnSpaceControlPageLoading;
-            SpaceControl.RecreateLoadingPage -= OnSpaceControlRecreateLoadingPage;
+            if (SpaceControl != null)
+            {
+                SpaceControl.PageLoading += OnSpaceControlPageLoading;
+                SpaceControl.RecreateLoadingPage += OnSpaceControlRecreateLoadingPage;
+                SpaceControl.LoadLayoutFromXml(xmlReader, pages);
+                SpaceControl.PageLoading -= OnSpaceControlPageLoading;
+                SpaceControl.RecreateLoadingPage -= OnSpaceControlRecreateLoadingPage;
+            }
         }
 
         /// <summary>
@@ -886,9 +911,12 @@ namespace Krypton.Docking
         private void OnSpaceDisposed(object sender, EventArgs e)
         {
             // Unhook from events to prevent memory leaking
-            SpaceControl.Disposed -= OnSpaceDisposed;
-            SpaceControl.WorkspaceCellAdding -= OnSpaceCellAdding;
-            SpaceControl.PageDrop -= RaiseSpacePageDrop;
+            if (SpaceControl != null)
+            {
+                SpaceControl.Disposed -= OnSpaceDisposed;
+                SpaceControl.WorkspaceCellAdding -= OnSpaceCellAdding;
+                SpaceControl.PageDrop -= RaiseSpacePageDrop;
+            }
 
             // Raise event to indicate the space control has been removed
             RaiseRemoved();
@@ -897,8 +925,11 @@ namespace Krypton.Docking
         private void OnSpaceCellAdding(object sender, WorkspaceCellEventArgs e)
         {
             var childMinSize = e.Cell.GetMinSize();
-            SpaceControl.MinimumSize = new Size(Math.Max(SpaceControl.MinimumSize.Width, childMinSize.Width),
-                Math.Max(SpaceControl.MinimumSize.Height, childMinSize.Height));
+            if (SpaceControl != null)
+            {
+                SpaceControl.MinimumSize = new Size(Math.Max(SpaceControl.MinimumSize.Width, childMinSize.Width),
+                    Math.Max(SpaceControl.MinimumSize.Height, childMinSize.Height));
+            }
 
             RaiseCellAdding(e.Cell);
 

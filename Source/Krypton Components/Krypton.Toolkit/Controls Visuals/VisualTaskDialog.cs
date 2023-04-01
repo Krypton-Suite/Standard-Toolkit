@@ -77,14 +77,14 @@ namespace Krypton.Toolkit
         private readonly string _mainInstruction;
         private readonly string _content;
         private readonly KryptonMessageBoxIcon _mainIcon;
-        private readonly Image _customMainIcon;
+        private readonly Image? _customMainIcon;
         private readonly KryptonTaskDialogCommandCollection _radioButtons;
         private readonly KryptonTaskDialogCommandCollection _commandButtons;
         private KryptonTaskDialogCommand _defaultRadioButton;
         private readonly TaskDialogButtons _commonButtons;
         private readonly TaskDialogButtons _defaultButton;
         private readonly KryptonMessageBoxIcon _footerIcon;
-        private readonly Image _customFooterIcon;
+        private readonly Image? _customFooterIcon;
         private readonly string _footerText;
         private readonly string _footerHyperlink;
         private readonly string _checkboxText;
@@ -553,28 +553,28 @@ namespace Krypton.Toolkit
                         _iconFooter.Visible = false;
                         break;
                     case KryptonMessageBoxIcon.Question:
-                        _iconFooter.Image = MessageBoxResources.Question;
+                        _iconFooter.Image = MessageBoxImageResources.Question;
                         break;
                     case KryptonMessageBoxIcon.Information:
-                        _iconFooter.Image = MessageBoxResources.Information;
+                        _iconFooter.Image = MessageBoxImageResources.Information;
                         break;
                     case KryptonMessageBoxIcon.Warning:
-                        _iconFooter.Image = MessageBoxResources.Warning;
+                        _iconFooter.Image = MessageBoxImageResources.Warning;
                         break;
                     case KryptonMessageBoxIcon.Error:
-                        _iconFooter.Image = MessageBoxResources.Critical;
+                        _iconFooter.Image = MessageBoxImageResources.Critical;
                         break;
                     case KryptonMessageBoxIcon.Hand:
-                        _iconFooter.Image = MessageBoxResources.Hand;
+                        _iconFooter.Image = MessageBoxImageResources.Hand;
                         break;
                     case KryptonMessageBoxIcon.Exclamation:
-                        _iconFooter.Image = MessageBoxResources.Warning;
+                        _iconFooter.Image = MessageBoxImageResources.Warning;
                         break;
                     case KryptonMessageBoxIcon.Asterisk:
-                        _iconFooter.Image = MessageBoxResources.Asterisk;
+                        _iconFooter.Image = MessageBoxImageResources.Asterisk;
                         break;
                     case KryptonMessageBoxIcon.Stop:
-                        _iconFooter.Image = MessageBoxResources.Stop;
+                        _iconFooter.Image = MessageBoxImageResources.Stop;
                         break;
                     case KryptonMessageBoxIcon.Shield:
                         _iconFooter.Image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(16, 16));
@@ -584,12 +584,12 @@ namespace Krypton.Toolkit
                         // we need to rely on a image instead
                         if (OSUtilities.IsWindowsEleven)
                         {
-                            _iconFooter.Image = MessageBoxResources.Windows11;
+                            _iconFooter.Image = MessageBoxImageResources.Windows11;
                         }
                         // Windows 10
                         else if (OSUtilities.IsWindowsTen)
                         {
-                            _iconFooter.Image = MessageBoxResources.Windows_8_and_10_Logo;
+                            _iconFooter.Image = MessageBoxImageResources.Windows_8_and_10_Logo;
                         }
                         else
                         {

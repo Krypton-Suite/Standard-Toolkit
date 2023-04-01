@@ -22,7 +22,7 @@ namespace Krypton.Navigator
 
         private KryptonPage? _page;
         private NeedPaintHandler? _needPaint;
-        private PageButtonController _buttonController;
+        private PageButtonController? _buttonController;
         private DateTime _lastClick;
 
         /// <summary>Override for accessing the disable state.</summary>
@@ -403,7 +403,7 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create two decorators in order to support tooltips and hover events
-            ToolTipController toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
+            ToolTipController? toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
             ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
             return hoverController;
         }

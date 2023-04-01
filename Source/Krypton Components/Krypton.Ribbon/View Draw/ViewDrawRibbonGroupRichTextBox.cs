@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly int NULL_CONTROL_WIDTH; // = 50;
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
-        private readonly RichTextBoxController _controller;
+        private readonly RichTextBoxController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         #endregion

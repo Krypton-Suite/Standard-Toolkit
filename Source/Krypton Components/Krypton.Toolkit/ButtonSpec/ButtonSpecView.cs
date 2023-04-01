@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         private readonly PaletteRedirect? _redirector;
         private readonly PaletteTripleRedirect _palette;
         private readonly EventHandler _finishDelegate;
-        private ButtonController _controller;
+        private ButtonController? _controller;
         #endregion
 
         #region Identity
@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         public ButtonSpecView([DisallowNull] PaletteRedirect? redirector,
                               IPaletteMetric? paletteMetric,
                               PaletteMetricPadding metricPadding,
-                              [DisallowNull] ButtonSpecManagerBase manager,
-                              [DisallowNull] ButtonSpec buttonSpec)
+                              [DisallowNull] ButtonSpecManagerBase? manager,
+                              [DisallowNull] ButtonSpec? buttonSpec)
         {
             Debug.Assert(redirector != null);
             Debug.Assert(manager != null);
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the owning manager.
         /// </summary>
-        public ButtonSpecManagerBase Manager { get; }
+        public ButtonSpecManagerBase? Manager { get; }
 
         /// <summary>
         /// Gets access to the monitored button spec
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         /// <returns>Controller instance.</returns>
         public virtual ButtonSpecViewControllers CreateController(ViewDrawButton viewButton,
                                                                   NeedPaintHandler needPaint,
-                                                                  MouseEventHandler clickHandler)
+                                                                  MouseEventHandler? clickHandler)
         {
             // Create a standard button controller
             _controller = new ButtonController(viewButton, needPaint)
@@ -286,7 +286,7 @@ namespace Krypton.Toolkit
             _controller.Click += clickHandler;
 
             // If associated with a tooltip manager then pass mouse messages onto tooltip manager
-            IMouseController mouseController = _controller;
+            IMouseController? mouseController = _controller;
             if (Manager.ToolTipManager != null)
             {
                 mouseController = new ToolTipController(Manager.ToolTipManager, viewButton, _controller);
@@ -301,7 +301,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnFinishDelegate(object sender, EventArgs e) =>
+        protected virtual void OnFinishDelegate(object sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
             _controller.RemoveFixed();
 

@@ -29,14 +29,14 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupCheckBoxImage _viewLargeImage;
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText2;
-        private GroupCheckBoxController _viewLargeController;
+        private GroupCheckBoxController? _viewLargeController;
         private readonly EventHandler _finishDelegateLarge;
         private ViewLayoutRibbonCheckBox _viewMediumSmall;
         private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
         private ViewDrawRibbonGroupCheckBoxImage _viewMediumSmallImage;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText1;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText2;
-        private GroupCheckBoxController _viewMediumSmallController;
+        private GroupCheckBoxController? _viewMediumSmallController;
         private readonly EventHandler _finishDelegateMediumSmall;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
                 Point screenPt = Point.Empty;
-                GroupCheckBoxController controller = null;
+                GroupCheckBoxController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)

@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the controller used for the button.
         /// </summary>
-        public DialogLauncherButtonController DialogButtonController => _groupButton.DialogButtonController;
+        public DialogLauncherButtonController? DialogButtonController => _groupButton.DialogButtonController;
 
         #endregion
 

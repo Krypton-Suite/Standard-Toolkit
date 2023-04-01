@@ -827,13 +827,13 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override IDisposable DrawBack([DisallowNull] RenderContext context,
+        public override IDisposable? DrawBack([DisallowNull] RenderContext context,
                                              Rectangle rect,
                                              [DisallowNull] GraphicsPath path,
                                              [DisallowNull] IPaletteBack palette,
                                              VisualOrientation orientation,
                                              PaletteState state,
-                                             IDisposable memento)
+                                             IDisposable? memento)
         {
             Debug.Assert(context != null);
             Debug.Assert(path != null);

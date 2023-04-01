@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class DragTargetNavigatorTransfer : DragTarget
     {
         #region Instance Fields
-        private KryptonNavigator _navigator;
+        private KryptonNavigator? _navigator;
         private int _notDraggedPagesFromNavigator;
         #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Control instance for drop.</param>
         /// <param name="allowFlags">Only drop pages that have one of these flags defined.</param>
         public DragTargetNavigatorTransfer(Rectangle rect,
-                                           KryptonNavigator navigator,
+                                           KryptonNavigator? navigator,
                                            KryptonPageFlags allowFlags)
             : base(rect, rect, rect, DragTargetHint.Transfer, allowFlags)
         {
@@ -67,12 +67,15 @@ namespace Krypton.Navigator
             {
                 // Search for any pages that are not from this navigator
                 _notDraggedPagesFromNavigator = 0;
-                foreach (KryptonPage page in dragEndData.Pages)
+                if (dragEndData != null)
                 {
-                    if (!_navigator.Pages.Contains(page))
+                    foreach (KryptonPage page in dragEndData.Pages)
                     {
-                        _notDraggedPagesFromNavigator = 1;
-                        break;
+                        if (_navigator != null && !_navigator.Pages.Contains(page))
+                        {
+                            _notDraggedPagesFromNavigator = 1;
+                            break;
+                        }
                     }
                 }
             }
@@ -96,22 +99,25 @@ namespace Krypton.Navigator
             if (page != null)
             {
                 // If the navigator is allowed to have a selected page then select it
-                if (_navigator.AllowTabSelect)
+                if (_navigator != null && _navigator.AllowTabSelect)
                 {
                     _navigator.SelectedPage = page;
                 }
 
                 // Need to layout so the new cell has been added as a child control and 
                 // therefore can receive the focus we want to give it immediately afterwards
-                _navigator.PerformLayout();
-
-                if (!_navigator.IsDisposed)
+                if (_navigator != null)
                 {
-                    // Without this DoEvents() call the dropping of multiple pages in a complex arrangement causes an exception for
-                    // a complex reason that is hard to work out (i.e. I'm not entirely sure). Something to do with using select to
-                    // change activation is causing the source workspace control to dispose to earlier.
-                    Application.DoEvents();
-                    _navigator.Select();
+                    _navigator.PerformLayout();
+
+                    if (!_navigator.IsDisposed)
+                    {
+                        // Without this DoEvents() call the dropping of multiple pages in a complex arrangement causes an exception for
+                        // a complex reason that is hard to work out (i.e. I'm not entirely sure). Something to do with using select to
+                        // change activation is causing the source workspace control to dispose to earlier.
+                        Application.DoEvents();
+                        _navigator.Select();
+                    }
                 }
             }
 

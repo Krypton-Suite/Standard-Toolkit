@@ -23,7 +23,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="contextMenu">Reference to associated context menu.</param>
         /// <param name="page">Reference to the associated page.</param>
-        public CancelDropDownEventArgs(KryptonContextMenu contextMenu, KryptonPage? page)
+        public CancelDropDownEventArgs(KryptonContextMenu? contextMenu, KryptonPage? page)
             : base(false)
         {
             KryptonContextMenu = contextMenu;

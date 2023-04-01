@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         internal IPaletteBack _paletteBack;
-        private IDisposable _memento;
+        private IDisposable? _memento;
 
         #endregion
 

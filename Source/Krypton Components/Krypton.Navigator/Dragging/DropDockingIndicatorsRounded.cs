@@ -10,12 +10,13 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
     /// Draws a window containing rounded docking indicators.
     /// </summary>
-    public class DropDockingIndicatorsRounded : NativeWindow, 
+    public class DropDockingIndicatorsRounded : NativeWindow,
                                                 IDisposable,
                                                 IDropDockingIndicator
     {
@@ -37,7 +38,7 @@ namespace Krypton.Navigator
         /// <param name="showTop">Show top hot area.</param>
         /// <param name="showBottom">Show bottom hot area.</param>
         /// <param name="showMiddle">Show middle hot area.</param>
-        public DropDockingIndicatorsRounded(IPaletteDragDrop paletteDragDrop, 
+        public DropDockingIndicatorsRounded(IPaletteDragDrop paletteDragDrop,
                                             IRenderer? renderer,
                                             bool showLeft, bool showRight,
                                             bool showTop, bool showBottom,
@@ -50,7 +51,7 @@ namespace Krypton.Navigator
             _dragData = new RenderDragDockingData(showLeft, showRight, showTop, showBottom, showMiddle);
 
             // Ask the renderer to measure the sizing of the indicators that are Displayed
-            _renderer.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
+            _renderer?.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
             _showRect = new Rectangle(Point.Empty, _dragData.DockWindowSize);
 
             // Any old title will do as it will not be shown
@@ -129,7 +130,7 @@ namespace Krypton.Navigator
 
             // Update the image for display
             UpdateLayeredWindow(new Rectangle(location, _showRect.Size));
-            
+
             // Show the window without activating it (i.e. do not take focus)
             PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
         }
@@ -221,7 +222,11 @@ namespace Krypton.Navigator
                 Rectangle area = new(0, 0, rect.Width, rect.Height);
                 using (RenderContext context = new(null, g, area, _renderer))
                 {
-                    _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
+                    if (_renderer != null)
+                    {
+                        _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop,
+                            PaletteDragFeedback.Rounded);
+                    }
                 }
 
                 // Get hold of the screen DC
@@ -242,7 +247,7 @@ namespace Krypton.Navigator
                 ulwsize.cy = rect.Height;
 
                 // New window position
-                PI.POINT topPos = new(rect.Left,rect.Top);
+                PI.POINT topPos = new(rect.Left, rect.Top);
                 // Offset into memory bitmap is always zero
                 PI.POINT pointSource = new(0, 0);
 

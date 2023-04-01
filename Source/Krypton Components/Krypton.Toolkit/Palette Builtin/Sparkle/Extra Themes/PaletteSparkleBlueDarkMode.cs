@@ -309,14 +309,17 @@ namespace Krypton.Toolkit
                 ColorDepth = ColorDepth.Depth24Bit
             };
             _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkle);
-            _radioButtonArray = new Image[]{SparkleBlueRadioButtonResources.RadioButtonSparkleD,
-                SparkleBlueRadioButtonResources.RadioButtonSparkleN,
-                SparkleBlueRadioButtonResources.RadioButtonSparkleT,
-                SparkleGeneralRadioButtonResources.RadioButtonSparkleP,
-                SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
-                SparkleBlueRadioButtonResources.RadioButtonSparkleNC,
-                SparkleBlueRadioButtonResources.RadioButtonSparkleTC,
-                SparkleGeneralRadioButtonResources.RadioButtonSparklePC};
+            _radioButtonArray = new Image[]
+            {
+                SparkleRadioButtonImageResources.RadioButtonSparkleD,
+                SparkleRadioButtonImageResources.RadioButtonSparkleN,
+                SparkleRadioButtonImageResources.RadioButtonSparkleT,
+                SparkleRadioButtonImageResources.RadioButtonSparkleP,
+                SparkleRadioButtonImageResources.RadioButtonSparkleDC,
+                SparkleRadioButtonImageResources.RadioButtonSparkleNC,
+                SparkleRadioButtonImageResources.RadioButtonSparkleTC,
+                SparkleRadioButtonImageResources.RadioButtonSparklePC
+            };
         }
 
         /// <summary>
@@ -413,54 +416,14 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleMinI = SparkleControlBoxResources.SparkleButtonMinDisabled;
         private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
         private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
-        private static readonly Image _sparkleHelpA = HelpIconResources.Office2010HelpIconNormal;
-        private static readonly Image _sparkleHelpHover = HelpIconResources.Office2010HelpIconHover;
-        private static readonly Image _sparkleHelpI = HelpIconResources.Office2010HelpIconDisabled;
+        private static readonly Image _sparkleHelpA = Office2010ControlBoxResources.Office2010HelpIconNormal;
+        private static readonly Image _sparkleHelpHover = Office2010ControlBoxResources.Office2010HelpIconHover;
+        private static readonly Image _sparkleHelpI = Office2010ControlBoxResources.Office2010HelpIconDisabled;
         private static readonly Image _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
+        private static readonly Image _contextMenuIndeterminate = SparkleRadioButtonImageResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
         private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
-
-        #region Toolbar Images
-
-        private static readonly Image _formToolbarButtonSpecNewNormal = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewHover = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = GenericToolbarImageResources.NewDocument;
-
-        private static readonly Image _formToolbarButtonSpecOpenNormal = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenHover = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = GenericToolbarImageResources.Open;
-
-        private static readonly Image _formToolbarButtonSpecSaveNormal = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveHover = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = GenericToolbarImageResources.Save;
-
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsHover = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.SaveAs;
-
-        private static readonly Image _formToolbarButtonSpecCutNormal = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutHover = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = GenericToolbarImageResources.Cut;
-
-        private static readonly Image _formToolbarButtonSpecCopyNormal = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyHover = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = GenericToolbarImageResources.Copy;
-
-        private static readonly Image _formToolbarButtonSpecPasteNormal = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteHover = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = GenericToolbarImageResources.Paste;
-
-        private static readonly Image _formToolbarButtonSpecUndoNormal = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoHover = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = GenericToolbarImageResources.Undo;
-
-        private static readonly Image _formToolbarButtonSpecRedoNormal = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoHover = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = GenericToolbarImageResources.Redo;
-
-        #endregion
 
         private static readonly Color _disabledText = Color.FromArgb(160, 160, 160);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
@@ -507,7 +470,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonColorTableSparkle _table;
+        private KryptonColorTableSparkle? _table;
         private Font _header1ShortFont;
         private Font _header2ShortFont;
         private Font _header1LongFont;
@@ -2039,7 +2002,12 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                if (_calendarBoldFont != null)
+                {
+                    return state == PaletteState.BoldedOverride && (style == PaletteContentStyle.ButtonCalendarDay)
+                        ? _calendarBoldFont
+                        : null;
+                }
             }
 
             return style switch
@@ -2542,7 +2510,12 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                if (_calendarBoldFont != null)
+                {
+                    return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay)
+                        ? _calendarBoldFont
+                        : null;
+                }
             }
 
             return style switch
@@ -3466,79 +3439,6 @@ namespace Krypton.Toolkit
                     return _buttonSpecRibbonExpand;
                 case PaletteButtonSpecStyle.Generic:
                     return null;
-
-                case PaletteButtonSpecStyle.New:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecNewHover,
-                        PaletteState.Normal => _formToolbarButtonSpecNewNormal,
-                        _ => _formToolbarButtonSpecNewDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Open:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecOpenHover,
-                        PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
-                        _ => _formToolbarButtonSpecOpenDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Save:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecSaveHover,
-                        PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
-                        _ => _formToolbarButtonSpecSaveDisabled
-                    };
-
-                case PaletteButtonSpecStyle.SaveAs:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecSaveAsHover,
-                        PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
-                        _ => _formToolbarButtonSpecSaveAsDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Cut:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecCutHover,
-                        PaletteState.Normal => _formToolbarButtonSpecCutNormal,
-                        _ => _formToolbarButtonSpecCutDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Copy:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecCopyHover,
-                        PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
-                        _ => _formToolbarButtonSpecCopyDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Paste:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecPasteHover,
-                        PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
-                        _ => _formToolbarButtonSpecPasteDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Undo:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecUndoHover,
-                        PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
-                        _ => _formToolbarButtonSpecUndoDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Redo:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecRedoHover,
-                        PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
-                        _ => _formToolbarButtonSpecRedoDisabled
-                    };
-
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -5128,23 +5028,26 @@ namespace Krypton.Toolkit
 
             var baseFontSize = BaseFontSize;
             var baseFontName = BaseFontName;
-            _header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
-            _header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _headerFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
-            _header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
-            _header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFontNavigatorStack = new Font(_buttonFont, FontStyle.Bold);
-            _buttonFontNavigatorMini = new Font(baseFontName, baseFontSize + 3.5f, FontStyle.Bold);
-            _tabFontNormal = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
-            _ribbonTabFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _gridFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _superToolFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _calendarFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _calendarBoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _boldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _italicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
+            if (baseFontName != null)
+            {
+                _header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
+                _header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+                _headerFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+                _header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
+                _header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+                _buttonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+                _buttonFontNavigatorStack = new Font(_buttonFont, FontStyle.Bold);
+                _buttonFontNavigatorMini = new Font(baseFontName, baseFontSize + 3.5f, FontStyle.Bold);
+                _tabFontNormal = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+                _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
+                _ribbonTabFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+                _gridFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+                _superToolFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+                _calendarFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+                _calendarBoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+                _boldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+                _italicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
+            }
         }
         #endregion
 

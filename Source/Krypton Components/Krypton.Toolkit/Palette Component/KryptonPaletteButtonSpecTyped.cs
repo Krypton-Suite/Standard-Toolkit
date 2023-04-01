@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         private Image? _image;
         private string _text;
         private string _extraText;
-        private string _toolTipTitle;
+        private string? _toolTipTitle;
         private Color _colorMap;
         private bool _allowInheritImage;
         private bool _allowInheritText;
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
         [Description(@"Button tooltip title text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
-        public string ToolTipTitle
+        public string? ToolTipTitle
         {
             get => _toolTipTitle;
 
@@ -445,7 +445,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
+        public override string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

@@ -144,7 +144,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
+        public virtual void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
         {
             int countToUse = Math.Min(Count, uniqueNames?.Length ?? 0);
             // Propagate the action request to all the child elements
@@ -562,9 +562,9 @@ namespace Krypton.Docking
             DemandDockingManager();
 
             // We always allow store pages but check that others are not already present in the docking hierarchy
-            if ( pages != null 
+            if (pages != null
                  && DockingManager != null
-                 && pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)) )
+                 && pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)))
             {
                 throw new ArgumentOutOfRangeException(nameof(pages), @"Cannot perform operation with a page that is already present inside docking hierarchy");
             }

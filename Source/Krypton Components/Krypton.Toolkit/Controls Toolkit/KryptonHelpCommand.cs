@@ -153,136 +153,136 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateImage(HelpIconResources.ProfessionalHelpIconNormal);
+                    UpdateImage(ProfessionalControlBoxResources.ProfessionalHelpIconNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateImage(HelpIconResources.Office2003HelpIconNormal);
+                    UpdateImage(Office2003ControlBoxResources.Office2003HelpIconNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007Blue:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007BlueDarkMode:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007BlueLightMode:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007Silver:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007SilverDarkMode:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007SilverLightMode:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007White:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007Black:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2007BlackDarkMode:
-                    UpdateImage(HelpIconResources.Office2007HelpIconNormal);
+                    UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                     break;
                 case PaletteMode.Office2010DarkGray:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010Blue:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010BlueDarkMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010BlueLightMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010Silver:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010SilverDarkMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010SilverLightMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010White:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010Black:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2010BlackDarkMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Office2013ControlBoxResources.Office2013HelpNormal);
                     break;
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ControlBoxResources.Office2013HelpNormal);
                     break;
                 case PaletteMode.Microsoft365DarkGray:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365Black:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365BlackDarkMode:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365Blue:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365BlueDarkMode:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365BlueLightMode:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365Silver:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365SilverDarkMode:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365SilverLightMode:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.Microsoft365White:
-                    UpdateImage(HelpIconResources.Microsoft365HelpIconNormal);
+                    UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                     break;
                 case PaletteMode.SparkleBlue:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleBlueDarkMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleBlueLightMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleOrange:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleOrangeDarkMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparkleOrangeLightMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparklePurple:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparklePurpleDarkMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.SparklePurpleLightMode:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Custom:
-                    UpdateImage(HelpIconResources.Office2010HelpIconNormal);
+                    UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
@@ -302,95 +302,139 @@ namespace Krypton.Toolkit
         /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateActiveImage(PaletteMode mode)
         {
+            object HelpIconResources = null;
             switch (mode)
             {
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
+                    UpdateActiveImage(ProfessionalControlBoxResources.ProfessionalHelpIconNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
+                    UpdateActiveImage(ProfessionalControlBoxResources.ProfessionalHelpIconNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007Blue:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007BlueDarkMode:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007BlueLightMode:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007Silver:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007SilverDarkMode:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007SilverLightMode:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007White:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007Black:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2007BlackDarkMode:
+                    UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                     break;
                 case PaletteMode.Office2010DarkGray:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010Blue:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010BlueDarkMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010BlueLightMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010Silver:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010SilverDarkMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010SilverLightMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010White:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010Black:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2010BlackDarkMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2013DarkGray:
+                    UpdateActiveImage(Office2013ControlBoxResources.Office2013HelpActive);
                     break;
                 case PaletteMode.Office2013White:
+                    UpdateActiveImage(Office2013ControlBoxResources.Office2013HelpActive);
                     break;
                 case PaletteMode.Microsoft365DarkGray:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365Black:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365BlackDarkMode:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365Blue:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365BlueDarkMode:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365BlueLightMode:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365Silver:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365SilverDarkMode:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365SilverLightMode:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.Microsoft365White:
+                    UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                     break;
                 case PaletteMode.SparkleBlue:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparkleBlueDarkMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparkleBlueLightMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparkleOrange:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparkleOrangeDarkMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparkleOrangeLightMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparklePurple:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparklePurpleDarkMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.SparklePurpleLightMode:
+                    UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Custom:
                     break;
@@ -717,136 +761,136 @@ namespace Krypton.Toolkit
                     case PaletteMode.Global:
                         break;
                     case PaletteMode.ProfessionalSystem:
-                        AddImageStates(null, HelpIconResources.ProfessionalHelpIconDisabled, HelpIconResources.ProfessionalHelpIconNormal, null);
+                        AddImageStates(null, ProfessionalControlBoxResources.ProfessionalHelpIconDisabled, ProfessionalControlBoxResources.ProfessionalHelpIconNormal, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
-                        AddImageStates(null, HelpIconResources.ProfessionalHelpIconDisabled, HelpIconResources.ProfessionalHelpIconNormal, null);
+                        AddImageStates(null, ProfessionalControlBoxResources.ProfessionalHelpIconDisabled, ProfessionalControlBoxResources.ProfessionalHelpIconNormal, null);
                         break;
                     case PaletteMode.Office2007DarkGray:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007Blue:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007BlueDarkMode:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007BlueLightMode:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007Silver:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007SilverDarkMode:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007SilverLightMode:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007White:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007Black:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2007BlackDarkMode:
-                        AddImageStates(HelpIconResources.Office2007HelpIconHover, HelpIconResources.Office2007HelpIconDisabled, HelpIconResources.Office2007HelpIconNormal, HelpIconResources.Office2007HelpIconPressed);
+                        AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                         break;
                     case PaletteMode.Office2010DarkGray:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010Blue:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010BlueDarkMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010BlueLightMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010Silver:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010SilverDarkMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010SilverLightMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010White:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010Black:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2010BlackDarkMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2013DarkGray:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Office2013White:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365DarkGray:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365Black:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365BlackDarkMode:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365Blue:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365BlueDarkMode:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365BlueLightMode:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365Silver:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365SilverDarkMode:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365SilverLightMode:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.Microsoft365White:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     case PaletteMode.SparkleBlue:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparkleBlueDarkMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparkleBlueLightMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparkleOrange:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparkleOrangeDarkMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparkleOrangeLightMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparklePurple:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparklePurpleDarkMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.SparklePurpleLightMode:
-                        AddImageStates(HelpIconResources.Office2010HelpIconHover, HelpIconResources.Office2010HelpIconDisabled, HelpIconResources.Office2010HelpIconNormal, HelpIconResources.Office2010HelpIconPressed);
+                        AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Custom:
-                        AddImageStates(HelpIconResources.Microsoft365HelpIconHover, HelpIconResources.Microsoft365HelpIconDisabled, HelpIconResources.Microsoft365HelpIconNormal, HelpIconResources.Microsoft365HelpIconPressed);
+                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(mode), mode, null);

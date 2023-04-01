@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         #endregion
 
         #region Identity

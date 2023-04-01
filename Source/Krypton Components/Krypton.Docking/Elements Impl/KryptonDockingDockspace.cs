@@ -125,7 +125,7 @@ namespace Krypton.Docking
                                         indexInsert = i - 1;
                                         break;
                                     }
-                                    
+
                                     value--;
                                 }
                             }
@@ -162,7 +162,7 @@ namespace Krypton.Docking
             // User our value if it is the largest encountered so far
             value = Math.Max(value, Order);
         }
-        
+
         /// <summary>
         /// Propagates a request for drag targets down the hierarchy of docking elements.
         /// </summary>
@@ -177,11 +177,14 @@ namespace Krypton.Docking
             {
                 // Create list of the pages that are allowed to be dropped into this dockspace
                 KryptonPageCollection pages = new();
-                foreach (KryptonPage page in dragData.Pages)
+                if (dragData != null)
                 {
-                    if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
+                    foreach (KryptonPage page in dragData.Pages)
                     {
-                        pages.Add(page);
+                        if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
+                        {
+                            pages.Add(page);
+                        }
                     }
                 }
 
@@ -202,7 +205,7 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage? page = DockspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) 
+            if ((page != null)
                 && page is not KryptonStorePage)
             {
                 return DockingLocation.Docked;
@@ -221,7 +224,7 @@ namespace Krypton.Docking
         public override IDockingElement? FindPageElement(string uniqueName)
         {
             KryptonPage? page = DockspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) 
+            if ((page != null)
                 && page is not KryptonStorePage)
             {
                 return this;
@@ -449,7 +452,7 @@ namespace Krypton.Docking
                 }
             }
         }
-        
+
         private void OnDockspaceCellCountChanged(object sender, EventArgs e)
         {
             // When all the cells (and so pages) have been removed we kill ourself

@@ -29,14 +29,14 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupRadioButtonImage _viewLargeImage;
         private ViewDrawRibbonGroupRadioButtonText _viewLargeText1;
         private ViewDrawRibbonGroupRadioButtonText _viewLargeText2;
-        private GroupRadioButtonController _viewLargeController;
+        private GroupRadioButtonController? _viewLargeController;
         private readonly EventHandler _finishDelegateLarge;
         private ViewLayoutRibbonRadioButton _viewMediumSmall;
         private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
         private ViewDrawRibbonGroupRadioButtonImage _viewMediumSmallImage;
         private ViewDrawRibbonGroupRadioButtonText _viewMediumSmallText1;
         private ViewDrawRibbonGroupRadioButtonText _viewMediumSmallText2;
-        private GroupRadioButtonController _viewMediumSmallController;
+        private GroupRadioButtonController? _viewMediumSmallController;
         private readonly EventHandler _finishDelegateMediumSmall;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
                 Point screenPt = Point.Empty;
-                GroupRadioButtonController controller = null;
+                GroupRadioButtonController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)

@@ -40,11 +40,11 @@ namespace Krypton.Docking
             _offset = Point.Empty;
 
             // Use timer to ensure we do not update the display too quickly which then causes tearing
-            _moveTimer = new System.Windows.Forms.Timer
+            _moveTimer = new()
             {
                 Interval = 10
             };
-            _moveTimer.Tick += OnFloatingWindowMove;
+            _moveTimer.Tick += OnFloatingWindowMove!;
         }
 
         /// <summary>
@@ -59,12 +59,12 @@ namespace Krypton.Docking
             _manager.PropogateAction(DockingPropogateAction.ClearStoredPages, new[] { "TemporaryPage" });
 
             // Remember to unhook event and dispose timer to prevent resource leak
-            _moveTimer.Tick -= OnFloatingWindowMove;
+            _moveTimer.Tick -= OnFloatingWindowMove!;
             _moveTimer.Stop();
             _moveTimer.Dispose();
 
             base.Dispose(disposing);
-        } 
+        }
         #endregion
 
         #region Public
@@ -132,9 +132,9 @@ namespace Krypton.Docking
                 }
 
                 FloatingWindow.SetBounds(_screenPt.X - FloatingWindowOffset.X,
-                                         _screenPt.Y - FloatingWindowOffset.Y, 
-                                         FloatingWindow.Width, 
-                                         FloatingWindow.Height, 
+                                         _screenPt.Y - FloatingWindowOffset.Y,
+                                         FloatingWindow.Width,
+                                         FloatingWindow.Height,
                                          BoundsSpecified.Location);
             }
         }
@@ -148,7 +148,7 @@ namespace Krypton.Docking
         {
             RemoveFilter();
             var ret = base.DragEnd(screenPt);
-            _manager?.RaiseDoDragDropEnd(EventArgs.Empty);
+            _manager.RaiseDoDragDropEnd(EventArgs.Empty);
             return ret;
         }
 
@@ -169,7 +169,7 @@ namespace Krypton.Docking
         public bool OnKEYDOWN(ref Message m)
         {
             // Pressing escape ends dragging
-            if ((int)m.WParam.ToInt64() == (int) Keys.Escape)
+            if ((int)m.WParam.ToInt64() == (int)Keys.Escape)
             {
                 DragQuit();
                 Dispose();
@@ -234,7 +234,7 @@ namespace Krypton.Docking
                     }
                 case PI.WM_.SYSKEYDOWN:
                     // Pressing ALT+TAB ends dragging because user is moving to another app
-                    if (PI.IsKeyDown(Keys.Tab) 
+                    if (PI.IsKeyDown(Keys.Tab)
                         && ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
                         )
                     {

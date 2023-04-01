@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         private readonly PaletteMetricPadding _metricPadding;
         private readonly PaletteBackInheritForced _paletteBackDraw;
         private readonly PaletteBackLightenColors _paletteBackLight;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         private PaletteBorderInheritForced _borderForced;
         private Region _clipRegion;
         private Rectangle _splitRectangle;

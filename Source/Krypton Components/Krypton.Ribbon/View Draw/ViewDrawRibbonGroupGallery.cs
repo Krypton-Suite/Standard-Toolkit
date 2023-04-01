@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
-        private readonly GalleryController _controller;
+        private readonly GalleryController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         private ViewDrawRibbonGroupButtonBackBorder _viewLarge;

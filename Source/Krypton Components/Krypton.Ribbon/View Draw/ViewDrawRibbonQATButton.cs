@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly QATButtonToContent _contentProvider;
         private readonly ViewDrawContent _drawContent;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         #endregion
 
         #region Identity
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
             Component = qatButton as Component;
 
             // Attach a controller to this element for the pressing of the button
-            QATButtonController controller = new(ribbon, this, needPaint);
+            QATButtonController? controller = new(ribbon, this, needPaint);
             controller.Click += OnClick;
             SourceController = controller;
             KeyController = controller;
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the key tip target for this view.
         /// </summary>
-        public IRibbonKeyTipTarget KeyTipTarget => SourceController as IRibbonKeyTipTarget;
+        public IRibbonKeyTipTarget? KeyTipTarget => SourceController as IRibbonKeyTipTarget;
 
         #endregion
 

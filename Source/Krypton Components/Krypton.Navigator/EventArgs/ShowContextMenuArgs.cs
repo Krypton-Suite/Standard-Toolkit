@@ -26,8 +26,11 @@ namespace Krypton.Navigator
         public ShowContextMenuArgs(KryptonPage? page, int index)
             : base(page, index)
         {
-            ContextMenuStrip = page.ContextMenuStrip;
-            KryptonContextMenu = page.KryptonContextMenu;
+            if (page != null)
+            {
+                ContextMenuStrip = page.ContextMenuStrip;
+                KryptonContextMenu = page.KryptonContextMenu;
+            }
         }
         #endregion
 

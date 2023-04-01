@@ -640,7 +640,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
+        string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
@@ -3313,24 +3313,62 @@ namespace Krypton.Toolkit
         /// Specifies a ribbon expand button specification.
         /// </summary>
         RibbonExpand,
-        /// <summary>Specifies a new document button specification.</summary>
+        /// <summary>
+        /// Specifies the new toolbar button specification.
+        /// </summary>
         New,
-        /// <summary>Specifies the open button specification.</summary>
+        /// <summary>
+        /// Specifies the open toolbar button specification.
+        /// </summary>
         Open,
-        /// <summary>Specifies the save button specification.</summary>
+        /// <summary>
+        /// Specifies the save toolbar button specification.
+        /// </summary>
         Save,
-        /// <summary>Specifies the save as button specification.</summary>
+        /// <summary>
+        /// Specifies the save as toolbar button specification.
+        /// </summary>
         SaveAs,
-        /// <summary>Specifies the cut button specification.</summary>
+        /// <summary>
+        /// Specifies the save all toolbar button specification.
+        /// </summary>
+        SaveAll,
+        /// <summary>
+        /// Specifies the cut toolbar button specification.
+        /// </summary>
         Cut,
-        /// <summary>Specifies the copy button specification.</summary>
+        /// <summary>
+        /// Specifies the copy toolbar button specification.
+        /// </summary>
         Copy,
-        /// <summary>Specifies the paste button specification.</summary>
+        /// <summary>
+        /// Specifies the paste toolbar button specification.
+        /// </summary>
         Paste,
-        /// <summary>Specifies the undo button specification.</summary>
+        /// <summary>
+        /// Specifies the undo toolbar button specification.
+        /// </summary>
         Undo,
-        /// <summary>Specifies the redo button specification.</summary>
-        Redo
+        /// <summary>
+        /// Specifies the redo toolbar button specification.
+        /// </summary>
+        Redo,
+        /// <summary>
+        /// Specifies the page setup toolbar button specification.
+        /// </summary>
+        PageSetup,
+        /// <summary>
+        /// Specifies the print preview toolbar button specification.
+        /// </summary>
+        PrintPreview,
+        /// <summary>
+        /// Specifies the print toolbar button specification.
+        /// </summary>
+        Print,
+        /// <summary>
+        /// Specifies the quick print toolbar button specification.
+        /// </summary>
+        QuickPrint
     }
     #endregion
 
