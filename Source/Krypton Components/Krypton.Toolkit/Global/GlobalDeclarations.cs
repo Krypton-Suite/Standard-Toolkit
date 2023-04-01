@@ -47,7 +47,11 @@ global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 
-global using Krypton.Toolkit.Resources;
+global using Krypton.Toolkit.ResourceFiles.Arrows;
+global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
+global using Krypton.Toolkit.ResourceFiles.CheckBoxes;
+global using Krypton.Toolkit.ResourceFiles.ColourScales;
+global using Krypton.Toolkit.ResourceFiles.ControlBox;
 
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;
