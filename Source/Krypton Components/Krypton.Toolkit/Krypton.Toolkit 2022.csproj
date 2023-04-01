@@ -334,6 +334,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>Office2010ControlBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\ControlBox\Office2013ControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2013ControlBoxResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="View Base\ViewControl.cs" />
     </ItemGroup>
     <ItemGroup>
@@ -544,6 +549,10 @@
         <EmbeddedResource Update="ResourceFiles\ControlBox\Office2010ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2010ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\ControlBox\Office2013ControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2013ControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
 
