@@ -61,6 +61,15 @@ global using Krypton.Toolkit.ResourceFiles.Generic;
 global using Krypton.Toolkit.ResourceFiles.Grid;
 global using Krypton.Toolkit.ResourceFiles.MDI;
 global using Krypton.Toolkit.ResourceFiles.MessageBox;
+global using Krypton.Toolkit.ResourceFiles.Pendants;
+global using Krypton.Toolkit.ResourceFiles.Pin;
+global using Krypton.Toolkit.ResourceFiles.RadioButtons;
+global using Krypton.Toolkit.ResourceFiles.Stars;
+global using Krypton.Toolkit.ResourceFiles.TaskDialog;
+global using Krypton.Toolkit.ResourceFiles.Toolbars;
+global using Krypton.Toolkit.ResourceFiles.TreeItems;
+global using Krypton.Toolkit.ResourceFiles.UAC;
+global using Krypton.Toolkit.ResourceFiles.VisualStudio;
 
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;
