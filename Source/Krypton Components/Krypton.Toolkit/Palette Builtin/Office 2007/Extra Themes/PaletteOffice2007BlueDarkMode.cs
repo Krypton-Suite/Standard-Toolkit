@@ -25,24 +25,24 @@ namespace Krypton.Toolkit
         #region Images
         private static readonly Image[] _radioButtonArray;
         private static readonly Image _blueDropDownButton = GenericImageResources.BlueDropDownButton;
-        private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal_24_x_24;
-        private static readonly Image _blueCloseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseHover_24_x_24;
-        private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled_24_x_24;
-        private static readonly Image _blueClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueClosePressed_24_x_24;
-        private static readonly Image _blueMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal_24_x_24;
-        private static readonly Image _blueMaximiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseHover_24_x_24;
-        private static readonly Image _blueMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled_24_x_24;
-        private static readonly Image _blueMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximisePressed_24_x_24;
-        private static readonly Image _blueMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal_24_x_24;
-        private static readonly Image _blueMinimiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseHover_24_x_24;
-        private static readonly Image _blueMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled_24_x_24;
-        private static readonly Image _blueMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed_24_x_24;
-        private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreNormal_24_x_24;
-        private static readonly Image _blueRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreHover_24_x_24;
-        private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled_24_x_24;
-        private static readonly Image _blueRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueRestorePressed_24_x_24;
+        private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal;
+        private static readonly Image _blueCloseActive = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseActive;
+        private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled;
+        private static readonly Image _blueClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueClosePressed;
+        private static readonly Image _blueMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal;
+        private static readonly Image _blueMaximiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseActive;
+        private static readonly Image _blueMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled;
+        private static readonly Image _blueMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximisePressed;
+        private static readonly Image _blueMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal;
+        private static readonly Image _blueMinimiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseActive;
+        private static readonly Image _blueMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled;
+        private static readonly Image _blueMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed;
+        private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreNormal;
+        private static readonly Image _blueRestoreActive = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreActive;
+        private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled;
+        private static readonly Image _blueRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueRestorePressed;
         private static readonly Image _blueHelpNormal = Office2007ControlBoxResources.Office2007HelpIconNormal;
-        private static readonly Image _blueHelpHover = Office2007ControlBoxResources.Office2007HelpIconHover;
+        private static readonly Image _blueHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
         private static readonly Image _blueHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
         private static readonly Image _blueHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
@@ -365,35 +365,35 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
                     PaletteState.Disabled => _blueCloseDisabled,
-                    PaletteState.Tracking => _blueCloseHover,
+                    PaletteState.Tracking => _blueCloseActive,
                     PaletteState.Pressed => _blueClosePressed,
                     _ => _blueCloseNormal
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Disabled => _blueMinimiseDisabled,
-                    PaletteState.Tracking => _blueMinimiseHover,
+                    PaletteState.Tracking => _blueMinimiseActive,
                     PaletteState.Pressed => _blueMinimisePressed,
                     _ => _blueMinimiseNormal
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Disabled => _blueMaximiseDisabled,
-                    PaletteState.Tracking => _blueMaximiseHover,
+                    PaletteState.Tracking => _blueMaximiseActive,
                     PaletteState.Pressed => _blueMaximisePressed,
                     _ => _blueMaximiseNormal
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Disabled => _blueRestoreDisabled,
-                    PaletteState.Tracking => _blueRestoreHover,
+                    PaletteState.Tracking => _blueRestoreActive,
                     PaletteState.Pressed => _blueRestorePressed,
                     _ => _blueRestoreNormal
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                     PaletteState.Disabled => _blueHelpDisabled,
-                    PaletteState.Tracking => _blueHelpHover,
+                    PaletteState.Tracking => _blueHelpActive,
                     PaletteState.Pressed => _blueHelpPressed,
                     _ => _blueHelpNormal
                 },
@@ -501,13 +501,13 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
         private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
         private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = MDIImageResources.MdiClose;
-        private static readonly Image _buttonSpecPendantMin = MDIImageResources.MdiMin;
-        private static readonly Image _buttonSpecPendantRestore = MDIImageResources.MdiRestore;
-        private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecPendantClose = GenericMDIImageResources.MdiClose;
+        private static readonly Image _buttonSpecPendantMin = GenericMDIImageResources.MdiMin;
+        private static readonly Image _buttonSpecPendantRestore = GenericMDIImageResources.MdiRestore;
+        private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = MDIImageResources.MdiRibbonMinimize;
-        private static readonly Image _buttonSpecRibbonExpand = MDIImageResources.MdiRibbonExpand;
+        private static readonly Image _buttonSpecRibbonMinimize = GenericMDIImageResources.MdiRibbonMinimize;
+        private static readonly Image _buttonSpecRibbonExpand = GenericMDIImageResources.MdiRibbonExpand;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 

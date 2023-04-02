@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
                         }
                         break;
                     case KryptonMessageBoxIcon.Hand:
-                        _messageIcon.Image = MessageBoxImageResources.Hand;
+                        _messageIcon.Image = MessageBoxImageResources.GenericHand;
                         SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Question:
@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Stop:
-                        _messageIcon.Image = MessageBoxImageResources.Stop;
+                        _messageIcon.Image = MessageBoxImageResources.GenericStop;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Error:
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
-                        _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_11;
+                        _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_11;
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         _messageIcon.Image = MessageBoxImageResources.Windows11;
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                         }
                         break;
                     case KryptonMessageBoxIcon.Hand:
-                        _messageIcon.Image = MessageBoxImageResources.Hand;
+                        _messageIcon.Image = MessageBoxImageResources.GenericHand;
                         SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.SystemHand:
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Question:
-                        _messageIcon.Image = MessageBoxImageResources.Question;
+                        _messageIcon.Image = MessageBoxImageResources.GenericQuestion;
                         SystemSounds.Question.Play();
                         break;
                     case KryptonMessageBoxIcon.SystemQuestion:
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Question.Play();
                         break;
                     case KryptonMessageBoxIcon.Exclamation:
-                        _messageIcon.Image = MessageBoxImageResources.Warning;
+                        _messageIcon.Image = MessageBoxImageResources.GenericWarning;
                         SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.SystemExclamation:
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
                     case KryptonMessageBoxIcon.Asterisk:
                         _messageIcon.Image = OSUtilities.IsWindowsEleven
                             ? MessageBoxImageResources.Asterisk_Windows_11
-                            : MessageBoxImageResources.Asterisk;
+                            : MessageBoxImageResources.GenericAsterisk;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.SystemAsterisk:
@@ -249,33 +249,33 @@ namespace Krypton.Toolkit
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Stop:
-                        _messageIcon.Image = MessageBoxImageResources.Stop;
+                        _messageIcon.Image = MessageBoxImageResources.GenericStop;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Error:
-                        _messageIcon.Image = MessageBoxImageResources.Critical;
+                        _messageIcon.Image = MessageBoxImageResources.GenericCritical;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Warning:
-                        _messageIcon.Image = MessageBoxImageResources.Warning;
+                        _messageIcon.Image = MessageBoxImageResources.GenericWarning;
                         SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.Information:
-                        _messageIcon.Image = MessageBoxImageResources.Information;
+                        _messageIcon.Image = MessageBoxImageResources.GenericInformation;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
                         if (OSUtilities.IsWindowsEleven)
                         {
-                            _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_11;
+                            _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_11;
                         }
                         else if (OSUtilities.IsWindowsTen)
                         {
-                            _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_10;
+                            _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_10;
                         }
                         else
                         {
-                            _messageIcon.Image = MessageBoxImageResources.UAC_Shield_Windows_7;
+                            _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_7;
                         }
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:

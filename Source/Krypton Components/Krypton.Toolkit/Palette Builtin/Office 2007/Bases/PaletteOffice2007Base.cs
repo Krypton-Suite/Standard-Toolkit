@@ -77,13 +77,13 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
         private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
         private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = MDIImageResources.MdiClose;
-        private static readonly Image _buttonSpecPendantMin = MDIImageResources.MdiMin;
-        private static readonly Image _buttonSpecPendantRestore = MDIImageResources.MdiRestore;
-        private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecPendantClose = GenericMDIImageResources.MdiClose;
+        private static readonly Image _buttonSpecPendantMin = GenericMDIImageResources.MdiMin;
+        private static readonly Image _buttonSpecPendantRestore = GenericMDIImageResources.MdiRestore;
+        private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = MDIImageResources.MdiRibbonMinimize;
-        private static readonly Image _buttonSpecRibbonExpand = MDIImageResources.MdiRibbonExpand;
+        private static readonly Image _buttonSpecRibbonMinimize = GenericMDIImageResources.MdiRibbonMinimize;
+        private static readonly Image _buttonSpecRibbonExpand = GenericMDIImageResources.MdiRibbonExpand;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 

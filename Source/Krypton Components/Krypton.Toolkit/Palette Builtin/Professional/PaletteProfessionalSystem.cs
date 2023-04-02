@@ -74,12 +74,12 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
         private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
         private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
         //private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
         //private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _systemCloseNormal = ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
-        private static readonly Image _systemCloseDisabled = ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
+        private static readonly Image _systemCloseDisabled = GenericProfessionalImageResources.ProfessionalButtonCloseDisabled;
         private static readonly Image _systemMaximiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
         private static readonly Image _systemMaximiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMaxDisabled;
         private static readonly Image _systemMinimiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMinNormal;

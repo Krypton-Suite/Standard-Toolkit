@@ -22,24 +22,24 @@ namespace Krypton.Toolkit
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
         private static readonly Image _blackDropDownButton = GenericImageResources.BlackDropDownButton;
-        private static readonly Image _blackCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseNormal_24_x_24;
-        private static readonly Image _blackCloseHover = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseHover_24_x_24;
-        private static readonly Image _blackCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseDisabled_24_x_24;
-        private static readonly Image _blackClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackClosePressed_24_x_24;
-        private static readonly Image _blackMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseNormal_24_x_24;
-        private static readonly Image _blackMaximiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseHover_24_x_24;
-        private static readonly Image _blackMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseDisabled_24_x_24;
-        private static readonly Image _blackMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximisePressed_24_x_24;
-        private static readonly Image _blackMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseNormal_24_x_24;
-        private static readonly Image _blackMinimiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseHover_24_x_24;
-        private static readonly Image _blackMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseDisabled_24_x_24;
-        private static readonly Image _blackMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed_24_x_24;
-        private static readonly Image _blackRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreNormal_24_x_24;
-        private static readonly Image _blackRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreHover_24_x_24;
-        private static readonly Image _blackRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreDisabled_24_x_24;
-        private static readonly Image _blackRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackRestorePressed_24_x_24;
+        private static readonly Image _blackCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseNormal;
+        private static readonly Image _blackCloseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseActive;
+        private static readonly Image _blackCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseDisabled;
+        private static readonly Image _blackClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackClosePressed;
+        private static readonly Image _blackMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseNormal;
+        private static readonly Image _blackMaximiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseActive;
+        private static readonly Image _blackMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseDisabled;
+        private static readonly Image _blackMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximisePressed;
+        private static readonly Image _blackMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseNormal;
+        private static readonly Image _blackMinimiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseActive;
+        private static readonly Image _blackMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseDisabled;
+        private static readonly Image _blackMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed;
+        private static readonly Image _blackRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreNormal;
+        private static readonly Image _blackRestoreActive = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreActive;
+        private static readonly Image _blackRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreDisabled;
+        private static readonly Image _blackRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackRestorePressed;
         private static readonly Image _blackHelpNormal = Office2007ControlBoxResources.Office2007HelpIconNormal;
-        private static readonly Image _blackHelpHover = Office2007ControlBoxResources.Office2007HelpIconHover;
+        private static readonly Image _blackHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
         private static readonly Image _blackHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
         private static readonly Image _blackHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
         private static readonly Image _blackRibbonMinimize = GenericImageResources.BlackButtonCollapse;
@@ -517,35 +517,35 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
                     PaletteState.Disabled => _blackCloseDisabled,
-                    PaletteState.Tracking => _blackCloseHover,
+                    PaletteState.Tracking => _blackCloseActive,
                     PaletteState.Pressed => _blackClosePressed,
                     _ => _blackCloseNormal
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Disabled => _blackMinimiseDisabled,
-                    PaletteState.Tracking => _blackMinimiseHover,
+                    PaletteState.Tracking => _blackMinimiseActive,
                     PaletteState.Pressed => _blackMinimisePressed,
                     _ => _blackMinimiseNormal
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Disabled => _blackMaximiseDisabled,
-                    PaletteState.Tracking => _blackMaximiseHover,
+                    PaletteState.Tracking => _blackMaximiseActive,
                     PaletteState.Pressed => _blackMaximisePressed,
                     _ => _blackMaximiseNormal
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Disabled => _blackRestoreDisabled,
-                    PaletteState.Tracking => _blackRestoreHover,
+                    PaletteState.Tracking => _blackRestoreActive,
                     PaletteState.Pressed => _blackRestorePressed,
                     _ => _blackRestoreNormal
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                     PaletteState.Disabled => _blackHelpDisabled,
-                    PaletteState.Tracking => _blackHelpHover,
+                    PaletteState.Tracking => _blackHelpActive,
                     _ => _blackHelpNormal
                 },
                 PaletteButtonSpecStyle.RibbonMinimize => _blackRibbonMinimize,
