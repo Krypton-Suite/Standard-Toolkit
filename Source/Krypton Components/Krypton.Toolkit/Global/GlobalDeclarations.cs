@@ -52,6 +52,15 @@ global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
 global using Krypton.Toolkit.ResourceFiles.CheckBoxes;
 global using Krypton.Toolkit.ResourceFiles.ColourScales;
 global using Krypton.Toolkit.ResourceFiles.ControlBox;
+global using Krypton.Toolkit.ResourceFiles.Cursors;
+global using Krypton.Toolkit.ResourceFiles.DataBars;
+global using Krypton.Toolkit.ResourceFiles.DropDown;
+global using Krypton.Toolkit.ResourceFiles.Elements;
+global using Krypton.Toolkit.ResourceFiles.Gallery;
+global using Krypton.Toolkit.ResourceFiles.Generic;
+global using Krypton.Toolkit.ResourceFiles.Grid;
+global using Krypton.Toolkit.ResourceFiles.MDI;
+global using Krypton.Toolkit.ResourceFiles.MessageBox;
 
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;
