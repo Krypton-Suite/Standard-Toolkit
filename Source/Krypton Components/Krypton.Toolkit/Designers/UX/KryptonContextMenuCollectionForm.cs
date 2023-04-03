@@ -288,21 +288,21 @@ namespace Krypton.Toolkit
                 // 
                 _imageList.TransparentColor = Color.Magenta;
                 _imageList.Images.AddRange(new Image[]{
-                    KryptonGenericResources.KryptonContextMenuColorColumns,
-                    KryptonGenericResources.KryptonContextMenuHeading,
-                    KryptonGenericResources.KryptonContextMenuItem,
-                    KryptonGenericResources.KryptonContextMenuItems,
-                    KryptonGenericResources.KryptonContextMenuSeparator,
-                    KryptonGenericResources.KryptonRadioButton,
-                    KryptonGenericResources.KryptonCheckBox,
-                    KryptonGenericResources.KryptonCheckButton,
-                    KryptonGenericResources.KryptonLinkLabel,
+                    GenericKryptonImageResources.KryptonContextMenuColorColumns,
+                    GenericKryptonImageResources.KryptonContextMenuHeading,
+                    GenericKryptonImageResources.KryptonContextMenuItem,
+                    GenericKryptonImageResources.KryptonContextMenuItems,
+                    GenericKryptonImageResources.KryptonContextMenuSeparator,
+                    GenericKryptonImageResources.KryptonRadioButton,
+                    GenericKryptonImageResources.KryptonCheckBox,
+                    GenericKryptonImageResources.KryptonCheckButton,
+                    GenericKryptonImageResources.KryptonLinkLabel,
                     GenericImageResources.delete,
                     BlueArrowResources.arrow_up_blue,
                     BlueArrowResources.arrow_down_blue,
-                    KryptonGenericResources.KryptonContextMenuImageSelect,
-                    KryptonGenericResources.KryptonMonthCalendar,
-                    KryptonGenericResources.KryptonComboBox
+                    GenericKryptonImageResources.KryptonContextMenuImageSelect,
+                    GenericKryptonImageResources.KryptonMonthCalendar,
+                    GenericKryptonImageResources.KryptonComboBox
                 });
 
                 // TODO: Do these need updating?

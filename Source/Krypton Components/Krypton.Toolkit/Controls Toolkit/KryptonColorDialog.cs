@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// Represents a common dialog box that displays colours
     /// that are currently installed on the system.
     /// </summary>
-    [ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.png"), 
+    [ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.png"),
      Description("Displays a Kryptonised version of the standard Colour dialog, which displays colours that are currently installed on the system.")]
     public class KryptonColorDialog : ColorDialog
     {
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             _commonDialogHandler = new CommonDialogHandler(true)
             {
                 ClickCallback = ClickCallback,
-                Icon = CommonDialogIcons.Colour_V10,
+                Icon = DialogImageResources.Colour_V10,
                 ShowIcon = false
             };
 
@@ -97,11 +97,14 @@ namespace Krypton.Toolkit
             {
                 // Find the Static colour set 000002D0
                 var clrColourBox = _commonDialogHandler.Controls.FirstOrDefault(ctl => ctl.DlgCtrlId == 0x000002D0);
-                var rcClient = clrColourBox.WinInfo.rcClient;
-                var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
-                PI.ScreenToClient(hWnd, ref lpPoint);
-                clrColourBox.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
-                clrColourBox.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+                if (clrColourBox != null)
+                {
+                    var rcClient = clrColourBox.WinInfo.rcClient;
+                    var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
+                    PI.ScreenToClient(hWnd, ref lpPoint);
+                    clrColourBox.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
+                    clrColourBox.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+                }
 
                 // Find the bottom of the OK button (Might not have OK text !!) 00000001
                 var btnOk = _commonDialogHandler.Controls.FirstOrDefault(ctl => ctl.DlgCtrlId == 0x00000001);
@@ -109,8 +112,15 @@ namespace Krypton.Toolkit
                 // Now adjust the size so that it the correct display on "All" supported OS's
                 // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415
                 Size toolBoxSize = _commonDialogHandler._toolBox.ClientSize;
-                toolBoxSize.Width = clrColourBox.Size.Width + 2 * clrColourBox.ClientLocation.X;
-                toolBoxSize.Height = btnOk.ClientLocation.Y + btnOk.Size.Height *3 /2;
+                if (clrColourBox != null)
+                {
+                    toolBoxSize.Width = clrColourBox.Size.Width + 2 * clrColourBox.ClientLocation.X;
+                }
+
+                if (btnOk != null)
+                {
+                    toolBoxSize.Height = btnOk.ClientLocation.Y + btnOk.Size.Height * 3 / 2;
+                }
 
                 _commonDialogHandler._toolBox.ClientSize = toolBoxSize;
             }
@@ -120,7 +130,7 @@ namespace Krypton.Toolkit
                 && _commonDialogHandler.EmbeddingDone
             )
             {
-                PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS));
+                PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS))!;
                 if (!pos.flags.HasFlag(PI.SWP_.NOSIZE)
                     && (pos.hwnd == hWnd)
                     )
