@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteBorderInheritForced : PaletteBorderInherit
     {
         #region Instance Fields
-        private IPaletteBorder? _inherit;
+        private IPaletteBorder _inherit;
         private PaletteDrawBorders _forceBorderEdges;
         private bool _forceBorders;
 
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteBorderInheritForced class.
         /// </summary>
         /// <param name="inherit">Border palette to inherit from.</param>
-        public PaletteBorderInheritForced(IPaletteBorder? inherit)
+        public PaletteBorderInheritForced(IPaletteBorder inherit)
         {
             // Remember inheritance border
             _inherit = inherit;
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetBorderDraw(PaletteState state) => _inherit!.GetBorderDraw(state);
+        public override InheritBool GetBorderDraw(PaletteState state) => _inherit.GetBorderDraw(state);
 
         /// <summary>
         /// Gets a value indicating which borders to draw.
@@ -110,8 +110,8 @@ namespace Krypton.Toolkit
             else
             {
                 // If no border edges are allowed then provide none
-                if ((MaxBorderEdges == PaletteDrawBorders.None)
-                    || (BorderIgnoreNormal
+                if ((MaxBorderEdges == PaletteDrawBorders.None) 
+                    || (BorderIgnoreNormal 
                         && (state == PaletteState.Normal)
                         )
                     )
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Get the requested set of edges
-                    PaletteDrawBorders inheritEdges = _inherit!.GetBorderDrawBorders(state);
+                    PaletteDrawBorders inheritEdges = _inherit.GetBorderDrawBorders(state);
 
                     // Limit the edges to those allowed
                     return inheritEdges & MaxBorderEdges;
@@ -135,77 +135,77 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) =>
-            ForceGraphicsHint != PaletteGraphicsHint.Inherit ? ForceGraphicsHint : _inherit!.GetBorderGraphicsHint(state);
+            ForceGraphicsHint != PaletteGraphicsHint.Inherit ? ForceGraphicsHint : _inherit.GetBorderGraphicsHint(state);
 
         /// <summary>
         /// Gets the first border color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBorderColor1(PaletteState state) => _inherit!.GetBorderColor1(state);
+        public override Color GetBorderColor1(PaletteState state) => _inherit.GetBorderColor1(state);
 
         /// <summary>
         /// Gets the second border color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBorderColor2(PaletteState state) => _inherit!.GetBorderColor2(state);
+        public override Color GetBorderColor2(PaletteState state) => _inherit.GetBorderColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetBorderColorStyle(PaletteState state) => _inherit!.GetBorderColorStyle(state);
+        public override PaletteColorStyle GetBorderColorStyle(PaletteState state) => _inherit.GetBorderColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public override PaletteRectangleAlign GetBorderColorAlign(PaletteState state) => _inherit!.GetBorderColorAlign(state);
+        public override PaletteRectangleAlign GetBorderColorAlign(PaletteState state) => _inherit.GetBorderColorAlign(state);
 
         /// <summary>
         /// Gets the color border angle.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public override float GetBorderColorAngle(PaletteState state) => _inherit!.GetBorderColorAngle(state);
+        public override float GetBorderColorAngle(PaletteState state) => _inherit.GetBorderColorAngle(state);
 
         /// <summary>
         /// Gets the border width.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border width.</returns>
-        public override int GetBorderWidth(PaletteState state) => _inherit!.GetBorderWidth(state);
+        public override int GetBorderWidth(PaletteState state) => _inherit.GetBorderWidth(state);
 
         /// <summary>
         /// Gets the border rounding.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public override float GetBorderRounding(PaletteState state) => _inherit!.GetBorderRounding(state);
+        public override float GetBorderRounding(PaletteState state) => _inherit.GetBorderRounding(state);
 
         /// <summary>
         /// Gets a border image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image? GetBorderImage(PaletteState state) => _inherit!.GetBorderImage(state);
+        public override Image? GetBorderImage(PaletteState state) => _inherit.GetBorderImage(state);
 
         /// <summary>
         /// Gets the border image style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public override PaletteImageStyle GetBorderImageStyle(PaletteState state) => _inherit!.GetBorderImageStyle(state);
+        public override PaletteImageStyle GetBorderImageStyle(PaletteState state) => _inherit.GetBorderImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public override PaletteRectangleAlign GetBorderImageAlign(PaletteState state) => _inherit!.GetBorderImageAlign(state);
+        public override PaletteRectangleAlign GetBorderImageAlign(PaletteState state) => _inherit.GetBorderImageAlign(state);
         #endregion
     }
 }

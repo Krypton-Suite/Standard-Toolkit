@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroupButton : ViewLayoutDocker
     {
         #region Instance Fields
-        private readonly ViewDrawRibbonGroupDialogButton? _groupButton;
-        private readonly ViewLayoutRibbonCenter? _centerButton;
+        private readonly ViewDrawRibbonGroupDialogButton _groupButton;
+        private readonly ViewLayoutRibbonCenter _centerButton;
         #endregion
 
         #region Identity
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the controller used for the button.
         /// </summary>
-        public DialogLauncherButtonController DialogButtonController => _groupButton.DialogButtonController;
+        public DialogLauncherButtonController? DialogButtonController => _groupButton.DialogButtonController;
 
         #endregion
 

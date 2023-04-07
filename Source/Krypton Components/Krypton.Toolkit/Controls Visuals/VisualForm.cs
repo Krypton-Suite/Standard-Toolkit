@@ -380,7 +380,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IKryptonComposition? Composition { get; set; }
+        public IKryptonComposition Composition { get; set; }
 
         /// <summary>
         /// Gets or sets the palette to be applied.

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonContextMenuMonthCalendar _monthCalendar;
-        private readonly ViewLayoutMonths? _months;
+        private readonly ViewLayoutMonths _months;
         private readonly NeedPaintHandler _needPaint;
         private DateTime _selectionStart;
         private bool _mouseOver;
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for handling repainting requests.</param>
         public MonthCalendarController(KryptonContextMenuMonthCalendar monthCalendar,
                                        ViewContextMenuManager viewManager,
-                                       ViewLayoutMonths? months, 
+                                       ViewLayoutMonths months, 
                                        NeedPaintHandler needPaint)
         {
             _monthCalendar = monthCalendar;
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase? GetActiveView() => _months;
+        public ViewBase GetActiveView() => _months;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.

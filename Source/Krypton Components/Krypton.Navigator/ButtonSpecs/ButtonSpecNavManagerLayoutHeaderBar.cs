@@ -42,8 +42,8 @@ namespace Krypton.Navigator
         public ButtonSpecNavManagerLayoutHeaderBar(Control control,
                                                    PaletteRedirect? redirector,
                                                    ButtonSpecCollectionBase variableSpecs,
-                                                   ButtonSpecCollectionBase fixedSpecs,
-                                                   ViewLayoutDocker?[] viewDockers,
+                                                   ButtonSpecCollectionBase? fixedSpecs,
+                                                   ViewLayoutDocker[] viewDockers,
                                                    IPaletteMetric[] viewMetrics,
                                                    PaletteMetricInt[] viewMetricIntOutside,
                                                    PaletteMetricInt[] viewMetricIntInside,
@@ -52,9 +52,9 @@ namespace Krypton.Navigator
                                                    NeedPaintHandler needPaint,
                                                    IPaletteContent? paletteContent,
                                                    PaletteState paletteState)
-            : base(control, redirector, variableSpecs, fixedSpecs, 
+            : base(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricIntOutside,
-                   viewMetricIntInside, viewMetricPaddings, getRenderer, 
+                   viewMetricIntInside, viewMetricPaddings, getRenderer,
                    needPaint)
         {
             // Remember initial palette settings needed for color remapping
@@ -80,7 +80,7 @@ namespace Krypton.Navigator
             foreach (ButtonSpecView view in ButtonSpecViews)
             {
                 // Cast the remapping palette to the correct type
-                ButtonSpecRemapByContentCache remapPalette = (ButtonSpecRemapByContentCache)view.RemapPalette;
+                ButtonSpecRemapByContentCache? remapPalette = (ButtonSpecRemapByContentCache)view.RemapPalette!;
                 remapPalette.SetPaletteContent(_paletteContent);
                 remapPalette.SetPaletteState(_paletteState);
             }
@@ -92,7 +92,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Base palette class.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
-        public override PaletteRedirect? CreateButtonSpecRemap(PaletteRedirect? redirector,
+        public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
                                                               ButtonSpec buttonSpec) =>
             new ButtonSpecRemapByContentCache(redirector, buttonSpec);
 
@@ -110,17 +110,17 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
-        protected override void ButtonSpecCreated(ButtonSpec buttonSpec, 
-                                                  ButtonSpecView buttonView, 
+        protected override void ButtonSpecCreated(ButtonSpec buttonSpec,
+                                                  ButtonSpecView buttonView,
                                                   int viewDockerIndex)
         {
             // Cast the remapping palette to the correct type
-            ButtonSpecRemapByContentCache remapPalette = (ButtonSpecRemapByContentCache)buttonView.RemapPalette;
+            ButtonSpecRemapByContentCache? remapPalette = (ButtonSpecRemapByContentCache)buttonView.RemapPalette!;
 
             // Update button with the foreground used for color mapping
             remapPalette.SetPaletteContent(_paletteContent);
             remapPalette.SetPaletteState(_paletteState);
-        }        
+        }
         #endregion
     }
 }

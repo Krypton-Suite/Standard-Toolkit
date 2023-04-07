@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ViewDrawDocker? _drawDocker;
-        private readonly ViewLayoutFill? _layoutFill;
+        private readonly ViewDrawDocker _drawDocker;
+        private readonly ViewLayoutFill _layoutFill;
         private bool _forcedLayout;
         private bool _layingOut;
         private float _cornerRoundingRadius;

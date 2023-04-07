@@ -21,8 +21,8 @@ namespace Krypton.Ribbon
                                                    IContextMenuTarget
     {
         #region Instance Fields
-        private readonly ViewDrawButton? _target;
-        private readonly ViewContextMenuManager? _viewManager;
+        private readonly ViewDrawButton _target;
+        private readonly ViewContextMenuManager _viewManager;
         #endregion
 
         #region Identity
@@ -32,8 +32,8 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">Owning view manager instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonSpecAppButtonController(ViewContextMenuManager? viewManager,
-                                             ViewDrawButton? target,
+        public ButtonSpecAppButtonController(ViewContextMenuManager viewManager,
+                                             ViewDrawButton target,
                                              NeedPaintHandler needPaint)
             : base(target, needPaint)
         {
@@ -169,7 +169,7 @@ namespace Krypton.Ribbon
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase? GetActiveView() => _target;
+        public ViewBase GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.

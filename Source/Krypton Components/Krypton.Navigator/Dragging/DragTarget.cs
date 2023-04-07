@@ -157,7 +157,7 @@ namespace Krypton.Navigator
         /// <param name="target">Target navigator instance.</param>
         /// <param name="data">Dragged page data.</param>
         /// <returns>Last page to be transferred.</returns>
-        protected KryptonPage? ProcessDragEndData(KryptonNavigator target,
+        protected KryptonPage? ProcessDragEndData(KryptonNavigator? target,
                                                  PageDragEndData? data)
         {
             KryptonPage? ret = null;

@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private readonly ViewDrawContent? _drawContent;
+        private readonly ViewDrawContent _drawContent;
         #endregion
 
         #region Identity

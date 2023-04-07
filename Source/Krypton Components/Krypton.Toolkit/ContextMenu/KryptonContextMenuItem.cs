@@ -214,9 +214,9 @@ namespace Krypton.Toolkit
         /// <param name="standardStyle">Draw items with standard or alternate style.</param>
         /// <param name="imageColumn">Draw an image background for the item images.</param>
         /// <returns>ViewBase that is the root of the view hierarchy being added.</returns>
-        public override ViewBase? GenerateView(IContextMenuProvider provider,
+        public override ViewBase GenerateView(IContextMenuProvider provider,
                                               object parent,
-                                              ViewLayoutStack? columns,
+                                              ViewLayoutStack columns,
                                               bool standardStyle,
                                               bool imageColumn) =>
             new ViewDrawMenuItem(provider, this, columns, standardStyle, imageColumn);

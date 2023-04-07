@@ -38,7 +38,7 @@ namespace Krypton.Navigator
                                     MapKryptonPageText mapExtraText)
         {
             Debug.Assert(page != null);
-            
+
             _page = page;
             _mapImage = mapImage;
             _mapText = mapText;

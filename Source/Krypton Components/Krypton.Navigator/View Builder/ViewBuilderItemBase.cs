@@ -20,13 +20,13 @@ namespace Krypton.Navigator
         #region Instance Fields
         protected PageToNavCheckItem _pageLookup;
         protected ButtonSpecManagerBase _buttonManager;
-        protected ViewDrawPanel? _drawPanel;
-        protected ViewDrawCanvas? _drawGroup;
-        protected ViewLayoutDocker? _layoutBarDocker;
-        protected ViewLayoutBar? _layoutBar;
-        protected ViewLayoutViewport? _layoutBarViewport;
-        protected ViewBase? _newRoot;
-        protected ViewBase? _oldRoot;
+        protected ViewDrawPanel _drawPanel;
+        protected ViewDrawCanvas _drawGroup;
+        protected ViewLayoutDocker _layoutBarDocker;
+        protected ViewLayoutBar _layoutBar;
+        protected ViewLayoutViewport _layoutBarViewport;
+        protected ViewBase _newRoot;
+        protected ViewBase _oldRoot;
         private bool _hasFocus;
         private int _events;
         #endregion
@@ -147,7 +147,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // It is possible the lookup has not been created yet
             if (_pageLookup != null)
@@ -172,7 +172,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_pageLookup != null)
             {
@@ -197,7 +197,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage? PageFromView(ViewBase? element) => 
+        public override KryptonPage? PageFromView(ViewBase element) => 
             _pageLookup != null 
                 ? (from pair in _pageLookup where pair.Value.View == element select pair.Key).FirstOrDefault() 
                 : null;
@@ -207,7 +207,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase? element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Check the set of navigator level button specs
             ButtonSpec bs = (_buttonManager?.ButtonSpecFromView(element));
@@ -233,7 +233,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public override void PageAppearanceChanged(KryptonPage page, string property)
+        public override void PageAppearanceChanged(KryptonPage? page, string? property)
         {
             Debug.Assert(page != null);
             Debug.Assert(property != null);
@@ -1202,12 +1202,12 @@ namespace Krypton.Navigator
         {
             // Cast incoming reference to the actual button view
             INavCheckItem reorderItem = (INavCheckItem)sender;
-            ViewBase? reorderView = reorderItem.View;
+            ViewBase reorderView = reorderItem.View;
 
             // Scan the collection of children
             var foundReorderView = false;
             VisualOrientation orientation = ConvertButtonBorderBackOrientation();
-            foreach (ViewBase? childView in Navigator.Pages.Select(page => (ViewBase)_pageLookup[page]))
+            foreach (ViewBase childView in Navigator.Pages.Select(page => (ViewBase)_pageLookup[page]))
             {
                 if (childView.ClientRectangle.Contains(e.PointOffset))
                 {

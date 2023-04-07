@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private readonly ViewDrawRibbonGroupCheckBoxImage? _targetImage;
+        private readonly ViewDrawRibbonGroupCheckBoxImage _targetImage;
         private NeedPaintHandler _needPaint;
         private bool _rightButtonDown;
         private bool _fixedPressed;
@@ -54,8 +54,8 @@ namespace Krypton.Ribbon
         /// <param name="targetImage">Target for image state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public GroupCheckBoxController(KryptonRibbon ribbon,
-                                       ViewBase? targetMain,
-                                       ViewDrawRibbonGroupCheckBoxImage? targetImage,
+                                       ViewBase targetMain,
+                                       ViewDrawRibbonGroupCheckBoxImage targetImage,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -341,7 +341,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase? TargetMain { get; }
+        public ViewBase TargetMain { get; }
 
         /// <summary>
         /// Fires the NeedPaint event.
@@ -456,7 +456,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase? newView = null;
+            ViewBase newView = null;
 
             switch (e.KeyData)
             {

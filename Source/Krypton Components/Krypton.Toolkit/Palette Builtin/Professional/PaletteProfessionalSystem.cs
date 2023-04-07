@@ -18,6 +18,9 @@ namespace Krypton.Toolkit
     public class PaletteProfessionalSystem : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new(3, 2, 3, 2);
         private static readonly Padding _contentPaddingHeader2 = new(3, 2, 3, 2);
@@ -56,6 +59,10 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingContextMenuItemHighlight = new(1, 0, 1, 0);
         private static readonly Padding _metricPaddingContextMenuItemsCollection = new(0, 1, 0, 1);
 
+        #endregion
+
+        #region Images
+
         private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = GenericProfessionalImageResources.ProfessionalContextButton;
         private static readonly Image _buttonSpecNext = GenericProfessionalImageResources.ProfessionalNextButton;
@@ -67,20 +74,20 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
         private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
         private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
         //private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
         //private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _systemCloseNormal = ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
-        private static readonly Image _systemCloseDisabled = ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
+        private static readonly Image _systemCloseDisabled = GenericProfessionalImageResources.ProfessionalButtonCloseDisabled;
         private static readonly Image _systemMaximiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
         private static readonly Image _systemMaximiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMaxDisabled;
         private static readonly Image _systemMinimiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
         private static readonly Image _systemMinimiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMinDisabled;
         private static readonly Image _systemRestoreNormal = ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
         private static readonly Image _systemRestoreDisabled = ProfessionalControlBoxResources.ProfessionalButtonRestoreDisabled;
-        private static readonly Image _systemHelpA = HelpIconResources.ProfessionalHelpIconNormal;
-        private static readonly Image _systemHelpI = HelpIconResources.ProfessionalHelpIconDisabled;
+        private static readonly Image _systemHelpA = ProfessionalControlBoxResources.ProfessionalHelpIconNormal;
+        private static readonly Image _systemHelpI = ProfessionalControlBoxResources.ProfessionalHelpIconDisabled;
         private static readonly Image _pendantCloseA = ProfessionalPendantImageResources.ProfessionalPendantCloseNormal;
         private static readonly Image _pendantCloseI = ProfessionalPendantImageResources.ProfessionalPendantCloseDisabled;
         private static readonly Image _pendantMinA = ProfessionalPendantImageResources.ProfessionalPendantMinNormal;
@@ -97,45 +104,9 @@ namespace Krypton.Toolkit
         private static readonly Image? _treeExpandPlus = TreeItemImageResources.TreeExpandPlus;
         private static readonly Image? _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
 
-        #region Toolbar Images
-
-        private static readonly Image _formToolbarButtonSpecNewNormal = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewHover = GenericToolbarImageResources.NewDocument;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = GenericToolbarImageResources.NewDocument;
-
-        private static readonly Image _formToolbarButtonSpecOpenNormal = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenHover = GenericToolbarImageResources.Open;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = GenericToolbarImageResources.Open;
-
-        private static readonly Image _formToolbarButtonSpecSaveNormal = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveHover = GenericToolbarImageResources.Save;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = GenericToolbarImageResources.Save;
-
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsHover = GenericToolbarImageResources.SaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.SaveAs;
-
-        private static readonly Image _formToolbarButtonSpecCutNormal = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutHover = GenericToolbarImageResources.Cut;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = GenericToolbarImageResources.Cut;
-
-        private static readonly Image _formToolbarButtonSpecCopyNormal = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyHover = GenericToolbarImageResources.Copy;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = GenericToolbarImageResources.Copy;
-
-        private static readonly Image _formToolbarButtonSpecPasteNormal = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteHover = GenericToolbarImageResources.Paste;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = GenericToolbarImageResources.Paste;
-
-        private static readonly Image _formToolbarButtonSpecUndoNormal = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoHover = GenericToolbarImageResources.Undo;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = GenericToolbarImageResources.Undo;
-
-        private static readonly Image _formToolbarButtonSpecRedoNormal = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoHover = GenericToolbarImageResources.Redo;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = GenericToolbarImageResources.Redo;
-
         #endregion
+
+        #region Colours
 
         private static readonly Color _contextTextColor = Color.White;
         //private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
@@ -143,6 +114,9 @@ namespace Krypton.Toolkit
         private static readonly Color _contextCheckedTabBorder2 = Color.FromArgb(230, 190, 129);
         private static readonly Color _contextCheckedTabBorder3 = Color.FromArgb(220, 202, 171);
         private static readonly Color _contextCheckedTabBorder4 = Color.FromArgb(255, 252, 247);
+
+        #endregion
+
         #endregion
 
         #region Instance Fields
@@ -2927,79 +2901,6 @@ namespace Krypton.Toolkit
 
                 case PaletteButtonSpecStyle.Generic:
                     return null;
-
-                case PaletteButtonSpecStyle.New:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecNewHover,
-                        PaletteState.Normal => _formToolbarButtonSpecNewNormal,
-                        _ => _formToolbarButtonSpecNewDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Open:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecOpenHover,
-                        PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
-                        _ => _formToolbarButtonSpecOpenDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Save:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecSaveHover,
-                        PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
-                        _ => _formToolbarButtonSpecSaveDisabled
-                    };
-
-                case PaletteButtonSpecStyle.SaveAs:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecSaveAsHover,
-                        PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
-                        _ => _formToolbarButtonSpecSaveAsDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Cut:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecCutHover,
-                        PaletteState.Normal => _formToolbarButtonSpecCutNormal,
-                        _ => _formToolbarButtonSpecCutDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Copy:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecCopyHover,
-                        PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
-                        _ => _formToolbarButtonSpecCopyDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Paste:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecPasteHover,
-                        PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
-                        _ => _formToolbarButtonSpecPasteDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Undo:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecUndoHover,
-                        PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
-                        _ => _formToolbarButtonSpecUndoDisabled
-                    };
-
-                case PaletteButtonSpecStyle.Redo:
-                    return state switch
-                    {
-                        PaletteState.Tracking => _formToolbarButtonSpecRedoHover,
-                        PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
-                        _ => _formToolbarButtonSpecRedoDisabled
-                    };
-
                 default:
                     // Should never happen!
                     Debug.Assert(false);

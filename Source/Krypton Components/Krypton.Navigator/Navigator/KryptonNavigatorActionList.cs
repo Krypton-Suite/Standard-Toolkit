@@ -47,7 +47,7 @@ namespace Krypton.Navigator
             _serviceDesignerAction = (DesignerActionUIService)GetService(typeof(DesignerActionUIService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the navigator mode.
@@ -647,7 +647,7 @@ namespace Krypton.Navigator
 
                 AddConstantActions(actions);
             }
-            
+
             return actions;
         }
 
@@ -686,7 +686,7 @@ namespace Krypton.Navigator
                                    bool ignore)
         {
             actions.Add(new DesignerActionHeaderItem("Bar"));
-            
+
             if (includeBarOrientation)
             {
                 actions.Add(new DesignerActionPropertyItem(nameof(BarOrientation), "Bar Orientation", "Bar", "Orientation of the bar."));
@@ -750,9 +750,9 @@ namespace Krypton.Navigator
             _headerSecondaryText = (headerSecondaryVisible ? "Hide secondary header" : "Show secondary header");
 
             // Create the two verbs for toggling the header visibility
-            _headerBarVisible = new DesignerVerb(_headerBarText, OnVisibleClick);
-            _headerPrimaryVisible = new DesignerVerb(_headerPrimaryText, OnVisibleClick);
-            _headerSecondaryVisible = new DesignerVerb(_headerSecondaryText, OnVisibleClick);
+            _headerBarVisible = new DesignerVerb(_headerBarText, OnVisibleClick!);
+            _headerPrimaryVisible = new DesignerVerb(_headerPrimaryText, OnVisibleClick!);
+            _headerSecondaryVisible = new DesignerVerb(_headerSecondaryText, OnVisibleClick!);
 
             actions.Add(new DesignerActionHeaderItem("Header"));
 
@@ -814,7 +814,7 @@ namespace Krypton.Navigator
         private void OnVisibleClick(object sender, EventArgs e)
         {
             // Cast to the correct type
-            DesignerVerb verb = sender as DesignerVerb;
+            DesignerVerb? verb = sender as DesignerVerb;
 
             // Find out which verb has been used
             var headerBar = (verb == _headerBarVisible);

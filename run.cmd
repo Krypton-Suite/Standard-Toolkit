@@ -1,10 +1,12 @@
-:: Last updated: Sunday 19th February, 2023 @ 8:00
+:: Last updated: Friday 31st March, 2023 @ 9:20
 
 @echo off
 
+title Krypton Toolkit Build System
+
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.8a. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.8b. Please select an option below.
 
 @echo ==============================================================================================
 

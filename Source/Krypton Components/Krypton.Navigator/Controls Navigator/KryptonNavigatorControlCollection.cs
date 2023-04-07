@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -38,12 +39,17 @@ namespace Krypton.Navigator
         {
             Debug.Assert(value != null);
 
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             // Cast to correct type
 
             // We only allow KryptonPage controls to be added
-            if (value is not KryptonPage page)
+            if (value is not KryptonPage)
             {
-                throw new ArgumentException("Only KryptonPage controls can be added.", nameof(value));
+                throw new ArgumentException(@"Only KryptonPage controls can be added.", nameof(value));
             }
 
             // Let base class perform actual add

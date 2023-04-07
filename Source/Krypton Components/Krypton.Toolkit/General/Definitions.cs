@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        ViewBase GetView();
+        ViewBase? GetView();
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the layout for context menu columns.
         /// </summary>
-        ViewLayoutStack? ProviderViewColumns { get; }
+        ViewLayoutStack ProviderViewColumns { get; }
 
         /// <summary>
         /// Gets access to the context menu specific view manager.
@@ -381,7 +381,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        ViewBase? GetActiveView();
+        ViewBase GetActiveView();
 
         /// <summary>
         /// Get the client rectangle for the display of this target.

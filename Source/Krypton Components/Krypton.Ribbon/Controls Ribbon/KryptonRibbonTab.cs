@@ -322,14 +322,22 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
+        internal void OnDesignTimeContextMenu(MouseEventArgs e)
+        {
+            DesignTimeContextMenu?.Invoke(this, e);
+        }
 
-        internal void OnDesignTimeAddGroup() => DesignTimeAddGroup?.Invoke(this, EventArgs.Empty);
+        internal void OnDesignTimeAddGroup()
+        {
+            DesignTimeAddGroup?.Invoke(this, EventArgs.Empty);
+        }
 
         internal bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -369,11 +377,8 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroup> e)
         {
             // Setup the back references
-            if (e.Item != null)
-            {
-                e.Item.Ribbon = _ribbon;
-                e.Item.RibbonTab = this;
-            }
+            e.Item.Ribbon = _ribbon;
+            e.Item.RibbonTab = this;
 
             // Only need to update display if this tab is selected and the group is visible
             if ((_ribbon != null) && (_ribbon.SelectedTab == this) && Visible)
@@ -385,11 +390,8 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroup> e)
         {
             // Remove the back references
-            if (e.Item != null)
-            {
-                e.Item.Ribbon = null;
-                e.Item.RibbonTab = null;
-            }
+            e.Item.Ribbon = null;
+            e.Item.RibbonTab = null;
 
             // Only need to update display if this tab is selected and the group was visible
             if ((_ribbon != null) && (_ribbon.SelectedTab == this) && Visible)

@@ -10,12 +10,13 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Navigator
 {
     internal class VisualPopupPage : VisualPopup
     {
         #region Static Fields
-        private static readonly MethodInfo _containerSelect;
+        private static readonly MethodInfo? _containerSelect;
         #endregion
 
         #region Instance Fields
@@ -49,45 +50,51 @@ namespace Krypton.Navigator
             _page = page;
 
             // Always create the layout that positions the actual page
-            ViewLayoutPopupPage? layoutPage = new(_navigator, _page);
+            ViewLayoutPopupPage layoutPage = new(_navigator, _page);
 
             // Create the internal panel used for containing content
-            ViewDrawCanvas? drawGroup = new(_navigator.StateNormal.HeaderGroup.Back,
-                                                          _navigator.StateNormal.HeaderGroup.Border,
-                                                          VisualOrientation.Top)
+            if (_navigator.StateNormal != null)
             {
-
-                // Add the layout inside the draw group
-                layoutPage
-            };
-
-            // Do we need to add a border area around the page group
-            if (_navigator.PopupPages.Border > 0)
-            {
-                // Grab the actual border values
-                var border = _navigator.PopupPages.Border;
-
-                // Put the page group inside a layout that has separators 
-                // to pad out the sizing to the border size we need
-                ViewLayoutDocker? layoutDocker = new()
+                if (_navigator.StateNormal.HeaderGroup != null)
                 {
-                    { drawGroup, ViewDockStyle.Fill },
-                    { new ViewLayoutSeparator(border), ViewDockStyle.Top },
-                    { new ViewLayoutSeparator(border), ViewDockStyle.Bottom },
-                    { new ViewLayoutSeparator(border), ViewDockStyle.Left },
-                    { new ViewLayoutSeparator(border), ViewDockStyle.Right }
-                };
+                    ViewDrawCanvas drawGroup = new(_navigator.StateNormal.HeaderGroup.Back,
+                        _navigator.StateNormal.HeaderGroup.Border,
+                        VisualOrientation.Top)
+                    {
 
-                // Create a new top level group that contains the layout
-                drawGroup = new ViewDrawCanvas(_navigator.StateNormal.Back,
-                                                _navigator.StateNormal.HeaderGroup.Border,
-                                               VisualOrientation.Top)
-                {
-                    layoutDocker
-                };
+                        // Add the layout inside the draw group
+                        layoutPage
+                    };
+
+                    // Do we need to add a border area around the page group
+                    if (_navigator.PopupPages.Border > 0)
+                    {
+                        // Grab the actual border values
+                        var border = _navigator.PopupPages.Border;
+
+                        // Put the page group inside a layout that has separators 
+                        // to pad out the sizing to the border size we need
+                        ViewLayoutDocker layoutDocker = new()
+                        {
+                            { drawGroup, ViewDockStyle.Fill },
+                            { new ViewLayoutSeparator(border), ViewDockStyle.Top },
+                            { new ViewLayoutSeparator(border), ViewDockStyle.Bottom },
+                            { new ViewLayoutSeparator(border), ViewDockStyle.Left },
+                            { new ViewLayoutSeparator(border), ViewDockStyle.Right }
+                        };
+
+                        // Create a new top level group that contains the layout
+                        drawGroup = new ViewDrawCanvas(_navigator.StateNormal.Back,
+                            _navigator.StateNormal.HeaderGroup.Border,
+                            VisualOrientation.Top)
+                        {
+                            layoutDocker
+                        };
+                    }
+
+                    ViewManager = new ViewManager(this, drawGroup);
+                }
             }
-
-            ViewManager = new ViewManager(this, drawGroup);
 
             // Borrow the child panel that contains all the pages from 
             // the navigator and add it inside as a child of ourself
@@ -136,17 +143,26 @@ namespace Krypton.Navigator
             using RenderContext context = new(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-            borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-            borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+            if (_navigator.StateNormal != null)
+            {
+                if (_navigator.StateNormal.HeaderGroup != null)
+                {
+                    if (Renderer != null)
+                    {
+                        GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                        borderRect.Inflate(-1, -1);
+                        GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                        borderRect.Inflate(-1, -1);
+                        GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
 
-            // Update the region of the popup to be the border path
-            Region = new Region(borderPath1);
+                        // Update the region of the popup to be the border path
+                        Region = new Region(borderPath1);
 
-            // Inform the shadow to use the same paths for drawing the shadow
-            DefineShadowPaths(borderPath1, borderPath2, borderPath3);
+                        // Inform the shadow to use the same paths for drawing the shadow
+                        DefineShadowPaths(borderPath1, borderPath2, borderPath3);
+                    }
+                }
+            }
         }
         #endregion
 
@@ -158,67 +174,73 @@ namespace Krypton.Navigator
         public void ShowCalculatingSize(Rectangle parentScreenRect)
         {
             // Get the size the popup would like to be
-            Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
-
-            // Get the resolved position for the popup page
-            PopupPagePosition? position = _navigator.ResolvePopupPagePosition();
-
-            // Find the size and position relative to the parent screen rect
-            switch (position)
+            if (ViewManager != null)
             {
-                case PopupPagePosition.AboveNear:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.AboveMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, parentScreenRect.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.AboveFar:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right - popupSize.Width, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.BelowNear:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.BelowMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Bottom + _navigator.PopupPages.Gap, parentScreenRect.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.BelowFar:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right - popupSize.Width, parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.FarBottom:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.FarMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Top, popupSize.Width, parentScreenRect.Height);
-                    break;
-                case PopupPagePosition.FarTop:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Top, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.NearBottom:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.NearMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top, popupSize.Width, parentScreenRect.Height);
-                    break;
-                case PopupPagePosition.NearTop:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top, popupSize.Width, popupSize.Height);
-                    break;
+                Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
+
+                // Get the resolved position for the popup page
+                PopupPagePosition? position = _navigator.ResolvePopupPagePosition();
+
+                // Find the size and position relative to the parent screen rect
+                switch (position)
+                {
+                    case PopupPagePosition.AboveNear:
+                        parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.AboveMatch:
+                        parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, parentScreenRect.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.AboveFar:
+                        parentScreenRect = new Rectangle(parentScreenRect.Right - popupSize.Width, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.BelowNear:
+                        parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.BelowMatch:
+                        parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Bottom + _navigator.PopupPages.Gap, parentScreenRect.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.BelowFar:
+                        parentScreenRect = new Rectangle(parentScreenRect.Right - popupSize.Width, parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.FarBottom:
+                        parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.FarMatch:
+                        parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Top, popupSize.Width, parentScreenRect.Height);
+                        break;
+                    case PopupPagePosition.FarTop:
+                        parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Top, popupSize.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.NearBottom:
+                        parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height);
+                        break;
+                    case PopupPagePosition.NearMatch:
+                        parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top, popupSize.Width, parentScreenRect.Height);
+                        break;
+                    case PopupPagePosition.NearTop:
+                        parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top, popupSize.Width, popupSize.Height);
+                        break;
+                }
             }
 
-            PopupPageEventArgs e = new(_page,
-                                                          _navigator.Pages.IndexOf(_page),
-                                                          parentScreenRect);
-
-            // Use event to allow the popup to be cancelled or the position altered
-            _navigator.OnDisplayPopupPage(e);
-
-            // Do we need to kill ourself
-            if (!e.Cancel)
+            if (_page != null)
             {
-                Show(e.ScreenRect);
-            }
-            else
-            {
-                Dispose();
+                PopupPageEventArgs e = new(_page,
+                    _navigator.Pages.IndexOf(_page),
+                    parentScreenRect);
+
+                // Use event to allow the popup to be cancelled or the position altered
+                _navigator.OnDisplayPopupPage(e);
+
+                // Do we need to kill ourself
+                if (!e.Cancel)
+                {
+                    Show(e.ScreenRect);
+                }
+                else
+                {
+                    Dispose();
+                }
             }
         }
         #endregion
@@ -237,7 +259,7 @@ namespace Krypton.Navigator
                 if (e.KeyData is Keys.Tab or (Keys.Tab | Keys.Shift))
                 {
                     // If we do not currently contain the focus
-                    if (!_page.ContainsFocus)
+                    if (_page != null && !_page.ContainsFocus)
                     {
                         // Select the appropriate control on the page
                         TabToNextControl(null, (e.KeyData == Keys.Tab));
@@ -299,7 +321,7 @@ namespace Krypton.Navigator
             // If only allow focus on a control within the page instance, so
             // setting to null will force the GetNextControl to get the first
             // child control of the page.
-            if (!_page.Contains(next))
+            if (_page != null && !_page.Contains(next))
             {
                 next = null;
             }
@@ -310,55 +332,62 @@ namespace Krypton.Navigator
             do
             {
                 // Find the next control in sequence
-                next = _page.GetNextControl(next!, forward);
-
-                // If no more controls found, then finished
-                if (next == null)
+                if (_page != null)
                 {
-                    // If already wrapped around end of list then must be finished
-                    if (wrapped)
-                    {
-                        return false;
-                    }
+                    next = _page.GetNextControl(next!, forward);
 
-                    // Keep going from the start
-                    wrapped = true;
-                }
-                else
-                {
-                    // Can only selected controls that are inside ourself as a container
-                    if (_page.Contains(next))
+                    // If no more controls found, then finished
+                    if (next == null)
                     {
-                        // If the next control is allowed to become selected 
-                        // and allowed to be selected because of a tab action
-                        if (next is { CanSelect: true, TabStop: true })
+                        // If already wrapped around end of list then must be finished
+                        if (wrapped)
                         {
-                            // Is the next control a container control?
-                            if (next is ContainerControl)
+                            return false;
+                        }
+
+                        // Keep going from the start
+                        wrapped = true;
+                    }
+                    else
+                    {
+                        // Can only selected controls that are inside ourself as a container
+                        if (_page.Contains(next))
+                        {
+                            // If the next control is allowed to become selected 
+                            // and allowed to be selected because of a tab action
+                            if (next is { CanSelect: true, TabStop: true })
                             {
-                                // If the source control of the next/previous is inside the container
-                                // then we do not want to stop at the container itself as that would 
-                                // just put the focus straight back into the container. So keep going.
-                                if (!next.Contains(focus))
+                                // Is the next control a container control?
+                                if (next is ContainerControl)
                                 {
-                                    // We need to call the protected select method in order to have 
-                                    // it perform an internal select of the first/last ordered item
-                                    _containerSelect.Invoke(next, new object[] { true, forward });
-                                    return true;
-                                }
-                            }
-                            else
-                            {
-                                // Select the actual control
-                                if (!_page.ContainsFocus)
-                                {
-                                    next.Focus();
+                                    // If the source control of the next/previous is inside the container
+                                    // then we do not want to stop at the container itself as that would 
+                                    // just put the focus straight back into the container. So keep going.
+                                    if (!next.Contains(focus))
+                                    {
+                                        // We need to call the protected select method in order to have 
+                                        // it perform an internal select of the first/last ordered item
+                                        if (_containerSelect != null)
+                                        {
+                                            _containerSelect.Invoke(next, new object[] { true, forward });
+                                        }
+                                        return true;
+                                    }
                                 }
                                 else
                                 {
-                                    next.Select();
+                                    // Select the actual control
+                                    if (!_page.ContainsFocus)
+                                    {
+                                        next.Focus();
+                                    }
+                                    else
+                                    {
+                                        next.Select();
+                                    }
+
+                                    return true;
                                 }
-                                return true;
                             }
                         }
                     }

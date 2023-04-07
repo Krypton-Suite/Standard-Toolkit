@@ -34,7 +34,7 @@ namespace Krypton.Navigator
         public ButtonSpecNavManagerLayoutBar(Control control,
                                              PaletteRedirect? redirector,
                                              ButtonSpecCollectionBase variableSpecs,
-                                             ViewLayoutDocker?[] viewDockers,
+                                             ViewLayoutDocker[] viewDockers,
                                              IPaletteMetric[] viewMetrics,
                                              PaletteMetricInt[] viewMetricIntOutside,
                                              PaletteMetricInt[] viewMetricIntInside,
@@ -42,7 +42,7 @@ namespace Krypton.Navigator
                                              GetToolStripRenderer getRenderer,
                                              NeedPaintHandler needPaint)
             : this(control, redirector, variableSpecs,
-                   null, viewDockers, viewMetrics, 
+                   null, viewDockers, viewMetrics,
                    viewMetricIntOutside, viewMetricIntInside,
                    viewMetricPaddings, getRenderer, needPaint)
         {
@@ -65,17 +65,17 @@ namespace Krypton.Navigator
         public ButtonSpecNavManagerLayoutBar(Control control,
                                              PaletteRedirect? redirector,
                                              ButtonSpecCollectionBase variableSpecs,
-                                             ButtonSpecCollectionBase fixedSpecs,
-                                             ViewLayoutDocker?[] viewDockers,
+                                             ButtonSpecCollectionBase? fixedSpecs,
+                                             ViewLayoutDocker[] viewDockers,
                                              IPaletteMetric[] viewMetrics,
                                              PaletteMetricInt[] viewMetricIntOutside,
                                              PaletteMetricInt[] viewMetricIntInside,
                                              PaletteMetricPadding[] viewMetricPaddings,
                                              GetToolStripRenderer getRenderer,
                                              NeedPaintHandler needPaint)
-            : base(control, redirector, variableSpecs, fixedSpecs, 
+            : base(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricIntOutside,
-                   viewMetricIntInside, viewMetricPaddings, getRenderer, 
+                   viewMetricIntInside, viewMetricPaddings, getRenderer,
                    needPaint) =>
             RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.LabelPanel;
 
@@ -223,12 +223,12 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
-        protected override void ButtonSpecCreated(ButtonSpec buttonSpec, 
-                                                  ButtonSpecView buttonView, 
+        protected override void ButtonSpecCreated(ButtonSpec buttonSpec,
+                                                  ButtonSpecView buttonView,
                                                   int viewDockerIndex)
         {
             // Nothing extra to do
-        }        
+        }
         #endregion
     }
 }

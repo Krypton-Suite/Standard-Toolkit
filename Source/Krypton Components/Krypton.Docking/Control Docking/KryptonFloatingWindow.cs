@@ -35,7 +35,7 @@ namespace Krypton.Docking
         /// </summary>
         public event EventHandler<ScreenAndOffsetEventArgs>? WindowCaptionDragging;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonFloatingWindow class.
@@ -43,7 +43,7 @@ namespace Krypton.Docking
         /// <param name="owner">Reference to form that will own all the floating window.</param>
         /// <param name="floatspace">Reference to owning floatspace instance.</param>
         /// <param name="useMinimiseBox">Allow window to be minimised.</param>
-        public KryptonFloatingWindow(Form owner, KryptonFloatspace floatspace, bool useMinimiseBox = false)
+        public KryptonFloatingWindow(Form owner, KryptonFloatspace? floatspace, bool useMinimiseBox = false)
         {
             // Set the owner of the window so that minimizing the owner will do the same to this
             Owner = owner;
@@ -58,10 +58,10 @@ namespace Krypton.Docking
 
             // Hook into floatspace events and add as the content of the floating window
             FloatspaceControl = floatspace;
-            FloatspaceControl.CellCountChanged += OnFloatspaceCellCountChanged;
-            FloatspaceControl.CellVisibleCountChanged += OnFloatspaceCellVisibleCountChanged;
-            FloatspaceControl.WorkspaceCellAdding += OnFloatspaceCellAdding;
-            FloatspaceControl.WorkspaceCellRemoved += OnFloatspaceCellRemoved;
+            FloatspaceControl.CellCountChanged += OnFloatspaceCellCountChanged!;
+            FloatspaceControl.CellVisibleCountChanged += OnFloatspaceCellVisibleCountChanged!;
+            FloatspaceControl.WorkspaceCellAdding += OnFloatspaceCellAdding!;
+            FloatspaceControl.WorkspaceCellRemoved += OnFloatspaceCellRemoved!;
             Controls.Add(FloatspaceControl);
         }
 
@@ -71,7 +71,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets access to the contained KryptonFloatspace control.
         /// </summary>
-        public KryptonFloatspace FloatspaceControl { get; }
+        public KryptonFloatspace? FloatspaceControl { get; }
 
         #endregion
 
@@ -107,7 +107,7 @@ namespace Krypton.Docking
                                 Activate();
 
                                 // Use event to notify the request to drag the window
-                                OnWindowCaptionDragging(new ScreenAndOffsetEventArgs(screenPos, offset));
+                                OnWindowCaptionDragging(new(screenPos, offset));
 
                                 // Eat the message!
                                 return;
@@ -159,7 +159,7 @@ namespace Krypton.Docking
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
-            BeginInvoke(new EventHandler(OnLayoutWorkspace));
+            BeginInvoke(new EventHandler(OnLayoutWorkspace!));
             base.OnLoad(e);
         }
 
@@ -176,7 +176,7 @@ namespace Krypton.Docking
             var uniqueNames = VisibleCloseableUniqueNames();
             if (uniqueNames.Any())
             {
-                OnWindowCloseClicked(new UniqueNamesEventArgs(uniqueNames));
+                OnWindowCloseClicked(new(uniqueNames));
             }
 
             base.OnClosing(e);
@@ -233,16 +233,16 @@ namespace Krypton.Docking
 
         private void OnFloatspaceCellAdding(object sender, WorkspaceCellEventArgs e)
         {
-            e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged;
+            e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged!;
             var childMinSize = e.Cell.GetMinSize();
-            MinimumSize = new Size(Math.Max(MinimumSize.Width, childMinSize.Width)+20,
-                Math.Max(MinimumSize.Height, childMinSize.Height)+20);
+            MinimumSize = new(Math.Max(MinimumSize.Width, childMinSize.Width) + 20,
+                Math.Max(MinimumSize.Height, childMinSize.Height) + 20);
             ClientSize = MinimumSize;
         }
 
         private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e)
         {
-            e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged;
+            e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged!;
         }
 
         private void OnLayoutWorkspace(object sender, EventArgs e)
@@ -284,10 +284,10 @@ namespace Krypton.Docking
             while (cell != null)
             {
                 // Create a list of all the visible page names in the floatspace that are allowed to be closed
-                uniqueNames.AddRange(from page in cell.Pages 
-                    where page.LastVisibleSet 
-                    && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose) 
-                    select page.UniqueName);
+                uniqueNames.AddRange(from page in cell.Pages
+                                     where page.LastVisibleSet
+                                     && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose)
+                                     select page.UniqueName);
 
                 cell = FloatspaceControl.NextVisibleCell(cell);
             }

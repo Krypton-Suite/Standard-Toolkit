@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public void KeyDown(Control? c, KeyEventArgs e)
+        public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
             c = _ribbon.GetControllerControl(c);
@@ -167,12 +167,15 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    if (newView == null)
+                    {
+                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    }
 
                     // Rotate around to application button
                     if (newView == null)
@@ -185,7 +188,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }
+                    }                        
                     break;
             }
 

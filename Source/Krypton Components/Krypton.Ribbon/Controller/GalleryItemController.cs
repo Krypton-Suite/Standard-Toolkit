@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly ViewDrawRibbonGalleryItem _target;
         private readonly ViewLayoutRibbonGalleryItems _layout;
-        private NeedPaintHandler? _needPaint;
+        private NeedPaintHandler _needPaint;
         private bool _mouseOver;
         #endregion
 
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
                 _mouseOver = false;
 
                 // Not tracking the mouse means a null value
-                MousePoint = CommonHelper.NullPoint;
+                MousePoint = CommonHelper.NullPoint; 
 
                 // If leaving the view then cannot be capturing mouse input anymore
                 Captured = false;
@@ -332,7 +332,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler? NeedPaint
+        public NeedPaintHandler NeedPaint
         {
             get => _needPaint;
 
@@ -385,7 +385,7 @@ namespace Krypton.Ribbon
             if (c is { IsDisposed: false })
             {
                 // Ensure control is inside a visible top level form
-                Form? f = c.FindForm();
+                Form f = c.FindForm();
                 if (f is { Visible: true })
                 {
                     UpdateTargetState(c.PointToClient(Control.MousePosition));
@@ -448,7 +448,10 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e) => Click(_target, e);
+        protected virtual void OnClick(MouseEventArgs e)
+        {
+            Click?.Invoke(_target, e);
+        }
 
         /// <summary>
         /// Raises the NeedPaint event.

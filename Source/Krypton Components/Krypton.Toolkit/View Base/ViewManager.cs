@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Owning control.</param>
         /// <param name="root">Root of the view hierarchy.</param>
-        public ViewManager(Control control, ViewBase? root)
+        public ViewManager(Control control, ViewBase root)
         {
             _root = root;
             _root.OwningControl = control;
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Owning control.</param>
         /// <param name="root">Root of the view hierarchy.</param>
-        public void Attach(Control control, ViewBase? root)
+        public void Attach(Control control, ViewBase root)
         {
             _root = root;
             _root.OwningControl = control;

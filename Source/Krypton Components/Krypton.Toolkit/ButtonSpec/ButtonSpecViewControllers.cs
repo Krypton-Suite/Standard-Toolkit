@@ -24,9 +24,9 @@ namespace Krypton.Toolkit
         /// <param name="mouseController">Mouse controller.</param>
         /// <param name="sourceController">Source controller.</param>
         /// <param name="keyController">Key controller.</param>
-        public ButtonSpecViewControllers(IMouseController mouseController,
-                                         ISourceController sourceController,
-                                         IKeyController keyController)
+        public ButtonSpecViewControllers(IMouseController? mouseController,
+                                         ISourceController? sourceController,
+                                         IKeyController? keyController)
         {
             Debug.Assert(mouseController != null);
             Debug.Assert(sourceController != null);
@@ -47,12 +47,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the mouse controller reference.
         /// </summary>
-        public ISourceController SourceController { get; }
+        public ISourceController? SourceController { get; }
 
         /// <summary>
         /// Gets the mouse controller reference.
         /// </summary>
-        public IKeyController KeyController { get; }
+        public IKeyController? KeyController { get; }
 
         #endregion
     }

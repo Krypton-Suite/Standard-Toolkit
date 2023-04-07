@@ -127,8 +127,10 @@ namespace Krypton.Ribbon
         /// Raises the ContextClick event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnContextClick(MouseEventArgs e) => ContextClick(this, e);
-
+        protected virtual void OnContextClick(MouseEventArgs e)
+        {
+            ContextClick?.Invoke(this, e);
+        }
         #endregion
     }
 }

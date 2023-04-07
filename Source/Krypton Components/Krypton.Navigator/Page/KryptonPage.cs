@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -25,7 +26,7 @@ namespace Krypton.Navigator
     public class KryptonPage : VisualPanel
     {
         #region Instance Fields
-        private readonly ViewDrawPanel? _drawPanel;
+        private readonly ViewDrawPanel _drawPanel;
         private readonly PaletteRedirectDoubleMetric? _redirectNavigator;
         private readonly PaletteRedirectDoubleMetric? _redirectNavigatorHeaderGroup;
         private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderPrimary;
@@ -43,8 +44,8 @@ namespace Krypton.Navigator
         private readonly PaletteNavigatorRedirect? _stateCommon;
         private readonly PaletteNavigator? _stateDisabled;
         private readonly PaletteNavigator? _stateNormal;
-        private readonly NeedPaintHandler _needDisabledPaint;
-        private readonly NeedPaintHandler _needNormalPaint;
+        private readonly NeedPaintHandler? _needDisabledPaint;
+        private readonly NeedPaintHandler? _needNormalPaint;
         private BoolFlags31 _flags;
         private string? _textTitle;
         private string? _textDescription;
@@ -165,7 +166,7 @@ namespace Krypton.Navigator
         /// If Min Size not set in the Embedded control, then will default to 150, 50
         /// </remarks>
         public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName)
-            : this(text, imageSmall, uniqueName, new Size(150, 50))
+            : this(text, imageSmall, uniqueName, new(150, 50))
         {
 
         }
@@ -191,33 +192,33 @@ namespace Krypton.Navigator
             _toolTipImageTransparentColor = Color.Empty;
             _imageSmall = imageSmall;
             _setVisible = true;
-            _autoHiddenSlideSize = new Size(200, 200);
-            _uniqueName = (string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName);
-            _flags.Flags = (int)(KryptonPageFlags.All);
+            _autoHiddenSlideSize = new(200, 200);
+            _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName;
+            _flags.Flags = (int)KryptonPageFlags.All;
             _flags.ClearFlags((int)KryptonPageFlags.PageInOverflowBarForOutlookMode);
 
             // Create delegates
-            _needDisabledPaint = OnNeedDisabledPaint;
-            _needNormalPaint = OnNeedNormalPaint;
+            _needDisabledPaint = OnNeedDisabledPaint!;
+            _needNormalPaint = OnNeedNormalPaint!;
 
             // Create redirector for inheriting from owning navigator
-            _redirectNavigator = new PaletteRedirectDoubleMetric(Redirector);
-            _redirectNavigatorPage = new PaletteRedirectDouble(Redirector);
-            _redirectNavigatorHeaderGroup = new PaletteRedirectDoubleMetric(Redirector);
-            _redirectNavigatorHeaderPrimary = new PaletteRedirectTripleMetric(Redirector);
-            _redirectNavigatorHeaderSecondary = new PaletteRedirectTripleMetric(Redirector);
-            _redirectNavigatorHeaderBar = new PaletteRedirectTripleMetric(Redirector);
-            _redirectNavigatorHeaderOverflow = new PaletteRedirectTripleMetric(Redirector);
-            _redirectNavigatorCheckButton = new PaletteRedirectTriple(Redirector);
-            _redirectNavigatorOverflowButton = new PaletteRedirectTriple(Redirector);
-            _redirectNavigatorMiniButton = new PaletteRedirectTriple(Redirector);
-            _redirectNavigatorBar = new PaletteRedirectMetric(Redirector);
-            _redirectNavigatorSeparator = new PaletteRedirectDoubleMetric(Redirector);
-            _redirectNavigatorTab = new PaletteRedirectTriple(Redirector);
-            _redirectNavigatorRibbonTab = new PaletteRedirectRibbonTabContent(Redirector);
+            _redirectNavigator = new(Redirector);
+            _redirectNavigatorPage = new(Redirector);
+            _redirectNavigatorHeaderGroup = new(Redirector);
+            _redirectNavigatorHeaderPrimary = new(Redirector);
+            _redirectNavigatorHeaderSecondary = new(Redirector);
+            _redirectNavigatorHeaderBar = new(Redirector);
+            _redirectNavigatorHeaderOverflow = new(Redirector);
+            _redirectNavigatorCheckButton = new(Redirector);
+            _redirectNavigatorOverflowButton = new(Redirector);
+            _redirectNavigatorMiniButton = new(Redirector);
+            _redirectNavigatorBar = new(Redirector);
+            _redirectNavigatorSeparator = new(Redirector);
+            _redirectNavigatorTab = new(Redirector);
+            _redirectNavigatorRibbonTab = new(Redirector);
 
             // Create the palette storage
-            _stateCommon = new PaletteNavigatorRedirect(null,
+            _stateCommon = new(null,
                                                         _redirectNavigator,
                                                         _redirectNavigatorPage,
                                                         _redirectNavigatorHeaderGroup,
@@ -236,26 +237,26 @@ namespace Krypton.Navigator
                                                         new PaletteRedirectRibbonGeneral(Redirector),
                                                         NeedPaintDelegate);
 
-            _stateDisabled = new PaletteNavigator(_stateCommon, _needDisabledPaint);
-            _stateNormal = new PaletteNavigator(_stateCommon, _needNormalPaint);
-            StateTracking = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
-            StatePressed = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
-            StateSelected = new PaletteNavigatorOther(_stateCommon, _needNormalPaint);
+            _stateDisabled = new(_stateCommon, _needDisabledPaint);
+            _stateNormal = new(_stateCommon, _needNormalPaint);
+            StateTracking = new(_stateCommon, _needNormalPaint);
+            StatePressed = new(_stateCommon, _needNormalPaint);
+            StateSelected = new(_stateCommon, _needNormalPaint);
 
-            OverrideFocus = new PaletteNavigatorOtherRedirect(_redirectNavigatorCheckButton,
+            OverrideFocus = new(_redirectNavigatorCheckButton,
                                                             _redirectNavigatorOverflowButton,
                                                             _redirectNavigatorMiniButton,
                                                             _redirectNavigatorTab,
                                                             _redirectNavigatorRibbonTab, _needNormalPaint);
 
             // Our view contains just a simple canvas that covers entire client area
-            _drawPanel = new ViewDrawPanel(_stateNormal.Page);
+            _drawPanel = new(_stateNormal.Page);
 
             // Create page specific button spec storage
-            ButtonSpecs = new PageButtonSpecCollection(this);
+            ButtonSpecs = new(this);
 
             // Create the view manager instance
-            ViewManager = new ViewManager(this, _drawPanel);
+            ViewManager = new(this, _drawPanel);
         }
 
         /// <summary>
@@ -313,7 +314,7 @@ namespace Krypton.Navigator
             get => _stateCommon;
         }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled page appearance entries.
@@ -327,7 +328,7 @@ namespace Krypton.Navigator
             get => _stateDisabled;
         }
 
-        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !StateDisabled!.IsDefault;
 
         /// <summary>
         /// Gets access to the normal page appearance entries.
@@ -341,7 +342,7 @@ namespace Krypton.Navigator
             get => _stateNormal;
         }
 
-        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+        private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking page appearance entries.
@@ -806,25 +807,106 @@ namespace Krypton.Navigator
                                        PaletteNavigatorOther selected,
                                        PaletteNavigatorOtherRedirect focus)
         {
-            ViewManager.AlignControl = alignControl;
+            if (ViewManager != null)
+            {
+                ViewManager.AlignControl = alignControl;
+            }
 
             // Setup the redirection states
-            _redirectNavigator.SetRedirectStates(disabled, disabled, normal, normal);
-            _redirectNavigatorPage.SetRedirectStates(disabled.PalettePage, normal.PalettePage);
-            _redirectNavigatorHeaderGroup.SetRedirectStates(disabled.HeaderGroup, disabled.HeaderGroup, normal.HeaderGroup, normal.HeaderGroup);
-            _redirectNavigatorHeaderPrimary.SetRedirectStates(disabled.HeaderGroup.HeaderPrimary, disabled.HeaderGroup.HeaderPrimary, normal.HeaderGroup.HeaderPrimary, normal.HeaderGroup.HeaderPrimary);
-            _redirectNavigatorHeaderSecondary.SetRedirectStates(disabled.HeaderGroup.HeaderSecondary, disabled.HeaderGroup.HeaderSecondary, normal.HeaderGroup.HeaderSecondary, normal.HeaderGroup.HeaderSecondary);
-            _redirectNavigatorHeaderBar.SetRedirectStates(disabled.HeaderGroup.HeaderBar, disabled.HeaderGroup.HeaderBar, normal.HeaderGroup.HeaderBar, normal.HeaderGroup.HeaderBar);
-            _redirectNavigatorHeaderOverflow.SetRedirectStates(disabled.HeaderGroup.HeaderOverflow, disabled.HeaderGroup.HeaderOverflow, normal.HeaderGroup.HeaderOverflow, normal.HeaderGroup.HeaderOverflow);
-            _redirectNavigatorCheckButton.SetRedirectStates(disabled.CheckButton, normal.CheckButton, pressed.CheckButton, tracking.CheckButton, selected.CheckButton, selected.CheckButton, selected.CheckButton, focus.CheckButton, null);
-            _redirectNavigatorOverflowButton.SetRedirectStates(disabled.OverflowButton, normal.OverflowButton, pressed.OverflowButton, tracking.OverflowButton, selected.OverflowButton, selected.OverflowButton, selected.OverflowButton, focus.OverflowButton, null);
-            _redirectNavigatorMiniButton.SetRedirectStates(disabled.MiniButton, normal.MiniButton, pressed.MiniButton, tracking.MiniButton, selected.MiniButton, selected.MiniButton, selected.MiniButton, focus.MiniButton, null);
-            _redirectNavigatorBar.SetRedirectStates(common.Bar, common.Bar);
-            _redirectNavigatorSeparator.SetRedirectStates(disabled.Separator, disabled.Separator, normal.Separator, normal.Separator, pressed.Separator, pressed.Separator, tracking.Separator, tracking.Separator);
-            _redirectNavigatorTab.SetRedirectStates(disabled.Tab, normal.Tab, pressed.Tab, tracking.Tab, selected.Tab, selected.Tab, selected.Tab, focus.Tab, null);
-            _redirectNavigatorRibbonTab.SetRedirectStates(disabled.RibbonTab, normal.RibbonTab, pressed.RibbonTab, tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);
-            _stateCommon.RedirectBorderEdge = new PaletteRedirectBorderEdge(Redirector, disabled.BorderEdge, normal.BorderEdge);
-            _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+            if (_redirectNavigator != null)
+            {
+                _redirectNavigator.SetRedirectStates(disabled, disabled, normal, normal);
+            }
+
+            if (_redirectNavigatorPage != null)
+            {
+                _redirectNavigatorPage.SetRedirectStates(disabled!.PalettePage, normal!.PalettePage);
+            }
+
+            if (_redirectNavigatorHeaderGroup != null)
+            {
+                _redirectNavigatorHeaderGroup.SetRedirectStates(disabled!.HeaderGroup, disabled.HeaderGroup,
+                    normal!.HeaderGroup, normal.HeaderGroup);
+            }
+
+            if (_redirectNavigatorHeaderPrimary != null)
+            {
+                _redirectNavigatorHeaderPrimary.SetRedirectStates(disabled!.HeaderGroup!.HeaderPrimary,
+                    disabled.HeaderGroup.HeaderPrimary, normal!.HeaderGroup!.HeaderPrimary,
+                    normal.HeaderGroup.HeaderPrimary);
+            }
+
+            if (_redirectNavigatorHeaderSecondary != null)
+            {
+                _redirectNavigatorHeaderSecondary.SetRedirectStates(disabled!.HeaderGroup!.HeaderSecondary,
+                    disabled.HeaderGroup.HeaderSecondary, normal!.HeaderGroup!.HeaderSecondary,
+                    normal.HeaderGroup.HeaderSecondary);
+            }
+
+            if (_redirectNavigatorHeaderBar != null)
+            {
+                _redirectNavigatorHeaderBar.SetRedirectStates(disabled!.HeaderGroup!.HeaderBar,
+                    disabled.HeaderGroup.HeaderBar, normal!.HeaderGroup!.HeaderBar, normal.HeaderGroup.HeaderBar);
+            }
+
+            if (_redirectNavigatorHeaderOverflow != null)
+            {
+                _redirectNavigatorHeaderOverflow.SetRedirectStates(disabled!.HeaderGroup!.HeaderOverflow,
+                    disabled.HeaderGroup.HeaderOverflow, normal!.HeaderGroup!.HeaderOverflow,
+                    normal.HeaderGroup.HeaderOverflow);
+            }
+
+            if (_redirectNavigatorCheckButton != null)
+            {
+                _redirectNavigatorCheckButton.SetRedirectStates(disabled!.CheckButton, normal!.CheckButton,
+                    pressed.CheckButton, tracking.CheckButton, selected.CheckButton, selected.CheckButton,
+                    selected.CheckButton, focus.CheckButton, null);
+            }
+
+            if (_redirectNavigatorOverflowButton != null)
+            {
+                _redirectNavigatorOverflowButton.SetRedirectStates(disabled!.OverflowButton, normal!.OverflowButton,
+                    pressed.OverflowButton, tracking.OverflowButton, selected.OverflowButton, selected.OverflowButton,
+                    selected.OverflowButton, focus.OverflowButton, null);
+            }
+
+            if (_redirectNavigatorMiniButton != null)
+            {
+
+                _redirectNavigatorMiniButton.SetRedirectStates(disabled!.MiniButton, normal!.MiniButton,
+                    pressed.MiniButton, tracking.MiniButton, selected.MiniButton, selected.MiniButton,
+                    selected.MiniButton, focus.MiniButton, null);
+            }
+
+            if (_redirectNavigatorBar != null)
+            {
+                _redirectNavigatorBar.SetRedirectStates(common!.Bar, common.Bar);
+            }
+
+            if (_redirectNavigatorSeparator != null)
+            {
+                _redirectNavigatorSeparator.SetRedirectStates(disabled!.Separator, disabled.Separator, normal!.Separator,
+                    normal.Separator, pressed.Separator, pressed.Separator, tracking.Separator, tracking.Separator);
+            }
+
+            if (_redirectNavigatorTab != null)
+            {
+                _redirectNavigatorTab.SetRedirectStates(disabled!.Tab, normal!.Tab, pressed.Tab, tracking.Tab,
+                    selected.Tab, selected.Tab, selected.Tab, focus.Tab, null);
+            }
+
+            if (_redirectNavigatorRibbonTab != null)
+            {
+                _redirectNavigatorRibbonTab.SetRedirectStates(disabled!.RibbonTab, normal!.RibbonTab, pressed.RibbonTab,
+                    tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);
+            }
+
+            if (_stateCommon != null)
+            {
+                _stateCommon.RedirectBorderEdge =
+                    new PaletteRedirectBorderEdge(Redirector, disabled!.BorderEdge, normal!.BorderEdge);
+                _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+            }
         }
 
         /// <summary>
@@ -833,27 +915,86 @@ namespace Krypton.Navigator
         /// <param name="alignControl">Only if inherited values are still the same as when the aligned control was set are they reset.</param>
         public virtual void ResetInherit(Control alignControl)
         {
-            if (alignControl == ViewManager.AlignControl)
+            if (ViewManager != null && alignControl == ViewManager.AlignControl)
             {
                 ViewManager.AlignControl = this;
 
                 // Clear down the redirection states
-                _redirectNavigator.ResetRedirectStates();
-                _redirectNavigatorPage.ResetRedirectStates();
-                _redirectNavigatorHeaderGroup.ResetRedirectStates();
-                _redirectNavigatorHeaderPrimary.ResetRedirectStates();
-                _redirectNavigatorHeaderSecondary.ResetRedirectStates();
-                _redirectNavigatorHeaderBar.ResetRedirectStates();
-                _redirectNavigatorHeaderOverflow.ResetRedirectStates();
-                _redirectNavigatorCheckButton.ResetRedirectStates();
-                _redirectNavigatorOverflowButton.ResetRedirectStates();
-                _redirectNavigatorMiniButton.ResetRedirectStates();
-                _redirectNavigatorBar.ResetRedirectStates();
-                _redirectNavigatorSeparator.ResetRedirectStates();
-                _redirectNavigatorTab.ResetRedirectStates();
-                _redirectNavigatorRibbonTab.ResetRedirectStates();
-                _stateCommon.RedirectBorderEdge = new PaletteRedirectBorder(Redirector);
-                _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+                if (_redirectNavigator != null)
+                {
+                    _redirectNavigator.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorPage != null)
+                {
+                    _redirectNavigatorPage.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorHeaderGroup != null)
+                {
+                    _redirectNavigatorHeaderGroup.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorHeaderPrimary != null)
+                {
+                    _redirectNavigatorHeaderPrimary.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorHeaderSecondary != null)
+                {
+                    _redirectNavigatorHeaderSecondary.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorHeaderBar != null)
+                {
+                    _redirectNavigatorHeaderBar.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorHeaderOverflow != null)
+                {
+                    _redirectNavigatorHeaderOverflow.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorCheckButton != null)
+                {
+                    _redirectNavigatorCheckButton.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorOverflowButton != null)
+                {
+                    _redirectNavigatorOverflowButton.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorMiniButton != null)
+                {
+                    _redirectNavigatorMiniButton.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorBar != null)
+                {
+                    _redirectNavigatorBar.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorSeparator != null)
+                {
+                    _redirectNavigatorSeparator.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorTab != null)
+                {
+                    _redirectNavigatorTab.ResetRedirectStates();
+                }
+
+                if (_redirectNavigatorRibbonTab != null)
+                {
+                    _redirectNavigatorRibbonTab.ResetRedirectStates();
+                }
+
+                if (_stateCommon != null)
+                {
+                    _stateCommon.RedirectBorderEdge = new PaletteRedirectBorder(Redirector);
+                    _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+                }
             }
         }
 
@@ -1042,7 +1183,7 @@ namespace Krypton.Navigator
             }
 
             // We do not want to return a null
-            return ret ?? string.Empty;
+            return ret;
         }
 
         /// <summary>
@@ -1124,7 +1265,7 @@ namespace Krypton.Navigator
         public Control KryptonParentContainer
         {
             [DebuggerStepThrough]
-            get => ViewManager.AlignControl;
+            get => ViewManager?.AlignControl!;
         }
 
         /// <summary>
@@ -1242,7 +1383,7 @@ namespace Krypton.Navigator
                     Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
-                    mousePt = ((int)((long)m.LParam)) == -1 ? new Point(Width / 2, Height / 2) : PointToClient(mousePt);
+                    mousePt = ((int)m.LParam) == -1 ? new(Width / 2, Height / 2) : PointToClient(mousePt);
 
                     // If the mouse position is within our client area
                     if (ClientRectangle.Contains(mousePt))
@@ -1269,7 +1410,10 @@ namespace Krypton.Navigator
         protected override void OnEnabledChanged(EventArgs e)
         {
             // Push correct palettes into the view
-            _drawPanel.SetPalettes(Enabled ? _stateNormal.Page : _stateDisabled.Page);
+            if (_stateNormal != null && _stateDisabled != null)
+            {
+                _drawPanel.SetPalettes(Enabled ? _stateNormal.Page : _stateDisabled.Page);
+            }
 
             // Update state of view panel to reflect page state
             _drawPanel.Enabled = Enabled;
@@ -1288,7 +1432,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnDockChanged(EventArgs e)
         {
-            DockChanged?.Invoke(this, e);
+            DockChanged(this, e);
         }
 
         /// <summary>
@@ -1297,7 +1441,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnLocationChanged(EventArgs e)
         {
-            LocationChanged?.Invoke(this, e);
+            LocationChanged(this, e);
         }
 
         /// <summary>
@@ -1306,7 +1450,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnTabIndexChanged(EventArgs e)
         {
-            TabIndexChanged?.Invoke(this, e);
+            TabIndexChanged(this, e);
         }
 
         /// <summary>
@@ -1315,7 +1459,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnTabStopChanged(EventArgs e)
         {
-            TabStopChanged?.Invoke(this, e);
+            TabStopChanged(this, e);
         }
 
         /// <summary>
@@ -1324,7 +1468,7 @@ namespace Krypton.Navigator
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
         protected virtual void OnAppearancePropertyChanged(string propertyName)
         {
-            AppearancePropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            AppearancePropertyChanged?.Invoke(this, new(propertyName));
         }
 
         /// <summary>
@@ -1333,7 +1477,7 @@ namespace Krypton.Navigator
         /// <param name="changed">Set of flags that have changed.</param>
         protected virtual void OnFlagsChanged(KryptonPageFlags changed)
         {
-            FlagsChanged?.Invoke(this, new KryptonPageFlagsEventArgs(changed));
+            FlagsChanged(this, new(changed));
         }
 
         /// <summary>
@@ -1342,7 +1486,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e)
         {
-            AutoHiddenSlideSizeChanged?.Invoke(this, e);
+            AutoHiddenSlideSizeChanged(this, e);
         }
 
         /// <summary>
@@ -1351,7 +1495,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnLoad(EventArgs e)
         {
-            Load?.Invoke(this, e);
+            Load(this, e);
         }
 
         /// <summary>

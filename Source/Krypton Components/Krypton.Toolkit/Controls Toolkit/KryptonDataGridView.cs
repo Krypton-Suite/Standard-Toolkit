@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         private PaletteBase? _localPalette;
         private PaletteBase? _palette;
         private PaletteMode _paletteMode;
-        private ViewDrawPanel? _drawPanel;
+        private ViewDrawPanel _drawPanel;
         private SimpleCall _refreshCall;
 
         // States and redirector
@@ -1203,7 +1203,7 @@ namespace Krypton.Toolkit
                         // Update the back interceptor class
                         _backInherit.SetInherit(paletteBack, e.CellStyle);
 
-                        IDisposable unused = Renderer.RenderStandardBack.DrawBack(renderContext, tempCellBackBounds, borderPath, _backInherit, VisualOrientation.Top, state, null);
+                        IDisposable? unused = Renderer.RenderStandardBack.DrawBack(renderContext, tempCellBackBounds, borderPath, _backInherit, VisualOrientation.Top, state, null);
 
                         // We never save the memento for reuse later
                         unused?.Dispose();

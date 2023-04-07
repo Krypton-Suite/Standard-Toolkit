@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderHeaderGroup : ViewBuilderBase
     {
         #region Instance Fields
-        private ViewBase? _oldRoot;
+        private ViewBase _oldRoot;
         private ViewletHeaderGroup _headerGroup;
         #endregion
 
@@ -43,7 +43,7 @@ namespace Krypton.Navigator
             _headerGroup = new ViewletHeaderGroup(navigator, redirector, NeedPaintDelegate);
 
             // Create and initialize all objects
-            ViewBase? newRoot = _headerGroup.Construct(_oldRoot);
+            ViewBase newRoot = _headerGroup.Construct(_oldRoot);
             _headerGroup.PostCreate();
 
             // Assign the new root
@@ -81,7 +81,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage? PageFromView(ViewBase? element) =>
+        public override KryptonPage? PageFromView(ViewBase element) =>
             // There is no view for the page
             null;
 
@@ -90,7 +90,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase? element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Delegate lookup to the viewlet that has the button spec manager
             _headerGroup.ButtonSpecFromView(element);
 
@@ -122,7 +122,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
@@ -136,7 +136,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_headerGroup != null)
             {
@@ -161,7 +161,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public override void PageAppearanceChanged(KryptonPage page, string property)
+        public override void PageAppearanceChanged(KryptonPage? page, string? property)
         {
             Debug.Assert(page != null);
             Debug.Assert(property != null);

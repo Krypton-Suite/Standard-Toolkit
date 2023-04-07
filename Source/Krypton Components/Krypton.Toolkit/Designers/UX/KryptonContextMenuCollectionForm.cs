@@ -288,21 +288,21 @@ namespace Krypton.Toolkit
                 // 
                 _imageList.TransparentColor = Color.Magenta;
                 _imageList.Images.AddRange(new Image[]{
-                    KryptonGenericResources.KryptonContextMenuColorColumns,
-                    KryptonGenericResources.KryptonContextMenuHeading,
-                    KryptonGenericResources.KryptonContextMenuItem,
-                    KryptonGenericResources.KryptonContextMenuItems,
-                    KryptonGenericResources.KryptonContextMenuSeparator,
-                    KryptonGenericResources.KryptonRadioButton,
-                    KryptonGenericResources.KryptonCheckBox,
-                    KryptonGenericResources.KryptonCheckButton,
-                    KryptonGenericResources.KryptonLinkLabel,
-                    GenericImageResources.delete2,
+                    GenericKryptonImageResources.KryptonContextMenuColorColumns,
+                    GenericKryptonImageResources.KryptonContextMenuHeading,
+                    GenericKryptonImageResources.KryptonContextMenuItem,
+                    GenericKryptonImageResources.KryptonContextMenuItems,
+                    GenericKryptonImageResources.KryptonContextMenuSeparator,
+                    GenericKryptonImageResources.KryptonRadioButton,
+                    GenericKryptonImageResources.KryptonCheckBox,
+                    GenericKryptonImageResources.KryptonCheckButton,
+                    GenericKryptonImageResources.KryptonLinkLabel,
+                    GenericImageResources.delete,
                     BlueArrowResources.arrow_up_blue,
                     BlueArrowResources.arrow_down_blue,
-                    KryptonGenericResources.KryptonContextMenuImageSelect,
-                    KryptonGenericResources.KryptonMonthCalendar,
-                    KryptonGenericResources.KryptonComboBox
+                    GenericKryptonImageResources.KryptonContextMenuImageSelect,
+                    GenericKryptonImageResources.KryptonMonthCalendar,
+                    GenericKryptonImageResources.KryptonComboBox
                 });
 
                 // TODO: Do these need updating?
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
                 _imageList.Images.SetKeyName(6, "KryptonCheckBox.bmp");
                 _imageList.Images.SetKeyName(7, "KryptonCheckButton.bmp");
                 _imageList.Images.SetKeyName(8, "KryptonLinkLabel.bmp");
-                _imageList.Images.SetKeyName(9, "delete2.png");
+                _imageList.Images.SetKeyName(9, "delete.png");
                 _imageList.Images.SetKeyName(10, "arrow_up_blue.png");
                 _imageList.Images.SetKeyName(11, "arrow_down_blue.png");
                 _imageList.Images.SetKeyName(12, "KryptonContextMenuImageSelect.bmp");
@@ -799,7 +799,7 @@ namespace Krypton.Toolkit
             private void buttonAddColorColumns_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
 
             private void buttonAddImageSelect_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
-            
+
             private void buttonAddComboBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
 
             private void buttonDelete_Click(object sender, EventArgs e)
@@ -1078,24 +1078,24 @@ namespace Krypton.Toolkit
                 {
                     // Add children of an items collection
                     case KryptonContextMenuItems items:
-                    {
-                        foreach (KryptonContextMenuItemBase childItem in items.Items)
                         {
-                            AddItemsToDictionary(dictItems, childItem);
-                        }
+                            foreach (KryptonContextMenuItemBase childItem in items.Items)
+                            {
+                                AddItemsToDictionary(dictItems, childItem);
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                     // Add children of an item
                     case KryptonContextMenuItem item:
-                    {
-                        foreach (KryptonContextMenuItemBase childItem in item.Items)
                         {
-                            AddItemsToDictionary(dictItems, childItem);
-                        }
+                            foreach (KryptonContextMenuItemBase childItem in item.Items)
+                            {
+                                AddItemsToDictionary(dictItems, childItem);
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                 }
             }
 

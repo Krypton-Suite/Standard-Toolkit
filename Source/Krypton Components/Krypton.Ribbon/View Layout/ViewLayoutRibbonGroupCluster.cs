@@ -30,9 +30,9 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
-        private ViewDrawRibbonDesignCluster? _viewAddItem;
-        private readonly ViewDrawRibbonGroupClusterSeparator? _startSep;
-        private readonly ViewDrawRibbonGroupClusterSeparator? _endSep;
+        private ViewDrawRibbonDesignCluster _viewAddItem;
+        private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
+        private readonly ViewDrawRibbonGroupClusterSeparator _endSep;
         private readonly PaletteBorderEdge _paletteBorderEdge;
         private PaletteRibbonShape _lastShape;
         private readonly NeedPaintHandler _needPaint;
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
             ViewBase view = null;
 
             // Scan all the children, which must be items
-            foreach (ViewBase? child in Reverse())
+            foreach (ViewBase child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -238,7 +238,7 @@ namespace Krypton.Ribbon
             ViewBase view = null;
 
             // Scan all the children, which must be containers
-            foreach (ViewBase? child in Reverse())
+            foreach (ViewBase child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -506,14 +506,14 @@ namespace Krypton.Ribbon
             ViewToEdge regenEdge = new();
 
             // Cache the first and last visible children
-            ViewBase? viewFirst = null;
-            ViewBase? viewLast = null;
+            ViewBase viewFirst = null;
+            ViewBase viewLast = null;
 
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonCluster.Items)
             {
-                ViewBase? itemView;
-                ViewDrawRibbonGroupClusterEdge? itemEdge;
+                ViewBase itemView;
+                ViewDrawRibbonGroupClusterEdge itemEdge;
 
                 // Do we already have a view for this item definition
                 if (_itemToView.ContainsKey(item))

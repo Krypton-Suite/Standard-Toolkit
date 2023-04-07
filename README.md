@@ -61,12 +61,6 @@ If you require the full API reference, you can download the latest version by cl
 
 =======
 
-## Installation
-
-New to Krypton? Please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Insalling-Krypton.md) to get started.
-
-=======
-
 ## Package Support Information
 
 Full information about support can be found [here](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Package-Support-Information.md)

@@ -25,18 +25,18 @@ namespace Krypton.Ribbon
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly Padding _smallImagePadding; // = new(3);
         private readonly KryptonRibbon _ribbon;
-        private ViewLayoutRibbonCheckBox? _viewLarge;
-        private ViewDrawRibbonGroupCheckBoxImage? _viewLargeImage;
-        private ViewDrawRibbonGroupCheckBoxText? _viewLargeText1;
-        private ViewDrawRibbonGroupCheckBoxText? _viewLargeText2;
-        private GroupCheckBoxController _viewLargeController;
+        private ViewLayoutRibbonCheckBox _viewLarge;
+        private ViewDrawRibbonGroupCheckBoxImage _viewLargeImage;
+        private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
+        private ViewDrawRibbonGroupCheckBoxText _viewLargeText2;
+        private GroupCheckBoxController? _viewLargeController;
         private readonly EventHandler _finishDelegateLarge;
-        private ViewLayoutRibbonCheckBox? _viewMediumSmall;
-        private ViewLayoutRibbonRowCenter? _viewMediumSmallCenter;
-        private ViewDrawRibbonGroupCheckBoxImage? _viewMediumSmallImage;
-        private ViewDrawRibbonGroupCheckBoxText? _viewMediumSmallText1;
-        private ViewDrawRibbonGroupCheckBoxText? _viewMediumSmallText2;
-        private GroupCheckBoxController _viewMediumSmallController;
+        private ViewLayoutRibbonCheckBox _viewMediumSmall;
+        private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
+        private ViewDrawRibbonGroupCheckBoxImage _viewMediumSmallImage;
+        private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText1;
+        private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText2;
+        private GroupCheckBoxController? _viewMediumSmallController;
         private readonly EventHandler _finishDelegateMediumSmall;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
                 Point screenPt = Point.Empty;
-                GroupCheckBoxController controller = null;
+                GroupCheckBoxController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)
@@ -321,7 +321,7 @@ namespace Krypton.Ribbon
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, true);
-            ViewLayoutRibbonCenterPadding? largeImagePadding = new(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -360,7 +360,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, false);
-            ViewLayoutRibbonCenterPadding? imagePadding = new(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -389,7 +389,7 @@ namespace Krypton.Ribbon
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
-        private void DefineRootView(ViewBase? view)
+        private void DefineRootView(ViewBase view)
         {
             // Remove any existing view
             Clear();
@@ -473,7 +473,7 @@ namespace Krypton.Ribbon
         private void ActionFinishedLarge(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            _ribbon?.Actionoccurred();
 
             // Remove the fixed pressed appearance
             _viewLargeController.RemoveFixed();
@@ -482,7 +482,7 @@ namespace Krypton.Ribbon
         private void ActionFinishedMediumSmall(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            _ribbon?.Actionoccurred();
 
             // Remove the fixed pressed appearance
             _viewMediumSmallController.RemoveFixed();

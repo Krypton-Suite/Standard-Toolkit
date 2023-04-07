@@ -35,7 +35,7 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference to owning navigator.
-            Navigator = navigator;
+            Navigator = navigator!;
 
             // Fix the type
             ProtectedType = fixedStyle;
@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         /// <returns>Button location.</returns>
         public override HeaderLocation GetLocation(PaletteBase? palette) =>
             // Ask the view builder to recover the correct location
-            Navigator.ViewBuilder.GetFixedButtonLocation(this);
+            Navigator.ViewBuilder!.GetFixedButtonLocation(this);
 
         #endregion
 

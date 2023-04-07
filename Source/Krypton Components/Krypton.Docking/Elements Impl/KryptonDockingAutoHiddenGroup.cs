@@ -55,12 +55,12 @@ namespace Krypton.Docking
 
             // Create a control that will draw tabs for auto hidden pages
             AutoHiddenGroupControl = new KryptonAutoHiddenGroup(edge);
-            AutoHiddenGroupControl.StoringPage += OnAutoHiddenGroupStoringPage;
-            AutoHiddenGroupControl.TabClicked += OnAutoHiddenGroupTabClicked;
-            AutoHiddenGroupControl.TabMouseHoverStart += OnAutoHiddenGroupHoverStart;
-            AutoHiddenGroupControl.TabMouseHoverEnd += OnAutoHiddenGroupHoverEnd;
-            AutoHiddenGroupControl.TabVisibleCountChanged += OnAutoHiddenGroupTabVisibleCountChanged;
-            AutoHiddenGroupControl.Disposed += OnAutoHiddenGroupDisposed;
+            AutoHiddenGroupControl.StoringPage += OnAutoHiddenGroupStoringPage!;
+            AutoHiddenGroupControl.TabClicked += OnAutoHiddenGroupTabClicked!;
+            AutoHiddenGroupControl.TabMouseHoverStart += OnAutoHiddenGroupHoverStart!;
+            AutoHiddenGroupControl.TabMouseHoverEnd += OnAutoHiddenGroupHoverEnd!;
+            AutoHiddenGroupControl.TabVisibleCountChanged += OnAutoHiddenGroupTabVisibleCountChanged!;
+            AutoHiddenGroupControl.Disposed += OnAutoHiddenGroupDisposed!;
         }
         #endregion
 
@@ -123,13 +123,13 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
         {
             switch (action)
             {
                 case DockingPropogateAction.ShowPages:
                 case DockingPropogateAction.HidePages:
-                    if ( uniqueNames != null )
+                    if (uniqueNames != null)
                     {
                         var newVisible = (action == DockingPropogateAction.ShowPages);
                         // Update visible state of pages that are not placeholders
@@ -602,7 +602,10 @@ namespace Krypton.Docking
 
             // Generate event so custom data can be loaded and/or the page to be added can be modified
             var pageLoading = new DockPageLoadingEventArgs(manager, xmlReader, page);
-            manager.RaisePageLoading(pageLoading);
+            if (manager != null)
+            {
+                manager.RaisePageLoading(pageLoading);
+            }
 
             // Read everything until we get the end of custom data marker
             while (!finished)
@@ -664,14 +667,20 @@ namespace Krypton.Docking
         {
             // The auto hidden group contains proxy pages and not the real pages
             KryptonAutoHiddenProxyPage? proxyPage = e.Item as KryptonAutoHiddenProxyPage;
-            OnPageClicked(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            if (proxyPage != null)
+            {
+                OnPageClicked(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            }
         }
 
         private void OnAutoHiddenGroupHoverStart(object sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
             KryptonAutoHiddenProxyPage? proxyPage = e.Item as KryptonAutoHiddenProxyPage;
-            OnPageHoverStart(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            if (proxyPage != null)
+            {
+                OnPageHoverStart(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            }
         }
 
         private void OnAutoHiddenGroupHoverEnd(object sender, EventArgs e)

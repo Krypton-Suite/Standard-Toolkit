@@ -26,88 +26,28 @@ namespace Krypton.Toolkit
         #region Images
 
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _silverDropDownButton = Office2010Arrows._2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
-        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal_25_x_23;
-        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled_25_x_23;
-        private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010SilverCloseHover_25_x_23;
-        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed_25_x_23;
-        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal_25_x_23;
-        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled_25_x_23;
-        private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010SilverMaximiseHover_25_x_23;
-        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed_25_x_23;
-        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal_25_x_23;
-        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010SilverMinimiseHover_25_x_23;
-        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled_25_x_23;
-        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed_25_x_23;
-        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal_25_x_23;
-        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled_25_x_23;
-        private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010SilverRestoreHover_25_x_23;
-        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.Office2010HelpIconNormal;
-        private static readonly Image _formHelpHover = HelpIconResources.Office2010HelpIconHover;
-        private static readonly Image _formHelpPressed = HelpIconResources.Office2010HelpIconPressed;
-        private static readonly Image _formHelpDisabled = HelpIconResources.Office2010HelpIconDisabled;
-
-        #region Toolbar Images
-
-        private static readonly Image _formToolbarButtonSpecNewNormal = Microsoft365ToolbarImageResources.Office2016ToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewActive = Microsoft365ToolbarImageResources.Office2016ToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarNewDisabled;
-
-        private static readonly Image _formToolbarButtonSpecOpenNormal = Microsoft365ToolbarImageResources.Office2016ToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenActive = Microsoft365ToolbarImageResources.Office2016ToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarOpenDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveNormal = Microsoft365ToolbarImageResources.Office2016ToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveActive = Microsoft365ToolbarImageResources.Office2016ToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarSaveDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveAllNormal = Microsoft365ToolbarImageResources.Office2016ToolbarSaveAllNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAllActive = Microsoft365ToolbarImageResources.Office2016ToolbarSaveAllNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAllDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarSaveAllDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = Microsoft365ToolbarImageResources.Office2016ToolbarSaveAsNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAsActive = Microsoft365ToolbarImageResources.Office2016ToolbarSaveAsNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarSaveAsDisabled;
-
-        private static readonly Image _formToolbarButtonSpecCutNormal = Microsoft365ToolbarImageResources.Office2016ToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutActive = Microsoft365ToolbarImageResources.Office2016ToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarCutDisabled;
-
-        private static readonly Image _formToolbarButtonSpecCopyNormal = Microsoft365ToolbarImageResources.Office2016ToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyActive = Microsoft365ToolbarImageResources.Office2016ToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarCopyDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPasteNormal = Microsoft365ToolbarImageResources.Office2016ToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteActive = Microsoft365ToolbarImageResources.Office2016ToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarPasteDisabled;
-
-        private static readonly Image _formToolbarButtonSpecUndoNormal = Microsoft365ToolbarImageResources.Office2016ToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoActive = Microsoft365ToolbarImageResources.Office2016ToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarUndoDisabled;
-
-        private static readonly Image _formToolbarButtonSpecRedoNormal = Microsoft365ToolbarImageResources.Office2016ToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoActive = Microsoft365ToolbarImageResources.Office2016ToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarRedoDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPageSetupNormal = Microsoft365ToolbarImageResources.Office2016ToolbarPageSetupNormal;
-        private static readonly Image _formToolbarButtonSpecPageSetupActive = Microsoft365ToolbarImageResources.Office2016ToolbarPageSetupNormal;
-        private static readonly Image _formToolbarButtonSpecPageSetupDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarPageSetupDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPrintPreviewNormal = Microsoft365ToolbarImageResources.Office2016ToolbarPrintPreviewNormal;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewActive = Microsoft365ToolbarImageResources.Office2016ToolbarPrintPreviewNormal;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarPrintPreviewDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPrintNormal = Microsoft365ToolbarImageResources.Office2016ToolbarPrintNormal;
-        private static readonly Image _formToolbarButtonSpecPrintActive = Microsoft365ToolbarImageResources.Office2016ToolbarPrintNormal;
-        private static readonly Image _formToolbarButtonSpecPrintDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarPrintDisabled;
-
-        private static readonly Image _formToolbarButtonSpecQuickPrintNormal = Microsoft365ToolbarImageResources.Office2016ToolbarQuickPrintNormal;
-        private static readonly Image _formToolbarButtonSpecQuickPrintActive = Microsoft365ToolbarImageResources.Office2016ToolbarQuickPrintNormal;
-        private static readonly Image _formToolbarButtonSpecQuickPrintDisabled = Microsoft365ToolbarImageResources.Office2016ToolbarQuickPrintDisabled;
-
-        #endregion
+        private static readonly Image _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
+        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
+        private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
+        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed;
+        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal;
+        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled;
+        private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010SilverMaximiseActive;
+        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed;
+        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal;
+        private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010SilverMinimiseActive;
+        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
+        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed;
+        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal;
+        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled;
+        private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010SilverRestoreActive;
+        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed;
+        private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
+        private static readonly Image _formHelpActive = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
+        private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
+        private static readonly Image _formHelpDisabled = Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled;
 
         #endregion
 
@@ -352,7 +292,6 @@ namespace Krypton.Toolkit
         };
 
         #endregion
-
         #endregion
 
         #region Identity
@@ -371,14 +310,17 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverN,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverTC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverPC};
+            _radioButtonArray = new Image[]
+            {
+                Office2010RadioButtonImageResources.RadioButton2010BlueD,
+                Office2010RadioButtonImageResources.RadioButton2010SilverN,
+                Office2010RadioButtonImageResources.RadioButton2010BlueT,
+                Office2010RadioButtonImageResources.RadioButton2010BlueP,
+                Office2010RadioButtonImageResources.RadioButton2010BlueDC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverNC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverTC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverPC
+            };
         }
 
         /// <summary>
@@ -423,7 +365,7 @@ namespace Krypton.Toolkit
             {
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
-                    PaletteState.Tracking => _formCloseHover,
+                    PaletteState.Tracking => _formCloseActive,
                     PaletteState.Normal => _formCloseNormal,
                     PaletteState.Pressed => _formClosePressed,
                     _ => _formCloseDisabled
@@ -431,114 +373,30 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Normal => _formMinimiseNormal,
-                    PaletteState.Tracking => _formMinimiseHover,
+                    PaletteState.Tracking => _formMinimiseActive,
                     PaletteState.Pressed => _formMinimisePressed,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Normal => _formMaximiseNormal,
-                    PaletteState.Tracking => _formMaximiseHover,
+                    PaletteState.Tracking => _formMaximiseActive,
                     PaletteState.Pressed => _formMaximisePressed,
                     _ => _formMaximiseDisabled
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Normal => _formRestoreNormal,
-                    PaletteState.Tracking => _formRestoreHover,
+                    PaletteState.Tracking => _formRestoreActive,
                     PaletteState.Pressed => _formRestorePressed,
                     _ => _formRestoreDisabled
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
-                    PaletteState.Tracking => _formHelpHover,
+                    PaletteState.Tracking => _formHelpActive,
                     PaletteState.Pressed => _formHelpPressed,
                     PaletteState.Normal => _formHelpNormal,
                     _ => _formHelpDisabled
-                },
-                PaletteButtonSpecStyle.New => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecNewActive,
-                    PaletteState.Normal => _formToolbarButtonSpecNewNormal,
-                    _ => _formToolbarButtonSpecNewDisabled
-                },
-                PaletteButtonSpecStyle.Open => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecOpenActive,
-                    PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
-                    _ => _formToolbarButtonSpecOpenDisabled
-                },
-                PaletteButtonSpecStyle.Save => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
-                    _ => _formToolbarButtonSpecSaveDisabled
-                },
-                PaletteButtonSpecStyle.SaveAs => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAsActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
-                    _ => _formToolbarButtonSpecSaveAsDisabled
-                },
-                PaletteButtonSpecStyle.SaveAll => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAllActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveAllNormal,
-                    _ => _formToolbarButtonSpecSaveAllDisabled
-                },
-                PaletteButtonSpecStyle.Cut => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCutActive,
-                    PaletteState.Normal => _formToolbarButtonSpecCutNormal,
-                    _ => _formToolbarButtonSpecCutDisabled
-                },
-                PaletteButtonSpecStyle.Copy => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCopyActive,
-                    PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
-                    _ => _formToolbarButtonSpecCopyDisabled
-                },
-                PaletteButtonSpecStyle.Paste => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPasteActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
-                    _ => _formToolbarButtonSpecPasteDisabled
-                },
-                PaletteButtonSpecStyle.Undo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecUndoActive,
-                    PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
-                    _ => _formToolbarButtonSpecUndoDisabled
-                },
-                PaletteButtonSpecStyle.Redo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecRedoActive,
-                    PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
-                    _ => _formToolbarButtonSpecRedoDisabled
-                },
-                PaletteButtonSpecStyle.PageSetup => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPageSetupActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPageSetupNormal,
-                    _ => _formToolbarButtonSpecPageSetupDisabled
-                },
-                PaletteButtonSpecStyle.PrintPreview => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPrintPreviewActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPrintPreviewNormal,
-                    _ => _formToolbarButtonSpecPrintPreviewDisabled
-                },
-                PaletteButtonSpecStyle.Print => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPrintActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPrintNormal,
-                    _ => _formToolbarButtonSpecPrintDisabled
-                },
-                PaletteButtonSpecStyle.QuickPrint => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecQuickPrintActive,
-                    PaletteState.Normal => _formToolbarButtonSpecQuickPrintNormal,
-                    _ => _formToolbarButtonSpecQuickPrintDisabled
                 },
                 _ => base.GetButtonSpecImage(style, state)
             };

@@ -21,12 +21,12 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly Size _viewSize; // = new(22, 22);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private IDisposable? _mementoBack;
-        private readonly IPaletteBack? _paletteBack;
+        private readonly IPaletteBack _paletteBack;
         private readonly PaletteBackInheritForced _paletteBackDraw;
         private readonly PaletteBackLightenColors _paletteBackLight;
-        private readonly IPaletteBorder? _paletteBorder;
+        private readonly IPaletteBorder _paletteBorder;
         private readonly PaletteBorderInheritForced _paletteBorderAll;
 
         #endregion
@@ -58,9 +58,9 @@ namespace Krypton.Ribbon
         /// <param name="paletteBorder">Palette to use for the border.</param>
         /// <param name="constantBorder">Should the border be a constant normal state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupButtonBackBorder(KryptonRibbon? ribbon,
-                                                   KryptonRibbonGroupItem? groupItem,
-                                                   IPaletteBack? paletteBack,
+        public ViewDrawRibbonGroupButtonBackBorder(KryptonRibbon ribbon,
+                                                   KryptonRibbonGroupItem groupItem,
+                                                   IPaletteBack paletteBack,
                                                    IPaletteBorder paletteBorder,
                                                    bool constantBorder,
                                                    NeedPaintHandler needPaint)
@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the associated ribbon group item.
         /// </summary>
-        public KryptonRibbonGroupItem? GroupItem { get; }
+        public KryptonRibbonGroupItem GroupItem { get; }
 
         #endregion
 
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the associated controller.
         /// </summary>
-        public GroupButtonController Controller { get; }
+        public GroupButtonController? Controller { get; }
 
         #endregion
 
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the associated finish delegate.
         /// </summary>
-        public EventHandler? FinishDelegate { get; }
+        public EventHandler FinishDelegate { get; }
 
         #endregion
 
@@ -673,16 +673,16 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void DrawBackground(IPaletteBack? paletteBack,
-                                    RenderContext? context,
+        private void DrawBackground(IPaletteBack paletteBack,
+                                    RenderContext context,
                                     Rectangle rect,
                                     PaletteState state)
         {
             // Do we need to draw the background?
-            if (paletteBack!.GetBackDraw(state) == InheritBool.True)
+            if (paletteBack.GetBackDraw(state) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using GraphicsPath borderPath = context!.Renderer!.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state);
                 Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, state, VisualOrientation.Top);
 
                 // Apply the padding depending on the orientation
@@ -729,7 +729,7 @@ namespace Krypton.Ribbon
             // Remove any popups that result from an action occurring
             if ((_ribbon != null) && fireAction)
             {
-                _ribbon.ActionOccurred();
+                _ribbon.Actionoccurred();
             }
 
             // Remove the fixed pressed appearance

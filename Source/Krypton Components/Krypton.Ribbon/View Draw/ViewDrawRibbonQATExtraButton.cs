@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Size _viewSize; // = new(13, 22);
         private readonly KryptonRibbon _ribbon;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         private readonly EventHandler _finishDelegate;
 
         #endregion
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the key tip target for this view.
         /// </summary>
-        public IRibbonKeyTipTarget KeyTipTarget => SourceController as IRibbonKeyTipTarget;
+        public IRibbonKeyTipTarget? KeyTipTarget => SourceController as IRibbonKeyTipTarget;
 
         #endregion
 

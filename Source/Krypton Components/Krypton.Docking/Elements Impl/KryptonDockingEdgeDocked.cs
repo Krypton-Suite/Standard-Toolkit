@@ -24,7 +24,7 @@ namespace Krypton.Docking
         private class SeparatorToDockspace : Dictionary<KryptonDockspaceSeparator, KryptonDockingDockspace> { };
         private class DockspaceToSeparator : Dictionary<KryptonDockingDockspace, KryptonDockspaceSeparator> { };
         #endregion
-        
+
         #region Static Fields
         private static readonly Size _defaultDockspaceSize = new(200, 200);
         #endregion
@@ -116,9 +116,9 @@ namespace Krypton.Docking
         /// <summary>
         /// Find a edge docked element by searching the hierarchy.
         /// </summary>
-       /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
+        /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
         /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
-        public override KryptonDockingEdgeDocked? FindDockingEdgeDocked(string uniqueName) => this;
+        public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName) => this;
 
         #endregion
 
@@ -154,7 +154,7 @@ namespace Krypton.Docking
                 }
 
                 // Create a new dockspace and then reload it
-                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute(@"N")??string.Empty, dockspaceSize);
+                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute(@"N") ?? string.Empty, dockspaceSize);
                 dockspace.LoadElementFromXml(xmlReader, pages);
             }
         }

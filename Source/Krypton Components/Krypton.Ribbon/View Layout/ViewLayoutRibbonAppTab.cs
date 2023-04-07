@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view element that represents the button.
         /// </summary>
-        public ViewDrawRibbonAppTab? AppTab { get; }
+        public ViewDrawRibbonAppTab AppTab { get; }
 
         #endregion
     }

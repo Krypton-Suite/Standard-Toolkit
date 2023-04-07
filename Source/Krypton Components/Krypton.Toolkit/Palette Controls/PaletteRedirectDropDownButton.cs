@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             Debug.Assert(images != null);
 
             // Remember incoming target
-            _images = images;
+            _images = images!;
         }
         #endregion
 

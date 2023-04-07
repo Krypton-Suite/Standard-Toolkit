@@ -43,7 +43,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the control this element is managing.
         /// </summary>
-        public KryptonFloatspace FloatspaceControl => ((KryptonFloatspace)SpaceControl)!;
+        public KryptonFloatspace FloatspaceControl => (KryptonFloatspace)SpaceControl!;
 
         /// <summary>
         /// Propagates a request for drag targets down the hierarchy of docking elements.
@@ -52,18 +52,21 @@ namespace Krypton.Docking
         /// <param name="dragData">Set of pages being dragged.</param>
         /// <param name="targets">Collection of drag targets.</param>
         public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
-                                                  PageDragEndData? dragData, 
+                                                  PageDragEndData? dragData,
                                                   DragTargetList targets)
         {
             if (FloatspaceControl.CellVisibleCount > 0)
             {
                 // Create list of the pages that are allowed to be dropped into this floatspace
                 KryptonPageCollection pages = new();
-                foreach (KryptonPage page in dragData.Pages)
+                if (dragData != null)
                 {
-                    if (page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                    foreach (KryptonPage page in dragData.Pages)
                     {
-                        pages.Add(page);
+                        if (page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                        {
+                            pages.Add(page);
+                        }
                     }
                 }
 
@@ -162,7 +165,10 @@ namespace Krypton.Docking
                     }
                 }
 
-                dockingManager.PropogateAction(ClearStoreAction, new[] { e.Item.UniqueName });
+                if (e.Item != null)
+                {
+                    dockingManager.PropogateAction(ClearStoreAction, new[] { e.Item.UniqueName });
+                }
                 IgnoreStorePage = null;
             }
         }
@@ -225,11 +231,14 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
-                dockingManager.RaisePageFloatingRequest(args);
+                if (e.Page != null)
+                {
+                    CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
+                    dockingManager.RaisePageFloatingRequest(args);
 
-                // Pass back the result of the event
-                e.Cancel = args.Cancel;
+                    // Pass back the result of the event
+                    e.Cancel = args.Cancel;
+                }
             }
         }
 
@@ -261,7 +270,7 @@ namespace Krypton.Docking
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager? dockingManager = DockingManager;
-            dockingManager?.CloseRequest(new[]{ e.UniqueName });
+            dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
         private void OnFloatspacePagesDoubleClicked(object sender, UniqueNamesEventArgs e)
@@ -282,7 +291,10 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
+                if (e.Page != null && e.KryptonContextMenu != null)
+                {
+                    e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
+                }
             }
         }
 

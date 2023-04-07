@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private readonly ViewDrawRibbonGroupsBorderSynch? _viewGroups;
+        private readonly ViewDrawRibbonGroupsBorderSynch _viewGroups;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly NeedPaintHandler _needPaintDelegate;
         private readonly bool _minimizedMode;
@@ -36,8 +36,8 @@ namespace Krypton.Ribbon
         /// <param name="minimizedMode">Is this manager for handling the minimized mode popup.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
         public ViewRibbonManager(KryptonRibbon control,
-                                 ViewDrawRibbonGroupsBorderSynch? viewGroups,
-                                 ViewBase? root,
+                                 ViewDrawRibbonGroupsBorderSynch viewGroups,
+                                 ViewBase root,
                                  bool minimizedMode,
                                  NeedPaintHandler needPaintDelegate)
             : base(control, root)

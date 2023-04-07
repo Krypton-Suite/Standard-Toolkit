@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderOutlookMini : ViewBuilderOutlookBase
     {
         #region Instance Fields
-        private ViewDrawNavOutlookMini? _selectedButton;
+        private ViewDrawNavOutlookMini _selectedButton;
         #endregion
 
         #region Public
@@ -153,7 +153,7 @@ namespace Krypton.Navigator
         /// Create the mode specific view hierarchy.
         /// </summary>
         /// <returns>View element to use as base of hierarchy.</returns>
-        protected override ViewBase? CreateView()
+        protected override ViewBase CreateView()
         {
             // Create the button used as the filler for the main area
             _selectedButton = new ViewDrawNavOutlookMini(Navigator,
@@ -176,7 +176,7 @@ namespace Krypton.Navigator
         /// Creates and returns the view element that laysout the main client area.
         /// </summary>
         /// <returns></returns>
-        protected override ViewBase? CreateMainLayout()
+        protected override ViewBase CreateMainLayout()
         {
             // Layout contains all the stack elements
             _viewLayout = new ViewLayoutOutlookMini(this)
@@ -190,7 +190,7 @@ namespace Krypton.Navigator
         /// Gets the view element to use as the layout filler.
         /// </summary>
         /// <returns>ViewBase derived instance.</returns>
-        protected override void SetLayoutFiller(ViewLayoutDocker? viewLayout)
+        protected override void SetLayoutFiller(ViewLayoutDocker viewLayout)
         {
             // Hide the selected page from showing up inside the layout
             viewLayout.Add(new ViewLayoutPageHide(Navigator), ViewDockStyle.Top);

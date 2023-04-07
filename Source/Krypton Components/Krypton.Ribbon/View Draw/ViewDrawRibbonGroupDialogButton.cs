@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly Size _contentSize; // = new(-3, -3);
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         #endregion
 
         #region Identity
@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the controller used for the button.
         /// </summary>
-        public DialogLauncherButtonController DialogButtonController => SourceController as DialogLauncherButtonController;
+        public DialogLauncherButtonController? DialogButtonController => SourceController as DialogLauncherButtonController;
 
         #endregion
 

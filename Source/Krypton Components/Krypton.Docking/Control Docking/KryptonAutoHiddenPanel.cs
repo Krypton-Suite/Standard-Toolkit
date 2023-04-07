@@ -37,16 +37,16 @@ namespace Krypton.Docking
             switch (edge)
             {
                 case DockingEdge.Left:
-                    Padding = new Padding(0, 0, EXTRA_PADDING, 0);
+                    Padding = new(0, 0, EXTRA_PADDING, 0);
                     break;
                 case DockingEdge.Right:
-                    Padding = new Padding(EXTRA_PADDING, 0, 0, 0);
+                    Padding = new(EXTRA_PADDING, 0, 0, 0);
                     break;
                 case DockingEdge.Top:
-                    Padding = new Padding(0, 0, 0, EXTRA_PADDING);
+                    Padding = new(0, 0, 0, EXTRA_PADDING);
                     break;
                 case DockingEdge.Bottom:
-                    Padding = new Padding(0, EXTRA_PADDING, 0, 0);
+                    Padding = new(0, EXTRA_PADDING, 0, 0);
                     break;
                 default:
                     break;
@@ -104,7 +104,7 @@ namespace Krypton.Docking
                 height += Padding.Vertical;
             }
 
-            return new Size(width, height);
+            return new(width, height);
         }
         #endregion
     }

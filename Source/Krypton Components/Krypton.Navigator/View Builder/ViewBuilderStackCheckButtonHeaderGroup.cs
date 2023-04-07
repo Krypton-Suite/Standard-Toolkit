@@ -27,7 +27,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase? element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Check base class for page specific button specs
             ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
@@ -65,7 +65,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
@@ -79,7 +79,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_headerGroup != null)
             {
@@ -230,7 +230,7 @@ namespace Krypton.Navigator
 
             // Create the header group and fill with the view layout
             _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
-            ViewBase? newRoot = _headerGroup.Construct(_viewScrollViewport);
+            ViewBase newRoot = _headerGroup.Construct(_viewScrollViewport);
 
             // Put the old root as the filler inside stack elements
             _viewLayout.Add(_oldRoot, ViewDockStyle.Fill);

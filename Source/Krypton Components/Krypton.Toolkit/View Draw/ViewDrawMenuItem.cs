@@ -20,13 +20,13 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
-        private readonly ViewDrawMenuImageCanvas? _imageCanvas;
-        private readonly ViewDrawContent? _imageContent;
-        private readonly ViewDrawMenuItemContent? _textContent;
+        private readonly ViewDrawMenuImageCanvas _imageCanvas;
+        private readonly ViewDrawContent _imageContent;
+        private readonly ViewDrawMenuItemContent _textContent;
         private readonly FixedContentValue _fixedImage;
         private VisualContextMenu _contextMenu;
-        private readonly ViewDrawMenuItemContent? _shortcutContent;
-        private readonly ViewDrawMenuItemContent? _subMenuContent;
+        private readonly ViewDrawMenuItemContent _shortcutContent;
+        private readonly ViewDrawMenuItemContent _subMenuContent;
         private readonly FixedContentValue _fixedTextExtraText;
         private KryptonCommand _cachedCommand;
         private readonly bool _imageColumn;
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <param name="imageColumn">Draw an image background for the item images.</param>
         public ViewDrawMenuItem(IContextMenuProvider provider,
                                 KryptonContextMenuItem menuItem,
-                                ViewLayoutStack? columns,
+                                ViewLayoutStack columns,
                                 bool standardStyle,
                                 bool imageColumn)
             : base(menuItem.StateNormal.ItemHighlight.Back,
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             KryptonContextMenuItem.SetPaletteRedirect(provider);
 
             // Create a stack of horizontal items inside the item
-            ViewLayoutDocker? docker = new();
+            ViewLayoutDocker docker = new();
 
             // Decide on the enabled state of the display
             ItemEnabled = provider.ProviderEnabled && ResolveEnabled;
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the view element used to draw the split separator.
         /// </summary>
-        public ViewDrawMenuSeparator? SplitSeparator { get; }
+        public ViewDrawMenuSeparator SplitSeparator { get; }
 
         #endregion
 

@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ViewBase class.
         /// </summary>
-        public ViewDecoratorFixedSize(ViewBase? child, Size fixedSize)
+        public ViewDecoratorFixedSize(ViewBase child, Size fixedSize)
             : base(child) =>
             FixedSize = fixedSize;
 

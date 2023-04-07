@@ -18,12 +18,12 @@ namespace Krypton.Navigator
     internal class ViewBuilderHeaderBarTabGroup : ViewBuilderBarTabBase
     {
         #region Instance Fields
-        private ViewLayoutInsetOverlap? _layoutOverlap;
-        private ViewDrawDocker? _viewHeadingPrimary;
-        private ViewDrawContent? _viewContentPrimary;
-        private ViewDrawDocker? _viewHeadingSecondary;
-        private ViewDrawContent? _viewContentSecondary;
-        private ViewLayoutDocker? _topGroup;
+        private ViewLayoutInsetOverlap _layoutOverlap;
+        private ViewDrawDocker _viewHeadingPrimary;
+        private ViewDrawContent _viewContentPrimary;
+        private ViewDrawDocker _viewHeadingSecondary;
+        private ViewDrawContent _viewContentSecondary;
+        private ViewLayoutDocker _topGroup;
         #endregion
 
         #region Public
@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase? element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
             _buttonManager.ButtonSpecFromView(element);
 
@@ -82,7 +82,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             UpdateButtons();
             base.PageVisibleStateChanged(page);
@@ -92,7 +92,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             // If the page we are showing has changed
             if (page == Navigator.SelectedPage)
@@ -259,7 +259,7 @@ namespace Krypton.Navigator
             _drawGroup.Add(_oldRoot);
 
             // Create the view element that lays out the check/tab buttons
-            ViewLayoutBarForTabs? layoutBar = new(Navigator.Bar.ItemSizing,
+            ViewLayoutBarForTabs layoutBar = new(Navigator.Bar.ItemSizing,
                                                                       Navigator.Bar.ItemAlignment,
                                                                       Navigator.Bar.BarMultiline,
                                                                       Navigator.Bar.ItemMinimumSize,
@@ -508,7 +508,7 @@ namespace Krypton.Navigator
             SetHeaderPosition(_viewHeadingSecondary, _viewContentSecondary, Navigator.Header.HeaderPositionSecondary);
         }
 
-        private void SetHeaderStyle(ViewDrawDocker? drawDocker,
+        private void SetHeaderStyle(ViewDrawDocker drawDocker,
                                     PaletteTripleMetricRedirect palette,
                                     HeaderStyle style)
         {
@@ -568,8 +568,8 @@ namespace Krypton.Navigator
             }
         }
 
-        private void SetHeaderPosition(ViewDrawCanvas? canvas,
-                                       ViewDrawContent? content,
+        private void SetHeaderPosition(ViewDrawCanvas canvas,
+                                       ViewDrawContent content,
                                        VisualOrientation position)
         {
             switch (position)

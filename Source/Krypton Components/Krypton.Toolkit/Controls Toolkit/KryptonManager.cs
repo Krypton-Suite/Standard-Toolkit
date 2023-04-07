@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset All values
         /// </summary>
-        public void ResetValues()
+        public void Reset()
         {
             ResetGlobalPaletteMode();
             ResetGlobalPalette();
@@ -390,7 +390,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the GlobalStrings property to its default value.
         /// </summary>
-        public void ResetGlobalStrings() => Strings.ResetValues();
+        public void ResetGlobalStrings() => Strings.Reset();
 
         /// <summary>
         /// Gets a set of global color strings used by Krypton that can be localized.

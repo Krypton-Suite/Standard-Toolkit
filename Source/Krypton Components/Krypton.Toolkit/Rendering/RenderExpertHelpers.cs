@@ -52,16 +52,16 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackExpertTracking(RenderContext context,
+        public static IDisposable? DrawBackExpertTracking(RenderContext context,
                                                          Rectangle rect,
                                                          Color backColor1,
                                                          Color backColor2,
                                                          VisualOrientation orientation,
                                                          GraphicsPath path,
-                                                         IDisposable memento)
+                                                         IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -95,20 +95,20 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackExpertPressed(RenderContext context,
+        public static IDisposable? DrawBackExpertPressed(RenderContext context,
                                                         Rectangle rect,
                                                         Color backColor1,
                                                         Color backColor2,
                                                         VisualOrientation orientation,
                                                         GraphicsPath path,
-                                                        IDisposable memento)
+                                                        IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             // Cannot draw a zero length rectangle
             if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackExpertShadow cache;
+                MementoBackExpertShadow? cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackExpertShadow expertShadow)
@@ -162,13 +162,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackExpertChecked(RenderContext context,
+        public static IDisposable? DrawBackExpertChecked(RenderContext context,
                                                         Rectangle rect,
                                                         Color backColor1,
                                                         Color backColor2,
                                                         VisualOrientation orientation,
                                                         GraphicsPath path,
-                                                        IDisposable memento)
+                                                        IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
             // Draw the expert background which is gradient with highlight at bottom
@@ -185,16 +185,16 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Drawing orientation.</param>
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public static IDisposable DrawBackExpertCheckedTracking(RenderContext context,
+        public static IDisposable? DrawBackExpertCheckedTracking(RenderContext context,
                                                                 Rectangle rect,
                                                                 Color backColor1,
                                                                 Color backColor2,
                                                                 VisualOrientation orientation,
                                                                 GraphicsPath path,
-                                                                IDisposable memento)
+                                                                IDisposable? memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            MementoDouble cache;
+            MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -229,13 +229,13 @@ namespace Krypton.Toolkit
         /// <param name="path">Clipping path.</param>
         /// <param name="memento">Cache used for drawing.</param>
         /// <param name="light">Use the 'light' variation.</param>
-        public static IDisposable DrawBackExpertSquareHighlight(RenderContext context,
+        public static IDisposable? DrawBackExpertSquareHighlight(RenderContext context,
                                                                 Rectangle rect,
                                                                 Color backColor1,
                                                                 Color backColor2,
                                                                 VisualOrientation orientation,
                                                                 GraphicsPath path,
-                                                                IDisposable memento,
+                                                                IDisposable? memento,
                                                                 bool light)
         {
             using Clipping clip = new(context.Graphics, path);
@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
             if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackExpertSquareHighlight cache;
+                MementoBackExpertSquareHighlight? cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackExpertSquareHighlight highlight)
@@ -362,12 +362,12 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static IDisposable DrawBackExpert(Rectangle drawRect,
+        private static IDisposable? DrawBackExpert(Rectangle drawRect,
                                                   Color color1,
                                                   Color color2,
                                                   VisualOrientation orientation,
                                                   Graphics? g,
-                                                  IDisposable memento,
+                                                  IDisposable? memento,
                                                   bool total,
                                                   bool tracking)
         {
@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
             if (drawRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackExpertChecked cache;
+                MementoBackExpertChecked? cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackExpertChecked expertChecked)

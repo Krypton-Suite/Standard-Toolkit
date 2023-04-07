@@ -24,7 +24,7 @@ namespace Krypton.Docking
         /// <param name="page">Page associated with the context menu.</param>
         /// <param name="contextMenu">Context menu that can be customized.</param>
         /// <param name="cancel">Initial value for the cancel property.</param>
-        public ContextPageEventArgs(KryptonPage page, 
+        public ContextPageEventArgs(KryptonPage? page, 
                                     KryptonContextMenu contextMenu,
                                     bool cancel)
             : base(cancel)
@@ -38,7 +38,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets access to page associated with the context menu.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets access to context menu that can be customized.

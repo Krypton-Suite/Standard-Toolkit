@@ -26,9 +26,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly ViewDrawRibbonGalleryButton? _buttonUp;
-        private readonly ViewDrawRibbonGalleryButton? _buttonDown;
-        private readonly ViewDrawRibbonGalleryButton? _buttonContext;
+        private readonly ViewDrawRibbonGalleryButton _buttonUp;
+        private readonly ViewDrawRibbonGalleryButton _buttonDown;
+        private readonly ViewDrawRibbonGalleryButton _buttonContext;
         private readonly NeedPaintHandler _needPaint;
         private readonly PaletteTripleToPalette _triple;
         private readonly KryptonGallery _gallery;
@@ -59,9 +59,9 @@ namespace Krypton.Ribbon
         public ViewLayoutRibbonGalleryItems(PaletteBase? palette,
                                             KryptonGallery gallery,
                                             NeedPaintHandler needPaint,
-                                            ViewDrawRibbonGalleryButton? buttonUp,
-                                            ViewDrawRibbonGalleryButton? buttonDown,
-                                            ViewDrawRibbonGalleryButton? buttonContext)
+                                            ViewDrawRibbonGalleryButton buttonUp,
+                                            ViewDrawRibbonGalleryButton buttonDown,
+                                            ViewDrawRibbonGalleryButton buttonContext)
         {
             Debug.Assert(palette != null);
             Debug.Assert(gallery != null);

@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderGroup : ViewBuilderBase
     {
         #region Instance Fields
-        private ViewBase? _oldRoot;
+        private ViewBase _oldRoot;
         private ViewDrawCanvas _drawCanvas;
         #endregion
 
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage? PageFromView(ViewBase? element) =>
+        public override KryptonPage? PageFromView(ViewBase element) =>
             // There is no view for the page
             null;
 
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase? element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // There is no view for the page
             null;
 
@@ -98,7 +98,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             // If the page we are showing has changed
             if (page == Navigator.SelectedPage)

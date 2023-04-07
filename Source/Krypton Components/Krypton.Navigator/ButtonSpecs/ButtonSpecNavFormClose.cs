@@ -84,16 +84,19 @@ namespace Krypton.Navigator
         {
             if (GetViewEnabled())
             {
-                if (!_navigator.Owner.InertForm)
+                if (_navigator.Owner != null && !_navigator.Owner.InertForm)
                 {
                     MouseEventArgs mea = (MouseEventArgs)e;
 
-                    if (GetView().ClientRectangle.Contains(mea.Location))
+                    if (GetView()!.ClientRectangle.Contains(mea.Location))
                     {
                         PropertyInfo? propertyInfo = typeof(Form).GetProperty(nameof(CloseReason),
                             BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.NonPublic);
 
-                        propertyInfo.SetValue(_navigator.Owner, CloseReason.UserClosing, null);
+                        if (propertyInfo != null)
+                        {
+                            propertyInfo.SetValue(_navigator.Owner, CloseReason.UserClosing, null);
+                        }
 
                         Point screenPosition = Control.MousePosition;
 

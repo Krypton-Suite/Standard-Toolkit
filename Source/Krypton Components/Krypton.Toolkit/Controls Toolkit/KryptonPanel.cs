@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view element used to draw the KryptonPanel.
         /// </summary>
-        protected ViewDrawPanel? ViewDrawPanel { get; private set; }
+        protected ViewDrawPanel ViewDrawPanel { get; private set; }
 
         /// <summary>
         /// Raises the EnabledChanged event.

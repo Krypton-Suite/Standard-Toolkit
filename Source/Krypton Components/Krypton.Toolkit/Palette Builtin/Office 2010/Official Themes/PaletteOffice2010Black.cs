@@ -18,365 +18,273 @@ namespace Krypton.Toolkit
     public class PaletteOffice2010Black : PaletteOffice2010Base
     {
         #region Static Fields
-
-        #region Image Lists
-
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
-
-        #endregion
-
-        #region Image Array
-
         private static readonly Image[] _radioButtonArray;
-
-        #endregion
-
-        #region Images
-
-        private static readonly Image _blackDropDownButton = Office2010Arrows._2010BlackDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlackContextMenuSub;
-        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal_25_x_23;
-        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled_25_x_23;
-        private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010BlackCloseHover_25_x_23;
-        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed_25_x_23;
-        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal_25_x_23;
-        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled_25_x_23;
-        private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010BlackMaximiseHover_25_x_23;
-        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed_25_x_23;
-        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal_25_x_23;
-        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlackMinimiseHover_25_x_23;
-        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled_25_x_23;
-        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed_25_x_23;
-        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal_25_x_23;
-        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled_25_x_23;
-        private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlackRestoreHover_25_x_23;
-        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed_25_x_23;
-        private static readonly Image _formHelpNormal = HelpIconResources.Office2010HelpIconNormal;
-        private static readonly Image _formHelpHover = HelpIconResources.Office2010HelpIconHover;
-        private static readonly Image _formHelpPressed = HelpIconResources.Office2010HelpIconPressed;
-        private static readonly Image _formHelpDisabled = HelpIconResources.Office2010HelpIconDisabled;
-        private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDICloseBlack;
-        private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMinBlack;
-        private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
+        private static readonly Image _blackDropDownButton = Office2010ArrowResources.Office2010BlackDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlackContextMenuSub;
+        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+        private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+        private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+        private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+        private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
+        private static readonly Image _formHelpNormal = Office2010ControlBoxResources.Office2010HelpIconNormal;
+        private static readonly Image _formHelpActive = Office2010ControlBoxResources.Office2010HelpIconHover;
+        private static readonly Image _formHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
+        private static readonly Image _formHelpDisabled = Office2010ControlBoxResources.Office2010HelpIconDisabled;
+        private static readonly Image _buttonSpecPendantClose = Office2010MDIImageResources.Office2010ButtonMDICloseBlack;
+        private static readonly Image _buttonSpecPendantMin = Office2010MDIImageResources.Office2010ButtonMDIMinBlack;
+        private static readonly Image _buttonSpecPendantRestore = Office2010MDIImageResources.Office2010ButtonMDIRestoreBlack;
         private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010Black;
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
-
-        #region Toolbar Images
-
-        private static readonly Image _formToolbarButtonSpecNewNormal = Office2010ToolbarImageResources.Office2010ToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewActive = Office2010ToolbarImageResources.Office2010ToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = Office2010ToolbarImageResources.Office2010ToolbarNewDisabled;
-
-        private static readonly Image _formToolbarButtonSpecOpenNormal = Office2010ToolbarImageResources.Office2010ToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenActive = Office2010ToolbarImageResources.Office2010ToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = Office2010ToolbarImageResources.Office2010ToolbarOpenDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveActive = Office2010ToolbarImageResources.Office2010ToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = Office2010ToolbarImageResources.Office2010ToolbarSaveDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveAllNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAllActive = Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAllDisabled = Office2010ToolbarImageResources.Office2010ToolbarSaveAllDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAsActive = Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = Office2010ToolbarImageResources.Office2010ToolbarSaveAsDisabled;
-
-        private static readonly Image _formToolbarButtonSpecCutNormal = Office2010ToolbarImageResources.Office2010ToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutActive = Office2010ToolbarImageResources.Office2010ToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = Office2010ToolbarImageResources.Office2010ToolbarCutDisabled;
-
-        private static readonly Image _formToolbarButtonSpecCopyNormal = Office2010ToolbarImageResources.Office2010ToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyActive = Office2010ToolbarImageResources.Office2010ToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = Office2010ToolbarImageResources.Office2010ToolbarCopyDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPasteNormal = Office2010ToolbarImageResources.Office2010ToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteActive = Office2010ToolbarImageResources.Office2010ToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = Office2010ToolbarImageResources.Office2010ToolbarPasteDisabled;
-
-        private static readonly Image _formToolbarButtonSpecUndoNormal = Office2010ToolbarImageResources.Office2010ToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoActive = Office2010ToolbarImageResources.Office2010ToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = Office2010ToolbarImageResources.Office2010ToolbarUndoDisabled;
-
-        private static readonly Image _formToolbarButtonSpecRedoNormal = Office2010ToolbarImageResources.Office2010ToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoActive = Office2010ToolbarImageResources.Office2010ToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = Office2010ToolbarImageResources.Office2010ToolbarRedoDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPageSetupNormal = Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal;
-        private static readonly Image _formToolbarButtonSpecPageSetupActive = Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal;
-        private static readonly Image _formToolbarButtonSpecPageSetupDisabled = Office2010ToolbarImageResources.Office2010ToolbarPageSetupDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPrintPreviewNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewActive = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewDisabled = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintNormal;
-        private static readonly Image _formToolbarButtonSpecPrintActive = Office2010ToolbarImageResources.Office2010ToolbarPrintNormal;
-        private static readonly Image _formToolbarButtonSpecPrintDisabled = Office2010ToolbarImageResources.Office2010ToolbarPrintDisabled;
-
-        private static readonly Image _formToolbarButtonSpecQuickPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal;
-        private static readonly Image _formToolbarButtonSpecQuickPrintActive = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal;
-        private static readonly Image _formToolbarButtonSpecQuickPrintDisabled = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintDisabled;
-
-        #endregion
-
-        #endregion
-
-        #region Colour Arrays
-
         private static readonly Color _disabledRibbonText = Color.FromArgb(205, 205, 205);
-
-        private static readonly Color[] _trackBarColors =
-        {
-            Color.FromArgb(17, 17, 17), // Tick marks
-            Color.FromArgb(37, 37, 37), // Top track
-            Color.FromArgb(174, 174, 174), // Bottom track
-            Color.FromArgb(131, 132, 132), // Fill track
-            Color.FromArgb(64, Color.White), // Outside position
-            Color.FromArgb(35, 35, 35) // Border (normal) position
+        private static readonly Color[] _trackBarColors = { Color.FromArgb( 17,  17,  17),      // Tick marks
+                                                                        Color.FromArgb( 37,  37,  37),      // Top track
+                                                                        Color.FromArgb(174, 174, 174),      // Bottom track
+                                                                        Color.FromArgb(131, 132, 132),      // Fill track
+                                                                        Color.FromArgb(64, Color.White),    // Outside position
+                                                                        Color.FromArgb(35, 35, 35)          // Border (normal) position
+                                                                      };
+        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
+                                                                      Color.Black,                      // TextButtonNormal
+                                                                      Color.Black,                      // TextButtonChecked
+                                                                      Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
+                                                                      Color.FromArgb( 94,  94,  94),    // ButtonNormalDefaultBorder
+                                                                      Color.FromArgb(189, 189, 189),    // ButtonNormalBack1
+                                                                      Color.FromArgb(169, 169, 169),    // ButtonNormalBack2
+                                                                      Color.FromArgb(225, 225, 225),    // ButtonNormalDefaultBack1
+                                                                      Color.FromArgb(185, 185, 185),    // ButtonNormalDefaultBack2
+                                                                      Color.FromArgb( 94,  94,  94),    // ButtonNormalNavigatorBack1
+                                                                      Color.FromArgb( 94,  94,  94),    // ButtonNormalNavigatorBack2
+                                                                      Color.FromArgb(113, 113, 113),    // PanelClient
+                                                                      Color.FromArgb( 71,  71,  71),    // PanelAlternative
+                                                                      Color.FromArgb( 46,  46,  46),    // ControlBorder
+                                                                      Color.FromArgb(172, 172, 172),    // SeparatorHighBorder1
+                                                                      Color.FromArgb(111, 111, 111),    // SeparatorHighBorder2
+                                                                      Color.FromArgb(139, 139, 139),    // HeaderPrimaryBack1
+                                                                      Color.FromArgb( 72,  72,  72),    // HeaderPrimaryBack2
+                                                                      Color.FromArgb(190, 190, 190),    // HeaderSecondaryBack1
+                                                                      Color.FromArgb(145, 145, 145),    // HeaderSecondaryBack2
+                                                                      Color.Black,                      // HeaderText
+                                                                      Color.FromArgb(226, 226, 226),    // StatusStripText
+                                                                      Color.FromArgb(236, 199,  87),    // ButtonBorder
+                                                                      Color.FromArgb( 89,  89,  89),    // SeparatorLight
+                                                                      Color.Black,                      // SeparatorDark
+                                                                      Color.FromArgb( 89,  89,  89),    // GripLight
+                                                                      Color.FromArgb( 27,  27,  27),    // GripDark
+                                                                      Color.FromArgb(113, 113, 113),    // ToolStripBack
+                                                                      Color.FromArgb( 75,  75,  75),    // StatusStripLight
+                                                                      Color.FromArgb( 50,  50,  50),    // StatusStripDark
+                                                                      Color.White,                      // ImageMargin
+                                                                      Color.FromArgb( 75,  75,  75),    // ToolStripBegin
+                                                                      Color.FromArgb( 50,  50,  50),    // ToolStripMiddle
+                                                                      Color.FromArgb( 50,  50,  50),    // ToolStripEnd
+                                                                      Color.FromArgb( 44,  44,  44),    // OverflowBegin
+                                                                      Color.FromArgb(167, 167, 167),    // OverflowMiddle
+                                                                      Color.FromArgb( 44,  44,  44),    // OverflowEnd
+                                                                      Color.FromArgb( 44,  44,  44),    // ToolStripBorder
+                                                                      Color.FromArgb( 99,  99,  99),    // FormBorderActive
+                                                                      Color.FromArgb(119, 119, 119),    // FormBorderInactive
+                                                                      Color.FromArgb(113, 113, 113),    // FormBorderActiveLight
+                                                                      Color.FromArgb(131, 131, 131),    // FormBorderActiveDark
+                                                                      Color.FromArgb(158, 158, 158),    // FormBorderInactiveLight
+                                                                      Color.FromArgb(158, 158, 158),    // FormBorderInactiveDark
+                                                                      Color.FromArgb( 65,  65,  65),    // FormBorderHeaderActive
+                                                                      Color.FromArgb(154, 154, 154),    // FormBorderHeaderInactive
+                                                                      Color.FromArgb(121, 121, 121),    // FormBorderHeaderActive1
+                                                                      Color.FromArgb(113, 113, 113),    // FormBorderHeaderActive2
+                                                                      Color.FromArgb(158, 158, 158),    // FormBorderHeaderInctive1
+                                                                      Color.FromArgb(158, 158, 158),    // FormBorderHeaderInctive2
+                                                                      Color.FromArgb(226, 226, 226),    // FormHeaderShortActive
+                                                                      Color.FromArgb(212, 212, 212),    // FormHeaderShortInactive
+                                                                      Color.FromArgb(226, 226, 226),    // FormHeaderLongActive
+                                                                      Color.FromArgb(212, 212, 212),    // FormHeaderLongInactive
+                                                                      Color.FromArgb( 81,  81,  81),    // FormButtonBorderTrack
+                                                                      Color.FromArgb(151, 151, 151),    // FormButtonBack1Track
+                                                                      Color.FromArgb(116, 116, 116),    // FormButtonBack2Track
+                                                                      Color.FromArgb( 81,  81,  81),    // FormButtonBorderPressed
+                                                                      Color.FromArgb(113, 113, 113),    // FormButtonBack1Pressed
+                                                                      Color.FromArgb( 93,  93,  93),    // FormButtonBack2Pressed
+                                                                      Color.FromArgb( 70,  70,  70),    // TextButtonFormNormal
+                                                                      Color.FromArgb(255, 255, 255),    // TextButtonFormTracking
+                                                                      Color.FromArgb(255, 255, 255),    // TextButtonFormPressed
+                                                                      Color.Blue,                       // LinkNotVisitedOverrideControl
+                                                                      Color.Purple,                     // LinkVisitedOverrideControl
+                                                                      Color.Red,                        // LinkPressedOverrideControl
+                                                                      Color.FromArgb(180, 210, 255),    // LinkNotVisitedOverridePanel
+                                                                      Color.Violet,                     // LinkVisitedOverridePanel
+                                                                      Color.FromArgb(255,  90,  90),    // LinkPressedOverridePanel
+                                                                      Color.White,                      // TextLabelPanel
+                                                                      //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
+                                                                      Color.White,                      // RibbonTabTextNormal
+                                                                      Color.Black,                      // RibbonTabTextChecked
+                                                                      Color.FromArgb( 94,  94,  94),    // RibbonTabSelected1
+                                                                      Color.FromArgb(201, 201, 201),    // RibbonTabSelected2
+                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabSelected3
+                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabSelected4
+                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabSelected5
+                                                                      Color.FromArgb( 94,  94,  94),    // RibbonTabTracking1
+                                                                      Color.FromArgb(183, 183, 183),    // RibbonTabTracking2
+                                                                      Color.FromArgb( 94,  94,  94),    // RibbonTabHighlight1
+                                                                      Color.FromArgb(201, 201, 201),    // RibbonTabHighlight2
+                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabHighlight3
+                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabHighlight4
+                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabHighlight5
+                                                                      Color.FromArgb( 54,  54,  54),    // RibbonTabSeparatorColor
+                                                                      Color.FromArgb( 94,  94,  94),    // RibbonGroupsArea1
+                                                                      Color.FromArgb( 50,  50,  50),    // RibbonGroupsArea2
+                                                                      Color.FromArgb(191, 191, 191),    // RibbonGroupsArea3
+                                                                      Color.FromArgb(164, 164, 164),    // RibbonGroupsArea4
+                                                                      Color.FromArgb(145, 145, 145),    // RibbonGroupsArea5
+                                                                      Color.FromArgb(159, 159, 159),    // RibbonGroupBorder1
+                                                                      Color.FromArgb(194, 194, 194),    // RibbonGroupBorder2
+                                                                      Color.Empty,                      // RibbonGroupTitle1
+                                                                      Color.Empty,                      // RibbonGroupTitle2
+                                                                      Color.Empty,                      // RibbonGroupBorderContext1
+                                                                      Color.Empty,                      // RibbonGroupBorderContext2
+                                                                      Color.Empty,                      // RibbonGroupTitleContext1
+                                                                      Color.Empty,                      // RibbonGroupTitleContext2
+                                                                      Color.FromArgb( 92,  92,  94),    // RibbonGroupDialogDark
+                                                                      Color.FromArgb(123, 125, 125),    // RibbonGroupDialogLight
+                                                                      Color.Empty,                      // RibbonGroupTitleTracking1
+                                                                      Color.Empty,                      // RibbonGroupTitleTracking2
+                                                                      Color.FromArgb( 78,  78,  78),    // RibbonMinimizeBarDark
+                                                                      Color.FromArgb(110, 110, 110),    // RibbonMinimizeBarLight
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorder1
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorder2
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorder3
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorder4
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBack1
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBack2
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBack3
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBack4
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorderT1
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorderT2
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorderT3
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBorderT4
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBackT1
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBackT2
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBackT3
+                                                                      Color.Empty,                      // RibbonGroupCollapsedBackT4
+                                                                      Color.FromArgb(147, 147, 147),    // RibbonGroupFrameBorder1
+                                                                      Color.FromArgb(139, 139, 139),    // RibbonGroupFrameBorder2
+                                                                      Color.FromArgb(187, 187, 188),    // RibbonGroupFrameInside1
+                                                                      Color.FromArgb(167, 167, 168),    // RibbonGroupFrameInside2
+                                                                      Color.Empty,                      // RibbonGroupFrameInside3
+                                                                      Color.Empty,                      // RibbonGroupFrameInside4
+                                                                      Color.FromArgb( 59,  59,  59),    // RibbonGroupCollapsedText         
+                                                                      Color.FromArgb(158, 163, 172),    // AlternatePressedBack1
+                                                                      Color.FromArgb(212, 215, 216),    // AlternatePressedBack2
+                                                                      Color.FromArgb(124, 125, 125),    // AlternatePressedBorder1
+                                                                      Color.FromArgb(186, 186, 186),    // AlternatePressedBorder2
+                                                                      Color.FromArgb( 43,  55,  67),    // FormButtonBack1Checked
+                                                                      Color.FromArgb(106, 122, 140),    // FormButtonBack2Checked
+                                                                      Color.FromArgb( 18,  18,  18),    // FormButtonBorderCheck
+                                                                      Color.FromArgb( 33,  45,  57),    // FormButtonBack1CheckTrack
+                                                                      Color.FromArgb(136, 152, 170),    // FormButtonBack2CheckTrack
+                                                                      Color.FromArgb( 55,  55,  55),    // RibbonQATMini1
+                                                                      Color.FromArgb(100, 100, 100),    // RibbonQATMini2
+                                                                      Color.FromArgb( 73,  73,  73),    // RibbonQATMini3
+                                                                      Color.FromArgb(12, Color.White),  // RibbonQATMini4
+                                                                      Color.FromArgb(14, Color.White),  // RibbonQATMini5
+                                                                      Color.FromArgb(100, 100, 100),    // RibbonQATMini1I
+                                                                      Color.FromArgb(170, 170, 170),    // RibbonQATMini2I
+                                                                      Color.FromArgb(140, 140, 140),    // RibbonQATMini3I
+                                                                      Color.FromArgb(12, Color.White),  // RibbonQATMini4I
+                                                                      Color.FromArgb(14, Color.White),  // RibbonQATMini5I
+                                                                      Color.FromArgb(132, 132, 132),    // RibbonQATFullbar1                                                      
+                                                                      Color.FromArgb(121, 121, 121),    // RibbonQATFullbar2                                                      
+                                                                      Color.FromArgb( 50,  49,  49),    // RibbonQATFullbar3                                                      
+                                                                      Color.FromArgb( 90,  90,  90),    // RibbonQATButtonDark                                                      
+                                                                      Color.FromArgb(174, 174, 175),    // RibbonQATButtonLight                                                      
+                                                                      Color.FromArgb(161, 161, 161),    // RibbonQATOverflow1                                                      
+                                                                      Color.FromArgb( 68,  68,  68),    // RibbonQATOverflow2                                                      
+                                                                      Color.FromArgb( 82,  82,  82),    // RibbonGroupSeparatorDark                                                      
+                                                                      Color.FromArgb(190, 190, 190),    // RibbonGroupSeparatorLight                                                      
+                                                                      Color.FromArgb(210, 217, 219),    // ButtonClusterButtonBack1                                                      
+                                                                      Color.FromArgb(214, 222, 223),    // ButtonClusterButtonBack2                                                      
+                                                                      Color.FromArgb(179, 188, 191),    // ButtonClusterButtonBorder1                                                      
+                                                                      Color.FromArgb(145, 156, 159),    // ButtonClusterButtonBorder2                                                      
+                                                                      Color.FromArgb(235, 235, 235),    // NavigatorMiniBackColor                                                    
+                                                                      Color.FromArgb(205, 205, 205),    // GridListNormal1                                                    
+                                                                      Color.FromArgb(166, 166, 166),    // GridListNormal2                                                    
+                                                                      Color.FromArgb(166, 166, 166),    // GridListPressed1                                                    
+                                                                      Color.FromArgb(205, 205, 205),    // GridListPressed2                                                    
+                                                                      Color.FromArgb(150, 150, 150),    // GridListSelected                                                    
+                                                                      Color.FromArgb(220, 220, 220),    // GridSheetColNormal1                                                    
+                                                                      Color.FromArgb(200, 200, 200),    // GridSheetColNormal2                                                    
+                                                                      Color.FromArgb(255, 223, 107),    // GridSheetColPressed1                                                    
+                                                                      Color.FromArgb(255, 252, 230),    // GridSheetColPressed2                                                    
+                                                                      Color.FromArgb(255, 211,  89),    // GridSheetColSelected1
+                                                                      Color.FromArgb(255, 239, 113),    // GridSheetColSelected2
+                                                                      Color.FromArgb(205, 205, 205),    // GridSheetRowNormal                                                   
+                                                                      Color.FromArgb(255, 223, 107),    // GridSheetRowPressed
+                                                                      Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
+                                                                      Color.FromArgb(218, 220, 221),    // GridDataCellBorder
+                                                                      Color.FromArgb(183, 219, 255),    // GridDataCellSelected
+                                                                      //Color.Black,    
+                                                                      Color.FromArgb(255, 255, 255),    // InputControlTextNormal
+                                                                      Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
+                                                                      Color.FromArgb(132, 132, 132),    // InputControlBorderNormal
+                                                                      Color.FromArgb(187, 187, 187),    // InputControlBorderDisabled
+                                                                      Color.FromArgb(38, 38, 38),       // InputControlBackNormal
+                                                                      Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
+                                                                      Color.FromArgb(192, 192, 192),    // InputControlBackInactive
+                                                                      Color.Black,                      // InputDropDownNormal1
+                                                                      Color.Transparent,                // InputDropDownNormal2
+                                                                      Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
+                                                                      Color.Transparent,                // InputDropDownDisabled2
+                                                                      Color.FromArgb(240, 242, 245),    // ContextMenuHeadingBack
+                                                                      Color.Black,                      // ContextMenuHeadingText
+                                                                      Color.White,                      // ContextMenuImageColumn
+                                                                      Color.FromArgb( 70,  70,  70),    // AppButtonBack1
+                                                                      Color.FromArgb( 70,  70,  70),    // AppButtonBack2
+                                                                      Color.FromArgb( 50,  50,  50),    // AppButtonBorder
+                                                                      Color.FromArgb( 70,  70,  70),    // AppButtonOuter1
+                                                                      Color.FromArgb( 70,  70,  70),    // AppButtonOuter2
+                                                                      Color.FromArgb( 70,  70,  70),    // AppButtonOuter3
+                                                                      Color.Empty,                      // AppButtonInner1
+                                                                      Color.FromArgb( 50,  50,  50),    // AppButtonInner2
+                                                                      Color.White,                      // AppButtonMenuDocs
+                                                                      Color.Black,                      // AppButtonMenuDocsText
+                                                                      Color.FromArgb(172, 172, 172),    // SeparatorHighInternalBorder1
+                                                                      Color.FromArgb(111, 111, 111),    // SeparatorHighInternalBorder2
+                                                                      Color.FromArgb(132, 132, 132),    // RibbonGalleryBorder
+                                                                      Color.FromArgb(187, 187, 187),    // RibbonGalleryBackNormal
+                                                                      Color.FromArgb(193, 193, 193),    // RibbonGalleryBackTracking
+                                                                      Color.FromArgb(176, 176, 176),    // RibbonGalleryBack1
+                                                                      Color.FromArgb(150, 150, 150),    // RibbonGalleryBack2
+                                                                      Color.FromArgb(148, 149, 151),    // RibbonTabTracking3
+                                                                      Color.FromArgb(127, 127, 127),    // RibbonTabTracking4
+                                                                      Color.FromArgb( 82,  82,  82),    // RibbonGroupBorder3
+                                                                      Color.FromArgb(176, 176, 176),    // RibbonGroupBorder4
+                                                                      Color.FromArgb(178, 178, 178),    // RibbonGroupBorder5
+                                                                      Color.FromArgb( 36,  36,  36),    // RibbonGroupTitleText
+                                                                      Color.FromArgb(155, 157, 160),    // RibbonDropArrowLight
+                                                                      Color.FromArgb( 27,  29,  40),    // RibbonDropArrowDark
+                                                                      Color.FromArgb(137, 137, 137),    // HeaderDockInactiveBack1
+                                                                      Color.FromArgb(125, 125, 125),    // HeaderDockInactiveBack2
+                                                                      Color.FromArgb( 46,  46,  46),    // ButtonNavigatorBorder
+                                                                      Color.White,                      // ButtonNavigatorText
+                                                                      Color.FromArgb( 76,  76,  76),    // ButtonNavigatorTrack1
+                                                                      Color.FromArgb(147, 147, 143),    // ButtonNavigatorTrack2
+                                                                      Color.FromArgb( 66,  66,  66),    // ButtonNavigatorPressed1
+                                                                      Color.FromArgb(148, 148, 143),    // ButtonNavigatorPressed2
+                                                                      Color.FromArgb( 91,  91,  91),    // ButtonNavigatorChecked1
+                                                                      Color.FromArgb( 73,  73,  73),    // ButtonNavigatorChecked2
+                                                                      Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
         };
-
-        private static readonly Color[] _schemeOfficeColors =
-        {
-            Color.FromArgb(76, 83, 92), // TextLabelControl
-            Color.Black, // TextButtonNormal
-            Color.Black, // TextButtonChecked
-            Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
-            Color.FromArgb(94, 94, 94), // ButtonNormalDefaultBorder
-            Color.FromArgb(189, 189, 189), // ButtonNormalBack1
-            Color.FromArgb(169, 169, 169), // ButtonNormalBack2
-            Color.FromArgb(225, 225, 225), // ButtonNormalDefaultBack1
-            Color.FromArgb(185, 185, 185), // ButtonNormalDefaultBack2
-            Color.FromArgb(94, 94, 94), // ButtonNormalNavigatorBack1
-            Color.FromArgb(94, 94, 94), // ButtonNormalNavigatorBack2
-            Color.FromArgb(113, 113, 113), // PanelClient
-            Color.FromArgb(71, 71, 71), // PanelAlternative
-            Color.FromArgb(46, 46, 46), // ControlBorder
-            Color.FromArgb(172, 172, 172), // SeparatorHighBorder1
-            Color.FromArgb(111, 111, 111), // SeparatorHighBorder2
-            Color.FromArgb(139, 139, 139), // HeaderPrimaryBack1
-            Color.FromArgb(72, 72, 72), // HeaderPrimaryBack2
-            Color.FromArgb(190, 190, 190), // HeaderSecondaryBack1
-            Color.FromArgb(145, 145, 145), // HeaderSecondaryBack2
-            Color.Black, // HeaderText
-            Color.FromArgb(226, 226, 226), // StatusStripText
-            Color.FromArgb(236, 199, 87), // ButtonBorder
-            Color.FromArgb(89, 89, 89), // SeparatorLight
-            Color.Black, // SeparatorDark
-            Color.FromArgb(89, 89, 89), // GripLight
-            Color.FromArgb(27, 27, 27), // GripDark
-            Color.FromArgb(113, 113, 113), // ToolStripBack
-            Color.FromArgb(75, 75, 75), // StatusStripLight
-            Color.FromArgb(50, 50, 50), // StatusStripDark
-            Color.White, // ImageMargin
-            Color.FromArgb(75, 75, 75), // ToolStripBegin
-            Color.FromArgb(50, 50, 50), // ToolStripMiddle
-            Color.FromArgb(50, 50, 50), // ToolStripEnd
-            Color.FromArgb(44, 44, 44), // OverflowBegin
-            Color.FromArgb(167, 167, 167), // OverflowMiddle
-            Color.FromArgb(44, 44, 44), // OverflowEnd
-            Color.FromArgb(44, 44, 44), // ToolStripBorder
-            Color.FromArgb(99, 99, 99), // FormBorderActive
-            Color.FromArgb(119, 119, 119), // FormBorderInactive
-            Color.FromArgb(113, 113, 113), // FormBorderActiveLight
-            Color.FromArgb(131, 131, 131), // FormBorderActiveDark
-            Color.FromArgb(158, 158, 158), // FormBorderInactiveLight
-            Color.FromArgb(158, 158, 158), // FormBorderInactiveDark
-            Color.FromArgb(65, 65, 65), // FormBorderHeaderActive
-            Color.FromArgb(154, 154, 154), // FormBorderHeaderInactive
-            Color.FromArgb(121, 121, 121), // FormBorderHeaderActive1
-            Color.FromArgb(113, 113, 113), // FormBorderHeaderActive2
-            Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive1
-            Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive2
-            Color.FromArgb(226, 226, 226), // FormHeaderShortActive
-            Color.FromArgb(212, 212, 212), // FormHeaderShortInactive
-            Color.FromArgb(226, 226, 226), // FormHeaderLongActive
-            Color.FromArgb(212, 212, 212), // FormHeaderLongInactive
-            Color.FromArgb(81, 81, 81), // FormButtonBorderTrack
-            Color.FromArgb(151, 151, 151), // FormButtonBack1Track
-            Color.FromArgb(116, 116, 116), // FormButtonBack2Track
-            Color.FromArgb(81, 81, 81), // FormButtonBorderPressed
-            Color.FromArgb(113, 113, 113), // FormButtonBack1Pressed
-            Color.FromArgb(93, 93, 93), // FormButtonBack2Pressed
-            Color.FromArgb(70, 70, 70), // TextButtonFormNormal
-            Color.FromArgb(255, 255, 255), // TextButtonFormTracking
-            Color.FromArgb(255, 255, 255), // TextButtonFormPressed
-            Color.Blue, // LinkNotVisitedOverrideControl
-            Color.Purple, // LinkVisitedOverrideControl
-            Color.Red, // LinkPressedOverrideControl
-            Color.FromArgb(180, 210, 255), // LinkNotVisitedOverridePanel
-            Color.Violet, // LinkVisitedOverridePanel
-            Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
-            Color.White, // TextLabelPanel
-            //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
-            Color.White, // RibbonTabTextNormal
-            Color.Black, // RibbonTabTextChecked
-            Color.FromArgb(94, 94, 94), // RibbonTabSelected1
-            Color.FromArgb(201, 201, 201), // RibbonTabSelected2
-            Color.FromArgb(192, 192, 192), // RibbonTabSelected3
-            Color.FromArgb(192, 192, 192), // RibbonTabSelected4
-            Color.FromArgb(192, 192, 192), // RibbonTabSelected5
-            Color.FromArgb(94, 94, 94), // RibbonTabTracking1
-            Color.FromArgb(183, 183, 183), // RibbonTabTracking2
-            Color.FromArgb(94, 94, 94), // RibbonTabHighlight1
-            Color.FromArgb(201, 201, 201), // RibbonTabHighlight2
-            Color.FromArgb(192, 192, 192), // RibbonTabHighlight3
-            Color.FromArgb(192, 192, 192), // RibbonTabHighlight4
-            Color.FromArgb(192, 192, 192), // RibbonTabHighlight5
-            Color.FromArgb(54, 54, 54), // RibbonTabSeparatorColor
-            Color.FromArgb(94, 94, 94), // RibbonGroupsArea1
-            Color.FromArgb(50, 50, 50), // RibbonGroupsArea2
-            Color.FromArgb(191, 191, 191), // RibbonGroupsArea3
-            Color.FromArgb(164, 164, 164), // RibbonGroupsArea4
-            Color.FromArgb(145, 145, 145), // RibbonGroupsArea5
-            Color.FromArgb(159, 159, 159), // RibbonGroupBorder1
-            Color.FromArgb(194, 194, 194), // RibbonGroupBorder2
-            Color.Empty, // RibbonGroupTitle1
-            Color.Empty, // RibbonGroupTitle2
-            Color.Empty, // RibbonGroupBorderContext1
-            Color.Empty, // RibbonGroupBorderContext2
-            Color.Empty, // RibbonGroupTitleContext1
-            Color.Empty, // RibbonGroupTitleContext2
-            Color.FromArgb(92, 92, 94), // RibbonGroupDialogDark
-            Color.FromArgb(123, 125, 125), // RibbonGroupDialogLight
-            Color.Empty, // RibbonGroupTitleTracking1
-            Color.Empty, // RibbonGroupTitleTracking2
-            Color.FromArgb(78, 78, 78), // RibbonMinimizeBarDark
-            Color.FromArgb(110, 110, 110), // RibbonMinimizeBarLight
-            Color.Empty, // RibbonGroupCollapsedBorder1
-            Color.Empty, // RibbonGroupCollapsedBorder2
-            Color.Empty, // RibbonGroupCollapsedBorder3
-            Color.Empty, // RibbonGroupCollapsedBorder4
-            Color.Empty, // RibbonGroupCollapsedBack1
-            Color.Empty, // RibbonGroupCollapsedBack2
-            Color.Empty, // RibbonGroupCollapsedBack3
-            Color.Empty, // RibbonGroupCollapsedBack4
-            Color.Empty, // RibbonGroupCollapsedBorderT1
-            Color.Empty, // RibbonGroupCollapsedBorderT2
-            Color.Empty, // RibbonGroupCollapsedBorderT3
-            Color.Empty, // RibbonGroupCollapsedBorderT4
-            Color.Empty, // RibbonGroupCollapsedBackT1
-            Color.Empty, // RibbonGroupCollapsedBackT2
-            Color.Empty, // RibbonGroupCollapsedBackT3
-            Color.Empty, // RibbonGroupCollapsedBackT4
-            Color.FromArgb(147, 147, 147), // RibbonGroupFrameBorder1
-            Color.FromArgb(139, 139, 139), // RibbonGroupFrameBorder2
-            Color.FromArgb(187, 187, 188), // RibbonGroupFrameInside1
-            Color.FromArgb(167, 167, 168), // RibbonGroupFrameInside2
-            Color.Empty, // RibbonGroupFrameInside3
-            Color.Empty, // RibbonGroupFrameInside4
-            Color.FromArgb(59, 59, 59), // RibbonGroupCollapsedText         
-            Color.FromArgb(158, 163, 172), // AlternatePressedBack1
-            Color.FromArgb(212, 215, 216), // AlternatePressedBack2
-            Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
-            Color.FromArgb(186, 186, 186), // AlternatePressedBorder2
-            Color.FromArgb(43, 55, 67), // FormButtonBack1Checked
-            Color.FromArgb(106, 122, 140), // FormButtonBack2Checked
-            Color.FromArgb(18, 18, 18), // FormButtonBorderCheck
-            Color.FromArgb(33, 45, 57), // FormButtonBack1CheckTrack
-            Color.FromArgb(136, 152, 170), // FormButtonBack2CheckTrack
-            Color.FromArgb(55, 55, 55), // RibbonQATMini1
-            Color.FromArgb(100, 100, 100), // RibbonQATMini2
-            Color.FromArgb(73, 73, 73), // RibbonQATMini3
-            Color.FromArgb(12, Color.White), // RibbonQATMini4
-            Color.FromArgb(14, Color.White), // RibbonQATMini5
-            Color.FromArgb(100, 100, 100), // RibbonQATMini1I
-            Color.FromArgb(170, 170, 170), // RibbonQATMini2I
-            Color.FromArgb(140, 140, 140), // RibbonQATMini3I
-            Color.FromArgb(12, Color.White), // RibbonQATMini4I
-            Color.FromArgb(14, Color.White), // RibbonQATMini5I
-            Color.FromArgb(132, 132, 132), // RibbonQATFullbar1                                                      
-            Color.FromArgb(121, 121, 121), // RibbonQATFullbar2                                                      
-            Color.FromArgb(50, 49, 49), // RibbonQATFullbar3                                                      
-            Color.FromArgb(90, 90, 90), // RibbonQATButtonDark                                                      
-            Color.FromArgb(174, 174, 175), // RibbonQATButtonLight                                                      
-            Color.FromArgb(161, 161, 161), // RibbonQATOverflow1                                                      
-            Color.FromArgb(68, 68, 68), // RibbonQATOverflow2                                                      
-            Color.FromArgb(82, 82,
-                82), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(190, 190,
-                190), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(210, 217,
-                219), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(214, 222,
-                223), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(179, 188,
-                191), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(145, 156,
-                159), // ButtonClusterButtonBorder2                                                      
-            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
-            Color.FromArgb(205, 205, 205), // GridListNormal1                                                    
-            Color.FromArgb(166, 166, 166), // GridListNormal2                                                    
-            Color.FromArgb(166, 166, 166), // GridListPressed1                                                    
-            Color.FromArgb(205, 205, 205), // GridListPressed2                                                    
-            Color.FromArgb(150, 150, 150), // GridListSelected                                                    
-            Color.FromArgb(220, 220, 220), // GridSheetColNormal1                                                    
-            Color.FromArgb(200, 200, 200), // GridSheetColNormal2                                                    
-            Color.FromArgb(255, 223, 107), // GridSheetColPressed1                                                    
-            Color.FromArgb(255, 252, 230), // GridSheetColPressed2                                                    
-            Color.FromArgb(255, 211, 89), // GridSheetColSelected1
-            Color.FromArgb(255, 239, 113), // GridSheetColSelected2
-            Color.FromArgb(205, 205, 205), // GridSheetRowNormal                                                   
-            Color.FromArgb(255, 223, 107), // GridSheetRowPressed
-            Color.FromArgb(245, 210, 87), // GridSheetRowSelected
-            Color.FromArgb(218, 220, 221), // GridDataCellBorder
-            Color.FromArgb(183, 219, 255), // GridDataCellSelected
-            //Color.Black,    
-            Color.FromArgb(255, 255, 255), // InputControlTextNormal
-            Color.FromArgb(168, 168, 168), // InputControlTextDisabled
-            Color.FromArgb(132, 132, 132), // InputControlBorderNormal
-            Color.FromArgb(187, 187, 187), // InputControlBorderDisabled
-            Color.FromArgb(38, 38, 38), // InputControlBackNormal
-            Color.FromArgb(240, 240, 240), // InputControlBackDisabled
-            Color.FromArgb(192, 192, 192), // InputControlBackInactive
-            Color.Black, // InputDropDownNormal1
-            Color.Transparent, // InputDropDownNormal2
-            Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
-            Color.Transparent, // InputDropDownDisabled2
-            Color.FromArgb(240, 242, 245), // ContextMenuHeadingBack
-            Color.Black, // ContextMenuHeadingText
-            Color.White, // ContextMenuImageColumn
-            Color.FromArgb(70, 70, 70), // AppButtonBack1
-            Color.FromArgb(70, 70, 70), // AppButtonBack2
-            Color.FromArgb(50, 50, 50), // AppButtonBorder
-            Color.FromArgb(70, 70, 70), // AppButtonOuter1
-            Color.FromArgb(70, 70, 70), // AppButtonOuter2
-            Color.FromArgb(70, 70, 70), // AppButtonOuter3
-            Color.Empty, // AppButtonInner1
-            Color.FromArgb(50, 50, 50), // AppButtonInner2
-            Color.White, // AppButtonMenuDocs
-            Color.Black, // AppButtonMenuDocsText
-            Color.FromArgb(172, 172, 172), // SeparatorHighInternalBorder1
-            Color.FromArgb(111, 111, 111), // SeparatorHighInternalBorder2
-            Color.FromArgb(132, 132, 132), // RibbonGalleryBorder
-            Color.FromArgb(187, 187, 187), // RibbonGalleryBackNormal
-            Color.FromArgb(193, 193, 193), // RibbonGalleryBackTracking
-            Color.FromArgb(176, 176, 176), // RibbonGalleryBack1
-            Color.FromArgb(150, 150, 150), // RibbonGalleryBack2
-            Color.FromArgb(148, 149, 151), // RibbonTabTracking3
-            Color.FromArgb(127, 127, 127), // RibbonTabTracking4
-            Color.FromArgb(82, 82, 82), // RibbonGroupBorder3
-            Color.FromArgb(176, 176, 176), // RibbonGroupBorder4
-            Color.FromArgb(178, 178, 178), // RibbonGroupBorder5
-            Color.FromArgb(36, 36, 36), // RibbonGroupTitleText
-            Color.FromArgb(155, 157, 160), // RibbonDropArrowLight
-            Color.FromArgb(27, 29, 40), // RibbonDropArrowDark
-            Color.FromArgb(137, 137, 137), // HeaderDockInactiveBack1
-            Color.FromArgb(125, 125, 125), // HeaderDockInactiveBack2
-            Color.FromArgb(46, 46, 46), // ButtonNavigatorBorder
-            Color.White, // ButtonNavigatorText
-            Color.FromArgb(76, 76, 76), // ButtonNavigatorTrack1
-            Color.FromArgb(147, 147, 143), // ButtonNavigatorTrack2
-            Color.FromArgb(66, 66, 66), // ButtonNavigatorPressed1
-            Color.FromArgb(148, 148, 143), // ButtonNavigatorPressed2
-            Color.FromArgb(91, 91, 91), // ButtonNavigatorChecked1
-            Color.FromArgb(73, 73, 73), // ButtonNavigatorChecked2
-            Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
-        };
-
-        #endregion
         #endregion
 
         #region Identity
@@ -395,14 +303,17 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverN,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverTC,
-                                            Office2010SilverRadioButtonResources.RadioButton2010SilverPC};
+            _radioButtonArray = new Image[]
+            {
+                Office2010RadioButtonImageResources.RadioButton2010BlueD,
+                Office2010RadioButtonImageResources.RadioButton2010SilverN,
+                Office2010RadioButtonImageResources.RadioButton2010BlueT,
+                Office2010RadioButtonImageResources.RadioButton2010BlueP,
+                Office2010RadioButtonImageResources.RadioButton2010BlueDC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverNC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverTC,
+                Office2010RadioButtonImageResources.RadioButton2010SilverPC
+            };
         }
 
         /// <summary>
@@ -709,7 +620,7 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.PendantRestore => _buttonSpecPendantRestore,
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
-                    PaletteState.Tracking => _formCloseHover,
+                    PaletteState.Tracking => _formCloseActive,
                     PaletteState.Normal => _formCloseNormal,
                     PaletteState.Pressed => _formClosePressed,
                     _ => _formCloseDisabled
@@ -717,114 +628,30 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Normal => _formMinimiseNormal,
-                    PaletteState.Tracking => _formMinimiseHover,
+                    PaletteState.Tracking => _formMinimiseActive,
                     PaletteState.Pressed => _formMinimisePressed,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Normal => _formMaximiseNormal,
-                    PaletteState.Tracking => _formMaximiseHover,
+                    PaletteState.Tracking => _formMaximiseActive,
                     PaletteState.Pressed => _formMaximisePressed,
                     _ => _formMaximiseDisabled
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Normal => _formRestoreNormal,
-                    PaletteState.Tracking => _formRestoreHover,
+                    PaletteState.Tracking => _formRestoreActive,
                     PaletteState.Pressed => _formRestorePressed,
                     _ => _formRestoreDisabled
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
-                    PaletteState.Tracking => _formHelpHover,
+                    PaletteState.Tracking => _formHelpActive,
                     PaletteState.Pressed => _formHelpPressed,
                     PaletteState.Normal => _formHelpNormal,
                     _ => _formHelpDisabled
-                },
-                PaletteButtonSpecStyle.New => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecNewActive,
-                    PaletteState.Normal => _formToolbarButtonSpecNewNormal,
-                    _ => _formToolbarButtonSpecNewDisabled
-                },
-                PaletteButtonSpecStyle.Open => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecOpenActive,
-                    PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
-                    _ => _formToolbarButtonSpecOpenDisabled
-                },
-                PaletteButtonSpecStyle.Save => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
-                    _ => _formToolbarButtonSpecSaveDisabled
-                },
-                PaletteButtonSpecStyle.SaveAs => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAsActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
-                    _ => _formToolbarButtonSpecSaveAsDisabled
-                },
-                PaletteButtonSpecStyle.SaveAll => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAllActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveAllNormal,
-                    _ => _formToolbarButtonSpecSaveAllDisabled
-                },
-                PaletteButtonSpecStyle.Cut => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCutActive,
-                    PaletteState.Normal => _formToolbarButtonSpecCutNormal,
-                    _ => _formToolbarButtonSpecCutDisabled
-                },
-                PaletteButtonSpecStyle.Copy => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCopyActive,
-                    PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
-                    _ => _formToolbarButtonSpecCopyDisabled
-                },
-                PaletteButtonSpecStyle.Paste => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPasteActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
-                    _ => _formToolbarButtonSpecPasteDisabled
-                },
-                PaletteButtonSpecStyle.Undo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecUndoActive,
-                    PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
-                    _ => _formToolbarButtonSpecUndoDisabled
-                },
-                PaletteButtonSpecStyle.Redo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecRedoActive,
-                    PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
-                    _ => _formToolbarButtonSpecRedoDisabled
-                },
-                PaletteButtonSpecStyle.PageSetup => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPageSetupActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPageSetupNormal,
-                    _ => _formToolbarButtonSpecPageSetupDisabled
-                },
-                PaletteButtonSpecStyle.PrintPreview => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPrintPreviewActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPrintPreviewNormal,
-                    _ => _formToolbarButtonSpecPrintPreviewDisabled
-                },
-                PaletteButtonSpecStyle.Print => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPrintActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPrintNormal,
-                    _ => _formToolbarButtonSpecPrintDisabled
-                },
-                PaletteButtonSpecStyle.QuickPrint => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecQuickPrintActive,
-                    PaletteState.Normal => _formToolbarButtonSpecQuickPrintNormal,
-                    _ => _formToolbarButtonSpecQuickPrintDisabled
                 },
                 PaletteButtonSpecStyle.RibbonMinimize => _buttonSpecRibbonMinimize,
                 PaletteButtonSpecStyle.RibbonExpand => _buttonSpecRibbonExpand,

@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     public class ButtonSpecViewAppButton : ButtonSpecView
     {
         #region Instance Fields
-        private ButtonSpecAppButtonController _controller;
+        private ButtonSpecAppButtonController? _controller;
         #endregion
 
         #region Identity
@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         public ButtonSpecViewAppButton(PaletteRedirect? redirector,
                                        IPaletteMetric? paletteMetric,
                                        PaletteMetricPadding metricPadding,
-                                       ButtonSpecManagerBase manager,
+                                       ButtonSpecManagerBase? manager,
                                        ButtonSpec buttonSpec)
             : base(redirector, paletteMetric, metricPadding, manager, buttonSpec)
         {
@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Paint delegate.</param>
         /// <param name="clickHandler">Reference to click handler.</param>
         /// <returns>Controller instance.</returns>
-        public override ButtonSpecViewControllers CreateController(ViewDrawButton? viewButton,
+        public override ButtonSpecViewControllers CreateController(ViewDrawButton viewButton,
                                                                    NeedPaintHandler needPaint,
                                                                    MouseEventHandler clickHandler)
         {
@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
             _controller.Click += clickHandler;
 
             // If associated with a tooltip manager then pass mouse messages onto tooltip manager
-            IMouseController mouseController = _controller;
+            IMouseController? mouseController = _controller;
             if (Manager.ToolTipManager != null)
             {
                 mouseController = new ToolTipController(Manager.ToolTipManager, viewButton, _controller);

@@ -12,6 +12,7 @@
 
 // ReSharper disable MemberCanBeInternal
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Docking
 {
     /// <summary>
@@ -45,8 +46,11 @@ namespace Krypton.Docking
         {
             SpaceControl = workspace ?? throw new ArgumentNullException(nameof(workspace));
 
-            DockableWorkspaceControl.CellPageInserting += OnSpaceCellPageInserting;
-            DockableWorkspaceControl.BeforePageDrag += OnDockableWorkspaceBeforePageDrag;
+            if (DockableWorkspaceControl != null)
+            {
+                DockableWorkspaceControl.CellPageInserting += OnSpaceCellPageInserting;
+                DockableWorkspaceControl.BeforePageDrag += OnDockableWorkspaceBeforePageDrag;
+            }
         }
         #endregion
 
@@ -389,7 +393,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
         {
             switch (action)
             {
@@ -417,16 +421,23 @@ namespace Krypton.Docking
         {
             // Create list of the pages that are allowed to be dropped into this workspace
             KryptonPageCollection pages = new();
-            foreach (KryptonPage page in dragData.Pages.Where(static page => page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace)))
+            if (dragData != null)
             {
-                pages.Add(page);
+                foreach (KryptonPage page in dragData.Pages.Where(static page =>
+                           page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace)))
+                {
+                    pages.Add(page);
+                }
             }
 
             // Do we have any pages left for dragging?
             if (pages.Count > 0)
             {
-                DragTargetList workspaceTargets = DockableWorkspaceControl.GenerateDragTargets(new PageDragEndData(this, pages), KryptonPageFlags.DockingAllowWorkspace);
-                targets.AddRange(workspaceTargets.ToArray());
+                if (DockableWorkspaceControl != null)
+                {
+                    DragTargetList workspaceTargets = DockableWorkspaceControl.GenerateDragTargets(new PageDragEndData(this, pages), KryptonPageFlags.DockingAllowWorkspace);
+                    targets.AddRange(workspaceTargets.ToArray());
+                }
             }
         }
 
@@ -491,7 +502,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
         /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
-        public override KryptonDockingWorkspace? FindDockingWorkspace(string uniqueName) => this;
+        public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName) => this;
 
         #endregion
 
@@ -525,8 +536,11 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
-                dockingManager.RaiseDockableWorkspaceCellAdding(args);
+                if (DockableWorkspaceControl != null)
+                {
+                    DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
+                    dockingManager.RaiseDockableWorkspaceCellAdding(args);
+                }
             }
         }
 
@@ -540,8 +554,11 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
-                dockingManager.RaiseDockableWorkspaceCellRemoved(args);
+                if (DockableWorkspaceControl != null)
+                {
+                    DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
+                    dockingManager.RaiseDockableWorkspaceCellRemoved(args);
+                }
             }
         }
 
@@ -556,11 +573,14 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
-                dockingManager.RaisePageWorkspaceRequest(args);
+                if (e.Page != null)
+                {
+                    CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
+                    dockingManager.RaisePageWorkspaceRequest(args);
 
-                // Pass back the result of the event
-                e.Cancel = args.Cancel;
+                    // Pass back the result of the event
+                    e.Cancel = args.Cancel;
+                }
             }
         }
 
@@ -578,7 +598,7 @@ namespace Krypton.Docking
             var pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
-                if (page is not KryptonStorePage 
+                if (page is not KryptonStorePage
                     && (DockableWorkspaceControl?.CellForPage(page) != null))
                 {
                     pages.Add(page);

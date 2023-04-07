@@ -16,8 +16,8 @@ namespace Krypton.Navigator
                                          IKryptonDesignerSelect
     {
         #region Instance Fields
-        private KryptonPage _page;
-        private DesignerVerbCollection _verbs;
+        private KryptonPage? _page;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _verbEditFlags;
         private ISelectionService _selectionService;
         private IComponentChangeService _changeService;
@@ -54,10 +54,10 @@ namespace Krypton.Navigator
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService.ComponentRemoving += OnComponentRemoving!;
 
             // Lock the component from user size/location change
-            PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
+            PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
             if ((descriptor != null) && (ParentNavigator != null))
             {
                 descriptor.SetValue(component, true);
@@ -71,7 +71,7 @@ namespace Krypton.Navigator
         /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
         public override bool CanBeParentedTo(IDesigner parentDesigner) =>
             // Can only place a KrytonPage in the KryptonNavigator
-            parentDesigner?.Component is KryptonNavigator;
+            parentDesigner.Component is KryptonNavigator;
 
         /// <summary>
         /// Gets the collection of components associated with the component managed by the designer.
@@ -108,7 +108,7 @@ namespace Krypton.Navigator
                 if (_verbs == null)
                 {
                     // Cache verb instances so enabled state can be updated in future
-                    _verbEditFlags = new DesignerVerb(@"Edit Flags", OnEditFlags);
+                    _verbEditFlags = new DesignerVerb(@"Edit Flags", OnEditFlags!);
                     _verbs = new DesignerVerbCollection(new[] { _verbEditFlags });
                 }
 
@@ -163,7 +163,7 @@ namespace Krypton.Navigator
             {
                 _selectionService.SetSelectedComponents(new object[] { ParentNavigator }, SelectionTypes.Primary);
             }
-            else if (_page.Parent != null)
+            else if (_page != null && _page.Parent != null)
             {
                 _selectionService.SetSelectedComponents(new object[] { _page.Parent }, SelectionTypes.Primary);
             }
@@ -182,7 +182,10 @@ namespace Krypton.Navigator
                 if (disposing)
                 {
                     // Remove event hooks
-                    _page.FlagsChanged -= OnPageFlagsChanged;
+                    if (_page != null)
+                    {
+                        _page.FlagsChanged -= OnPageFlagsChanged;
+                    }
                 }
             }
             finally
@@ -216,28 +219,34 @@ namespace Krypton.Navigator
         private void OnPageFlagsChanged(object sender, KryptonPageFlagsEventArgs e)
         {
             // Get access to the Flags property
-            MemberDescriptor propertyFlags = TypeDescriptor.GetProperties(_page)[@"Flags"];
+            if (_page != null)
+            {
+                MemberDescriptor? propertyFlags = TypeDescriptor.GetProperties(_page)[@"Flags"];
 
-            // Notify that the flags property has been updated
-            RaiseComponentChanging(propertyFlags);
-            RaiseComponentChanged(propertyFlags, null, null);
+                // Notify that the flags property has been updated
+                RaiseComponentChanging(propertyFlags);
+                RaiseComponentChanged(propertyFlags, null, null);
+            }
         }
 
         private KryptonNavigator? ParentNavigator
         {
             get
             {
-                Control parent = _page.Parent;
-
-                // Search parent chain looking for navigator instance
-                while (parent != null)
+                if (_page != null)
                 {
-                    if (parent is KryptonNavigator navigator)
-                    {
-                        return navigator;
-                    }
+                    Control? parent = _page.Parent;
 
-                    parent = parent.Parent;
+                    // Search parent chain looking for navigator instance
+                    while (parent != null)
+                    {
+                        if (parent is KryptonNavigator navigator)
+                        {
+                            return navigator;
+                        }
+
+                        parent = parent.Parent;
+                    }
                 }
 
                 return null;

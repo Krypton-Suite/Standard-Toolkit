@@ -9,9 +9,10 @@
 
 using System.Drawing.Printing;
 // ReSharper disable ConvertToAutoProperty
-
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
+
+// ReSharper disable UnusedVariable
 #pragma warning disable IDE1006 // Naming Styles
 
 namespace Krypton.Toolkit
@@ -60,7 +61,7 @@ namespace Krypton.Toolkit
         {
             get => _commonDialogHandler.Icon;
             set => _commonDialogHandler.Icon = value;
-        } 
+        }
 
         /// <summary>
         /// Changes the default Icon to Developer set
@@ -81,7 +82,7 @@ namespace Krypton.Toolkit
             _commonDialogHandler = new CommonDialogHandler(true)
             {
                 ClickCallback = ClickCallback,
-                Icon = CommonDialogIcons.Printer_V10,
+                Icon = DialogImageResources.Printer_V10,
                 ShowIcon = false
             };
 
@@ -110,7 +111,7 @@ namespace Krypton.Toolkit
         }
 
         private IntPtr? _editHwnd;
-        private KryptonCheckBox _collateCheckbox;
+        private KryptonCheckBox? _collateCheckbox;
 
         /// <inheritdoc />
         protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
@@ -126,39 +127,42 @@ namespace Krypton.Toolkit
             {
                 switch (msg)
                 {
-                    case PI.WM_.COMMAND 
-                    when (_editHwnd == lparam) 
+                    case PI.WM_.COMMAND
+                    when (_editHwnd == lparam)
                          && (PI.HIWORD(wparam) == PI.EN_CHANGE):
-                    {
-                        var text = new StringBuilder(8);
-                        PI.GetWindowText(_editHwnd.Value, text, 8);
-                        _collateCheckbox.Enabled = int.Parse(text.ToString()) > 1;
-                        break;
-                    }
-                    case PI.WM_.PRINTCLIENT:
-                    {
-                        // Supposedly finished init, so go finalise the checkboxes and radios
-                        foreach (var control in _commonDialogHandler.Controls)
                         {
-                            switch (control.Button)
+                            var text = new StringBuilder(8);
+                            PI.GetWindowText(_editHwnd.Value, text, 8);
+                            if (_collateCheckbox != null)
                             {
-                                case KryptonCheckBox checkBox:
+                                _collateCheckbox.Enabled = int.Parse(text.ToString()) > 1;
+                            }
+                            break;
+                        }
+                    case PI.WM_.PRINTCLIENT:
+                        {
+                            // Supposedly finished init, so go finalise the checkboxes and radios
+                            foreach (var control in _commonDialogHandler.Controls)
+                            {
+                                switch (control.Button)
                                 {
-                                    var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                                    checkBox.Checked = state != PI.BST_.UNCHECKED;
-                                    break;
-                                }
-                                case KryptonRadioButton radioBut:
-                                {
-                                    var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                                    radioBut.Checked = state != PI.BST_.UNCHECKED;
-                                    break;
+                                    case KryptonCheckBox checkBox:
+                                        {
+                                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                                            checkBox.Checked = state != PI.BST_.UNCHECKED;
+                                            break;
+                                        }
+                                    case KryptonRadioButton radioBut:
+                                        {
+                                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                                            radioBut.Checked = state != PI.BST_.UNCHECKED;
+                                            break;
+                                        }
                                 }
                             }
-                        }
 
-                        break;
-                    }
+                            break;
+                        }
                     case PI.WM_.ERASEBKGND:
                         // Got to prevent the CommonDialog redrawing over the KryptonControls !!
                         return IntPtr.Zero;
@@ -219,7 +223,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private PageSettings PageSettings => Document is null ? PrinterSettings.DefaultPageSettings : Document.DefaultPageSettings;
+        private PageSettings? PageSettings => Document is null ? PrinterSettings!.DefaultPageSettings : Document.DefaultPageSettings;
 
         /// <summary>
         ///  Gets or sets the Drawing.Printing.PrinterSettings the
@@ -232,7 +236,7 @@ namespace Krypton.Toolkit
         [AllowNull]
         public PrinterSettings PrinterSettings
         {
-            get => settings ??= new PrinterSettings();
+            get => settings ??= new();
             set
             {
                 if (value != PrinterSettings)
@@ -312,26 +316,29 @@ namespace Krypton.Toolkit
                 flags |= PD.NOSELECTION;
             }
 
-            flags |= (PD)PrinterSettings.PrintRange;
-
-            if (PrintToFile)
+            if (PrinterSettings != null)
             {
-                flags |= PD.PRINTTOFILE;
-            }
+                flags |= (PD)PrinterSettings.PrintRange;
 
-            if (ShowHelp)
-            {
-                flags |= PD.SHOWHELP;
-            }
+                if (PrintToFile)
+                {
+                    flags |= PD.PRINTTOFILE;
+                }
 
-            if (!ShowNetwork)
-            {
-                flags |= PD.NONETWORKBUTTON;
-            }
+                if (ShowHelp)
+                {
+                    flags |= PD.SHOWHELP;
+                }
 
-            if (PrinterSettings.Collate)
-            {
-                flags |= PD.COLLATE;
+                if (!ShowNetwork)
+                {
+                    flags |= PD.NONETWORKBUTTON;
+                }
+
+                if (PrinterSettings.Collate)
+                {
+                    flags |= PD.COLLATE;
+                }
             }
 
             return flags;
@@ -391,7 +398,7 @@ namespace Krypton.Toolkit
             data.nMinPage = 0;
             data.nMaxPage = 9999;
             data.Flags = GetFlags();
-            data.nCopies = PrinterSettings.Copies;
+            data.nCopies = PrinterSettings!.Copies;
             data.hwndOwner = hwndOwner;
 
             // ReSharper disable once RedundantDelegateCreation
@@ -656,21 +663,24 @@ namespace Krypton.Toolkit
         // Due to the nature of PRINTDLGEX vs PRINTDLG, separate but similar methods
         // are required for updating the settings from the structure utilized by the dialog.
         // Take information from print dialog and put in PrinterSettings
-        private static void UpdatePrinterSettings(IntPtr hDevMode, IntPtr hDevNames, short copies, PD flags, PrinterSettings settings, PageSettings pageSettings)
+        private static void UpdatePrinterSettings(IntPtr hDevMode, IntPtr hDevNames, short copies, PD flags, PrinterSettings? settings, PageSettings? pageSettings)
         {
             // Mode
-            settings.SetHdevmode(hDevMode);
-            settings.SetHdevnames(hDevNames);
-
-            pageSettings?.SetHdevmode(hDevMode);
-
-            //Check for Copies == 1 since we might get the Right number of Copies from hdevMode.dmCopies...
-            if (settings.Copies == 1)
+            if (settings != null)
             {
-                settings.Copies = copies;
-            }
+                settings.SetHdevmode(hDevMode);
+                settings.SetHdevnames(hDevNames);
 
-            settings.PrintRange = (PrintRange)(flags & printRangeMask);
+                pageSettings?.SetHdevmode(hDevMode);
+
+                //Check for Copies == 1 since we might get the Right number of Copies from hdevMode.dmCopies...
+                if (settings.Copies == 1)
+                {
+                    settings.Copies = copies;
+                }
+
+                settings.PrintRange = (PrintRange)(flags & printRangeMask);
+            }
         }
 
         [DllImport(Libraries.Comdlg32, EntryPoint = nameof(PrintDlg), CharSet = CharSet.Auto, SetLastError = true)]
@@ -732,12 +742,12 @@ namespace Krypton.Toolkit
         ENABLESETUPTEMPLATE = 0x00008000,
         ENABLEPRINTTEMPLATEHANDLE = 0x00010000,
         ENABLESETUPTEMPLATEHANDLE = 0x00020000,
-        USEDEVMODECOPIES           = 0x00040000,
+        USEDEVMODECOPIES = 0x00040000,
         USEDEVMODECOPIESANDCOLLATE = 0x00040000,
-        DISABLEPRINTTOFILE         = 0x00080000,
+        DISABLEPRINTTOFILE = 0x00080000,
         HIDEPRINTTOFILE = 0x00100000,
         NONETWORKBUTTON = 0x00200000,
-        CURRENTPAGE = 0x00400000,   
+        CURRENTPAGE = 0x00400000,
         NOCURRENTPAGE = 0x00800000,
         EXCLUSIONFLAGS = 0x01000000,
         USELARGETEMPLATE = 0x10000000
@@ -772,13 +782,13 @@ namespace Krypton.Toolkit
 
         IntPtr lCustData { get; set; }
 
-        PI.WndProc lpfnPrintHook { get; set; }
+        PI.WndProc? lpfnPrintHook { get; set; }
 
-        PI.WndProc lpfnSetupHook { get; set; }
+        PI.WndProc? lpfnSetupHook { get; set; }
 
-        string lpPrintTemplateName { get; set; }
+        string? lpPrintTemplateName { get; set; }
 
-        string lpSetupTemplateName { get; set; }
+        string? lpSetupTemplateName { get; set; }
 
         IntPtr hPrintTemplate { get; set; }
 
@@ -801,10 +811,10 @@ namespace Krypton.Toolkit
         private short m_nCopies;
         private IntPtr m_hInstance;
         private IntPtr m_lCustData;
-        private PI.WndProc m_lpfnPrintHook;
-        private PI.WndProc m_lpfnSetupHook;
-        private string m_lpPrintTemplateName;
-        private string m_lpSetupTemplateName;
+        private PI.WndProc? m_lpfnPrintHook;
+        private PI.WndProc? m_lpfnSetupHook;
+        private string? m_lpPrintTemplateName;
+        private string? m_lpSetupTemplateName;
         private IntPtr m_hPrintTemplate;
         private IntPtr m_hSetupTemplate;
 
@@ -886,25 +896,25 @@ namespace Krypton.Toolkit
             set => m_lCustData = value;
         }
 
-        public PI.WndProc lpfnPrintHook
+        public PI.WndProc? lpfnPrintHook
         {
             get => m_lpfnPrintHook;
             set => m_lpfnPrintHook = value;
         }
 
-        public PI.WndProc lpfnSetupHook
+        public PI.WndProc? lpfnSetupHook
         {
             get => m_lpfnSetupHook;
             set => m_lpfnSetupHook = value;
         }
 
-        public string lpPrintTemplateName
+        public string? lpPrintTemplateName
         {
             get => m_lpPrintTemplateName;
             set => m_lpPrintTemplateName = value;
         }
 
-        public string lpSetupTemplateName
+        public string? lpSetupTemplateName
         {
             get => m_lpSetupTemplateName;
             set => m_lpSetupTemplateName = value;
@@ -939,10 +949,10 @@ namespace Krypton.Toolkit
         private short m_nCopies;
         private IntPtr m_hInstance;
         private IntPtr m_lCustData;
-        private PI.WndProc m_lpfnPrintHook;
-        private PI.WndProc m_lpfnSetupHook;
-        private string m_lpPrintTemplateName;
-        private string m_lpSetupTemplateName;
+        private PI.WndProc? m_lpfnPrintHook;
+        private PI.WndProc? m_lpfnSetupHook;
+        private string? m_lpPrintTemplateName;
+        private string? m_lpSetupTemplateName;
         private IntPtr m_hPrintTemplate;
         private IntPtr m_hSetupTemplate;
 
@@ -1024,25 +1034,25 @@ namespace Krypton.Toolkit
             set => m_lCustData = value;
         }
 
-        public PI.WndProc lpfnPrintHook
+        public PI.WndProc? lpfnPrintHook
         {
             get => m_lpfnPrintHook;
             set => m_lpfnPrintHook = value;
         }
 
-        public PI.WndProc lpfnSetupHook
+        public PI.WndProc? lpfnSetupHook
         {
             get => m_lpfnSetupHook;
             set => m_lpfnSetupHook = value;
         }
 
-        public string lpPrintTemplateName
+        public string? lpPrintTemplateName
         {
             get => m_lpPrintTemplateName;
             set => m_lpPrintTemplateName = value;
         }
 
-        public string lpSetupTemplateName
+        public string? lpSetupTemplateName
         {
             get => m_lpSetupTemplateName;
             set => m_lpSetupTemplateName = value;

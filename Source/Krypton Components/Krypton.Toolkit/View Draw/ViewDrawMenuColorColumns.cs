@@ -20,8 +20,8 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
         private readonly KryptonContextMenuColorColumns _colorColumns;
-        private readonly ViewLayoutDocker? _outerDocker;
-        private readonly ViewLayoutDocker? _innerDocker;
+        private readonly ViewLayoutDocker _outerDocker;
+        private readonly ViewLayoutDocker _innerDocker;
         #endregion
 
         #region Identity
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             var enabled = provider.ProviderEnabled;
 
             // Always assume there is a first row of colors
-            ViewLayoutStack? fillStack = new(false)
+            ViewLayoutStack fillStack = new(false)
             {
                 CreateColumns(provider, colorColumns, colors, 0, 1, enabled)
             };
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private ViewLayoutStack? CreateColumns(IContextMenuProvider provider,
+        private ViewLayoutStack CreateColumns(IContextMenuProvider provider,
                                               KryptonContextMenuColorColumns colorColumns,
                                               Color[][] colors, 
                                               int start, 
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
                                               bool enabled)
         {
             // Create a horizontal stack of columns
-            ViewLayoutStack? columns = new(true)
+            ViewLayoutStack columns = new(true)
             {
                 FillLastChild = false
             };
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Add container for the column, this draws the background
-                ViewDrawMenuColorColumn? colorColumn = new(provider, colorColumns, colors[i], start, end, enabled);
+                ViewDrawMenuColorColumn colorColumn = new(provider, colorColumns, colors[i], start, end, enabled);
                 columns.Add(colorColumn);
             }
 

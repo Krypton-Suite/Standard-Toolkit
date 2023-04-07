@@ -135,18 +135,21 @@ namespace Krypton.Docking
                 // Create a list of pages that are allowed to be transferred into the dockspace
                 var transferPages = new List<KryptonPage>();
                 var transferUniqueNames = new List<string>();
-                foreach (KryptonPage page in data.Pages)
+                if (data != null)
                 {
-                    if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
+                    foreach (KryptonPage page in data.Pages)
                     {
-                        // Use event to indicate the page is becoming docked and allow it to be cancelled
-                        CancelUniqueNameEventArgs args = new(page.UniqueName, false);
-                        manager?.RaisePageDockedRequest(args);
-
-                        if (!args.Cancel)
+                        if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
                         {
-                            transferPages.Add(page);
-                            transferUniqueNames.Add(page.UniqueName);
+                            // Use event to indicate the page is becoming docked and allow it to be cancelled
+                            CancelUniqueNameEventArgs args = new(page.UniqueName, false);
+                            manager?.RaisePageDockedRequest(args);
+
+                            if (!args.Cancel)
+                            {
+                                transferPages.Add(page);
+                                transferUniqueNames.Add(page.UniqueName);
+                            }
                         }
                     }
                 }
@@ -155,13 +158,19 @@ namespace Krypton.Docking
                 if (transferPages.Count > 0)
                 {
                     // Convert the incoming pages into store pages for restoring later
-                    manager.PropogateAction(DockingPropogateAction.StorePages, transferUniqueNames.ToArray());
+                    if (manager != null)
+                    {
+                        manager.PropogateAction(DockingPropogateAction.StorePages, transferUniqueNames.ToArray());
+                    }
 
                     // Create a new dockspace at the start of the list so it is closest to the control edge
-                    KryptonDockingDockspace dockspace = (_outsideEdge ? dockedEdge.InsertDockspace(0) : dockedEdge.AppendDockspace());
+                    if (dockedEdge != null)
+                    {
+                        KryptonDockingDockspace dockspace = (_outsideEdge ? dockedEdge.InsertDockspace(0) : dockedEdge.AppendDockspace());
 
-                    // Add pages into the target
-                    dockspace.Append(transferPages.ToArray());
+                        // Add pages into the target
+                        dockspace.Append(transferPages.ToArray());
+                    }
 
                     return true;
                 }

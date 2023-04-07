@@ -26,87 +26,27 @@ namespace Krypton.Toolkit
         #region Images
 
         private static readonly Image _blueDropDownButton = GenericImageResources.BlueDropDownButton;
-        private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal_24_x_24;
-        private static readonly Image _blueCloseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseHover_24_x_24;
-        private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled_24_x_24;
-        private static readonly Image _blueClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueClosePressed_24_x_24;
-        private static readonly Image _blueMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal_24_x_24;
-        private static readonly Image _blueMaximiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseHover_24_x_24;
-        private static readonly Image _blueMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled_24_x_24;
-        private static readonly Image _blueMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximisePressed_24_x_24;
-        private static readonly Image _blueMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal_24_x_24;
-        private static readonly Image _blueMinimiseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseHover_24_x_24;
-        private static readonly Image _blueMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled_24_x_24;
-        private static readonly Image _blueMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed_24_x_24;
-        private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreNormal_24_x_24;
-        private static readonly Image _blueRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreHover_24_x_24;
-        private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled_24_x_24;
-        private static readonly Image _blueRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueRestorePressed_24_x_24;
-        private static readonly Image _blueHelpNormal = HelpIconResources.Office2007HelpIconNormal;
-        private static readonly Image _blueHelpHover = HelpIconResources.Office2007HelpIconHover;
-        private static readonly Image _blueHelpPressed = HelpIconResources.Office2007HelpIconPressed;
-        private static readonly Image _blueHelpDisabled = HelpIconResources.Office2007HelpIconDisabled;
+        private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal;
+        private static readonly Image _blueCloseActive = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseActive;
+        private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled;
+        private static readonly Image _blueClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueClosePressed;
+        private static readonly Image _blueMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal;
+        private static readonly Image _blueMaximiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseActive;
+        private static readonly Image _blueMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled;
+        private static readonly Image _blueMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximisePressed;
+        private static readonly Image _blueMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal;
+        private static readonly Image _blueMinimiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseActive;
+        private static readonly Image _blueMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled;
+        private static readonly Image _blueMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimisePessed;
+        private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreNormal;
+        private static readonly Image _blueRestoreActive = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreActive;
+        private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled;
+        private static readonly Image _blueRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlueRestorePressed;
+        private static readonly Image _blueHelpNormal = Office2007ControlBoxResources.Office2007HelpIconNormal;
+        private static readonly Image _blueHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
+        private static readonly Image _blueHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
+        private static readonly Image _blueHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
-
-        #region Toolbar Images
-
-        private static readonly Image _formToolbarButtonSpecNewNormal = Office2007ToolbarImageResources.Office2007ToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewActive = Office2007ToolbarImageResources.Office2007ToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = Office2007ToolbarImageResources.Office2007ToolbarNewDisabled;
-
-        private static readonly Image _formToolbarButtonSpecOpenNormal = Office2007ToolbarImageResources.Office2007ToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenActive = Office2007ToolbarImageResources.Office2007ToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = Office2007ToolbarImageResources.Office2007ToolbarOpenDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveNormal = Office2007ToolbarImageResources.Office2007ToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveActive = Office2007ToolbarImageResources.Office2007ToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = Office2007ToolbarImageResources.Office2007ToolbarSaveDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveAllNormal = Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAllActive = Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAllDisabled = Office2007ToolbarImageResources.Office2007ToolbarSaveAllDisabled;
-
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = Office2007ToolbarImageResources.Office2007ToolbarSaveAsNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAsActive = Office2007ToolbarImageResources.Office2007ToolbarSaveAsNormal;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = Office2007ToolbarImageResources.Office2007ToolbarSaveAsDisabled;
-
-        private static readonly Image _formToolbarButtonSpecCutNormal = Office2007ToolbarImageResources.Office2007ToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutActive = Office2007ToolbarImageResources.Office2007ToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = Office2007ToolbarImageResources.Office2007ToolbarCutDisabled;
-
-        private static readonly Image _formToolbarButtonSpecCopyNormal = Office2007ToolbarImageResources.Office2007ToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyActive = Office2007ToolbarImageResources.Office2007ToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = Office2007ToolbarImageResources.Office2007ToolbarCopyDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPasteNormal = Office2007ToolbarImageResources.Office2007ToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteActive = Office2007ToolbarImageResources.Office2007ToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = Office2007ToolbarImageResources.Office2007ToolbarPasteDisabled;
-
-        private static readonly Image _formToolbarButtonSpecUndoNormal = Office2007ToolbarImageResources.Office2007ToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoActive = Office2007ToolbarImageResources.Office2007ToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = Office2007ToolbarImageResources.Office2007ToolbarUndoDisabled;
-
-        private static readonly Image _formToolbarButtonSpecRedoNormal = Office2007ToolbarImageResources.Office2007ToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoActive = Office2007ToolbarImageResources.Office2007ToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = Office2007ToolbarImageResources.Office2007ToolbarRedoDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPageSetupNormal = Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal;
-        private static readonly Image _formToolbarButtonSpecPageSetupActive = Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal;
-        private static readonly Image _formToolbarButtonSpecPageSetupDisabled = Office2007ToolbarImageResources.Office2007ToolbarPageSetupDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPrintPreviewNormal = Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewActive = Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewDisabled = Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewDisabled;
-
-        private static readonly Image _formToolbarButtonSpecPrintNormal = Office2007ToolbarImageResources.Office2007ToolbarPrintNormal;
-        private static readonly Image _formToolbarButtonSpecPrintActive = Office2007ToolbarImageResources.Office2007ToolbarPrintNormal;
-        private static readonly Image _formToolbarButtonSpecPrintDisabled = Office2007ToolbarImageResources.Office2007ToolbarPrintDisabled;
-
-        private static readonly Image _formToolbarButtonSpecQuickPrintNormal = Office2007ToolbarImageResources.Office2007ToolbarQuickPrintNormal;
-        private static readonly Image _formToolbarButtonSpecQuickPrintActive = Office2007ToolbarImageResources.Office2007ToolbarQuickPrintNormal;
-        private static readonly Image _formToolbarButtonSpecQuickPrintDisabled = Office2007ToolbarImageResources.Office2007ToolbarQuickPrintDisabled;
-
-        #endregion
 
         #endregion
 
@@ -335,7 +275,6 @@ namespace Krypton.Toolkit
         };
 
         #endregion
-
         #endregion
 
         #region Identity
@@ -354,14 +293,17 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GalleryBlue);
-            _radioButtonArray = new Image[]{Office2007BlueRadioButtonResources.RadioButton2007BlueD,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueN,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueT,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueP,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueNC,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BlueTC,
-                                            Office2007BlueRadioButtonResources.RadioButton2007BluePC};
+            _radioButtonArray = new Image[]
+            {
+                Office2007RadioButtonImageResources.RadioButton2007BlueD,
+                Office2007RadioButtonImageResources.RadioButton2007BlueN,
+                Office2007RadioButtonImageResources.RadioButton2007BlueT,
+                Office2007RadioButtonImageResources.RadioButton2007BlueP,
+                Office2007RadioButtonImageResources.RadioButton2007BlueDC,
+                Office2007RadioButtonImageResources.RadioButton2007BlueNC,
+                Office2007RadioButtonImageResources.RadioButton2007BlueTC,
+                Office2007RadioButtonImageResources.RadioButton2007BluePC
+            };
         }
 
         /// <summary>
@@ -424,121 +366,37 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
                     PaletteState.Disabled => _blueCloseDisabled,
-                    PaletteState.Tracking => _blueCloseHover,
+                    PaletteState.Tracking => _blueCloseActive,
                     PaletteState.Pressed => _blueClosePressed,
                     _ => _blueCloseNormal
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
                     PaletteState.Disabled => _blueMinimiseDisabled,
-                    PaletteState.Tracking => _blueMinimiseHover,
+                    PaletteState.Tracking => _blueMinimiseActive,
                     PaletteState.Pressed => _blueMinimisePressed,
                     _ => _blueMinimiseNormal
                 },
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Disabled => _blueMaximiseDisabled,
-                    PaletteState.Tracking => _blueMaximiseHover,
+                    PaletteState.Tracking => _blueMaximiseActive,
                     PaletteState.Pressed => _blueMaximisePressed,
                     _ => _blueMaximiseNormal
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Disabled => _blueRestoreDisabled,
-                    PaletteState.Tracking => _blueRestoreHover,
+                    PaletteState.Tracking => _blueRestoreActive,
                     PaletteState.Pressed => _blueRestorePressed,
                     _ => _blueRestoreNormal
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                     PaletteState.Disabled => _blueHelpDisabled,
-                    PaletteState.Tracking => _blueHelpHover,
+                    PaletteState.Tracking => _blueHelpActive,
                     PaletteState.Pressed => _blueHelpPressed,
                     _ => _blueHelpNormal
-                },
-                PaletteButtonSpecStyle.New => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecNewActive,
-                    PaletteState.Normal => _formToolbarButtonSpecNewNormal,
-                    _ => _formToolbarButtonSpecNewDisabled
-                },
-                PaletteButtonSpecStyle.Open => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecOpenActive,
-                    PaletteState.Normal => _formToolbarButtonSpecOpenNormal,
-                    _ => _formToolbarButtonSpecOpenDisabled
-                },
-                PaletteButtonSpecStyle.Save => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveNormal,
-                    _ => _formToolbarButtonSpecSaveDisabled
-                },
-                PaletteButtonSpecStyle.SaveAs => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAsActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveAsNormal,
-                    _ => _formToolbarButtonSpecSaveAsDisabled
-                },
-                PaletteButtonSpecStyle.SaveAll => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecSaveAllActive,
-                    PaletteState.Normal => _formToolbarButtonSpecSaveAllNormal,
-                    _ => _formToolbarButtonSpecSaveAllDisabled
-                },
-                PaletteButtonSpecStyle.Cut => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCutActive,
-                    PaletteState.Normal => _formToolbarButtonSpecCutNormal,
-                    _ => _formToolbarButtonSpecCutDisabled
-                },
-                PaletteButtonSpecStyle.Copy => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecCopyActive,
-                    PaletteState.Normal => _formToolbarButtonSpecCopyNormal,
-                    _ => _formToolbarButtonSpecCopyDisabled
-                },
-                PaletteButtonSpecStyle.Paste => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPasteActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPasteNormal,
-                    _ => _formToolbarButtonSpecPasteDisabled
-                },
-                PaletteButtonSpecStyle.Undo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecUndoActive,
-                    PaletteState.Normal => _formToolbarButtonSpecUndoNormal,
-                    _ => _formToolbarButtonSpecUndoDisabled
-                },
-                PaletteButtonSpecStyle.Redo => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecRedoActive,
-                    PaletteState.Normal => _formToolbarButtonSpecRedoNormal,
-                    _ => _formToolbarButtonSpecRedoDisabled
-                },
-                PaletteButtonSpecStyle.PageSetup => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPageSetupActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPageSetupNormal,
-                    _ => _formToolbarButtonSpecPageSetupDisabled
-                },
-                PaletteButtonSpecStyle.PrintPreview => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPrintPreviewActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPrintPreviewNormal,
-                    _ => _formToolbarButtonSpecPrintPreviewDisabled
-                },
-                PaletteButtonSpecStyle.Print => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecPrintActive,
-                    PaletteState.Normal => _formToolbarButtonSpecPrintNormal,
-                    _ => _formToolbarButtonSpecPrintDisabled
-                },
-                PaletteButtonSpecStyle.QuickPrint => state switch
-                {
-                    PaletteState.Tracking => _formToolbarButtonSpecQuickPrintActive,
-                    PaletteState.Normal => _formToolbarButtonSpecQuickPrintNormal,
-                    _ => _formToolbarButtonSpecQuickPrintDisabled
                 },
                 _ => base.GetButtonSpecImage(style, state)
             };
@@ -644,13 +502,13 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
         private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
         private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = MDIImageResources.MdiClose;
-        private static readonly Image _buttonSpecPendantMin = MDIImageResources.MdiMin;
-        private static readonly Image _buttonSpecPendantRestore = MDIImageResources.MdiRestore;
-        private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecPendantClose = GenericMDIImageResources.MdiClose;
+        private static readonly Image _buttonSpecPendantMin = GenericMDIImageResources.MdiMin;
+        private static readonly Image _buttonSpecPendantRestore = GenericMDIImageResources.MdiRestore;
+        private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = MDIImageResources.MdiRibbonMinimize;
-        private static readonly Image _buttonSpecRibbonExpand = MDIImageResources.MdiRibbonExpand;
+        private static readonly Image _buttonSpecRibbonMinimize = GenericMDIImageResources.MdiRibbonMinimize;
+        private static readonly Image _buttonSpecRibbonExpand = GenericMDIImageResources.MdiRibbonExpand;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
@@ -771,11 +629,26 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButtonArray != null);
 
             // Remember incoming sets of values
-            _ribbonColours = schemeColors;
-            _checkBoxList = checkBoxList;
-            _galleryButtonList = galleryButtonList;
-            _radioButtonArray = radioButtonArray;
-            _trackBarColours = trackBarColors;
+            if (schemeColors != null)
+            {
+                _ribbonColours = schemeColors;
+            }
+            if (checkBoxList != null)
+            {
+                _checkBoxList = checkBoxList;
+            }
+            if (galleryButtonList != null)
+            {
+                _galleryButtonList = galleryButtonList;
+            }
+            if (radioButtonArray != null)
+            {
+                _radioButtonArray = radioButtonArray;
+            }
+            if (trackBarColors != null)
+            {
+                _trackBarColours = trackBarColors;
+            }
 
             // Get the font settings from the system
             DefineFonts();
@@ -6136,7 +6009,10 @@ namespace Krypton.Toolkit
             : base(palette)
         {
             Debug.Assert(colours != null);
-            Colours = colours;
+            if (colours != null)
+            {
+                Colours = colours;
+            }
             UseRoundedEdges = roundedEdges;
         }
         #endregion

@@ -690,16 +690,16 @@ namespace Krypton.Ribbon
         private readonly NeedPaintHandler _needIntegratedDelegate;
         private readonly PaletteCaptionRedirect _redirect;
         private PaletteDoubleRedirect _redirectCaption;
-        private readonly ViewDrawRibbonComposition? _compositionArea;
-        private ViewLayoutRibbonAppButton? _captionAppButton;
-        private ViewLayoutRibbonAppButton? _otherAppButton;
-        private ViewLayoutSeparator? _spaceInsteadOfAppButton;
-        private ViewLayoutRibbonQATMini? _captionQAT;
-        private ViewLayoutRibbonQATMini? _nonCaptionQAT;
+        private readonly ViewDrawRibbonComposition _compositionArea;
+        private ViewLayoutRibbonAppButton _captionAppButton;
+        private ViewLayoutRibbonAppButton _otherAppButton;
+        private ViewLayoutSeparator _spaceInsteadOfAppButton;
+        private ViewLayoutRibbonQATMini _captionQAT;
+        private ViewLayoutRibbonQATMini _nonCaptionQAT;
         private ViewLayoutRibbonContextTitles? _contextTiles;
-        private ViewDrawRibbonCompoRightBorder? _compRightBorder;
-        private AppButtonController _appButtonController;
-        private AppTabController _appTabController;
+        private ViewDrawRibbonCompoRightBorder _compRightBorder;
+        private AppButtonController? _appButtonController;
+        private AppTabController? _appTabController;
         private KryptonForm? _kryptonForm;
         private bool _integrated;
         private bool _preventIntegration;
@@ -718,8 +718,8 @@ namespace Krypton.Ribbon
         /// <param name="compositionArea">Reference to the composition element.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon ribbon,
-                                         [DisallowNull] PaletteRedirect? redirect,
-                                         [DisallowNull] ViewDrawRibbonComposition? compositionArea,
+                                         [DisallowNull] PaletteRedirect redirect,
+                                         [DisallowNull] ViewDrawRibbonComposition compositionArea,
                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
@@ -731,9 +731,9 @@ namespace Krypton.Ribbon
             CAPTION_TEXT_GAPS = (int)(FactorDpiX * 10);        // 4 below and 6 above
             MIN_SELF_HEIGHT = (int)(FactorDpiY * 28);          // Min height to show application button and the mini bar and context tabs
             // Remember incoming references
-            _ribbon = ribbon;
-            _compositionArea = compositionArea;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
+            _compositionArea = compositionArea!;
+            _needPaintDelegate = needPaintDelegate!;
             _needIntegratedDelegate = OnIntegratedNeedPaint;
 
             // Create a special redirector for overriding the border setting
@@ -789,7 +789,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the single reference to the application button controller.
         /// </summary>
-        public AppButtonController AppButtonController => _appButtonController;
+        public AppButtonController? AppButtonController => _appButtonController;
 
         #endregion
 
@@ -797,7 +797,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the single reference to the application tab controller.
         /// </summary>
-        public AppTabController AppTabController => _appTabController;
+        public AppTabController? AppTabController => _appTabController;
 
         #endregion
 
@@ -873,7 +873,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Get the quick access toolbar view that is currently visible
         /// </summary>
-        public ViewLayoutRibbonQATMini? VisibleQAT
+        public ViewLayoutRibbonQATMini VisibleQAT
         {
             get
             {
@@ -1067,7 +1067,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Enforce the minimum height
-            Size preferredSize = base.GetPreferredSize(context);
+            Size preferredSize = base.GetPreferredSize(context!);
             preferredSize.Height = Math.Max(_calculatedHeight, preferredSize.Height);
 
             return preferredSize;

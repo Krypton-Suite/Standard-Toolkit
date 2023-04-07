@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
         /// Append a view to the collection.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
-        public abstract void Add(ViewBase? item);
+        public abstract void Add(ViewBase item);
 
         /// <summary>
         /// Remove all views from the collection.
@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public abstract bool Contains(ViewBase? item);
+        public abstract bool Contains(ViewBase item);
 
         /// <summary>
         /// Determines whether any part of the view hierarchy is the specified view.
@@ -354,14 +354,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public abstract void CopyTo(ViewBase?[] array, int arrayIndex);
+        public abstract void CopyTo(ViewBase[] array, int arrayIndex);
 
         /// <summary>
         /// Removes first occurrence of specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public abstract bool Remove(ViewBase? item);
+        public abstract bool Remove(ViewBase item);
 
         /// <summary>
         /// Gets the number of views in collection.
@@ -382,14 +382,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public abstract int IndexOf(ViewBase? item);
+        public abstract int IndexOf(ViewBase item);
 
         /// <summary>
         /// Inserts a view to the collection at the specified index.
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
-        public abstract void Insert(int index, ViewBase? item);
+        public abstract void Insert(int index, ViewBase item);
 
         /// <summary>
         /// Removes the view at the specified index.
@@ -402,7 +402,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public abstract ViewBase? this[int index] { get; set; }
+        public abstract ViewBase this[int index] { get; set; }
 
         /// <summary>
         /// Shallow enumerate forward over children of the element.
@@ -414,19 +414,19 @@ namespace Krypton.Toolkit
         /// Deep enumerate forward over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public abstract IEnumerable<ViewBase?> Recurse();
+        public abstract IEnumerable<ViewBase> Recurse();
 
         /// <summary>
         /// Shallow enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public abstract IEnumerable<ViewBase?> Reverse();
+        public abstract IEnumerable<ViewBase> Reverse();
 
         /// <summary>
         /// Deep enumerate backwards over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public abstract IEnumerable<ViewBase?> ReverseRecurse();
+        public abstract IEnumerable<ViewBase> ReverseRecurse();
 
         /// <summary>
         /// Enumerate using non-generic interface.

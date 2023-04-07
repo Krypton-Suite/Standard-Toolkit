@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private readonly IRibbonKeyTipTarget _target;
+        private readonly IRibbonKeyTipTarget? _target;
         #endregion
 
         #region Identity
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
                           string keyString,
                           Point screenPt,
                           Rectangle clientRect,
-                          IRibbonKeyTipTarget target)
+                          IRibbonKeyTipTarget? target)
         {
             Enabled = enabled;
             KeyString = keyString;

@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private SeparatorStyle _style;
-        private readonly ViewDrawDocker? _drawDocker;
-        private readonly ViewDrawSeparator? _drawSeparator;
+        private readonly ViewDrawDocker _drawDocker;
+        private readonly ViewDrawSeparator _drawSeparator;
         private readonly SeparatorController _separatorController;
         private Orientation _orientation;
         private System.Windows.Forms.Timer _redrawTimer;
