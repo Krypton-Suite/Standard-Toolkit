@@ -1,11 +1,8 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -21,7 +18,7 @@ namespace Krypton.Toolkit
         private readonly VisualForm _parentForm;
         private readonly ShadowValues _shadowValues;
         private bool _allowDrawing;
-        private VisualShadowBase[] _shadowForms;
+        private VisualShadowBase[]? _shadowForms;
         #endregion
 
         #region Identity
@@ -38,7 +35,6 @@ namespace Krypton.Toolkit
             shadowValues.BlurDistanceChanged += ShadowValues_BlurDistanceChanged;
             shadowValues.ColourChanged += ShadowValues_ColourChanged;
             shadowValues.OpacityChanged += ShadowValues_OpacityChanged;
-
         }
 
         internal void WndProc(ref Message m)
@@ -135,7 +131,8 @@ namespace Krypton.Toolkit
 
         private void ShadowValues_EnableShadowsChanged(object sender, EventArgs e)
         {
-            if (!_allowDrawing)
+            if (!_allowDrawing
+                || _shadowForms == null)
             {
                 // Call before shown is complete
                 return;
@@ -156,7 +153,8 @@ namespace Krypton.Toolkit
 
         private void ReCalcBrushes()
         {
-            if (!AllowDrawing)
+            if (!AllowDrawing
+                || _shadowForms == null)
             {
                 return;
             }
@@ -268,7 +266,8 @@ namespace Krypton.Toolkit
         /// </remarks>
         private void PositionShadowForms(bool move)
         {
-            if (!_allowDrawing)
+            if (!_allowDrawing
+                || _shadowForms == null)
             {
                 // Probably called before shown is complete
                 return;

@@ -1,11 +1,7 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -34,7 +30,6 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
-        //[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;
@@ -71,13 +66,10 @@ namespace Krypton.Toolkit
             if (originalControl.DlgCtrlId == 0x000002CF)
             {
                 originalControl.Button.Enabled = false;
-                foreach (var control in _commonDialogHandler.Controls)
+                foreach (CommonDialogHandler.Attributes control in _commonDialogHandler.Controls.Where(static control => control.DlgCtrlId == 0x000002C8))
                 {
-                    if (control.DlgCtrlId == 0x000002C8)
-                    {
-                        control.Button.Enabled = true;
-                        break;
-                    }
+                    control.Button.Enabled = true;
+                    break;
                 }
             }
         }
@@ -107,7 +99,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Find the bottom of the OK button (Might not have OK text !!) 00000001
-                var btnOk = _commonDialogHandler.Controls.FirstOrDefault(ctl => ctl.DlgCtrlId == 0x00000001);
+                var btnOk = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x00000001);
 
                 // Now adjust the size so that it the correct display on "All" supported OS's
                 // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415
@@ -122,7 +114,7 @@ namespace Krypton.Toolkit
                     toolBoxSize.Height = btnOk.ClientLocation.Y + btnOk.Size.Height * 3 / 2;
                 }
 
-                _commonDialogHandler._toolBox.ClientSize = toolBoxSize;
+                _commonDialogHandler._wrapperForm.ClientSize = toolBoxSize;
             }
 
             if (!handled
@@ -137,7 +129,7 @@ namespace Krypton.Toolkit
                 {
                     var newSize = new Size(pos.cx, pos.cy);
                     if (!FullOpen
-                        && newSize.Width > _commonDialogHandler._toolBox.Size.Width
+                        && newSize.Width > _commonDialogHandler._wrapperForm.Size.Width
                     )
                     {
                         // Need to fiddle the width and height to workaround the Magic hidden "&d" button

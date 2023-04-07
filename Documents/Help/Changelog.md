@@ -3,6 +3,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#267](https://github.com/Krypton-Suite/Standard-Toolkit/issues/267), "Open / Save File Dialog" are in the Main Forms elements - Where is Kryptons' Standard themed equivalent.
+* New `KryptonThemeSelector`, to allow switching between themes easily
 * Resolved [#986](https://github.com/Krypton-Suite/Standard-Toolkit/issues/986), `ViewBuilderOutlookBase` - Stream cannot be null to initialize a bitmap (thanks to [Angelo](https://github.com/AngeloCresta))
 * Add action list options to `KryptonCommand`
 * Implemented [#686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/686), Extend ToolTipManager designer to also allow "open/close" interval properties.

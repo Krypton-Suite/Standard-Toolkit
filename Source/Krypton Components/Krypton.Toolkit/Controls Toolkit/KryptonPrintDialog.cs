@@ -1,15 +1,14 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+using System.Drawing.Printing;
+// ReSharper disable ConvertToAutoProperty
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
@@ -58,7 +57,6 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
-        //[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;
@@ -235,7 +233,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Description(@"Printer Settings")]
-        public PrinterSettings? PrinterSettings
+        [AllowNull]
+        public PrinterSettings PrinterSettings
         {
             get => settings ??= new();
             set
@@ -278,7 +277,7 @@ namespace Krypton.Toolkit
         /////  UseEXDialog = false means to never use the EX versions of the dialog.
         /////  ShowHelp &amp; ShowNetwork will work in this case.
         ///// </summary>
-        [DefaultValue(false)]
+        //[DefaultValue(false)]
         //[Description(@"UseEX Dialog")]
         //public bool UseEXDialog
         //{
