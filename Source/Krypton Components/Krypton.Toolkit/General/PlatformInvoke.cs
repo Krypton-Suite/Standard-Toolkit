@@ -20,6 +20,8 @@
 // ReSharper disable ClassNeverInstantiated.Global
 
 using Microsoft.Win32.SafeHandles;
+
+using static Krypton.Toolkit.FileDialogWrapper;
 // ReSharper disable CommentTypo
 // ReSharper disable UnusedType.Local
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -1367,6 +1369,7 @@ namespace Krypton.Toolkit
             // The WM_SHOWWINDOW message is sent to a window when the window is about to be hidden or shown.
             // </summary>
             SHOWWINDOW = 0x0018,
+            CTLCOLOR = 0x0019, //replaced by https://learn.microsoft.com/en-us/windows/win32/devnotes/wm-ctlcolor-#remarks
             // <summary>
             // An application sends the WM_WININICHANGE message to all top-level windows after making a change to the WIN.INI file. The SystemParametersInfo function sends this message after an application uses the function to change a setting in WIN.INI.
             // Note  The WM_WININICHANGE message is provided only for compatibility with earlier versions of the system. Applications should use the WM_SETTINGCHANGE message.
@@ -2274,6 +2277,8 @@ namespace Krypton.Toolkit
             // The WM_CPL_LAUNCHED message is sent when a Control Panel application, started by the WM_CPL_LAUNCH message, has closed. The WM_CPL_LAUNCHED message is sent to the window identified by the wParam parameter of the WM_CPL_LAUNCH message that started the application.
             // </summary>
             CPL_LAUNCHED = USER + 0x1001,
+
+            OCM_CTLCOLOR  = 0x2019,
             // if ( msg.Msg == PI.WM_.OCM_NOTIFY )
             //{
             //    PI.NMHEADER h2 = (PI.NMHEADER)m.GetLParam(typeof(PI.NMHEADER));
@@ -2726,6 +2731,13 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             MOUSE_LL = 14
         }
 
+        [Flags]
+        public enum LWA_ : uint
+        {
+            COLORKEY = 0x00000001,
+            ALPHA = 0x00000002
+        }
+
         /// <summary>
         /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms644991(v=vs.85).aspx 
         /// </summary>
@@ -2929,6 +2941,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool PrintWindow(IntPtr hwnd, IntPtr hDC, uint nFlags);
+
+        [DllImport(Libraries.User32)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, LWA_ dwFlags);
 
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

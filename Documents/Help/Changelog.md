@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#267](https://github.com/Krypton-Suite/Standard-Toolkit/issues/267), "Open / Save File Dialog" are in the Main Forms elements - Where is Kryptons' Standard themed equivalent.
 * New `KryptonThemeSelector`, to allow switching between themes easily
 * Implemented [#872](https://github.com/Krypton-Suite/Standard-Toolkit/issues/872), ToolStrips in the non client area of a `KryptonForm`
     - Activated by adding the relevant `ButtonSpec`s to the `KryptonForm`
