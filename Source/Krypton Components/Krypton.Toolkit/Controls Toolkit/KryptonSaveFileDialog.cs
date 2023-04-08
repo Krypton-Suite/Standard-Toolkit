@@ -37,17 +37,17 @@ namespace Krypton.Toolkit
             set => _internalSaveFileDialog.CheckWriteAccess = value;
         }
 
-        /// <summary>
-        ///  Gets or sets a value indicating whether the dialog box is always opened in the expanded mode.
-        /// </summary>
-        [Category(@"Behavior")]
-        [DefaultValue(true)]
-        [Description(@"Gets or sets a value indicating whether the dialog box is always opened in the expanded mode.")]
-        public bool ExpandedMode
-        {
-            get => _internalSaveFileDialog.ExpandedMode;
-            set => _internalSaveFileDialog.ExpandedMode = value;
-        }
+        ///// <summary>
+        /////  Gets or sets a value indicating whether the dialog box is always opened in the expanded mode.
+        ///// </summary>
+        //[Category(@"Behavior")]
+        //[DefaultValue(true)]
+        //[Description(@"Gets or sets a value indicating whether the dialog box is always opened in the expanded mode.")]
+        //public bool ExpandedMode
+        //{
+        //    get => _internalSaveFileDialog.ExpandedMode;
+        //    set => _internalSaveFileDialog.ExpandedMode = value;
+        //}
         #endif
 
         /// <summary>
@@ -76,7 +76,6 @@ namespace Krypton.Toolkit
             set => _internalSaveFileDialog.OverwritePrompt = value;
         }
 
-
         /// <summary>Opens the file selected by the user, with read-only permission. The file is specified by the <see cref="P:System.Windows.Forms.FileDialog.FileName" /> property.</summary>
         /// <returns>A <see cref="T:System.IO.Stream" /> that specifies the read-only file selected by the user.</returns>
         /// <exception cref="T:System.ArgumentNullException">The file name is <see langword="null" />.</exception>
@@ -103,8 +102,7 @@ namespace Krypton.Toolkit
             set => _internalSaveFileDialog.CheckPathExists = value;
         }
 
-#if NETFRAMEWORK
-#else
+#if NET60_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         { 

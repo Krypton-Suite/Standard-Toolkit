@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
 
                 // Now adjust the size so that it the correct display on "All" supported OS's
                 // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415
-                Size toolBoxSize = _commonDialogHandler._toolBox.ClientSize;
+                Size toolBoxSize = _commonDialogHandler._wrapperForm.ClientSize;
                 if (clrColourBox != null)
                 {
                     toolBoxSize.Width = clrColourBox.Size.Width + 2 * clrColourBox.ClientLocation.X;

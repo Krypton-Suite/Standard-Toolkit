@@ -27,8 +27,6 @@ namespace Krypton.Toolkit
         {
             base.WndMessage(sender, e, out actioned);
 
-            //e.retValue = retValue;
-            //actioned = handled;
             if (e.message == PI.WM_.INITDIALOG)
             {
                 // Hide the expand / collapse in the Save dialog
