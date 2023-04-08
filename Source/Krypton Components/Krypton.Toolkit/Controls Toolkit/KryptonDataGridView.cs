@@ -233,17 +233,18 @@ namespace Krypton.Toolkit
             set => base.BackgroundColor = value;
         }
 
-        /// <summary>
-        /// Gets or sets the border style for the DataGridView.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new BorderStyle BorderStyle
-        {
-            get => base.BorderStyle;
-            set { /* Do nothing, we do not allow a border style change! */ }
-        }
+        ///// <summary>
+        ///// Gets or sets the border style for the DataGridView.
+        ///// </summary>
+        //[Browsable(false)]
+        //[EditorBrowsable(EditorBrowsableState.Never)]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        // Disable as part of https://github.com/Krypton-Suite/Standard-Toolkit/issues/989
+        //public new BorderStyle BorderStyle
+        //{
+        //    get => base.BorderStyle;
+        //    set { /* Do nothing, we do not allow a border style change! */ }
+        //}
 
         /// <summary>
         /// Gets the cell border style for the DataGridView.
