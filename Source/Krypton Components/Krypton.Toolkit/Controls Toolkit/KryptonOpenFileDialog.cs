@@ -84,8 +84,7 @@ namespace Krypton.Toolkit
             set => _internalOpenFileDialog.CheckPathExists = value;
         }
 
-#if NETFRAMEWORK
-#else
+#if NET60_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         { 

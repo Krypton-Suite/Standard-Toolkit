@@ -3,7 +3,7 @@
 // Assembly: WindowsHook, Version=1.0.921.18849, Culture=neutral, PublicKeyToken=null
 // Original from http://msdn.microsoft.com/msdnmag/issues/02/10/cuttingedge
 /*
- * Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 20123 - 2023. All rights reserved.
+ * Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
  */
 
 using Krypton.Toolkit;
@@ -41,7 +41,7 @@ namespace MsdnMag
 
         public event HookEventHandler? HookInvoked;
 
-        protected void OnHookInvoked(HookEventArgs e) => HookInvoked?.Invoke((object)this, e);
+        protected void OnHookInvoked(HookEventArgs e) => HookInvoked?.Invoke(this, e);
 
         protected LocalWindowsHook(HookType hook)
         {
@@ -71,10 +71,8 @@ namespace MsdnMag
             return CallNextHookEx(m_hHook, code, wParam, lParam);
         }
 
-        public void Install() =>
-#pragma warning disable CS0618
-            m_hHook = SetWindowsHookEx(m_hookType, m_filterFunc, IntPtr.Zero, AppDomain.GetCurrentThreadId());//Thread.CurrentThread.ManagedThreadId);
-#pragma warning restore CS0618
+        // Use native windows threadID // https://github.com/Krypton-Suite/Standard-Toolkit/issues/992
+        public void Install() => m_hHook = SetWindowsHookEx(m_hookType, m_filterFunc, IntPtr.Zero, PI.GetCurrentThreadId());
 
         public void Uninstall() => UnhookWindowsHookEx(m_hHook);
 

@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#267](https://github.com/Krypton-Suite/Standard-Toolkit/issues/896), Is it possible to modify the `FolderBrowserDialog` to use Krypton
 * Implemented [#267](https://github.com/Krypton-Suite/Standard-Toolkit/issues/267), "Open / Save File Dialog" are in the Main Forms elements - Where is Kryptons' Standard themed equivalent.
 * New `KryptonThemeSelector`, to allow switching between themes easily
 * Resolved [#986](https://github.com/Krypton-Suite/Standard-Toolkit/issues/986), `ViewBuilderOutlookBase` - Stream cannot be null to initialize a bitmap (thanks to [Angelo](https://github.com/AngeloCresta))
