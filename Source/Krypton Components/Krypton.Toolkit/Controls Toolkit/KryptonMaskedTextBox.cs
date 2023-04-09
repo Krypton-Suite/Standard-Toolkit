@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(MaskInputRejected))]
     [DefaultProperty(nameof(Mask))]
     [DefaultBindingProperty(nameof(Text))]
-    [Designer("Krypton.Toolkit.KryptonMaskedTextBoxDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonMaskedTextBoxDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Uses a mask to distinguish between proper and improper user input.")]
     public class KryptonMaskedTextBox : VisualControlBase,

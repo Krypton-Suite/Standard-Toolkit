@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(PalettePaint))]
     [DefaultProperty(nameof(BasePaletteMode))]
     [DesignerCategory(@"code")]
-    [Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonPaletteDesigner))]
     [Description(@"A customisable palette component.")]
     public class KryptonCustomPaletteBase : PaletteBase
     {

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(DateChanged))]
     [DefaultProperty(nameof(SelectionRange))]
     [DefaultBindingProperty(nameof(SelectionRange))]
-    [Designer("Krypton.Toolkit.KryptonMonthCalendarDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonMonthCalendarDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Select a date using a visual monthly calendar display.")]
     public class KryptonMonthCalendar : VisualSimpleBase,

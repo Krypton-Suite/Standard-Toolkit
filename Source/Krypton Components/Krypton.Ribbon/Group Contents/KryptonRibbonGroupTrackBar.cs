@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupTrackBarDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupTrackBarDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent(nameof(ValueChanged))]

@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(SelectedIndexChanged))]
     [DefaultProperty(nameof(Items))]
     [DefaultBindingProperty(nameof(SelectedValue))]
-    [Designer("Krypton.Toolkit.KryptonListBoxDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonListBoxDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Represents a list box control that allows single or multiple item selection.")]
     public class KryptonListBox : VisualControlBase,

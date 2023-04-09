@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(Click))]
     [DefaultProperty(nameof(Text))]
     [DefaultBindingProperty(nameof(Text))]
-    [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonWrapLabelDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays descriptive information.")]
     public sealed class KryptonWrapLabel : Label

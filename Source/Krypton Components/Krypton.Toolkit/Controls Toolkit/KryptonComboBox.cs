@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultProperty(nameof(Text))]
     [DefaultBindingProperty(nameof(Text))]
     [LookupBindingProperties(nameof(DataSource), nameof(DisplayMember), nameof(ValueMember), nameof(SelectedValue))]
-    [Designer(@"Krypton.Toolkit.KryptonComboBoxDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonComboBoxDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays an editable textbox with a drop-down list of permitted values.")]
     public class KryptonComboBox : VisualControlBase,

@@ -21,7 +21,7 @@ namespace Krypton.Workspace
     [ToolboxBitmap(typeof(KryptonWorkspace), "ToolboxBitmaps.KryptonWorkspace.bmp")]
     [DefaultEvent("WorkspaceCellAdded")]
     [DefaultProperty(nameof(Root))]
-    [Designer("Krypton.Workspace.KryptonWorkspaceDesigner, Krypton.Workspace")]
+    [Designer(typeof(KryptonWorkspaceDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Layout a hierarchy of KryptonNavigator instances.")]
     [Docking(DockingBehavior.Ask)]

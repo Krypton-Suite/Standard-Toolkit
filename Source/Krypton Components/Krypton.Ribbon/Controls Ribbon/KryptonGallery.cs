@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
     [DefaultEvent(nameof(SelectedIndexChanged))]
     [DefaultProperty(nameof(SelectedIndex))]
-    [Designer("Krypton.Ribbon.KryptonGalleryDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonGalleryDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Select from a group of possible images.")]
     public class KryptonGallery : VisualSimpleBase

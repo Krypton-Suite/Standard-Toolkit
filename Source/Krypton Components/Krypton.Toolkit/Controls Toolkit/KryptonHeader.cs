@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonHeader), "ToolboxBitmaps.KryptonHeader.bmp")]
     [DefaultEvent(nameof(Paint))]
     [DefaultProperty(nameof(Text))]
-    [Designer("Krypton.Toolkit.KryptonHeaderDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonHeaderDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Display a descriptive caption.")]
     public class KryptonHeader : VisualSimpleBase

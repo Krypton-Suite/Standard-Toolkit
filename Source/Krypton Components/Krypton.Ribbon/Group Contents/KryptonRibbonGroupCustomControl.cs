@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCustomControl), "ToolboxBitmaps.KryptonRibbonGroupCustomControl.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupCustomControlDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupCustomControlDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty(nameof(Visible))]

@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(ValueChanged))]
     [DefaultProperty(nameof(Value))]
     [DefaultBindingProperty(nameof(Value))]
-    [Designer("Krypton.Toolkit.KryptonNumericUpDownDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonNumericUpDownDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Represents a Windows spin box (also known as an up-down control) that displays numeric values.")]
     public class KryptonNumericUpDown : VisualControlBase,

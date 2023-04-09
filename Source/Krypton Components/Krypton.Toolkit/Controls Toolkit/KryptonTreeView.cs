@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
     [DefaultEvent(nameof(AfterSelect))]
     [DefaultProperty(nameof(Nodes))]
-    [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonTreeViewDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
     [Docking(DockingBehavior.Ask)]

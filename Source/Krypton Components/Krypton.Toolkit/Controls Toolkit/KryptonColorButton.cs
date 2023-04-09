@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonColorButton), "ToolboxBitmaps.KryptonColorButton.bmp")]
     [DefaultEvent(nameof(SelectedColorChanged))]
     [DefaultProperty(nameof(SelectedColor))]
-    [Designer(@"Krypton.Toolkit.KryptonColorButtonDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonColorButtonDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Raises an event when the user clicks it.")]
     public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValues

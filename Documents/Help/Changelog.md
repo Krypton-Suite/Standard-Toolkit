@@ -3,6 +3,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#838](https://github.com/Krypton-Suite/Standard-Toolkit/issues/838),
+Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#991](https://github.com/Krypton-Suite/Standard-Toolkit/pull/991),  Remove code that disallowed setting of the DataGridView Border
 * Implemented [#896](https://github.com/Krypton-Suite/Standard-Toolkit/issues/896), Is it possible to modify the `FolderBrowserDialog` to use Krypton
 * Implemented [#267](https://github.com/Krypton-Suite/Standard-Toolkit/issues/267), "Open / Save File Dialog" are in the Main Forms elements - Where is Kryptons' Standard themed equivalent.

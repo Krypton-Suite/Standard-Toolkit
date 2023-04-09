@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(ValueChanged))]
     [DefaultProperty(nameof(Value))]
     [DefaultBindingProperty(nameof(Value))]
-    [Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonDateTimePickerDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Enables the user to select a date and time, and to display that date and time in a specified format.")]
     public class KryptonDateTimePicker : VisualControlBase,

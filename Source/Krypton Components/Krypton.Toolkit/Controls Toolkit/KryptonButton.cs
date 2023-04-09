@@ -23,8 +23,7 @@ namespace Krypton.Toolkit
     [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [Description(@"Raises an event when the user clicks it.")]
-    [Designer(@"Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
-
+    [Designer(typeof(KryptonButtonDesigner))]
     public class KryptonButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields

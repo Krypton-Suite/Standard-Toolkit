@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
     [ToolboxBitmap(typeof(KryptonGroupPanel), "ToolboxBitmaps.KryptonGroupPanel.bmp")]
-    [Designer("Krypton.Toolkit.KryptonGroupPanelDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonGroupPanelDesigner))]
     [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Never)]
     public class KryptonGroupPanel : KryptonPanel

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(CheckedButtonChanged))]
     [DefaultProperty(nameof(CheckButtons))]
     [DesignerCategory(@"code")]
-    [Designer(@"Krypton.Toolkit.KryptonCheckSetDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonCheckSetDesigner))]
     [Description(@"Provide exclusive checked logic for a set of KryptonCheckButton controls.")]
     public class KryptonCheckSet : Component,
                                    ISupportInitialize

@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupDateTimePicker), "ToolboxBitmaps.KryptonRibbonGroupDateTimePicker.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupDateTimePickerDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent(nameof(ValueChanged))]

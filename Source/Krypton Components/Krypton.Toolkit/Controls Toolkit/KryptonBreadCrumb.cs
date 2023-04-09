@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumb.bmp")]
     [DefaultEvent(nameof(SelectedItemChanged))]
     [DefaultProperty(nameof(RootItem))]
-    [Designer("Krypton.Toolkit.KryptonBreadCrumbDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonBreadCrumbDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Flat navigation of hierarchical data.")]
     public class KryptonBreadCrumb : VisualSimpleBase,

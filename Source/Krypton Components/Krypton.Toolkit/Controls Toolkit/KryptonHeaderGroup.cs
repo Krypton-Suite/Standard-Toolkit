@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonHeaderGroup), "ToolboxBitmaps.KryptonHeaderGroup.bmp")]
     [DefaultEvent(nameof(Paint))]
     [DefaultProperty(nameof(ValuesPrimary))]
-    [Designer("Krypton.Toolkit.KryptonHeaderGroupDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonHeaderGroupDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Group a collection of controls with a descriptive caption.")]
     [Docking(DockingBehavior.Ask)]
