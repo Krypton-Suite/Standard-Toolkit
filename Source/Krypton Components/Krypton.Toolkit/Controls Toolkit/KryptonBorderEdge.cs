@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonBorderEdge), "ToolboxBitmaps.KryptonBorderEdge.bmp")]
     [DefaultEvent(nameof(Paint))]
     [DefaultProperty(nameof(Orientation))]
-    [Designer(@"Krypton.Toolkit.KryptonBorderEdgeDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonBorderEdgeDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays a vertical or horizontal border edge.")]
     public class KryptonBorderEdge : VisualControlBase

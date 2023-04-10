@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupRadioButton), "ToolboxBitmaps.KryptonRibbonGroupRadioButton.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupRadioButtonDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupRadioButtonDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent(nameof(CheckedChanged))]

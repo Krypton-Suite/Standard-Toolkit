@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupClusterButton), "ToolboxBitmaps.KryptonRibbonGroupClusterButton.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterButtonDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupClusterButtonDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent(nameof(Click))]

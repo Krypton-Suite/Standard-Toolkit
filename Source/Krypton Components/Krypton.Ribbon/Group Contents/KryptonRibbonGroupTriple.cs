@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTriple), "ToolboxBitmaps.KryptonRibbonGroupTriple.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupTripleDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupTripleDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty(nameof(Visible))]

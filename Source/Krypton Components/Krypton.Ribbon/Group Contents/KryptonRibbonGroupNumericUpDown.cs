@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupNumericUpDown), "ToolboxBitmaps.KryptonRibbonGroupNumericUpDown.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupNumericUpDownDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupNumericUpDownDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent(nameof(ValueChanged))]

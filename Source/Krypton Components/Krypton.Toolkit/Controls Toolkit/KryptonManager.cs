@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonManager), "ToolboxBitmaps.KryptonManager.bmp")]
-    [Designer("Krypton.Toolkit.KryptonManagerDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonManagerDesigner))]
     [DefaultProperty(nameof(GlobalPaletteMode))]
     [Description(@"Access 'Global' Krypton settings.")]
     public sealed class KryptonManager : Component

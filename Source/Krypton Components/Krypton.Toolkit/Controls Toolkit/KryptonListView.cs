@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(ListView))]
     [DefaultEvent("AfterSelect")]
     [DefaultProperty("Nodes")]
-    [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonTreeViewDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"A Kryptonised listview. Does not support the `List or Details View` types")]
     public class KryptonListView : ListView
