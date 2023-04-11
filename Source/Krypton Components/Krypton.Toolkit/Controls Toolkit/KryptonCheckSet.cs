@@ -388,12 +388,12 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets access to the collection of KryptonCheckButton referencs.
+        /// Gets access to the collection of KryptonCheckButton references.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Determine which of the associated buttons is checked.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"Krypton.Toolkit.KryptonCheckButtonCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonCheckButtonCollectionEditor), typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
         public KryptonCheckButtonCollection CheckButtons { get; }
 

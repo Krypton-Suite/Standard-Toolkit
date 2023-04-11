@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -30,9 +28,11 @@ namespace Krypton.Ribbon
         /// <returns>An array of data types that this collection can contain.</returns>
         protected override Type[] CreateNewItemTypes()
         {
+            // Bug https://github.com/Krypton-Suite/Standard-Toolkit/issues/66
+            // For some reason in .Net5 onwards, the following function is not called
             return new[] { typeof(KryptonRibbonGroupLines),
-                                typeof(KryptonRibbonGroupTriple),
-                                typeof(KryptonRibbonGroupSeparator) };
+                typeof(KryptonRibbonGroupTriple),
+                typeof(KryptonRibbonGroupSeparator) };
         }
     }
 }

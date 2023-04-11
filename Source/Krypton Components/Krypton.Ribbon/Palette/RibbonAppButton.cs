@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -158,7 +156,7 @@ namespace Krypton.Ribbon
 
             set
             {
-                if (_appButtonBaseColorDark != Color.Empty)
+                if (_appButtonBaseColorDark != value)
                 {
                     _appButtonBaseColorDark = value;
                     _ribbon.PerformNeedPaint(true);
@@ -182,7 +180,7 @@ namespace Krypton.Ribbon
 
             set
             {
-                if (_appButtonBaseColorLight != Color.Empty)
+                if (_appButtonBaseColorLight != value)
                 {
                     _appButtonBaseColorLight = value;
                     _ribbon.PerformNeedPaint(true);
@@ -206,7 +204,7 @@ namespace Krypton.Ribbon
 
             set
             {
-                if (_appButtonTextColor != Color.Empty)
+                if (_appButtonTextColor != value)
                 {
                     _appButtonTextColor = value;
                     _ribbon.PerformNeedPaint(true);
@@ -231,7 +229,7 @@ namespace Krypton.Ribbon
 
             set
             {
-                if (_appButtonText != null)
+                if (_appButtonText != value)
                 {
                     _appButtonText = value;
                     _ribbon.PerformNeedPaint(true);
@@ -247,7 +245,7 @@ namespace Krypton.Ribbon
         [Category(@"Values")]
         [Description(@"Context menu items for the application button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"Krypton.Toolkit.KryptonContextMenuItemCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
         public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
         #endregion
@@ -370,7 +368,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipTitle { get; set; }
@@ -384,7 +382,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipBody { get; set; }

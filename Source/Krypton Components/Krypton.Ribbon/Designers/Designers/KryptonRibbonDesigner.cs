@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonRibbon _ribbon;
+        private KryptonRibbon? _ribbon;
         private IDesignerHost _designerHost;
         private ISelectionService _selectionService;
         private IComponentChangeService _changeService;
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
 
             // Cast to correct type
             _ribbon = component as KryptonRibbon;
-            if (_ribbon != null)
+            if (_ribbon?.GetViewManager() != null)
             {
                 // Hook into ribbon events
                 _ribbon.GetViewManager().MouseUpProcessed += OnRibbonMouseUp;

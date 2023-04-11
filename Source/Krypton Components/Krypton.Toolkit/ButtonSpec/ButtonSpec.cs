@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Button text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Button extra text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string ExtraText
         {
             get => _extraText;
@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"ToolTip")]
         [Description(@"Button tooltip title text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue(@"")]
         public string ToolTipTitle
         {
@@ -405,7 +405,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"ToolTip")]
         [Description(@"Button tooltip body text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue(@"")]
         public string ToolTipBody
         {

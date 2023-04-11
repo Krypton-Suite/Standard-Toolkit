@@ -362,7 +362,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Collection of pages in the navigator control.")]
         [MergableProperty(false)]
-        [Editor(@"Krypton.Navigator.NavigatorPageCollectionEditor, Krypton.Navigator", typeof(UITypeEditor))]
+        [Editor(typeof(NavigatorPageCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPageCollection Pages { get; private set; }
 

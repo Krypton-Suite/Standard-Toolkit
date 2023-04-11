@@ -641,7 +641,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Page tooltip title text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipTitle
         {
@@ -671,7 +671,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Page tooltip body text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipBody
         {

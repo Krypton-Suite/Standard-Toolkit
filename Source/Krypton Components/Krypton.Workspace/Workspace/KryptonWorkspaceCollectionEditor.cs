@@ -179,7 +179,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip title text.
                 /// </summary>
                 [Category(@"Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+                [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipTitle
                 {
@@ -191,7 +191,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip body text.
                 /// </summary>
                 [Category(@"Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+                [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipBody
                 {
