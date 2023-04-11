@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
-    [Designer(typeof(System.Windows.Forms.Design.ParentControlDesigner))]
+    [Designer("System.Windows.Forms.Design.ParentControlDesigner")]
     public abstract class VisualControlContainment : VisualControl
     {
         #region Identity

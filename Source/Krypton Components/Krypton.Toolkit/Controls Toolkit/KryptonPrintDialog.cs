@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
     [DefaultProperty(nameof(Document))]
     [ToolboxBitmap(typeof(PrintDialog), "ToolboxBitmaps.KryptonPrintDialog.png")]
     [Description(nameof(PrintDialog))]
-    [Designer("System.Windows.Forms.Design.PrintDialogDesigner, " + AssemblyRef.SystemDesign)]
+    [Designer("System.Windows.Forms.Design.PrintDialogDesigner")]
     public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     {
         private readonly CommonDialogHandler _commonDialogHandler;

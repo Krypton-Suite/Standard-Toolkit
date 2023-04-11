@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Part resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), to allow ribbon designer in vs 17.5x and .net48 project types.
 * Resolved [#838](https://github.com/Krypton-Suite/Standard-Toolkit/issues/838),
 Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#991](https://github.com/Krypton-Suite/Standard-Toolkit/pull/991),  Remove code that disallowed setting of the DataGridView Border

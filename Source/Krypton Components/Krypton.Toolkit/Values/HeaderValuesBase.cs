@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Heading text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [AllowNull]
         public virtual string Heading
         {
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Header description text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public virtual string Description
         {
             get => _description;

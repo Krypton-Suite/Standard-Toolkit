@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -19,8 +17,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
-        private KryptonRibbonTab _ribbonTab;
-        private DesignerVerbCollection _verbs;
+        private KryptonRibbonTab? _ribbonTab;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
         private DesignerVerb _movePrevVerb;
@@ -29,7 +27,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _addGroupVerb;
         private DesignerVerb _clearGroupsVerb;
         private DesignerVerb _deleteTabVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _moveFirstMenu;
@@ -473,7 +471,7 @@ namespace Krypton.Ribbon
                 // Update verbs to work out correct enable states
                 UpdateVerbStatus();
 
-                // Update menu items state from versb
+                // Update menu items state from verbs
                 _toggleHelpersMenu.Checked = _ribbonTab.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonTab.Visible;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;

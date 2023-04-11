@@ -20,11 +20,11 @@ namespace Krypton.Toolkit
     [Description("Displays a Kryptonised version of the standard 'File Browser dialog' from which the user can select a Directory.")]
     public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     {
-        #if NET60_OR_GREATER
+#if NET60_OR_GREATER
         private readonly FolderBrowserDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
-        #else
+#else
         private readonly ShellBrowserDialogTFM _internalOpenFileDialog = new();
-        #endif
+#endif
 
         /// <inheritdoc />
         protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalOpenFileDialog.ShowDialog(owner);
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(true)]
         [DefaultValue("")]
-        [Editor("System.Windows.Forms.Design.SelectedPathEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.SelectedPathEditor", typeof(UITypeEditor))]
         [Localizable(true)]
         [Category(@"FolderBrowsing")]
         [Description(@"Sets the directory path of the initial folder shown in the dialog box.")]
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"FolderBrowsing")]
         [DefaultValue("")]
-        [Editor("System.Windows.Forms.Design.InitialDirectoryEditor, System.Windows.Forms.Design" + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(typeof(InitialDirectoryEditor), typeof(UITypeEditor))]
         [Description(@"Gets or sets the initial directory displayed by the folder browser dialog")]
         [AllowNull]
         public string InitialDirectory

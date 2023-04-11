@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [AllowNull]
         public string Text
         {
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label extra text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
         {

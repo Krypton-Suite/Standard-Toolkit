@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [AllowNull]
         public string Text
         {
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button extra text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue(@"")]
         public string ExtraText
         {
