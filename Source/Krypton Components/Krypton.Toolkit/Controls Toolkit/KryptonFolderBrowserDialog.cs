@@ -9,8 +9,6 @@
 
 // ReSharper disable MemberCanBePrivate.Global
 
-using Krypton.Toolkit.ShellDialogs;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
