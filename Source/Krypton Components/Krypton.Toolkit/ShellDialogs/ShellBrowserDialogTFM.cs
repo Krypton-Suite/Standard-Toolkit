@@ -12,6 +12,7 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable UnusedMember.Local
 
+// ReSharper disable LocalizableElement
 namespace Krypton.Toolkit
 {
     internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
@@ -58,7 +59,7 @@ namespace Krypton.Toolkit
             _internalOpenFileDialog.CheckPathExists = true;
             _internalOpenFileDialog.FileName = "Folder Selection.";
             var options = _ofd.GetField(@"options", BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-            int value = (int)options.GetValue(_internalOpenFileDialog);
+            int value = (int)options!.GetValue(_internalOpenFileDialog);
             options.SetValue(_internalOpenFileDialog, value | (int)(FOS_.FORCEFILESYSTEM | FOS_.PICKFOLDERS));
 
             return _internalOpenFileDialog.ShowDialog(owner);
@@ -92,9 +93,9 @@ namespace Krypton.Toolkit
             set => _internalOpenFileDialog.Title = value;
         }
 
-        public string SelectedPath
+        public string? SelectedPath
         {
-            get => Path.GetDirectoryName(_internalOpenFileDialog.FileName);
+            get => Path.GetDirectoryName(_internalOpenFileDialog.FileName)!;
             set => _internalOpenFileDialog.InitialDirectory = value;
         }
 
