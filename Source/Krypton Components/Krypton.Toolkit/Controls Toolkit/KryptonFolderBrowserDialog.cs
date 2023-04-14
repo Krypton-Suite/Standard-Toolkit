@@ -62,9 +62,9 @@ namespace Krypton.Toolkit
         [Category(@"FolderBrowsing")]
         [Description(@"Sets the directory path of the initial folder shown in the dialog box.")]
         [AllowNull]
-        public string? SelectedPath
+        public string SelectedPath
         {
-            get => _internalOpenFileDialog.SelectedPath ?? Environment.SpecialFolder.MyDocuments.ToString();
+            get => _internalOpenFileDialog.SelectedPath;
             set => _internalOpenFileDialog.SelectedPath = value;
         }
 
