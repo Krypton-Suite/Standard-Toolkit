@@ -16,6 +16,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [DesignerCategory(@"code")]
     [Description("Displays a Kryptonised version of the standard 'OpenFile dialog window' from which the user can select a file.")]
+    [ToolboxBitmap(typeof(OpenFileDialog), @"ToolboxBitmaps.KryptonOpenFileDialog.bmp")]
     public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
     {
         private readonly OpenFileDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
@@ -64,22 +65,22 @@ namespace Krypton.Toolkit
         public Stream OpenFile() => _internalOpenFileDialog.OpenFile();
 
         /// <inheritdoc />
-        public override bool AddExtension 
-        { 
+        public override bool AddExtension
+        {
             get => _internalOpenFileDialog.AddExtension;
             set => _internalOpenFileDialog.AddExtension = value;
         }
 
         /// <inheritdoc />
-        public override bool CheckFileExists 
-        { 
+        public override bool CheckFileExists
+        {
             get => _internalOpenFileDialog.CheckFileExists;
             set => _internalOpenFileDialog.CheckFileExists = value;
         }
 
         /// <inheritdoc />
-        public override bool CheckPathExists 
-        { 
+        public override bool CheckPathExists
+        {
             get => _internalOpenFileDialog.CheckPathExists;
             set => _internalOpenFileDialog.CheckPathExists = value;
         }
@@ -95,85 +96,85 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         [AllowNull]
-        public override string DefaultExt 
-        { 
+        public override string DefaultExt
+        {
             get => _internalOpenFileDialog.DefaultExt;
             set => _internalOpenFileDialog.DefaultExt = value;
         }
 
         /// <inheritdoc />
-        public override bool DereferenceLinks 
-        { 
+        public override bool DereferenceLinks
+        {
             get => _internalOpenFileDialog.DereferenceLinks;
             set => _internalOpenFileDialog.DereferenceLinks = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string FileName 
-        { 
+        public override string FileName
+        {
             get => _internalOpenFileDialog.FileName;
             set => _internalOpenFileDialog.FileName = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string[] FileNames  => _internalOpenFileDialog.FileNames;
+        public override string[] FileNames => _internalOpenFileDialog.FileNames;
 
         /// <inheritdoc />
         [AllowNull]
-        public override string Filter 
-        { 
+        public override string Filter
+        {
             get => _internalOpenFileDialog.Filter;
             set => _internalOpenFileDialog.Filter = value;
         }
 
         /// <inheritdoc />
-        public override int FilterIndex 
-        { 
+        public override int FilterIndex
+        {
             get => _internalOpenFileDialog.FilterIndex;
             set => _internalOpenFileDialog.FilterIndex = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string InitialDirectory 
-        { 
+        public override string InitialDirectory
+        {
             get => _internalOpenFileDialog.InitialDirectory;
             set => _internalOpenFileDialog.InitialDirectory = value;
         }
 
         /// <inheritdoc />
-        public override bool RestoreDirectory 
-        { 
+        public override bool RestoreDirectory
+        {
             get => _internalOpenFileDialog.RestoreDirectory;
             set => _internalOpenFileDialog.RestoreDirectory = value;
         }
 
         /// <inheritdoc />
-        public override bool SupportMultiDottedExtensions 
-        { 
+        public override bool SupportMultiDottedExtensions
+        {
             get => _internalOpenFileDialog.SupportMultiDottedExtensions;
             set => _internalOpenFileDialog.SupportMultiDottedExtensions = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string Title 
-        { 
+        public override string Title
+        {
             get => _internalOpenFileDialog.Title;
             set => _internalOpenFileDialog.Title = value;
         }
 
         /// <inheritdoc />
-        public override bool ValidateNames 
-        { 
+        public override bool ValidateNames
+        {
             get => _internalOpenFileDialog.ValidateNames;
             set => _internalOpenFileDialog.ValidateNames = value;
         }
 
         /// <inheritdoc />
-        public override event CancelEventHandler FileOk        
+        public override event CancelEventHandler FileOk
         {
             add => _internalOpenFileDialog.FileOk += value;
             remove => _internalOpenFileDialog.FileOk -= value;

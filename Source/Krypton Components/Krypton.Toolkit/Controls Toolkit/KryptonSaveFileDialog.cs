@@ -16,6 +16,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [DesignerCategory(@"code")]
     [Description("Displays a Kryptonised version of the standard 'SaveFile dialog window' from which the user can select a file.")]
+    [ToolboxBitmap(typeof(SaveFileDialog), @"ToolboxBitmaps.KryptonSaveFileDialog.bmp")]
     public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
     {
         private readonly SaveFileDialog _internalSaveFileDialog = new();// { AutoUpgradeEnabled = true };
@@ -23,7 +24,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalSaveFileDialog.ShowDialog(owner);
 
-        #if NET7_0 || NET8_0
+#if NET7_0 || NET8_0
         /// <summary>
         ///  Gets or sets a value indicating whether the dialog box verifies if the creation of the specified file will be successful.
         ///  If this flag is not set, the calling application must handle errors, such as denial of access, discovered when the item is created.
@@ -48,7 +49,7 @@ namespace Krypton.Toolkit
         //    get => _internalSaveFileDialog.ExpandedMode;
         //    set => _internalSaveFileDialog.ExpandedMode = value;
         //}
-        #endif
+#endif
 
         /// <summary>
         ///  Gets or sets a value indicating whether the dialog box prompts the user for
@@ -82,22 +83,22 @@ namespace Krypton.Toolkit
         public Stream OpenFile() => _internalSaveFileDialog.OpenFile();
 
         /// <inheritdoc />
-        public override bool AddExtension 
-        { 
+        public override bool AddExtension
+        {
             get => _internalSaveFileDialog.AddExtension;
             set => _internalSaveFileDialog.AddExtension = value;
         }
 
         /// <inheritdoc />
-        public override bool CheckFileExists 
-        { 
+        public override bool CheckFileExists
+        {
             get => _internalSaveFileDialog.CheckFileExists;
             set => _internalSaveFileDialog.CheckFileExists = value;
         }
 
         /// <inheritdoc />
-        public override bool CheckPathExists 
-        { 
+        public override bool CheckPathExists
+        {
             get => _internalSaveFileDialog.CheckPathExists;
             set => _internalSaveFileDialog.CheckPathExists = value;
         }
@@ -113,85 +114,85 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         [AllowNull]
-        public override string DefaultExt 
-        { 
+        public override string DefaultExt
+        {
             get => _internalSaveFileDialog.DefaultExt;
             set => _internalSaveFileDialog.DefaultExt = value;
         }
 
         /// <inheritdoc />
-        public override bool DereferenceLinks 
-        { 
+        public override bool DereferenceLinks
+        {
             get => _internalSaveFileDialog.DereferenceLinks;
             set => _internalSaveFileDialog.DereferenceLinks = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string FileName 
-        { 
+        public override string FileName
+        {
             get => _internalSaveFileDialog.FileName;
             set => _internalSaveFileDialog.FileName = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string[] FileNames  => _internalSaveFileDialog.FileNames;
+        public override string[] FileNames => _internalSaveFileDialog.FileNames;
 
         /// <inheritdoc />
         [AllowNull]
-        public override string Filter 
-        { 
+        public override string Filter
+        {
             get => _internalSaveFileDialog.Filter;
             set => _internalSaveFileDialog.Filter = value;
         }
 
         /// <inheritdoc />
-        public override int FilterIndex 
-        { 
+        public override int FilterIndex
+        {
             get => _internalSaveFileDialog.FilterIndex;
             set => _internalSaveFileDialog.FilterIndex = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string InitialDirectory 
-        { 
+        public override string InitialDirectory
+        {
             get => _internalSaveFileDialog.InitialDirectory;
             set => _internalSaveFileDialog.InitialDirectory = value;
         }
 
         /// <inheritdoc />
-        public override bool RestoreDirectory 
-        { 
+        public override bool RestoreDirectory
+        {
             get => _internalSaveFileDialog.RestoreDirectory;
             set => _internalSaveFileDialog.RestoreDirectory = value;
         }
 
         /// <inheritdoc />
-        public override bool SupportMultiDottedExtensions 
-        { 
+        public override bool SupportMultiDottedExtensions
+        {
             get => _internalSaveFileDialog.SupportMultiDottedExtensions;
             set => _internalSaveFileDialog.SupportMultiDottedExtensions = value;
         }
 
         /// <inheritdoc />
         [AllowNull]
-        public override string Title 
-        { 
+        public override string Title
+        {
             get => _internalSaveFileDialog.Title;
             set => _internalSaveFileDialog.Title = value;
         }
 
         /// <inheritdoc />
-        public override bool ValidateNames 
-        { 
+        public override bool ValidateNames
+        {
             get => _internalSaveFileDialog.ValidateNames;
             set => _internalSaveFileDialog.ValidateNames = value;
         }
 
         /// <inheritdoc />
-        public override event CancelEventHandler FileOk        
+        public override event CancelEventHandler FileOk
         {
             add => _internalSaveFileDialog.FileOk += value;
             remove => _internalSaveFileDialog.FileOk -= value;
