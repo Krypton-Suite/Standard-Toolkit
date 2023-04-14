@@ -12,7 +12,7 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable UnusedMember.Local
 
-namespace Krypton.Toolkit.ShellDialogs
+namespace Krypton.Toolkit
 {
     internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
     {
