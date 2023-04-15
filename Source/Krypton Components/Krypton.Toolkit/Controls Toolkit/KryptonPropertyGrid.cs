@@ -1,11 +1,8 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,24 +15,24 @@ namespace Krypton.Toolkit
     public class KryptonPropertyGrid : PropertyGrid
     {
         #region Variables
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
 
         private readonly PaletteRedirect _paletteRedirect;
+        private readonly PaletteInputControlTripleRedirect _stateCommon;
+        private readonly PaletteInputControlTripleStates _stateNormal;
+        private readonly PaletteInputControlTripleStates _stateDisabled;
+        private readonly PaletteInputControlTripleStates _stateActive;
 
-        private Color _gradientMiddleColour = Color.Gray;
-        #endregion
 
-        #region Properties
-        /// <summary>Gets or sets the gradient middle colour.</summary>
-        /// <value>The gradient middle colour.</value>
-        [Browsable(true), Category(@"Appearance-Extended"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue("Color.Gray")]
-        public Color GradientMiddleColour { get => _gradientMiddleColour; set { _gradientMiddleColour = value; Invalidate(); } }
         #endregion
 
         #region Constructor
         public KryptonPropertyGrid()
         {
-            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
+            SetStyle(ControlStyles.UserPaint
+                     | ControlStyles.OptimizedDoubleBuffer
+                     | ControlStyles.SupportsTransparentBackColor,
+                true);
 
             UpdateStyles();
 
@@ -50,10 +47,13 @@ namespace Krypton.Toolkit
             _palette = KryptonManager.CurrentGlobalPalette;
 
             _paletteRedirect = new PaletteRedirect(_palette);
+            // Create the palette provider
+            _stateCommon = new PaletteInputControlTripleRedirect(_paletteRedirect, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, null);
+            _stateDisabled = new PaletteInputControlTripleStates(_stateCommon, null);
+            _stateNormal = new PaletteInputControlTripleStates(_stateCommon, null);
+            _stateActive = new PaletteInputControlTripleStates(_stateCommon, null);
 
             InitColours();
-
-            Font = new Font("Segoe UI", 9f);
         }
         #endregion
 
@@ -62,16 +62,6 @@ namespace Krypton.Toolkit
         /// <summary>Refreshes the colours.</summary>
         public void RefreshColours() => InitColours();
 
-        #endregion
-
-        #region Overrides
-        /// <inheritdoc />
-        protected override void OnPaint(PaintEventArgs pevent)
-        {
-            base.OnPaint(pevent);
-
-            pevent.Graphics.FillRectangle(new SolidBrush(_gradientMiddleColour), pevent.ClipRectangle);
-        }
         #endregion
 
         #region Krypton
@@ -112,23 +102,52 @@ namespace Krypton.Toolkit
         {
             ToolStripRenderer = ToolStripManager.Renderer;
 
-            _gradientMiddleColour = _palette.ColorTable.ToolStripGradientMiddle;
-
             HelpBackColor = _palette.ColorTable.MenuStripGradientBegin;
 
             HelpForeColor = _palette.ColorTable.StatusStripText;
 
-            if (KryptonManager.InternalGlobalPaletteMode == PaletteMode.Office2007BlackDarkMode)
-            {
-                LineColor = Color.Silver;
-            }
-            else
-            {
-                LineColor = _palette.ColorTable.ToolStripGradientMiddle;
-            }
+            LineColor = _palette.ColorTable.ToolStripGradientMiddle;
 
             CategoryForeColor = _palette.ColorTable.StatusStripText;
+
+            var normalFont = _stateNormal.PaletteContent.GetContentShortTextFont(PaletteState.ContextNormal);
+            var disabledFont = _stateDisabled.PaletteContent.GetContentShortTextFont(PaletteState.Disabled);
+
+            Font = Enabled ? normalFont : disabledFont;
+            BackColor = _stateNormal.PaletteBack.GetBackColor1(PaletteState.Disabled);
+
+            ControlCollection controlsCollection = Controls;
+            foreach (Control control in controlsCollection)
+            {
+                IPaletteTriple triple;
+                PaletteState state;
+                if (control.Focused)
+                {
+                    state = PaletteState.FocusOverride;
+                    triple = _stateActive;
+                    control.Font = _stateActive.PaletteContent.GetContentShortTextFont(PaletteState.FocusOverride);
+                }
+                else if (control.Enabled)
+                {
+                    state = PaletteState.ContextNormal;
+                    triple = _stateNormal;
+                    control.Font = normalFont;
+                }
+                else
+                {
+                    state = PaletteState.Disabled;
+                    triple = _stateDisabled;
+                    control.Font = disabledFont;
+                }
+
+                control.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                control.BackColor = triple.PaletteBack.GetBackColor1(state);
+            }
+
+            Invalidate();
+
         }
+
         #endregion
     }
 }
