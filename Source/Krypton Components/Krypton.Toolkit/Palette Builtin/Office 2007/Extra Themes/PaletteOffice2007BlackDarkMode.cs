@@ -6642,42 +6642,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Property Grid
-
-        /// <summary>
-        /// Gets the color of the property grid help back.
-        /// </summary>
-        /// <value>
-        /// The color of the property grid help back.
-        /// </value>
-        public override Color PropertyGridHelpBackColor => _propertyGridColors[(int)KryptonPropertyGridColors.HelpBackColor];
-
-        /// <summary>
-        /// Gets the color of the property grid help fore.
-        /// </summary>
-        /// <value>
-        /// The color of the property grid help fore.
-        /// </value>
-        public override Color PropertyGridHelpForeColor => _propertyGridColors[(int)KryptonPropertyGridColors.HelpForeColor];
-
-        /// <summary>
-        /// Gets the color of the property grid category fore.
-        /// </summary>
-        /// <value>
-        /// The color of the property grid category fore.
-        /// </value>
-        public override Color PropertyGridCategoryForeColor => _propertyGridColors[(int)KryptonPropertyGridColors.CategoryForeColor];
-
-        /// <summary>
-        /// Gets the color of the property grid line.
-        /// </summary>
-        /// <value>
-        /// The color of the property grid line.
-        /// </value>
-        public override Color PropertyGridLineColor => _propertyGridColors[(int)KryptonPropertyGridColors.LineColor];
-
-        #endregion
-
         #region Separator
         #region SeparatorLight
         /// <summary>

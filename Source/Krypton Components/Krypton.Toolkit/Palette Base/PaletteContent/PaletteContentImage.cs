@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         #endregion
 
         #region Events
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteContentImage class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContentImage(NeedPaintHandler needPaint) =>
+        public PaletteContentImage(NeedPaintHandler? needPaint) =>
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
