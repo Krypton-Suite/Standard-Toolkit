@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -55,7 +56,7 @@ namespace Krypton.Toolkit
             _redirectHeading = new PaletteRedirectTriple();
 
             // Create the header storage for overriding specific values
-            StateNormal = new PaletteTripleRedirect(_redirectHeading, 
+            StateNormal = new PaletteTripleRedirect(_redirectHeading,
                                                      PaletteBackStyle.ContextMenuHeading,
                                                      PaletteBorderStyle.ContextMenuHeading,
                                                      PaletteContentStyle.ContextMenuHeading);
@@ -120,7 +121,7 @@ namespace Krypton.Toolkit
         {
             get => _text;
 
-            set 
+            set
             {
                 if (_text != value)
                 {
@@ -144,7 +145,7 @@ namespace Krypton.Toolkit
         {
             get => _extraText ?? string.Empty;
 
-            set 
+            set
             {
                 if (_extraText != value)
                 {
@@ -166,7 +167,7 @@ namespace Krypton.Toolkit
         {
             get => _image;
 
-            set 
+            set
             {
                 if (_image != value)
                 {
@@ -187,7 +188,7 @@ namespace Krypton.Toolkit
         {
             get => _imageTransparentColor;
 
-            set 
+            set
             {
                 if (_imageTransparentColor != value)
                 {
@@ -213,7 +214,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteTripleRedirect redirector) => _redirectHeading.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteTripleRedirect redirector) => _redirectHeading!.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

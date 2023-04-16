@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the ListEntry class.
             /// </summary>
             /// <param name="checkButton">CheckButton to encapsulate.</param>
-            public ListEntry(KryptonCheckButton checkButton)
+            public ListEntry(KryptonCheckButton? checkButton)
             {
                 Debug.Assert(checkButton != null);
                 CheckButton = checkButton;
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets access to the encapsulated check button instance.
             /// </summary>
-            public KryptonCheckButton CheckButton { get; }
+            public KryptonCheckButton? CheckButton { get; }
 
             #endregion
         }
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         private void buttonOK_Click(object sender, EventArgs e)
         {
             // Create a copy of the current check set buttons
-            var copy = new List<KryptonCheckButton>();
+            var copy = new List<KryptonCheckButton?>();
             foreach (KryptonCheckButton checkButton in _checkSet.CheckButtons)
             {
                 copy.Add(checkButton);
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
 
             // If there are any dangling references in the checkset that are
             // not in the component list from the list box then remove them
-            foreach(KryptonCheckButton checkButton in copy)
+            foreach(KryptonCheckButton? checkButton in copy)
             {
                 _checkSet.CheckButtons.Remove(checkButton);
             }

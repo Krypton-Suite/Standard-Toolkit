@@ -59,10 +59,16 @@ namespace Krypton.Toolkit
                 : _stateCommon.ItemTextAlternate.GetContentPadding(PaletteState.Normal);
 
             // Get padding needed for the left edge of the item highlight
-            Padding paddingHighlight = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_stateCommon.ItemHighlight.Border, PaletteState.Normal, VisualOrientation.Top);
+            if (context.Renderer != null)
+            {
+                if (_stateCommon.ItemHighlight != null)
+                {
+                    Padding paddingHighlight = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_stateCommon.ItemHighlight.Border, PaletteState.Normal, VisualOrientation.Top);
 
-            // Our separator size is the left padding values added together
-            SeparatorSize = new Size(paddingHighlight.Left + paddingText.Left, 0);
+                    // Our separator size is the left padding values added together
+                    SeparatorSize = new Size(paddingHighlight.Left + paddingText.Left, 0);
+                }
+            }
 
             return base.GetPreferredSize(context);
         }

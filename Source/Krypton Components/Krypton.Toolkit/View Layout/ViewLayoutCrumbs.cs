@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly KryptonBreadCrumb _kryptonBreadCrumb;
         private readonly NeedPaintHandler _needPaintDelegate;
-        private ButtonController _pressedButtonController;
+        private ButtonController? _pressedButtonController;
         private readonly CrumbToButton _crumbToButton;
         private readonly ButtonToCrumb _buttonToCrumb;
         private MenuItemToCrumb _menuItemToCrumb;
@@ -93,13 +93,16 @@ namespace Krypton.Toolkit
             SyncBreadCrumbs();
 
             // We need to update the redirector for drawing each crumb
-            PaletteRedirectBreadCrumb redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
+            PaletteRedirectBreadCrumb? redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
 
             Size preferredSize = Size.Empty;
-            for(var i=1; i<Count; i++)
+            for (var i = 1; i < Count; i++)
             {
                 // Do not show the left border on the first crumb
-                redirect.Left = i == 0;
+                if (redirect != null)
+                {
+                    redirect.Left = i == 0;
+                }
 
                 // Find size of the child
                 Size childSize = this[i].GetPreferredSize(context);
@@ -127,93 +130,103 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We need to update the redirector for drawing each crumb
-            PaletteRedirectBreadCrumb redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
+            PaletteRedirectBreadCrumb? redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
-
-            // Create/delete child elements to match the current selected bread crumb path
-            SyncBreadCrumbs();
-
-            // Positioning rectangle is our client rectangle reduced by control padding
-            Rectangle layoutRect = new(ClientLocation.X + _kryptonBreadCrumb.Padding.Left,
-                                                 ClientLocation.Y + _kryptonBreadCrumb.Padding.Top,
-                                                 ClientWidth - _kryptonBreadCrumb.Padding.Horizontal,
-                                                 ClientHeight - _kryptonBreadCrumb.Padding.Vertical);
-
-            // Position from left to right all items except the overflow button
-            var offset = layoutRect.X;
-            for(var i=1; i<Count; i++)
+            if (context != null)
             {
-                // Do not show the left border on the first crumb
-                redirect.Left = i == 0;
+                ClientRectangle = context.DisplayRectangle;
 
-                // Find size of the child
-                Size childSize = this[i].GetPreferredSize(context);
-                context.DisplayRectangle = new Rectangle(offset, layoutRect.Y, childSize.Width, layoutRect.Height);
+                // Create/delete child elements to match the current selected bread crumb path
+                SyncBreadCrumbs();
 
-                // Position the child
-                this[i].Layout(context);
-                this[i].Visible = true;
+                // Positioning rectangle is our client rectangle reduced by control padding
+                Rectangle layoutRect = new(ClientLocation.X + _kryptonBreadCrumb.Padding.Left,
+                    ClientLocation.Y + _kryptonBreadCrumb.Padding.Top,
+                    ClientWidth - _kryptonBreadCrumb.Padding.Horizontal,
+                    ClientHeight - _kryptonBreadCrumb.Padding.Vertical);
 
-                // Move across
-                offset += childSize.Width;
-            }
-
-            // If we overflowed then we need to use the overflow button
-            if (offset > ClientWidth)
-            {
-                // Overflow button must be visible
-                this[0].Visible = true;
-
-                // How much space do we need to save?
-                var overflowed = offset - ClientWidth;
-
-                // Position overflow button and only the last items to fit space
-                offset = layoutRect.X;
-                for (var i = 0; i < Count; i++)
+                // Position from left to right all items except the overflow button
+                var offset = layoutRect.X;
+                for (var i = 1; i < Count; i++)
                 {
-                    // Decide if the crumb (not the overflow button) can be visible
-                    if (i > 0)
+                    // Do not show the left border on the first crumb
+                    if (redirect != null)
                     {
-                        this[i].Visible = overflowed <= 0;
-                    }
-
-                    if (this[i].Visible)
-                    {
-                        // Do not show the left border on the first crumb
                         redirect.Left = i == 0;
-
-                        // Recover the already calculated size
-                        Size childSize = this[i].GetPreferredSize(context);
-                        context.DisplayRectangle = new Rectangle(offset, layoutRect.Y, childSize.Width, layoutRect.Height);
-
-                        // Position the child
-                        this[i].Layout(context);
-
-                        // Move across
-                        offset += childSize.Width;
                     }
 
-                    // Adjust overflow space depending on if we are positioning crumb or overflow
-                    if (i != 0)
+                    // Find size of the child
+                    Size childSize = this[i].GetPreferredSize(context);
+                    context.DisplayRectangle = new Rectangle(offset, layoutRect.Y, childSize.Width, layoutRect.Height);
+
+                    // Position the child
+                    this[i].Layout(context);
+                    this[i].Visible = true;
+
+                    // Move across
+                    offset += childSize.Width;
+                }
+
+                // If we overflowed then we need to use the overflow button
+                if (offset > ClientWidth)
+                {
+                    // Overflow button must be visible
+                    this[0].Visible = true;
+
+                    // How much space do we need to save?
+                    var overflowed = offset - ClientWidth;
+
+                    // Position overflow button and only the last items to fit space
+                    offset = layoutRect.X;
+                    for (var i = 0; i < Count; i++)
                     {
-                        overflowed -= this[i].ClientWidth;
-                    }
-                    else
-                    {
-                        overflowed += this[i].ClientWidth;
+                        // Decide if the crumb (not the overflow button) can be visible
+                        if (i > 0)
+                        {
+                            this[i].Visible = overflowed <= 0;
+                        }
+
+                        if (this[i].Visible)
+                        {
+                            // Do not show the left border on the first crumb
+                            if (redirect != null)
+                            {
+                                redirect.Left = i == 0;
+                            }
+
+                            // Recover the already calculated size
+                            Size childSize = this[i].GetPreferredSize(context);
+                            context.DisplayRectangle =
+                                new Rectangle(offset, layoutRect.Y, childSize.Width, layoutRect.Height);
+
+                            // Position the child
+                            this[i].Layout(context);
+
+                            // Move across
+                            offset += childSize.Width;
+                        }
+
+                        // Adjust overflow space depending on if we are positioning crumb or overflow
+                        if (i != 0)
+                        {
+                            overflowed -= this[i].ClientWidth;
+                        }
+                        else
+                        {
+                            overflowed += this[i].ClientWidth;
+                        }
                     }
                 }
-            }
-            else
-            {
-                // No overflow then no need for the overflow button
-                this[0].Visible = false;
-            }
+                else
+                {
+                    // No overflow then no need for the overflow button
+                    this[0].Visible = false;
+                }
 
-            // Must restore the display rectangle to the same size as when it entered
-            context.DisplayRectangle = ClientRectangle;
+                // Must restore the display rectangle to the same size as when it entered
+                context.DisplayRectangle = ClientRectangle;
+            }
         }
         #endregion
 
@@ -253,33 +266,36 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Perform rendering before any children
-            RenderBefore(context);
+            RenderBefore(context!);
 
             // We need to update the redirector for drawing each crumb
-            PaletteRedirectBreadCrumb redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
+            PaletteRedirectBreadCrumb? redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
 
             var first = true;
-            for(var i=0; i<Count; i++)
+            for (var i = 0; i < Count; i++)
             {
-                if (this[i].Visible)
+                if (redirect != null)
                 {
-                    // Do not show the left border on the first crumb
-                    if (first)
+                    if (this[i].Visible)
                     {
-                        redirect.Left = true;
-                        first = false;
-                    }
-                    else
-                    {
-                        redirect.Left = false;
-                    }
+                        // Do not show the left border on the first crumb
+                        if (first)
+                        {
+                            redirect.Left = true;
+                            first = false;
+                        }
+                        else
+                        {
+                            redirect.Left = false;
+                        }
 
-                    this[i].Render(context);
+                        this[i].Render(context!);
+                    }
                 }
             }
 
             // Perform rendering after that of children
-            RenderAfter(context);
+            RenderAfter(context!);
         }
         #endregion
 
@@ -289,14 +305,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => _kryptonBreadCrumb.GetRedirector().GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
+        public Image? GetImage(PaletteState state) => _kryptonBreadCrumb.GetRedirector()!.GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => _kryptonBreadCrumb.GetRedirector().GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle.ArrowLeft);
+        public Color GetImageTransparentColor(PaletteState state) => _kryptonBreadCrumb.GetRedirector()!.GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle.ArrowLeft);
 
         /// <summary>
         /// Gets the content short text.
@@ -398,9 +414,9 @@ namespace Krypton.Toolkit
             if (!_showingContextMenu)
             {
                 // Get access to the controller, view and crumb item
-                ViewDrawButton viewButton = sender as ViewDrawButton;
-                ButtonController controller = viewButton.MouseController as ButtonController;
-                KryptonBreadCrumbItem breadCrumb = controller.Tag as KryptonBreadCrumbItem;
+                ViewDrawButton? viewButton = sender as ViewDrawButton;
+                ButtonController? controller = viewButton!.MouseController as ButtonController;
+                KryptonBreadCrumbItem? breadCrumb = controller!.Tag as KryptonBreadCrumbItem;
 
                 // Do we need to show a drop down menu?
                 if (viewButton.DropDown && viewButton.SplitRectangle.Contains(e.Location))
@@ -427,51 +443,56 @@ namespace Krypton.Toolkit
                     _menuItemToCrumb = new MenuItemToCrumb();
 
                     // Create a new menu item to represent each child crumb
-                    foreach (KryptonBreadCrumbItem childCrumb in breadCrumb.Items)
+                    if (breadCrumb != null)
                     {
-                        KryptonContextMenuItem childMenu = new();
+                        foreach (KryptonBreadCrumbItem childCrumb in breadCrumb.Items)
+                        {
+                            KryptonContextMenuItem childMenu = new();
 
-                        // Store 1-to-1 association
-                        _menuItemToCrumb.Add(childMenu, childCrumb);
+                            // Store 1-to-1 association
+                            _menuItemToCrumb.Add(childMenu, childCrumb);
 
-                        // Copy across the display details of the child crumb item
-                        childMenu.Text = childCrumb.ShortText;
-                        childMenu.ExtraText = childCrumb.LongText;
-                        childMenu.Image = childCrumb.Image;
-                        childMenu.ImageTransparentColor = childCrumb.ImageTransparentColor;
-                        childMenu.Click += OnChildCrumbClick;
+                            // Copy across the display details of the child crumb item
+                            childMenu.Text = childCrumb.ShortText;
+                            childMenu.ExtraText = childCrumb.LongText;
+                            childMenu.Image = childCrumb.Image;
+                            childMenu.ImageTransparentColor = childCrumb.ImageTransparentColor;
+                            childMenu.Click += OnChildCrumbClick;
 
-                        items.Items.Add(childMenu);
-                    }
+                            items.Items.Add(childMenu);
+                        }
 
-                    // Allow the user a chance to alter the menu contents or cancel it entirely
-                    BreadCrumbMenuArgs bcma = new(breadCrumb, kcm, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
-                    _kryptonBreadCrumb.OnCrumbDropDown(bcma);
+                        // Allow the user a chance to alter the menu contents or cancel it entirely
+                        BreadCrumbMenuArgs bcma = new(breadCrumb, kcm, KryptonContextMenuPositionH.Left,
+                            KryptonContextMenuPositionV.Below);
+                        _kryptonBreadCrumb.OnCrumbDropDown(bcma);
 
-                    // Is there still the need to show a menu that is not empty?
-                    if (bcma is { Cancel: false, KryptonContextMenu: { } } &&
-                        CommonHelper.ValidKryptonContextMenu(bcma.KryptonContextMenu))
-                    {
-                        // Cache the controller for use in menu close processing, prevents the need to 
-                        // store anything in the KryptonContextMenu tag and so free up its use to the user.
-                        _pressedButtonController = controller;
+                        // Is there still the need to show a menu that is not empty?
+                        if (bcma is { Cancel: false, KryptonContextMenu: { } } &&
+                            CommonHelper.ValidKryptonContextMenu(bcma.KryptonContextMenu))
+                        {
+                            // Cache the controller for use in menu close processing, prevents the need to 
+                            // store anything in the KryptonContextMenu tag and so free up its use to the user.
+                            _pressedButtonController = controller;
 
-                        // Show the context menu so user can select the next item for selection
-                        bcma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                        bcma.KryptonContextMenu.Show(_kryptonBreadCrumb, _kryptonBreadCrumb.RectangleToScreen(new Rectangle(viewButton.SplitRectangle.X - viewButton.SplitRectangle.Width,
-                                                                                                                            viewButton.SplitRectangle.Y,
-                                                                                                                            viewButton.SplitRectangle.Width * 2,
-                                                                                                                            viewButton.SplitRectangle.Height)),
-                                                     bcma.PositionH,
-                                                     bcma.PositionV);
+                            // Show the context menu so user can select the next item for selection
+                            bcma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
+                            bcma.KryptonContextMenu.Show(_kryptonBreadCrumb, _kryptonBreadCrumb.RectangleToScreen(
+                                    new Rectangle(viewButton.SplitRectangle.X - viewButton.SplitRectangle.Width,
+                                        viewButton.SplitRectangle.Y,
+                                        viewButton.SplitRectangle.Width * 2,
+                                        viewButton.SplitRectangle.Height)),
+                                bcma.PositionH,
+                                bcma.PositionV);
 
-                        // do not show another context menu whilst this one is visible
-                        _showingContextMenu = true;
-                    }
-                    else
-                    {
-                        // Button gives a fixed appearance when pressed, without a context menu that is not necessary
-                        controller.RemoveFixed();
+                            // do not show another context menu whilst this one is visible
+                            _showingContextMenu = true;
+                        }
+                        else
+                        {
+                            // Button gives a fixed appearance when pressed, without a context menu that is not necessary
+                            controller.RemoveFixed();
+                        }
                     }
                 }
                 else
@@ -495,7 +516,10 @@ namespace Krypton.Toolkit
             kcm.Dispose();
 
             // Remove the fixed appearance of the view button
-            _pressedButtonController.RemoveFixed();
+            if (_pressedButtonController != null)
+            {
+                _pressedButtonController.RemoveFixed();
+            }
             _pressedButtonController = null;
 
             // No longer showing context menu, so safe to show another one
@@ -505,8 +529,11 @@ namespace Krypton.Toolkit
         private void OnChildCrumbClick(object sender, EventArgs e)
         {
             // Make the clicked child crumb the newly selected item
-            KryptonContextMenuItem childItem = sender as KryptonContextMenuItem;
-            _kryptonBreadCrumb.SelectedItem = _menuItemToCrumb[childItem];
+            KryptonContextMenuItem? childItem = sender as KryptonContextMenuItem;
+            if (childItem != null)
+            {
+                _kryptonBreadCrumb.SelectedItem = _menuItemToCrumb[childItem];
+            }
         }
 
         private void OnOverflowButtonClick(object sender, MouseEventArgs e)
@@ -515,8 +542,8 @@ namespace Krypton.Toolkit
             if (!_showingContextMenu)
             {
                 // Get access to the controller, view and crumb item
-                ViewDrawButton viewButton = sender as ViewDrawButton;
-                ButtonController controller = viewButton.MouseController as ButtonController;
+                ViewDrawButton? viewButton = sender as ViewDrawButton;
+                ButtonController? controller = viewButton!.MouseController as ButtonController;
 
                 // Create a context menu with a items collection
                 KryptonContextMenu kcm = new()
@@ -541,7 +568,7 @@ namespace Krypton.Toolkit
 
                 // Create a new menu item to represent each of the invisible crumbs not children of the root
                 // (item 0=overflow button, 1=root; 2=child of root, so we start at index 3)
-                for(var i=3; i<Count; i++)
+                for (var i = 3; i < Count; i++)
                 {
                     if (!this[i].Visible)
                     {
@@ -620,7 +647,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Button gives a fixed appearance when pressed, without a context menu that is not necessary
-                    controller.RemoveFixed();
+                    controller!.RemoveFixed();
 
                     // Clicking item makes it become the selected crumb
                     _kryptonBreadCrumb.SelectedItem = _kryptonBreadCrumb.RootItem;

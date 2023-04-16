@@ -10,6 +10,8 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable CompareOfFloatsByEqualityOperator
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -75,7 +77,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private IPaletteBorder _inherit;
+        private IPaletteBorder? _inherit;
         private InternalStorage? _storage;
         #endregion
 
@@ -94,8 +96,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBorder([DisallowNull] IPaletteBorder inherit,
-                             NeedPaintHandler needPaint)
+        public PaletteBorder([DisallowNull] IPaletteBorder? inherit,
+                             NeedPaintHandler? needPaint)
         {
             Debug.Assert(inherit != null);
 
@@ -120,7 +122,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteBorder inherit)
+        public void SetInherit(IPaletteBorder? inherit)
         {
             _inherit = inherit;
         }
@@ -194,7 +196,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetBorderDraw(PaletteState state) => Draw != InheritBool.Inherit ? Draw : _inherit.GetBorderDraw(state);
+        public InheritBool GetBorderDraw(PaletteState state) => Draw != InheritBool.Inherit ? Draw : _inherit!.GetBorderDraw(state);
         #endregion
 
         #region DrawBorders
@@ -251,7 +253,7 @@ namespace Krypton.Toolkit
                 return Draw == InheritBool.False ? PaletteDrawBorders.None : DrawBorders;
             }
 
-            return _inherit.GetBorderDrawBorders(state);
+            return _inherit!.GetBorderDrawBorders(state);
         }
 
         #endregion
@@ -301,7 +303,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
         public PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) =>
-            GraphicsHint != PaletteGraphicsHint.Inherit ? GraphicsHint : _inherit.GetBorderGraphicsHint(state);
+            GraphicsHint != PaletteGraphicsHint.Inherit ? GraphicsHint : _inherit!.GetBorderGraphicsHint(state);
         #endregion
 
         #region Color1
@@ -358,7 +360,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor1(PaletteState state) => Color1 != Color.Empty ? Color1 : _inherit.GetBorderColor1(state);
+        public Color GetBorderColor1(PaletteState state) => Color1 != Color.Empty ? Color1 : _inherit!.GetBorderColor1(state);
 
         #endregion
 
@@ -406,7 +408,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor2(PaletteState state) => Color2 != Color.Empty ? Color2 : _inherit.GetBorderColor2(state);
+        public Color GetBorderColor2(PaletteState state) => Color2 != Color.Empty ? Color2 : _inherit!.GetBorderColor2(state);
         #endregion
 
         #region ColorStyle
@@ -455,7 +457,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public PaletteColorStyle GetBorderColorStyle(PaletteState state) => ColorStyle != PaletteColorStyle.Inherit
             ? ColorStyle
-            : _inherit.GetBorderColorStyle(state);
+            : _inherit!.GetBorderColorStyle(state);
         #endregion
 
         #region ColorAlign
@@ -503,7 +505,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
         public PaletteRectangleAlign GetBorderColorAlign(PaletteState state) =>
-            ColorAlign != PaletteRectangleAlign.Inherit ? ColorAlign : _inherit.GetBorderColorAlign(state);
+            ColorAlign != PaletteRectangleAlign.Inherit ? ColorAlign : _inherit!.GetBorderColorAlign(state);
         #endregion
 
         #region ColorAngle
@@ -550,7 +552,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBorderColorAngle(PaletteState state) => ColorAngle != -1f ? ColorAngle : _inherit.GetBorderColorAngle(state);
+        public float GetBorderColorAngle(PaletteState state) => ColorAngle != -1f ? ColorAngle : _inherit!.GetBorderColorAngle(state);
         #endregion
 
         #region Width
@@ -597,7 +599,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border width.</returns>
-        public int GetBorderWidth(PaletteState state) => Width != -1 ? Width : _inherit.GetBorderWidth(state);
+        public int GetBorderWidth(PaletteState state) => Width != -1 ? Width : _inherit!.GetBorderWidth(state);
         #endregion
 
         #region Rounding
@@ -644,7 +646,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public float GetBorderRounding(PaletteState state) => Rounding != -1f ? Rounding : _inherit.GetBorderRounding(state);
+        public float GetBorderRounding(PaletteState state) => Rounding != -1f ? Rounding : _inherit!.GetBorderRounding(state);
         #endregion
 
         #region Image
@@ -691,7 +693,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image? GetBorderImage(PaletteState state) => Image ?? _inherit.GetBorderImage(state);
+        public Image? GetBorderImage(PaletteState state) => Image ?? _inherit!.GetBorderImage(state);
         #endregion
 
         #region ImageStyle
@@ -742,7 +744,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public PaletteImageStyle GetBorderImageStyle(PaletteState state) => ImageStyle != PaletteImageStyle.Inherit
             ? ImageStyle
-            : _inherit.GetBorderImageStyle(state);
+            : _inherit!.GetBorderImageStyle(state);
         #endregion
 
         #region ImageAlign
@@ -790,7 +792,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
         public PaletteRectangleAlign GetBorderImageAlign(PaletteState state) =>
-            ImageAlign != PaletteRectangleAlign.Inherit ? ImageAlign : _inherit.GetBorderImageAlign(state);
+            ImageAlign != PaletteRectangleAlign.Inherit ? ImageAlign : _inherit!.GetBorderImageAlign(state);
         #endregion
 
         #region Protected
@@ -798,7 +800,7 @@ namespace Krypton.Toolkit
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="property">Name of the property changed.</param>
-        protected virtual void OnPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        protected virtual void OnPropertyChanged(string property) => PropertyChanged.Invoke(this, new PropertyChangedEventArgs(property));
 
         #endregion
     }

@@ -310,11 +310,6 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = DateTime.Now.Date;
-                }
-
                 _todayDate = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(TodayDate)));
             }
@@ -333,7 +328,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Localizable(true)]
         [Description(@"Indicates which annual dates should be boldface.")]
-        public DateTime[] AnnuallyBoldedDates
+        public DateTime[]? AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -372,7 +367,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Localizable(true)]
         [Description(@"Indicates which monthly dates should be boldface.")]
-        public DateTime[] MonthlyBoldedDates
+        public DateTime[]? MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -410,7 +405,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Localizable(true)]
         [Description(@"Indicates which dates should be boldface.")]
-        public DateTime[] BoldedDates
+        public DateTime[]? BoldedDates
         {
             get => BoldedDatesList.ToArray();
 
@@ -451,12 +446,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > DateTimePicker.MaximumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
                     }
 
                     if (value < DateTimePicker.MinimumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
                     }
                 }
 
@@ -490,12 +485,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > DateTimePicker.MaximumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
                     }
 
                     if (value < DateTimePicker.MinimumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
                     }
                 }
 
@@ -528,7 +523,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "MaxSelectionCount cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value), @"MaxSelectionCount cannot be less than zero.");
                 }
 
                 if (value != _maxSelectionCount)
@@ -558,12 +553,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > _maxDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
                     }
 
                     if (value < _minDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
                     }
 
                     // End date cannot be before the start date
@@ -611,12 +606,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > _maxDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
                     }
 
                     if (value < _minDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
                     }
 
                     // Start date cannot be after the end date
@@ -677,7 +672,7 @@ namespace Krypton.Toolkit
         [DefaultValue(@"d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string TodayFormat
+        public string? TodayFormat
         {
             get => _todayFormat;
 
@@ -699,7 +694,7 @@ namespace Krypton.Toolkit
         [Description(@"Text used as label for todays date.")]
         [DefaultValue(@"Today:")]
         [Localizable(true)]
-        public string TodayText
+        public string? TodayText
         {
             get => _today;
 
@@ -859,7 +854,7 @@ namespace Krypton.Toolkit
                 if (_headerStyle != value)
                 {
                     _headerStyle = value;
-                    StateCommon.Header.SetStyles(_headerStyle);
+                    StateCommon!.Header.SetStyles(_headerStyle);
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(HeaderStyle)));
                 }
             }
@@ -883,7 +878,7 @@ namespace Krypton.Toolkit
                 if (_dayStyle != value)
                 {
                     _dayStyle = value;
-                    StateCommon.DayStyle = value;
+                    StateCommon!.DayStyle = value;
                     OverrideFocus.DayStyle = value;
                     OverrideBolded.DayStyle = value;
                     OverrideToday.DayStyle = value;
@@ -915,7 +910,7 @@ namespace Krypton.Toolkit
                 if (_dayOfWeekStyle != value)
                 {
                     _dayOfWeekStyle = value;
-                    StateCommon.DayOfWeekStyle = value;
+                    StateCommon!.DayOfWeekStyle = value;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(DayOfWeekStyle)));
                 }
             }
@@ -970,7 +965,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the month calendar disabled appearance entries.
@@ -1316,26 +1311,26 @@ namespace Krypton.Toolkit
         /// Raises when the DateChanged event.
         /// </summary>
         /// <param name="e">An DateRangeEventArgs that contains the event data.</param>
-        protected virtual void OnDateChanged(DateRangeEventArgs e) => DateChanged?.Invoke(this, e);
+        protected virtual void OnDateChanged(DateRangeEventArgs e) => DateChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises when the SelectionStartChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionStartChanged(EventArgs e) => SelectionStartChanged?.Invoke(this, e);
+        protected virtual void OnSelectionStartChanged(EventArgs e) => SelectionStartChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises when the SelectionEndChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionEndChanged(EventArgs e) => SelectionEndChanged?.Invoke(this, e);
+        protected virtual void OnSelectionEndChanged(EventArgs e) => SelectionEndChanged.Invoke(this, e);
 
         #endregion
 
         #region Internal
         internal void SetPaletteRedirect(PaletteRedirect? redirector)
         {
-            StateCommon.SetRedirector(redirector);
+            StateCommon!.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);
             OverrideBolded.SetRedirector(redirector);
             OverrideToday.SetRedirector(redirector);

@@ -12,6 +12,8 @@
  */
 #endregion
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -48,7 +50,7 @@ namespace Krypton.Ribbon
 
             // Use a controller to change state because of mouse movement
             ViewHightlightController controller = new(this, needPaint);
-            controller.Click += OnClick;
+            controller.Click += OnClick!;
             MouseController = controller;
         }
 

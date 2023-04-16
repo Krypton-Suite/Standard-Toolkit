@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -64,7 +65,7 @@ namespace Krypton.Toolkit
         public ViewLayoutCenter(IPaletteMetric? paletteMetric,
                                 PaletteMetricPadding metricPadding,
                                 VisualOrientation orientation,
-                                ViewBase childElement)
+                                ViewBase? childElement)
         {
             // Remember provided values
             _paletteMetric = paletteMetric;
@@ -136,7 +137,7 @@ namespace Krypton.Toolkit
                 Padding borderPadding = _paletteMetric.GetMetricPadding(ElementState, MetricPadding);
 
                 // Applying the padding will depend on the orientation
-                switch(Orientation)
+                switch (Orientation)
                 {
                     case VisualOrientation.Top:
                     case VisualOrientation.Bottom:

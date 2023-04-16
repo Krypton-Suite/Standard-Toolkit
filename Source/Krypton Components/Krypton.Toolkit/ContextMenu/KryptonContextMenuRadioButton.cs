@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -30,10 +31,10 @@ namespace Krypton.Toolkit
         private bool _enabled;
         private string _text;
         private string? _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private LabelStyle _style;
         #endregion
 
@@ -152,7 +153,7 @@ namespace Krypton.Toolkit
         {
             get => _autoClose;
 
-            set 
+            set
             {
                 if (_autoClose != value)
                 {
@@ -174,7 +175,7 @@ namespace Krypton.Toolkit
         {
             get => _text;
 
-            set 
+            set
             {
                 if (_text != value)
                 {
@@ -196,7 +197,7 @@ namespace Krypton.Toolkit
         {
             get => _extraText;
 
-            set 
+            set
             {
                 if (_extraText != value)
                 {
@@ -218,7 +219,7 @@ namespace Krypton.Toolkit
         {
             get => _image;
 
-            set 
+            set
             {
                 if (_image != value)
                 {
@@ -239,7 +240,7 @@ namespace Krypton.Toolkit
         {
             get => _imageTransparentColor;
 
-            set 
+            set
             {
                 if (_imageTransparentColor != value)
                 {
@@ -296,7 +297,7 @@ namespace Krypton.Toolkit
         {
             get => _enabled;
 
-            set 
+            set
             {
                 if (_enabled != value)
                 {
@@ -340,7 +341,7 @@ namespace Krypton.Toolkit
         {
             get => _autoCheck;
 
-            set 
+            set
             {
                 if (_autoCheck != value)
                 {
@@ -430,7 +431,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnClick(EventArgs e)
         {
-            Click?.Invoke(this, e);
+            Click.Invoke(this, e);
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
@@ -440,7 +441,7 @@ namespace Krypton.Toolkit
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged.Invoke(this, e);
 
         #endregion
 

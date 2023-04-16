@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -21,7 +22,7 @@ namespace Krypton.Ribbon
                                                  IRibbonViewGroupItemView
     {
         #region Instance Fields
-        private readonly int NULL_CONTROL_WIDTH; // = 50;
+        private readonly int _nullControlWidth; // = 50;
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly TrackBarController? _controller;
@@ -51,8 +52,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupTrackBar.ItemSizeCurrent;
 
             // Hook into the textbox events
-            GroupTrackBar.MouseEnterControl += OnMouseEnterControl;
-            GroupTrackBar.MouseLeaveControl += OnMouseLeaveControl;
+            GroupTrackBar.MouseEnterControl += OnMouseEnterControl!;
+            GroupTrackBar.MouseLeaveControl += OnMouseLeaveControl!;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupTrackBar;
@@ -61,18 +62,18 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the textbox
                 ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
             // Create controller needed for handling focus and key tip actions
-             _controller = new TrackBarController(_ribbon, GroupTrackBar, this);
+            _controller = new TrackBarController(_ribbon, GroupTrackBar, this);
             SourceController = _controller;
             KeyController = _controller;
 
             // We need to rest visibility of the textbox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
 
             // Define back reference to view for the text box definition
             GroupTrackBar.TrackBarView = this;
@@ -81,8 +82,8 @@ namespace Krypton.Ribbon
             GroupTrackBar.ViewPaintDelegate = needPaint;
 
             // Hook into changes in the ribbon custom definition
-            GroupTrackBar.PropertyChanged += OnTextBoxPropertyChanged;
-            NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
+            GroupTrackBar.PropertyChanged += OnTextBoxPropertyChanged!;
+            _nullControlWidth = (int)(50 * FactorDpiX);
         }
 
         /// <summary>
@@ -104,15 +105,15 @@ namespace Krypton.Ribbon
                 if (GroupTrackBar != null)
                 {
                     // Must unhook to prevent memory leaks
-                    GroupTrackBar.MouseEnterControl -= OnMouseEnterControl;
-                    GroupTrackBar.MouseLeaveControl -= OnMouseLeaveControl;
+                    GroupTrackBar.MouseEnterControl -= OnMouseEnterControl!;
+                    GroupTrackBar.MouseLeaveControl -= OnMouseLeaveControl!;
                     GroupTrackBar.ViewPaintDelegate = null;
-                    GroupTrackBar.PropertyChanged -= OnTextBoxPropertyChanged;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
-                    _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
+                    GroupTrackBar.PropertyChanged -= OnTextBoxPropertyChanged!;
+                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction!;
+                    _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction!;
 
                     // Remove association with definition
-                    GroupTrackBar.TrackBarView = null; 
+                    GroupTrackBar.TrackBarView = null;
                     GroupTrackBar = null;
                 }
             }
@@ -125,7 +126,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning group track bar instance.
         /// </summary>
-        public KryptonRibbonGroupTrackBar GroupTrackBar { get; private set; }
+        public KryptonRibbonGroupTrackBar? GroupTrackBar { get; private set; }
 
         #endregion
 
@@ -137,7 +138,10 @@ namespace Krypton.Ribbon
         public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the hidden control
-            _ribbon.HideFocus(GroupTrackBar.TrackBar);
+            if (GroupTrackBar != null)
+            {
+                _ribbon.HideFocus(GroupTrackBar.TrackBar);
+            }
             base.LostFocus(c);
         }
         #endregion
@@ -237,11 +241,14 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupTrackBar.Enabled, 
-                                              GroupTrackBar.KeyTip,
-                                              screenPt, 
-                                              ClientRectangle,
-                                              _controller));
+                if (GroupTrackBar != null)
+                {
+                    keyTipList.Add(new KeyTipInfo(GroupTrackBar.Enabled,
+                                                  GroupTrackBar.KeyTip,
+                                                  screenPt,
+                                                  ClientRectangle,
+                                                  _controller));
+                }
             }
         }
         #endregion
@@ -261,7 +268,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void ResetGroupItemSize()
         {
-            _currentSize = GroupTrackBar.ItemSizeCurrent;
+            _currentSize = GroupTrackBar!.ItemSizeCurrent;
         }
 
         /// <summary>
@@ -288,7 +295,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                preferredSize.Width = NULL_CONTROL_WIDTH;
+                preferredSize.Width = _nullControlWidth;
             }
 
             preferredSize.Height = _currentSize == GroupItemSize.Large
@@ -435,16 +442,16 @@ namespace Krypton.Ribbon
 #pragma warning restore 162
         }
 
-        private Control LastParentControl
+        private Control? LastParentControl
         {
-            get => GroupTrackBar.LastParentControl;
-            set => GroupTrackBar.LastParentControl = value;
+            get => GroupTrackBar!.LastParentControl;
+            set => GroupTrackBar!.LastParentControl = value;
         }
 
-        private KryptonTrackBar LastTrackBar
+        private KryptonTrackBar? LastTrackBar
         {
-            get => GroupTrackBar.LastTrackBar;
-            set => GroupTrackBar.LastTrackBar = value;
+            get => GroupTrackBar!.LastTrackBar;
+            set => GroupTrackBar!.LastTrackBar = value;
         }
 
         private void UpdateParent(Control parentControl)
@@ -552,8 +559,8 @@ namespace Krypton.Ribbon
                     else
                     {
                         // Check the owning group is visible
-                        if ((GroupTrackBar.RibbonContainer?.RibbonGroup != null) 
-                            && !GroupTrackBar.RibbonContainer.RibbonGroup.Visible 
+                        if ((GroupTrackBar.RibbonContainer?.RibbonGroup != null)
+                            && !GroupTrackBar.RibbonContainer.RibbonGroup.Visible
                             && !_ribbon.InDesignMode
                             )
                         {

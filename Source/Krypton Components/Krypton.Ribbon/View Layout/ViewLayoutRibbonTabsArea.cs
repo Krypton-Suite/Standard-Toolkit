@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
         private ViewLayoutRibbonSeparator _leftSeparator;
         private ViewLayoutRibbonSeparator _rightSeparator;
         private readonly ViewDrawRibbonCaptionArea _captionArea;
-        private readonly ViewLayoutRibbonContextTitles _layoutContexts;
+        private readonly ViewLayoutRibbonContextTitles? _layoutContexts;
         private readonly AppButtonController? _appButtonController;
         private readonly AppTabController? _appTabController;
         private VisualPopupToolTip? _visualPopupToolTip;
@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
         public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon ribbon,
                                         [DisallowNull] PaletteRedirect? redirect,
                                         [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
-                                        [DisallowNull] ViewLayoutRibbonContextTitles layoutContexts,
+                                        [DisallowNull] ViewLayoutRibbonContextTitles? layoutContexts,
                                         [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);

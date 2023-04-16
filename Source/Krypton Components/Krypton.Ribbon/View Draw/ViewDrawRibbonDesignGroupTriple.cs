@@ -25,11 +25,11 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbonGroupTriple _ribbonTriple;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private readonly Padding _preferredPaddingL; // = new(1, 3, 1, 3);
         private readonly Padding _layoutPaddingL; // = new(1);
         private readonly Padding _outerPaddingL; // = new(0, 2, 0, 2);
-        private readonly Padding _paddingMS; // = new(0, 2, 0, 2);
+        private readonly Padding _paddingMs; // = new(0, 2, 0, 2);
         #endregion
 
         #region Identity
@@ -79,7 +79,7 @@ namespace Krypton.Ribbon
             _preferredPaddingL = new Padding((int)(1 * FactorDpiX), (int)(3 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
             _layoutPaddingL = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(1 * FactorDpiY));
             _outerPaddingL = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
-            _paddingMS = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
+            _paddingMs = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the padding to use when calculating the preferred size.
         /// </summary>
-        protected override Padding PreferredPadding => CurrentSize == GroupItemSize.Large ? _preferredPaddingL : _paddingMS;
+        protected override Padding PreferredPadding => CurrentSize == GroupItemSize.Large ? _preferredPaddingL : _paddingMs;
 
         /// <summary>
         /// Gets the padding to use when laying out the view.
@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the padding to shrink the client area by when laying out.
         /// </summary>
-        protected override Padding OuterPadding => CurrentSize == GroupItemSize.Large ? _outerPaddingL : _paddingMS;
+        protected override Padding OuterPadding => CurrentSize == GroupItemSize.Large ? _outerPaddingL : _paddingMs;
 
         /// <summary>
         /// Raises the Click event.
@@ -138,20 +138,20 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuButton = new("Add Button", null, OnAddButton);
-                ToolStripMenuItem menuColorButton = new("Add Color Button", null, OnAddColorButton);
-                ToolStripMenuItem menuCheckBox = new("Add CheckBox", null, OnAddCheckBox);
-                ToolStripMenuItem menuCustomControl = new("Add Custom Control", null, OnAddCustomControl);
-                ToolStripMenuItem menuLabel = new("Add Label", null, OnAddLabel);
-                ToolStripMenuItem menuRadioButton = new("Add RadioButton", null, OnAddRadioButton);
-                ToolStripMenuItem menuTextBox = new("Add TextBox", null, OnAddTextBox);
-                ToolStripMenuItem menuMaskedTextBox = new("Add MaskedTextBox", null, OnAddMaskedTextBox);
-                ToolStripMenuItem menuRichTextBox = new("Add RichTextBox", null, OnAddRichTextBox);
-                ToolStripMenuItem menuComboBox = new("Add ComboBox", null, OnAddComboBox);
-                ToolStripMenuItem menuNumericUpDown = new("Add NumericUpDown", null, OnAddNumericUpDown);
-                ToolStripMenuItem menuDomainUpDown = new("Add DomainUpDown", null, OnAddDomainUpDown);
-                ToolStripMenuItem menuDateTimePicker = new("Add DateTimePicker", null, OnAddDateTimePicker);
-                ToolStripMenuItem menuTrackBar = new("Add TrackBar", null, OnAddTrackBar);
+                ToolStripMenuItem menuButton = new("Add Button", null, OnAddButton!);
+                ToolStripMenuItem menuColorButton = new("Add Color Button", null, OnAddColorButton!);
+                ToolStripMenuItem menuCheckBox = new("Add CheckBox", null, OnAddCheckBox!);
+                ToolStripMenuItem menuCustomControl = new("Add Custom Control", null, OnAddCustomControl!);
+                ToolStripMenuItem menuLabel = new("Add Label", null, OnAddLabel!);
+                ToolStripMenuItem menuRadioButton = new("Add RadioButton", null, OnAddRadioButton!);
+                ToolStripMenuItem menuTextBox = new("Add TextBox", null, OnAddTextBox!);
+                ToolStripMenuItem menuMaskedTextBox = new("Add MaskedTextBox", null, OnAddMaskedTextBox!);
+                ToolStripMenuItem menuRichTextBox = new("Add RichTextBox", null, OnAddRichTextBox!);
+                ToolStripMenuItem menuComboBox = new("Add ComboBox", null, OnAddComboBox!);
+                ToolStripMenuItem menuNumericUpDown = new("Add NumericUpDown", null, OnAddNumericUpDown!);
+                ToolStripMenuItem menuDomainUpDown = new("Add DomainUpDown", null, OnAddDomainUpDown!);
+                ToolStripMenuItem menuDateTimePicker = new("Add DateTimePicker", null, OnAddDateTimePicker!);
+                ToolStripMenuItem menuTrackBar = new("Add TrackBar", null, OnAddTrackBar!);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;

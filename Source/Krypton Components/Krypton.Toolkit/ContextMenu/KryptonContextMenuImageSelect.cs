@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
             {
                 Interval = 120
             };
-            _trackingEventTimer.Tick += OnTrackingTick;
+            _trackingEventTimer.Tick += OnTrackingTick!;
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
         {
             get => _padding;
 
-            set 
+            set
             {
                 if (_padding != value)
                 {
@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedIndexChanged(EventArgs e) => SelectedIndexChanged?.Invoke(this, e);
+        protected virtual void OnSelectedIndexChanged(EventArgs e) => SelectedIndexChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
@@ -318,14 +318,14 @@ namespace Krypton.Toolkit
         protected virtual void OnTrackingImage(ImageSelectEventArgs e)
         {
             _eventTrackingIndex = e.ImageIndex;
-            TrackingImage?.Invoke(this, e);
+            TrackingImage.Invoke(this, e);
         }
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        internal virtual void OnClick(EventArgs e) => Click?.Invoke(this, e);
+        internal virtual void OnClick(EventArgs e) => Click.Invoke(this, e);
         #endregion
 
         #region Internal
@@ -333,8 +333,8 @@ namespace Krypton.Toolkit
         {
             get => _trackingIndex;
 
-            set 
-            { 
+            set
+            {
                 if (_trackingIndex != value)
                 {
                     _trackingIndex = value;

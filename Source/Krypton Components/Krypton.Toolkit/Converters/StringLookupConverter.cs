@@ -72,9 +72,9 @@ namespace Krypton.Toolkit
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context,
-                                         CultureInfo culture, 
-                                         object value, 
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+                                         CultureInfo? culture,
+                                         object? value,
                                          Type destinationType)
         {
             // We are only interested in adding functionality for converting to strings
@@ -101,8 +101,8 @@ namespace Krypton.Toolkit
         /// <param name="culture">The CultureInfo to use as the current culture.</param>
         /// <param name="value">The Object to convert.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertFrom(ITypeDescriptorContext context,
-                                           CultureInfo culture, 
+        public override object? ConvertFrom(ITypeDescriptorContext? context,
+                                           CultureInfo? culture,
                                            object value)
         {
             // We are only interested in adding functionality for converting from strings

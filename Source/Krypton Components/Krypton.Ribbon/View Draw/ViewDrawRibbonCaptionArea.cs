@@ -13,6 +13,7 @@
 #endregion
 
 // ReSharper disable InconsistentNaming
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Ribbon
 {
     #region Old Class
@@ -718,7 +719,7 @@ namespace Krypton.Ribbon
         /// <param name="compositionArea">Reference to the composition element.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon ribbon,
-                                         [DisallowNull] PaletteRedirect redirect,
+                                         [DisallowNull] PaletteRedirect? redirect,
                                          [DisallowNull] ViewDrawRibbonComposition compositionArea,
                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
@@ -731,10 +732,10 @@ namespace Krypton.Ribbon
             CAPTION_TEXT_GAPS = (int)(FactorDpiX * 10);        // 4 below and 6 above
             MIN_SELF_HEIGHT = (int)(FactorDpiY * 28);          // Min height to show application button and the mini bar and context tabs
             // Remember incoming references
-            _ribbon = ribbon!;
-            _compositionArea = compositionArea!;
-            _needPaintDelegate = needPaintDelegate!;
-            _needIntegratedDelegate = OnIntegratedNeedPaint;
+            _ribbon = ribbon;
+            _compositionArea = compositionArea;
+            _needPaintDelegate = needPaintDelegate;
+            _needIntegratedDelegate = OnIntegratedNeedPaint!;
 
             // Create a special redirector for overriding the border setting
             _redirect = new PaletteCaptionRedirect(redirect);
@@ -759,7 +760,10 @@ namespace Krypton.Ribbon
                     {
                         _captionAppButton.OwnerForm = null;
                         _kryptonForm.AllowIconDisplay = true;
-                        _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        if (_contextTiles != null)
+                        {
+                            _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        }
                         _kryptonForm.RevokeViewElement(_captionAppButton, ViewDockStyle.Left);
                         _kryptonForm.RevokeViewElement(_captionQAT, ViewDockStyle.Left);
                         _integrated = false;
@@ -767,7 +771,7 @@ namespace Krypton.Ribbon
 
                     _kryptonForm.ApplyCustomChromeChanged -= OnFormChromeCheck;
                     _kryptonForm.ClientSizeChanged -= OnFormChromeCheck;
-                    _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged;
+                    _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged!;
                     _kryptonForm = null;
                 }
             }
@@ -807,8 +811,15 @@ namespace Krypton.Ribbon
         /// </summary>
         public void HookToolTipHandling()
         {
-            _captionAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _captionAppButton, _captionAppButton.MouseController!);
-            _otherAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _otherAppButton, _otherAppButton.MouseController!);
+            if (_ribbon.TabsArea.ButtonSpecManager != null)
+            {
+                _captionAppButton.MouseController = new ToolTipController(
+                    _ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _captionAppButton,
+                    _captionAppButton.MouseController!);
+                _otherAppButton.MouseController = new ToolTipController(
+                    _ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _otherAppButton,
+                    _otherAppButton.MouseController!);
+            }
         }
         #endregion
 
@@ -1067,7 +1078,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Enforce the minimum height
-            Size preferredSize = base.GetPreferredSize(context!);
+            Size preferredSize = base.GetPreferredSize(context);
             preferredSize.Height = Math.Max(_calculatedHeight, preferredSize.Height);
 
             return preferredSize;
@@ -1110,11 +1121,11 @@ namespace Krypton.Ribbon
                 Target1 = _captionAppButton.AppButton,
                 Target2 = _otherAppButton.AppButton
             };
-            _appButtonController.NeedPaint += OnAppButtonNeedPaint;
+            _appButtonController.NeedPaint += OnAppButtonNeedPaint!;
             _captionAppButton.MouseController = _appButtonController;
             _otherAppButton.MouseController = _appButtonController;
             _appTabController = new AppTabController(_ribbon);
-            _appTabController.NeedPaint += OnAppButtonNeedPaint;
+            _appTabController.NeedPaint += OnAppButtonNeedPaint!;
 
             // When not showing the app button we show this spacer instead
             _spaceInsteadOfAppButton = new ViewLayoutSeparator(0)
@@ -1150,7 +1161,7 @@ namespace Krypton.Ribbon
             // We have to know when the parent of the ribbon changes so we can then hook
             // into monitoring the top level custom chrome control. We need information this
             // decide if we integrate with top chrome or show this control instead.
-            _ribbon.ParentChanged += OnRibbonParentChanged;
+            _ribbon.ParentChanged += OnRibbonParentChanged!;
         }
 
         private void OnRibbonParentChanged(object sender, EventArgs e)
@@ -1160,7 +1171,7 @@ namespace Krypton.Ribbon
             {
                 _kryptonForm.ApplyCustomChromeChanged -= OnFormChromeCheck;
                 _kryptonForm.ClientSizeChanged -= OnFormChromeCheck;
-                _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged;
+                _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged!;
                 _kryptonForm = null;
             }
 
@@ -1177,7 +1188,7 @@ namespace Krypton.Ribbon
                     _kryptonForm.Composition = _compositionArea;
                     _kryptonForm.ApplyCustomChromeChanged += OnFormChromeCheck;
                     _kryptonForm.ClientSizeChanged += OnFormChromeCheck;
-                    _kryptonForm.WindowActiveChanged += OnWindowActiveChanged;
+                    _kryptonForm.WindowActiveChanged += OnWindowActiveChanged!;
                 }
 
                 // Update decision about integrating or providing caption functionality
@@ -1239,13 +1250,19 @@ namespace Krypton.Ribbon
                             _compoRightInjected = true;
                         }
 
-                        _kryptonForm.InjectViewElement(_contextTiles, ViewDockStyle.Fill);
+                        if (_contextTiles != null)
+                        {
+                            _kryptonForm.InjectViewElement(_contextTiles, ViewDockStyle.Fill);
+                        }
                     }
                     else
                     {
                         _captionAppButton.OwnerForm = null;
                         _captionQAT.OwnerForm = null;
-                        _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        if (_contextTiles != null)
+                        {
+                            _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        }
 
                         // At runtime under vista we do not remove the compo right border
                         if (_ribbon.InDesignMode ||
@@ -1289,6 +1306,7 @@ namespace Krypton.Ribbon
                 Font ribbonFont = _ribbon.StateCommon.RibbonGeneral.GetRibbonTextFont(PaletteState.Normal);
 
                 // Can we use the cached font height?
+                // ReSharper disable once PossibleUnintendedReferenceComparison
                 if (ribbonFont != _cacheRibbonFont)
                 {
                     _cacheRibbonFont = ribbonFont;
@@ -1321,8 +1339,8 @@ namespace Krypton.Ribbon
         private void OnWindowActiveChanged(object sender, EventArgs e)
         {
             if (_kryptonForm is { ApplyCustomChrome: true, ApplyComposition: true })
-                // When integrated into composition we need to repaint whenever the
-                // owning form changes active status, as we are drawing the caption
+            // When integrated into composition we need to repaint whenever the
+            // owning form changes active status, as we are drawing the caption
             {
                 PerformNeedPaint(true);
             }

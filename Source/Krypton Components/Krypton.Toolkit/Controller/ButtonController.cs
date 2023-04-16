@@ -10,6 +10,9 @@
  */
 #endregion
 
+using Timer = System.Windows.Forms.Timer;
+// ReSharper disable ValueParameterNotUsed
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -28,57 +31,58 @@ namespace Krypton.Toolkit
         private bool _dragging;
         private bool _draggingAttempt;
         private bool _preDragOffset;
-        private NeedPaintHandler _needPaint;
-        private System.Windows.Forms.Timer _repeatTimer, _t;
+        private NeedPaintHandler? _needPaint;
+        private Timer? _repeatTimer;
+        private Timer _t;
         private Rectangle _dragRect;
 
         #endregion
 
         #region Events
         /// <summary>
-        /// Occurs when the mouse is used to left click the target.
+        /// Occurs when the mouse is used to left click the Target!.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
 
         /// <summary>
-        /// Occurs when the mouse is used to right click the target.
+        /// Occurs when the mouse is used to right click the Target!.
         /// </summary>
-        public event MouseEventHandler RightClick;
-        
+        public event MouseEventHandler? RightClick;
+
         /// <summary>
-        /// Occurs when the mouse is used to left select the target.
+        /// Occurs when the mouse is used to left select the Target!.
         /// </summary>
-        public event MouseEventHandler MouseSelect;
+        public event MouseEventHandler? MouseSelect;
 
         /// <summary>
         /// Occurs when start of drag operation occurs.
         /// </summary>
-        public event EventHandler<DragStartEventCancelArgs> DragStart;
+        public event EventHandler<DragStartEventCancelArgs>? DragStart;
 
         /// <summary>
         /// Occurs when drag moves.
         /// </summary>
-        public event EventHandler<PointEventArgs> DragMove;
+        public event EventHandler<PointEventArgs>? DragMove;
 
         /// <summary>
         /// Occurs when drag ends.
         /// </summary>
-        public event EventHandler<PointEventArgs> DragEnd;
+        public event EventHandler<PointEventArgs>? DragEnd;
 
         /// <summary>
         /// Occurs when drag quits.
         /// </summary>
-        public event EventHandler DragQuit;
+        public event EventHandler? DragQuit;
 
         /// <summary>
         /// Occurs when the drag rectangle for the button is required.
         /// </summary>
-        public event EventHandler<ButtonDragRectangleEventArgs> ButtonDragRectangle;
+        public event EventHandler<ButtonDragRectangleEventArgs>? ButtonDragRectangle;
 
         /// <summary>
         /// Occurs when the dragging inside the button drag rectangle.
         /// </summary>
-        public event EventHandler<ButtonDragOffsetEventArgs> ButtonDragOffset;
+        public event EventHandler<ButtonDragOffsetEventArgs>? ButtonDragOffset;
         #endregion
 
         #region Identity
@@ -87,7 +91,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonController(ViewBase target,
+        public ButtonController(ViewBase? target,
                                 NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
@@ -173,7 +177,7 @@ namespace Krypton.Toolkit
             _dragRect = Rectangle.Empty;
         }
         #endregion
-        
+
         #region ClickOnDown
         /// <summary>
         /// Gets and sets if the press down should cause the click.
@@ -254,7 +258,7 @@ namespace Krypton.Toolkit
                             if (!_draggingAttempt)
                             {
                                 _draggingAttempt = true;
-                                Point targetOrigin = Target.ClientLocation;
+                                Point targetOrigin = Target!.ClientLocation;
                                 Point offset = new(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
                                 OnDragStart(MousePoint, offset, c);
                             }
@@ -283,73 +287,73 @@ namespace Krypton.Toolkit
             if (IsOperating)
             {
                 // If the button is not enabled then we do nothing on a mouse down
-                if (Target.Enabled)
+                if (Target!.Enabled)
                 {
                     switch (button)
                     {
                         // Only interested in left mouse pressing down
                         case MouseButtons.Left:
-                        {
-                            // Capturing mouse input
-                            Captured = true;
-                            _draggingAttempt = false;
-
-                            // Use event to discover the rectangle that causes dragging to begin
-                            ButtonDragRectangleEventArgs args = new(pt);
-                            OnButtonDragRectangle(args);
-                            _dragRect = args.DragRect;
-                            _preDragOffset = args.PreDragOffset;
-
-                            if (!_fixedPressed)
                             {
-                                // Update the visual state
-                                UpdateTargetState(pt);
+                                // Capturing mouse input
+                                Captured = true;
+                                _draggingAttempt = false;
 
-                                // Do we become fixed in the pressed state until RemoveFixed is called?
-                                if (BecomesFixed)
+                                // Use event to discover the rectangle that causes dragging to begin
+                                ButtonDragRectangleEventArgs args = new(pt);
+                                OnButtonDragRectangle(args);
+                                _dragRect = args.DragRect;
+                                _preDragOffset = args.PreDragOffset;
+
+                                if (!_fixedPressed)
                                 {
-                                    _fixedPressed = true;
-                                }
+                                    // Update the visual state
+                                    UpdateTargetState(pt);
 
-                                // Indicate that the mouse wants to select the elment
-                                OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-
-                                // Generate a click event if we generate click on mouse down
-                                if (ClickOnDown)
-                                {
-                                    OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-
-                                    // If we need to perform click repeats then use a timer...
-                                    if (Repeat)
+                                    // Do we become fixed in the pressed state until RemoveFixed is called?
+                                    if (BecomesFixed)
                                     {
-                                        _repeatTimer = new System.Windows.Forms.Timer
+                                        _fixedPressed = true;
+                                    }
+
+                                    // Indicate that the mouse wants to select the elment
+                                    OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+
+                                    // Generate a click event if we generate click on mouse down
+                                    if (ClickOnDown)
+                                    {
+                                        OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+
+                                        // If we need to perform click repeats then use a timer...
+                                        if (Repeat)
                                         {
-                                            Interval = SystemInformation.DoubleClickTime
-                                        };
-                                        _repeatTimer.Tick += OnRepeatTimer;
-                                        _repeatTimer.Start();
+                                            _repeatTimer = new Timer
+                                            {
+                                                Interval = SystemInformation.DoubleClickTime
+                                            };
+                                            _repeatTimer.Tick += OnRepeatTimer!;
+                                            _repeatTimer.Start();
+                                        }
                                     }
                                 }
-                            }
 
-                            break;
-                        }
+                                break;
+                            }
                         case MouseButtons.Right:
-                        {
-                            if (!_fixedPressed)
                             {
-                                // Do we become fixed in the pressed state until RemoveFixed is called?
-                                if (BecomesRightFixed)
+                                if (!_fixedPressed)
                                 {
-                                    _fixedPressed = true;
+                                    // Do we become fixed in the pressed state until RemoveFixed is called?
+                                    if (BecomesRightFixed)
+                                    {
+                                        _fixedPressed = true;
+                                    }
+
+                                    // Indicate the right mouse was used on the button
+                                    OnRightClick(new MouseEventArgs(MouseButtons.Right, 1, pt.X, pt.Y, 0));
                                 }
 
-                                // Indicate the right mouse was used on the button
-                                OnRightClick(new MouseEventArgs(MouseButtons.Right, 1, pt.X, pt.Y, 0));
+                                break;
                             }
-
-                            break;
-                        }
                     }
                 }
             }
@@ -369,7 +373,7 @@ namespace Krypton.Toolkit
             if (IsOperating)
             {
                 // If the button is not enabled then we do nothing on a mouse down
-                if (Target.Enabled)
+                if (Target!.Enabled)
                 {
                     // Remove the repeat timer
                     if (_repeatTimer != null)
@@ -394,7 +398,7 @@ namespace Krypton.Toolkit
                             }
 
                             // Only if the button is still pressed, do we generate a click
-                            if (Target.ElementState is PaletteState.Pressed or (PaletteState.Pressed | PaletteState.Checked))
+                            if (Target!.ElementState is PaletteState.Pressed or (PaletteState.Pressed | PaletteState.Checked))
                             {
                                 if (!_fixedPressed)
                                 {
@@ -403,11 +407,11 @@ namespace Krypton.Toolkit
                                     // might change focus and so cause the MouseLeave to be
                                     // called and change the state. If this was after the click
                                     // then it would overwrite and lose that leave state change.
-                                    Target.ElementState = PaletteState.Tracking;
+                                    Target!.ElementState = PaletteState.Tracking;
                                 }
 
                                 // Can only click if enabled
-                                if (Target.Enabled && !ClickOnDown)
+                                if (Target!.Enabled && !ClickOnDown)
                                 {
                                     // Generate a click event
                                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
@@ -460,7 +464,7 @@ namespace Krypton.Toolkit
                     if (!_fixedPressed)
                     {
                         // Not tracking the mouse means a null value
-                        MousePoint = CommonHelper.NullPoint; 
+                        MousePoint = CommonHelper.NullPoint;
 
                         // If leaving the view then cannot be capturing mouse input anymore
                         Captured = false;
@@ -531,7 +535,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Update target to reflect new state
-                Target.ElementState = PaletteState.Pressed;
+                Target!.ElementState = PaletteState.Pressed;
 
                 // Redraw to show the change in visual state
                 OnNeedPaint(true);
@@ -587,12 +591,12 @@ namespace Krypton.Toolkit
                     }
 
                     // Recalculate if the mouse is over the button area
-                    _mouseOver = Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
+                    _mouseOver = Target!.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
 
                     if (e.KeyCode == Keys.Space)
                     {
                         // Can only click if enabled
-                        if (Target.Enabled)
+                        if (Target!.Enabled)
                         {
                             // Generate a click event
                             OnClick(new MouseEventArgs(MouseButtons.Left, 1, -1, -1, 0));
@@ -603,7 +607,7 @@ namespace Krypton.Toolkit
                     UpdateTargetState(c);
                 }
             }
-            
+
             return Captured;
         }
         #endregion
@@ -636,7 +640,7 @@ namespace Krypton.Toolkit
             if (Captured)
             {
                 // Quit out of any dragging operation
-                if (_dragging) 
+                if (_dragging)
                 {
                     // Do not release capture!
                     OnDragQuit();
@@ -649,7 +653,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Recalculate if the mouse is over the button area
-                _mouseOver = Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
+                _mouseOver = Target!.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
 
                 // Update the visual state
                 UpdateTargetState(c);
@@ -661,7 +665,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -678,7 +682,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the associated target of the controller.
         /// </summary>
-        public ViewBase Target { get; }
+        public ViewBase? Target { get; }
 
         /// <summary>
         /// Fires the NeedPaint event.
@@ -722,10 +726,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="next">View to investigate.</param>
         /// <returns>True is part of button; otherwise false.</returns>
-        protected virtual bool ViewIsPartOfButton(ViewBase? next) => Target.ContainsRecurse(next);
+        protected virtual bool ViewIsPartOfButton(ViewBase? next) => Target!.ContainsRecurse(next);
 
         /// <summary>
-        /// Set the correct visual state of the target.
+        /// Set the correct visual state of the Target!.
         /// </summary>
         /// <param name="c">Owning control.</param>
         protected void UpdateTargetState(Control c)
@@ -746,7 +750,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Set the correct visual state of the target.
+        /// Set the correct visual state of the Target!.
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         protected virtual void UpdateTargetState(Point pt)
@@ -755,7 +759,7 @@ namespace Krypton.Toolkit
             PaletteState newState;
 
             // If the button is disabled then show as disabled
-            if (!Target.Enabled)
+            if (!Target!.Enabled)
             {
                 newState = PaletteState.Disabled;
             }
@@ -773,7 +777,7 @@ namespace Krypton.Toolkit
                         // Do we show the button as pressed only when over the button?
                         if (IsOnlyPressedWhenOver)
                         {
-                            if (Target.ClientRectangle.Contains(pt))
+                            if (Target!.ClientRectangle.Contains(pt))
                             {
                                 newState = PaletteState.Pressed;
                             }
@@ -798,13 +802,13 @@ namespace Krypton.Toolkit
 
             // If state has changed or change in (inside split area)
             var inSplitRectangle = SplitRectangle.Contains(pt);
-            if ((Target.ElementState != newState) || (inSplitRectangle != _inSplitRectangle))
+            if ((Target!.ElementState != newState) || (inSplitRectangle != _inSplitRectangle))
             {
                 // Update if the point is inside the split rectangle
                 _inSplitRectangle = inSplitRectangle;
 
                 // Update target to reflect new state
-                Target.ElementState = newState;
+                Target!.ElementState = newState;
 
                 // Redraw to show the change in visual state
                 OnNeedPaint(true);
@@ -815,27 +819,42 @@ namespace Krypton.Toolkit
         /// Raises the ButtonDragRectangle event.
         /// </summary>
         /// <param name="e">An ButtonDragRectangleEventArgs containing the event args.</param>
-        protected virtual void OnButtonDragRectangle(ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
+        protected virtual void OnButtonDragRectangle(ButtonDragRectangleEventArgs e)
+        {
+            if (ButtonDragRectangle != null)
+            {
+                ButtonDragRectangle.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the ButtonDragOffset event.
         /// </summary>
         /// <param name="e">An ButtonDragOffsetEventArgs containing the event args.</param>
-        protected virtual void OnButtonDragOffset(ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
+        protected virtual void OnButtonDragOffset(ButtonDragOffsetEventArgs e)
+        {
+            if (ButtonDragOffset != null)
+            {
+                ButtonDragOffset.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the DragStart event.
         /// </summary>
         /// <param name="mousePt">Mouse point at time of event.</param>
-        /// <param name="offset">Offset compared to target.</param>
+        /// <param name="offset">Offset compared to Target!.</param>
         /// <param name="c">Control that is source of drag start.</param>
         protected virtual void OnDragStart(Point mousePt, Point offset, Control c)
         {
             // Convert point from client to screen coordinates
-            mousePt = Target.OwningControl.PointToScreen(mousePt);
+            mousePt = Target!.OwningControl.PointToScreen(mousePt);
             DragStartEventCancelArgs ce = new(mousePt, offset, c);
 
-            DragStart?.Invoke(this, ce);
+            if (DragStart != null)
+            {
+                DragStart.Invoke(this, ce);
+            }
 
             // If event is not cancelled then allow dragging
             _dragging = !ce.Cancel;
@@ -850,7 +869,7 @@ namespace Krypton.Toolkit
             if (DragMove != null)
             {
                 // Convert point from client to screen coordinates
-                mousePt = Target.OwningControl.PointToScreen(mousePt);
+                mousePt = Target!.OwningControl.PointToScreen(mousePt);
                 DragMove(this, new PointEventArgs(mousePt));
             }
         }
@@ -865,7 +884,7 @@ namespace Krypton.Toolkit
             if (DragEnd != null)
             {
                 // Convert point from client to screen coordinates
-                mousePt = Target.OwningControl.PointToScreen(mousePt);
+                mousePt = Target!.OwningControl.PointToScreen(mousePt);
                 DragEnd(this, new PointEventArgs(mousePt));
             }
         }
@@ -901,7 +920,7 @@ namespace Krypton.Toolkit
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target!.ClientRectangle));
 
         #endregion
 
@@ -909,7 +928,7 @@ namespace Krypton.Toolkit
         private void OnRepeatTimer(object sender, EventArgs e)
         {
             // Modify subsequent repeat timing
-            _t = (System.Windows.Forms.Timer)sender;
+            _t = (Timer)sender;
             _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
         }

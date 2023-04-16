@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 namespace Krypton.Toolkit
 {
     [Designer(typeof(KryptonPropertyGridDesigner))]
@@ -14,7 +15,8 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     public class KryptonPropertyGrid : PropertyGrid
     {
-        #region Variables
+        #region Instance Fields
+
         private PaletteBase? _palette;
 
         private readonly PaletteRedirect _paletteRedirect;
@@ -26,7 +28,9 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Constructor
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonPropertyGrid" /> class.</summary>
         public KryptonPropertyGrid()
         {
             SetStyle(ControlStyles.UserPaint
@@ -64,7 +68,8 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Krypton
+        #region Implementation
+
         // Krypton Palette Events
         /// <summary>Called when [global palette changed].</summary>
         /// <param name="sender">The sender.</param>
@@ -102,16 +107,19 @@ namespace Krypton.Toolkit
         {
             ToolStripRenderer = ToolStripManager.Renderer;
 
-            HelpBackColor = _palette.ColorTable.MenuStripGradientBegin;
+            if (_palette != null)
+            {
+                HelpBackColor = _palette.ColorTable.MenuStripGradientBegin;
 
-            HelpForeColor = _palette.ColorTable.StatusStripText;
+                HelpForeColor = _palette.ColorTable.StatusStripText;
 
-            LineColor = _palette.ColorTable.ToolStripGradientMiddle;
+                LineColor = _palette.ColorTable.ToolStripGradientMiddle;
 
-            CategoryForeColor = _palette.ColorTable.StatusStripText;
+                CategoryForeColor = _palette.ColorTable.StatusStripText;
+            }
 
-            var normalFont = _stateNormal.PaletteContent.GetContentShortTextFont(PaletteState.ContextNormal);
-            var disabledFont = _stateDisabled.PaletteContent.GetContentShortTextFont(PaletteState.Disabled);
+            var normalFont = _stateNormal.PaletteContent!.GetContentShortTextFont(PaletteState.ContextNormal);
+            var disabledFont = _stateDisabled.PaletteContent!.GetContentShortTextFont(PaletteState.Disabled);
 
             Font = Enabled ? normalFont : disabledFont;
             BackColor = _stateNormal.PaletteBack.GetBackColor1(PaletteState.Disabled);
@@ -125,7 +133,7 @@ namespace Krypton.Toolkit
                 {
                     state = PaletteState.FocusOverride;
                     triple = _stateActive;
-                    control.Font = _stateActive.PaletteContent.GetContentShortTextFont(PaletteState.FocusOverride);
+                    control.Font = _stateActive.PaletteContent!.GetContentShortTextFont(PaletteState.FocusOverride);
                 }
                 else if (control.Enabled)
                 {
@@ -140,7 +148,7 @@ namespace Krypton.Toolkit
                     control.Font = disabledFont;
                 }
 
-                control.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                control.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
                 control.BackColor = triple.PaletteBack.GetBackColor1(state);
             }
 

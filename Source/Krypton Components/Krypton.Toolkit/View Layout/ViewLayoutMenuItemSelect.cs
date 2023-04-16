@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -23,7 +24,7 @@ namespace Krypton.Toolkit
         private readonly IContextMenuProvider _provider;
         private readonly PaletteTripleToPalette _triple;
         private readonly NeedPaintHandler _needPaint;
-        private readonly ImageList _imageList;
+        private readonly ImageList? _imageList;
         private int _selectedIndex;
         private readonly int _imageIndexStart;
         private readonly int _imageIndexEnd;
@@ -47,11 +48,11 @@ namespace Krypton.Toolkit
             Debug.Assert(provider != null);
 
             // Store incoming references
-            _itemSelect = itemSelect;
-            _provider = provider;
+            _itemSelect = itemSelect!;
+            _provider = provider!;
 
             _itemSelect.TrackingIndex = -1;
-            ItemEnabled = provider.ProviderEnabled;
+            ItemEnabled = provider!.ProviderEnabled;
             _viewManager = provider.ProviderViewManager;
 
             // Cache the values to use when running
@@ -77,7 +78,10 @@ namespace Krypton.Toolkit
                                                  PaletteContentStyle.ButtonLowProfile);
 
             // Update with current button style
-            _triple.SetStyles(itemSelect.ButtonStyle);
+            if (itemSelect != null)
+            {
+                _triple.SetStyles(itemSelect.ButtonStyle);
+            }
         }
 
         /// <summary>
@@ -142,7 +146,10 @@ namespace Krypton.Toolkit
             if (Count > 0)
             {
                 // Ask child for it's own preferred size
-                preferredSize = this[0].GetPreferredSize(context);
+                if (context != null)
+                {
+                    preferredSize = this[0].GetPreferredSize(context);
+                }
 
                 // Find preferred size from the preferred item size
                 var lineItems = Math.Max(1, _lineItems);

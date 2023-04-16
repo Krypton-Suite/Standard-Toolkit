@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private readonly Padding _padding; // = new(1, 2, 0, 2);
         #endregion
 
@@ -108,8 +108,8 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuButton = new("Add Cluster Button", null, OnAddButton);
-                ToolStripMenuItem menuColorButton = new("Add Cluster Color Button", null, OnAddColorButton);
+                ToolStripMenuItem menuButton = new("Add Cluster Button", null, OnAddButton!);
+                ToolStripMenuItem menuColorButton = new("Add Cluster Color Button", null, OnAddColorButton!);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;

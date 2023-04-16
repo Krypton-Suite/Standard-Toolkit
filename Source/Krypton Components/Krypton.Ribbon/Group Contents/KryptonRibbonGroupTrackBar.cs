@@ -12,13 +12,14 @@
  */
 #endregion
 
+// ReSharper disable UnusedMember.Local
 namespace Krypton.Ribbon
 {
     /// <summary>
     /// Represents a ribbon group track bar.
     /// </summary>
     [ToolboxItem(false)]
-    [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar.bmp")]
+    [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar!.bmp")]
     [Designer(typeof(KryptonRibbonGroupTrackBarDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
@@ -99,9 +100,9 @@ namespace Krypton.Ribbon
             };
 
             // Hook into events to expose via this container
-            TrackBar.GotFocus += OnTrackBarGotFocus;
-            TrackBar.LostFocus += OnTrackBarLostFocus;
-            TrackBar.ValueChanged += OnTrackBarValueChanged;
+            TrackBar!.GotFocus += OnTrackBarGotFocus!;
+            TrackBar!.LostFocus += OnTrackBarLostFocus!;
+            TrackBar!.ValueChanged += OnTrackBarValueChanged!;
 
             // Ensure we can track mouse events on the track bar
             MonitorControl(TrackBar);
@@ -118,7 +119,7 @@ namespace Krypton.Ribbon
                 if (TrackBar != null)
                 {
                     UnmonitorControl(TrackBar);
-                    TrackBar.Dispose();
+                    TrackBar!.Dispose();
                     TrackBar = null;
                 }
             }
@@ -134,7 +135,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
@@ -144,8 +145,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the track bar as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    TrackBar.Palette = Ribbon.GetResolvedPalette();
-                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
+                    TrackBar!.Palette = Ribbon!.GetResolvedPalette();
+                    Ribbon.PaletteChanged += OnRibbonPaletteChanged!;
                 }
             }
         }
@@ -157,12 +158,12 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonTrackBar TrackBar { get; private set; }
+        public KryptonTrackBar? TrackBar { get; private set; }
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        public override ToolTipValues ToolTipValues => TrackBar.ToolTipValues;
+        public override ToolTipValues ToolTipValues => TrackBar!.ToolTipValues;
 
         /// <summary>
         /// Gets and sets the key tip for the ribbon group track bar.
@@ -261,7 +262,7 @@ namespace Krypton.Ribbon
             set
             {
                 _minimumLength = value;
-                TrackBar.MinimumSize = Orientation == Orientation.Horizontal
+                TrackBar!.MinimumSize = Orientation == Orientation.Horizontal
                     ? new Size(_minimumLength, 0)
                     : new Size(0, _minimumLength);
             }
@@ -280,7 +281,7 @@ namespace Krypton.Ribbon
             set
             {
                 _maximumLength = value;
-                TrackBar.MaximumSize = Orientation == Orientation.Horizontal
+                TrackBar!.MaximumSize = Orientation == Orientation.Horizontal
                     ? new Size(_maximumLength, 0)
                     : new Size(0, _maximumLength);
             }
@@ -294,8 +295,8 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public ContextMenuStrip? ContextMenuStrip
         {
-            get => TrackBar.ContextMenuStrip;
-            set => TrackBar.ContextMenuStrip = value;
+            get => TrackBar!.ContextMenuStrip;
+            set => TrackBar!.ContextMenuStrip = value;
         }
 
         /// <summary>
@@ -306,8 +307,8 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => TrackBar.KryptonContextMenu;
-            set => TrackBar.KryptonContextMenu = value;
+            get => TrackBar!.KryptonContextMenu;
+            set => TrackBar!.KryptonContextMenu = value;
         }
 
         /// <summary>
@@ -318,8 +319,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
         public PaletteTrackBarSize TrackBarSize
         {
-            get => TrackBar.TrackBarSize;
-            set => TrackBar.TrackBarSize = value;
+            get => TrackBar!.TrackBarSize;
+            set => TrackBar!.TrackBarSize = value;
         }
 
         /// <summary>
@@ -331,8 +332,8 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle
         {
-            get => TrackBar.TickStyle;
-            set => TrackBar.TickStyle = value;
+            get => TrackBar!.TickStyle;
+            set => TrackBar!.TickStyle = value;
         }
 
         /// <summary>
@@ -343,8 +344,8 @@ namespace Krypton.Ribbon
         [DefaultValue(1)]
         public int TickFrequency
         {
-            get => TrackBar.TickFrequency;
-            set => TrackBar.TickFrequency = value;
+            get => TrackBar!.TickFrequency;
+            set => TrackBar!.TickFrequency = value;
         }
 
         /// <summary>
@@ -355,8 +356,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool VolumeControl
         {
-            get => TrackBar.VolumeControl;
-            set => TrackBar.VolumeControl = value;
+            get => TrackBar!.VolumeControl;
+            set => TrackBar!.VolumeControl = value;
         }
 
         /// <summary>
@@ -368,23 +369,23 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.All)]
         public Orientation Orientation
         {
-            get => TrackBar.Orientation;
+            get => TrackBar!.Orientation;
 
             set
             {
-                if (value != TrackBar.Orientation)
+                if (value != TrackBar!.Orientation)
                 {
-                    TrackBar.Orientation = value;
+                    TrackBar!.Orientation = value;
 
                     if (Orientation == Orientation.Horizontal)
                     {
-                        TrackBar.MinimumSize = new Size(_minimumLength, 0);
-                        TrackBar.MaximumSize = new Size(_maximumLength, 0);
+                        TrackBar!.MinimumSize = new Size(_minimumLength, 0);
+                        TrackBar!.MaximumSize = new Size(_maximumLength, 0);
                     }
                     else
                     {
-                        TrackBar.MinimumSize = new Size(0, _minimumLength);
-                        TrackBar.MaximumSize = new Size(0, _maximumLength);
+                        TrackBar!.MinimumSize = new Size(0, _minimumLength);
+                        TrackBar!.MaximumSize = new Size(0, _maximumLength);
                     }
                 }
             }
@@ -399,8 +400,8 @@ namespace Krypton.Ribbon
         [DefaultValue(10)]
         public int Maximum
         {
-            get => TrackBar.Maximum;
-            set => TrackBar.Maximum = value;
+            get => TrackBar!.Maximum;
+            set => TrackBar!.Maximum = value;
         }
 
         /// <summary>
@@ -412,20 +413,20 @@ namespace Krypton.Ribbon
         [DefaultValue(0)]
         public int Minimum
         {
-            get => TrackBar.Minimum;
-            set => TrackBar.Minimum = value;
+            get => TrackBar!.Minimum;
+            set => TrackBar!.Minimum = value;
         }
 
         /// <summary>
         /// Gets or sets a numeric value that represents the current position of the scroll box on the track bar.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Current position of the indicator within the trackbar.")]
+        [Description(@"Current position of the indicator within the TrackBar!.")]
         [DefaultValue(0)]
         public int Value
         {
-            get => TrackBar.Value;
-            set => TrackBar.Value = value;
+            get => TrackBar!.Value;
+            set => TrackBar!.Value = value;
         }
 
         /// <summary>
@@ -436,8 +437,8 @@ namespace Krypton.Ribbon
         [DefaultValue(1)]
         public int SmallChange
         {
-            get => TrackBar.SmallChange;
-            set => TrackBar.SmallChange = value;
+            get => TrackBar!.SmallChange;
+            set => TrackBar!.SmallChange = value;
         }
 
         /// <summary>
@@ -448,18 +449,18 @@ namespace Krypton.Ribbon
         [DefaultValue(5)]
         public int LargeChange
         {
-            get => TrackBar.LargeChange;
-            set => TrackBar.LargeChange = value;
+            get => TrackBar!.LargeChange;
+            set => TrackBar!.LargeChange = value;
         }
 
         /// <summary>
-        /// Sets the minimum and maximum values for a TrackBar.
+        /// Sets the minimum and maximum values for a TrackBar!.
         /// </summary>
         /// <param name="minValue">The lower limit of the range of the track bar.</param>
         /// <param name="maxValue">The upper limit of the range of the track bar.</param>
         public void SetRange(int minValue, int maxValue)
         {
-            TrackBar.SetRange(minValue, maxValue);
+            TrackBar!.SetRange(minValue, maxValue);
         }
 
         /// <summary>
@@ -531,7 +532,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase TrackBarView { get; set; }
+        public ViewBase? TrackBarView { get; set; }
 
         #endregion
 
@@ -542,7 +543,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnGotFocus(EventArgs e)
         {
-            GotFocus?.Invoke(this, e);
+            GotFocus.Invoke(this, e);
         }
 
         /// <summary>
@@ -551,7 +552,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnLostFocus(EventArgs e)
         {
-            LostFocus?.Invoke(this, e);
+            LostFocus.Invoke(this, e);
         }
 
         /// <summary>
@@ -560,20 +561,20 @@ namespace Krypton.Ribbon
         /// <param name="propertyName">Name of property that has changed.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
         #region Internal
-        internal Control LastParentControl { get; set; }
+        internal Control? LastParentControl { get; set; }
 
-        internal KryptonTrackBar LastTrackBar { get; set; }
+        internal KryptonTrackBar? LastTrackBar { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e)
         {
-            DesignTimeContextMenu?.Invoke(this, e);
+            DesignTimeContextMenu.Invoke(this, e);
         }
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData) => false;
@@ -583,24 +584,24 @@ namespace Krypton.Ribbon
         #region Implementation
         private void MonitorControl(KryptonTrackBar c)
         {
-            c.MouseEnter += OnControlEnter;
-            c.MouseLeave += OnControlLeave;
+            c.MouseEnter += OnControlEnter!;
+            c.MouseLeave += OnControlLeave!;
         }
 
         private void UnmonitorControl(KryptonTrackBar c)
         {
-            c.MouseEnter -= OnControlEnter;
-            c.MouseLeave -= OnControlLeave;
+            c.MouseEnter -= OnControlEnter!;
+            c.MouseLeave -= OnControlLeave!;
         }
 
         private void OnControlEnter(object sender, EventArgs e)
         {
-            MouseEnterControl?.Invoke(this, e);
+            MouseEnterControl.Invoke(this, e);
         }
 
         private void OnControlLeave(object sender, EventArgs e)
         {
-            MouseLeaveControl?.Invoke(this, e);
+            MouseLeaveControl.Invoke(this, e);
         }
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
@@ -621,12 +622,12 @@ namespace Krypton.Ribbon
 
         private void OnTrackBarValueChanged(object sender, EventArgs e)
         {
-            ValueChanged?.Invoke(this, e);
+            ValueChanged.Invoke(this, e);
         }
 
         private void OnRibbonPaletteChanged(object sender, EventArgs e)
         {
-            TrackBar.Palette = Ribbon.GetResolvedPalette();
+            TrackBar!.Palette = Ribbon!.GetResolvedPalette();
         }
         #endregion
     }

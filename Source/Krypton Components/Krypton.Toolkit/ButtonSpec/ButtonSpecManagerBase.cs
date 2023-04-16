@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -78,7 +79,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer;
 
             if (_viewMetrics != null)
             {
@@ -643,7 +644,7 @@ namespace Krypton.Toolkit
                                                  int viewDockerIndex)
         {
             // Cast the remapping palette to the correct type
-            if (buttonView?.RemapPalette is ButtonSpecRemapByContentView remapPalette)
+            if (buttonView.RemapPalette is ButtonSpecRemapByContentView remapPalette)
             {
                 // Update button with the foreground used for colour mapping
                 remapPalette.Foreground = GetDockerForeground(viewDockerIndex);
@@ -777,31 +778,34 @@ namespace Krypton.Toolkit
                 (_viewMetrics.Length > viewDockerIndex) &&
                 (_viewMetricPaddings.Length > viewDockerIndex))
             {
-                IPaletteMetric? viewPaletteMetric = _viewMetrics[viewDockerIndex];
+                IPaletteMetric viewPaletteMetric = _viewMetrics[viewDockerIndex];
                 PaletteMetricPadding viewMetricPadding = _viewMetricPaddings[viewDockerIndex];
 
                 // Create an instance to manage the individual button spec
-                ButtonSpecView buttonView = CreateButtonSpecView(_redirector, viewPaletteMetric, viewMetricPadding, buttonSpec);
+                if (_redirector != null)
+                {
+                    ButtonSpecView buttonView = CreateButtonSpecView(_redirector, viewPaletteMetric, viewMetricPadding, buttonSpec);
 
-                // Add a lookup from the button spec to the button spec view
-                _specLookup.Add(buttonSpec, buttonView);
+                    // Add a lookup from the button spec to the button spec view
+                    _specLookup.Add(buttonSpec, buttonView);
 
-                // Update the button with the same orientation as the view header
-                buttonView.ViewButton.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
-                                                                         buttonSpec.GetOrientation(_redirector));
+                    // Update the button with the same orientation as the view header
+                    buttonView.ViewButton!.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
+                        buttonSpec.GetOrientation(_redirector));
 
-                buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
+                    buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
 
-                // Insert the button view into the docker
-                AddViewToDocker(viewDockerIndex, GetDockStyle(buttonSpec), buttonView.ViewCenter, _viewMetrics != null);
+                    // Insert the button view into the docker
+                    AddViewToDocker(viewDockerIndex, GetDockStyle(buttonSpec), buttonView.ViewCenter, _viewMetrics != null);
 
-                // Perform any last construction steps for button spec
-                ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
+                    // Perform any last construction steps for button spec
+                    ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
 
-                // Hook in to the button spec change event
-                buttonSpec.ButtonSpecPropertyChanged += OnPropertyChanged!;
+                    // Hook in to the button spec change event
+                    buttonSpec.ButtonSpecPropertyChanged += OnPropertyChanged!;
 
-                return buttonView;
+                    return buttonView;
+                }
             }
 
             return null;
@@ -813,20 +817,17 @@ namespace Krypton.Toolkit
             buttonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged!;
 
             // Get the button view from the button spec
-            ButtonSpecView? buttonView = _specLookup[buttonSpec];
+            ButtonSpecView buttonView = _specLookup[buttonSpec];
 
-            if (buttonView != null)
+            // Remove the view that was created for the button from its header
+            if ((buttonView.ViewCenter.Parent != null) &&
+                buttonView.ViewCenter.Parent.Contains(buttonView.ViewCenter))
             {
-                // Remove the view that was created for the button from its header
-                if ((buttonView.ViewCenter.Parent != null) &&
-                     buttonView.ViewCenter.Parent.Contains(buttonView.ViewCenter))
-                {
-                    buttonView.ViewCenter.Parent.Remove(buttonView.ViewCenter);
-                }
-
-                // Pull down the view for the button
-                buttonView.Destruct();
+                buttonView.ViewCenter.Parent.Remove(buttonView.ViewCenter);
             }
+
+            // Pull down the view for the button
+            buttonView.Destruct();
         }
 
         private void OnButtonSpecInserted(object sender, ButtonSpecEventArgs e)

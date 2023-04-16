@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -40,7 +41,7 @@ namespace Krypton.Toolkit
                                                  PaletteBackStyle backStyle,
                                                  PaletteBorderStyle borderStyle,
                                                  PaletteContentStyle contentStyle,
-                                                 NeedPaintHandler needPaint)
+                                                 NeedPaintHandler? needPaint)
         {
             Debug.Assert(redirect != null);
 
@@ -212,7 +213,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder? PaletteBorder => Border;
+        public IPaletteBorder PaletteBorder => Border;
 
         /// <summary>
         /// Gets and sets the border palette style.
@@ -245,7 +246,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent? PaletteContent => Content;
+        public IPaletteContent PaletteContent => Content;
 
         /// <summary>
         /// Gets and sets the content palette style.

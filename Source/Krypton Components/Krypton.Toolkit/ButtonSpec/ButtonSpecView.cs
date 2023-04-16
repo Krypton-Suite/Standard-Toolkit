@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -140,7 +141,7 @@ namespace Krypton.Toolkit
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout) => Manager.PerformNeedPaint(this, needLayout);
+        public void PerformNeedPaint(bool needLayout) => Manager!.PerformNeedPaint(this, needLayout);
 
         /// <summary>
         /// Update the button style to reflect new button style setting.
@@ -287,7 +288,7 @@ namespace Krypton.Toolkit
 
             // If associated with a tooltip manager then pass mouse messages onto tooltip manager
             IMouseController? mouseController = _controller;
-            if (Manager.ToolTipManager != null)
+            if (Manager!.ToolTipManager != null)
             {
                 mouseController = new ToolTipController(Manager.ToolTipManager, viewButton, _controller);
             }
@@ -303,7 +304,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnFinishDelegate(object sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
-            _controller.RemoveFixed();
+            _controller!.RemoveFixed();
 
         #endregion
 
@@ -356,7 +357,7 @@ namespace Krypton.Toolkit
         private void OnClick(object sender, MouseEventArgs e)
         {
             // Never show a context menu in design mode
-            if (!CommonHelper.DesignMode(Manager.Control))
+            if (!CommonHelper.DesignMode(Manager!.Control))
             {
                 // Fire the event handlers hooked into the button spec click event
                 ButtonSpec.PerformClick(e);
@@ -380,7 +381,7 @@ namespace Krypton.Toolkit
                         ButtonSpec.KryptonContextMenu.Closed -= OnKryptonContextMenuClosed!;
 
                         // Not showing a context menu, so remove the fixed view immediately
-                        _finishDelegate?.Invoke(this, EventArgs.Empty);
+                        _finishDelegate.Invoke(this, EventArgs.Empty);
                     }
                 }
                 else if ((ButtonSpec.ContextMenuStrip != null) && (ViewButton != null))
@@ -398,13 +399,13 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Not showing a context menu, so remove the fixed view immediately
-                    _finishDelegate?.Invoke(this, EventArgs.Empty);
+                    _finishDelegate.Invoke(this, EventArgs.Empty);
                 }
             }
             else
             {
                 // Not showing a context menu, so remove the fixed view immediately
-                _finishDelegate?.Invoke(this, EventArgs.Empty);
+                _finishDelegate.Invoke(this, EventArgs.Empty);
             }
         }
 

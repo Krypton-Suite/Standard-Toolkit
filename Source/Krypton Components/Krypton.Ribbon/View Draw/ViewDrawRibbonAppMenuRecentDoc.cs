@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -40,7 +41,7 @@ namespace Krypton.Ribbon
                                               int maxWidth,
                                               NeedPaintHandler needPaintDelegate,
                                               int index)
-            : base(provider.ProviderStateNormal.ItemHighlight.Back,
+            : base(provider.ProviderStateNormal.ItemHighlight!.Back,
                    provider.ProviderStateNormal.ItemHighlight.Border,
                    provider.ProviderStateNormal.ItemHighlight,
                    PaletteMetricPadding.ContextMenuItemHighlight,

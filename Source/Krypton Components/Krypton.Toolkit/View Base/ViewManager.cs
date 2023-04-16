@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
             {
                 Debug.Assert(value != null);
                 _root = value;
-                _root.OwningControl = Control;
+                _root!.OwningControl = Control;
             }
         }
 
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
                 AlignControl,
                 renderer);
             // Ask the view to perform operation
-            return Root.EvalTransparentPaint(context);
+            return Root!.EvalTransparentPaint(context);
         }
         #endregion
 
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         public virtual void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            Debug.Assert(context.Renderer != null);
+            Debug.Assert(context!.Renderer != null);
             Debug.Assert(Root != null);
 
             // Do nothing if the control is disposed
@@ -332,13 +332,13 @@ namespace Krypton.Toolkit
                 }
 
                 // If someone is interested, tell them the layout cycle to beginning
-                LayoutBefore?.Invoke(this, EventArgs.Empty);
+                LayoutBefore.Invoke(this, EventArgs.Empty);
 
                 // Ask the view to perform a layout
-                Root.Layout(context);
+                Root!.Layout(context);
 
                 // If someone is interested, tell them the layout cycle has finished
-                LayoutAfter?.Invoke(this, EventArgs.Empty);
+                LayoutAfter.Invoke(this, EventArgs.Empty);
 
                 if (OutputDebug)
                 {
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Ask the view to paint itself
-                Root.Render(context);
+                Root!.Render(context);
 
                 if (OutputDebug)
                 {
@@ -569,20 +569,20 @@ namespace Krypton.Toolkit
             ActiveView?.DoubleClick(pt);
 
             // Generate event to indicate the view manager has processed a mouse up
-            DoubleClickProcessed?.Invoke(this, pt);
+            DoubleClickProcessed.Invoke(this, pt);
         }
 
         /// <summary>
         /// Raises the MouseDownProcessed event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        public void PerformMouseDownProcessed(MouseEventArgs e) => MouseDownProcessed?.Invoke(this, e);
+        public void PerformMouseDownProcessed(MouseEventArgs e) => MouseDownProcessed.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseUpProcessed event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        public void PerformMouseUpProcessed(MouseEventArgs e) => MouseUpProcessed?.Invoke(this, e);
+        public void PerformMouseUpProcessed(MouseEventArgs e) => MouseUpProcessed.Invoke(this, e);
 
         #endregion
 

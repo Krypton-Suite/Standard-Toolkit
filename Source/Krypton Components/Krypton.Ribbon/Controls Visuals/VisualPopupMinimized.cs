@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
         public VisualPopupMinimized(KryptonRibbon ribbon,
                                     ViewManager viewManager,
                                     ViewDrawRibbonCaptionArea captionArea,
-                                    IRenderer renderer)
+                                    IRenderer? renderer)
             : base(viewManager, renderer, true)
         {
             Debug.Assert(ribbon != null);

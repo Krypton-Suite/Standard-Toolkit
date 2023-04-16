@@ -12,17 +12,19 @@
  */
 #endregion
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Ribbon
 {
     /// <summary>
     /// Draws half of an application tab.
     /// </summary>
-    internal class ViewDrawRibbonAppTab : ViewComposite, 
+    internal class ViewDrawRibbonAppTab : ViewComposite,
                                           IContentValues
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private IDisposable[] _mementos;
+        private IDisposable[]? _mementos;
         private readonly PaletteRibbonGeneral _paletteGeneral;
         private readonly ApplicationTabToContent _contentProvider;
         private readonly Padding _preferredBorder; // = new(17, 4, 17, 3);
@@ -69,7 +71,7 @@ namespace Krypton.Ribbon
                 {
                     foreach (IDisposable memento in _mementos)
                     {
-                        memento?.Dispose();
+                        memento.Dispose();
                     }
 
                     _mementos = null;
@@ -118,7 +120,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             var memento = State switch
             {
@@ -129,10 +131,14 @@ namespace Krypton.Ribbon
             };
 
             // Draw the background
-            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationTab(_ribbon.RibbonShape, context, ClientRectangle, State, 
-                                                                                        _ribbon.RibbonAppButton.AppButtonBaseColorDark,
-                                                                                        _ribbon.RibbonAppButton.AppButtonBaseColorLight, 
-                                                                                        _mementos[memento]);
+            if (_mementos != null && context.Renderer != null)
+            {
+                _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationTab(_ribbon.RibbonShape,
+                    context, ClientRectangle, State,
+                    _ribbon.RibbonAppButton.AppButtonBaseColorDark,
+                    _ribbon.RibbonAppButton.AppButtonBaseColorLight,
+                    _mementos[memento]);
+            }
         }
         #endregion
 

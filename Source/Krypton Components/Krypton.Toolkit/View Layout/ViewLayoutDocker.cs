@@ -119,13 +119,13 @@ namespace Krypton.Toolkit
             Debug.Assert(child != null);
 
             // Does this element exist in the lookup?
-            if (!_childDocking.ContainsKey(child))
+            if (child != null && !_childDocking.ContainsKey(child))
             {
                 // No, so add with a default value
                 _childDocking.Add(child, ViewDockStyle.Top);
             }
 
-            return _childDocking[child];
+            return _childDocking[child!];
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
             Debug.Assert(child != null);
 
             // If the lookup is not already defined
-            if (!_childDocking.ContainsKey(child))
+            if (child != null && !_childDocking.ContainsKey(child))
             {
                 // Then just add the value
                 _childDocking.Add(child, dock);
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Overwrite the existing value
-                _childDocking[child] = dock;
+                _childDocking[child!] = dock;
             }
         }
         #endregion
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
             ViewDockStyleLookup newChildDocking = new();
 
             // Remember the original display rectangle provided
-            Rectangle originalRect = context.DisplayRectangle;
+            Rectangle originalRect = context!.DisplayRectangle;
             Rectangle displayRect = context.DisplayRectangle;
 
             // Accumulate the size that must be provided by docking edges and then filler
@@ -334,7 +334,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Space available for children begins with our space
             Rectangle fillerRect = ClientRectangle;
@@ -374,7 +374,7 @@ namespace Krypton.Toolkit
             PaletteDrawBorders topEdges = PaletteDrawBorders.All;
             PaletteDrawBorders bottomEdges = PaletteDrawBorders.All;
             PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
-            
+
             // Position all except the filler
             foreach (ViewBase child in Reverse()
                          .Where(child => child.Visible && (GetDock(child) != ViewDockStyle.Fill))
@@ -566,7 +566,7 @@ namespace Krypton.Toolkit
             if (RemoveChildBorders)
             {
                 // Check if the view is a canvas
-                ViewDrawCanvas childCanvas = child as ViewDrawCanvas;
+                ViewDrawCanvas? childCanvas = child as ViewDrawCanvas;
 
                 // Docking edge determines calculation
                 switch (CalculateDock(GetDock(child), context.Control))

@@ -7,6 +7,9 @@
  */
 #endregion
 
+// ReSharper disable UnusedMember.Local
+// ReSharper disable RedundantOverriddenMember
+// ReSharper disable NotAccessedField.Local
 namespace Krypton.Toolkit
 {
     /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.FormHelp"/> button spec.</summary>
@@ -64,7 +67,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonHelpCommand" /> class.</summary>
         public KryptonHelpCommand()
         {
-            // An empty constructor...
+            _imageStates = new();
         }
 
         #endregion
@@ -302,7 +305,6 @@ namespace Krypton.Toolkit
         /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateActiveImage(PaletteMode mode)
         {
-            object HelpIconResources = null;
             switch (mode)
             {
                 case PaletteMode.Global:
@@ -902,6 +904,7 @@ namespace Krypton.Toolkit
 
         #region Overrides
 
+        /// <inheritdoc />
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);

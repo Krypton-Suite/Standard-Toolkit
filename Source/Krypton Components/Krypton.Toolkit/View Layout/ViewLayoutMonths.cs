@@ -10,6 +10,9 @@
  */
 #endregion
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+// ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable UnusedVariable
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -26,7 +29,7 @@ namespace Krypton.Toolkit
 
         private readonly ViewDrawDocker _drawHeader;
         private readonly PaletteBorderInheritForced _borderForced;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawToday _drawToday;
         private readonly ButtonSpecRemapByContentView? _remapPalette;
         private readonly ViewDrawEmptyContent _emptyContent;
@@ -95,29 +98,40 @@ namespace Krypton.Toolkit
 
             // Using a button spec manager to add the buttons to the header
             ButtonSpecs = new MonthCalendarButtonSpecCollection(this);
-            ButtonManager = new ButtonSpecManagerDraw(Calendar.CalendarControl, redirector, ButtonSpecs, null,
-                                                       new[] { _drawHeader },
-                                                       new IPaletteMetric[] { Calendar.StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
-                                                       new[] { PaletteMetricPadding.None },
-                                                       Calendar.GetToolStripDelegate, _needPaintDelegate);
+            if (Calendar.StateCommon != null)
+            {
+                ButtonManager = new ButtonSpecManagerDraw(Calendar.CalendarControl, redirector, ButtonSpecs, null,
+                    new[] { _drawHeader },
+                    new IPaletteMetric[] { Calendar.StateCommon },
+                    new[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
+                    new[] { PaletteMetricPadding.None },
+                    Calendar.GetToolStripDelegate, _needPaintDelegate);
+            }
 
             // Create the manager for handling tooltips
             _toolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
             _toolTipManager.ShowToolTip += OnShowToolTip;
             _toolTipManager.CancelToolTip += OnCancelToolTip;
-            ButtonManager.ToolTipManager = _toolTipManager;
+            if (ButtonManager != null)
+            {
+                ButtonManager.ToolTipManager = _toolTipManager;
 
-            // Create the bottom header used for showing 'today' and defined button specs
-            _remapPalette = (ButtonSpecRemapByContentView)ButtonManager.CreateButtonSpecRemap(redirector, new ButtonSpecAny());
-            _remapPalette.Foreground = _emptyContent;
+                // Create the bottom header used for showing 'today' and defined button specs
+                _remapPalette =
+                    (ButtonSpecRemapByContentView)ButtonManager.CreateButtonSpecRemap(redirector, new ButtonSpecAny())!;
+            }
 
-            // Use a redirector to get button values directly from palette
-            _palette = new PaletteTripleRedirect(_remapPalette,
-                                                 PaletteBackStyle.ButtonButtonSpec,
-                                                 PaletteBorderStyle.ButtonButtonSpec,
-                                                 PaletteContentStyle.ButtonButtonSpec,
-                                                 _needPaintDelegate);
+            if (_remapPalette != null)
+            {
+                _remapPalette.Foreground = _emptyContent;
+
+                // Use a redirector to get button values directly from palette
+                _palette = new PaletteTripleRedirect(_remapPalette,
+                    PaletteBackStyle.ButtonButtonSpec,
+                    PaletteBorderStyle.ButtonButtonSpec,
+                    PaletteContentStyle.ButtonButtonSpec,
+                    _needPaintDelegate);
+            }
 
             _drawToday = new ViewDrawToday(Calendar, _palette, _palette, _palette, _palette, _needPaintDelegate);
             _drawToday.Click += OnTodayClick;
@@ -281,7 +295,10 @@ namespace Krypton.Toolkit
             // We must have a focused day
             if (FocusDay != null)
             {
-                KeyController.KeyDown(c, e);
+                if (KeyController != null)
+                {
+                    KeyController.KeyDown(c, e);
+                }
                 return true;
             }
             else
@@ -472,10 +489,10 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            SyncData(context);
+            SyncData(context!);
             SyncMonths();
 
-            return this[1].GetPreferredSize(context);
+            return this[1].GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -488,7 +505,7 @@ namespace Krypton.Toolkit
 
             if (_drawHeader.Visible)
             {
-                Size retSize = _drawHeader.GetPreferredSize(context);
+                Size retSize = _drawHeader.GetPreferredSize(context!);
                 retSize.Width = 0;
                 retSize.Height += GAP * 2;
                 return retSize;
@@ -507,7 +524,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            SyncData(context);
+            SyncData(context!);
             SyncMonths();
 
             Size preferredSize = Size.Empty;
@@ -516,7 +533,7 @@ namespace Krypton.Toolkit
             if (_drawHeader.Visible)
             {
                 // Measure size of the header
-                Size headerSize = _drawHeader.GetPreferredSize(context);
+                Size headerSize = _drawHeader.GetPreferredSize(context!);
 
                 // Only use the height as the width is based on the months only
                 preferredSize.Height = headerSize.Height + (GAP * 2);
@@ -526,7 +543,7 @@ namespace Krypton.Toolkit
             if (Count > 1)
             {
                 // Only need to measure the first child as all children must be the same size
-                Size monthSize = this[1].GetPreferredSize(context);
+                Size monthSize = this[1].GetPreferredSize(context!);
 
                 // Find total width based on requested dimensions and add a single pixel space around and between months
                 preferredSize.Width += (monthSize.Width * Calendar.CalendarDimensions.Width) + (GAP * Calendar.CalendarDimensions.Width) + GAP;
@@ -544,11 +561,11 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            SyncData(context);
+            SyncData(context!);
             SyncMonths();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Is there a today header to layout?
             if (_drawHeader.Visible)
@@ -630,7 +647,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private DateTime JustDay(DateTime dt) => new (dt.Year, dt.Month, dt.Day);
+        private DateTime JustDay(DateTime dt) => new(dt.Year, dt.Month, dt.Day);
 
         private void OnTodayClick(object sender, EventArgs e)
         {
@@ -788,7 +805,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = Calendar.CalendarControl.FindForm();
+                Form topForm = Calendar.CalendarControl.FindForm()!;
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -803,7 +820,7 @@ namespace Krypton.Toolkit
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = ButtonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = ButtonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -812,14 +829,17 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(_redirector, buttonSpec);
-
-                            // Is there actually anything to show for the tooltip
-                            if (buttonSpecMapping.HasContent)
+                            if (_redirector != null)
                             {
-                                sourceContent = buttonSpecMapping;
-                                toolTipStyle = buttonSpec.ToolTipStyle;
-                                shadow = buttonSpec.ToolTipShadow;
+                                ButtonSpecToContent buttonSpecMapping = new(_redirector, buttonSpec);
+
+                                // Is there actually anything to show for the tooltip
+                                if (buttonSpecMapping.HasContent)
+                                {
+                                    sourceContent = buttonSpecMapping;
+                                    toolTipStyle = buttonSpec.ToolTipStyle;
+                                    shadow = buttonSpec.ToolTipShadow;
+                                }
                             }
                         }
                     }
@@ -827,7 +847,10 @@ namespace Krypton.Toolkit
                     if (sourceContent != null)
                     {
                         // Remove any currently showing tooltip
-                        _visualPopupToolTip?.Dispose();
+                        if (_visualPopupToolTip != null)
+                        {
+                            _visualPopupToolTip.Dispose();
+                        }
 
                         // Create the actual tooltip popup object
                         _visualPopupToolTip = new VisualPopupToolTip(_redirector,
@@ -865,7 +888,7 @@ namespace Krypton.Toolkit
             _shortText = _dayMeasure;
 
             // Find sizes required for the different 
-            Size normalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.Day.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
+            Size normalSize = context.Renderer!.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.Day.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
             Size disabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
             Size trackingSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateTracking.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
             Size pressedSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StatePressed.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
@@ -885,7 +908,7 @@ namespace Krypton.Toolkit
             _shortText = "A";
 
             // Find sizes required for the different 
-            Size shortNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
+            Size shortNormalSize = context.Renderer!.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
             Size shortDisabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
 
             _shortText = "A" + _dayOfWeekMeasure;

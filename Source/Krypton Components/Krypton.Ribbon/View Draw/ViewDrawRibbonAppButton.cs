@@ -12,6 +12,8 @@
  */
 #endregion
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -21,14 +23,14 @@ namespace Krypton.Ribbon
     {
 
         #region Instance Fields
-        private IDisposable[] _mementos;
+        private IDisposable[]? _mementos;
         private readonly KryptonRibbon _ribbon;
         private readonly bool _bottomHalf;
         private Rectangle _clipRect;
         private readonly Size _size;
-        private readonly Size SIZE_FULL; // = new(39, 39);
-        private readonly Size SIZE_TOP; // = new(39, 22);
-        private readonly Size SIZE_BOTTOM; // = new(39, 17);
+        private readonly Size _sizeFull; // = new(39, 39);
+        private readonly Size _sizeTop; // = new(39, 22);
+        private readonly Size _sizeBottom; // = new(39, 17);
         #endregion
 
         #region Identity
@@ -41,13 +43,13 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
 
-            SIZE_FULL = new Size((int)(39 * FactorDpiX), (int)(39 * FactorDpiY));
-            SIZE_TOP = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
-            SIZE_BOTTOM = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
+            _sizeFull = new Size((int)(39 * FactorDpiX), (int)(39 * FactorDpiY));
+            _sizeTop = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
+            _sizeBottom = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
             _ribbon = ribbon;
             _bottomHalf = bottomHalf;
-            _size = _bottomHalf ? SIZE_BOTTOM : SIZE_TOP;
+            _size = _bottomHalf ? _sizeBottom : _sizeTop;
             _mementos = new IDisposable[3];
         }
 
@@ -71,7 +73,7 @@ namespace Krypton.Ribbon
                 {
                     foreach (IDisposable memento in _mementos)
                     {
-                        memento?.Dispose();
+                        memento.Dispose();
                     }
 
                     _mementos = null;
@@ -116,11 +118,11 @@ namespace Krypton.Ribbon
             if (_bottomHalf)
             {
                 Rectangle client = ClientRectangle;
-                client.Y -= SIZE_FULL.Height - SIZE_BOTTOM.Height;
+                client.Y -= _sizeFull.Height - _sizeBottom.Height;
                 ClientRectangle = client;
             }
 
-            ClientHeight = SIZE_FULL.Height;
+            ClientHeight = _sizeFull.Height;
         }
         #endregion
 
@@ -164,7 +166,11 @@ namespace Krypton.Ribbon
             }
 
             // Draw the background
-            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
+            if (_mementos != null)
+            {
+                _mementos[memento] = context.Renderer!.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape,
+                    context, ClientRectangle, State, palette, _mementos[memento]);
+            }
 
             // If there is an application button to be drawn
             if (_ribbon.RibbonAppButton.AppButtonImage != null)

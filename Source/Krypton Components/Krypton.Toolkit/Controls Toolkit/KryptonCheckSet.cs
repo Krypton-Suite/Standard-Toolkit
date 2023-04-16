@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton object to add to the collection.</param>
             /// <exception cref="ArgumentNullException"></exception>
             /// <returns>The index of the new entry.</returns>
-            public int Add(KryptonCheckButton checkButton)
+            public int Add(KryptonCheckButton? checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate in the collection.</param>
             /// <returns>True if found in collection; otherwise false.</returns>
-            public bool Contains(KryptonCheckButton checkButton) =>
+            public bool Contains(KryptonCheckButton? checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
                 base.List.Contains(checkButton);
             // ReSharper restore RedundantBaseQualifier
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton reference to insert.</param>
             /// <exception cref="ArgumentException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
-            public void Insert(int index, KryptonCheckButton checkButton)
+            public void Insert(int index, KryptonCheckButton? checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton to remove.</param>
             /// <exception cref="ArgumentException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
-            public void Remove(KryptonCheckButton checkButton)
+            public void Remove(KryptonCheckButton? checkButton)
             {
                 Debug.Assert(checkButton != null);
 

@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                                     IRibbonViewGroupItemView
     {
         #region Instance Fields
-        private readonly int NULL_CONTROL_WIDTH; // = 50;
+        private readonly int _nullControlWidth; // = 50;
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly RichTextBoxController? _controller;
@@ -82,7 +82,7 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon custom definition
             GroupRichTextBox.PropertyChanged += OnRichTextBoxPropertyChanged;
-            NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
+            _nullControlWidth = (int)(50 * FactorDpiX);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                preferredSize.Width = NULL_CONTROL_WIDTH;
+                preferredSize.Width = _nullControlWidth;
             }
 
             preferredSize.Height = _currentSize == GroupItemSize.Large

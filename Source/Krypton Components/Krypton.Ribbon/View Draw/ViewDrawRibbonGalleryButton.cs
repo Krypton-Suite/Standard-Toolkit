@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable NotAccessedField.Local
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -29,7 +30,7 @@ namespace Krypton.Ribbon
         private readonly PaletteContentToPalette _paletteContent;
         private readonly PaletteRelativeAlign _alignment;
         private IDisposable? _mementoBack;
-        private IDisposable _mementoContent;
+        private IDisposable? _mementoContent;
         private readonly NeedPaintHandler _needPaint;
         #endregion
 
@@ -64,7 +65,7 @@ namespace Krypton.Ribbon
             _paletteBorder = new PaletteBorderToPalette(palette, PaletteBorderStyle.ButtonGallery);
             _paletteContent = new PaletteContentToPalette(palette, PaletteContentStyle.ButtonGallery);
             _controller = new GalleryButtonController(this, needPaint, alignment != PaletteRelativeAlign.Far);
-            _controller.Click += OnButtonClick;
+            _controller.Click += OnButtonClick!;
             base.MouseController = _controller;
         }
 
@@ -108,7 +109,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Grab the required size for the content images
-            context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
+            context.Renderer!.RenderStandardContent.GetContentPreferredSize(context, _paletteContent,
                 this, VisualOrientation.Top,
                 State, false, false);
 
@@ -129,12 +130,15 @@ namespace Krypton.Ribbon
                 _mementoContent.Dispose();
                 _mementoContent = null;
             }
-            
+
             // Create new memento based on the new size and image
-            _mementoContent = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle, 
-                                                                                   _paletteContent, this, 
-                                                                                   VisualOrientation.Top,
-                                                                                   State, false, false);
+            if (context.Renderer != null)
+            {
+                _mementoContent = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle,
+                    _paletteContent, this,
+                    VisualOrientation.Top,
+                    State, false, false);
+            }
         }
         #endregion
 
@@ -143,7 +147,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             // Reduce background to fit inside the border
             Rectangle backRect = ClientRectangle;
@@ -164,16 +168,24 @@ namespace Krypton.Ribbon
             // Are we allowed to draw a background?
             if (_paletteBack.GetBackDraw(State) == InheritBool.True)
             {
-                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath, _paletteBack,
-                    VisualOrientation.Top, State, _mementoBack);
+                if (context.Renderer != null)
+                {
+                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath,
+                        _paletteBack,
+                        VisualOrientation.Top, State, _mementoBack);
+                }
             }
 
             // Are we allowed to draw the content?
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
             {
-                context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
-                    _mementoContent, VisualOrientation.Top, 
-                    State, false, false,  false);
+                if (_mementoContent != null && context.Renderer != null)
+                {
+
+                    context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent,
+                        _mementoContent, VisualOrientation.Top,
+                        State, false, false, false);
+                }
             }
 
             // Are we allowed to draw border?
@@ -244,7 +256,7 @@ namespace Krypton.Ribbon
         public virtual Image? GetImage(PaletteState state)
         {
             // Find the correct collection of images
-            GalleryButtonImages images = null;
+            GalleryButtonImages? images = null;
             switch (_button)
             {
                 case PaletteRibbonGalleryButton.Up:
@@ -259,7 +271,7 @@ namespace Krypton.Ribbon
             }
 
             // Get image based on state
-            Image image = null;
+            Image? image = null;
             if (images != null)
             {
                 switch (State)
@@ -282,7 +294,7 @@ namespace Krypton.Ribbon
             }
 
             // If still no image then get is from the palette
-            return image ?? _palette.GetGalleryButtonImage(_button, State);
+            return image ?? _palette!.GetGalleryButtonImage(_button, State);
         }
 
         /// <summary>
@@ -305,10 +317,8 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        private void OnButtonClick(object sender, MouseEventArgs e) => Click.Invoke(this, e);
+
         #endregion
     }
 }

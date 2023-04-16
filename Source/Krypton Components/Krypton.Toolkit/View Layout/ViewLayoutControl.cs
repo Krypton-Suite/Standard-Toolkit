@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -50,22 +51,31 @@ namespace Krypton.Toolkit
             ChildView = viewChild;
 
             // Ensure the child is hooked into the hierarchy of elements
-            ChildView.Parent = this;
+            if (ChildView != null)
+            {
+                ChildView.Parent = this;
+            }
 
             // Create the view control instance
             ChildControl = viewControl;
 
             // Back reference hookup
-            ChildControl.ViewLayoutControl = this;
+            if (ChildControl != null)
+            {
+                ChildControl.ViewLayoutControl = this;
 
-            // Start off invisible until first laid out
-            ChildControl.Visible = false;
+                // Start off invisible until first laid out
+                ChildControl.Visible = false;
 
-            // Ensure that all view elements inside here use our control
-            OwningControl = ChildControl;
+                // Ensure that all view elements inside here use our control
+                OwningControl = ChildControl;
 
-            // Add our new control to the provided parent collection
-            CommonHelper.AddControlToParent(rootControl, ChildControl);
+                // Add our new control to the provided parent collection
+                if (rootControl != null)
+                {
+                    CommonHelper.AddControlToParent(rootControl, ChildControl);
+                }
+            }
         }
 
         /// <summary>
@@ -85,7 +95,10 @@ namespace Krypton.Toolkit
                         ChildControl = null;
                         CommonHelper.RemoveControlFromParent(vc);
                     }
-                    catch { }
+                    catch
+                    {
+                        // Note: Left blank intentionally
+                    }
                 }
 
                 if (ChildView != null)
@@ -161,7 +174,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the child controls paint delegate.
         /// </summary>
-        public NeedPaintHandler ChildPaintDelegate => ChildControl.NeedPaintDelegate;
+        public NeedPaintHandler ChildPaintDelegate => ChildControl!.NeedPaintDelegate;
 
         #endregion
 
@@ -171,8 +184,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool ChildTransparentBackground
         {
-            get => ChildControl.TransparentBackground;
-            set => ChildControl.TransparentBackground = value;
+            get => ChildControl!.TransparentBackground;
+            set => ChildControl!.TransparentBackground = value;
         }
         #endregion
 
@@ -182,8 +195,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool InDesignMode
         {
-            get => ChildControl.InDesignMode;
-            set => ChildControl.InDesignMode = value;
+            get => ChildControl!.InDesignMode;
+            set => ChildControl!.InDesignMode = value;
         }
         #endregion
 
@@ -198,7 +211,10 @@ namespace Krypton.Toolkit
             CommonHelper.RemoveControlFromParent(c);
 
             // Add to our child control
-            CommonHelper.AddControlToParent(ChildControl, c);
+            if (ChildControl != null)
+            {
+                CommonHelper.AddControlToParent(ChildControl, c);
+            }
         }
         #endregion
 
@@ -258,7 +274,7 @@ namespace Krypton.Toolkit
                 ClientRectangle = context.DisplayRectangle;
 
                 // Are we allowed to layout child controls?
-                if (!context.ViewManager.DoNotLayoutControls)
+                if (context.ViewManager != null && !context.ViewManager.DoNotLayoutControls)
                 {
                     // Do we have a control to position?
                     if (ChildControl != null)

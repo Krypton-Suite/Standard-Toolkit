@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -34,7 +35,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewLayoutNull class.
         /// </summary>
         /// <param name="control">Control to position in fill location.</param>
-        public ViewLayoutFill(Control control) => _control = control;
+        public ViewLayoutFill(Control? control) => _control = control ?? new();
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -86,7 +87,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Cache the fill rectangle
             FillRect = ClientRectangle;

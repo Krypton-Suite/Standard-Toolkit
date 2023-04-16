@@ -902,7 +902,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public IKryptonDesignObject TextBoxDesigner { get; set; }
+        public IKryptonDesignObject? TextBoxDesigner { get; set; }
 
         /// <summary>
         /// Internal design time properties.
@@ -910,7 +910,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase TextBoxView { get; set; }
+        public ViewBase? TextBoxView { get; set; }
 
         #endregion
 
@@ -1043,11 +1043,11 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal Control LastParentControl { get; set; }
+        internal Control? LastParentControl { get; set; }
 
-        internal KryptonTextBox LastTextBox { get; set; }
+        internal KryptonTextBox? LastTextBox { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e)
         {

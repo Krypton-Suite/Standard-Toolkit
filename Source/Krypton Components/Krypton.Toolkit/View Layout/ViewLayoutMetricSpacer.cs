@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteMetric != null);
 
             // Remember the source information
-            _paletteMetric = paletteMetric;
+            _paletteMetric = paletteMetric!;
             _metricInt = metricInt;
         }
 
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
             var length = _paletteMetric.GetMetricInt(ElementState, _metricInt);
 
             // Always use the metric and ignore given space
-            ClientRectangle = new Rectangle(context.DisplayRectangle.Location, new Size(length, length));
+            ClientRectangle = new Rectangle(context!.DisplayRectangle.Location, new Size(length, length));
         }
         #endregion
     }

@@ -21,19 +21,19 @@ namespace Krypton.Ribbon
                                          IRibbonViewGroupSize
     {
         #region Instance Fields
-        private readonly int MINIMUM_GROUP_WIDTH; // = 32;
-        private readonly int NORMAL_BORDER_TOPLEFT2007; // = 2;
-        private readonly int NORMAL_BORDER_RIGHT2007; // = 4;
-        private readonly int NORMAL_BORDER_TOP2010; // = 3;
-        private readonly int NORMAL_BORDER_LEFT2010; // = 3;
-        private readonly int NORMAL_BORDER_RIGHT2010; // = 6;
-        private readonly int TOTAL_LEFT_RIGHT_BORDERS_2007; // = 7;
-        private readonly int TOTAL_LEFT_RIGHT_BORDERS_2010; // = 10;
-        private readonly int VERT_OFFSET_2007; // = 0;
-        private readonly int VERT_OFFSET_2010; // = 2;
-        private readonly Padding COLLAPSED_PADDING; // = new(2);
-        private readonly Padding COLLAPSED_IMAGE_PADDING_2007; // = new(3, 3, 3, 4);
-        private readonly Padding COLLAPSED_IMAGE_PADDING_2010; // = new(3, 1, 5, 5);
+        private readonly int _minimumGroupWidth; // = 32;
+        private readonly int _normalBorderTopleft2007; // = 2;
+        private readonly int _normalBorderRight2007; // = 4;
+        private readonly int _normalBorderTop2010; // = 3;
+        private readonly int _normalBorderLeft2010; // = 3;
+        private readonly int _normalBorderRight2010; // = 6;
+        private readonly int _totalLeftRightBorders2007; // = 7;
+        private readonly int _totalLeftRightBorders2010; // = 10;
+        private readonly int _vertOffset2007; // = 0;
+        private readonly int _vertOffset2010; // = 2;
+        private readonly Padding _collapsedPadding; // = new(2);
+        private readonly Padding _collapsedImagePadding2007; // = new(3, 3, 3, 4);
+        private readonly Padding _collapsedImagePadding2010; // = new(3, 1, 5, 5);
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private VisualPopupGroup _popupGroup;
@@ -97,19 +97,19 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon button definition
             _ribbonGroup.PropertyChanged += OnGroupPropertyChanged;
-            MINIMUM_GROUP_WIDTH = (int)(32 * FactorDpiX);
-            NORMAL_BORDER_TOPLEFT2007 = (int)(2 * FactorDpiY);
-            NORMAL_BORDER_RIGHT2007 = (int)(4 * FactorDpiX);
-            NORMAL_BORDER_TOP2010 = (int)(3 * FactorDpiY);
-            NORMAL_BORDER_LEFT2010 = (int)(3 * FactorDpiX);
-            NORMAL_BORDER_RIGHT2010 = (int)(6 * FactorDpiX);
-            TOTAL_LEFT_RIGHT_BORDERS_2007 = (int)(7 * FactorDpiX);
-            TOTAL_LEFT_RIGHT_BORDERS_2010 = (int)(10 * FactorDpiX);
-            VERT_OFFSET_2007 = (int)(0 * FactorDpiY);
-            VERT_OFFSET_2010 = (int)(2 * FactorDpiY);
-            COLLAPSED_PADDING = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
-            COLLAPSED_IMAGE_PADDING_2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(4 * FactorDpiY));
-            COLLAPSED_IMAGE_PADDING_2010 = new Padding((int)(3 * FactorDpiX), (int)(1 * FactorDpiY), (int)(5 * FactorDpiX), (int)(5 * FactorDpiY));
+            _minimumGroupWidth = (int)(32 * FactorDpiX);
+            _normalBorderTopleft2007 = (int)(2 * FactorDpiY);
+            _normalBorderRight2007 = (int)(4 * FactorDpiX);
+            _normalBorderTop2010 = (int)(3 * FactorDpiY);
+            _normalBorderLeft2010 = (int)(3 * FactorDpiX);
+            _normalBorderRight2010 = (int)(6 * FactorDpiX);
+            _totalLeftRightBorders2007 = (int)(7 * FactorDpiX);
+            _totalLeftRightBorders2010 = (int)(10 * FactorDpiX);
+            _vertOffset2007 = (int)(0 * FactorDpiY);
+            _vertOffset2010 = (int)(2 * FactorDpiY);
+            _collapsedPadding = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
+            _collapsedImagePadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(4 * FactorDpiY));
+            _collapsedImagePadding2010 = new Padding((int)(3 * FactorDpiX), (int)(1 * FactorDpiY), (int)(5 * FactorDpiX), (int)(5 * FactorDpiY));
         }
         
         /// <summary>
@@ -445,7 +445,7 @@ namespace Krypton.Ribbon
             if (_ribbonGroup.AllowCollapsed && !_ribbon.InDesignHelperMode)
             {
                 // We never allow a collapsed state if that is bigger than the smallest valid permutation
-                if (smallestWidth > MINIMUM_GROUP_WIDTH)
+                if (smallestWidth > _minimumGroupWidth)
                 {
                     // Find the size of the group when collapsed
                     var collapsed = Collapsed;
@@ -485,7 +485,7 @@ namespace Krypton.Ribbon
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Size preferredSize = base.GetPreferredSize(context);
-            preferredSize.Width = Math.Max(preferredSize.Width, MINIMUM_GROUP_WIDTH);
+            preferredSize.Width = Math.Max(preferredSize.Width, _minimumGroupWidth);
             preferredSize.Height = _ribbon.CalculatedValues.GroupHeight;
             return preferredSize;
         }
@@ -583,21 +583,21 @@ namespace Krypton.Ribbon
                     {
                         default:
                         case PaletteRibbonShape.Office2007:
-                            _totalBorders = TOTAL_LEFT_RIGHT_BORDERS_2007;
-                            _layoutNormalMain.VertOffset = VERT_OFFSET_2007;
-                            _layoutNormalSepTop.SeparatorSize = new Size(NORMAL_BORDER_TOPLEFT2007, NORMAL_BORDER_TOPLEFT2007);
-                            _layoutNormalSepLeft.SeparatorSize = new Size(NORMAL_BORDER_TOPLEFT2007, NORMAL_BORDER_TOPLEFT2007);
-                            _layoutNormalSepRight.SeparatorSize = new Size(NORMAL_BORDER_RIGHT2007, NORMAL_BORDER_RIGHT2007);
-                            _layoutCollapsedImagePadding.PreferredPadding = COLLAPSED_IMAGE_PADDING_2007;
+                            _totalBorders = _totalLeftRightBorders2007;
+                            _layoutNormalMain.VertOffset = _vertOffset2007;
+                            _layoutNormalSepTop.SeparatorSize = new Size(_normalBorderTopleft2007, _normalBorderTopleft2007);
+                            _layoutNormalSepLeft.SeparatorSize = new Size(_normalBorderTopleft2007, _normalBorderTopleft2007);
+                            _layoutNormalSepRight.SeparatorSize = new Size(_normalBorderRight2007, _normalBorderRight2007);
+                            _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2007;
                             _lastRibbonShape = PaletteRibbonShape.Office2007;
                             break;
                         case PaletteRibbonShape.Office2010:
-                            _totalBorders = TOTAL_LEFT_RIGHT_BORDERS_2010;
-                            _layoutNormalMain.VertOffset = VERT_OFFSET_2010;
-                            _layoutNormalSepTop.SeparatorSize = new Size(NORMAL_BORDER_TOP2010, NORMAL_BORDER_TOP2010);
-                            _layoutNormalSepLeft.SeparatorSize = new Size(NORMAL_BORDER_LEFT2010, NORMAL_BORDER_LEFT2010);
-                            _layoutNormalSepRight.SeparatorSize = new Size(NORMAL_BORDER_RIGHT2010, NORMAL_BORDER_RIGHT2010);
-                            _layoutCollapsedImagePadding.PreferredPadding = COLLAPSED_IMAGE_PADDING_2010;
+                            _totalBorders = _totalLeftRightBorders2010;
+                            _layoutNormalMain.VertOffset = _vertOffset2010;
+                            _layoutNormalSepTop.SeparatorSize = new Size(_normalBorderTop2010, _normalBorderTop2010);
+                            _layoutNormalSepLeft.SeparatorSize = new Size(_normalBorderLeft2010, _normalBorderLeft2010);
+                            _layoutNormalSepRight.SeparatorSize = new Size(_normalBorderRight2010, _normalBorderRight2010);
+                            _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
                             _lastRibbonShape = PaletteRibbonShape.Office2010; 
                             break;
                     }
@@ -621,9 +621,9 @@ namespace Krypton.Ribbon
             // Create layout elements
             _layoutNormalTitle = new ViewLayoutDocker();
             _layoutNormalContent = new ViewLayoutRibbonGroupContent(_ribbon, _ribbonGroup, _needPaint);
-            _layoutNormalSepTop = new ViewLayoutRibbonSeparator(NORMAL_BORDER_TOPLEFT2007, true);
-            _layoutNormalSepLeft = new ViewLayoutRibbonSeparator(NORMAL_BORDER_TOPLEFT2007, true);
-            _layoutNormalSepRight = new ViewLayoutRibbonSeparator(NORMAL_BORDER_RIGHT2007, true);
+            _layoutNormalSepTop = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
+            _layoutNormalSepLeft = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
+            _layoutNormalSepRight = new ViewLayoutRibbonSeparator(_normalBorderRight2007, true);
 
             // Add layout elements to correct areas of the normal group
             _layoutNormalMain.Add(_layoutNormalTitle, ViewDockStyle.Bottom);
@@ -647,7 +647,7 @@ namespace Krypton.Ribbon
 
             // All values are equal to a default of Office 2007 shape
             _lastRibbonShape = PaletteRibbonShape.Office2007;
-            _totalBorders = TOTAL_LEFT_RIGHT_BORDERS_2007;
+            _totalBorders = _totalLeftRightBorders2007;
         }
 
         private void CreateCollapsedView()
@@ -663,7 +663,7 @@ namespace Krypton.Ribbon
             _layoutCollapsedMain.KeyController = _collapsedController;
 
             // Reduce layout area to remove the group border
-            ViewLayoutRibbonPadding layoutCollapsedInsidePadding = new(COLLAPSED_PADDING);
+            ViewLayoutRibbonPadding layoutCollapsedInsidePadding = new(_collapsedPadding);
             _layoutCollapsedMain.Add(layoutCollapsedInsidePadding, ViewDockStyle.Fill);
 
             // Position at top an area that is padded for containing the image
@@ -684,7 +684,7 @@ namespace Krypton.Ribbon
             layoutCollapsedInside.Add(_viewCollapsedText1, ViewDockStyle.Top);
             
             // Add group image frame
-            _layoutCollapsedImagePadding = new ViewLayoutRibbonCenterPadding(COLLAPSED_IMAGE_PADDING_2007);
+            _layoutCollapsedImagePadding = new ViewLayoutRibbonCenterPadding(_collapsedImagePadding2007);
             layoutCollapsedInside.Add(_layoutCollapsedImagePadding, ViewDockStyle.Top);
 
             // Finally we add the actual drawing element for the collapsed group image

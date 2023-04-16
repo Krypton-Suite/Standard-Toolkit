@@ -10,6 +10,8 @@
  */
 #endregion
 
+// ReSharper disable UnusedParameter.Local
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -66,7 +68,7 @@ namespace Krypton.Toolkit
             };
 
             // Grab the padding for around the item stack
-            Padding itemsPadding = _paletteItemHighlight.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemsCollection);
+            Padding itemsPadding = _paletteItemHighlight!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemsCollection);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Left), ViewDockStyle.Left);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Right), ViewDockStyle.Right);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Top), ViewDockStyle.Top);
@@ -112,7 +114,7 @@ namespace Krypton.Toolkit
             // Remove any override currently in place for columns
             ClearMenuItemColumns(this);
 
-            base.GetPreferredSize(context);
+            base.GetPreferredSize(context!);
 
             // Gather the largest size of each column instance
             GatherMenuItemColumns(this);
@@ -121,9 +123,12 @@ namespace Krypton.Toolkit
             OverrideMenuItemColumns(this);
 
             // Modify the first (image) column for the padding of the item highlight
-            UpdateImageColumnWidth(context.Renderer);
+            if (context != null)
+            {
+                UpdateImageColumnWidth(context.Renderer!);
+            }
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -133,10 +138,10 @@ namespace Krypton.Toolkit
         public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            base.Layout(context);
+            base.Layout(context!);
         }
-        #endregion  
-  
+        #endregion
+
         #region Implementation
         private void GatherMenuItemColumns(ViewBase element)
         {
@@ -207,15 +212,18 @@ namespace Krypton.Toolkit
             if (_columnToWidth.TryGetValue(0, out var imageColumnWidth))
             {
                 // Find the border padding that is applied to the content of the menu item
-                Padding borderPadding = renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteItemHighlight.Border,
-                                                                                              PaletteState.Normal,
-                                                                                              VisualOrientation.Top);
+                if (_paletteItemHighlight != null)
+                {
+                    Padding borderPadding = renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteItemHighlight.Border,
+                        PaletteState.Normal,
+                        VisualOrientation.Top);
 
-                // Add double the left edge to the right edge of the image background coumn
-                imageColumnWidth += borderPadding.Left * 3;
+                    // Add double the left edge to the right edge of the image background coumn
+                    imageColumnWidth += borderPadding.Left * 3;
+                }
 
                 // Add double the metric padding that occurs outside the item highlight
-                Padding itemMetricPadding = _paletteItemHighlight.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemHighlight);
+                Padding itemMetricPadding = _paletteItemHighlight!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemHighlight);
                 imageColumnWidth += itemMetricPadding.Left * 2;
 
                 _imageColumn.ColumnWidth = imageColumnWidth;

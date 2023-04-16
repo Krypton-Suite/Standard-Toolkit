@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         private readonly ViewDrawRibbonGalleryButton _buttonDown;
         private readonly ViewDrawRibbonGalleryButton _buttonContext;
         private readonly ViewLayoutRibbonGalleryItems _drawItems;
-        private ImageList _imageList;
+        private ImageList? _imageList;
         private readonly ViewLayoutDocker _layoutDocker;
         private readonly ViewDrawDocker _drawDocker;
         private bool? _fixedActive;

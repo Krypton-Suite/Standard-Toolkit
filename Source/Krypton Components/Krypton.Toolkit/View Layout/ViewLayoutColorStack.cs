@@ -53,13 +53,13 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore(RenderContext? context)
         {
             // Ask each child to render in turn
             foreach (ViewBase child in this)
             {
                 // Only render visible children that are inside the clipping rectangle
-                if (child.Visible && child.ClientRectangle.IntersectsWith(context.ClipRect))
+                if (child.Visible && child.ClientRectangle.IntersectsWith(context!.ClipRect))
                 {
                     child.RenderBefore(context);
                 }
@@ -70,13 +70,13 @@ namespace Krypton.Toolkit
         /// Perform rendering after child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderAfter(RenderContext context)
+        public override void RenderAfter(RenderContext? context)
         {
             // Ask each child to render in turn
             foreach (ViewBase child in this)
             {
                 // Only render visible children that are inside the clipping rectangle
-                if (child.Visible && child.ClientRectangle.IntersectsWith(context.ClipRect))
+                if (child.Visible && child.ClientRectangle.IntersectsWith(context!.ClipRect))
                 {
                     child.RenderAfter(context);
                 }

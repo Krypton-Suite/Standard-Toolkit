@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         #endregion
 
         #region Identity
@@ -66,10 +66,13 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // Draw the application menu outer background
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State,
-                                                                    _ribbon.StateCommon.RibbonAppMenuDocs,
-                                                                    VisualOrientation.Top, false, _memento);
-
+            if (context.Renderer != null)
+            {
+                _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle,
+                    State,
+                    _ribbon.StateCommon.RibbonAppMenuDocs,
+                    VisualOrientation.Top, false, _memento);
+            }
         }
         #endregion
     }

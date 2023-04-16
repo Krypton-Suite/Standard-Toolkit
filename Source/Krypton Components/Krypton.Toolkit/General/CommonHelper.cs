@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
     /// </summary>
     public delegate ToolStripRenderer GetToolStripRenderer();
     #endregion
-    
+
     /// <summary>
     /// Set of common helper routines for the Toolkit
     /// </summary>
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         private const int VK_SHIFT = 0x10;
         private const int VK_CONTROL = 0x11;
         private const int VK_MENU = 0x12;
-        
+
         private static readonly char[] _singleDateFormat = { 'd', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z' };
         //private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
@@ -132,8 +132,8 @@ namespace Krypton.Toolkit
         /// <param name="msg">Windows message that generated check.</param>
         /// <param name="keyData">Keyboard shortcut to check.</param>
         /// <returns>True if shortcut processed; otherwise false.</returns>
-        public static bool CheckContextMenuForShortcut(ContextMenuStrip? cms, 
-                                                       ref Message msg, 
+        public static bool CheckContextMenuForShortcut(ContextMenuStrip? cms,
+                                                       ref Message msg,
                                                        Keys keyData)
         {
             if (cms != null)
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Padding to be applied.</param>
         /// <returns>Updated size.</returns>
         public static Size ApplyPadding(VisualOrientation orientation,
-                                        Size size, 
+                                        Size size,
                                         Padding padding)
         {
             // Ignore an empty padding value
@@ -257,7 +257,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Padding to be applied.</param>
         /// <returns>Updated rectangle.</returns>
         public static Rectangle ApplyPadding(Orientation orientation,
-                                             Rectangle rect, 
+                                             Rectangle rect,
                                              Padding padding)
         {
             // Ignore an empty padding value
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Padding to be applied.</param>
         /// <returns>Updated rectangle.</returns>
         public static Rectangle ApplyPadding(VisualOrientation orientation,
-                                             Rectangle rect, 
+                                             Rectangle rect,
                                              Padding padding)
         {
             // Ignore an empty padding value
@@ -882,7 +882,7 @@ namespace Krypton.Toolkit
         /// <param name="percentG">Percentage of green to keep.</param>
         /// <param name="percentB">Percentage of blue to keep.</param>
         /// <returns>Modified color.</returns>
-        public static Color WhitenColor(Color color1, 
+        public static Color WhitenColor(Color color1,
                                         float percentR,
                                         float percentG,
                                         float percentB)
@@ -1101,7 +1101,7 @@ namespace Krypton.Toolkit
         public static Control? GetControlWithFocus(Control control)
         {
             // Does the provided control have the focus?
-            if (control.Focused 
+            if (control.Focused
                 && control is not IContainedInputControl
                 )
             {
@@ -1110,9 +1110,9 @@ namespace Krypton.Toolkit
             else
             {
                 // Check each child hierarchy in turn
-                return (from Control child in control.Controls 
-                            where child.ContainsFocus 
-                            select GetControlWithFocus(child)
+                return (from Control child in control.Controls
+                        where child.ContainsFocus
+                        select GetControlWithFocus(child)
                         ).FirstOrDefault();
             }
         }
@@ -1562,7 +1562,7 @@ namespace Krypton.Toolkit
             // Return as a managed point type
             return new Point(clientPt.x, clientPt.y);
         }
-        
+
         /// <summary>
         /// Gets a reference to the currently active floating window.
         /// </summary>
@@ -1574,7 +1574,7 @@ namespace Krypton.Toolkit
         /// <returns>Cursor Hotspot</returns>
         public static Point CaptureCursor()
         {
-            Cursor cur = Cursor.Current?? Cursors.Default;
+            Cursor cur = Cursor.Current ?? Cursors.Default;
 
             return cur.HotSpot;
         }
@@ -1588,8 +1588,8 @@ namespace Krypton.Toolkit
         {
             rect.X += margins.Left;
             rect.Y += margins.Top;
-            rect.Width -= margins.Left+margins.Right;
-            rect.Height -= margins.Top+margins.Bottom;
+            rect.Width -= margins.Left + margins.Right;
+            rect.Height -= margins.Top + margins.Bottom;
         }
 
         /// <summary>
@@ -1615,7 +1615,7 @@ namespace Krypton.Toolkit
             //srcRect.Offset(-trgtWidth%1, -trgtHeight%1);
             //gr.DrawImage(src, destRect, srcRect, GraphicsUnit.Pixel);
             gr.DrawImage(src, 0, 0, (int)trgtWidth, (int)trgtHeight);
-            
+
             return newImage;
         }
     }

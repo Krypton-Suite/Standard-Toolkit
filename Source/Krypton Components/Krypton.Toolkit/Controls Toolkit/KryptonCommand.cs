@@ -32,8 +32,8 @@ namespace Krypton.Toolkit
         private string _extraText;
         private string _textLine1;
         private string _textLine2;
-        private Image _imageSmall;
-        private Image _imageLarge;
+        private Image? _imageSmall;
+        private Image? _imageLarge;
         private Color _imageTransparentColor;
 
         #endregion
@@ -44,14 +44,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the command needs executing.")]
-        public event EventHandler Execute;
+        public event EventHandler? Execute;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -379,13 +379,25 @@ namespace Krypton.Toolkit
         /// Raises the Execute event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnExecute(EventArgs e) => Execute?.Invoke(this, e);
+        protected virtual void OnExecute(EventArgs e)
+        {
+            if (Execute != null)
+            {
+                Execute.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, e);
+            }
+        }
 
         #endregion
     }

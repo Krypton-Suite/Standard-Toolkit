@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Toolkit
 {
     /// <summary>
