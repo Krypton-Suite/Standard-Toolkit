@@ -438,7 +438,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor), typeof(CollectionEditor))]
+        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(CollectionEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 
@@ -492,14 +492,14 @@ namespace Krypton.Ribbon
             // any popup controls such as the showing minimized group popup
             Ribbon?.Actionoccurred();
 
-            DialogBoxLauncherClick?.Invoke(this, e);
+            DialogBoxLauncherClick.Invoke(this, e);
         }
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion
 
@@ -508,15 +508,15 @@ namespace Krypton.Ribbon
 
         internal bool ShowingAsPopup { get; set; }
 
-        internal void OnDesignTimeAddTriple() => DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);
+        internal void OnDesignTimeAddTriple() => DesignTimeAddTriple.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddLines() => DesignTimeAddLines?.Invoke(this, EventArgs.Empty);
+        internal void OnDesignTimeAddLines() => DesignTimeAddLines.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddSeparator() => DesignTimeAddSeparator?.Invoke(this, EventArgs.Empty);
+        internal void OnDesignTimeAddSeparator() => DesignTimeAddSeparator.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddGallery() => DesignTimeAddGallery?.Invoke(this, EventArgs.Empty);
+        internal void OnDesignTimeAddGallery() => DesignTimeAddGallery.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu.Invoke(this, e);
 
         internal bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -560,9 +560,12 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Setup the back references
-            e.Item.Ribbon = _ribbon;
-            e.Item.RibbonTab = _ribbonTab;
-            e.Item.RibbonGroup = this;
+            if (e.Item != null)
+            {
+                e.Item.Ribbon = _ribbon;
+                e.Item.RibbonTab = _ribbonTab;
+                e.Item.RibbonGroup = this;
+            }
 
             // Only need to update display if this tab is selected and the group is visible
             if ((_ribbon != null)
@@ -577,9 +580,12 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
-            e.Item.RibbonTab = null;
-            e.Item.RibbonGroup = null;
+            if (e.Item != null)
+            {
+                e.Item.Ribbon = null;
+                e.Item.RibbonTab = null;
+                e.Item.RibbonGroup = null;
+            }
 
             // Only need to update display if this tab is selected and the group was visible
             if ((_ribbon != null)

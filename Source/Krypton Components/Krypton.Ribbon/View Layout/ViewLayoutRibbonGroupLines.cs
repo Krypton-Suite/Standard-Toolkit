@@ -12,6 +12,8 @@
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable RedundantAssignment
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -37,8 +39,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupLines _ribbonLines;
-        private ViewDrawRibbonDesignGroupLines _viewAddItem;
-        private readonly NeedPaintHandler _needPaint;
+        private ViewDrawRibbonDesignGroupLines? _viewAddItem;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         private ItemToView _itemToView;
         private ViewToItem _viewToItem;
@@ -76,37 +78,44 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonLines = ribbonLines;
-            _needPaint = needPaint;
+            if (ribbon != null)
+            {
+                _ribbon = ribbon;
+            }
 
-            // Associate the component with this view element for design time selection
-            Component = _ribbonLines;
+            if (ribbonLines != null)
+            {
+                _ribbonLines = ribbonLines;
+                _needPaint = needPaint;
 
-            // Use hashtable to store relationships
-            _itemToView = new ItemToView();
-            _viewToItem = new ViewToItem();
-            _sizeLargeList = new SizeList();
-            _sizeMediumList = new SizeList();
-            _sizeSmallList = new SizeList();
-            _viewLargeList = new ViewList();
-            _viewMediumList = new ViewList();
-            _viewSmallList = new ViewList();
-            _viewToLargeGap = new ViewToGap();
-            _viewToMediumGap = new ViewToGap();
-            _viewToSmallGap = new ViewToGap();
+                // Associate the component with this view element for design time selection
+                Component = _ribbonLines;
 
-            // Get the initial size used for sizing and positioning
-            ApplySize(ribbonLines.ItemSizeCurrent);
+                // Use hashtable to store relationships
+                _itemToView = new ItemToView();
+                _viewToItem = new ViewToItem();
+                _sizeLargeList = new SizeList();
+                _sizeMediumList = new SizeList();
+                _sizeSmallList = new SizeList();
+                _viewLargeList = new ViewList();
+                _viewMediumList = new ViewList();
+                _viewSmallList = new ViewList();
+                _viewToLargeGap = new ViewToGap();
+                _viewToMediumGap = new ViewToGap();
+                _viewToSmallGap = new ViewToGap();
+
+                // Get the initial size used for sizing and positioning
+                ApplySize(ribbonLines.ItemSizeCurrent);
+            }
 
             // Hook into changes in the ribbon triple definition
-            _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
+            _ribbonLines!.PropertyChanged += OnLinesPropertyChanged;
             _ribbonLines.LinesView = this;
 
             // At design time we want to track the mouse and show feedback
-            if (_ribbon.InDesignMode)
+            if (_ribbon != null && _ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new(this, needPaint);
+                ViewHightlightController controller = new(this, needPaint!);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -163,7 +172,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -207,7 +216,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -253,7 +262,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -303,7 +312,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -483,7 +492,7 @@ namespace Krypton.Ribbon
 
             // Ensure original value is put back
             ResetSize();
-            
+
             return results.ToArray();
         }
 
@@ -524,7 +533,7 @@ namespace Krypton.Ribbon
             _viewToGap.Clear();
 
             var totalWidth = 0;
-            ViewBase previousChild = null;
+            ViewBase? previousChild = null;
 
             // Find the size of each individual visible child item
             for (var i = 0; i < Count; i++)
@@ -543,14 +552,13 @@ namespace Krypton.Ribbon
                     }
 
                     // Can we calculate the spacing gap between the previous and this item
-                    if (previousChild != null) 
+                    if (previousChild != null)
                     {
                         if (_viewToItem.ContainsKey(child) &&
-                            _viewToItem.ContainsKey(previousChild))
+                            _viewToItem.TryGetValue(previousChild, out var previousItem))
                         {
                             // Cast to correct type
                             IRibbonGroupItem childItem = _viewToItem[child];
-                            IRibbonGroupItem previousItem = _viewToItem[previousChild];
 
                             // Find the requested gap between them
                             _viewToGap.Add(child, childItem.ItemGap(previousItem));
@@ -602,7 +610,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are there any children to layout?
             if (Count > 0)
@@ -733,7 +741,7 @@ namespace Krypton.Ribbon
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonLines.Items)
             {
-                ViewBase itemView;
+                ViewBase? itemView;
 
                 // Do we already have a view for this item definition
                 if (_itemToView.ContainsKey(item))
@@ -936,9 +944,9 @@ namespace Krypton.Ribbon
                         }
 
                         // Add the spacing gaps before relevant items
-                        if ((_split1Small >= 0) 
-                            && (_split1Small < _sizeList.Count) 
-                            && (_split2Small >= 0) 
+                        if ((_split1Small >= 0)
+                            && (_split1Small < _sizeList.Count)
+                            && (_split2Small >= 0)
                             && (_split2Small < _sizeList.Count)
                             )
                         {
@@ -951,7 +959,7 @@ namespace Krypton.Ribbon
                     }
                     break;
             }
-            
+
             // Our height is always the same as a triple, the entire content height
             preferredSize.Height = _ribbon.CalculatedValues.GroupTripleHeight;
 
@@ -975,7 +983,7 @@ namespace Krypton.Ribbon
                 x += DesignTimeDraw.FlapWidth;
             }
 
-            ViewBase previousChild = null;
+            ViewBase? previousChild = null;
 
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
@@ -1004,9 +1012,9 @@ namespace Krypton.Ribbon
                     }
 
                     // If not the first item on the line, then get the pixel gap between them
-                    if ((previousChild != null) && _viewToGap.ContainsKey(child))
+                    if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                     {
-                        x += _viewToGap[child];
+                        x += value;
                     }
 
                     // Get the size of the child item
@@ -1062,7 +1070,7 @@ namespace Krypton.Ribbon
                 x += DesignTimeDraw.FlapWidth;
             }
 
-            ViewBase previousChild = null;
+            ViewBase? previousChild = null;
 
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
@@ -1091,9 +1099,9 @@ namespace Krypton.Ribbon
                     }
 
                     // If not the first item on the line, then get the pixel gap between them
-                    if ((previousChild != null) && _viewToGap.ContainsKey(child))
+                    if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                     {
-                        x += _viewToGap[child];
+                        x += value;
                     }
 
                     // Get the size of the child item

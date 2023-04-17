@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         {
             get => _contextName;
 
-            set 
+            set
             {
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Context Tools";
+                    value = @"Context Tools";
                 }
 
                 if (value != _contextTitle)
@@ -114,21 +114,21 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Display color for associated contextual tabs.")]
         [DefaultValue(typeof(Color), "Red")]
-        public Color ContextColor
+        public Color? ContextColor
         {
             get => _contextColor;
 
             set
             {
                 // We never allow a null or transparent color
-                if ((value == null) || (value == Color.Transparent))
+                if ((value == null) || (value == Color.Transparent) || (value == Color.Empty))
                 {
                     value = Color.Red;
                 }
 
                 if (value != _contextColor)
                 {
-                    _contextColor = value;
+                    _contextColor = (Color)value;
                     OnPropertyChanged(nameof(ContextColor));
                 }
             }
@@ -141,16 +141,19 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
             set
             {
-                if (value != _tag)
+                if (value != null)
                 {
-                    _tag = value;
-                    OnPropertyChanged(nameof(Tag));
+                    if (value != _tag)
+                    {
+                        _tag = value;
+                        OnPropertyChanged(nameof(Tag));
+                    }
                 }
             }
         }
@@ -170,7 +173,7 @@ namespace Krypton.Ribbon
         /// <param name="propertyName">Name of property that has changed.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

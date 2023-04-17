@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonDesignGroupLines(KryptonRibbon ribbon,
                                               KryptonRibbonGroupLines ribbonLines,
                                               GroupItemSize currentSize,
-                                              NeedPaintHandler needPaint)
+                                              NeedPaintHandler? needPaint)
             : base(ribbon, needPaint)
         {
             Debug.Assert(ribbonLines != null);

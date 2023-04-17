@@ -12,6 +12,8 @@
  */
 #endregion
 
+// ReSharper disable RedundantCaseLabel
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -30,17 +32,17 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
-        private ViewDrawRibbonDesignCluster _viewAddItem;
+        private ViewDrawRibbonDesignCluster? _viewAddItem;
         private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
         private readonly ViewDrawRibbonGroupClusterSeparator _endSep;
         private readonly PaletteBorderEdge _paletteBorderEdge;
-        private PaletteRibbonShape _lastShape;
-        private readonly NeedPaintHandler _needPaint;
+        private PaletteRibbonShape? _lastShape;
+        private readonly NeedPaintHandler? _needPaint;
         private ItemToView _itemToView;
         private ViewToEdge _viewToEdge;
         private readonly ViewToSize _viewToSizeMedium;
         private readonly ViewToSize _viewToSizeSmall;
-        private GroupItemSize _currentSize;
+        private GroupItemSize? _currentSize;
         private bool _startSepVisible;
         private bool _endSepVisible;
         #endregion
@@ -61,8 +63,15 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonCluster = ribbonCluster;
+            if (ribbon != null)
+            {
+                _ribbon = ribbon;
+            }
+
+            if (ribbonCluster != null)
+            {
+                _ribbonCluster = ribbonCluster;
+            }
             _needPaint = needPaint;
             _currentSize = GroupItemSize.Medium;
 
@@ -70,32 +79,46 @@ namespace Krypton.Ribbon
             Component = _ribbonCluster;
 
             // Create the start and end separators
-            _startSep = new ViewDrawRibbonGroupClusterSeparator(_ribbon, true);
-            _endSep = new ViewDrawRibbonGroupClusterSeparator(_ribbon, false);
-            _startSepVisible = false;
-            _endSepVisible = false;
-
-            // Create palette used to supply a width to a border edge view
-            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
-            _paletteBorderEdge = new PaletteBorderEdge(borderEdgeRedirect, needPaint);
-            _lastShape = PaletteRibbonShape.Office2007;
-
-            // Use hashtable to store relationships
-            _itemToView = new ItemToView();
-            _viewToEdge = new ViewToEdge();
-            _viewToSizeMedium = new ViewToSize();
-            _viewToSizeSmall = new ViewToSize();
-
-            // Hook into changes in the ribbon cluster definition
-            _ribbonCluster.PropertyChanged += OnClusterPropertyChanged;
-            _ribbonCluster.ClusterView = this;
-
-            // At design time we want to track the mouse and show feedback
-            if (_ribbon.InDesignMode)
+            if (_ribbon != null)
             {
-                ViewHightlightController controller = new(this, needPaint);
-                controller.ContextClick += OnContextClick;
-                MouseController = controller;
+                _startSep = new ViewDrawRibbonGroupClusterSeparator(_ribbon, true);
+                _endSep = new ViewDrawRibbonGroupClusterSeparator(_ribbon, false);
+                _startSepVisible = false;
+                _endSepVisible = false;
+
+                // Create palette used to supply a width to a border edge view
+                if (needPaint != null)
+                {
+                    PaletteBorderEdgeRedirect borderEdgeRedirect =
+                        new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
+                    _paletteBorderEdge = new PaletteBorderEdge(borderEdgeRedirect, needPaint);
+                }
+
+                _lastShape = PaletteRibbonShape.Office2007;
+
+                // Use hashtable to store relationships
+                _itemToView = new ItemToView();
+                _viewToEdge = new ViewToEdge();
+                _viewToSizeMedium = new ViewToSize();
+                _viewToSizeSmall = new ViewToSize();
+
+                // Hook into changes in the ribbon cluster definition
+                if (_ribbonCluster != null)
+                {
+                    _ribbonCluster.PropertyChanged += OnClusterPropertyChanged;
+                    _ribbonCluster.ClusterView = this;
+                }
+
+                // At design time we want to track the mouse and show feedback
+                if (_ribbon.InDesignMode)
+                {
+                    if (needPaint != null)
+                    {
+                        ViewHightlightController controller = new(this, needPaint);
+                        controller.ContextClick += OnContextClick;
+                        MouseController = controller;
+                    }
+                }
             }
         }
 
@@ -131,7 +154,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -164,7 +187,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in Reverse())
@@ -199,7 +222,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -235,7 +258,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -317,7 +340,7 @@ namespace Krypton.Ribbon
 
             foreach (KryptonRibbonGroupItem item in _ribbonCluster.Items)
             {
-                IRibbonViewGroupItemView viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
+                IRibbonViewGroupItemView? viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
                 viewItemSize?.SetGroupItemSize(size);
             }
 
@@ -331,12 +354,12 @@ namespace Krypton.Ribbon
         {
             foreach (KryptonRibbonGroupItem item in _ribbonCluster.Items)
             {
-                IRibbonViewGroupItemView viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
+                IRibbonViewGroupItemView? viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
                 viewItemSize?.ResetGroupItemSize();
             }
 
             // Our current size is based on the parent one
-            ViewLayoutRibbonGroupLines viewLines = (ViewLayoutRibbonGroupLines)Parent;
+            ViewLayoutRibbonGroupLines viewLines = (ViewLayoutRibbonGroupLines)Parent!;
             _currentSize = viewLines.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
         }
 
@@ -349,12 +372,12 @@ namespace Krypton.Ribbon
             // Sync child elements to the current group items
             SyncChildrenToRibbonGroupItems();
 
-            ViewToSize viewToSize;
+            ViewToSize? viewToSize;
 
             viewToSize = _currentSize == GroupItemSize.Small ? _viewToSizeSmall : _viewToSizeMedium;
 
             viewToSize.Clear();
-            
+
             Size preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
@@ -397,7 +420,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Define visible state of the separators
             _startSep.Visible = _startSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
@@ -506,14 +529,14 @@ namespace Krypton.Ribbon
             ViewToEdge regenEdge = new();
 
             // Cache the first and last visible children
-            ViewBase viewFirst = null;
-            ViewBase viewLast = null;
+            ViewBase? viewFirst = null;
+            ViewBase? viewLast = null;
 
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonCluster.Items)
             {
-                ViewBase itemView;
-                ViewDrawRibbonGroupClusterEdge itemEdge;
+                ViewBase? itemView;
+                ViewDrawRibbonGroupClusterEdge? itemEdge;
 
                 // Do we already have a view for this item definition
                 if (_itemToView.ContainsKey(item))
@@ -641,7 +664,7 @@ namespace Krypton.Ribbon
                 {
                     _viewAddItem = new ViewDrawRibbonDesignCluster(_ribbon,
                         _ribbonCluster,
-                        _needPaint);
+                        _needPaint!);
                 }
 
                 // Always add at end of the list of items

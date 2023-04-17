@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -50,7 +51,7 @@ namespace Krypton.Ribbon
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
-            
+
             // Create the extra button for customization/overflow
             if (showExtraButton)
             {
@@ -144,8 +145,8 @@ namespace Krypton.Ribbon
             foreach (ViewBase child in this)
             {
                 // If visible and we have another key tip available on stack
-                if (child.Visible 
-                    && (keyTipsPool.Count > 0) 
+                if (child.Visible
+                    && (keyTipsPool.Count > 0)
                     && (child is ViewDrawRibbonQATButton viewQAT)
                     )
                 {
@@ -153,11 +154,11 @@ namespace Krypton.Ribbon
                     Rectangle viewRect = ParentControl.RectangleToScreen(viewQAT.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
-                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left, 
+                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
                                                viewRect.Bottom - 2 - borders.Top);
 
                     // Create new key tip that invokes the qat controller
-                    keyTipList.Add(new KeyTipInfo(viewQAT.Enabled, keyTipsPool.Pop(), screenPt, 
+                    keyTipList.Add(new KeyTipInfo(viewQAT.Enabled, keyTipsPool.Pop(), screenPt,
                                                   viewQAT.ClientRectangle, viewQAT.KeyTipTarget));
                 }
             }
@@ -483,13 +484,13 @@ namespace Krypton.Ribbon
             // Extract the set of views into an array
             var qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
             _qatButtonToView.Values.CopyTo(qatViews, 0);
-            
+
             // Search the list in reverse order
             for (var i = qatViews.Length - 1; i >= 0; i--)
             {
                 // Extract the correct view to test
                 ViewDrawRibbonQATButton qatView = qatViews[i];
-                
+
                 if (!found)
                 {
                     found = qatView == qatButton;

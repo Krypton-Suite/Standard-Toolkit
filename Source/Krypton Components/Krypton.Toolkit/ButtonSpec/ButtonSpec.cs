@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
             _edge = PaletteRelativeEdgeAlign.Inherit;
             _imageStates = new CheckButtonImageStates
             {
-                NeedPaint = OnImageStateChanged
+                NeedPaint = OnImageStateChanged!
             };
             ContextMenuStrip = null;
             KryptonContextMenu = null;
@@ -1042,7 +1042,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs containing the event data.</param>
         protected void GenerateClick(EventArgs e)
         {
-            Click?.Invoke(this, e);
+            Click(this, e);
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
@@ -1057,7 +1057,7 @@ namespace Krypton.Toolkit
             // Only if associated view is enabled do we perform the click
             if (GetViewEnabled())
             {
-                Click?.Invoke(this, e);
+                Click(this, e);
 
                 // If we have an attached command then execute it
                 KryptonCommand?.PerformExecute();
@@ -1068,7 +1068,7 @@ namespace Krypton.Toolkit
         /// Raises the ButtonSpecPropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
-        protected virtual void OnButtonSpecPropertyChanged(string propertyName) => ButtonSpecPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnButtonSpecPropertyChanged(string propertyName) => ButtonSpecPropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
         /// Handles a change in the property of an attached command.

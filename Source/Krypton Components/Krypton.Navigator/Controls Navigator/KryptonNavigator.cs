@@ -863,7 +863,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ToolTipManager ToolTipManager { get; private set; }
+        public ToolTipManager? ToolTipManager { get; private set; }
 
         #endregion
 
@@ -1858,7 +1858,7 @@ namespace Krypton.Navigator
 
         internal void InternalForceViewLayout() => ForceViewLayout();
 
-        internal ToolTipManager HoverManager { get; private set; }
+        internal ToolTipManager? HoverManager { get; private set; }
 
         internal bool InternalDesignMode => DesignMode;
 

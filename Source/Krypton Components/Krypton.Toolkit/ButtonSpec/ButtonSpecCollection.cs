@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -74,14 +75,14 @@ namespace Krypton.Toolkit
         protected void OnInserting(ButtonSpecEventArgs e)
         {
             e.ButtonSpec.Owner = Owner;
-            Inserting?.Invoke(this, e);
+            Inserting(this, e);
         }
 
         /// <summary>
         /// Raises the Inserted event.
         /// </summary>
         /// <param name="e">A NavButtonSpecEventArgs instance containing event data.</param>
-        protected void OnInserted(ButtonSpecEventArgs e) => Inserted?.Invoke(this, e);
+        protected void OnInserted(ButtonSpecEventArgs e) => Inserted(this, e);
 
         /// <summary>
         /// Raises the Removing event.
@@ -90,14 +91,14 @@ namespace Krypton.Toolkit
         protected void OnRemoving(ButtonSpecEventArgs e)
         {
             e.ButtonSpec.Owner = null;
-            Removing?.Invoke(this, e);
+            Removing(this, e);
         }
 
         /// <summary>
         /// Raises the Removed event.
         /// </summary>
         /// <param name="e">A NavButtonSpecEventArgs instance containing event data.</param>
-        protected void OnRemoved(ButtonSpecEventArgs e) => Removed?.Invoke(this, e);
+        protected void OnRemoved(ButtonSpecEventArgs e) => Removed(this, e);
 
         #endregion
     }
@@ -296,7 +297,7 @@ namespace Krypton.Toolkit
         /// <returns>T at specified index.</returns>
         public T? this[string uniqueName]
         {
-            get 
+            get
             {
                 // First priority is the UniqueName
                 foreach (T bs in this.Where(bs => bs.UniqueName == uniqueName))

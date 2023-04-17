@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Ribbon
 {
     #region IQuickAccessToolbarButton
@@ -80,7 +81,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image for the item ToolTip.
         /// </summary>
-        Image GetToolTipImage();
+        Image? GetToolTipImage();
 
         /// <summary>
         /// Gets the color to draw as transparent in the ToolTipImage.
@@ -164,13 +165,13 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to the owning ribbon control.</param>
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
-        ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint);
+        ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler? needPaint);
 
         /// <summary>
         /// Return base objects tooltip
         /// </summary>
-        ToolTipValues ToolTipValues 
-        { 
+        ToolTipValues ToolTipValues
+        {
             // Return base objects tooltip
             get;
         }

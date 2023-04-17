@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         private int _eventTrackingIndex;
         private readonly Timer _trackingEventTimer;
         private KryptonContextMenu _dropMenu;
-        private EventHandler _finishDelegate;
+        private EventHandler? _finishDelegate;
         #endregion
 
         #region Events
@@ -764,7 +764,7 @@ namespace Krypton.Ribbon
             set => _preferredItemSize = value;
         }
 
-        internal KryptonRibbon Ribbon { get; set; }
+        internal KryptonRibbon? Ribbon { get; set; }
 
         internal void OnDropButton()
         {
@@ -778,7 +778,7 @@ namespace Krypton.Ribbon
         internal void ShownGalleryDropDown(Rectangle screenRect,
                                            KryptonContextMenuPositionH hPosition,
                                            KryptonContextMenuPositionV vPosition,
-                                           EventHandler finishDelegate,
+                                           EventHandler? finishDelegate,
                                            int actualLineItems)
         {
             // First time around create the context menu, otherwise just clear it down

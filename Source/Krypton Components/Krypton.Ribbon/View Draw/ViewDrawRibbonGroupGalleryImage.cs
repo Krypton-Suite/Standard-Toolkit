@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// Draws a large image from a gallery.
     /// </summary>
     internal class ViewDrawRibbonGroupGalleryImage : ViewDrawRibbonGroupImageBase
-                                              
+
     {
         #region Instance Fields
         private readonly Size _largeSize; // = new(32, 32);
@@ -37,9 +37,9 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonGallery != null);
 
-            _ribbonGallery = ribbonGallery;
+            _ribbonGallery = ribbonGallery!;
             _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
-        }        
+        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage => _ribbonGallery.ImageLarge;
+        protected override Image DrawImage => _ribbonGallery.ImageLarge!;
 
         #endregion
     }

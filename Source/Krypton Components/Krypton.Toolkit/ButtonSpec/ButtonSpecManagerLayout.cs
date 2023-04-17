@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
                                        PaletteMetricPadding[] viewMetricPaddings,
                                        GetToolStripRenderer getRenderer,
                                        NeedPaintHandler needPaint)
-            : base(control, redirector, variableSpecs, fixedSpecs,
+            : base(control, redirector!, variableSpecs, fixedSpecs,
                    viewMetrics, viewMetricIntOutside, viewMetricIntInside,
                    viewMetricPaddings, getRenderer, needPaint)
         {

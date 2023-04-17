@@ -33,11 +33,11 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private ViewDrawRibbonDesignGroupContainer _viewAddContainer;
+        private ViewDrawRibbonDesignGroupContainer? _viewAddContainer;
         private readonly NeedPaintHandler _needPaint;
         private ContainerToView _containerToView;
         private List<ItemSizeWidth[]> _listWidths;
-        private int[] _containerWidths;
+        private int[]? _containerWidths;
         #endregion
 
         #region Identity
@@ -56,9 +56,19 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
-            _needPaint = needPaint;
+            if (ribbon != null)
+            {
+                _ribbon = ribbon;
+            }
+
+            if (ribbonGroup != null)
+            {
+                _ribbonGroup = ribbonGroup;
+            }
+            if (needPaint != null)
+            {
+                _needPaint = needPaint;
+            }
 
             // Use hashtable to store relationships
             _containerToView = new ContainerToView();
@@ -127,7 +137,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -167,7 +177,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (_ribbonGroup.Visible)
             {
@@ -222,7 +232,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -289,7 +299,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If matched then try using the dialog box launcher
             if (matched)
@@ -362,7 +372,7 @@ namespace Krypton.Ribbon
             var maxEntries = 0;
             for (var i = 0; i < Count; i++)
             {
-                if (this[i].Visible 
+                if (this[i].Visible
                     && (this[i] is IRibbonViewGroupContainerView container)
                     )
                 {
@@ -412,7 +422,7 @@ namespace Krypton.Ribbon
                 {
                     // Find width and size of the entry
                     ItemSizeWidth size = _listWidths[k][indexes[k]];
-                    
+
                     // Track the total width of this permutation
                     permTotalWidth += size.Width;
                     new List<int>().Insert(0, size.Width);
@@ -510,7 +520,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignHelperMode)
             {
                 // Get the requested width of the add view
-                var viewAddWidth = _viewAddContainer.GetPreferredSize(context).Width;
+                var viewAddWidth = _viewAddContainer!.GetPreferredSize(context).Width;
 
                 // Add it onto each permutation
                 foreach (GroupSizeWidth retSize in retSizes)
@@ -526,7 +536,7 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Solution size.</param>
-        public void SetSolutionSize(ItemSizeWidth[] size)
+        public void SetSolutionSize(ItemSizeWidth[]? size)
         {
             // Do we need to restore each container to its default size?
             if ((size == null) || (size.Length == 0))
@@ -534,7 +544,7 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (var i = 0; i < Count; i++)
                 {
-                    if (this[i].Visible 
+                    if (this[i].Visible
                         && (this[i] is IRibbonViewGroupContainerView container)
                         )
                     {
@@ -552,7 +562,7 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (int i = 0, j = 0; i < Count; i++)
                 {
-                    if (this[i].Visible 
+                    if (this[i].Visible
                         && (this[i] is IRibbonViewGroupContainerView container)
                         )
                     {
@@ -628,7 +638,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area and then remove our constant padding
-            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context.DisplayRectangle, _padding);
+            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context!.DisplayRectangle, _padding);
 
             var x = ClientLocation.X;
 
@@ -690,13 +700,13 @@ namespace Krypton.Ribbon
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)
             {
                 // Do we already have a view for this container definition
-                ViewBase containerView = _containerToView.ContainsKey(container)
-                    ? _containerToView[container]
+                ViewBase? containerView = _containerToView.TryGetValue(container, out var value)
+                    ? value
                     : container.CreateView(_ribbon, _needPaint);
 
                 // Update the visible state of the item
                 containerView.Visible = container.Visible || _ribbon.InDesignHelperMode;
-                
+
                 // We need to keep this association
                 regenerate.Add(container, containerView);
 

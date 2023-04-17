@@ -29,13 +29,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette for sourcing information.</param>
         /// <param name="buttonSpec">Source button spec instance.</param>
-        public ButtonSpecToContent([DisallowNull] PaletteBase? palette,
+        public ButtonSpecToContent([DisallowNull] PaletteBase palette,
             [DisallowNull] ButtonSpec buttonSpec)
         {
             Debug.Assert(palette != null);
             Debug.Assert(buttonSpec != null);
             _palette = palette;
-            _buttonSpec = buttonSpec;
+            _buttonSpec = buttonSpec!;
         }
         #endregion
 

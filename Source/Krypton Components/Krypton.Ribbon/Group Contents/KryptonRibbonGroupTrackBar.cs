@@ -13,13 +13,14 @@
 #endregion
 
 // ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
 namespace Krypton.Ribbon
 {
     /// <summary>
     /// Represents a ribbon group track bar.
     /// </summary>
     [ToolboxItem(false)]
-    [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar!.bmp")]
+    [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar.bmp")]
     [Designer(typeof(KryptonRibbonGroupTrackBarDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
@@ -100,9 +101,9 @@ namespace Krypton.Ribbon
             };
 
             // Hook into events to expose via this container
-            TrackBar!.GotFocus += OnTrackBarGotFocus!;
-            TrackBar!.LostFocus += OnTrackBarLostFocus!;
-            TrackBar!.ValueChanged += OnTrackBarValueChanged!;
+            TrackBar!.GotFocus += OnTrackBarGotFocus;
+            TrackBar!.LostFocus += OnTrackBarLostFocus;
+            TrackBar!.ValueChanged += OnTrackBarValueChanged;
 
             // Ensure we can track mouse events on the track bar
             MonitorControl(TrackBar);
@@ -146,7 +147,7 @@ namespace Krypton.Ribbon
                     // Use the same palette in the track bar as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
                     TrackBar!.Palette = Ribbon!.GetResolvedPalette();
-                    Ribbon.PaletteChanged += OnRibbonPaletteChanged!;
+                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
         }
@@ -421,7 +422,7 @@ namespace Krypton.Ribbon
         /// Gets or sets a numeric value that represents the current position of the scroll box on the track bar.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Current position of the indicator within the TrackBar!.")]
+        [Description(@"Current position of the indicator within the TrackBar.")]
         [DefaultValue(0)]
         public int Value
         {
@@ -438,7 +439,15 @@ namespace Krypton.Ribbon
         public int SmallChange
         {
             get => TrackBar!.SmallChange;
-            set => TrackBar!.SmallChange = value;
+            set
+            {
+                if (TrackBar != null)
+                {
+                    TrackBar.SmallChange = value;
+                }
+
+                // TODO: Return a default value
+            }
         }
 
         /// <summary>
@@ -450,7 +459,15 @@ namespace Krypton.Ribbon
         public int LargeChange
         {
             get => TrackBar!.LargeChange;
-            set => TrackBar!.LargeChange = value;
+            set
+            {
+                if (TrackBar != null)
+                {
+                    TrackBar.LargeChange = value;
+                }
+
+                // TODO: Return a default value
+            }
         }
 
         /// <summary>
@@ -584,14 +601,14 @@ namespace Krypton.Ribbon
         #region Implementation
         private void MonitorControl(KryptonTrackBar c)
         {
-            c.MouseEnter += OnControlEnter!;
-            c.MouseLeave += OnControlLeave!;
+            c.MouseEnter += OnControlEnter;
+            c.MouseLeave += OnControlLeave;
         }
 
         private void UnmonitorControl(KryptonTrackBar c)
         {
-            c.MouseEnter -= OnControlEnter!;
-            c.MouseLeave -= OnControlLeave!;
+            c.MouseEnter -= OnControlEnter;
+            c.MouseLeave -= OnControlLeave;
         }
 
         private void OnControlEnter(object sender, EventArgs e)

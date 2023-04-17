@@ -12,6 +12,8 @@
  */
 #endregion
 
+// ReSharper disable NotAccessedField.Local
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -62,8 +64,15 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon!;
-            _needPaint = needPaint!;
+            if (ribbon != null)
+            {
+                _ribbon = ribbon;
+            }
+
+            if (needPaint != null)
+            {
+                _needPaint = needPaint;
+            }
 
             // Create cache of draw elements
             _tabCache = new ViewDrawRibbonTabList();
@@ -140,8 +149,8 @@ namespace Krypton.Ribbon
         /// <returns>View element for tab; otherwise null.</returns>
         public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab)
         {
-            return ribbonTab == null 
-                ? null 
+            return ribbonTab == null
+                ? null
                 : _tabCache.FirstOrDefault(viewTab => viewTab.RibbonTab == ribbonTab);
         }
 
@@ -263,9 +272,12 @@ namespace Krypton.Ribbon
                     Point screenPt = new(tabRect.Left + (tabRect.Width / 2), tabRect.Bottom + 2);
 
                     // Create new key tip that invokes the tab controller when selected
-                    keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab.KeyTip,
-                                                  screenPt, viewTab.ClientRectangle,
-                                                  viewTab.KeyTipTarget));
+                    if (viewTab.RibbonTab != null)
+                    {
+                        keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab.KeyTip,
+                            screenPt, viewTab.ClientRectangle,
+                            viewTab.KeyTipTarget));
+                    }
                 }
             }
 
@@ -379,21 +391,21 @@ namespace Krypton.Ribbon
                         switch (child)
                         {
                             case ViewDrawRibbonTab tab:
-                            {
-                                // Tabs need an extra pixel height as a separator gap
-                                childHeight++;
-
-                                // Cache number of tabs encountered
-                                _cachedAllTabCount++;
-
-                                // Cache number of non-context tabs encountered
-                                if (string.IsNullOrEmpty(tab.RibbonTab?.ContextName))
                                 {
-                                    _cachedNonContextTabCount++;
-                                }
+                                    // Tabs need an extra pixel height as a separator gap
+                                    childHeight++;
 
-                                break;
-                            }
+                                    // Cache number of tabs encountered
+                                    _cachedAllTabCount++;
+
+                                    // Cache number of non-context tabs encountered
+                                    if (string.IsNullOrEmpty(tab.RibbonTab?.ContextName))
+                                    {
+                                        _cachedNonContextTabCount++;
+                                    }
+
+                                    break;
+                                }
                             case ViewDrawRibbonDesignTab:
                                 // Tabs need an extra pixel height as a separator gap
                                 childHeight++;
@@ -417,7 +429,7 @@ namespace Krypton.Ribbon
 
             // Minimum height is the height of a tab
             preferredSize.Height = Math.Max(preferredSize.Height, _ribbon.CalculatedValues.TabHeight);
-            
+
             // Preferred with is the minimum allowed, so the parent scroller knows if scroll bars are needed
             preferredSize.Width = _cachedMinimumWidth;
 
@@ -573,7 +585,7 @@ namespace Krypton.Ribbon
             {
                 AddTabsWithContextName(contextName);
             }
-            
+
             // When in design time help mode
             if (_ribbon.InDesignHelperMode)
             {
@@ -630,7 +642,7 @@ namespace Krypton.Ribbon
                         // Create tab set when first needed, otherwise this tab must be the last one
                         if (cts == null)
                         {
-                            cts = new ContextTabSet(drawTab, _ribbon.RibbonContexts[ribbonTab.ContextName]);
+                            cts = new ContextTabSet(drawTab, _ribbon.RibbonContexts[ribbonTab.ContextName]!);
                         }
                         else
                         {
@@ -655,7 +667,7 @@ namespace Krypton.Ribbon
             var retSizes = new Size[_cachedSizes.Length];
 
             // Make a copy of the cached sizes
-            for(var i=0; i<_cachedSizes.Length; i++)
+            for (var i = 0; i < _cachedSizes.Length; i++)
             {
                 retSizes[i] = _cachedSizes[i];
             }
@@ -721,7 +733,7 @@ namespace Krypton.Ribbon
                             var secondTab = 0;
                             for (var i = 0; i < retSizes.Length; i++)
                             {
-                                if (retSizes[i].Width > TAB_MINWIDTH 
+                                if (retSizes[i].Width > TAB_MINWIDTH
                                     && retSizes[i].Width > widestTab
                                     )
                                 {
@@ -775,14 +787,7 @@ namespace Krypton.Ribbon
         private void UpdateContextNameCache()
         {
             // Create list first time around, otherwise clear it down
-            if (_cachedSelectedContext == null)
-            {
-                _cachedSelectedContext = new ContextNameList();
-            }
-            else
-            {
-                _cachedSelectedContext.Clear();
-            }
+            _cachedSelectedContext.Clear();
 
             // In design mode 
             if (_ribbon.InDesignHelperMode)
@@ -799,14 +804,17 @@ namespace Krypton.Ribbon
                 if (!string.IsNullOrEmpty(_ribbon.SelectedContext))
                 {
                     // Find the list of context names
-                    var contexts = _ribbon.SelectedContext.Split(',');
-
-                    // Only add each unique context name once
-                    foreach (var context in contexts)
+                    if (_ribbon.SelectedContext != null)
                     {
-                        if (!_cachedSelectedContext.Contains(context))
+                        var contexts = _ribbon.SelectedContext.Split(',');
+
+                        // Only add each unique context name once
+                        foreach (var context in contexts)
                         {
-                            _cachedSelectedContext.Add(context);
+                            if (!_cachedSelectedContext.Contains(context))
+                            {
+                                _cachedSelectedContext.Add(context);
+                            }
                         }
                     }
                 }

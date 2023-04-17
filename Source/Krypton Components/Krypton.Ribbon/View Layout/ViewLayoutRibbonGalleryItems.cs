@@ -70,18 +70,33 @@ namespace Krypton.Ribbon
             Debug.Assert(buttonDown != null);
             Debug.Assert(buttonContext != null);
 
-            _gallery = gallery;
-            _needPaint = needPaint;
-            _buttonUp = buttonUp;
-            _buttonDown = buttonDown;
-            _buttonContext = buttonContext;
+            if (gallery != null)
+            {
+                _gallery = gallery;
+            }
+            if (needPaint != null)
+            {
+                _needPaint = needPaint;
+            }
+            if (buttonUp != null)
+            {
+                _buttonUp = buttonUp;
+            }
+            if (buttonDown != null)
+            {
+                _buttonDown = buttonDown;
+            }
+            if (buttonContext != null)
+            {
+                _buttonContext = buttonContext;
+            }
             _bringIntoView = -1;
             ScrollIntoView = true;
 
             // Need to know when any button is clicked
-            _buttonUp.Click += OnButtonUp;
-            _buttonDown.Click += OnButtonDown;
-            _buttonContext.Click += OnButtonContext;
+            _buttonUp!.Click += OnButtonUp;
+            _buttonDown!.Click += OnButtonDown;
+            _buttonContext!.Click += OnButtonContext;
 
             // Create triple that can be used by the draw button
             _style = ButtonStyle.LowProfile;
@@ -371,7 +386,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Ask child for it's own preferred size
-                preferredSize = this[0].GetPreferredSize(context);
+                preferredSize = this[0].GetPreferredSize(context!);
 
                 // Find preferred size from the preferred item size
                 preferredSize.Width *= _gallery.PreferredItemSize.Width;
@@ -537,12 +552,12 @@ namespace Krypton.Ribbon
         {
             var required = 0;
             var selectedIndex = _gallery.SelectedIndex;
-            ImageList imageList = _gallery.ImageList;
+            ImageList? imageList = _gallery.ImageList;
 
             // Find out how many children we need
             if (imageList != null)
             {
-                required = _gallery.ImageList.Images.Count;
+                required = _gallery.ImageList!.Images.Count;
             }
 
             // If we do not have enough already
@@ -680,25 +695,25 @@ namespace Krypton.Ribbon
                     {
                         // Update the begin line
                         case < 0:
-                        {
-                            // Ensure the old top line can be displayed during scrolling
-                            if ((_beginLine == -1) || (_beginLine > prevTopLine))
                             {
-                                _beginLine = prevTopLine;
-                            }
+                                // Ensure the old top line can be displayed during scrolling
+                                if ((_beginLine == -1) || (_beginLine > prevTopLine))
+                                {
+                                    _beginLine = prevTopLine;
+                                }
 
-                            break;
-                        }
+                                break;
+                            }
                         case > 0:
-                        {
-                            // Ensure the old top line can be displayed during scrolling
-                            if ((_beginLine == -1) || (_beginLine < prevTopLine))
                             {
-                                _beginLine = prevTopLine;
-                            }
+                                // Ensure the old top line can be displayed during scrolling
+                                if ((_beginLine == -1) || (_beginLine < prevTopLine))
+                                {
+                                    _beginLine = prevTopLine;
+                                }
 
-                            break;
-                        }
+                                break;
+                            }
                     }
                 }
 

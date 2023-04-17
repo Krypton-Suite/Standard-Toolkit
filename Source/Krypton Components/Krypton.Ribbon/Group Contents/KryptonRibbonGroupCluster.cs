@@ -321,7 +321,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase ClusterView { get; set; }
+        public ViewBase? ClusterView { get; set; }
 
         #endregion
 
@@ -332,24 +332,24 @@ namespace Krypton.Ribbon
         /// <param name="propertyName">Name of property that has changed.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
         #region Internal
         internal void OnDesignTimeAddButton()
         {
-            DesignTimeAddButton?.Invoke(this, EventArgs.Empty);
+            DesignTimeAddButton(this, EventArgs.Empty);
         }
 
         internal void OnDesignTimeAddColorButton()
         {
-            DesignTimeAddColorButton?.Invoke(this, EventArgs.Empty);
+            DesignTimeAddColorButton(this, EventArgs.Empty);
         }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e)
         {
-            DesignTimeContextMenu?.Invoke(this, e);
+            DesignTimeContextMenu(this, e);
         }
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -391,14 +391,17 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupClusterInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroupItem> e)
         {
             // Setup the back references
-            e.Item.Ribbon = Ribbon;
-            e.Item.RibbonTab = RibbonTab;
-            e.Item.RibbonContainer = this;
+            if (e.Item != null)
+            {
+                e.Item.Ribbon = Ribbon;
+                e.Item.RibbonTab = RibbonTab;
+                e.Item.RibbonContainer = this;
 
-            // Force the child item to the fixed lines sizing
-            e.Item.ItemSizeMaximum = ItemSizeMaximum;
-            e.Item.ItemSizeMinimum = ItemSizeMinimum;
-            e.Item.ItemSizeCurrent = ItemSizeCurrent;
+                // Force the child item to the fixed lines sizing
+                e.Item.ItemSizeMaximum = ItemSizeMaximum;
+                e.Item.ItemSizeMinimum = ItemSizeMinimum;
+                e.Item.ItemSizeCurrent = ItemSizeCurrent;
+            }
 
             // Only need to update display if this tab is selected and the group is visible
             if ((Ribbon != null) && (RibbonTab != null) && (Ribbon.SelectedTab == RibbonTab))
@@ -410,9 +413,12 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupClusterRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroupItem> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
-            e.Item.RibbonTab = null;
-            e.Item.RibbonContainer = null;
+            if (e.Item != null)
+            {
+                e.Item.Ribbon = null;
+                e.Item.RibbonTab = null;
+                e.Item.RibbonContainer = null;
+            }
 
             // Only need to update display if this tab is selected and the group was visible
             if ((Ribbon != null) && (RibbonTab != null) && (Ribbon.SelectedTab == RibbonTab))

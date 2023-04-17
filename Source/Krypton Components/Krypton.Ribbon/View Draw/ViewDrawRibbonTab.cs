@@ -12,6 +12,9 @@
  */
 #endregion
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+// ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -42,8 +45,8 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateContextCheckedTracking;
         private PaletteRibbonDoubleInheritOverride _overrideCurrent;
         private readonly PaletteRibbonContextDouble _paletteContextCurrent;
-        private readonly RibbonTabToContent _contentProvider;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly RibbonTabToContent? _contentProvider;
+        private readonly NeedPaintHandler? _needPaint;
         private IDisposable[]? _mementos;
         private Size _preferredSize;
         private Rectangle _displayRect;
@@ -83,38 +86,74 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon!;
-            ViewLayoutRibbonTabs = layoutTabs!;
-            _needPaint = needPaint!;
+            if (ribbon != null)
+            {
+                Ribbon = ribbon;
+            }
+            if (layoutTabs != null)
+            {
+                ViewLayoutRibbonTabs = layoutTabs;
+            }
+            if (needPaint != null)
+            {
+                _needPaint = needPaint;
+            }
 
             // Create overrides for handling a focus state
-            _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
-            _overrideStateNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateNormal.RibbonTab, Ribbon.StateNormal.RibbonTab, PaletteState.FocusOverride);
-            _overrideStateTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateTracking.RibbonTab, Ribbon.StateTracking.RibbonTab, PaletteState.FocusOverride);
-            _overrideStateCheckedNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateCheckedNormal.RibbonTab, Ribbon.StateCheckedNormal.RibbonTab, PaletteState.FocusOverride);
-            _overrideStateCheckedTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateCheckedTracking.RibbonTab, Ribbon.StateCheckedTracking.RibbonTab, PaletteState.FocusOverride);
-            _overrideStateContextTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateContextTracking.RibbonTab, Ribbon.StateContextTracking.RibbonTab, PaletteState.FocusOverride);
-            _overrideStateContextCheckedNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateContextCheckedNormal.RibbonTab, Ribbon.StateContextCheckedNormal.RibbonTab, PaletteState.FocusOverride);
-            _overrideStateContextCheckedTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateContextCheckedTracking.RibbonTab, Ribbon.StateContextCheckedTracking.RibbonTab, PaletteState.FocusOverride);
-            _overrideCurrent = _overrideStateNormal;
+            if (Ribbon != null)
+            {
+                _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
+                _overrideStateNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab,
+                    Ribbon.OverrideFocus.RibbonTab, Ribbon.StateNormal.RibbonTab, Ribbon.StateNormal.RibbonTab,
+                    PaletteState.FocusOverride);
+                _overrideStateTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab,
+                    Ribbon.OverrideFocus.RibbonTab, Ribbon.StateTracking.RibbonTab, Ribbon.StateTracking.RibbonTab,
+                    PaletteState.FocusOverride);
+                _overrideStateCheckedNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab,
+                    Ribbon.OverrideFocus.RibbonTab, Ribbon.StateCheckedNormal.RibbonTab,
+                    Ribbon.StateCheckedNormal.RibbonTab, PaletteState.FocusOverride);
+                _overrideStateCheckedTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab,
+                    Ribbon.OverrideFocus.RibbonTab, Ribbon.StateCheckedTracking.RibbonTab,
+                    Ribbon.StateCheckedTracking.RibbonTab, PaletteState.FocusOverride);
+                _overrideStateContextTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab,
+                    Ribbon.OverrideFocus.RibbonTab, Ribbon.StateContextTracking.RibbonTab,
+                    Ribbon.StateContextTracking.RibbonTab, PaletteState.FocusOverride);
+                _overrideStateContextCheckedNormal = new PaletteRibbonDoubleInheritOverride(
+                    Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab,
+                    Ribbon.StateContextCheckedNormal.RibbonTab, Ribbon.StateContextCheckedNormal.RibbonTab,
+                    PaletteState.FocusOverride);
+                _overrideStateContextCheckedTracking = new PaletteRibbonDoubleInheritOverride(
+                    Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab,
+                    Ribbon.StateContextCheckedTracking.RibbonTab, Ribbon.StateContextCheckedTracking.RibbonTab,
+                    PaletteState.FocusOverride);
+                _overrideCurrent = _overrideStateNormal;
 
-            // Create and default the setup of the context colors provider
-            _paletteContextCurrent = new PaletteRibbonContextDouble(Ribbon);
-            _paletteContextCurrent.SetInherit(_overrideCurrent);
+                // Create and default the setup of the context colors provider
+                _paletteContextCurrent = new PaletteRibbonContextDouble(Ribbon);
+                _paletteContextCurrent.SetInherit(_overrideCurrent);
 
-            // Use a class to convert from ribbon tab to content interface
-            _contentProvider = new RibbonTabToContent(_paletteGeneral, _paletteContextCurrent);
+                // Use a class to convert from ribbon tab to content interface
+                _contentProvider = new RibbonTabToContent(_paletteGeneral, _paletteContextCurrent);
 
-            // Use a controller to change state because of mouse movement
-            RibbonTabController controller = new(Ribbon, this, _needPaint);
-            controller.Click += OnTabClicked;
-            controller.ContextClick += OnTabContextClicked;
-            MouseController = controller;
-            SourceController = controller;
-            KeyController = controller;
+                // Use a controller to change state because of mouse movement
+                if (_needPaint != null)
+                {
+                    RibbonTabController controller = new(Ribbon, this, _needPaint);
+                    controller.Click += OnTabClicked;
+                    controller.ContextClick += OnTabContextClicked;
+                    MouseController = controller;
+
+                    SourceController = controller;
+
+                    KeyController = controller;
+                }
+            }
 
             // Associate this view with the source component (required for design time selection)
-            Component = _ribbonTab;
+            if (_ribbonTab != null)
+            {
+                Component = _ribbonTab;
+            }
 
             // Create and add the draw content for display inside the tab
             Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top, true, false));
@@ -155,7 +194,7 @@ namespace Krypton.Ribbon
                     // Dispose of all the mementos in the array
                     foreach (IDisposable memento in _mementos)
                     {
-                        memento?.Dispose();
+                        memento.Dispose();
                     }
 
                     _mementos = null;
@@ -241,10 +280,16 @@ namespace Krypton.Ribbon
                         _ribbonTab.TabView = null;
                     }
 
-                    _ribbonTab = value;
+                    if (value != null)
+                    {
+                        _ribbonTab = value;
+                    }
 
                     // Associate this view with the source component (required for design time selection)
-                    Component = _ribbonTab;
+                    if (_ribbonTab != null)
+                    {
+                        Component = _ribbonTab;
+                    }
 
                     // Hook into new tab changes
                     if (_ribbonTab != null)
@@ -400,36 +445,44 @@ namespace Krypton.Ribbon
             CheckPaletteState(context);
 
             // Grab the context tab set that relates to this tab
-            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab?.ContextName];
-
-            switch (Ribbon.RibbonShape)
+            if (RibbonTab != null)
             {
-                default:
-                case PaletteRibbonShape.Office2013:
-                case PaletteRibbonShape.Microsoft365:
-                case PaletteRibbonShape.Office2007:
-                    if (cts != null)
-                    {
-                        RenderBefore2007ContextTab(context, cts);
-                    }
+                ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab.ContextName];
 
-                    _paletteContextCurrent.LightBackground = false;
-                    break;
-                case PaletteRibbonShape.Office2010:
-                    if (cts != null)
-                    {
-                        RenderBefore2010ContextTab(context, cts);
-                    }
+                switch (Ribbon.RibbonShape)
+                {
+                    default:
+                    case PaletteRibbonShape.Office2013:
+                    case PaletteRibbonShape.Microsoft365:
+                    case PaletteRibbonShape.Office2007:
+                        if (cts != null)
+                        {
+                            RenderBefore2007ContextTab(context, cts);
+                        }
 
-                    //_paletteContextCurrent.LightBackground = _ribbon.CaptionArea.DrawCaptionOnComposition;
-                    _paletteContextCurrent.LightBackground = Ribbon.CaptionArea.DrawCaptionOnComposition
-                                                             && (KryptonManager.CurrentGlobalPalette != KryptonManager.PaletteOffice2010Black);
-                    break;
+                        _paletteContextCurrent.LightBackground = false;
+                        break;
+                    case PaletteRibbonShape.Office2010:
+                        if (cts != null)
+                        {
+                            RenderBefore2010ContextTab(context, cts);
+                        }
+
+                        //_paletteContextCurrent.LightBackground = _ribbon.CaptionArea.DrawCaptionOnComposition;
+                        _paletteContextCurrent.LightBackground = Ribbon.CaptionArea.DrawCaptionOnComposition
+                                                                 && (KryptonManager.CurrentGlobalPalette != KryptonManager.PaletteOffice2010Black);
+                        break;
+                }
             }
 
             // Use renderer to draw the tab background
             var mementoIndex = StateIndex(State);
-            _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, false, _mementos[mementoIndex]);
+            if (_mementos != null)
+            {
+                _mementos[mementoIndex] = context.Renderer!.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context,
+                    ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, false,
+                    _mementos[mementoIndex])!;
+            }
         }
 
         /// <summary>
@@ -439,16 +492,19 @@ namespace Krypton.Ribbon
         public override void RenderAfter(RenderContext context)
         {
             // Grab the context tab set that relates to this tab
-            ContextTabSet cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab.ContextName];
-
-            // Is this tab part of a context?
-            if (cts != null)
+            if (RibbonTab != null)
             {
-                switch (Ribbon.RibbonShape)
+                ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab.ContextName];
+
+                // Is this tab part of a context?
+                if (cts != null)
                 {
-                    case PaletteRibbonShape.Office2010:
-                        RenderAfter2010ContextTab();
-                        break;
+                    switch (Ribbon.RibbonShape)
+                    {
+                        case PaletteRibbonShape.Office2010:
+                            RenderAfter2010ContextTab();
+                            break;
+                    }
                 }
             }
         }
@@ -498,12 +554,12 @@ namespace Krypton.Ribbon
         private void RenderBefore2007ContextTab(RenderContext context, ContextTabSet? cts)
         {
             // We only draw side separators on the first and last tab of the contexts
-            if (cts.IsFirstOrLastTab(this))
+            if (cts != null && cts.IsFirstOrLastTab(this))
             {
                 // Grab the color we draw the context separator in
                 Color sepColor = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
 
-                Rectangle parentRect = Parent.ClientRectangle;
+                Rectangle parentRect = Parent!.ClientRectangle;
                 Rectangle contextRect = new(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2, parentRect.Height);
                 Rectangle gradientRect = new(ClientRectangle.X - 1, parentRect.Y - 1, ClientRectangle.Width + 2, parentRect.Height + 2);
 
@@ -528,46 +584,49 @@ namespace Krypton.Ribbon
         {
             // Grab the colors we draw the context separators and background in
             Color c1 = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
-            Color c2 = cts.ContextColor;
-            Color lightC2 = ControlPaint.Light(c2);
-            Color c3 = CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f);
-
-            Rectangle contextRect = new(ClientRectangle.X - 1, ClientRectangle.Y - 1, ClientRectangle.Width + 2, ClientRectangle.Height + 1);
-            Rectangle fillRect = new(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4, ClientRectangle.Height);
-
-            using LinearGradientBrush outerBrush = new(contextRect, c1, Color.Transparent, 90f),
-                innerBrush = new(contextRect, c3, Color.Transparent, 90f),
-                fillBrush = new(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f);
-            fillBrush.Blend = _contextBlend2010;
-
-            using Pen outerPen = new(outerBrush),
-                innerPen = new(innerBrush);
-            if (cts.IsFirstTab(this))
+            if (cts != null)
             {
-                // Draw left separators
-                context.Graphics.DrawLine(outerPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 2);
-                context.Graphics.DrawLine(innerPen, contextRect.X + 1, contextRect.Y, contextRect.X + 1, contextRect.Bottom - 2);
-                fillRect.X += 2;
-                fillRect.Width -= 2;
+                Color c2 = cts.ContextColor;
+                Color lightC2 = ControlPaint.Light(c2);
+                Color c3 = CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f);
 
-                if (cts.IsLastTab(this))
+                Rectangle contextRect = new(ClientRectangle.X - 1, ClientRectangle.Y - 1, ClientRectangle.Width + 2, ClientRectangle.Height + 1);
+                Rectangle fillRect = new(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4, ClientRectangle.Height);
+
+                using LinearGradientBrush outerBrush = new(contextRect, c1, Color.Transparent, 90f),
+                    innerBrush = new(contextRect, c3, Color.Transparent, 90f),
+                    fillBrush = new(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f);
+                fillBrush.Blend = _contextBlend2010;
+
+                using Pen outerPen = new(outerBrush),
+                    innerPen = new(innerBrush);
+                if (cts.IsFirstTab(this))
+                {
+                    // Draw left separators
+                    context.Graphics.DrawLine(outerPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 2);
+                    context.Graphics.DrawLine(innerPen, contextRect.X + 1, contextRect.Y, contextRect.X + 1, contextRect.Bottom - 2);
+                    fillRect.X += 2;
+                    fillRect.Width -= 2;
+
+                    if (cts.IsLastTab(this))
+                    {
+                        // Draw right separators
+                        context.Graphics.DrawLine(outerPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 2);
+                        context.Graphics.DrawLine(innerPen, contextRect.Right - 2, contextRect.Y, contextRect.Right - 2, contextRect.Bottom - 2);
+                        fillRect.Width -= 2;
+                    }
+                }
+                else if (cts.IsLastTab(this))
                 {
                     // Draw right separators
                     context.Graphics.DrawLine(outerPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 2);
                     context.Graphics.DrawLine(innerPen, contextRect.Right - 2, contextRect.Y, contextRect.Right - 2, contextRect.Bottom - 2);
                     fillRect.Width -= 2;
                 }
-            }
-            else if (cts.IsLastTab(this))
-            {
-                // Draw right separators
-                context.Graphics.DrawLine(outerPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 2);
-                context.Graphics.DrawLine(innerPen, contextRect.Right - 2, contextRect.Y, contextRect.Right - 2, contextRect.Bottom - 2);
-                fillRect.Width -= 2;
-            }
 
-            // Draw the background gradient
-            context.Graphics.FillRectangle(fillBrush, fillRect);
+                // Draw the background gradient
+                context.Graphics.FillRectangle(fillBrush, fillRect);
+            }
         }
 
         private void RenderAfter2010ContextTab()
@@ -587,7 +646,7 @@ namespace Krypton.Ribbon
 
             for (var i = 0; i < stateValues.Length; i++)
             {
-                if ((PaletteState)stateValues.GetValue(i) == state)
+                if ((PaletteState)stateValues.GetValue(i)! == state)
                 {
                     return i;
                 }
@@ -625,7 +684,7 @@ namespace Krypton.Ribbon
                 Checked = Ribbon.SelectedTab == RibbonTab;
 
                 // Is this tab a context tab?
-                var contextTab = !string.IsNullOrEmpty(RibbonTab.ContextName);
+                var contextTab = RibbonTab != null && !string.IsNullOrEmpty(RibbonTab.ContextName);
 
                 // Apply the checked state if not fixed
                 if (!IsFixed)
@@ -731,18 +790,24 @@ namespace Krypton.Ribbon
         {
             if (Ribbon.InDesignMode)
             {
-                _ribbonTab.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
+                if (_ribbonTab != null)
+                {
+                    _ribbonTab.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
+                }
             }
             else
             {
                 // Convert the mouse point to screen coords from the containing control
-                Point screenPt = Ribbon.TabsArea.TabsContainerControl.ChildControl.PointToScreen(new Point(e.X, e.Y));
+                if (Ribbon.TabsArea.TabsContainerControl.ChildControl != null)
+                {
+                    Point screenPt = Ribbon.TabsArea.TabsContainerControl.ChildControl.PointToScreen(new Point(e.X, e.Y));
 
-                // Convert back to ribbon client coords, needed for the show context menu call
-                Point clientPt = Ribbon.PointToClient(screenPt);
+                    // Convert back to ribbon client coords, needed for the show context menu call
+                    Point clientPt = Ribbon.PointToClient(screenPt);
 
-                // Request the context menu be shown
-                Ribbon.DisplayRibbonContextMenu(new MouseEventArgs(e.Button, e.Clicks, clientPt.X, clientPt.Y, e.Delta));
+                    // Request the context menu be shown
+                    Ribbon.DisplayRibbonContextMenu(new MouseEventArgs(e.Button, e.Clicks, clientPt.X, clientPt.Y, e.Delta));
+                }
             }
         }
         #endregion

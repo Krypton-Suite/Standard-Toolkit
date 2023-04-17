@@ -27,12 +27,12 @@ namespace Krypton.Ribbon
                                           IQuickAccessToolbarButton
     {
         #region Static Fields
-        private static readonly Image _defaultImage = GenericImageResources.QATButtonDefault;
+        private static readonly Image? _defaultImage = GenericImageResources.QATButtonDefault;
         #endregion
 
         #region Instance Fields
         private object _tag;
-        private Image _image;
+        private Image? _image;
         private bool _visible;
         private bool _enabled;
         private string _text;
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "QAT Button";
+                    value = @"QAT Button";
                 }
 
                 if (value != _text)
@@ -348,16 +348,19 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
             set
             {
-                if (value != _tag)
+                if (value != null)
                 {
-                    _tag = value;
-                    OnPropertyChanged(nameof(Tag));
+                    if (value != _tag)
+                    {
+                        _tag = value;
+                        OnPropertyChanged(nameof(Tag));
+                    }
                 }
             }
         }
@@ -436,7 +439,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the image for the item ToolTip.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Image GetToolTipImage() => ToolTipImage;
+        public Image? GetToolTipImage() => ToolTipImage;
 
         /// <summary>
         /// Gets and sets the color to draw as transparent in the ToolTipImage.
@@ -515,7 +518,7 @@ namespace Krypton.Ribbon
             // any popup controls such as the showing minimized group popup
             Ribbon?.Actionoccurred();
 
-            Click?.Invoke(this, e);
+            Click(this, e);
 
             // Clicking the button should execute the associated command
             KryptonCommand?.PerformExecute();
@@ -527,7 +530,7 @@ namespace Krypton.Ribbon
         /// <param name="propertyName">Name of property that has changed.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -35,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="richTextBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public RichTextBoxController(KryptonRibbon ribbon,
+        public RichTextBoxController(KryptonRibbon? ribbon,
                                      KryptonRibbonGroupRichTextBox richTextBox,
                                      ViewDrawRibbonGroupRichTextBox target)
         {
@@ -43,9 +44,18 @@ namespace Krypton.Ribbon
             Debug.Assert(richTextBox != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon;
-            _richTextBox = richTextBox;
-            _target = target;
+            if (ribbon != null)
+            {
+                _ribbon = ribbon;
+            }
+            if (richTextBox != null)
+            {
+                _richTextBox = richTextBox;
+            }
+            if (target != null)
+            {
+                _target = target;
+            }
         }
         #endregion
 
@@ -56,7 +66,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if ((_richTextBox.LastRichTextBox?.RichTextBox != null) 
+            if ((_richTextBox.LastRichTextBox.RichTextBox != null)
                 && _richTextBox.LastRichTextBox.RichTextBox.CanFocus)
             {
                 _ribbon.LostFocusLosesKeyboard = false;
@@ -154,7 +164,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {
@@ -168,8 +178,8 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
-                              ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
+                              ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -186,7 +196,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
             }
 

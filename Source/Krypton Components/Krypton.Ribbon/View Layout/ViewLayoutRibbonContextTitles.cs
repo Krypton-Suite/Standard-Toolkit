@@ -40,8 +40,15 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(captionArea != null);
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            if (ribbon != null)
+            {
+                _ribbon = ribbon;
+            }
+
+            if (captionArea != null)
+            {
+                _captionArea = captionArea;
+            }
 
             // Create cache of draw elements
             _contextTitlesCache = new ViewDrawRibbonContextTitleList();
@@ -98,10 +105,10 @@ namespace Krypton.Ribbon
             SyncChildrenToContexts();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find any filler child
-            ViewBase filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
+            ViewBase? filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
 
             var xLeftMost = ClientRectangle.Right;
             var xRightMost = ClientRectangle.Left;
@@ -178,9 +185,9 @@ namespace Krypton.Ribbon
         private void SyncChildrenToContexts()
         {
             // Find any filler child
-            ViewBase filler = null;
+            ViewBase? filler = null;
 
-            foreach(ViewBase child in this)
+            foreach (ViewBase child in this)
             {
                 if (GetDock(child) == ViewDockStyle.Fill)
                 {
@@ -210,9 +217,12 @@ namespace Krypton.Ribbon
             for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
                 ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
-                ContextTitleController viewController = (ContextTitleController)viewContext.MouseController;
+                ContextTitleController? viewController = (ContextTitleController?)viewContext.MouseController;
                 viewContext.ContextTabSet = ViewLayoutRibbonTabs.ContextTabSets[i];
-                viewController.ContextTabSet = viewContext.ContextTabSet;
+                if (viewController != null)
+                {
+                    viewController.ContextTabSet = viewContext.ContextTabSet;
+                }
                 Add(viewContext);
             }
 
@@ -230,13 +240,16 @@ namespace Krypton.Ribbon
             if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
             {
                 // Find the context definition for this context
-                KryptonRibbonContext ribbonContext = _ribbon.RibbonContexts[_ribbon.SelectedTab.ContextName];
-
-                // Should always work, but you never know!
-                if (ribbonContext != null)
+                if (_ribbon.SelectedTab != null)
                 {
-                    // Return the context specific color
-                    return ribbonContext.ContextColor;
+                    KryptonRibbonContext? ribbonContext = _ribbon.RibbonContexts[_ribbon.SelectedTab.ContextName];
+
+                    // Should always work, but you never know!
+                    if (ribbonContext != null)
+                    {
+                        // Return the context specific color
+                        return (Color)ribbonContext.ContextColor!;
+                    }
                 }
             }
 

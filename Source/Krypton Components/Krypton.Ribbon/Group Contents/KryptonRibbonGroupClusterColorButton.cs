@@ -51,7 +51,7 @@ namespace Krypton.Ribbon
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
         private GroupButtonType _buttonType;
-        private EventHandler _kcmFinishDelegate;
+        private EventHandler? _kcmFinishDelegate;
         private ColorScheme _schemeThemes;
         private ColorScheme _schemeStandard;
         private int _maxRecentColors;
@@ -794,7 +794,7 @@ namespace Krypton.Ribbon
         /// Generates a Click event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler finishDelegate)
+        public void PerformClick(EventHandler? finishDelegate)
         {
             OnClick(finishDelegate);
         }
@@ -811,7 +811,7 @@ namespace Krypton.Ribbon
         /// Generates a DropDown event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformDropDown(EventHandler finishDelegate)
+        public void PerformDropDown(EventHandler? finishDelegate)
         {
             OnDropDown(finishDelegate);
         }
@@ -855,7 +855,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler finishDelegate)
+        protected virtual void OnClick(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -911,7 +911,7 @@ namespace Krypton.Ribbon
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnDropDown(EventHandler finishDelegate)
+        protected virtual void OnDropDown(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 

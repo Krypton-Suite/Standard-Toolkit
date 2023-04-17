@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
 
             ribbon?.ResumeLayout(true);
 
-            return ret;
+            return ret!;
         }
     }
 }

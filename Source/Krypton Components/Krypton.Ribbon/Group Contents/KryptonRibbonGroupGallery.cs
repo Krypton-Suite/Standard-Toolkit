@@ -12,6 +12,7 @@
  */
 #endregion
 
+// ReSharper disable UnusedMember.Local
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -34,7 +35,7 @@ namespace Krypton.Ribbon
         private bool _enabled;
         private string _textLine1;
         private string _textLine2;
-        private Image _imageLarge;
+        private Image? _imageLarge;
         private string _keyTip;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
@@ -377,7 +378,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -654,20 +655,20 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase GalleryView { get; set; }
+        public ViewBase? GalleryView { get; set; }
 
         #endregion
 
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonGallery LastGallery { get; set; }
+        internal KryptonGallery? LastGallery { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e)
         {
-            DesignTimeContextMenu?.Invoke(this, e);
+            DesignTimeContextMenu(this, e);
         }
 
         internal int InternalItemCount { get; set; }
@@ -683,7 +684,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnImageListChanged(EventArgs e)
         {
-            ImageListChanged?.Invoke(this, e);
+            ImageListChanged(this, e);
         }
 
         /// <summary>
@@ -692,7 +693,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnSelectedIndexChanged(EventArgs e)
         {
-            SelectedIndexChanged?.Invoke(this, e);
+            SelectedIndexChanged(this, e);
         }
 
         /// <summary>
@@ -701,7 +702,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An ImageSelectEventArgs containing the event data.</param>
         protected virtual void OnTrackingImage(ImageSelectEventArgs e)
         {
-            TrackingImage?.Invoke(this, e);
+            TrackingImage(this, e);
         }
 
         /// <summary>
@@ -710,7 +711,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An GalleryDropMenuEventArgs containing the event data.</param>
         protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e)
         {
-            GalleryDropMenu?.Invoke(this, e);
+            GalleryDropMenu(this, e);
         }
 
         /// <summary>
@@ -719,7 +720,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnGotFocus(EventArgs e)
         {
-            GotFocus?.Invoke(this, e);
+            GotFocus(this, e);
         }
 
         /// <summary>
@@ -728,7 +729,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnLostFocus(EventArgs e)
         {
-            LostFocus?.Invoke(this, e);
+            LostFocus(this, e);
         }
 
         /// <summary>
@@ -737,7 +738,7 @@ namespace Krypton.Ribbon
         /// <param name="propertyName">Name of property that has changed.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
@@ -756,12 +757,12 @@ namespace Krypton.Ribbon
 
         private void OnControlEnter(object sender, EventArgs e)
         {
-            MouseEnterControl?.Invoke(this, e);
+            MouseEnterControl(this, e);
         }
 
         private void OnControlLeave(object sender, EventArgs e)
         {
-            MouseLeaveControl?.Invoke(this, e);
+            MouseLeaveControl(this, e);
         }
 
         private void OnGalleryImageListChanged(object sender, EventArgs e)
