@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalSaveFileDialog.ShowDialog(owner);
 
-#if NET7_0_OR_GREATER
+#if NET7_0 || NET8_0
         /// <summary>
         ///  Gets or sets a value indicating whether the dialog box verifies if the creation of the specified file will be successful.
         ///  If this flag is not set, the calling application must handle errors, such as denial of access, discovered when the item is created.

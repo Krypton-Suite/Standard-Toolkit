@@ -238,7 +238,7 @@ namespace Krypton.Ribbon
                     if (ribbonContext != null)
                     {
                         // Return the context specific color
-                        return ribbonContext.ContextColor ?? Color.Empty;
+                        return ribbonContext.ContextColor;
                     }
                 }
             }

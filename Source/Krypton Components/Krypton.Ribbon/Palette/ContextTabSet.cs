@@ -125,7 +125,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the name of the context.
         /// </summary>
-        public Color ContextColor => Context.ContextColor ?? Color.Empty;
+        public Color ContextColor => Context.ContextColor;
 
         /// <summary>
         /// Gets the title of the context.

@@ -114,22 +114,22 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Display color for associated contextual tabs.")]
         [DefaultValue(typeof(Color), "Red")]
-        //[DisallowNull]
-        public Color? ContextColor
+        [DisallowNull]
+        public Color ContextColor
         {
             get => _contextColor;
 
             set
             {
                 // We never allow a null or transparent color
-                if ((value == null) || (value == Color.Transparent))
+                if (value == Color.Transparent)
                 {
                     value = Color.Red;
                 }
 
                 if (value != _contextColor)
                 {
-                    _contextColor = value ?? Color.Empty;
+                    _contextColor = value;
                     OnPropertyChanged(nameof(ContextColor));
                 }
             }

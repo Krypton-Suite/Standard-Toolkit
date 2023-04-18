@@ -215,7 +215,7 @@ namespace Krypton.Ribbon
                 // Should always work, but you never know!
                 if (ribbonContext != null)
                 {
-                    return ribbonContext.ContextColor ?? Color.Empty;
+                    return ribbonContext.ContextColor;
                 }
             }
 
