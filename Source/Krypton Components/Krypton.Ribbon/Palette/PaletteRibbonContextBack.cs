@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     /// <summary>
     /// Return inherited values unless empty in which case return the context color.
     /// </summary>
-    public class PaletteRibbonContextBack: IPaletteRibbonBack
+    public class PaletteRibbonContextBack : IPaletteRibbonBack
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteRibbonContextBack class.
         /// </summary>
         /// <param name="ribbon">Reference to ribbon control.</param>
-        public PaletteRibbonContextBack(KryptonRibbon ribbon) 
+        public PaletteRibbonContextBack(KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -170,16 +170,22 @@ namespace Krypton.Ribbon
         {
             // We need an associated ribbon tab
             // Does the ribbon tab have a context setting?
-            KryptonRibbonTab selectedTab = _ribbon?.SelectedTab;
-            if (!string.IsNullOrEmpty(selectedTab?.ContextName))
+            if (_ribbon.SelectedTab != null)
             {
-                // Find the context definition for this context
-                KryptonRibbonContext ribbonContext = _ribbon.RibbonContexts[selectedTab.ContextName];
-
-                // Should always work, but you never know!
-                if (ribbonContext != null)
+                KryptonRibbonTab selectedTab = _ribbon.SelectedTab;
+                if (!string.IsNullOrEmpty(selectedTab?.ContextName))
                 {
-                    return ribbonContext.ContextColor;
+                    // Find the context definition for this context
+                    if (selectedTab != null)
+                    {
+                        KryptonRibbonContext? ribbonContext = _ribbon.RibbonContexts[selectedTab.ContextName];
+
+                        // Should always work, but you never know!
+                        if (ribbonContext != null)
+                        {
+                            return ribbonContext.ContextColor ?? Color.Empty;
+                        }
+                    }
                 }
             }
 

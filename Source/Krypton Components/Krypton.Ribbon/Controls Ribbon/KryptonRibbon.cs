@@ -66,13 +66,13 @@ namespace Krypton.Ribbon
         private int _keyboardAltUpCount;
         private ViewBase _focusView;
         private KeyTipControl _keyTipControlE;
-        private KeyTipControl _keyTipControlD;
+        private KeyTipControl? _keyTipControlD;
         private KeyTipMode _keyTipMode;
         private Button _hiddenFocusTarget;
 
         // View Elements
         private ViewDrawPanel _drawMinimizedPanel;
-        private ViewLayoutDocker _rootDocker;
+        private ViewLayoutDocker? _rootDocker;
         private ViewLayoutDocker _ribbonDocker;
         private ViewDrawRibbonComposition _compositionArea;
         private ViewDrawRibbonQATBorder _qatBelowRibbon;
@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
         private ButtonStyle _scrollerStyle;
         private PaletteBackStyle _backStyle;
         private PaletteBackStyle _backInactiveStyle;
-        private KryptonRibbonTab _minSelectedTab;
+        private KryptonRibbonTab? _minSelectedTab;
         private KryptonRibbonTab? _selectedTab;
 
         #endregion
@@ -110,42 +110,42 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the selected tab changes.")]
-        public event EventHandler SelectedTabChanged;
+        public event EventHandler? SelectedTabChanged;
 
         /// <summary>
         /// Occurs when the selected context changes.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the selected context changes.")]
-        public event EventHandler SelectedContextChanged;
+        public event EventHandler? SelectedContextChanged;
 
         /// <summary>
         /// Occurs when the application button menu is opening.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when application button menu is opening but not Displayed as yet.")]
-        public event CancelEventHandler AppButtonMenuOpening;
+        public event CancelEventHandler? AppButtonMenuOpening;
 
         /// <summary>
         /// Occurs when the application button menu is opened.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the application button menu is fully opened for display.")]
-        public event EventHandler AppButtonMenuOpened;
+        public event EventHandler? AppButtonMenuOpened;
 
         /// <summary>
         /// Occurs when the application button menu is about to close.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the application button menu is about to close.")]
-        public event CancelEventHandler AppButtonMenuClosing;
+        public event CancelEventHandler? AppButtonMenuClosing;
 
         /// <summary>
         /// Occurs when the application button menu has been closed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the application button menu has been closed.")]
-        public event ToolStripDropDownClosedEventHandler AppButtonMenuClosed;
+        public event ToolStripDropDownClosedEventHandler? AppButtonMenuClosed;
 
         /// <summary>
         /// Occurs when the ribbon context menu is about to be shown.
@@ -166,7 +166,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the MinimizedMode property has changed value.")]
-        public event EventHandler MinimizedModeChanged;
+        public event EventHandler? MinimizedModeChanged;
 
         /// <summary>
         /// Occurs add design time when the user requests a tab be added.
@@ -175,7 +175,7 @@ namespace Krypton.Ribbon
         [Description(@"Occurs add design time when the user requests a tab be added.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddTab;
+        public event EventHandler? DesignTimeAddTab;
         #endregion
 
         #region Identity
@@ -825,7 +825,10 @@ namespace Krypton.Ribbon
                         }
 
                         // Update selection to match ribbon settings
-                        _minSelectedTab = _selectedTab;
+                        if (_selectedTab != null)
+                        {
+                            _minSelectedTab = _selectedTab;
+                        }
                         ValidateSelectedTab();
 
                         // Must layout to effect changes
@@ -834,7 +837,11 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        using ScreenObscurer obscurer = new(_minimizedPopup, DesignMode);
+                        if (_minimizedPopup != null)
+                        {
+                            using ScreenObscurer? obscurer = new(_minimizedPopup, DesignMode);
+                        }
+
                         // Remove any showing popup for the minimized area
                         KillMinimizedPopup();
 
@@ -905,7 +912,7 @@ namespace Krypton.Ribbon
                 {
                     _qatLocation = value;
 
-                    using ScreenObscurer obscurer = new(this, DesignMode);
+                    using ScreenObscurer? obscurer = new(this, DesignMode);
                     // Only show the minimize bar if in minimized mode 
                     // and not showing the QAT below the ribbon
                     _minimizeBar.Visible = RealMinimizedMode && (QATLocation != QATLocation.Below);
@@ -1113,7 +1120,7 @@ namespace Krypton.Ribbon
                         if (Visible && Enabled)
                         {
                             // Only interested if the owning form is usable and has the focus
-                            Form ownerForm = FindForm();
+                            Form? ownerForm = FindForm();
                             if (ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                             {
                                 // Extract the keys being pressed
@@ -1139,7 +1146,7 @@ namespace Krypton.Ribbon
                         if (Visible && Enabled && !RealMinimizedMode && !KeyboardMode && !InDesignMode)
                         {
                             // Only interested is the owning form is usable and has the focus
-                            Form ownerForm = FindForm();
+                            Form? ownerForm = FindForm();
                             if (ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                             {
                                 // Extract the x and y mouse position from message
@@ -1181,7 +1188,7 @@ namespace Krypton.Ribbon
             }
 
             // Get the view the mouse is currently over
-            ViewBase mouseView = ViewManager.Root.ViewFromPoint(pt);
+            ViewBase? mouseView = ViewManager.Root.ViewFromPoint(pt);
 
             // Do we match of the views we always allow?
             var matchView = (mouseView?.Parent != null)
@@ -1233,7 +1240,7 @@ namespace Krypton.Ribbon
             }
 
             // Get the view the mouse is currently over
-            ViewBase mouseView = ViewManager.Root.ViewFromPoint(pt);
+            ViewBase? mouseView = ViewManager.Root.ViewFromPoint(pt);
 
             if (mouseView is ViewDrawRibbonGroupDateTimePicker picker)
             {
@@ -1585,7 +1592,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnGotFocus(EventArgs e)
         {
-            ViewBase newFocus = null;
+            ViewBase? newFocus = null;
 
             if (SelectedTab != null)
             {
@@ -1711,7 +1718,7 @@ namespace Krypton.Ribbon
             if (_compositionArea.Visible)
             {
                 // Copy the current clipping
-                Region oldClip = g.Clip.Clone();
+                Region? oldClip = g.Clip.Clone();
 
                 // Exclude the composition area from the background painting
                 g.SetClip(new Rectangle(_compositionArea.ClientLocation, new Size(_compositionArea.ClientWidth, _compositionArea.CompHeight)), CombineMode.Exclude);
@@ -1872,8 +1879,8 @@ namespace Krypton.Ribbon
             PaletteBackStyle backStyle = BackStyle;
 
             // Walk up the parnet chain looking for the owning form
-            Form f = null;
-            Control c = this;
+            Form? f = null;
+            Control? c = this;
             while (c.Parent != null)
             {
                 c = c.Parent;
@@ -2041,7 +2048,7 @@ namespace Krypton.Ribbon
 
         internal KryptonForm FindKryptonForm()
         {
-            Control c = this;
+            Control? c = this;
             while (c != null)
             {
                 if (c is Form)
@@ -2079,14 +2086,14 @@ namespace Krypton.Ribbon
             ResetCachedKryptonContextMenu();
 
             // Add heading at top of the context menu
-            KryptonContextMenuHeading heading = new()
+            KryptonContextMenuHeading? heading = new()
             {
                 Text = RibbonStrings.CustomizeQuickAccessToolbar
             };
             _kcm.Items.Add(heading);
 
             // Create a container for a set of individual menu items
-            KryptonContextMenuItems menuItems = new();
+            KryptonContextMenuItems? menuItems = new();
             _kcm.Items.Add(menuItems);
 
             // Is user allowed to change the QAT entries?
@@ -2095,7 +2102,7 @@ namespace Krypton.Ribbon
                 // Add an entry for each quick access toolbar button
                 foreach (IQuickAccessToolbarButton qatButton in QATButtons)
                 {
-                    KryptonContextMenuItem menuItem = new()
+                    KryptonContextMenuItem? menuItem = new()
                     {
                         Text = qatButton.GetText(),
                         Checked = qatButton.GetVisible()
@@ -2109,7 +2116,7 @@ namespace Krypton.Ribbon
             // Do we need to allow the QAT location to be inverted?
             if (QATLocation != QATLocation.Hidden)
             {
-                KryptonContextMenuItem showQAT = new()
+                KryptonContextMenuItem? showQAT = new()
                 {
                     Text = QATLocation == QATLocation.Above
                         ? RibbonStrings.ShowBelowRibbon
@@ -2129,7 +2136,7 @@ namespace Krypton.Ribbon
             if (AllowMinimizedChange)
             {
                 // Allow the ribbon to be minimized
-                KryptonContextMenuItem minimize = new()
+                KryptonContextMenuItem? minimize = new()
                 {
                     Text = RibbonStrings.Minimize,
                     Checked = MinimizedMode
@@ -2146,7 +2153,7 @@ namespace Krypton.Ribbon
             }
 
             // Give developers a change to modify the customize menu or even cancel it
-            ContextMenuArgs args = new(_kcm);
+            ContextMenuArgs? args = new(_kcm);
             OnShowQATCustomizeMenu(args);
 
             // If not cancelled, then show it
@@ -2171,7 +2178,7 @@ namespace Krypton.Ribbon
                                              EventHandler finishDelegate)
         {
             // Create the popup window for the group
-            VisualPopupQATOverflow popupGroup = new(this, contents, Renderer);
+            VisualPopupQATOverflow? popupGroup = new(this, contents, Renderer);
 
             // Ask the popup to show itself relative to ourself
             popupGroup.ShowCalculatingSize(screenRectangle, finishDelegate);
@@ -2183,13 +2190,13 @@ namespace Krypton.Ribbon
             ResetCachedKryptonContextMenu();
 
             // Create a container for a set of individual menu items
-            KryptonContextMenuItems menuItems = new();
+            KryptonContextMenuItems? menuItems = new();
             _kcm.Items.Add(menuItems);
 
             // Do we need to allow the QAT location to be inverted?
             if (QATLocation != QATLocation.Hidden)
             {
-                KryptonContextMenuItem showQAT = new()
+                KryptonContextMenuItem? showQAT = new()
                 {
                     Text = QATLocation == QATLocation.Above
                         ? RibbonStrings.ShowQATBelowRibbon
@@ -2204,7 +2211,7 @@ namespace Krypton.Ribbon
             if (AllowMinimizedChange)
             {
                 // Allow the ribbon to be minimized
-                KryptonContextMenuItem minimize = new()
+                KryptonContextMenuItem? minimize = new()
                 {
                     Text = RibbonStrings.Minimize,
                     Checked = MinimizedMode
@@ -2217,7 +2224,7 @@ namespace Krypton.Ribbon
             }
 
             // Give developers a change to modify the context menu or even cancel it
-            ContextMenuArgs args = new(_kcm);
+            ContextMenuArgs? args = new(_kcm);
             OnShowRibbonContextMenu(args);
 
             // If not cancelled, then show it
@@ -2329,7 +2336,7 @@ namespace Krypton.Ribbon
 
         internal ViewBase? GetPreviousQATView(ViewBase qatView)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             switch (QATLocation)
             {
@@ -2497,7 +2504,7 @@ namespace Krypton.Ribbon
             // and created so that the generated contents are accurate
             Refresh();
 
-            KeyTipInfoList keyTipList = new();
+            KeyTipInfoList? keyTipList = new();
 
             // Add the application button/tab
             if (TabsArea.LayoutAppButton.Visible)
@@ -2527,7 +2534,7 @@ namespace Krypton.Ribbon
             // and created so that the generated contents are accurate
             Refresh();
 
-            KeyTipInfoList keyTipList = new();
+            KeyTipInfoList? keyTipList = new();
 
             // There should be a selected page
             if (SelectedTab != null)
@@ -2546,7 +2553,7 @@ namespace Krypton.Ribbon
                 if (VisualPopupManager.Singleton.CurrentPopup != null)
                 {
                     // We are only interested in popup groups the popup ribbon itself
-                    Control c = VisualPopupManager.Singleton.CurrentPopup;
+                    Control? c = VisualPopupManager.Singleton.CurrentPopup;
                     if ((c is VisualPopupGroup or VisualPopupMinimized))
                     {
                         return c.RectangleToScreen(c.ClientRectangle);
@@ -2895,7 +2902,7 @@ namespace Krypton.Ribbon
 
         private void ValidateSelectedTab()
         {
-            KryptonRibbonTab newSelection = null;
+            KryptonRibbonTab? newSelection = null;
 
             // If not minimized...
             if (!RealMinimizedMode)
@@ -2958,14 +2965,14 @@ namespace Krypton.Ribbon
         private bool SelectNonRibbonControl(bool forward)
         {
             // Find the control in our hierarchy that has the focus
-            Control focus = CommonHelper.GetControlWithFocus(this);
+            Control? focus = CommonHelper.GetControlWithFocus(this);
 
             // If nothing has the focus then we cannot perform processing
             if (focus != null)
             {
                 // Get the owning form because we want to search all controls in the
                 // form hierarchy and not just the controls in our own hierarchy
-                Control form = focus.FindForm();
+                Control? form = focus.FindForm();
 
                 // If we cannot find an owning form
                 if (form == null)
@@ -2979,7 +2986,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Start searching from the current focus control
-                Control next = focus;
+                Control? next = focus;
 
                 // Have we wrapped around the end yet?
                 var wrapped = false;
@@ -3176,7 +3183,7 @@ namespace Krypton.Ribbon
 
         private void OnRibbonQATButtonsInserted(object sender, TypedCollectionEventArgs<Component> e)
         {
-            IQuickAccessToolbarButton qatButton = e.Item as IQuickAccessToolbarButton;
+            IQuickAccessToolbarButton? qatButton = e.Item as IQuickAccessToolbarButton;
             Debug.Assert(qatButton != null);
 
             // Setup the back reference from tab to ribbon control
@@ -3267,7 +3274,7 @@ namespace Krypton.Ribbon
             DirtyPaletteCounter++;
 
             // Create a popup control with the minimized panel as the view
-            ViewRibbonMinimizedManager popupManager = new(this, GroupsArea.ViewGroups, _drawMinimizedPanel, true, _needPaintGroups);
+            ViewRibbonMinimizedManager? popupManager = new(this, GroupsArea.ViewGroups, _drawMinimizedPanel, true, _needPaintGroups);
             _minimizedPopup = new VisualPopupMinimized(this, popupManager, CaptionArea, Renderer);
             _minimizedPopup.Disposed += OnMinimizedPopupDisposed;
             popupManager.Attach(_minimizedPopup, _drawMinimizedPanel);
@@ -3304,7 +3311,7 @@ namespace Krypton.Ribbon
             KillKeyboardMode();
 
             // Cast to correct type
-            KryptonContextMenuItem menuItem = (KryptonContextMenuItem)sender;
+            KryptonContextMenuItem? menuItem = (KryptonContextMenuItem)sender;
 
             // Find index of the item to toggle
             var index = (int)(menuItem.Tag ?? -1);
@@ -3313,7 +3320,7 @@ namespace Krypton.Ribbon
             if ((index >= 0) && (index < QATButtons.Count))
             {
                 // Get access to the indexed entry
-                IQuickAccessToolbarButton qatButton = (IQuickAccessToolbarButton)QATButtons[index];
+                IQuickAccessToolbarButton? qatButton = (IQuickAccessToolbarButton)QATButtons[index];
 
                 // Invert the visible state
                 qatButton.SetVisible(!qatButton.GetVisible());

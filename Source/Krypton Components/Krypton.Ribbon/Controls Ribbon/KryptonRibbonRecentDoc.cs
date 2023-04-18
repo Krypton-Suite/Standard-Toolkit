@@ -53,7 +53,7 @@ namespace Krypton.Ribbon
             _imageTransparentColor = Color.Empty;
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the main text for the recent document entry.
@@ -73,7 +73,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Recent Document";
+                    value = @"Recent Document";
                 }
 
                 if (value != _text)
@@ -174,7 +174,7 @@ namespace Krypton.Ribbon
         {
             Tag = null;
         }
-        
+
         /// <summary>
         /// Generates a Click event for the component.
         /// </summary>

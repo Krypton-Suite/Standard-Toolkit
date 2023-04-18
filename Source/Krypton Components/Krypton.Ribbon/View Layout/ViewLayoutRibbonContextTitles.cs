@@ -180,7 +180,7 @@ namespace Krypton.Ribbon
             // Find any filler child
             ViewBase filler = null;
 
-            foreach(ViewBase child in this)
+            foreach (ViewBase child in this)
             {
                 if (GetDock(child) == ViewDockStyle.Fill)
                 {
@@ -230,13 +230,16 @@ namespace Krypton.Ribbon
             if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
             {
                 // Find the context definition for this context
-                KryptonRibbonContext ribbonContext = _ribbon.RibbonContexts[_ribbon.SelectedTab.ContextName];
-
-                // Should always work, but you never know!
-                if (ribbonContext != null)
+                if (_ribbon.SelectedTab != null)
                 {
-                    // Return the context specific color
-                    return ribbonContext.ContextColor;
+                    KryptonRibbonContext? ribbonContext = _ribbon.RibbonContexts[_ribbon.SelectedTab.ContextName];
+
+                    // Should always work, but you never know!
+                    if (ribbonContext != null)
+                    {
+                        // Return the context specific color
+                        return ribbonContext.ContextColor ?? Color.Empty;
+                    }
                 }
             }
 

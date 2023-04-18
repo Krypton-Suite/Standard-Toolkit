@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         {
             get => _contextName;
 
-            set 
+            set
             {
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Context Tools";
+                    value = @"Context Tools";
                 }
 
                 if (value != _contextTitle)
@@ -114,7 +114,8 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Display color for associated contextual tabs.")]
         [DefaultValue(typeof(Color), "Red")]
-        public Color ContextColor
+        //[DisallowNull]
+        public Color? ContextColor
         {
             get => _contextColor;
 
@@ -128,7 +129,7 @@ namespace Krypton.Ribbon
 
                 if (value != _contextColor)
                 {
-                    _contextColor = value;
+                    _contextColor = value ?? Color.Empty;
                     OnPropertyChanged(nameof(ContextColor));
                 }
             }
