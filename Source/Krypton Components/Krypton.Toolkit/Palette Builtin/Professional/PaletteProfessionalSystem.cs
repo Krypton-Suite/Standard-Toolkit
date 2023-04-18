@@ -104,6 +104,66 @@ namespace Krypton.Toolkit
         private static readonly Image? _treeExpandPlus = TreeItemImageResources.TreeExpandPlus;
         private static readonly Image? _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
 
+        #region Toolbar Images
+
+        private static readonly Image _formToolbarButtonSpecNewNormal = SystemToolbarImageResources.SystemToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewActive = SystemToolbarImageResources.SystemToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewDisabled = SystemToolbarImageResources.SystemToolbarNewDisabled;
+
+        private static readonly Image _formToolbarButtonSpecOpenNormal = SystemToolbarImageResources.SystemToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenActive = SystemToolbarImageResources.SystemToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenDisabled = SystemToolbarImageResources.SystemToolbarOpenDisabled;
+
+        private static readonly Image _formToolbarButtonSpecSaveNormal = SystemToolbarImageResources.SystemToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveActive = SystemToolbarImageResources.SystemToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveDisabled = SystemToolbarImageResources.SystemToolbarSaveDisabled;
+
+        private static readonly Image _formToolbarButtonSpecSaveAllNormal = GenericToolbarImageResources.GenericSaveAll;
+        private static readonly Image _formToolbarButtonSpecSaveAllActive = GenericToolbarImageResources.GenericSaveAll;
+        private static readonly Image _formToolbarButtonSpecSaveAllDisabled = GenericToolbarImageResources.GenericSaveAll;
+
+        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.GenericSaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAsActive = GenericToolbarImageResources.GenericSaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.GenericSaveAs;
+
+        private static readonly Image _formToolbarButtonSpecCutNormal = SystemToolbarImageResources.SystemToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutActive = SystemToolbarImageResources.SystemToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutDisabled = SystemToolbarImageResources.SystemToolbarCutDisabled;
+
+        private static readonly Image _formToolbarButtonSpecCopyNormal = SystemToolbarImageResources.SystemToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyActive = SystemToolbarImageResources.SystemToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyDisabled = SystemToolbarImageResources.SystemToolbarCopyDisabled;
+
+        private static readonly Image _formToolbarButtonSpecPasteNormal = SystemToolbarImageResources.SystemToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteActive = SystemToolbarImageResources.SystemToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteDisabled = SystemToolbarImageResources.SystemToolbarPasteDisabled;
+
+        private static readonly Image _formToolbarButtonSpecUndoNormal = SystemToolbarImageResources.SystemToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoActive = SystemToolbarImageResources.SystemToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoDisabled = SystemToolbarImageResources.SystemToolbarUndoDisabled;
+
+        private static readonly Image _formToolbarButtonSpecRedoNormal = SystemToolbarImageResources.SystemToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoActive = SystemToolbarImageResources.SystemToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoDisabled = SystemToolbarImageResources.SystemToolbarRedoDisabled;
+
+        private static readonly Image _formToolbarButtonSpecPageSetupNormal = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _formToolbarButtonSpecPageSetupActive = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _formToolbarButtonSpecPageSetupDisabled = GenericToolbarImageResources.GenericPrintSetup;
+
+        private static readonly Image _formToolbarButtonSpecPrintPreviewNormal = GenericToolbarImageResources.GenericPrintPreview;
+        private static readonly Image _formToolbarButtonSpecPrintPreviewActive = GenericToolbarImageResources.GenericPrintPreview;
+        private static readonly Image _formToolbarButtonSpecPrintPreviewDisabled = GenericToolbarImageResources.GenericPrintSetup;
+
+        private static readonly Image _formToolbarButtonSpecPrintNormal = GenericToolbarImageResources.GenericPrint;
+        private static readonly Image _formToolbarButtonSpecPrintActive = GenericToolbarImageResources.GenericPrint;
+        private static readonly Image _formToolbarButtonSpecPrintDisabled = GenericToolbarImageResources.GenericPrint;
+
+        private static readonly Image _formToolbarButtonSpecQuickPrintNormal = GenericToolbarImageResources.GenericQuickPrint;
+        private static readonly Image _formToolbarButtonSpecQuickPrintActive = GenericToolbarImageResources.GenericQuickPrint;
+        private static readonly Image _formToolbarButtonSpecQuickPrintDisabled = GenericToolbarImageResources.GenericQuickPrint;
+
+        #endregion
+
         #endregion
 
         #region Colours
@@ -2898,6 +2958,33 @@ namespace Krypton.Toolkit
 
                 case PaletteButtonSpecStyle.PendantRestore:
                     return state == PaletteState.Disabled ? _pendantRestoreI : _pendantRestoreA;
+
+                case PaletteButtonSpecStyle.New:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecNewDisabled : _formToolbarButtonSpecNewNormal;
+                case PaletteButtonSpecStyle.Save:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveDisabled : _formToolbarButtonSpecSaveNormal;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveAsDisabled : _formToolbarButtonSpecSaveAsNormal;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveAllDisabled : _formToolbarButtonSpecSaveAllNormal;
+                case PaletteButtonSpecStyle.Cut:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecCutDisabled : _formToolbarButtonSpecCutNormal;
+                case PaletteButtonSpecStyle.Copy:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecCopyDisabled : _formToolbarButtonSpecCopyNormal;
+                case PaletteButtonSpecStyle.Paste:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPasteDisabled : _formToolbarButtonSpecPasteNormal;
+                case PaletteButtonSpecStyle.Undo:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecUndoDisabled : _formToolbarButtonSpecUndoNormal;
+                case PaletteButtonSpecStyle.Redo:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecRedoDisabled : _formToolbarButtonSpecRedoNormal;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPageSetupDisabled : _formToolbarButtonSpecPageSetupNormal;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPrintPreviewDisabled : _formToolbarButtonSpecPrintPreviewNormal;
+                case PaletteButtonSpecStyle.Print:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPrintDisabled : _formToolbarButtonSpecPrintNormal;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecQuickPrintDisabled : _formToolbarButtonSpecQuickPrintNormal;
 
                 case PaletteButtonSpecStyle.Generic:
                     return null;

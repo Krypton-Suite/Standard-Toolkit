@@ -83,6 +83,16 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GenericPrint {
+            get {
+                object obj = ResourceManager.GetObject("GenericPrint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap GenericPrintPreview {
             get {
                 object obj = ResourceManager.GetObject("GenericPrintPreview", resourceCulture);
