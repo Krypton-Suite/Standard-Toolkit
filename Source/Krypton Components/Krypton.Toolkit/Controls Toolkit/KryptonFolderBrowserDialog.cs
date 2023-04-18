@@ -16,6 +16,8 @@ namespace Krypton.Toolkit
     /// </summary>
     [DesignerCategory(@"code")]
     [Description("Displays a Kryptonised version of the standard 'File Browser dialog' from which the user can select a Directory.")]
+    [ToolboxBitmap(typeof(FolderBrowserDialog), @"ToolboxBitmaps.KryptonFolderBrowserDialog.bmp")]
+    [ToolboxItem(true)]
     public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     {
 #if NET60_OR_GREATER

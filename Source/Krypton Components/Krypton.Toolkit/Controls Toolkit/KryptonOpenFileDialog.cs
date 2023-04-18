@@ -17,6 +17,7 @@ namespace Krypton.Toolkit
     [DesignerCategory(@"code")]
     [Description("Displays a Kryptonised version of the standard 'OpenFile dialog window' from which the user can select a file.")]
     [ToolboxBitmap(typeof(OpenFileDialog), @"ToolboxBitmaps.KryptonOpenFileDialog.bmp")]
+    [ToolboxItem(true)]
     public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
     {
         private readonly OpenFileDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
