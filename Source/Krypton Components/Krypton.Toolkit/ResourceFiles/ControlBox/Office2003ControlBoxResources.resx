@@ -121,9 +121,6 @@
   <data name="Office2003HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2003HelpIconDisabledV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Office2003HelpIconDisabledV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Office2003HelpIconNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003HelpIconNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

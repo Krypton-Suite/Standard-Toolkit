@@ -73,16 +73,6 @@ namespace Krypton.Toolkit.ResourceFiles.ControlBox {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2003HelpIconDisabledV2 {
-            get {
-                object obj = ResourceManager.GetObject("Office2003HelpIconDisabledV2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Office2003HelpIconNormal {
             get {
                 object obj = ResourceManager.GetObject("Office2003HelpIconNormal", resourceCulture);
