@@ -111,7 +111,7 @@ namespace Krypton.Ribbon
             COLLAPSED_IMAGE_PADDING_2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(4 * FactorDpiY));
             COLLAPSED_IMAGE_PADDING_2010 = new Padding((int)(3 * FactorDpiX), (int)(1 * FactorDpiY), (int)(5 * FactorDpiX), (int)(5 * FactorDpiY));
         }
-        
+
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
@@ -192,7 +192,7 @@ namespace Krypton.Ribbon
                 // The keytip should be centered at the bottom of the view
                 Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
 
-                keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipGroup, screenPt, 
+                keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipGroup, screenPt,
                                               _layoutCollapsedMain.ClientRectangle, _collapsedController));
             }
             else
@@ -355,7 +355,7 @@ namespace Krypton.Ribbon
             var firstUnderMax = -1;
             var lastOverMin = -1;
             var smallestWidth = int.MaxValue;
-            for(var i=0; i<retWidths.Count; i++)
+            for (var i = 0; i < retWidths.Count; i++)
             {
                 // Add on the fixed widths of the left and right borders so that the
                 // permutations all reflect the actual width of the whole group
@@ -598,7 +598,7 @@ namespace Krypton.Ribbon
                             _layoutNormalSepLeft.SeparatorSize = new Size(NORMAL_BORDER_LEFT2010, NORMAL_BORDER_LEFT2010);
                             _layoutNormalSepRight.SeparatorSize = new Size(NORMAL_BORDER_RIGHT2010, NORMAL_BORDER_RIGHT2010);
                             _layoutCollapsedImagePadding.PreferredPadding = COLLAPSED_IMAGE_PADDING_2010;
-                            _lastRibbonShape = PaletteRibbonShape.Office2010; 
+                            _lastRibbonShape = PaletteRibbonShape.Office2010;
                             break;
                     }
                 }
@@ -640,7 +640,7 @@ namespace Krypton.Ribbon
             _viewNormalDialog = new ViewLayoutRibbonGroupButton(_ribbon, _ribbonGroup, _needPaint);
             _layoutNormalContent.DialogView = _viewNormalDialog;
             _layoutNormalTitle.Add(_viewNormalDialog, ViewDockStyle.Right);
-            
+
             // Use this class to return the context color for any null values
             _paletteContextBackArea = new PaletteRibbonContextBack(_ribbon);
             _paletteContextBorder = new PaletteRibbonContextBack(_ribbon);
@@ -682,7 +682,7 @@ namespace Krypton.Ribbon
             // Add the first line of text
             _viewCollapsedText1 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, true);
             layoutCollapsedInside.Add(_viewCollapsedText1, ViewDockStyle.Top);
-            
+
             // Add group image frame
             _layoutCollapsedImagePadding = new ViewLayoutRibbonCenterPadding(COLLAPSED_IMAGE_PADDING_2007);
             layoutCollapsedInside.Add(_layoutCollapsedImagePadding, ViewDockStyle.Top);

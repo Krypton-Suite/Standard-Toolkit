@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonHelpCommand" /> class.</summary>
         public KryptonHelpCommand()
         {
-            // An empty constructor...
+            _imageStates = new();
         }
 
         #endregion

@@ -17,6 +17,7 @@ namespace Krypton.Toolkit
     [DesignerCategory(@"code")]
     [Description("Displays a Kryptonised version of the standard 'SaveFile dialog window' from which the user can select a file.")]
     [ToolboxBitmap(typeof(SaveFileDialog), @"ToolboxBitmaps.KryptonSaveFileDialog.bmp")]
+    [ToolboxItem(true)]
     public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
     {
         private readonly SaveFileDialog _internalSaveFileDialog = new();// { AutoUpgradeEnabled = true };

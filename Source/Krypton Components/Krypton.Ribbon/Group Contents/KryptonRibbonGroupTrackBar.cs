@@ -434,6 +434,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Change to apply when a small change occurs.")]
         [DefaultValue(1)]
+        [DisallowNull]
         public int SmallChange
         {
             get => TrackBar.SmallChange;
@@ -446,6 +447,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Change to apply when a large change occurs.")]
         [DefaultValue(5)]
+        [DisallowNull]
         public int LargeChange
         {
             get => TrackBar.LargeChange;
