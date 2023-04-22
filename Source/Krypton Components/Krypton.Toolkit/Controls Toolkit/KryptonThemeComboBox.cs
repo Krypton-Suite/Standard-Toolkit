@@ -29,7 +29,12 @@ namespace Krypton.Toolkit
         /// Helper, to return a new list of names
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string> SupportedThemesList => _supportedThemesNames.ToList();
+        public List<string> SupportedThemesList
+        {
+            get => _supportedThemesNames.ToList();
+
+            //private set { _supportedThemesNames = value.ToArray(); }
+        }
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
@@ -84,6 +89,9 @@ namespace Krypton.Toolkit
         ///   <br />
         /// </returns>
         public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
+
+        // TODO: Refresh the theme names if the values have been altered
+        //public void RefreshSupportedThemeList() => SupportedThemesNames = ThemeManager.SupportedInternalThemeNames;
 
         #endregion
 

@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText() => KryptonManager.Strings.Today + " " + _calendar.TodayDate.ToString(_calendar.TodayFormat);
+        public string GetShortText() => KryptonLanguageManager.Strings.Today + " " + _calendar.TodayDate.ToString(_calendar.TodayFormat);
 
         /// <summary>
         /// Gets the content long text.

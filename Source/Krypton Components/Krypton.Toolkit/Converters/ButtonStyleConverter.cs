@@ -19,7 +19,9 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        #region Old
+
+        /*private readonly Pair[] _pairs =
         {
             new(ButtonStyle.Standalone, "Standalone"),
             new(ButtonStyle.Alternate, "Alternate"),
@@ -40,7 +42,33 @@ namespace Krypton.Toolkit
             new(ButtonStyle.Custom1, "Custom1"),
             new(ButtonStyle.Custom2, "Custom2"),
             new(ButtonStyle.Custom3, "Custom3")
+        };*/
+
+        #endregion
+
+        private readonly Pair[] _pairs =
+        {
+            new(ButtonStyle.Standalone, KryptonLanguageManager.SpecStyleStrings.Standalone),
+            new(ButtonStyle.Alternate, KryptonLanguageManager.SpecStyleStrings.Alternate),
+            new(ButtonStyle.LowProfile, KryptonLanguageManager.SpecStyleStrings.LowProfile),
+            new(ButtonStyle.ButtonSpec, KryptonLanguageManager.SpecStyleStrings.ButtonSpecName),
+            new(ButtonStyle.BreadCrumb, KryptonLanguageManager.SpecStyleStrings.BreadCrumb),
+            new(ButtonStyle.CalendarDay, KryptonLanguageManager.SpecStyleStrings.CalendarDay),
+            new(ButtonStyle.Cluster, KryptonLanguageManager.SpecStyleStrings.Cluster),
+            new(ButtonStyle.Gallery, KryptonLanguageManager.SpecStyleStrings.Gallery),
+            new(ButtonStyle.NavigatorStack, KryptonLanguageManager.SpecStyleStrings.NavigatorStack),
+            new(ButtonStyle.NavigatorOverflow, KryptonLanguageManager.SpecStyleStrings.NavigatorOverflow),
+            new(ButtonStyle.NavigatorMini, KryptonLanguageManager.SpecStyleStrings.NavigatorMini),
+            new(ButtonStyle.InputControl, KryptonLanguageManager.SpecStyleStrings.InputControl),
+            new(ButtonStyle.ListItem, KryptonLanguageManager.SpecStyleStrings.ListItem),
+            new(ButtonStyle.Form, KryptonLanguageManager.SpecStyleStrings.FormName),
+            new(ButtonStyle.FormClose, KryptonLanguageManager.SpecStyleStrings.FormClose),
+            new(ButtonStyle.Command, KryptonLanguageManager.SpecStyleStrings.Command),
+            new(ButtonStyle.Custom1, KryptonLanguageManager.SpecStyleStrings.CustomOne),
+            new(ButtonStyle.Custom2, KryptonLanguageManager.SpecStyleStrings.CustomTwo),
+            new(ButtonStyle.Custom3, KryptonLanguageManager.SpecStyleStrings.CustomThree)
         };
+
         #endregion
 
         #region Identity

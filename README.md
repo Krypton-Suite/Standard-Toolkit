@@ -174,6 +174,12 @@ After updating to v70, you may need to sign your assemblies for a successful bui
 
 As of version 60, all `using` statements are contained in one file per project unless otherwise. For details, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Manage-Using-Statements.md).
 
+## V80.xx (2023-11-xx - Build 2311 - November 2023)
+There are list of changes that have occurred during the development of the V80.## version
+
+### Depreciation of `KryptonManager.Strings`
+In a effort to support translations, `KryptonManager.Strings` is now obsolete. As such, the new `KryptonLanguageManager` will handle such strings.
+
 =======
 
 # Known Issues & Workarounds

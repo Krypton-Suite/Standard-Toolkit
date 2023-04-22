@@ -75,25 +75,25 @@ namespace Krypton.Toolkit
 
         private void SetupControlsText()
         {
-            kbtnCancel.Text = KryptonManager.Strings.Cancel;
+            kbtnCancel.Text = KryptonLanguageManager.Strings.Cancel;
 
-            kbtnOk.Text = KryptonManager.Strings.OK;
+            kbtnOk.Text = KryptonLanguageManager.Strings.OK;
 
-            kcRichTextBoxCopy.Text = KryptonManager.Strings.Copy;
+            kcRichTextBoxCopy.Text = KryptonLanguageManager.Strings.Copy;
 
-            kcRichTextBoxCut.Text = KryptonManager.Strings.Cut;
+            kcRichTextBoxCut.Text = KryptonLanguageManager.Strings.Cut;
 
-            kcRichTextBoxPaste.Text = KryptonManager.Strings.Paste;
+            kcRichTextBoxPaste.Text = KryptonLanguageManager.Strings.Paste;
 
-            kcRichTextBoxSelectAll.Text = KryptonManager.Strings.SelectAll;
+            kcRichTextBoxSelectAll.Text = KryptonLanguageManager.Strings.SelectAll;
 
-            kcTextBoxCopy.Text = KryptonManager.Strings.Copy;
+            kcTextBoxCopy.Text = KryptonLanguageManager.Strings.Copy;
 
-            kcTextBoxCut.Text = KryptonManager.Strings.Cut;
+            kcTextBoxCut.Text = KryptonLanguageManager.Strings.Cut;
 
-            kcTextBoxPaste.Text = KryptonManager.Strings.Paste;
+            kcTextBoxPaste.Text = KryptonLanguageManager.Strings.Paste;
 
-            kcTextBoxSelectAll.Text = KryptonManager.Strings.SelectAll;
+            kcTextBoxSelectAll.Text = KryptonLanguageManager.Strings.SelectAll;
         }
 
         private void SetupVariables(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)

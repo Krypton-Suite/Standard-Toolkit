@@ -328,14 +328,14 @@ namespace Krypton.Toolkit
             switch (_buttons)
             {
                 case KryptonMessageBoxButtons.OK:
-                    _button1.Text = KryptonManager.Strings.OK;
+                    _button1.Text = KryptonLanguageManager.Strings.OK;
                     _button1.DialogResult = DialogResult.OK;
                     _button1.Visible = true;
                     _button1.Enabled = true;
                     break;
                 case KryptonMessageBoxButtons.OKCancel:
-                    _button1.Text = KryptonManager.Strings.OK;
-                    _button2.Text = KryptonManager.Strings.Cancel;
+                    _button1.Text = KryptonLanguageManager.Strings.OK;
+                    _button2.Text = KryptonLanguageManager.Strings.Cancel;
                     _button1.DialogResult = DialogResult.OK;
                     _button2.DialogResult = DialogResult.Cancel;
                     _button1.Visible = true;
@@ -344,8 +344,8 @@ namespace Krypton.Toolkit
                     _button2.Enabled = true;
                     break;
                 case KryptonMessageBoxButtons.YesNo:
-                    _button1.Text = KryptonManager.Strings.Yes;
-                    _button2.Text = KryptonManager.Strings.No;
+                    _button1.Text = KryptonLanguageManager.Strings.Yes;
+                    _button2.Text = KryptonLanguageManager.Strings.No;
                     _button1.DialogResult = DialogResult.Yes;
                     _button2.DialogResult = DialogResult.No;
                     _button1.Visible = true;
@@ -355,9 +355,9 @@ namespace Krypton.Toolkit
                     ControlBox = false;
                     break;
                 case KryptonMessageBoxButtons.YesNoCancel:
-                    _button1.Text = KryptonManager.Strings.Yes;
-                    _button2.Text = KryptonManager.Strings.No;
-                    _button3.Text = KryptonManager.Strings.Cancel;
+                    _button1.Text = KryptonLanguageManager.Strings.Yes;
+                    _button2.Text = KryptonLanguageManager.Strings.No;
+                    _button3.Text = KryptonLanguageManager.Strings.Cancel;
                     _button1.DialogResult = DialogResult.Yes;
                     _button2.DialogResult = DialogResult.No;
                     _button3.DialogResult = DialogResult.Cancel;
@@ -369,8 +369,8 @@ namespace Krypton.Toolkit
                     _button3.Enabled = true;
                     break;
                 case KryptonMessageBoxButtons.RetryCancel:
-                    _button1.Text = KryptonManager.Strings.Retry;
-                    _button2.Text = KryptonManager.Strings.Cancel;
+                    _button1.Text = KryptonLanguageManager.Strings.Retry;
+                    _button2.Text = KryptonLanguageManager.Strings.Cancel;
                     _button1.DialogResult = DialogResult.Retry;
                     _button2.DialogResult = DialogResult.Cancel;
                     _button1.Visible = true;
@@ -379,9 +379,9 @@ namespace Krypton.Toolkit
                     _button2.Enabled = true;
                     break;
                 case KryptonMessageBoxButtons.AbortRetryIgnore:
-                    _button1.Text = KryptonManager.Strings.Abort;
-                    _button2.Text = KryptonManager.Strings.Retry;
-                    _button3.Text = KryptonManager.Strings.Ignore;
+                    _button1.Text = KryptonLanguageManager.Strings.Abort;
+                    _button2.Text = KryptonLanguageManager.Strings.Retry;
+                    _button3.Text = KryptonLanguageManager.Strings.Ignore;
                     _button1.DialogResult = DialogResult.Abort;
                     _button2.DialogResult = DialogResult.Retry;
                     _button3.DialogResult = DialogResult.Ignore;
@@ -394,9 +394,9 @@ namespace Krypton.Toolkit
                     ControlBox = false;
                     break;
                 case KryptonMessageBoxButtons.CancelTryContinue:
-                    _button1.Text = KryptonManager.Strings.Cancel;
-                    _button2.Text = KryptonManager.Strings.TryAgain;
-                    _button3.Text = KryptonManager.Strings.Continue;
+                    _button1.Text = KryptonLanguageManager.Strings.Cancel;
+                    _button2.Text = KryptonLanguageManager.Strings.TryAgain;
+                    _button3.Text = KryptonLanguageManager.Strings.Continue;
                     _button1.DialogResult = DialogResult.Cancel;
 #if NET6_0_OR_GREATER
                     _button2.DialogResult = DialogResult.TryAgain;
@@ -480,7 +480,7 @@ namespace Krypton.Toolkit
             {
                 helpButton.Visible = true;
                 helpButton.Enabled = true;
-                helpButton.Text = KryptonManager.Strings.Help;
+                helpButton.Text = KryptonLanguageManager.Strings.Help;
                 helpButton.KeyPress += (_, _) => LaunchHelp();
                 helpButton.Click += (_, _) => LaunchHelp();
             }

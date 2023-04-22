@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private string _defaultText = KryptonManager.ColorStrings.Color;
+        private string _defaultText = KryptonLanguageManager.ColorStrings.Color;
         private static readonly string _defaultExtraText = string.Empty;
         private static readonly Image _defaultImage = GenericImageResources.ButtonColorImageSmall;
         #endregion
