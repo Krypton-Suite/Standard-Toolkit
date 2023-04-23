@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a string that is guaranteed to be unique.
         /// </summary>
-        public static string UniqueString
+        public static string? UniqueString
         {
             get
             {
