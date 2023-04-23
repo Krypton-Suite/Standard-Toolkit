@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
 
         private void UpdateButtons()
         {
-            _buttonOk.Text = KryptonManager.Strings.OK;
-            _buttonCancel.Text = KryptonManager.Strings.Cancel;
+            _buttonOk.Text = KryptonLanguageManager.Strings.OK;
+            _buttonCancel.Text = KryptonLanguageManager.Strings.Cancel;
         }
 
         private void Response_KeyDown(object sender, KeyEventArgs e)

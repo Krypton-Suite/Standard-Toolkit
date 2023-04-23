@@ -19,7 +19,9 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        #region Old Array
+
+        /*private readonly Pair[] _pairs =
         {
             new(PaletteMode.ProfessionalSystem, "Professional - System"),
             new(PaletteMode.ProfessionalOffice2003, "Professional - Office 2003"),
@@ -74,7 +76,67 @@ namespace Krypton.Toolkit
             new(PaletteMode.SparklePurpleLightMode, "Sparkle - Purple (Light Mode)")
             //new(PaletteMode.VisualStudioDark,      "Visual Studio (Dark Mode)"),
             //new(PaletteMode.VisualStudioLight,     "Visual Studio (Light Mode)")
+        };*/
+
+        #endregion
+
+        private readonly Pair[] _pairs =
+       {
+            new(PaletteMode.ProfessionalSystem, KryptonLanguageManager.ModeStrings.Professional),
+            new(PaletteMode.ProfessionalOffice2003, KryptonLanguageManager.ModeStrings.Professional2003),
+            new(PaletteMode.Office2007Black, KryptonLanguageManager.ModeStrings.Office2007Black),
+            new(PaletteMode.Office2007BlackDarkMode, KryptonLanguageManager.ModeStrings.Office2007BlackDarkMode),
+            new(PaletteMode.Office2007Blue, KryptonLanguageManager.ModeStrings.Office2007Blue),
+            new(PaletteMode.Office2007BlueDarkMode, KryptonLanguageManager.ModeStrings.Office2007BlueDarkMode),
+            new(PaletteMode.Office2007BlueLightMode, KryptonLanguageManager.ModeStrings.Office2007BlueLightMode),
+            // Note: Re-enable when the gray themes are completed
+            new(PaletteMode.Office2007DarkGray, KryptonLanguageManager.ModeStrings.Office2007DarkGray),
+            //new(PaletteMode.Office2007LightGray, KryptonLanguageManager.ModeStrings.Office2007LightGray),
+            new(PaletteMode.Office2007Silver, KryptonLanguageManager.ModeStrings.Office2007Silver),
+            new(PaletteMode.Office2007SilverDarkMode, KryptonLanguageManager.ModeStrings.Office2007SilverDarkMode),
+            new(PaletteMode.Office2007SilverLightMode, KryptonLanguageManager.ModeStrings.Office2007SilverLightMode),
+            new(PaletteMode.Office2007White, KryptonLanguageManager.ModeStrings.Office2007White),
+            new(PaletteMode.Office2010Black, KryptonLanguageManager.ModeStrings.Office2010Black),
+            new(PaletteMode.Office2010BlackDarkMode, KryptonLanguageManager.ModeStrings.Office2010BlackDarkMode),
+            new(PaletteMode.Office2010Blue, KryptonLanguageManager.ModeStrings.Office2010Blue),
+            new(PaletteMode.Office2010BlueDarkMode, KryptonLanguageManager.ModeStrings.Office2010BlueDarkMode),
+            new(PaletteMode.Office2010BlueLightMode, KryptonLanguageManager.ModeStrings.Office2010BlueLightMode),
+            // Note: Re-enable when the gray themes are completed
+            new(PaletteMode.Office2010DarkGray, KryptonLanguageManager.ModeStrings.Office2010DarkGray),
+            //new(PaletteMode.Office2010LightGray, KryptonLanguageManager.ModeStrings.Office2010LightGray),
+            new(PaletteMode.Office2010Silver, KryptonLanguageManager.ModeStrings.Office2010Silver),
+            new(PaletteMode.Office2010SilverDarkMode, KryptonLanguageManager.ModeStrings.Office2010SilverDarkMode),
+            new(PaletteMode.Office2010SilverLightMode, KryptonLanguageManager.ModeStrings.Office2010SilverLightMode),
+            new(PaletteMode.Office2010White, KryptonLanguageManager.ModeStrings.Office2010White),
+            // Note: Re-enable when the gray themes are completed
+            new(PaletteMode.Office2013DarkGray, KryptonLanguageManager.ModeStrings.Office2013DarkGray),
+            //new(PaletteMode.Office2013LightGray, KryptonLanguageManager.ModeStrings.Office2013LightGray),
+            new(PaletteMode.Office2013White, KryptonLanguageManager.ModeStrings.Office2013White),
+            new(PaletteMode.Microsoft365Black, KryptonLanguageManager.ModeStrings.Microsoft365Black),
+            new(PaletteMode.Microsoft365BlackDarkMode, KryptonLanguageManager.ModeStrings.Microsoft365BlackDarkMode),
+            new(PaletteMode.Microsoft365Blue, KryptonLanguageManager.ModeStrings.Microsoft365Blue),
+            new(PaletteMode.Microsoft365BlueDarkMode, KryptonLanguageManager.ModeStrings.Microsoft365BlueDarkMode),
+            new(PaletteMode.Microsoft365BlueLightMode, KryptonLanguageManager.ModeStrings.Microsoft365BlueLightMode),
+            // Note: Re-enable when the gray themes are completed
+            new(PaletteMode.Microsoft365DarkGray, KryptonLanguageManager.ModeStrings.Microsoft365DarkGray),
+            //new(PaletteMode.Microsoft365LightGray, KryptonLanguageManager.ModeStrings.Microsoft365LightGray),
+            new(PaletteMode.Microsoft365Silver, KryptonLanguageManager.ModeStrings.Microsoft365Silver),
+            new(PaletteMode.Microsoft365SilverDarkMode, KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode),
+            new(PaletteMode.Microsoft365SilverLightMode, KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode),
+            new(PaletteMode.Microsoft365White, KryptonLanguageManager.ModeStrings.Microsoft365White),
+            new(PaletteMode.SparkleBlue, KryptonLanguageManager.ModeStrings.SparkleBlue),
+            new(PaletteMode.SparkleBlueDarkMode, KryptonLanguageManager.ModeStrings.SparkleBlueDarkMode),
+            new(PaletteMode.SparkleBlueLightMode, KryptonLanguageManager.ModeStrings.SparkleBlueLightMode),
+            new(PaletteMode.SparkleOrange, KryptonLanguageManager.ModeStrings.SparkleOrange),
+            new(PaletteMode.SparkleOrangeDarkMode, KryptonLanguageManager.ModeStrings.SparkleOrangeDarkMode),
+            new(PaletteMode.SparkleOrangeLightMode, KryptonLanguageManager.ModeStrings.SparkleOrangeLightMode),
+            new(PaletteMode.SparklePurple, KryptonLanguageManager.ModeStrings.SparklePurple),
+            new(PaletteMode.SparklePurpleDarkMode, KryptonLanguageManager.ModeStrings.SparklePurpleDarkMode),
+            new(PaletteMode.SparklePurpleLightMode, KryptonLanguageManager.ModeStrings.SparklePurpleLightMode)
+            //new(PaletteMode.VisualStudioDark,      "Visual Studio (Dark Mode)"),
+            //new(PaletteMode.VisualStudioLight,     "Visual Studio (Light Mode)")
         };
+
         #endregion
 
         #region Identity

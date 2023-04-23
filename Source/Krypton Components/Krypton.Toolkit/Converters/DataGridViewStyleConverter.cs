@@ -19,7 +19,9 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        #region Old
+
+        /*private readonly Pair[] _pairs =
         {
             new(DataGridViewStyle.List, "List"),
             new(DataGridViewStyle.Sheet, "Sheet"),
@@ -27,7 +29,20 @@ namespace Krypton.Toolkit
             new(DataGridViewStyle.Custom2, "Custom2"),
             new(DataGridViewStyle.Custom3, "Custom3"),
             new(DataGridViewStyle.Mixed, "Mixed")
+        };*/
+
+        #endregion
+
+        private readonly Pair[] _pairs =
+        {
+            new(DataGridViewStyle.List, KryptonLanguageManager.GridViewStyleStrings.List),
+            new(DataGridViewStyle.Sheet, KryptonLanguageManager.GridViewStyleStrings.Sheet),
+            new(DataGridViewStyle.Custom1, KryptonLanguageManager.GridViewStyleStrings.CustomOne),
+            new(DataGridViewStyle.Custom2, KryptonLanguageManager.GridViewStyleStrings.CustomTwo),
+            new(DataGridViewStyle.Custom3, KryptonLanguageManager.GridViewStyleStrings.CustomThree),
+            new(DataGridViewStyle.Mixed, KryptonLanguageManager.GridViewStyleStrings.Mixed)
         };
+
         #endregion
 
         #region Identity

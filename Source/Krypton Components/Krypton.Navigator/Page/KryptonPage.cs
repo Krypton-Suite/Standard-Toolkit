@@ -51,7 +51,7 @@ namespace Krypton.Navigator
         private string? _textDescription;
         private string _toolTipTitle;
         private string _toolTipBody;
-        private string _uniqueName;
+        private string? _uniqueName;
         private Bitmap? _imageSmall;
         private Bitmap? _imageMedium;
         private Bitmap? _imageLarge;
@@ -743,7 +743,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The unique name of the page.")]
-        public virtual string UniqueName
+        public virtual string? UniqueName
         {
             [DebuggerStepThrough]
             get => _uniqueName;
@@ -1432,7 +1432,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnDockChanged(EventArgs e)
         {
-            DockChanged(this, e);
+            DockChanged.Invoke(this, e);
         }
 
         /// <summary>
@@ -1441,7 +1441,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnLocationChanged(EventArgs e)
         {
-            LocationChanged(this, e);
+            LocationChanged.Invoke(this, e);
         }
 
         /// <summary>
@@ -1450,7 +1450,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnTabIndexChanged(EventArgs e)
         {
-            TabIndexChanged(this, e);
+            TabIndexChanged.Invoke(this, e);
         }
 
         /// <summary>
@@ -1459,7 +1459,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnTabStopChanged(EventArgs e)
         {
-            TabStopChanged(this, e);
+            TabStopChanged.Invoke(this, e);
         }
 
         /// <summary>
@@ -1468,7 +1468,7 @@ namespace Krypton.Navigator
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
         protected virtual void OnAppearancePropertyChanged(string propertyName)
         {
-            AppearancePropertyChanged?.Invoke(this, new(propertyName));
+            AppearancePropertyChanged.Invoke(this, new(propertyName));
         }
 
         /// <summary>
@@ -1477,7 +1477,7 @@ namespace Krypton.Navigator
         /// <param name="changed">Set of flags that have changed.</param>
         protected virtual void OnFlagsChanged(KryptonPageFlags changed)
         {
-            FlagsChanged(this, new(changed));
+            FlagsChanged.Invoke(this, new(changed));
         }
 
         /// <summary>
@@ -1486,7 +1486,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e)
         {
-            AutoHiddenSlideSizeChanged(this, e);
+            AutoHiddenSlideSizeChanged.Invoke(this, e);
         }
 
         /// <summary>
@@ -1495,7 +1495,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnLoad(EventArgs e)
         {
-            Load(this, e);
+            Load.Invoke(this, e);
         }
 
         /// <summary>
