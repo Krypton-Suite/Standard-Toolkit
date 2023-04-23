@@ -55,14 +55,39 @@ namespace Krypton.Toolkit
             Sheet = DEFAULT_GRID_STYLE_SHEET;
         }
 
+        /// <summary>Gets or sets the custom 1 grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 grid style.")]
+        [DefaultValue(DEFAULT_GRID_STYLE_CUSTOM_ONE)]
+        [RefreshProperties(RefreshProperties.All)]
         public string CustomOne { get; set; }
 
+        /// <summary>Gets or sets the custom 2 grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 grid style.")]
+        [DefaultValue(DEFAULT_GRID_STYLE_CUSTOM_TWO)]
+        [RefreshProperties(RefreshProperties.All)]
         public string CustomTwo { get; set; }
 
+        /// <summary>Gets or sets the custom 3 grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 3 grid style.")]
+        [DefaultValue(DEFAULT_GRID_STYLE_CUSTOM_THREE)]
+        [RefreshProperties(RefreshProperties.All)]
         public string CustomThree { get; set; }
 
+        /// <summary>Gets or sets the list grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The list grid style.")]
+        [DefaultValue(DEFAULT_GRID_STYLE_LIST)]
+        [RefreshProperties(RefreshProperties.All)]
         public string List { get; set; }
 
+        /// <summary>Gets or sets the sheet grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The sheet grid style.")]
+        [DefaultValue(DEFAULT_GRID_STYLE_SHEET)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Sheet { get; set; }
 
         #endregion'

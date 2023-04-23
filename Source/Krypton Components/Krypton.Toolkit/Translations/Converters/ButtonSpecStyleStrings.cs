@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_BUTTON_SPEC_STYLE_ALTERNATE = @"Alternate";
         private const string DEFAULT_BUTTON_SPEC_STYLE_STANDALONE = @"Standalone";
         private const string DEFAULT_BUTTON_SPEC_STYLE_LOW_PROFILE = @"Low Profile";
-        private const string DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC = nameof(ButtonSpec);
+        private const string DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC = nameof(Krypton.Toolkit.ButtonSpec);
         private const string DEFAULT_BUTTON_SPEC_STYLE_BREAD_CRUMB = @"Bread Crumb";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CALENDAR_DAY = @"Calendar Day";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CLUSTER = @"Cluster";
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_BUTTON_SPEC_STYLE_NAVIGATOR_MINI = @"Navigator Mini";
         private const string DEFAULT_BUTTON_SPEC_STYLE_INPUT_CONTROL = @"Input Control";
         private const string DEFAULT_BUTTON_SPEC_STYLE_LIST_ITEM = @"List Item";
-        private const string DEFAULT_BUTTON_SPEC_STYLE_FORM = nameof(Form);
+        private const string DEFAULT_BUTTON_SPEC_STYLE_FORM = nameof(System.Windows.Forms.Form);
         private const string DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE = @"Form Close";
         private const string DEFAULT_BUTTON_SPEC_STYLE_COMMAND = @"Command";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_ONE = @"Custom 1";
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public bool IsDefault => Alternate.Equals(DEFAULT_BUTTON_SPEC_STYLE_ALTERNATE) &&
                                  BreadCrumb.Equals(DEFAULT_BUTTON_SPEC_STYLE_BREAD_CRUMB) &&
-                                 ButtonSpecName.Equals(DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC) &&
+                                 ButtonSpec.Equals(DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC) &&
                                  CalendarDay.Equals(DEFAULT_BUTTON_SPEC_STYLE_CALENDAR_DAY) &&
                                  Cluster.Equals(DEFAULT_BUTTON_SPEC_STYLE_CLUSTER) &&
                                  Command.Equals(DEFAULT_BUTTON_SPEC_STYLE_COMMAND) &&
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
                                  CustomTwo.Equals(DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_TWO) &&
                                  CustomThree.Equals(DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_THREE) &&
                                  FormClose.Equals(DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE) &&
-                                 FormName.Equals(DEFAULT_BUTTON_SPEC_STYLE_FORM) &&
+                                 Form.Equals(DEFAULT_BUTTON_SPEC_STYLE_FORM) &&
                                  Gallery.Equals(DEFAULT_BUTTON_SPEC_STYLE_GALLERY) &&
                                  InputControl.Equals(DEFAULT_BUTTON_SPEC_STYLE_INPUT_CONTROL) &&
                                  ListItem.Equals(DEFAULT_BUTTON_SPEC_STYLE_LIST_ITEM) &&
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
 
             BreadCrumb = DEFAULT_BUTTON_SPEC_STYLE_BREAD_CRUMB;
 
-            ButtonSpecName = DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC;
+            ButtonSpec = DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC;
 
             CalendarDay = DEFAULT_BUTTON_SPEC_STYLE_CALENDAR_DAY;
 
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
 
             FormClose = DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE;
 
-            FormName = DEFAULT_BUTTON_SPEC_STYLE_FORM;
+            Form = DEFAULT_BUTTON_SPEC_STYLE_FORM;
 
             Gallery = DEFAULT_BUTTON_SPEC_STYLE_GALLERY;
 
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         [Description(@"The buttonspec button spec style.")]
         [DefaultValue(DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC)]
         [RefreshProperties(RefreshProperties.All)]
-        public string ButtonSpecName { get; set; }
+        public string ButtonSpec { get; set; }
 
         /// <summary>Gets or sets the calendar day button spec style.</summary>
         [Category(@"Visuals")]
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         [Description(@"The form button spec style.")]
         [DefaultValue(DEFAULT_BUTTON_SPEC_STYLE_FORM)]
         [RefreshProperties(RefreshProperties.All)]
-        public string FormName { get; set; }
+        public string Form { get; set; }
 
         /// <summary>Gets or sets the gallery button spec style.</summary>
         [Category(@"Visuals")]

@@ -19,12 +19,25 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(HeaderGroupCollapsedTarget.CollapsedToPrimary, "Collapse to Primary Header"),
+        //    new(HeaderGroupCollapsedTarget.CollapsedToSecondary, "Collapse to Secondary Header"),
+        //    new(HeaderGroupCollapsedTarget.CollapsedToBoth, "Collapse to Both Headers")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(HeaderGroupCollapsedTarget.CollapsedToPrimary, "Collapse to Primary Header"),
-            new(HeaderGroupCollapsedTarget.CollapsedToSecondary, "Collapse to Secondary Header"),
-            new(HeaderGroupCollapsedTarget.CollapsedToBoth, "Collapse to Both Headers")
+            new(HeaderGroupCollapsedTarget.CollapsedToPrimary, KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToPrimary),
+            new(HeaderGroupCollapsedTarget.CollapsedToSecondary, KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToSecondary),
+            new(HeaderGroupCollapsedTarget.CollapsedToBoth, KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToBoth)
         };
+
         #endregion
 
         #region Identity

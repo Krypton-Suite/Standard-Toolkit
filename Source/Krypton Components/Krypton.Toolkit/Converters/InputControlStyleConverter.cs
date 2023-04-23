@@ -19,17 +19,35 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(InputControlStyle.Standalone, "Standalone"),
+        //    new(InputControlStyle.Ribbon, "Ribbon"),
+        //    new(InputControlStyle.Custom1, "Custom1"),
+        //    new(InputControlStyle.Custom2, "Custom2"),
+        //    new(InputControlStyle.Custom3, "Custom3"),
+        //    new(InputControlStyle.PanelClient, "Panel Client"),
+        //    new(InputControlStyle.PanelAlternate, "Panel Alternate"),
+        //    // new(InputControlStyle.Disabled, "Disabled")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(InputControlStyle.Standalone, "Standalone"),
-            new(InputControlStyle.Ribbon, "Ribbon"),
-            new(InputControlStyle.Custom1, "Custom1"),
-            new(InputControlStyle.Custom2, "Custom2"),
-            new(InputControlStyle.Custom3, "Custom3"),
-            new(InputControlStyle.PanelClient, "Panel Client"),
-            new(InputControlStyle.PanelAlternate, "Panel Alternate"),
+            new(InputControlStyle.Standalone, KryptonLanguageManager.InputControlStyles.Standalone),
+            new(InputControlStyle.Ribbon, KryptonLanguageManager.InputControlStyles.Ribbon),
+            new(InputControlStyle.Custom1, KryptonLanguageManager.InputControlStyles.CustomOne),
+            new(InputControlStyle.Custom2, KryptonLanguageManager.InputControlStyles.CustomTwo),
+            new(InputControlStyle.Custom3, KryptonLanguageManager.InputControlStyles.CustomThree),
+            new(InputControlStyle.PanelClient, KryptonLanguageManager.InputControlStyles.PanelClient),
+            new(InputControlStyle.PanelAlternate, KryptonLanguageManager.InputControlStyles.PanelAlternate),
             // new(InputControlStyle.Disabled, "Disabled")
         };
+
         #endregion
 
         #region Identity

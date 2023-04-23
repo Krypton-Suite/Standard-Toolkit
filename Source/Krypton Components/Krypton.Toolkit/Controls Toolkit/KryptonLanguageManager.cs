@@ -86,26 +86,68 @@ namespace Krypton.Toolkit
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public DataGridViewStyleStrings DataGridViewStyleStrings => GridViewStyleStrings;
+        public DataGridViewStyleStrings DataGridViewStyleStrings => DataGridViewStyles;
 
-        private bool ShouldSerializeDataGridViewStyleStrings() => !GridViewStyleStrings.IsDefault;
+        private bool ShouldSerializeDataGridViewStyleStrings() => !DataGridViewStyles.IsDefault;
 
         /// <summary>Resets the data grid view style strings.</summary>
-        public void ResetDataGridViewStyleStrings() => GridViewStyleStrings.Reset();
+        public void ResetDataGridViewStyleStrings() => DataGridViewStyles.Reset();
 
         /// <summary>Gets the grid style strings.</summary>
         /// <value>The grid style strings.</value>
         [Category(@"Visuals")]
-        [Description(@"Collection of grid view style strings.")]
+        [Description(@"Collection of grid style strings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public GridStyleStrings GridStyleStrings => StyleStrings;
+        public GridStyleStrings GridStyleStrings => GridStyles;
 
-        private bool ShouldSerializeGridStyleStrings() => !StyleStrings.IsDefault;
+        private bool ShouldSerializeGridStyleStrings() => !GridStyles.IsDefault;
 
         /// <summary>Resets the grid style strings.</summary>
-        public void ResetGridStyleStrings() => StyleStrings.Reset();
+        public void ResetGridStyleStrings() => GridStyles.Reset();
+
+        /// <summary>Gets the header group collapsed target strings.</summary>
+        /// <value>The header group collapsed target strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of header group collapsed target strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public HeaderGroupCollapsedTargetStrings HeaderGroupCollapsedTargetStrings => GroupCollapsedTargetStrings;
+
+        private bool ShouldSerializeHeaderGroupCollapsedTargetStrings() => !GroupCollapsedTargetStrings.IsDefault;
+
+        /// <summary>Resets the header group collapsed target strings.</summary>
+        public void ResetHeaderGroupCollapsedTargetStrings() => GroupCollapsedTargetStrings.Reset();
+
+        /// <summary>Gets the header style strings.</summary>
+        /// <value>The header style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of header style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public HeaderStyleStrings HeaderStyleStrings => HeaderStyles;
+
+        private bool ShouldSerializeHeaderStyleStrings() => !HeaderStyles.IsDefault;
+
+        /// <summary>Resets the header style strings.</summary>
+        public void ResetHeaderStyleStrings() => HeaderStyles.Reset();
+
+        /// <summary>Gets the input control style strings.</summary>
+        /// <value>The input control style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of input control style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public InputControlStyleStrings InputControlStyleStrings => InputControlStyles;
+
+        private bool ShouldSerializeInputControlStyleStrings() => !InputControlStyles.IsDefault;
+
+        /// <summary>Resets the input control style strings.</summary>
+        public void ResetInputControlStyleStrings() => InputControlStyles.Reset();
 
         #endregion
 
@@ -130,11 +172,23 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the grid view style strings.</summary>
         /// <value>The grid view style strings.</value>
-        public static DataGridViewStyleStrings GridViewStyleStrings { get; } = new();
+        public static DataGridViewStyleStrings DataGridViewStyles { get; } = new();
 
         /// <summary>Gets the style strings.</summary>
         /// <value>The style strings.</value>
-        public static GridStyleStrings StyleStrings { get; } = new();
+        public static GridStyleStrings GridStyles { get; } = new();
+
+        /// <summary>Gets the group collapsed target strings.</summary>
+        /// <value>The group collapsed target strings.</value>
+        public static HeaderGroupCollapsedTargetStrings GroupCollapsedTargetStrings { get; } = new();
+
+        /// <summary>Gets the header styles.</summary>
+        /// <value>The header styles.</value>
+        public static HeaderStyleStrings HeaderStyles { get; } = new();
+
+        /// <summary>Gets the input control styles.</summary>
+        /// <value>The input control styles.</value>
+        public static InputControlStyleStrings InputControlStyles { get; } = new();
 
         #endregion
 
@@ -156,11 +210,14 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeGeneralStrings() ||
-                                       ShouldSerializeColorStrings() ||
-                                       ShouldSerializePaletteModeStrings() ||
-                                       ShouldSerializeButtonSpecStyleStrings() ||
-                                       ShouldSerializeDataGridViewStyleStrings() ||
-                                       ShouldSerializeGridStyleStrings());
+                                   ShouldSerializeColorStrings() ||
+                                   ShouldSerializePaletteModeStrings() ||
+                                   ShouldSerializeButtonSpecStyleStrings() ||
+                                   ShouldSerializeDataGridViewStyleStrings() ||
+                                   ShouldSerializeGridStyleStrings() ||
+                                   ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
+                                   ShouldSerializeHeaderStyleStrings() ||
+                                   ShouldSerializeInputControlStyleStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -176,7 +233,19 @@ namespace Krypton.Toolkit
             ResetDataGridViewStyleStrings();
 
             ResetGridStyleStrings();
+
+            ResetHeaderGroupCollapsedTargetStrings();
+
+            ResetHeaderStyleStrings();
+
+            ResetInputControlStyleStrings();
         }
+
+        #endregion
+
+        #region Protected
+
+
 
         #endregion
     }
