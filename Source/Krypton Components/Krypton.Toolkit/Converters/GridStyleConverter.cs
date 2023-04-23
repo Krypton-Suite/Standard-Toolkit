@@ -19,14 +19,28 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        #region Old
+
+        /*private readonly Pair[] _pairs =
         {
             new(GridStyle.List, "List"),
             new(GridStyle.Sheet, "Sheet"),
             new(GridStyle.Custom1, "Custom1"),
             new(GridStyle.Custom2, "Custom2"),
             new(GridStyle.Custom3, "Custom3")
+        };*/
+
+        #endregion
+
+        private readonly Pair[] _pairs =
+        {
+            new(GridStyle.List, KryptonLanguageManager.StyleStrings.List),
+            new(GridStyle.Sheet, KryptonLanguageManager.StyleStrings.Sheet),
+            new(GridStyle.Custom1, KryptonLanguageManager.StyleStrings.CustomOne),
+            new(GridStyle.Custom2, KryptonLanguageManager.StyleStrings.CustomTwo),
+            new(GridStyle.Custom3, KryptonLanguageManager.StyleStrings.CustomThree)
         };
+
         #endregion
 
         #region Identity

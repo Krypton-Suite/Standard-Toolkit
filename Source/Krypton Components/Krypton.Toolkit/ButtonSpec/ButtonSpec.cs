@@ -470,7 +470,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [Description(@"The unique name of the ButtonSpec.")]
-        public string UniqueName { get; set; }
+        public string? UniqueName { get; set; }
 
         /// <summary>
         /// Resets the UniqueName property to its default value.

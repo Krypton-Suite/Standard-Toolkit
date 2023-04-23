@@ -37,6 +37,8 @@ namespace Krypton.Toolkit
 
         private static PaletteBase? _customPalette;
 
+        private static KryptonLanguageManager? _languageManager;
+
         #region Office 2007 Themes
 
         private static PaletteOffice2007DarkGray _paletteOffice2007DarkGray;
@@ -197,8 +199,8 @@ namespace Krypton.Toolkit
                                    || ShouldSerializeGlobalPalette()
                                    || ShouldSerializeGlobalApplyToolstrips()
                                    || ShouldSerializeGlobalAllowFormChrome()
-                                   || ShouldSerializeGlobalStrings()
-                                   || ShouldSerializeGlobalColorStrings()
+                                //|| ShouldSerializeGlobalStrings()
+                                //|| ShouldSerializeGlobalColorStrings()
                                 );
 
         /// <summary>
@@ -210,10 +212,12 @@ namespace Krypton.Toolkit
             ResetGlobalPalette();
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
-            ResetGlobalStrings();
-            ResetGlobalColorStrings();
+            //ResetGlobalStrings();
+            //ResetGlobalColorStrings();
 
             _customPalette = null;
+
+            _languageManager = null;
         }
 
         /// <summary>
@@ -375,7 +379,7 @@ namespace Krypton.Toolkit
 
         private void ResetGlobalAllowFormChrome() => GlobalAllowFormChrome = true;
 
-        /// <summary>
+        /*/// <summary>
         /// Gets a set of global strings used by Krypton that can be localized.
         /// </summary>
         [Category(@"Visuals")]
@@ -407,7 +411,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the GlobalColorStrings property to its default value.
         /// </summary>
-        public void ResetGlobalColorStrings() => ColorStrings.Reset();
+        public void ResetGlobalColorStrings() => ColorStrings.Reset();*/
 
         [Category(@"Visuals")]
         [Description(@"")]
@@ -428,6 +432,13 @@ namespace Krypton.Toolkit
             get => _customPalette;
             set => _customPalette = value;
         }
+
+        /// <summary>Gets or sets the language manager.</summary>
+        /// <value>The language manager.</value>
+        [Category(@"Visuals")]
+        [Description(@"")]
+        [DefaultValue(null)]
+        public KryptonLanguageManager? LanguageManager { get => _languageManager; set => _languageManager = value; }
 
         #endregion
 
@@ -485,7 +496,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Strings
-        /// <summary>
+
+        /*/// <summary>
         /// Gets access to the set of global strings.
         /// </summary>
         public static GlobalStrings Strings { get; } = new();
@@ -493,7 +505,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the set of global color strings.
         /// </summary>
-        public static GlobalColorStrings ColorStrings { get; } = new();
+        public static GlobalColorStrings ColorStrings { get; } = new();*/
 
         #endregion
 

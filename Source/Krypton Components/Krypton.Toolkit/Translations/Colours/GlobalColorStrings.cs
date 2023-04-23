@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -34,10 +34,13 @@ namespace Krypton.Toolkit
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="GlobalColorStrings" /> class.</summary>
-        public GlobalColorStrings() => Reset();
+        public GlobalColorStrings()
+        {
+            Reset();
+        }
 
         /// <summary>Converts to string.</summary>
-        /// <returns>A <see cref="String" /> that represents this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
         #endregion
@@ -49,10 +52,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
-        public bool IsDefault => Color.Equals(DEFAULT_COLOR) && Color.Equals(DEFAULT_COLORS) &&
-                                 MoreColors.Equals(DEFAULT_MORE_COLORS) && ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+        public bool IsDefault => Color.Equals(DEFAULT_COLOR) &&
+                                 Color.Equals(DEFAULT_COLORS) &&
+                                 MoreColors.Equals(DEFAULT_MORE_COLORS) &&
+                                 ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
                                  StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
-                                 RecentColors.Equals(DEFAULT_RECENT_COLORS) && NoColor.Equals(DEFAULT_NO_COLOR);
+                                 RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
+                                 NoColor.Equals(DEFAULT_NO_COLOR);
 
         /// <summary>
         /// Reset all strings to default values.

@@ -1,4 +1,4 @@
-:: Last updated: Friday 31st March, 2023 @ 9:20
+:: Last updated: Sunday 23rd April, 2023 @ 10:00
 
 @echo off
 
@@ -6,7 +6,7 @@ title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.8b. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.8c. Please select an option below.
 
 @echo ==============================================================================================
 
@@ -194,6 +194,8 @@ cd Scripts
 
 build-nightly-2022.cmd
 
+cd ..
+
 :buildcanaryusingvisualstudio2022
 cls
 
@@ -201,16 +203,19 @@ cd Scripts
 
 build-canary-2022.cmd
 
+cd ..
+
 :buildinstallerusingvisualstudio2022
 cls
 
 cd Scripts
 
 build-installer-2022.cmd
-
 cls
 
 cd Scripts
+
+cd ..
 
 :buildstableusingvisualstudio2022
 cls
@@ -218,6 +223,8 @@ cls
 cd Scripts
 
 build-stable-2022.cmd
+
+cd ..
 
 :: ===================================================================================================
 

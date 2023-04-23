@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
                                                  PaletteBackStyle backStyle,
                                                  PaletteBorderStyle borderStyle,
                                                  PaletteContentStyle contentStyle,
-                                                 NeedPaintHandler needPaint)
+                                                 NeedPaintHandler? needPaint)
         {
             Debug.Assert(redirect != null);
 

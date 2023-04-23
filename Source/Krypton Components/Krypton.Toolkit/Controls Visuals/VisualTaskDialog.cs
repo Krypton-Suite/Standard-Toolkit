@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -72,7 +73,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonTaskDialog _taskDialog;
+        private KryptonTaskDialog? _taskDialog;
         private readonly string _windowTitle;
         private readonly string _mainInstruction;
         private readonly string _content;
@@ -399,8 +400,8 @@ namespace Krypton.Toolkit
 
         private void UpdateButtons()
         {
-            MessageButton firstButton = null;
-            MessageButton defaultButton = null;
+            MessageButton? firstButton = null;
+            MessageButton? defaultButton = null;
 
             if ((_commonButtons & TaskDialogButtons.OK) == TaskDialogButtons.OK)
             {
@@ -410,7 +411,7 @@ namespace Krypton.Toolkit
                 }
 
                 firstButton = _buttonOK;
-                _buttonOK.Text = KryptonManager.Strings.OK;
+                _buttonOK.Text = KryptonLanguageManager.Strings.OK;
                 _buttonOK.Visible = true;
             }
             else
@@ -427,7 +428,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonYes;
 
-                _buttonYes.Text = KryptonManager.Strings.Yes;
+                _buttonYes.Text = KryptonLanguageManager.Strings.Yes;
                 _buttonYes.Visible = true;
             }
             else
@@ -444,7 +445,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonNo;
 
-                _buttonNo.Text = KryptonManager.Strings.No;
+                _buttonNo.Text = KryptonLanguageManager.Strings.No;
                 _buttonNo.Visible = true;
             }
             else
@@ -461,7 +462,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonCancel;
 
-                _buttonCancel.Text = KryptonManager.Strings.Cancel;
+                _buttonCancel.Text = KryptonLanguageManager.Strings.Cancel;
                 _buttonCancel.Visible = true;
             }
             else
@@ -478,7 +479,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonRetry;
 
-                _buttonRetry.Text = KryptonManager.Strings.Retry;
+                _buttonRetry.Text = KryptonLanguageManager.Strings.Retry;
                 _buttonRetry.Visible = true;
             }
             else
@@ -495,7 +496,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonClose;
 
-                _buttonClose.Text = KryptonManager.Strings.Close;
+                _buttonClose.Text = KryptonLanguageManager.Strings.Close;
                 _buttonClose.Visible = true;
             }
             else
@@ -926,7 +927,10 @@ namespace Krypton.Toolkit
         {
             KryptonRadioButton button = (KryptonRadioButton)sender;
             _defaultRadioButton = (KryptonTaskDialogCommand)button.Tag;
-            _taskDialog.DefaultRadioButton = _defaultRadioButton;
+            if (_taskDialog != null)
+            {
+                _taskDialog.DefaultRadioButton = _defaultRadioButton;
+            }
         }
 
         private void OnCommandClicked(object sender, EventArgs e)

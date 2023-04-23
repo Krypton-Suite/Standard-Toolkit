@@ -135,20 +135,20 @@ namespace Krypton.Toolkit
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
             _separatorTheme = new KryptonContextMenuSeparator();
-            _headingTheme = new KryptonContextMenuHeading(KryptonManager.ColorStrings.ThemeColors); //@"Theme Colors");
+            _headingTheme = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.ThemeColors); //@"Theme Colors");
             _colorsTheme = new KryptonContextMenuColorColumns(ColorScheme.OfficeThemes);
             _separatorStandard = new KryptonContextMenuSeparator();
-            _headingStandard = new KryptonContextMenuHeading(KryptonManager.ColorStrings.StandardColors); //@"Standard Colors");
+            _headingStandard = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.StandardColors); //@"Standard Colors");
             _colorsStandard = new KryptonContextMenuColorColumns(ColorScheme.OfficeStandard);
             _separatorRecent = new KryptonContextMenuSeparator();
-            _headingRecent = new KryptonContextMenuHeading(KryptonManager.ColorStrings.RecentColors); //@"Recent Colors");
+            _headingRecent = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.RecentColors); //@"Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem(/*@"&No Color"*/ KryptonManager.ColorStrings.NoColor, GenericImageResources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem(/*@"&No Color"*/ KryptonLanguageManager.ColorStrings.NoColor, GenericImageResources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();
-            _itemMoreColors = new KryptonContextMenuItem(/*@"&More Colors..."*/ KryptonManager.ColorStrings.MoreColors, OnClickMoreColors);
+            _itemMoreColors = new KryptonContextMenuItem(/*@"&More Colors..."*/ KryptonLanguageManager.ColorStrings.MoreColors, OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
             _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
