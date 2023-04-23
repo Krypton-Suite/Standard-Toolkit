@@ -226,14 +226,11 @@ namespace Krypton.Workspace
                 // Compact each child
                 if (Children != null)
                 {
-                    if (Children != null)
+                    foreach (Component component in Children)
                     {
-                        foreach (Component component in Children)
+                        if (component is IWorkspaceItem item)
                         {
-                            if (component is IWorkspaceItem item)
-                            {
-                                item.Compact(flags);
-                            }
+                            item.Compact(flags);
                         }
                     }
                 }
@@ -250,7 +247,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IWorkspaceItem WorkspaceParent { get; internal set; }
+        public IWorkspaceItem? WorkspaceParent { get; internal set; }
 
         /// <summary>
         /// Current pixel size of the item.

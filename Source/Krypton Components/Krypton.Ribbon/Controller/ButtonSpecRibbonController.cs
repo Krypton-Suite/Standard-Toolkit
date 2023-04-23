@@ -79,16 +79,10 @@ namespace Krypton.Ribbon
                         }
 
                         // Get the first far edge button
-                        if (newView == null)
-                        {
-                            newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
-                        }
+                        newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                         // Get the first inherit edge button
-                        if (newView == null)
-                        {
-                            newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                        }
+                        newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                         // Rotate around to application button
                         if (newView == null)
@@ -175,16 +169,10 @@ namespace Krypton.Ribbon
                         }
 
                         // Get the last near edge button
-                        if (newView == null)
-                        {
-                            newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
-                        }
+                        newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                         // Get the last qat button
-                        if (newView == null)
-                        {
-                            newView = ribbon.GetLastQATView();
-                        }
+                        newView ??= ribbon.GetLastQATView();
 
                         // Rotate around to application button
                         if (newView == null)

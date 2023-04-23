@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
 
         private bool _active;
         private bool _mouseOver;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
@@ -41,8 +41,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LeftUpButtonController(KryptonRibbon ribbon,
-                                      ViewBase target,
+        public LeftUpButtonController([DisallowNull] KryptonRibbon ribbon,
+                                      [DisallowNull] ViewBase target,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -216,7 +216,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

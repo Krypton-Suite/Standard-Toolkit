@@ -218,11 +218,11 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">List of images for gallery buttons.</param>
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
-        protected PaletteOffice2013Base(Color[] schemeColors,
-                                     ImageList checkBoxList,
-                                     ImageList galleryButtonList,
-                                     Image[] radioButtonArray,
-                                     Color[]? trackBarColors)
+        protected PaletteOffice2013Base([DisallowNull] Color[] schemeColors,
+                                     [DisallowNull] ImageList checkBoxList,
+                                     [DisallowNull] ImageList galleryButtonList,
+                                     [DisallowNull] Image[] radioButtonArray,
+                                     Color[] trackBarColors)
         {
             Debug.Assert(schemeColors != null);
             Debug.Assert(checkBoxList != null);
@@ -4621,10 +4621,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                if (_table == null)
-                {
-                    _table = new KryptonColorTable2013(_ribbonColors, InheritBool.True, this);
-                }
+                _table ??= new KryptonColorTable2013(_ribbonColors, InheritBool.True, this);
 
                 return _table;
             }

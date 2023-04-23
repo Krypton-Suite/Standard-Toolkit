@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private bool _mouseOver;
         private bool _rightButtonDown;
         private readonly ViewDrawRibbonTab _target;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
@@ -50,8 +50,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RibbonTabController(KryptonRibbon ribbon,
-                                   ViewDrawRibbonTab target,
+        public RibbonTabController([DisallowNull] KryptonRibbon ribbon,
+                                   [DisallowNull] ViewDrawRibbonTab target,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);

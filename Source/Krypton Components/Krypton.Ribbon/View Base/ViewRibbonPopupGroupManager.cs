@@ -34,10 +34,10 @@ namespace Krypton.Ribbon
         /// <param name="viewGroup">Group to track.</param>
         /// <param name="needPaintDelegate">Delegate for performing painting.</param>
         public ViewRibbonPopupGroupManager(Control control,
-                                           KryptonRibbon ribbon,
+            [DisallowNull] KryptonRibbon ribbon,
                                            ViewBase root,
-                                           ViewDrawRibbonGroup viewGroup,
-                                           NeedPaintHandler needPaintDelegate)
+                                           [DisallowNull] ViewDrawRibbonGroup viewGroup,
+                                           [DisallowNull] NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {
             Debug.Assert(ribbon != null);
@@ -107,7 +107,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
-        public override void MouseMove(MouseEventArgs e, Point rawPt)
+        public override void MouseMove([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -135,7 +135,7 @@ namespace Krypton.Ribbon
         /// Perform mouse leave processing.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        public override void MouseLeave(EventArgs e)
+        public override void MouseLeave([DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 

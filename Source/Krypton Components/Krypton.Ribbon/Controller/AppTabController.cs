@@ -272,16 +272,10 @@ namespace Krypton.Ribbon
                     }
 
                     // Move across to any far defined buttons
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any inherit defined buttons
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
                     break;
                 case Keys.Tab | Keys.Shift:
                 case Keys.Left:
@@ -309,16 +303,10 @@ namespace Krypton.Ribbon
                     }
 
                     // Get the last near edge button (the first near button is the rightmost one!)
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                     // Get the last qat button
-                    if (newView == null)
-                    {
-                        newView = ribbon.GetLastQATView();
-                    }
+                    newView ??= ribbon.GetLastQATView();
                     break;
                 case Keys.Space:
                 case Keys.Enter:

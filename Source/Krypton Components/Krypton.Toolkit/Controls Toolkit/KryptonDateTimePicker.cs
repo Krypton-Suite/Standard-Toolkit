@@ -429,10 +429,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = DEFAULT_TODAY;
-                }
+                value ??= DEFAULT_TODAY;
 
                 _today = value;
             }
@@ -526,10 +523,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
@@ -559,10 +553,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _monthlyDates.Clear();
                 _monthlyDates.AddRange(value);

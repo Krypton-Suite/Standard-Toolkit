@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for palette defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTripleMetric(PaletteTripleMetricRedirect inherit,
+        public PaletteTripleMetric([DisallowNull] PaletteTripleMetricRedirect inherit,
                                    NeedPaintHandler needPaint)
             : base(inherit, needPaint)
         {

@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPalette class.
         /// </summary>
         /// <param name="container">Container that owns the component.</param>
-        public KryptonCustomPaletteBase(IContainer container)
+        public KryptonCustomPaletteBase([DisallowNull] IContainer container)
             : this()
         {
             Debug.Assert(container != null);

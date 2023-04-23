@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
         /// <param name="splitCursors">Show as split or movement cursors.</param>
         /// <param name="drawIndicator">Draw a separator indicator.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public SeparatorController(ISeparatorSource source,
+        public SeparatorController([DisallowNull] ISeparatorSource source,
                                    ViewBase target,
                                    bool splitCursors,
                                    bool drawIndicator,
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public override bool KeyUp(Control c, KeyEventArgs e)
+        public override bool KeyUp(Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -677,7 +677,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the SeparatorMessageFilter class.
         /// </summary>
         /// <param name="controller">Owning class instance.</param>
-        public SeparatorMessageFilter(SeparatorController controller)
+        public SeparatorMessageFilter([DisallowNull] SeparatorController controller)
         {
             Debug.Assert(controller != null);
 

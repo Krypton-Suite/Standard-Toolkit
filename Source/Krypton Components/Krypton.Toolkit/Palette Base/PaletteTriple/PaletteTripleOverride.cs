@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
         /// <param name="normalTriple">Normal palette to use.</param>
         /// <param name="overrideTriple">Override palette to use.</param>
         /// <param name="overrideState">State used by the override.</param>
-        public PaletteTripleOverride(IPaletteTriple normalTriple,
-                                     IPaletteTriple overrideTriple,
+        public PaletteTripleOverride([DisallowNull] IPaletteTriple normalTriple,
+                                     [DisallowNull] IPaletteTriple overrideTriple,
                                      PaletteState overrideState)
         {
             Debug.Assert(normalTriple != null);

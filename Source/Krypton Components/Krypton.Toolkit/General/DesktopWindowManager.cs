@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="hWnd">Window handle of form.</param>
         /// <param name="padding">Distance for each form edge.</param>
-        public static void ExtendFrameIntoClientArea(IntPtr hWnd, Padding padding)
+        public static void ExtendFrameIntoClientArea([DisallowNull] IntPtr hWnd, Padding padding)
         {
             // We can't use 'null', since the type of the object is 'IntPtr'. So we need to use 'IntPtr.Zero'.
             Debug.Assert(hWnd != IntPtr.Zero);

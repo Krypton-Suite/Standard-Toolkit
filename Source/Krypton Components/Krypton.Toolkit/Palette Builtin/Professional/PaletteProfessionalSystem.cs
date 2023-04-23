@@ -2795,21 +2795,13 @@ namespace Krypton.Toolkit
         {
             if (state != PaletteState.Disabled)
             {
-                if (_normalDropDownImage == null)
-                {
-                    _normalDropDownImage = CreateDropDownImage(SystemColors.ControlText);
-                    //_normalDropDownColor = SystemColors.ControlText;
-                }
+                _normalDropDownImage ??= CreateDropDownImage(SystemColors.ControlText);
 
                 return _normalDropDownImage;
             }
             else
             {
-                if (_disabledDropDownImage == null)
-                {
-                    _disabledDropDownImage = CreateDropDownImage(SystemColors.ControlDark);
-                    //_disabledDropDownColor = SystemColors.ControlDark;
-                }
+                _disabledDropDownImage ??= CreateDropDownImage(SystemColors.ControlDark);
 
                 return _disabledDropDownImage;
             }

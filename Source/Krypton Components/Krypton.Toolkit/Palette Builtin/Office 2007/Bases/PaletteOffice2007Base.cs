@@ -190,10 +190,10 @@ namespace Krypton.Toolkit
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
         protected PaletteOffice2007Base(string themeName,
-                                        Color[] schemeColors,
-                                        ImageList checkBoxList,
-                                        ImageList galleryButtonList,
-                                        Image[] radioButtonArray,
+            [DisallowNull] Color[] schemeColors,
+            [DisallowNull] ImageList checkBoxList,
+            [DisallowNull] ImageList galleryButtonList,
+            [DisallowNull] Image[] radioButtonArray,
                                         Color[] trackBarColors)
         {
             Debug.Assert(schemeColors != null);

@@ -628,10 +628,10 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">List of images for gallery buttons.</param>
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
-        protected PaletteOffice2010SilverLightModeBase(Color[] schemeColors,
-                                     ImageList checkBoxList,
-                                     ImageList galleryButtonList,
-                                     Image[] radioButtonArray,
+        protected PaletteOffice2010SilverLightModeBase([DisallowNull] Color[] schemeColors,
+                                     [DisallowNull] ImageList checkBoxList,
+                                     [DisallowNull] ImageList galleryButtonList,
+                                     [DisallowNull] Image[] radioButtonArray,
                                      Color[] trackBarColors)
         {
             Debug.Assert(schemeColors != null);
@@ -5239,7 +5239,7 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTable2010SilverLightMode(Color[]? colors,
+        public KryptonColorTable2010SilverLightMode([DisallowNull] Color[] colors,
                                      InheritBool roundedEdges,
                                      PaletteBase palette)
             : base(palette)

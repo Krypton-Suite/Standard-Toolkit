@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         private bool _mouseDown;
         private readonly ViewBase _target;
         private readonly ViewDrawMenuCheckBox _menuCheckBox;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
 
         #endregion
 
@@ -44,10 +44,10 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="checkBox">Drawing element that owns check box display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuCheckBoxController(ViewContextMenuManager viewManager,
-                                      ViewBase target,
-                                      ViewDrawMenuCheckBox checkBox,
-                                      NeedPaintHandler needPaint)
+        public MenuCheckBoxController([DisallowNull] ViewContextMenuManager viewManager,
+                                      [DisallowNull] ViewBase target,
+                                      [DisallowNull] ViewDrawMenuCheckBox checkBox,
+                                      [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(viewManager != null);
             Debug.Assert(target != null);
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyPress(Control c, KeyPressEventArgs e)
+        public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -357,7 +357,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

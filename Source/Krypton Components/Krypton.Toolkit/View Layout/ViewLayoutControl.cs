@@ -35,9 +35,9 @@ namespace Krypton.Toolkit
         /// <param name="viewControl">View control to use as child.</param>
         /// <param name="rootControl">Top level visual control.</param>
         /// <param name="viewChild">View used to size and position the child control.</param>
-        public ViewLayoutControl(ViewControl viewControl,
-                                 VisualControl rootControl,
-                                 ViewBase viewChild)
+        public ViewLayoutControl([DisallowNull] ViewControl viewControl,
+                                 [DisallowNull] VisualControl rootControl,
+                                 [DisallowNull] ViewBase viewChild)
         {
             Debug.Assert(viewControl != null);
             Debug.Assert(rootControl != null);
@@ -207,7 +207,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

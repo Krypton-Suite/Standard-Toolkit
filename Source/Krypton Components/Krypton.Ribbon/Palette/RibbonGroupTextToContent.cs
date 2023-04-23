@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         /// <param name="ribbonGroupText">Source for ribbon group settings.</param>
-        public RibbonGroupTextToContent(PaletteRibbonGeneral ribbonGeneral,
-                                        IPaletteRibbonText ribbonGroupText)
+        public RibbonGroupTextToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral,
+                                        [DisallowNull] IPaletteRibbonText ribbonGroupText)
             : base(ribbonGeneral)
         {
             Debug.Assert(ribbonGroupText != null);

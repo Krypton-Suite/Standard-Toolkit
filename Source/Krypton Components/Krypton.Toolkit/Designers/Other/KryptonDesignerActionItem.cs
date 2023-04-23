@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="verb">Verb instance to wrap.</param>
         /// <param name="category">Name of the category the action belongs to.</param>
-        public KryptonDesignerActionItem(DesignerVerb verb, string category)
+        public KryptonDesignerActionItem([DisallowNull] DesignerVerb verb, [DisallowNull] string category)
             : base(null, null, null)
         {
             Debug.Assert(verb != null);

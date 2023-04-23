@@ -36,8 +36,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupGroup(KryptonRibbon ribbon,
-                                KryptonRibbonGroup ribbonGroup,
+        public VisualPopupGroup([DisallowNull] KryptonRibbon ribbon,
+                                [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                 IRenderer renderer)
             : base(renderer, true)
         {

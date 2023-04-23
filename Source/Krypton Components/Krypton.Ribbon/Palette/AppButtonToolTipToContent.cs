@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the AppButtonToolTipToContent class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public AppButtonToolTipToContent(KryptonRibbon ribbon)
+        public AppButtonToolTipToContent([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteBackInheritForced class.
         /// </summary>
         /// <param name="inherit">Background palette to inherit from.</param>
-        public PaletteBackInheritForced(IPaletteBack inherit)
+        public PaletteBackInheritForced([DisallowNull] IPaletteBack inherit)
         {
             Debug.Assert(inherit != null);
 
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to inherit from.
         /// </summary>
-        public void SetInherit(IPaletteBack paletteBack)
+        public void SetInherit([DisallowNull] IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
             _inherit = paletteBack;

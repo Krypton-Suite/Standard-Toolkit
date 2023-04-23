@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecMdiChildRestore class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ButtonSpecMdiChildRestore(KryptonRibbon ribbon)
+        public ButtonSpecMdiChildRestore([DisallowNull] KryptonRibbon ribbon)
             : base(PaletteButtonSpecStyle.PendantRestore)
         {
             Debug.Assert(ribbon != null);

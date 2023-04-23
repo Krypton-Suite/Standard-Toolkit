@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the DataGridViewStyles class.
         /// </summary>
         /// <param name="dataGridView">Reference to owning control.</param>
-        public DataGridViewStyles(KryptonDataGridView dataGridView)
+        public DataGridViewStyles([DisallowNull] KryptonDataGridView dataGridView)
         {
             Debug.Assert(dataGridView != null);
             _dataGridView = dataGridView;

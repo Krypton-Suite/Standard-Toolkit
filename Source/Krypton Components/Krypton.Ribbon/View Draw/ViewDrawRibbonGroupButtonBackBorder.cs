@@ -58,10 +58,10 @@ namespace Krypton.Ribbon
         /// <param name="paletteBorder">Palette to use for the border.</param>
         /// <param name="constantBorder">Should the border be a constant normal state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupButtonBackBorder(KryptonRibbon ribbon,
-                                                   KryptonRibbonGroupItem groupItem,
-                                                   IPaletteBack paletteBack,
-                                                   IPaletteBorder paletteBorder,
+        public ViewDrawRibbonGroupButtonBackBorder([DisallowNull] KryptonRibbon ribbon,
+                                                   [DisallowNull] KryptonRibbonGroupItem groupItem,
+                                                   [DisallowNull] IPaletteBack paletteBack,
+                                                   [DisallowNull] IPaletteBorder paletteBorder,
                                                    bool constantBorder,
                                                    NeedPaintHandler needPaint)
         {
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

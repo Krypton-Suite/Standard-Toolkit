@@ -416,10 +416,7 @@ namespace Krypton.Toolkit
             };
 
             // Default to the image if no state specific image is found
-            if (image == null)
-            {
-                image = Image;
-            }
+            image ??= Image;
 
             return (image != null) || !AllowInheritImage ? image : base.GetButtonSpecImage(style, state);
         }

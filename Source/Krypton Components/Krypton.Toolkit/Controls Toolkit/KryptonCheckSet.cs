@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the KryptonCheckButtonCollection class.
             /// </summary>
             /// <param name="owner">Owning component</param>
-            public KryptonCheckButtonCollection(KryptonCheckSet owner)
+            public KryptonCheckButtonCollection([DisallowNull] KryptonCheckSet owner)
             {
                 Debug.Assert(owner != null);
                 _owner = owner;
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton object to add to the collection.</param>
             /// <exception cref="ArgumentNullException"></exception>
             /// <returns>The index of the new entry.</returns>
-            public int Add(KryptonCheckButton checkButton)
+            public int Add([DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton reference to insert.</param>
             /// <exception cref="ArgumentException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
-            public void Insert(int index, KryptonCheckButton checkButton)
+            public void Insert(int index, [DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton to remove.</param>
             /// <exception cref="ArgumentException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
-            public void Remove(KryptonCheckButton checkButton)
+            public void Remove([DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="container">Container that owns the component.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public KryptonCheckSet(IContainer container)
+        public KryptonCheckSet([DisallowNull] IContainer container)
             : this()
         {
             Debug.Assert(container != null);

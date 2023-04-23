@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupRadioButtonImage _targetImage;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private bool _rightButtonDown;
         private bool _fixedPressed;
         private bool _mouseOver;
@@ -53,10 +53,10 @@ namespace Krypton.Ribbon
         /// <param name="targetMain">Target for main element changes.</param>
         /// <param name="targetImage">Target for image state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupRadioButtonController(KryptonRibbon ribbon,
-                                          ViewBase targetMain,
-                                          ViewDrawRibbonGroupRadioButtonImage targetImage,
-                                          NeedPaintHandler needPaint)
+        public GroupRadioButtonController([DisallowNull] KryptonRibbon ribbon,
+                                          [DisallowNull] ViewBase targetMain,
+                                          [DisallowNull] ViewDrawRibbonGroupRadioButtonImage targetImage,
+                                          [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(targetMain != null);
@@ -324,7 +324,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

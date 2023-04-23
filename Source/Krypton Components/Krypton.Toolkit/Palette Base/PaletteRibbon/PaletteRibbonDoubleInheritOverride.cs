@@ -34,10 +34,10 @@ namespace Krypton.Toolkit
         /// <param name="backupBack">Backup inheritance background.</param>
         /// <param name="backupText">Backup inheritance text.</param>
         /// <param name="state">Palette state to override.</param>
-        public PaletteRibbonDoubleInheritOverride(IPaletteRibbonBack primaryBack,
-                                                  IPaletteRibbonText primaryText,
-                                                  IPaletteRibbonBack backupBack,
-                                                  IPaletteRibbonText backupText,
+        public PaletteRibbonDoubleInheritOverride([DisallowNull] IPaletteRibbonBack primaryBack,
+                                                  [DisallowNull] IPaletteRibbonText primaryText,
+                                                  [DisallowNull] IPaletteRibbonBack backupBack,
+                                                  [DisallowNull] IPaletteRibbonText backupText,
                                                   PaletteState state) 
         {
             Debug.Assert(primaryBack != null);

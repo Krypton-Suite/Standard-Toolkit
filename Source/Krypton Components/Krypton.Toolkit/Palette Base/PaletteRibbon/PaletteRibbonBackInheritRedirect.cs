@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleBack">Ribbon item background style.</param>
-        public PaletteRibbonBackInheritRedirect(PaletteRedirect? redirect,
+        public PaletteRibbonBackInheritRedirect([DisallowNull] PaletteRedirect redirect,
                                                 PaletteRibbonBackStyle styleBack)
         {
             Debug.Assert(redirect != null);

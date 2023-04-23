@@ -32,7 +32,7 @@ namespace Krypton.Navigator
         /// <param name="mapImage">How to map the image from the page to the tooltip.</param>
         /// <param name="mapText">How to map the text from the page to the tooltip.</param>
         /// <param name="mapExtraText">How to map the extra text from the page to the tooltip.</param>
-        public PageToToolTipMapping(KryptonPage page,
+        public PageToToolTipMapping([DisallowNull] KryptonPage page,
                                     MapKryptonPageImage mapImage,
                                     MapKryptonPageText mapText,
                                     MapKryptonPageText mapExtraText)
