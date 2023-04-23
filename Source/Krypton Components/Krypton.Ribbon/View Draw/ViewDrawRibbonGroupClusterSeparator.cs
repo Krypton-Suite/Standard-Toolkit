@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="start">Is this is cluster start separator.</param>
-        public ViewDrawRibbonGroupClusterSeparator(KryptonRibbon ribbon, bool start)
+        public ViewDrawRibbonGroupClusterSeparator([DisallowNull] KryptonRibbon ribbon, bool start)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

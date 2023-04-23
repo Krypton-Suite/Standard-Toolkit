@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteButtonSpecBase class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
-        internal KryptonPaletteButtonSpecBase(PaletteRedirect? redirector)
+        internal KryptonPaletteButtonSpecBase([DisallowNull] PaletteRedirect redirector)
         {
             Debug.Assert(redirector != null);
 

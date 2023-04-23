@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <param name="name">Attribute name.</param>
         /// <param name="defaultValue">Default value.</param>
         /// <returns></returns>
-        public static string XmlAttributeToText(XmlReader xmlReader, string name, string defaultValue = @"")
+        public static string? XmlAttributeToText(XmlReader xmlReader, string name, string? defaultValue = @"")
         {
             try
             {

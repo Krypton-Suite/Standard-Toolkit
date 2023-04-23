@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="triple">Palette to use.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PaletteNodeOverride(IPaletteTriple triple)
+        public PaletteNodeOverride([DisallowNull] IPaletteTriple triple)
         {
             Debug.Assert(triple != null);
 

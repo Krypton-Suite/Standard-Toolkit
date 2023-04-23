@@ -42,8 +42,8 @@ namespace Krypton.Toolkit
         /// <param name="backup">Backup inheritance.</param>
         /// <param name="overrideState">State used by the override.</param>
         /// <param name="apply">Should the override we used.</param>
-        public PaletteContentInheritOverride(IPaletteContent primary,
-                                             IPaletteContent backup,
+        public PaletteContentInheritOverride([DisallowNull] IPaletteContent primary,
+                                             [DisallowNull] IPaletteContent backup,
                                              PaletteState overrideState,
                                              bool apply)
         {

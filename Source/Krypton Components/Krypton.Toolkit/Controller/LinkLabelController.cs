@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private readonly IPaletteContent _paletteTracking;
         private readonly IPaletteContent _palettePressed;
         private readonly PaletteContentInheritOverride _pressed;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="palettePressed">Palette to use in the pressed state.</param>
         /// <param name="pressed">Override to update with the pressed state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LinkLabelController(ViewDrawContent target,
+        public LinkLabelController([DisallowNull] ViewDrawContent target,
                                    IPaletteContent paletteDisabled,
                                    IPaletteContent paletteNormal,
                                    IPaletteContent paletteTracking,
@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

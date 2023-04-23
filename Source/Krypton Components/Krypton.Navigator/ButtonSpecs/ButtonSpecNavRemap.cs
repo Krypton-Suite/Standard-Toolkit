@@ -134,7 +134,7 @@ namespace Krypton.Navigator
         {
             Debug.Assert(buttonSpec != null);
 
-            _buttonSpec = buttonSpec!;
+            _buttonSpec = buttonSpec;
             _remapTarget = remapTarget;
         }
         #endregion

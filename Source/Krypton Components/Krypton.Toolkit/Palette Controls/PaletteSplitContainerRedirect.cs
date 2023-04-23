@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPaddingRedirect? Separator { get; }
+        public PaletteSeparatorPaddingRedirect Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

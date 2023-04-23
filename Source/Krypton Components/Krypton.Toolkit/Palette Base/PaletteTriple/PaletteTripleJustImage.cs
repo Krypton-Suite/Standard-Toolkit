@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTripleJustImage(IPaletteTriple inherit,
+        public PaletteTripleJustImage([DisallowNull] IPaletteTriple inherit,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);

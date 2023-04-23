@@ -782,10 +782,7 @@ namespace Krypton.Ribbon
                                            int actualLineItems)
         {
             // First time around create the context menu, otherwise just clear it down
-            if (_dropMenu == null)
-            {
-                _dropMenu = new KryptonContextMenu();
-            }
+            _dropMenu ??= new KryptonContextMenu();
 
             // Number of line items equals the number actually used
             var lineItems = Math.Max(DropMinItemWidth, Math.Min(DropMaxItemWidth, actualLineItems));

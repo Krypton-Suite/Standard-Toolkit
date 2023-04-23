@@ -51,7 +51,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonCluster">Reference to cluster definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignCluster(KryptonRibbon ribbon,
-                                           KryptonRibbonGroupCluster ribbonCluster,
+            [DisallowNull] KryptonRibbonGroupCluster ribbonCluster,
                                            NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
         {

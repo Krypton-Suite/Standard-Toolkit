@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupButtonBackBorder _target;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private Rectangle _splitRectangle;
         private bool _rightButtonDown;
         private bool _previousMouseInSplit;
@@ -59,9 +59,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source control instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupButtonController(KryptonRibbon ribbon,
-                                     ViewDrawRibbonGroupButtonBackBorder target,
-                                     NeedPaintHandler needPaint)
+        public GroupButtonController([DisallowNull] KryptonRibbon ribbon,
+                                     [DisallowNull] ViewDrawRibbonGroupButtonBackBorder target,
+                                     [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
@@ -464,7 +464,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

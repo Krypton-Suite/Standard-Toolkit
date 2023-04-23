@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         /// <param name="behaviorService">Reference to the behavior service.</param>
         /// <param name="adorner">Reference to the containing adorner.</param>
         /// <param name="relatedDesigner">Reference to the containing designer.</param>
-        public KryptonSplitContainerGlyph(ISelectionService selectionService,
-                                          BehaviorService behaviorService,
-                                          Adorner adorner,
-                                          IDesigner relatedDesigner)
+        public KryptonSplitContainerGlyph([DisallowNull] ISelectionService selectionService,
+                                          [DisallowNull] BehaviorService behaviorService,
+                                          [DisallowNull] Adorner adorner,
+                                          [DisallowNull] IDesigner relatedDesigner)
             : base(new KryptonSplitContainerBehavior(relatedDesigner))
         {
             Debug.Assert(selectionService != null);

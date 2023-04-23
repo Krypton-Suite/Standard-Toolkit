@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
             _edge = PaletteRelativeEdgeAlign.Inherit;
             _imageStates = new CheckButtonImageStates
             {
-                NeedPaint = OnImageStateChanged
+                NeedPaint = OnImageStateChanged!
             };
             ContextMenuStrip = null;
             KryptonContextMenu = null;
@@ -777,7 +777,7 @@ namespace Krypton.Toolkit
 
                     if (_command != null)
                     {
-                        _command.PropertyChanged += OnCommandPropertyChanged;
+                        _command.PropertyChanged += OnCommandPropertyChanged!;
                     }
                 }
             }

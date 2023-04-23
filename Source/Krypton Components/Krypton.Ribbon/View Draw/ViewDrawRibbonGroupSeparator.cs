@@ -37,9 +37,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonSeparator">Reference to group separator definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupSeparator(KryptonRibbon ribbon,
-                                            KryptonRibbonGroupSeparator ribbonSeparator,
-                                            NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupSeparator([DisallowNull] KryptonRibbon ribbon,
+                                            [DisallowNull] KryptonRibbonGroupSeparator ribbonSeparator,
+                                            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonSeparator != null);
@@ -216,7 +216,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

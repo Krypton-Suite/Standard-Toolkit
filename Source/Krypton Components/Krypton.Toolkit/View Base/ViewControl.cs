@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewControl class.
         /// </summary>
         /// <param name="rootControl">Top level visual control.</param>
-        public ViewControl(VisualControl rootControl)
+        public ViewControl([DisallowNull] VisualControl rootControl)
         {
             Debug.Assert(rootControl != null);
 
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 

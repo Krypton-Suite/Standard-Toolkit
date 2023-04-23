@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="customControl">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public CustomControlController(KryptonRibbon ribbon,
-                                       KryptonRibbonGroupCustomControl customControl,
-                                       ViewDrawRibbonGroupCustomControl target)
+        public CustomControlController([DisallowNull] KryptonRibbon ribbon,
+                                       [DisallowNull] KryptonRibbonGroupCustomControl customControl,
+                                       [DisallowNull] ViewDrawRibbonGroupCustomControl target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(customControl != null);
@@ -172,10 +172,7 @@ namespace Krypton.Ribbon
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)

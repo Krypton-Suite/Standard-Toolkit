@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonTabToContent class.
         /// </summary>
         /// <param name="qatButton">Source for button values.</param>
-        public QATButtonToContent(IQuickAccessToolbarButton qatButton)
+        public QATButtonToContent([DisallowNull] IQuickAccessToolbarButton qatButton)
         {
             Debug.Assert(qatButton != null);
             _qatButton = qatButton;

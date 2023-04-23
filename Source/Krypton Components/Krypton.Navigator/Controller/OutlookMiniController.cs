@@ -41,7 +41,7 @@ namespace Krypton.Navigator
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public OutlookMiniController(ViewBase target,
-            [DisallowNull] NeedPaintHandler? needPaint)
+            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(needPaint != null);
 
@@ -305,7 +305,6 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        [AllowNull]
         public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;

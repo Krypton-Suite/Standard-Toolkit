@@ -426,10 +426,7 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonYes;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonYes;
-                }
+                firstButton ??= _buttonYes;
 
                 _buttonYes.Text = KryptonLanguageManager.Strings.Yes;
                 _buttonYes.Visible = true;
@@ -446,10 +443,7 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonNo;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonNo;
-                }
+                firstButton ??= _buttonNo;
 
                 _buttonNo.Text = KryptonLanguageManager.Strings.No;
                 _buttonNo.Visible = true;
@@ -466,10 +460,7 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonCancel;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonCancel;
-                }
+                firstButton ??= _buttonCancel;
 
                 _buttonCancel.Text = KryptonLanguageManager.Strings.Cancel;
                 _buttonCancel.Visible = true;
@@ -486,10 +477,7 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonRetry;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonRetry;
-                }
+                firstButton ??= _buttonRetry;
 
                 _buttonRetry.Text = KryptonLanguageManager.Strings.Retry;
                 _buttonRetry.Visible = true;
@@ -506,10 +494,7 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonClose;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonClose;
-                }
+                firstButton ??= _buttonClose;
 
                 _buttonClose.Text = KryptonLanguageManager.Strings.Close;
                 _buttonClose.Visible = true;

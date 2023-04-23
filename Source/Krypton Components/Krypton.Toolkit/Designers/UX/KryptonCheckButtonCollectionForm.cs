@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the ListEntry class.
             /// </summary>
             /// <param name="checkButton">CheckButton to encapsulate.</param>
-            public ListEntry(KryptonCheckButton checkButton)
+            public ListEntry([DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
                 CheckButton = checkButton;

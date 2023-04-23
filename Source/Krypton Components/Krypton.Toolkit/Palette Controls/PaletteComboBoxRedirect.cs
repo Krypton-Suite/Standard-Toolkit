@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteComboBoxRedirect(PaletteRedirect? redirect,
+        public PaletteComboBoxRedirect([DisallowNull] PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);

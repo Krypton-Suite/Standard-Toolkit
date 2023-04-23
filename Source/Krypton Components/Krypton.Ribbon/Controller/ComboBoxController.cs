@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="comboBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public ComboBoxController(KryptonRibbon ribbon,
-                                  KryptonRibbonGroupComboBox comboBox,
-                                  ViewDrawRibbonGroupComboBox target)
+        public ComboBoxController([DisallowNull] KryptonRibbon ribbon,
+                                  [DisallowNull] KryptonRibbonGroupComboBox comboBox,
+                                  [DisallowNull] ViewDrawRibbonGroupComboBox target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(comboBox != null);
@@ -173,10 +173,7 @@ namespace Krypton.Ribbon
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)

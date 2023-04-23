@@ -26,8 +26,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         /// <param name="ribbonRecentDocEntryText">Source for ribbon recent document entry settings.</param>
-        public RibbonRecentDocsEntryToContent(PaletteRibbonGeneral ribbonGeneral,
-                                              IPaletteRibbonText ribbonRecentDocEntryText)
+        public RibbonRecentDocsEntryToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral,
+                                              [DisallowNull] IPaletteRibbonText ribbonRecentDocEntryText)
             : base(ribbonGeneral)
         {
             Debug.Assert(ribbonRecentDocEntryText != null);

@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFont" /> class.</summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteFont(PaletteRedirect redirector, NeedPaintHandler needPaint)
+        public KryptonPaletteFont([DisallowNull] PaletteRedirect redirector, NeedPaintHandler needPaint)
         {
             NeedPaint = needPaint;
 

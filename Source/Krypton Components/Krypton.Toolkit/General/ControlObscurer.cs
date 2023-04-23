@@ -84,10 +84,7 @@ namespace Krypton.Toolkit
         public ScreenObscurer()
         {
             // First time needed, create the top level obscurer window
-            if (_obscurer == null)
-            {
-                _obscurer = new ObscurerForm();
-            }
+            _obscurer ??= new ObscurerForm();
         }
 
         /// <summary>
@@ -101,10 +98,7 @@ namespace Krypton.Toolkit
             if (f is { IsDisposed: false } && !designMode)
             {
                 // First time needed, create the top level obscurer window
-                if (_obscurer == null)
-                {
-                    _obscurer = new ObscurerForm();
-                }
+                _obscurer ??= new ObscurerForm();
 
                 // We need a control to work with!
                 if (f != null)
@@ -125,10 +119,7 @@ namespace Krypton.Toolkit
             if (c is { IsDisposed: false } && !designMode)
             {
                 // First time needed, create the top level obscurer window
-                if (_obscurer == null)
-                {
-                    _obscurer = new ObscurerForm();
-                }
+                _obscurer ??= new ObscurerForm();
 
                 // We need a control to work with!
                 if (c != null)

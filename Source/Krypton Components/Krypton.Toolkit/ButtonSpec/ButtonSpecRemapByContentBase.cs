@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
             : base(target)
         {
             Debug.Assert(buttonSpec != null);
-            _buttonSpec = buttonSpec!;
+            _buttonSpec = buttonSpec;
         }
         #endregion
 

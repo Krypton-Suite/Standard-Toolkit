@@ -221,9 +221,7 @@ namespace Krypton.Navigator
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Only create the list of items once
-            if (_actions == null)
-            {
-                _actions = new DesignerActionItemCollection
+            _actions ??= new DesignerActionItemCollection
                 {
                     new DesignerActionHeaderItem(nameof(Appearance)),
                     new DesignerActionPropertyItem(nameof(TextShort), "Text", nameof(Appearance), "The page text."),
@@ -238,7 +236,6 @@ namespace Krypton.Navigator
                     new DesignerActionHeaderItem("Flags"),
                     new DesignerActionPropertyItem(nameof(PageInOverflowBarForOutlookMode), "Page in Overflow Bar for Outlook mode", "Flags", "Should the page be shown on the overflow bar for the Outlook mode.")
                 };
-            }
 
             return _actions;
         }

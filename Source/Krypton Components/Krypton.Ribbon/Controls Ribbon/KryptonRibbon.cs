@@ -670,10 +670,7 @@ namespace Krypton.Ribbon
             set
             {
                 // Always maintain a value reference
-                if (value == null)
-                {
-                    value = string.Empty;
-                }
+                value ??= string.Empty;
 
                 if (_selectedContext != value)
                 {
@@ -2287,10 +2284,7 @@ namespace Krypton.Ribbon
             }
 
             // Get the first near edge button (the last near button is the leftmost one!)
-            if (view == null)
-            {
-                view = TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
-            }
+            view ??= TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
             if (view == null)
             {
@@ -2307,16 +2301,10 @@ namespace Krypton.Ribbon
             }
 
             // Move across to any far defined buttons
-            if (view == null)
-            {
-                view = TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
-            }
+            view ??= TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
             // Move across to any inherit defined buttons
-            if (view == null)
-            {
-                view = TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-            }
+            view ??= TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
             // Move back to the application button/tab
             if (view == null)

@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteBackInheritNode class.
         /// </summary>
         /// <param name="inherit">Background palette to inherit from.</param>
-        public PaletteBackInheritNode(IPaletteBack inherit)
+        public PaletteBackInheritNode([DisallowNull] IPaletteBack inherit)
         {
             Debug.Assert(inherit != null);
 

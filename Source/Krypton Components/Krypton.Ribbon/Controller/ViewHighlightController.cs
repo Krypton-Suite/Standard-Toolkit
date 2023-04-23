@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                               IMouseController
     {
         #region Instance Fields
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private bool _mouseOver;
         private bool _rightButtonDown;
         #endregion
@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewHightlightController(ViewBase target,
-                                        NeedPaintHandler needPaint)
+        public ViewHightlightController([DisallowNull] ViewBase target,
+                                        [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
