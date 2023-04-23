@@ -101,10 +101,7 @@ namespace Krypton.Toolkit
                 {
                     if (Application.RenderWithVisualStyles)
                     {
-                        if (_sizeGripRenderer == null)
-                        {
-                            _sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
-                        }
+                        _sizeGripRenderer ??= new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
 
                         _sizeGripRenderer.DrawBackground(g, new Rectangle(0, 0, 0x10, 0x10));
                     }

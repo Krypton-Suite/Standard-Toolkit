@@ -30,8 +30,8 @@ namespace Krypton.Toolkit
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="others">Redirection for all other state requests.</param>
         public PaletteRedirectCommon(PaletteBase? target,
-                                     IPaletteTriple disabled,
-                                     IPaletteTriple others)
+                                     [DisallowNull] IPaletteTriple disabled,
+                                     [DisallowNull] IPaletteTriple others)
             : base(target)
         {
             Debug.Assert(disabled != null);

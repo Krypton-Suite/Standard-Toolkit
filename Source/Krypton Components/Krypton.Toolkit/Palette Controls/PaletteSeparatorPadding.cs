@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
         /// <param name="inheritDouble">Source for inheriting border and background values.</param>
         /// <param name="inheritMetric">Source for inheriting metric values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteSeparatorPadding(IPaletteDouble? inheritDouble,
-                                       IPaletteMetric? inheritMetric,
+        public PaletteSeparatorPadding([DisallowNull] IPaletteDouble inheritDouble,
+                                       [DisallowNull] IPaletteMetric inheritMetric,
                                        NeedPaintHandler needPaint)
             : base(inheritDouble, needPaint)
         {

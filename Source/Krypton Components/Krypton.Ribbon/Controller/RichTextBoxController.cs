@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="richTextBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public RichTextBoxController(KryptonRibbon ribbon,
-                                     KryptonRibbonGroupRichTextBox richTextBox,
-                                     ViewDrawRibbonGroupRichTextBox target)
+        public RichTextBoxController([DisallowNull] KryptonRibbon ribbon,
+                                     [DisallowNull] KryptonRibbonGroupRichTextBox richTextBox,
+                                     [DisallowNull] ViewDrawRibbonGroupRichTextBox target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(richTextBox != null);

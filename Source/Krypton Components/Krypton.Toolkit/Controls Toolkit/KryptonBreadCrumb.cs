@@ -182,10 +182,7 @@ namespace Krypton.Toolkit
             // We are no longer initializing
             IsInitializing = false;
 
-            if (SelectedItem == null)
-            {
-                SelectedItem = RootItem;
-            }
+            SelectedItem ??= RootItem;
 
             OnNeedPaint(this, new NeedLayoutEventArgs(true));
 

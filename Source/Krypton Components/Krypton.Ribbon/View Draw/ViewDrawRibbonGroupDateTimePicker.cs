@@ -36,9 +36,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonDateTimePicker">Reference to source date time picker.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupDateTimePicker(KryptonRibbon ribbon,
-                                                 KryptonRibbonGroupDateTimePicker ribbonDateTimePicker,
-                                                 NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupDateTimePicker([DisallowNull] KryptonRibbon ribbon,
+                                                 [DisallowNull] KryptonRibbonGroupDateTimePicker ribbonDateTimePicker,
+                                                 [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonDateTimePicker != null);
@@ -302,7 +302,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -329,7 +329,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 

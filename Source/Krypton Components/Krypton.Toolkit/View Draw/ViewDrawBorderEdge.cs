@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette source for drawing details.</param>
         /// <param name="orientation">Initial orientation of the border.</param>
-        public ViewDrawBorderEdge(PaletteBorderEdge palette,
+        public ViewDrawBorderEdge([DisallowNull] PaletteBorderEdge palette,
                                   Orientation orientation)
             : base(palette)
         {
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// Update the source palette for drawing.
         /// </summary>
         /// <param name="palette">Palette source for drawing details.</param>
-        public void SetPalettes(PaletteBorderEdge palette)
+        public void SetPalettes([DisallowNull] PaletteBorderEdge palette)
         {
             Debug.Assert(palette != null);
 
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

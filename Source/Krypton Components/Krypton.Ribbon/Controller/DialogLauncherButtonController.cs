@@ -175,10 +175,7 @@ namespace Krypton.Ribbon
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    if (newView == null)
-                    {
-                        newView = Ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                    }
+                    newView ??= Ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)

@@ -1066,10 +1066,7 @@ namespace Krypton.Toolkit
                 case PI.WM_.WINDOWPOSCHANGING:
                 {
                     // First time around we need to create the obscurer
-                    if (_obscurer == null)
-                    {
-                        _obscurer = new ScreenObscurer();
-                    }
+                    _obscurer ??= new ScreenObscurer();
 
                     // Obscure the display area of the control
                     if (!IsDisposed && IsHandleCreated && !DesignMode)

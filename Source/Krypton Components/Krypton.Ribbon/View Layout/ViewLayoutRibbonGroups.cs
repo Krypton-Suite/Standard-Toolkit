@@ -48,9 +48,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTab">RibbonTab to organize groups.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroups(KryptonRibbon ribbon,
-                                      KryptonRibbonTab ribbonTab,
-                                      NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon ribbon,
+                                      [DisallowNull] KryptonRibbonTab ribbonTab,
+                                      [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonTab != null);
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -397,10 +397,7 @@ namespace Krypton.Ribbon
                 }
 
                 // If a new group, create a view for it now
-                if (view == null)
-                {
-                    view = new ViewDrawRibbonGroup(_ribbon, ribGroup, _needPaint);
-                }
+                view ??= new ViewDrawRibbonGroup(_ribbon, ribGroup, _needPaint);
 
                 // Add to the lookup for future reference
                 regenerate.Add(ribGroup, view);
@@ -454,10 +451,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignHelperMode)
             {
                 // Create the design time 'Add Group' first time it is needed
-                if (_viewAddGroup == null)
-                {
-                    _viewAddGroup = new ViewDrawRibbonDesignGroup(_ribbon, _needPaint);
-                }
+                _viewAddGroup ??= new ViewDrawRibbonDesignGroup(_ribbon, _needPaint);
 
                 // Always add at end of the list of groups
                 Add(_viewAddGroup);

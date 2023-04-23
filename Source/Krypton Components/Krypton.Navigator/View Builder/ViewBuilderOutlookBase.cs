@@ -467,7 +467,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public override void PageAppearanceChanged(KryptonPage? page, string? property)
+        public override void PageAppearanceChanged([DisallowNull] KryptonPage? page, [DisallowNull] string? property)
         {
             Debug.Assert(page != null);
             Debug.Assert(property != null);

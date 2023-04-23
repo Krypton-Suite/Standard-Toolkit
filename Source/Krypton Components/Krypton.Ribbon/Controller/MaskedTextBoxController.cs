@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="maskedTextBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public MaskedTextBoxController(KryptonRibbon ribbon,
-                                       KryptonRibbonGroupMaskedTextBox maskedTextBox,
-                                       ViewDrawRibbonGroupMaskedTextBox target)
+        public MaskedTextBoxController([DisallowNull] KryptonRibbon ribbon,
+                                       [DisallowNull] KryptonRibbonGroupMaskedTextBox maskedTextBox,
+                                       [DisallowNull] ViewDrawRibbonGroupMaskedTextBox target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(maskedTextBox != null);

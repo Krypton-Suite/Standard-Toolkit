@@ -50,7 +50,7 @@ namespace Krypton.Navigator
         private IPaletteContent _currentContent;
         private readonly RibbonTabToContent _contentProvider;
         private VisualOrientation _borderBackOrient;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private readonly ViewDrawContent _viewContent;
         private readonly ViewLayoutDocker _layoutDocker;
         private PaletteRibbonShape _lastRibbonShape;
@@ -65,8 +65,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Owning navigator instance.</param>
         /// <param name="page">Page this ribbon tab represents.</param>
-        public ViewDrawNavRibbonTab(KryptonNavigator navigator,
-                                    KryptonPage? page)
+        public ViewDrawNavRibbonTab([DisallowNull] KryptonNavigator navigator,
+                                    [DisallowNull] KryptonPage page)
         {
             Debug.Assert(navigator != null);
             Debug.Assert(page != null);
@@ -237,7 +237,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

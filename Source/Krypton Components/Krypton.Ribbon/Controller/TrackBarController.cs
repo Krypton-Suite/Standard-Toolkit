@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="trackBar">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public TrackBarController(KryptonRibbon ribbon,
-                                  KryptonRibbonGroupTrackBar trackBar,
-                                  ViewDrawRibbonGroupTrackBar target)
+        public TrackBarController([DisallowNull] KryptonRibbon ribbon,
+                                  [DisallowNull] KryptonRibbonGroupTrackBar trackBar,
+                                  [DisallowNull] ViewDrawRibbonGroupTrackBar target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(trackBar != null);

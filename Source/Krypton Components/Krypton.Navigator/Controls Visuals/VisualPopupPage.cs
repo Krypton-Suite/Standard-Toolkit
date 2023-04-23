@@ -38,7 +38,7 @@ namespace Krypton.Navigator
         /// <param name="page">Reference to page for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupPage([DisallowNull] KryptonNavigator navigator,
-            [DisallowNull] KryptonPage? page,
+            [DisallowNull] KryptonPage page,
                                IRenderer? renderer)
             : base(renderer, true)
         {

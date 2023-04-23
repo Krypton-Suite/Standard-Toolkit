@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTabTriple(IPaletteTriple inherit,
+        public PaletteTabTriple([DisallowNull] IPaletteTriple inherit,
                                 NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);

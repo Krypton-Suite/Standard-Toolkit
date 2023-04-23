@@ -35,7 +35,7 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference to owning navigator.
-            Navigator = navigator!;
+            Navigator = navigator;
 
             // Fix the type
             ProtectedType = fixedStyle;

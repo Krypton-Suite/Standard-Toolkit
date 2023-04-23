@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="container">Container that owns the component.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public KryptonManager(IContainer container)
+        public KryptonManager([DisallowNull] IContainer container)
             : this()
         {
             Debug.Assert(container != null);

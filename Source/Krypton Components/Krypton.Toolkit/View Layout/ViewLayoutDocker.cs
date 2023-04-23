@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <returns>Docking setting.</returns>
-        public ViewDockStyle GetDock(ViewBase child)
+        public ViewDockStyle GetDock([DisallowNull] ViewBase child)
         {
             Debug.Assert(child != null);
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <param name="dock">ViewDockStyle setting.</param>
-        public void SetDock(ViewBase child, ViewDockStyle dock)
+        public void SetDock([DisallowNull] ViewBase child, ViewDockStyle dock)
         {
             Debug.Assert(child != null);
 
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

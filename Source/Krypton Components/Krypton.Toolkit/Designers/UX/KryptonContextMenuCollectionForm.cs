@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the MenuTreeNode class.
                 /// </summary>
                 /// <param name="item">Menu item to represent.</param>
-                public MenuTreeNode(KryptonContextMenuItemBase item)
+                public MenuTreeNode([DisallowNull] KryptonContextMenuItemBase item)
                 {
                     Debug.Assert(item != null);
                     Item = item;

@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf([DisallowNull] T? item)
+        public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
             return _list.IndexOf(item!);

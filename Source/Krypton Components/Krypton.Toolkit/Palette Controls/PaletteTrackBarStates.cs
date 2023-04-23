@@ -36,9 +36,9 @@ namespace Krypton.Toolkit
         /// <param name="inheritTrack">Source for inheriting track values.</param>
         /// <param name="inheritPosition">Source for inheriting position values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTrackBarStates(IPaletteElementColor inheritTick,
-                                     IPaletteElementColor inheritTrack,
-                                     IPaletteElementColor inheritPosition,
+        public PaletteTrackBarStates([DisallowNull] IPaletteElementColor inheritTick,
+                                     [DisallowNull] IPaletteElementColor inheritTrack,
+                                     [DisallowNull] IPaletteElementColor inheritPosition,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(inheritTick != null);

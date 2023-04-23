@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonJustTab(PaletteRibbonRedirect inherit,
+        public PaletteRibbonJustTab([DisallowNull] PaletteRibbonRedirect inherit,
                                     NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);

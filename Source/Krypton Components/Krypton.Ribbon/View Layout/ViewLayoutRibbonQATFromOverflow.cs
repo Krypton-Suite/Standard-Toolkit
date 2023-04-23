@@ -33,11 +33,11 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
         /// <param name="contents">Source for finding buttons that are overflowing.</param>
-        public ViewLayoutRibbonQATFromOverflow(Control parentControl,
+        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control parentControl,
                                                KryptonRibbon ribbon,
                                                NeedPaintHandler needPaint,
                                                bool showExtraButton,
-                                               ViewLayoutRibbonQATContents contents)
+                                               [DisallowNull] ViewLayoutRibbonQATContents contents)
             : base(ribbon, needPaint, showExtraButton)
         {
             Debug.Assert(parentControl != null);

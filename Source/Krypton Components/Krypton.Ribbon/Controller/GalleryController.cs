@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="gallery">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public GalleryController(KryptonRibbon ribbon,
-                                 KryptonRibbonGroupGallery gallery,
-                                 ViewDrawRibbonGroupGallery target)
+        public GalleryController([DisallowNull] KryptonRibbon ribbon,
+                                 [DisallowNull] KryptonRibbonGroupGallery gallery,
+                                 [DisallowNull] ViewDrawRibbonGroupGallery target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(gallery != null);

@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
 
         private bool _pressed;
         private bool _mouseOver;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private readonly Timer _repeatTimer;
         #endregion
 
@@ -42,7 +42,7 @@ namespace Krypton.Ribbon
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="repeatTimer">Does the button repeat when pressed.</param>
-        public GalleryButtonController(ViewBase target,
+        public GalleryButtonController([DisallowNull] ViewBase target,
                                        NeedPaintHandler needPaint,
                                        bool repeatTimer)
         {
@@ -177,7 +177,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

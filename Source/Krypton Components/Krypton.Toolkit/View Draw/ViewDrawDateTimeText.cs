@@ -364,10 +364,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (_inputDigits == null)
-                    {
-                        _inputDigits = "";
-                    }
+                    _inputDigits ??= "";
 
                     // Append the latest digit
                     _inputDigits += digit;
@@ -1597,7 +1594,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

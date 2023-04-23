@@ -41,8 +41,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonLabel">Group label to display title for.</param>
         /// <param name="firstText">Should show the first button text.</param>
-        public ViewDrawRibbonGroupLabelText(KryptonRibbon ribbon,
-                                            KryptonRibbonGroupLabel ribbonLabel,
+        public ViewDrawRibbonGroupLabelText([DisallowNull] KryptonRibbon ribbon,
+                                            [DisallowNull] KryptonRibbonGroupLabel ribbonLabel,
                                             bool firstText)
         {
             Debug.Assert(ribbon != null);
@@ -103,7 +103,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

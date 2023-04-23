@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// <param name="plusMinusImages">Reference to source of tree view images.</param>
         /// <param name="checkboxImages">Reference to source of check box images.</param>
         public PaletteRedirectTreeView(PaletteBase? target,
-                                       TreeViewImages plusMinusImages,
+            [DisallowNull] TreeViewImages plusMinusImages,
                                        CheckBoxImages checkboxImages)
             : base(target)
         {
@@ -147,10 +147,7 @@ namespace Krypton.Toolkit
             }
 
             // Not found, then get the common image
-            if (retImage == null)
-            {
-                retImage = _checkboxImages.Common;
-            }
+            retImage ??= _checkboxImages.Common;
 
             // Not found, then inherit from target
             return retImage ?? Target.GetCheckBoxImage(enabled, checkState, tracking, pressed);
