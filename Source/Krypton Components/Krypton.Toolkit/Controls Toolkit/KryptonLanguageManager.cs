@@ -149,6 +149,19 @@ namespace Krypton.Toolkit
         /// <summary>Resets the input control style strings.</summary>
         public void ResetInputControlStyleStrings() => InputControlStyles.Reset();
 
+        /// <summary>Gets the link behavior style strings.</summary>
+        /// <value>The link behavior style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of link behavior style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonLinkBehaviorStrings KryptonLinkBehaviorStrings => LinkBehaviorStrings;
+
+        private bool ShouldSerializeKryptonLinkBehaviorStrings() => !LinkBehaviorStrings.IsDefault;
+
+        public void ResetKryptonLinkBehaviorStrings() => LinkBehaviorStrings.Reset();
+
         #endregion
 
         #region Static Strings
@@ -190,6 +203,10 @@ namespace Krypton.Toolkit
         /// <value>The input control styles.</value>
         public static InputControlStyleStrings InputControlStyles { get; } = new();
 
+        /// <summary>Gets the link behavior strings.</summary>
+        /// <value>The link behavior strings.</value>
+        public static KryptonLinkBehaviorStrings LinkBehaviorStrings { get; } = new();
+
         #endregion
 
         #region Identity
@@ -217,7 +234,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializeGridStyleStrings() ||
                                    ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
                                    ShouldSerializeHeaderStyleStrings() ||
-                                   ShouldSerializeInputControlStyleStrings());
+                                   ShouldSerializeInputControlStyleStrings() ||
+                                   ShouldSerializeKryptonLinkBehaviorStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -239,6 +257,8 @@ namespace Krypton.Toolkit
             ResetHeaderStyleStrings();
 
             ResetInputControlStyleStrings();
+
+            ResetKryptonLinkBehaviorStrings();
         }
 
         #endregion
