@@ -65,20 +65,6 @@ namespace Krypton.Toolkit
         /// <summary>Resets the general strings.</summary>
         public void ResetGeneralStrings() => Strings.Reset();
 
-        /// <summary>Gets the palette mode strings.</summary>
-        /// <value>The palette mode strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of palette mode strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public PaletteModeStrings PaletteModeStrings => ModeStrings;
-
-        private bool ShouldSerializePaletteModeStrings() => !ModeStrings.IsDefault;
-
-        /// <summary>Resets the palette mode strings.</summary>
-        public void ResetPaletteModeStrings() => ModeStrings.Reset();
-
         /// <summary>Gets the data grid view style strings.</summary>
         /// <value>The data grid view style strings.</value>
         [Category(@"Visuals")]
@@ -162,6 +148,36 @@ namespace Krypton.Toolkit
 
         public void ResetKryptonLinkBehaviorStrings() => LinkBehaviorStrings.Reset();
 
+        /// <summary>Gets the link style strings.</summary>
+        /// <value>The link style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of link style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public LabelStyleStrings LabelStyleStrings => KryptonLabelStyleStrings;
+
+        private bool ShouldSerializeLabelStyleStrings() => !LabelStyleStrings.IsDefault;
+
+        public void ResetLabelStyleStrings() => LabelStyleStrings.Reset();
+
+
+
+
+        /// <summary>Gets the palette mode strings.</summary>
+        /// <value>The palette mode strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette mode strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteModeStrings PaletteModeStrings => ModeStrings;
+
+        private bool ShouldSerializePaletteModeStrings() => !ModeStrings.IsDefault;
+
+        /// <summary>Resets the palette mode strings.</summary>
+        public void ResetPaletteModeStrings() => ModeStrings.Reset();
+
         #endregion
 
         #region Static Strings
@@ -206,6 +222,8 @@ namespace Krypton.Toolkit
         /// <summary>Gets the link behavior strings.</summary>
         /// <value>The link behavior strings.</value>
         public static KryptonLinkBehaviorStrings LinkBehaviorStrings { get; } = new();
+
+        public static LabelStyleStrings KryptonLabelStyleStrings { get; } = new();
 
         #endregion
 
