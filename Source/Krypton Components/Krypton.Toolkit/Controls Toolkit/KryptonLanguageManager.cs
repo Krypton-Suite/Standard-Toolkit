@@ -146,6 +146,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeKryptonLinkBehaviorStrings() => !LinkBehaviorStrings.IsDefault;
 
+        /// <summary>Resets the krypton link behavior strings.</summary>
         public void ResetKryptonLinkBehaviorStrings() => LinkBehaviorStrings.Reset();
 
         /// <summary>Gets the link style strings.</summary>
@@ -159,10 +160,8 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeLabelStyleStrings() => !LabelStyleStrings.IsDefault;
 
+        /// <summary>Resets the label style strings.</summary>
         public void ResetLabelStyleStrings() => LabelStyleStrings.Reset();
-
-
-
 
         /// <summary>Gets the palette mode strings.</summary>
         /// <value>The palette mode strings.</value>
@@ -177,6 +176,20 @@ namespace Krypton.Toolkit
 
         /// <summary>Resets the palette mode strings.</summary>
         public void ResetPaletteModeStrings() => ModeStrings.Reset();
+
+        /// <summary>Gets the palette back style strings.</summary>
+        /// <value>The palette back style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette back style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteBackStyleStrings PaletteBackStyleStrings => BackStyleStrings;
+
+        private bool ShouldSerializePaletteBackStyleStrings() => !BackStyleStrings.IsDefault;
+
+        /// <summary>Resets the palette back style strings.</summary>
+        public void ResetPaletteBackStyleStrings() => BackStyleStrings.Reset();
 
         #endregion
 
@@ -225,6 +238,8 @@ namespace Krypton.Toolkit
 
         public static LabelStyleStrings KryptonLabelStyleStrings { get; } = new();
 
+        public static PaletteBackStyleStrings BackStyleStrings { get; } = new();
+
         #endregion
 
         #region Identity
@@ -253,7 +268,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
                                    ShouldSerializeHeaderStyleStrings() ||
                                    ShouldSerializeInputControlStyleStrings() ||
-                                   ShouldSerializeKryptonLinkBehaviorStrings());
+                                   ShouldSerializeKryptonLinkBehaviorStrings() ||
+                                   ShouldSerializePaletteBackStyleStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -277,6 +293,8 @@ namespace Krypton.Toolkit
             ResetInputControlStyleStrings();
 
             ResetKryptonLinkBehaviorStrings();
+
+            ResetPaletteBackStyleStrings();
         }
 
         #endregion

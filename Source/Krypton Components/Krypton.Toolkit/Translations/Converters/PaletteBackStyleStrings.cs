@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
 
 namespace Krypton.Toolkit
 {
@@ -159,7 +162,59 @@ namespace Krypton.Toolkit
                                  InputControlStandalone.Equals(DEFAULT_INPUT_CONTROL_STANDALONE) &&
                                  InputControlRibbon.Equals(DEFAULT_INPUT_CONTROL_RIBBON) &&
                                  InputControlCustom1.Equals(DEFAULT_INPUT_CONTROL_CUSTOM1) &&
-                                 InputControlCustom2.Equals(DEFAULT_INPUT_CONTROL_CUSTOM2);
+                                 InputControlCustom2.Equals(DEFAULT_INPUT_CONTROL_CUSTOM2) &&
+                                 InputControlCustom3.Equals(DEFAULT_INPUT_CONTROL_CUSTOM3) &&
+                                 FormMain.Equals(DEFAULT_FORM_MAIN) &&
+                                 FormCustom1.Equals(DEFAULT_FORM_CUSTOM1) &&
+                                 FormCustom2.Equals(DEFAULT_FORM_CUSTOM2) &&
+                                 FormCustom3.Equals(DEFAULT_FORM_CUSTOM3) &&
+                                 GridHeaderColumnList.Equals(DEFAULT_GRID_HEADER_COLUMN_LIST) &&
+                                 GridHeaderRowList.Equals(DEFAULT_GRID_HEADER_ROW_LIST) &&
+                                 GridDataCellList.Equals(DEFAULT_GRID_DATA_CELL_LIST) &&
+                                 GridBackgroundList.Equals(DEFAULT_GRID_BACKGROUND_LIST) &&
+                                 GridHeaderColumnList.Equals(DEFAULT_GRID_HEADER_COLUMN_LIST) &&
+                                 GridHeaderColumnSheet.Equals(DEFAULT_GRID_HEADER_COLUMN_SHEET) &&
+                                 GridHeaderRowSheet.Equals(DEFAULT_GRID_HEADER_ROW_SHEET) &&
+                                 GridDataCellSheet.Equals(DEFAULT_GRID_DATA_CELL_SHEET) &&
+                                 GridBackgroundSheet.Equals(DEFAULT_GRID_BACKGROUND_SHEET) &&
+                                 GridHeaderColumnCustom1.Equals(DEFAULT_GRID_HEADER_COLUMN_CUSTOM1) &&
+                                 GridHeaderColumnCustom2.Equals(DEFAULT_GRID_HEADER_COLUMN_CUSTOM2) &&
+                                 GridHeaderColumnCustom3.Equals(DEFAULT_GRID_HEADER_COLUMN_CUSTOM3) &&
+                                 GridHeaderRowCustom1.Equals(DEFAULT_GRID_HEADER_ROW_CUSTOM1) &&
+                                 GridHeaderRowCustom2.Equals(DEFAULT_GRID_HEADER_ROW_CUSTOM2) &&
+                                 GridHeaderRowCustom3.Equals(DEFAULT_GRID_HEADER_ROW_CUSTOM3) &&
+                                 GridDataCellCustom1.Equals(DEFAULT_GRID_DATA_CELL_CUSTOM1) &&
+                                 GridDataCellCustom2.Equals(DEFAULT_GRID_DATA_CELL_CUSTOM2) &&
+                                 GridDataCellCustom3.Equals(DEFAULT_GRID_DATA_CELL_CUSTOM3) &&
+                                 GridBackgroundCustom1.Equals(DEFAULT_GRID_BACKGROUND_CUSTOM1) &&
+                                 GridBackgroundCustom2.Equals(DEFAULT_GRID_BACKGROUND_CUSTOM2) &&
+                                 GridBackgroundCustom3.Equals(DEFAULT_GRID_BACKGROUND_CUSTOM3) &&
+                                 HeaderPrimary.Equals(DEFAULT_HEADER_PRIMARY) &&
+                                 HeaderSecondary.Equals(DEFAULT_HEADER_SECONDARY) &&
+                                 HeaderDockActive.Equals(DEFAULT_HEADER_DOCK_ACTIVE) &&
+                                 HeaderDockInactive.Equals(DEFAULT_HEADER_DOCK_INACTIVE) &&
+                                 HeaderForm.Equals(DEFAULT_HEADER_FORM) &&
+                                 HeaderCalendar.Equals(DEFAULT_HEADER_CALENDAR) &&
+                                 HeaderCustom1.Equals(DEFAULT_HEADER_CUSTOM1) &&
+                                 HeaderCustom2.Equals(DEFAULT_HEADER_CUSTOM2) &&
+                                 HeaderCustom3.Equals(DEFAULT_HEADER_CUSTOM3) &&
+                                 PanelClient.Equals(DEFAULT_PANEL_CLIENT) &&
+                                 PanelAlternate.Equals(DEFAULT_PANEL_ALTERNATE) &&
+                                 PanelCustom1.Equals(DEFAULT_PANEL_CUSTOM1) &&
+                                 PanelCustom2.Equals(DEFAULT_PANEL_CUSTOM2) &&
+                                 PanelCustom3.Equals(DEFAULT_PANEL_CUSTOM3) &&
+                                 SeparatorLowProfile.Equals(DEFAULT_SEPARATOR_LOW_PROFILE) &&
+                                 SeparatorHighProfile.Equals(DEFAULT_SEPARATOR_HIGH_PROFILE) &&
+                                 SeparatorHighInternalProfile.Equals(DEFAULT_SEPARATOR_HIGH_INTERNAL_PROFILE) &&
+                                 TabHighProfile.Equals(DEFAULT_TAB_HIGH_PROFILE) &&
+                                 TabStandardProfile.Equals(DEFAULT_TAB_STANDARD_PROFILE) &&
+                                 TabLowProfile.Equals(DEFAULT_TAB_LOW_PROFILE) &&
+                                 TabOneNote.Equals(DEFAULT_TAB_ONE_NOTE) &&
+                                 TabDock.Equals(DEFAULT_TAB_DOCK) &&
+                                 TabDockAutoHidden.Equals(DEFAULT_TAB_DOCK_AUTO_HIDDEN) &&
+                                 TabCustom1.Equals(DEFAULT_TAB_CUSTOM1) &&
+                                 TabCustom2.Equals(DEFAULT_TAB_CUSTOM2) &&
+                                 TabCustom3.Equals(DEFAULT_TAB_CUSTOM3);
 
         public void Reset()
         {
@@ -242,6 +297,110 @@ namespace Krypton.Toolkit
             InputControlCustom1 = DEFAULT_INPUT_CONTROL_CUSTOM1;
 
             InputControlCustom2 = DEFAULT_INPUT_CONTROL_CUSTOM2;
+
+            InputControlCustom3 = DEFAULT_INPUT_CONTROL_CUSTOM3;
+
+            FormMain = DEFAULT_FORM_MAIN;
+
+            FormCustom1 = DEFAULT_FORM_CUSTOM1;
+
+            FormCustom2 = DEFAULT_FORM_CUSTOM2;
+
+            FormCustom3 = DEFAULT_FORM_CUSTOM3;
+
+            GridHeaderColumnList = DEFAULT_GRID_HEADER_COLUMN_LIST;
+
+            GridHeaderRowList = DEFAULT_GRID_HEADER_ROW_LIST;
+
+            GridDataCellList = DEFAULT_GRID_DATA_CELL_LIST;
+
+            GridBackgroundList = DEFAULT_GRID_BACKGROUND_LIST;
+
+            GridHeaderColumnSheet = DEFAULT_GRID_HEADER_COLUMN_SHEET;
+
+            GridHeaderRowSheet = DEFAULT_GRID_HEADER_ROW_SHEET;
+
+            GridDataCellSheet = DEFAULT_GRID_DATA_CELL_SHEET;
+
+            GridBackgroundSheet = DEFAULT_GRID_BACKGROUND_SHEET;
+
+            GridHeaderColumnCustom1 = DEFAULT_GRID_HEADER_COLUMN_CUSTOM1;
+
+            GridHeaderColumnCustom2 = DEFAULT_GRID_HEADER_COLUMN_CUSTOM2;
+
+            GridHeaderColumnCustom3 = DEFAULT_GRID_HEADER_COLUMN_CUSTOM3;
+
+            GridHeaderRowCustom1 = DEFAULT_GRID_HEADER_ROW_CUSTOM1;
+
+            GridHeaderRowCustom2 = DEFAULT_GRID_HEADER_ROW_CUSTOM2;
+
+            GridHeaderRowCustom3 = DEFAULT_GRID_HEADER_ROW_CUSTOM3;
+
+            GridDataCellCustom1 = DEFAULT_GRID_DATA_CELL_CUSTOM1;
+
+            GridDataCellCustom2 = DEFAULT_GRID_DATA_CELL_CUSTOM2;
+
+            GridDataCellCustom3 = DEFAULT_GRID_DATA_CELL_CUSTOM3;
+
+            GridBackgroundCustom1 = DEFAULT_GRID_BACKGROUND_CUSTOM1;
+
+            GridBackgroundCustom2 = DEFAULT_GRID_BACKGROUND_CUSTOM2;
+
+            GridBackgroundCustom3 = DEFAULT_GRID_BACKGROUND_CUSTOM3;
+
+            HeaderPrimary = DEFAULT_HEADER_PRIMARY;
+
+            HeaderSecondary = DEFAULT_HEADER_SECONDARY;
+
+            HeaderDockActive = DEFAULT_HEADER_DOCK_ACTIVE;
+
+            HeaderDockInactive = DEFAULT_HEADER_DOCK_INACTIVE;
+
+            HeaderForm = DEFAULT_HEADER_FORM;
+
+            HeaderCalendar = DEFAULT_HEADER_CALENDAR;
+
+            HeaderCustom1 = DEFAULT_HEADER_CUSTOM1;
+
+            HeaderCustom2 = DEFAULT_HEADER_CUSTOM2;
+
+            HeaderCustom3 = DEFAULT_HEADER_CUSTOM3;
+
+            PanelClient = DEFAULT_PANEL_CLIENT;
+
+            PanelAlternate = DEFAULT_PANEL_ALTERNATE;
+
+            PanelRibbonInactive = DEFAULT_PANEL_RIBBON_INACTIVE;
+
+            PanelCustom1 = DEFAULT_PANEL_CUSTOM1;
+
+            PanelCustom2 = DEFAULT_PANEL_CUSTOM2;
+
+            PanelCustom3 = DEFAULT_PANEL_CUSTOM3;
+
+            SeparatorLowProfile = DEFAULT_SEPARATOR_LOW_PROFILE;
+
+            SeparatorHighProfile = DEFAULT_SEPARATOR_HIGH_PROFILE;
+
+            SeparatorHighInternalProfile = DEFAULT_SEPARATOR_HIGH_INTERNAL_PROFILE;
+
+            TabHighProfile = DEFAULT_TAB_HIGH_PROFILE;
+
+            TabStandardProfile = DEFAULT_TAB_STANDARD_PROFILE;
+
+            TabLowProfile = DEFAULT_TAB_LOW_PROFILE;
+
+            TabOneNote = DEFAULT_TAB_ONE_NOTE;
+
+            TabDock = DEFAULT_TAB_DOCK;
+
+            TabDockAutoHidden = DEFAULT_TAB_DOCK_AUTO_HIDDEN;
+
+            TabCustom1 = DEFAULT_TAB_CUSTOM1;
+
+            TabCustom2 = DEFAULT_TAB_CUSTOM2;
+
+            TabCustom3 = DEFAULT_TAB_CUSTOM3;
         }
 
         /// <summary>Gets or sets the button standalone palette back style.</summary>
@@ -500,6 +659,318 @@ namespace Krypton.Toolkit
         [Description(@"The input control custom 2 palette back style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_CUSTOM2)]
         public string InputControlCustom2 { get; set; }
+
+        /// <summary>Gets or sets the input control custom 3 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The input control custom 3 palette back style.")]
+        [DefaultValue(DEFAULT_INPUT_CONTROL_CUSTOM3)]
+        public string InputControlCustom3 { get; set; }
+
+        /// <summary>Gets or sets the input control form main palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The input control form main palette back style.")]
+        [DefaultValue(DEFAULT_FORM_MAIN)]
+        public string FormMain { get; set; }
+
+        /// <summary>Gets or sets the form custom 1 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The form custom 1 palette back style.")]
+        [DefaultValue(DEFAULT_FORM_CUSTOM1)]
+        public string FormCustom1 { get; set; }
+
+        /// <summary>Gets or sets the form custom 2 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The form custom 2 palette back style.")]
+        [DefaultValue(DEFAULT_FORM_CUSTOM2)]
+        public string FormCustom2 { get; set; }
+
+        /// <summary>Gets or sets the form custom 3 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The form custom 3 palette back style.")]
+        [DefaultValue(DEFAULT_FORM_CUSTOM3)]
+        public string FormCustom3 { get; set; }
+
+        /// <summary>Gets or sets the grid header column list palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header column list palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_COLUMN_LIST)]
+        public string GridHeaderColumnList { get; set; }
+
+        /// <summary>Gets or sets the grid header row list palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header row list palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_ROW_LIST)]
+        public string GridHeaderRowList { get; set; }
+
+        /// <summary>Gets or sets the grid data cell list palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid data cell list palette back style.")]
+        [DefaultValue(DEFAULT_GRID_DATA_CELL_LIST)]
+        public string GridDataCellList { get; set; }
+
+        /// <summary>Gets or sets the grid background list palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid background list palette back style.")]
+        [DefaultValue(DEFAULT_GRID_BACKGROUND_LIST)]
+        public string GridBackgroundList { get; set; }
+
+        /// <summary>Gets or sets the grid header column sheet palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header column sheet palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_COLUMN_SHEET)]
+        public string GridHeaderColumnSheet { get; set; }
+
+        /// <summary>Gets or sets the grid header row sheet palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header row sheet palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_ROW_SHEET)]
+        public string GridHeaderRowSheet { get; set; }
+
+        /// <summary>Gets or sets the grid data cell sheet palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid data cell sheet palette back style.")]
+        [DefaultValue(DEFAULT_GRID_DATA_CELL_SHEET)]
+        public string GridDataCellSheet { get; set; }
+
+        /// <summary>Gets or sets the grid background sheet palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid background sheet palette back style.")]
+        [DefaultValue(DEFAULT_GRID_BACKGROUND_SHEET)]
+        public string GridBackgroundSheet { get; set; }
+
+        /// <summary>Gets or sets the grid header column custom 1 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header column custom 1 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_COLUMN_CUSTOM1)]
+        public string GridHeaderColumnCustom1 { get; set; }
+
+        /// <summary>Gets or sets the grid header column custom 2 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header column custom 2 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_COLUMN_CUSTOM2)]
+        public string GridHeaderColumnCustom2 { get; set; }
+
+        /// <summary>Gets or sets the grid header column custom 3 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header column custom 3 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_COLUMN_CUSTOM3)]
+        public string GridHeaderColumnCustom3 { get; set; }
+
+        /// <summary>Gets or sets the grid header row custom 1 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header row custom 1 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_ROW_CUSTOM1)]
+        public string GridHeaderRowCustom1 { get; set; }
+
+        /// <summary>Gets or sets the grid header row custom 2 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header row custom 2 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_ROW_CUSTOM2)]
+        public string GridHeaderRowCustom2 { get; set; }
+
+        /// <summary>Gets or sets the grid header row custom 3 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid header row custom 3 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_HEADER_ROW_CUSTOM3)]
+        public string GridHeaderRowCustom3 { get; set; }
+
+        /// <summary>Gets or sets the grid data cell custom 1 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid data cell custom 1 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_DATA_CELL_CUSTOM1)]
+        public string GridDataCellCustom1 { get; set; }
+
+        /// <summary>Gets or sets the grid data cell custom 2 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid data cell custom 2 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_DATA_CELL_CUSTOM2)]
+        public string GridDataCellCustom2 { get; set; }
+
+        /// <summary>Gets or sets the grid data cell custom 3 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid data cell custom 3 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_DATA_CELL_CUSTOM3)]
+        public string GridDataCellCustom3 { get; set; }
+
+        /// <summary>Gets or sets the grid background custom 1 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid background custom 1 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_BACKGROUND_CUSTOM1)]
+        public string GridBackgroundCustom1 { get; set; }
+
+        /// <summary>Gets or sets the grid background custom 2 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid background custom 2 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_BACKGROUND_CUSTOM2)]
+        public string GridBackgroundCustom2 { get; set; }
+
+        /// <summary>Gets or sets the grid background custom 3 palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The grid background custom 3 palette back style.")]
+        [DefaultValue(DEFAULT_GRID_BACKGROUND_CUSTOM3)]
+        public string GridBackgroundCustom3 { get; set; }
+
+        /// <summary>Gets or sets the header primary palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header primary palette back style.")]
+        [DefaultValue(DEFAULT_HEADER_PRIMARY)]
+        public string HeaderPrimary { get; set; }
+
+        /// <summary>Gets or sets the header secondary palette back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header secondary palette back style.")]
+        [DefaultValue(DEFAULT_HEADER_SECONDARY)]
+        public string HeaderSecondary { get; set; }
+
+        /// <summary>Gets or sets the header dock active back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header dock active palette back style.")]
+        [DefaultValue(DEFAULT_HEADER_DOCK_ACTIVE)]
+        public string HeaderDockActive { get; set; }
+
+        /// <summary>Gets or sets the header dock inactive back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header dock inactive palette back style.")]
+        [DefaultValue(DEFAULT_HEADER_DOCK_INACTIVE)]
+        public string HeaderDockInactive { get; set; }
+
+        /// <summary>Gets or sets the header form back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header form palette back style.")]
+        [DefaultValue(DEFAULT_HEADER_FORM)]
+        public string HeaderForm { get; set; }
+
+        /// <summary>Gets or sets the header calendar back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header calendar back style.")]
+        [DefaultValue(DEFAULT_HEADER_CALENDAR)]
+        public string HeaderCalendar { get; set; }
+
+        /// <summary>Gets or sets the header custom 1 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header custom 1 back style.")]
+        [DefaultValue(DEFAULT_HEADER_CUSTOM1)]
+        public string HeaderCustom1 { get; set; }
+
+        /// <summary>Gets or sets the header custom 2 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header custom 2 back style.")]
+        [DefaultValue(DEFAULT_HEADER_CUSTOM2)]
+        public string HeaderCustom2 { get; set; }
+
+        /// <summary>Gets or sets the header custom 3 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header custom 3 back style.")]
+        [DefaultValue(DEFAULT_HEADER_CUSTOM3)]
+        public string HeaderCustom3 { get; set; }
+
+        /// <summary>Gets or sets the panel client back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The panel client back style.")]
+        [DefaultValue(DEFAULT_PANEL_CLIENT)]
+        public string PanelClient { get; set; }
+
+        /// <summary>Gets or sets the panel alternate back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The panel alternate back style.")]
+        [DefaultValue(DEFAULT_PANEL_ALTERNATE)]
+        public string PanelAlternate { get; set; }
+
+        /// <summary>Gets or sets the panel ribbon inactive back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The panel ribbon inactive back style.")]
+        [DefaultValue(DEFAULT_PANEL_RIBBON_INACTIVE)]
+        public string PanelRibbonInactive { get; set; }
+
+        /// <summary>Gets or sets the panel custom 1 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The panel custom 1 back style.")]
+        [DefaultValue(DEFAULT_PANEL_CUSTOM1)]
+        public string PanelCustom1 { get; set; }
+
+        /// <summary>Gets or sets the panel custom 2 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The panel custom 2 back style.")]
+        [DefaultValue(DEFAULT_PANEL_CUSTOM2)]
+        public string PanelCustom2 { get; set; }
+
+        /// <summary>Gets or sets the panel custom 3 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The panel custom 3 back style.")]
+        [DefaultValue(DEFAULT_PANEL_CUSTOM3)]
+        public string PanelCustom3 { get; set; }
+
+        /// <summary>Gets or sets the separator low profile back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The separator low profile back style.")]
+        [DefaultValue(DEFAULT_SEPARATOR_LOW_PROFILE)]
+        public string SeparatorLowProfile { get; set; }
+
+        /// <summary>Gets or sets the separator high profile back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The separator high profile back style.")]
+        [DefaultValue(DEFAULT_SEPARATOR_HIGH_PROFILE)]
+        public string SeparatorHighProfile { get; set; }
+
+        /// <summary>Gets or sets the separator high internal profile back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The separator high internal profile back style.")]
+        [DefaultValue(DEFAULT_SEPARATOR_HIGH_INTERNAL_PROFILE)]
+        public string SeparatorHighInternalProfile { get; set; }
+
+        /// <summary>Gets or sets the tab high profile back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab high profile back style.")]
+        [DefaultValue(DEFAULT_TAB_HIGH_PROFILE)]
+        public string TabHighProfile { get; set; }
+
+        /// <summary>Gets or sets the tab standard profile back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab standard profile back style.")]
+        [DefaultValue(DEFAULT_TAB_STANDARD_PROFILE)]
+        public string TabStandardProfile { get; set; }
+
+        /// <summary>Gets or sets the tab low profile back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab low profile back style.")]
+        [DefaultValue(DEFAULT_TAB_LOW_PROFILE)]
+        public string TabLowProfile { get; set; }
+
+        /// <summary>Gets or sets the tab OneNote back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab OneNote back style.")]
+        [DefaultValue(DEFAULT_TAB_ONE_NOTE)]
+        public string TabOneNote { get; set; }
+
+        /// <summary>Gets or sets the tab dock back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab dock back style.")]
+        [DefaultValue(DEFAULT_TAB_DOCK)]
+        public string TabDock { get; set; }
+
+        /// <summary>Gets or sets the tab dock auto hidden back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab dock auto hidden back style.")]
+        [DefaultValue(DEFAULT_TAB_DOCK_AUTO_HIDDEN)]
+        public string TabDockAutoHidden { get; set; }
+
+        /// <summary>Gets or sets the tab custom 1 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab custom 1 back style.")]
+        [DefaultValue(DEFAULT_TAB_CUSTOM1)]
+        public string TabCustom1 { get; set; }
+
+        /// <summary>Gets or sets the tab custom 2 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab custom 2 back style.")]
+        [DefaultValue(DEFAULT_TAB_CUSTOM2)]
+        public string TabCustom2 { get; set; }
+
+        /// <summary>Gets or sets the tab custom 3 back style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tab custom 3 back style.")]
+        [DefaultValue(DEFAULT_TAB_CUSTOM3)]
+        public string TabCustom3 { get; set; }
 
         #endregion
     }
