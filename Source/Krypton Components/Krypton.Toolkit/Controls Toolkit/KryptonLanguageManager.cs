@@ -191,6 +191,19 @@ namespace Krypton.Toolkit
         /// <summary>Resets the palette back style strings.</summary>
         public void ResetPaletteBackStyleStrings() => BackStyleStrings.Reset();
 
+        /// <summary>Gets the palette border style strings.</summary>
+        /// <value>The palette border style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette border style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteBorderStyleStrings PaletteBorderStyleStrings => BorderStyleStrings;
+
+        private bool ShouldSerializePaletteBorderStyleStrings() => !BorderStyleStrings.IsDefault;
+
+        public void ResetPaletteBorderStyleStrings() => BorderStyleStrings.Reset();
+
         #endregion
 
         #region Static Strings
@@ -240,6 +253,8 @@ namespace Krypton.Toolkit
 
         public static PaletteBackStyleStrings BackStyleStrings { get; } = new();
 
+        public static PaletteBorderStyleStrings BorderStyleStrings { get; } = new();
+
         #endregion
 
         #region Identity
@@ -269,7 +284,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializeHeaderStyleStrings() ||
                                    ShouldSerializeInputControlStyleStrings() ||
                                    ShouldSerializeKryptonLinkBehaviorStrings() ||
-                                   ShouldSerializePaletteBackStyleStrings());
+                                   ShouldSerializePaletteBackStyleStrings() ||
+                                   ShouldSerializePaletteBorderStyleStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -295,6 +311,8 @@ namespace Krypton.Toolkit
             ResetKryptonLinkBehaviorStrings();
 
             ResetPaletteBackStyleStrings();
+
+            ResetPaletteBorderStyleStrings();
         }
 
         #endregion
