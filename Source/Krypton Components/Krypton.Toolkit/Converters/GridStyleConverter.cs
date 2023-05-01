@@ -32,13 +32,14 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(GridStyle.List, KryptonLanguageManager.StyleStrings.List),
-            new(GridStyle.Sheet, KryptonLanguageManager.StyleStrings.Sheet),
-            new(GridStyle.Custom1, KryptonLanguageManager.StyleStrings.CustomOne),
-            new(GridStyle.Custom2, KryptonLanguageManager.StyleStrings.CustomTwo),
-            new(GridStyle.Custom3, KryptonLanguageManager.StyleStrings.CustomThree)
+            new(GridStyle.List, KryptonLanguageManager.GridStyles.List),
+            new(GridStyle.Sheet, KryptonLanguageManager.GridStyles.Sheet),
+            new(GridStyle.Custom1, KryptonLanguageManager.GridStyles.CustomOne),
+            new(GridStyle.Custom2, KryptonLanguageManager.GridStyles.CustomTwo),
+            new(GridStyle.Custom3, KryptonLanguageManager.GridStyles.CustomThree)
         };
 
         #endregion

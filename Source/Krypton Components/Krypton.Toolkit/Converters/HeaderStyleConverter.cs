@@ -19,18 +19,37 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(HeaderStyle.Primary, "Primary"),
+        //    new(HeaderStyle.Secondary, "Secondary"),
+        //    new(HeaderStyle.DockInactive, "Dock - Inactive"),
+        //    new(HeaderStyle.DockActive, "Dock - Active"),
+        //    new(HeaderStyle.Form, nameof(Form)),
+        //    new(HeaderStyle.Calendar, nameof(Calendar)),
+        //    new(HeaderStyle.Custom1, "Custom1"),
+        //    new(HeaderStyle.Custom2, "Custom2"),
+        //    new(HeaderStyle.Custom3, "Custom3")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(HeaderStyle.Primary, "Primary"),
-            new(HeaderStyle.Secondary, "Secondary"),
-            new(HeaderStyle.DockInactive, "Dock - Inactive"),
-            new(HeaderStyle.DockActive, "Dock - Active"),
-            new(HeaderStyle.Form, nameof(Form)),
-            new(HeaderStyle.Calendar, nameof(Calendar)),
-            new(HeaderStyle.Custom1, "Custom1"),
-            new(HeaderStyle.Custom2, "Custom2"),
-            new(HeaderStyle.Custom3, "Custom3")
+            new(HeaderStyle.Primary, KryptonLanguageManager.HeaderStyles.Primary),
+            new(HeaderStyle.Secondary, KryptonLanguageManager.HeaderStyles.Secondary),
+            new(HeaderStyle.DockInactive, KryptonLanguageManager.HeaderStyles.DockInactive),
+            new(HeaderStyle.DockActive, KryptonLanguageManager.HeaderStyles.DockActive),
+            new(HeaderStyle.Form, KryptonLanguageManager.HeaderStyles.Form),
+            new(HeaderStyle.Calendar, KryptonLanguageManager.HeaderStyles.Calendar),
+            new(HeaderStyle.Custom1, KryptonLanguageManager.HeaderStyles.CustomOne),
+            new(HeaderStyle.Custom2, KryptonLanguageManager.HeaderStyles.CustomTwo),
+            new(HeaderStyle.Custom3, KryptonLanguageManager.HeaderStyles.CustomThree)
         };
+
         #endregion
 
         #region Identity

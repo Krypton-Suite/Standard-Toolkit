@@ -19,12 +19,25 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(KryptonLinkBehavior.AlwaysUnderline, "Always Underline"),
+        //    new(KryptonLinkBehavior.HoverUnderline, "Hover Underline"),
+        //    new(KryptonLinkBehavior.NeverUnderline, "Never Underline")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(KryptonLinkBehavior.AlwaysUnderline, "Always Underline"),
-            new(KryptonLinkBehavior.HoverUnderline, "Hover Underline"),
-            new(KryptonLinkBehavior.NeverUnderline, "Never Underline")
+            new(KryptonLinkBehavior.AlwaysUnderline, KryptonLanguageManager.LinkBehaviorStrings.AlwaysUnderline),
+            new(KryptonLinkBehavior.HoverUnderline, KryptonLanguageManager.LinkBehaviorStrings.HoverUnderline),
+            new(KryptonLinkBehavior.NeverUnderline, KryptonLanguageManager.LinkBehaviorStrings.NeverUnderline)
         };
+
         #endregion
 
         #region Identity
