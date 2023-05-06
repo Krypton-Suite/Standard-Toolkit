@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
             new(PaletteContentStyle.HeaderCustom3, "Header - Custom3"),
             new(PaletteContentStyle.LabelNormalControl, "Label - Normal (Control)"),
             new(PaletteContentStyle.LabelBoldControl, "Label - Bold (Control)"),
-            new(PaletteContentStyle.LabelTitleControl, "Label - Italic (Control)"),
+            new(PaletteContentStyle.LabelItalicControl, "Label - Italic (Control)"),
             new(PaletteContentStyle.LabelTitleControl, "Label - Title (Control)"),
             new(PaletteContentStyle.LabelNormalPanel, "Label - Normal (Panel)"),
             new(PaletteContentStyle.LabelBoldPanel, "Label - Bold (Panel)"),

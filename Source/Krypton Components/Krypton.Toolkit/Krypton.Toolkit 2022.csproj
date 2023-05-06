@@ -381,6 +381,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>VisualStudioRadioButtonImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SizeGripStyleResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Stars\StarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -751,6 +756,10 @@
         <EmbeddedResource Update="ResourceFiles\RadioButtons\VisualStudioRadioButtonImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>VisualStudioRadioButtonImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SizeGripStyleResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Stars\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
