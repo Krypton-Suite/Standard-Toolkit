@@ -19,15 +19,31 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(PaletteButtonOrientation.Inherit, "Inherit"),
+        //    new(PaletteButtonOrientation.Auto, "Auto"),
+        //    new(PaletteButtonOrientation.FixedTop, "Fixed Top"),
+        //    new(PaletteButtonOrientation.FixedBottom, "Fixed Bottom"),
+        //    new(PaletteButtonOrientation.FixedLeft, "Fixed Left"),
+        //    new(PaletteButtonOrientation.FixedRight, "Fixed Right")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PaletteButtonOrientation.Inherit, "Inherit"),
-            new(PaletteButtonOrientation.Auto, "Auto"),
-            new(PaletteButtonOrientation.FixedTop, "Fixed Top"),
-            new(PaletteButtonOrientation.FixedBottom, "Fixed Bottom"),
-            new(PaletteButtonOrientation.FixedLeft, "Fixed Left"),
-            new(PaletteButtonOrientation.FixedRight, "Fixed Right")
+            new(PaletteButtonOrientation.Inherit, KryptonLanguageManager.ButtonOrientationStrings.Inherit),
+            new(PaletteButtonOrientation.Auto, KryptonLanguageManager.ButtonOrientationStrings.Auto),
+            new(PaletteButtonOrientation.FixedTop, KryptonLanguageManager.ButtonOrientationStrings.FixedTop),
+            new(PaletteButtonOrientation.FixedBottom, KryptonLanguageManager.ButtonOrientationStrings.FixedBottom),
+            new(PaletteButtonOrientation.FixedLeft, KryptonLanguageManager.ButtonOrientationStrings.FixedLeft),
+            new(PaletteButtonOrientation.FixedRight, KryptonLanguageManager.ButtonOrientationStrings.FixedRight)
         };
+
         #endregion
 
         #region Identity

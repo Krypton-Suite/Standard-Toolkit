@@ -135,6 +135,20 @@ namespace Krypton.Toolkit
         /// <summary>Resets the input control style strings.</summary>
         public void ResetInputControlStyleStrings() => InputControlStyles.Reset();
 
+        /// <summary>Gets the integrated toolbar button strings.</summary>
+        /// <value>The integrated toolbar button strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of integrated toolbar button strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public IntegratedToolBarStrings IntegratedToolBarStrings => ToolBarStrings;
+
+        private bool ShouldSerializeIntegratedToolBarStrings() => !ToolBarStrings.IsDefault;
+
+        /// <summary>Resets the integrated tool bar strings.</summary>
+        public void ResetIntegratedToolBarStrings() => ToolBarStrings.Reset();
+
         /// <summary>Gets the link behavior style strings.</summary>
         /// <value>The link behavior style strings.</value>
         [Category(@"Visuals")]
@@ -163,20 +177,6 @@ namespace Krypton.Toolkit
         /// <summary>Resets the label style strings.</summary>
         public void ResetLabelStyleStrings() => LabelStyleStrings.Reset();
 
-        /// <summary>Gets the palette mode strings.</summary>
-        /// <value>The palette mode strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of palette mode strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public PaletteModeStrings PaletteModeStrings => ModeStrings;
-
-        private bool ShouldSerializePaletteModeStrings() => !ModeStrings.IsDefault;
-
-        /// <summary>Resets the palette mode strings.</summary>
-        public void ResetPaletteModeStrings() => ModeStrings.Reset();
-
         /// <summary>Gets the palette back style strings.</summary>
         /// <value>The palette back style strings.</value>
         [Category(@"Visuals")]
@@ -202,7 +202,64 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePaletteBorderStyleStrings() => !BorderStyleStrings.IsDefault;
 
+        /// <summary>Resets the palette border style strings.</summary>
         public void ResetPaletteBorderStyleStrings() => BorderStyleStrings.Reset();
+
+        /// <summary>Gets the palette button orientation strings.</summary>
+        /// <value>The palette button orientation strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette button orientation strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteButtonOrientationStrings PaletteButtonOrientationStrings => ButtonOrientationStrings;
+
+        private bool ShouldSerializePaletteButtonOrientationStrings() => !ButtonOrientationStrings.IsDefault;
+
+        /// <summary>Resets the palette button orientation strings.</summary>
+        public void ResetPaletteButtonOrientationStrings() => ButtonOrientationStrings.Reset();
+
+        /// <summary>Gets the palette button spec style strings.</summary>
+        /// <value>The palette button spec style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette button spec style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteButtonSpecStyleStrings PaletteButtonSpecStyleStrings => ButtonSpecStyles;
+
+        private bool ShouldSerializePaletteButtonSpecStyleStrings() => !ButtonSpecStyles.IsDefault;
+
+        /// <summary>Resets the palette button spec style strings.</summary>
+        public void ResetPaletteButtonSpecStyleStrings() => ButtonSpecStyles.Reset();
+
+        /// <summary>Gets the palette button style strings.</summary>
+        /// <value>The palette button style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette button style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteButtonStyleStrings PaletteButtonStyleStrings => ButtonStyleStrings;
+
+        private bool ShouldSerializePaletteButtonStyleStrings() => !ButtonStyleStrings.IsDefault;
+
+        private void ResetPaletteButtonStyleStrings() => ButtonStyleStrings.Reset();
+
+
+        /// <summary>Gets the palette mode strings.</summary>
+        /// <value>The palette mode strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette mode strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteModeStrings PaletteModeStrings => ModeStrings;
+
+        private bool ShouldSerializePaletteModeStrings() => !ModeStrings.IsDefault;
+
+        /// <summary>Resets the palette mode strings.</summary>
+        public void ResetPaletteModeStrings() => ModeStrings.Reset();
 
         #endregion
 
@@ -220,10 +277,6 @@ namespace Krypton.Toolkit
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
         public static GeneralStrings Strings { get; } = new();
-
-        /// <summary>Gets the mode strings.</summary>
-        /// <value>The mode strings.</value>
-        public static PaletteModeStrings ModeStrings { get; } = new();
 
         /// <summary>Gets the grid view style strings.</summary>
         /// <value>The grid view style strings.</value>
@@ -245,15 +298,43 @@ namespace Krypton.Toolkit
         /// <value>The input control styles.</value>
         public static InputControlStyleStrings InputControlStyles { get; } = new();
 
+        /// <summary>Gets the tool bar strings.</summary>
+        /// <value>The tool bar strings.</value>
+        public static IntegratedToolBarStrings ToolBarStrings { get; } = new();
+
         /// <summary>Gets the link behavior strings.</summary>
         /// <value>The link behavior strings.</value>
         public static KryptonLinkBehaviorStrings LinkBehaviorStrings { get; } = new();
 
+        /// <summary>Gets the krypton label style strings.</summary>
+        /// <value>The krypton label style strings.</value>
         public static LabelStyleStrings KryptonLabelStyleStrings { get; } = new();
 
+        /// <summary>Gets the back style strings.</summary>
+        /// <value>The back style strings.</value>
         public static PaletteBackStyleStrings BackStyleStrings { get; } = new();
 
+        /// <summary>Gets the border style strings.</summary>
+        /// <value>The border style strings.</value>
         public static PaletteBorderStyleStrings BorderStyleStrings { get; } = new();
+
+        /// <summary>Gets the button orientation strings.</summary>
+        /// <value>The button orientation strings.</value>
+        public static PaletteButtonOrientationStrings ButtonOrientationStrings { get; } = new();
+
+        /// <summary>Gets the button spec styles.</summary>
+        /// <value>The button spec styles.</value>
+        public static PaletteButtonSpecStyleStrings ButtonSpecStyles { get; } = new();
+
+        /// <summary>Gets the button style strings.</summary>
+        /// <value>The button style strings.</value>
+        public static PaletteButtonStyleStrings ButtonStyleStrings { get; } = new();
+
+
+
+        /// <summary>Gets the mode strings.</summary>
+        /// <value>The mode strings.</value>
+        public static PaletteModeStrings ModeStrings { get; } = new();
 
         #endregion
 
@@ -283,9 +364,13 @@ namespace Krypton.Toolkit
                                    ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
                                    ShouldSerializeHeaderStyleStrings() ||
                                    ShouldSerializeInputControlStyleStrings() ||
+                                   ShouldSerializeIntegratedToolBarStrings() ||
                                    ShouldSerializeKryptonLinkBehaviorStrings() ||
                                    ShouldSerializePaletteBackStyleStrings() ||
-                                   ShouldSerializePaletteBorderStyleStrings());
+                                   ShouldSerializePaletteBorderStyleStrings() ||
+                                   ShouldSerializePaletteButtonOrientationStrings() ||
+                                   ShouldSerializePaletteButtonSpecStyleStrings() ||
+                                   ShouldSerializePaletteButtonStyleStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -308,11 +393,19 @@ namespace Krypton.Toolkit
 
             ResetInputControlStyleStrings();
 
+            ResetIntegratedToolBarStrings();
+
             ResetKryptonLinkBehaviorStrings();
 
             ResetPaletteBackStyleStrings();
 
             ResetPaletteBorderStyleStrings();
+
+            ResetPaletteButtonOrientationStrings();
+
+            ResetPaletteButtonSpecStyleStrings();
+
+            ResetPaletteButtonStyleStrings();
         }
 
         #endregion

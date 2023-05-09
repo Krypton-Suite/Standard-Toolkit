@@ -57,6 +57,7 @@ global using Krypton.Toolkit.ResourceFiles.MessageBox;
 global using Krypton.Toolkit.ResourceFiles.Pendants;
 global using Krypton.Toolkit.ResourceFiles.Pin;
 global using Krypton.Toolkit.ResourceFiles.RadioButtons;
+global using Krypton.Toolkit.ResourceFiles.SizeGripStyles;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
