@@ -246,6 +246,18 @@ namespace Krypton.Toolkit
 
         private void ResetPaletteButtonStyleStrings() => ButtonStyleStrings.Reset();
 
+        /// <summary>Gets the palette content style strings.</summary>
+        /// <value>The palette content style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette mode strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteContentStyleStrings PaletteContentStyleStrings => ContentStyleStrings;
+
+        private bool ShouldSerializePaletteContentStyleStrings() => !ContentStyleStrings.IsDefault;
+
+        public void ResetPaletteContentStyleStrings() => ContentStyleStrings.Reset();
 
         /// <summary>Gets the palette mode strings.</summary>
         /// <value>The palette mode strings.</value>
@@ -330,7 +342,9 @@ namespace Krypton.Toolkit
         /// <value>The button style strings.</value>
         public static PaletteButtonStyleStrings ButtonStyleStrings { get; } = new();
 
-
+        /// <summary>Gets the content style strings.</summary>
+        /// <value>The content style strings.</value>
+        public static PaletteContentStyleStrings ContentStyleStrings { get; } = new();
 
         /// <summary>Gets the mode strings.</summary>
         /// <value>The mode strings.</value>
@@ -370,7 +384,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializePaletteBorderStyleStrings() ||
                                    ShouldSerializePaletteButtonOrientationStrings() ||
                                    ShouldSerializePaletteButtonSpecStyleStrings() ||
-                                   ShouldSerializePaletteButtonStyleStrings());
+                                   ShouldSerializePaletteButtonStyleStrings() ||
+                                   ShouldSerializePaletteContentStyleStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -406,6 +421,8 @@ namespace Krypton.Toolkit
             ResetPaletteButtonSpecStyleStrings();
 
             ResetPaletteButtonStyleStrings();
+
+            ResetPaletteContentStyleStrings();
         }
 
         #endregion

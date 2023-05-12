@@ -114,7 +114,8 @@ namespace Krypton.Toolkit
                                  ButtonCluster.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER) &&
                                  ButtonGallery.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY) &&
                                  ButtonNavigatorStack.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK) &&
-                                 ButtonNavigatorOverflow.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW) &&
+                                 ButtonNavigatorOverflow.Equals(
+                                     DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW) &&
                                  ButtonNavigatorMini.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI) &&
                                  ButtonInputControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_INPUT_CONTROL) &&
                                  ButtonListItem.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LIST_ITEM) &&
@@ -125,15 +126,28 @@ namespace Krypton.Toolkit
                                  ButtonCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM3) &&
                                  ContextMenuHeading.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING) &&
                                  ContextMenuItemImage.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE) &&
-                                 ContextMenuItemTextStandard.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD) &&
-                                 ContextMenuItemTextAlternate.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE) &&
-                                 ContextMenuItemShortcutText.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT) &&
+                                 ContextMenuItemTextStandard.Equals(
+                                     DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD) &&
+                                 ContextMenuItemTextAlternate.Equals(
+                                     DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE) &&
+                                 ContextMenuItemShortcutText.Equals(
+                                     DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT) &&
                                  GridHeaderColumnList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST) &&
                                  GridHeaderRowList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST) &&
                                  GridDataCellList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST) &&
                                  GridHeaderColumnSheet.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_SHEET) &&
                                  GridHeaderRowList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST) &&
-                                 GridDataCellSheet.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET);
+                                 GridDataCellSheet.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET) &&
+                                 GridHeaderColumnCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM1) &&
+                                 GridHeaderColumnCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM2) &&
+                                 GridHeaderColumnCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM3) &&
+                                 GridHeaderRowCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1) &&
+                                 GridHeaderRowCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM2) &&
+                                 GridHeaderRowCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM3) &&
+                                 GridDataCellCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM1) &&
+                                 GridDataCellCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM2) &&
+                                 GridDataCellCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM3) &&
+                                 HeaderPrimary.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY);
 
         public void Reset()
         {
@@ -174,6 +188,44 @@ namespace Krypton.Toolkit
             ContextMenuHeading = DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING;
 
             ContextMenuItemImage = DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE;
+
+            ContextMenuItemTextStandard = DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD;
+
+            ContextMenuItemTextAlternate = DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE;
+
+            ContextMenuItemShortcutText = DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT;
+
+            GridHeaderColumnList = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST;
+
+            GridHeaderRowList = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST;
+
+            GridDataCellList = DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST;
+
+            GridHeaderColumnSheet = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_SHEET;
+
+            GridHeaderRowSheet = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_SHEET;
+
+            GridDataCellSheet = DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET;
+
+            GridHeaderColumnCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM1;
+
+            GridHeaderColumnCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM2;
+
+            GridHeaderColumnCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM3;
+
+            GridHeaderRowCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1;
+
+            GridHeaderRowCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM2;
+
+            GridHeaderRowCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM3;
+
+            GridDataCellCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM1;
+
+            GridDataCellCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM2;
+
+            GridDataCellCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM3;
+
+            HeaderPrimary = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY;
         }
 
         /// <summary>Gets or sets the standalone palette button content style.</summary>
@@ -378,6 +430,76 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellSheet { get; set; }
+
+        /// <summary>Gets or sets the custom 1 grid header column style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 grid header column style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridHeaderColumnCustom1 { get; set; }
+
+        /// <summary>Gets or sets the custom 2 grid header column style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 grid header column style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridHeaderColumnCustom2 { get; set; }
+
+        /// <summary>Gets or sets the custom 3 grid header column style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 3 grid header column style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM3)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridHeaderColumnCustom3 { get; set; }
+
+        /// <summary>Gets or sets the custom 1 grid header row style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 grid header row style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridHeaderRowCustom1 { get; set; }
+
+        /// <summary>Gets or sets the custom 2 grid header row style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 grid header row style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridHeaderRowCustom2 { get; set; }
+
+        /// <summary>Gets or sets the custom 3 grid header row style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 3 grid header row style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM3)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridHeaderRowCustom3 { get; set; }
+
+        /// <summary>Gets or sets the custom 1 grid data cell style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 grid data cell style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridDataCellCustom1 { get; set; }
+
+        /// <summary>Gets or sets the custom 2 grid data cell style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 grid data cell style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridDataCellCustom2 { get; set; }
+
+        /// <summary>Gets or sets the custom 3 grid data cell style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 3 grid data cell style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM3)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GridDataCellCustom3 { get; set; }
+
+        /// <summary>Gets or sets the primary header style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The primary header style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderPrimary { get; set; }
 
         #endregion
     }
