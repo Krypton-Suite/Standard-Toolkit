@@ -114,8 +114,7 @@ namespace Krypton.Toolkit
                                  ButtonCluster.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER) &&
                                  ButtonGallery.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY) &&
                                  ButtonNavigatorStack.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK) &&
-                                 ButtonNavigatorOverflow.Equals(
-                                     DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW) &&
+                                 ButtonNavigatorOverflow.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW) &&
                                  ButtonNavigatorMini.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI) &&
                                  ButtonInputControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_INPUT_CONTROL) &&
                                  ButtonListItem.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LIST_ITEM) &&
@@ -126,12 +125,9 @@ namespace Krypton.Toolkit
                                  ButtonCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM3) &&
                                  ContextMenuHeading.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING) &&
                                  ContextMenuItemImage.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE) &&
-                                 ContextMenuItemTextStandard.Equals(
-                                     DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD) &&
-                                 ContextMenuItemTextAlternate.Equals(
-                                     DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE) &&
-                                 ContextMenuItemShortcutText.Equals(
-                                     DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT) &&
+                                 ContextMenuItemTextStandard.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD) &&
+                                 ContextMenuItemTextAlternate.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE) &&
+                                 ContextMenuItemShortcutText.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT) &&
                                  GridHeaderColumnList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST) &&
                                  GridHeaderRowList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST) &&
                                  GridDataCellList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST) &&
@@ -147,7 +143,17 @@ namespace Krypton.Toolkit
                                  GridDataCellCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM1) &&
                                  GridDataCellCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM2) &&
                                  GridDataCellCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM3) &&
-                                 HeaderPrimary.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY);
+                                 HeaderPrimary.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY) &&
+                                 HeaderSecondary.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_SECONDARY) &&
+                                 HeaderDockActive.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_ACTIVE) &&
+                                 HeaderDockInactive.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_INACTIVE) &&
+                                 HeaderForm.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_FORM) &&
+                                 HeaderCalendar.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CALENDAR) &&
+                                 HeaderCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM1) &&
+                                 HeaderCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM2) &&
+                                 HeaderCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM3) &&
+                                 LabelNormalControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL) &&
+                                 LabelBoldControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL);
 
         public void Reset()
         {
@@ -226,6 +232,26 @@ namespace Krypton.Toolkit
             GridDataCellCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM3;
 
             HeaderPrimary = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY;
+
+            HeaderSecondary = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_SECONDARY;
+
+            HeaderDockActive = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_ACTIVE;
+
+            HeaderDockInactive = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_INACTIVE;
+
+            HeaderForm = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_FORM;
+
+            HeaderCalendar = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CALENDAR;
+
+            HeaderCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM1;
+
+            HeaderCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM2;
+
+            HeaderCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM3;
+
+            LabelNormalControl = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL;
+
+            LabelBoldControl = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL;
         }
 
         /// <summary>Gets or sets the standalone palette button content style.</summary>
@@ -500,6 +526,76 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderPrimary { get; set; }
+
+        /// <summary>Gets or sets the secondary header style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The secondary header style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_SECONDARY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderSecondary { get; set; }
+
+        /// <summary>Gets or sets the active header dock style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The active header dock style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_ACTIVE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderDockActive { get; set; }
+
+        /// <summary>Gets or sets the inactive header dock style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The inactive header dock style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_INACTIVE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderDockInactive { get; set; }
+
+        /// <summary>Gets or sets the form header style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The form header style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_FORM)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderForm { get; set; }
+
+        /// <summary>Gets or sets the calendar header style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The calendar header style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CALENDAR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderCalendar { get; set; }
+
+        /// <summary>Gets or sets the custom 1 header style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 header style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderCustom1 { get; set; }
+
+        /// <summary>Gets or sets the custom 2 header style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 header style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderCustom2 { get; set; }
+
+        /// <summary>Gets or sets the custom 3 header style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 3 header style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM3)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HeaderCustom3 { get; set; }
+
+        /// <summary>Gets or sets the normal label control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The normal label control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelNormalControl { get; set; }
+
+        /// <summary>Gets or sets the bold label control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The bold label control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelBoldControl { get; set; }
 
         #endregion
     }
