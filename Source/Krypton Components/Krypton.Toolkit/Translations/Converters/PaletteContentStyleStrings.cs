@@ -163,7 +163,23 @@ namespace Krypton.Toolkit
                                  LabelGroupBoxCaption.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_GROUP_BOX_CAPTION) &&
                                  LabelToolTip.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TOOL_TIP) &&
                                  LabelSuperTip.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_SUPER_TIP) &&
-                                 LabelKeyTip.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP);
+                                 LabelKeyTip.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP) &&
+                                 LabelCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM1) &&
+                                 LabelCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM2) &&
+                                 TabHighProfile.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_HIGH_PROFILE) &&
+                                 TabStandardProfile.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_STANDARD_PROFILE) &&
+                                 TabLowProfile.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_LOW_PROFILE) &&
+                                 TabOneNote.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_ONE_NOTE) &&
+                                 TabDock.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK) &&
+                                 TabDockAutoHidden.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK_AUTO_HIDDEN) &&
+                                 TabCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM1) &&
+                                 TabCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM2) &&
+                                 TabCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM3) &&
+                                 InputControlStandalone.Equals(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_STANDALONE) &&
+                                 InputControlRibbon.Equals(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_RIBBON) &&
+                                 InputControlCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM1) &&
+                                 InputControlCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM2) &&
+                                 InputControlCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM3);
 
         public void Reset()
         {
@@ -282,6 +298,38 @@ namespace Krypton.Toolkit
             LabelSuperTip = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_SUPER_TIP;
 
             LabelKeyTip = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP;
+
+            LabelCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM1;
+
+            LabelCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM2;
+
+            TabHighProfile = DEFAULT_PALETTE_CONTENT_STYLE_TAB_HIGH_PROFILE;
+
+            TabStandardProfile = DEFAULT_PALETTE_CONTENT_STYLE_TAB_STANDARD_PROFILE;
+
+            TabLowProfile = DEFAULT_PALETTE_CONTENT_STYLE_TAB_LOW_PROFILE;
+
+            TabOneNote = DEFAULT_PALETTE_CONTENT_STYLE_TAB_ONE_NOTE;
+
+            TabDock = DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK;
+
+            TabDockAutoHidden = DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK_AUTO_HIDDEN;
+
+            TabCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM1;
+
+            TabCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM2;
+
+            TabCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM3;
+
+            InputControlStandalone = DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_STANDALONE;
+
+            InputControlRibbon = DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_RIBBON;
+
+            InputControlCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM1;
+
+            InputControlCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM2;
+
+            InputControlCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM3;
         }
 
         /// <summary>Gets or sets the standalone palette button content style.</summary>
@@ -696,6 +744,118 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelKeyTip { get; set; }
+
+        /// <summary>Gets or sets the custom 1 label style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 label style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelCustom1 { get; set; }
+
+        /// <summary>Gets or sets the custom 2 label style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 label style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelCustom2 { get; set; }
+
+        /// <summary>Gets or sets the high profile tab style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The high profile tab style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_HIGH_PROFILE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabHighProfile { get; set; }
+
+        /// <summary>Gets or sets the standard profile tab style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The standard profile tab style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_STANDARD_PROFILE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabStandardProfile { get; set; }
+
+        /// <summary>Gets or sets the low profile tab style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The low profile tab style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_LOW_PROFILE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabLowProfile { get; set; }
+
+        /// <summary>Gets or sets the OneNote tab style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The OneNote tab style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_ONE_NOTE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabOneNote { get; set; }
+
+        /// <summary>Gets or sets the dock style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The dock style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabDock { get; set; }
+
+        /// <summary>Gets or sets the auto hidden dock style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The auto hidden dock style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK_AUTO_HIDDEN)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabDockAutoHidden { get; set; }
+
+        /// <summary>Gets or sets the custom 1 tab style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 tab style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabCustom1 { get; set; }
+
+        /// <summary>Gets or sets the custom 2 tab style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 tab style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabCustom2 { get; set; }
+
+        /// <summary>Gets or sets the custom 3 tab style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 3 tab style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM3)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TabCustom3 { get; set; }
+
+        /// <summary>Gets or sets the standalone input control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The standalone input control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_STANDALONE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InputControlStandalone { get; set; }
+
+        /// <summary>Gets or sets the ribbon input control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The ribbon input control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_RIBBON)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InputControlRibbon { get; set; }
+
+        /// <summary>Gets or sets the custom 1 input control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 1 input control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InputControlCustom1 { get; set; }
+
+        /// <summary>Gets or sets the custom 2 input control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 2 input control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InputControlCustom2 { get; set; }
+
+        /// <summary>Gets or sets the custom 3 input control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The custom 3 input control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM3)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InputControlCustom3 { get; set; }
 
         #endregion
     }
