@@ -330,18 +330,53 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string ContextMenuItemTextAlternate { get; set; }
 
+        /// <summary>Gets or sets the item shortcut text palette context menu style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The item shortcut text palette context menu style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
         public string ContextMenuItemShortcutText { get; set; }
 
+        /// <summary>Gets or sets the header column list grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header column list grid style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST)]
+        [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderColumnList { get; set; }
 
+        /// <summary>Gets or sets the header row list grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header row list grid style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderRowList { get; set; }
 
+        /// <summary>Gets or sets the data cell list grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The data cell list grid style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST)]
+        [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellList { get; set; }
 
+        /// <summary>Gets or sets the header column sheet grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header column sheet grid style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_SHEET)]
+        [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderColumnSheet { get; set; }
 
+        /// <summary>Gets or sets the header row sheet grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The header row sheet grid style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_SHEET)]
+        [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderRowSheet { get; set; }
 
+        /// <summary>Gets or sets the data cell sheet grid style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The data cell sheet grid style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET)]
+        [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellSheet { get; set; }
 
         #endregion
