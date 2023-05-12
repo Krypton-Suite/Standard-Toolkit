@@ -153,7 +153,17 @@ namespace Krypton.Toolkit
                                  HeaderCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM2) &&
                                  HeaderCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM3) &&
                                  LabelNormalControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL) &&
-                                 LabelBoldControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL);
+                                 LabelBoldControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL) &&
+                                 LabelItalicControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_CONTROL) &&
+                                 LabelTitleControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_CONTROL) &&
+                                 LabelNormalPanel.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_PANEL) &&
+                                 LabelBoldPanel.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_PANEL) &&
+                                 LabelItalicPanel.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_PANEL) &&
+                                 LabelTitlePanel.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_PANEL) &&
+                                 LabelGroupBoxCaption.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_GROUP_BOX_CAPTION) &&
+                                 LabelToolTip.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TOOL_TIP) &&
+                                 LabelSuperTip.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_SUPER_TIP) &&
+                                 LabelKeyTip.Equals(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP);
 
         public void Reset()
         {
@@ -252,6 +262,26 @@ namespace Krypton.Toolkit
             LabelNormalControl = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL;
 
             LabelBoldControl = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL;
+
+            LabelItalicControl = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_CONTROL;
+
+            LabelTitleControl = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_CONTROL;
+
+            LabelNormalPanel = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_PANEL;
+
+            LabelBoldPanel = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_PANEL;
+
+            LabelItalicPanel = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_PANEL;
+
+            LabelTitlePanel = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_PANEL;
+
+            LabelGroupBoxCaption = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_GROUP_BOX_CAPTION;
+
+            LabelToolTip = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TOOL_TIP;
+
+            LabelSuperTip = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_SUPER_TIP;
+
+            LabelKeyTip = DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP;
         }
 
         /// <summary>Gets or sets the standalone palette button content style.</summary>
@@ -596,6 +626,76 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelBoldControl { get; set; }
+
+        /// <summary>Gets or sets the italic label control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The italic label control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_CONTROL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelItalicControl { get; set; }
+
+        /// <summary>Gets or sets the title label control style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The title label control style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_CONTROL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelTitleControl { get; set; }
+
+        /// <summary>Gets or sets the normal label panel style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The normal label panel style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_PANEL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelNormalPanel { get; set; }
+
+        /// <summary>Gets or sets the bold label panel style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The bold label panel style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_PANEL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelBoldPanel { get; set; }
+
+        /// <summary>Gets or sets the italic label panel style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The italic label panel style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_PANEL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelItalicPanel { get; set; }
+
+        /// <summary>Gets or sets the title label panel style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The title label panel style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_PANEL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelTitlePanel { get; set; }
+
+        /// <summary>Gets or sets the group box caption label style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The group box caption label style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_GROUP_BOX_CAPTION)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelGroupBoxCaption { get; set; }
+
+        /// <summary>Gets or sets the tool tip label style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The tool tip label style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TOOL_TIP)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelToolTip { get; set; }
+
+        /// <summary>Gets or sets the super tip label style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The super tip label style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_SUPER_TIP)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelSuperTip { get; set; }
+
+        /// <summary>Gets or sets the key tip label style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The key tip label style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LabelKeyTip { get; set; }
 
         #endregion
     }
