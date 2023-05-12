@@ -106,12 +106,243 @@ namespace Krypton.Toolkit
         #region Public
 
         [Browsable(false)]
-        public bool IsDefault => false;
+        public bool IsDefault => ButtonStandalone.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_STANDALONE) &&
+                                 ButtonLowProfile.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LOW_PROFILE) &&
+                                 ButtonButtonSpec.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BUTTON_SPEC) &&
+                                 ButtonBreadCrumb.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BREAD_CRUMB) &&
+                                 ButtonCalendarDay.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CALENDAR_DAY) &&
+                                 ButtonCluster.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER) &&
+                                 ButtonGallery.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY) &&
+                                 ButtonNavigatorStack.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK) &&
+                                 ButtonNavigatorOverflow.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW) &&
+                                 ButtonNavigatorMini.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI) &&
+                                 ButtonInputControl.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_INPUT_CONTROL) &&
+                                 ButtonListItem.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LIST_ITEM) &&
+                                 ButtonForm.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM) &&
+                                 ButtonFormClose.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM_CLOSE) &&
+                                 ButtonCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM1) &&
+                                 ButtonCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM2) &&
+                                 ButtonCustom3.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM3) &&
+                                 ContextMenuHeading.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING) &&
+                                 ContextMenuItemImage.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE) &&
+                                 ContextMenuItemTextStandard.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD) &&
+                                 ContextMenuItemTextAlternate.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE) &&
+                                 ContextMenuItemShortcutText.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT) &&
+                                 GridHeaderColumnList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST) &&
+                                 GridHeaderRowList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST) &&
+                                 GridDataCellList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST) &&
+                                 GridHeaderColumnSheet.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_SHEET) &&
+                                 GridHeaderRowList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST) &&
+                                 GridDataCellSheet.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET);
 
         public void Reset()
         {
+            ButtonStandalone = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_STANDALONE;
 
+            ButtonLowProfile = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LOW_PROFILE;
+
+            ButtonButtonSpec = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BUTTON_SPEC;
+
+            ButtonBreadCrumb = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BREAD_CRUMB;
+
+            ButtonCalendarDay = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CALENDAR_DAY;
+
+            ButtonCluster = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER;
+
+            ButtonNavigatorMini = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI;
+
+            ButtonNavigatorOverflow = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW;
+
+            ButtonNavigatorStack = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK;
+
+            ButtonInputControl = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_INPUT_CONTROL;
+
+            ButtonListItem = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LIST_ITEM;
+
+            ButtonForm = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM;
+
+            ButtonFormClose = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM_CLOSE;
+
+            ButtonCommand = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_COMMAND;
+
+            ButtonCustom1 = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM1;
+
+            ButtonCustom2 = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM2;
+
+            ButtonCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM3;
+
+            ContextMenuHeading = DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING;
+
+            ContextMenuItemImage = DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE;
         }
+
+        /// <summary>Gets or sets the standalone palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The standalone palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_STANDALONE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonStandalone { get; set; }
+
+        /// <summary>Gets or sets the low profile palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The low profile palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LOW_PROFILE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonLowProfile { get; set; }
+
+        /// <summary>Gets or sets the button spec palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The button spec palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BUTTON_SPEC)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonButtonSpec { get; set; }
+
+        /// <summary>Gets or sets the breadcrumb palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The breadcrumb palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BREAD_CRUMB)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonBreadCrumb { get; set; }
+
+        /// <summary>Gets or sets the calendar day palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The calendar day palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CALENDAR_DAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonCalendarDay { get; set; }
+
+        /// <summary>Gets or sets the cluster palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The cluster palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonCluster { get; set; }
+
+        /// <summary>Gets or sets the gallery palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The gallery palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonGallery { get; set; }
+
+        /// <summary>Gets or sets the navigator stack palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The navigator stack palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonNavigatorStack { get; set; }
+
+        /// <summary>Gets or sets the navigator overflow palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The navigator overflow palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonNavigatorOverflow { get; set; }
+
+        /// <summary>Gets or sets the navigator mini palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The navigator mini palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonNavigatorMini { get; set; }
+
+        /// <summary>Gets or sets the input control palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The input control palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_INPUT_CONTROL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonInputControl { get; set; }
+
+        /// <summary>Gets or sets the list item palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The list item palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LIST_ITEM)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonListItem { get; set; }
+
+        /// <summary>Gets or sets the form palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The form palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonForm { get; set; }
+
+        /// <summary>Gets or sets the form close palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The form close palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM_CLOSE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonFormClose { get; set; }
+
+        /// <summary>Gets or sets the command palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The commannd palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_COMMAND)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonCommand { get; set; }
+
+        /// <summary>Gets or sets the command 1 palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The command 1 palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM1)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonCustom1 { get; set; }
+
+        /// <summary>Gets or sets the command 2 palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The command 2 palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM2)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonCustom2 { get; set; }
+
+        /// <summary>Gets or sets the command 3 palette button content style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The command 3 palette button content style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM3)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ButtonCustom3 { get; set; }
+
+        /// <summary>Gets or sets the heading palette context menu style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The heading palette context menu style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ContextMenuHeading { get; set; }
+
+        /// <summary>Gets or sets the item image palette context menu style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The item image palette context menu style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ContextMenuItemImage { get; set; }
+
+        /// <summary>Gets or sets the item standard text palette context menu style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The item standard text palette context menu style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ContextMenuItemTextStandard { get; set; }
+
+        /// <summary>Gets or sets the item alternate text palette context menu style.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The item alternate text palette context menu style.")]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ContextMenuItemTextAlternate { get; set; }
+
+        public string ContextMenuItemShortcutText { get; set; }
+
+        public string GridHeaderColumnList { get; set; }
+
+        public string GridHeaderRowList { get; set; }
+
+        public string GridDataCellList { get; set; }
+
+        public string GridHeaderColumnSheet { get; set; }
+
+        public string GridHeaderRowSheet { get; set; }
+
+        public string GridDataCellSheet { get; set; }
 
         #endregion
     }
