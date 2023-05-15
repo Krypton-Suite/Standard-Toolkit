@@ -259,6 +259,32 @@ namespace Krypton.Toolkit
 
         public void ResetPaletteContentStyleStrings() => ContentStyleStrings.Reset();
 
+        /// <summary>Gets the image effect strings.</summary>
+        /// <value>The image effect strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of image effect strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteImageEffectStrings PaletteImageEffectStrings => ImageEffectStrings;
+
+        private bool ShouldSerializePaletteImageEffectStrings() => !ImageEffectStrings.IsDefault;
+
+        public void ResetPaletteImageEffectStrings() => ImageEffectStrings.Reset();
+
+        /// <summary>Gets the image style strings.</summary>
+        /// <value>The image style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of image style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteImageStyleStrings PaletteImageStyleStrings => ImageStyleStrings;
+
+        private bool ShouldSerializePaletteImageStyleStrings() => !ImageStyleStrings.IsDefault;
+
+        public void ResetPaletteImageStyleStrings() => ImageStyleStrings.Reset();
+
         /// <summary>Gets the palette mode strings.</summary>
         /// <value>The palette mode strings.</value>
         [Category(@"Visuals")]
@@ -273,14 +299,39 @@ namespace Krypton.Toolkit
         /// <summary>Resets the palette mode strings.</summary>
         public void ResetPaletteModeStrings() => ModeStrings.Reset();
 
+        /// <summary>Gets the palette text trim strings.</summary>
+        /// <value>The palette text trim strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette text trim strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteTextTrimStrings PaletteTextTrimStrings => TextTrimStrings;
+
+        private bool ShouldSerializePaletteTextTrimStrings() => !TextTrimStrings.IsDefault;
+
+        public void ResetPaletteTextTrimStrings() => TextTrimStrings.Reset();
+
+        /// <summary>Gets the placement mode strings.</summary>
+        /// <value>The placement mode strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of placement mode strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PlacementModeStrings PlacementMode => PlacementModeStrings;
+
+        private bool ShouldSerializePlacementModeStrings() => !PlacementModeStrings.IsDefault;
+
+        public void ResetPlacementModeStrings() => PlacementModeStrings.Reset();
+
         #endregion
 
         #region Static Strings
 
         /// <summary>Gets the color strings.</summary>
         /// <value>The color strings.</value>
-        public static GlobalColorStrings ColorStrings
-        { get; } = new();
+        public static GlobalColorStrings ColorStrings { get; } = new();
 
         /// <summary>Gets the spec style strings.</summary>
         /// <value>The spec style strings.</value>
@@ -346,9 +397,17 @@ namespace Krypton.Toolkit
         /// <value>The content style strings.</value>
         public static PaletteContentStyleStrings ContentStyleStrings { get; } = new();
 
+        public static PaletteImageEffectStrings ImageEffectStrings { get; } = new();
+
+        public static PaletteImageStyleStrings ImageStyleStrings { get; } = new();
+
         /// <summary>Gets the mode strings.</summary>
         /// <value>The mode strings.</value>
         public static PaletteModeStrings ModeStrings { get; } = new();
+
+        public static PaletteTextTrimStrings TextTrimStrings { get; } = new();
+
+        public static PlacementModeStrings PlacementModeStrings { get; } = new();
 
         #endregion
 
@@ -385,7 +444,11 @@ namespace Krypton.Toolkit
                                    ShouldSerializePaletteButtonOrientationStrings() ||
                                    ShouldSerializePaletteButtonSpecStyleStrings() ||
                                    ShouldSerializePaletteButtonStyleStrings() ||
-                                   ShouldSerializePaletteContentStyleStrings());
+                                   ShouldSerializePaletteContentStyleStrings() ||
+                                   ShouldSerializePaletteImageEffectStrings() ||
+                                   ShouldSerializePaletteImageStyleStrings() ||
+                                   ShouldSerializePaletteTextTrimStrings() ||
+                                   ShouldSerializePlacementModeStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -423,6 +486,14 @@ namespace Krypton.Toolkit
             ResetPaletteButtonStyleStrings();
 
             ResetPaletteContentStyleStrings();
+
+            ResetPaletteImageEffectStrings();
+
+            ResetPaletteImageStyleStrings();
+
+            ResetPaletteTextTrimStrings();
+
+            ResetPlacementModeStrings();
         }
 
         #endregion

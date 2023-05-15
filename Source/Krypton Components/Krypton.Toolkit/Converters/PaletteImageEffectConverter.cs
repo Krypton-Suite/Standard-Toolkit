@@ -19,20 +19,41 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(PaletteImageEffect.Inherit, "Inherit"),
+        //    new(PaletteImageEffect.Light, "Light"),
+        //    new(PaletteImageEffect.LightLight, "LightLight"),
+        //    new(PaletteImageEffect.Normal, "Normal"),
+        //    new(PaletteImageEffect.Disabled, "Disabled"),
+        //    new(PaletteImageEffect.Dark, "Dark"),
+        //    new(PaletteImageEffect.DarkDark, "DarkDark"),
+        //    new(PaletteImageEffect.GrayScale, "GrayScale"),
+        //    new(PaletteImageEffect.GrayScaleRed, "GrayScale - Red"),
+        //    new(PaletteImageEffect.GrayScaleGreen, "GrayScale - Green"),
+        //    new(PaletteImageEffect.GrayScaleBlue, "GrayScale - Blue")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PaletteImageEffect.Inherit, "Inherit"),
-            new(PaletteImageEffect.Light, "Light"),
-            new(PaletteImageEffect.LightLight, "LightLight"),
-            new(PaletteImageEffect.Normal, "Normal"),
-            new(PaletteImageEffect.Disabled, "Disabled"),
-            new(PaletteImageEffect.Dark, "Dark"),
-            new(PaletteImageEffect.DarkDark, "DarkDark"),
-            new(PaletteImageEffect.GrayScale, "GrayScale"),
-            new(PaletteImageEffect.GrayScaleRed, "GrayScale - Red"),
-            new(PaletteImageEffect.GrayScaleGreen, "GrayScale - Green"),
-            new(PaletteImageEffect.GrayScaleBlue, "GrayScale - Blue")
+            new(PaletteImageEffect.Inherit, KryptonLanguageManager.ImageEffectStrings.Inherit),
+            new(PaletteImageEffect.Light, KryptonLanguageManager.ImageEffectStrings.Light),
+            new(PaletteImageEffect.LightLight, KryptonLanguageManager.ImageEffectStrings.LightLight),
+            new(PaletteImageEffect.Normal, KryptonLanguageManager.ImageEffectStrings.Normal),
+            new(PaletteImageEffect.Disabled, KryptonLanguageManager.ImageEffectStrings.Disabled),
+            new(PaletteImageEffect.Dark, KryptonLanguageManager.ImageEffectStrings.Dark),
+            new(PaletteImageEffect.DarkDark, KryptonLanguageManager.ImageEffectStrings.DarkDark),
+            new(PaletteImageEffect.GrayScale, KryptonLanguageManager.ImageEffectStrings.GrayScale),
+            new(PaletteImageEffect.GrayScaleRed, KryptonLanguageManager.ImageEffectStrings.GrayScaleRed),
+            new(PaletteImageEffect.GrayScaleGreen, KryptonLanguageManager.ImageEffectStrings.GrayScaleGreen),
+            new(PaletteImageEffect.GrayScaleBlue, KryptonLanguageManager.ImageEffectStrings.GrayScaleBlue)
         };
+
         #endregion
 
         #region Identity

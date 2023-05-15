@@ -19,16 +19,33 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(PaletteTextTrim.Inherit, "Inherit"),
+        //    new(PaletteTextTrim.Hide, "Hide"),
+        //    new(PaletteTextTrim.Character, "Character"),
+        //    new(PaletteTextTrim.Word, "Word"),
+        //    new(PaletteTextTrim.EllipsisCharacter, "Ellipsis Character"),
+        //    new(PaletteTextTrim.EllipsisWord, "Ellipsis Word"),
+        //    new(PaletteTextTrim.EllipsisPath, "Ellipsis Path")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PaletteTextTrim.Inherit, "Inherit"),
-            new(PaletteTextTrim.Hide, "Hide"),
-            new(PaletteTextTrim.Character, "Character"),
-            new(PaletteTextTrim.Word, "Word"),
-            new(PaletteTextTrim.EllipsisCharacter, "Ellipsis Character"),
-            new(PaletteTextTrim.EllipsisWord, "Ellipsis Word"),
-            new(PaletteTextTrim.EllipsisPath, "Ellipsis Path")
+            new(PaletteTextTrim.Inherit, KryptonLanguageManager.TextTrimStrings.Inherit),
+            new(PaletteTextTrim.Hide, KryptonLanguageManager.TextTrimStrings.Hide),
+            new(PaletteTextTrim.Character, KryptonLanguageManager.TextTrimStrings.Character),
+            new(PaletteTextTrim.Word, KryptonLanguageManager.TextTrimStrings.Word),
+            new(PaletteTextTrim.EllipsisCharacter, KryptonLanguageManager.TextTrimStrings.EllipsisCharacter),
+            new(PaletteTextTrim.EllipsisWord, KryptonLanguageManager.TextTrimStrings.EllipsisWord),
+            new(PaletteTextTrim.EllipsisPath, KryptonLanguageManager.TextTrimStrings.EllipsisPath)
         };
+
         #endregion
 
         #region Identity
