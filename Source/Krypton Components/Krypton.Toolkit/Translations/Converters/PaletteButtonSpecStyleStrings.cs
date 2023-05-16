@@ -131,168 +131,168 @@ namespace Krypton.Toolkit
             RibbonExpand = DEFAULT_PALETTE_BUTTON_SPEC_STYLE_RIBBON_EXPAND;
         }
 
-        /// <summary>Gets or sets the close palette button spec style.</summary>
+        /// <summary>Gets or sets the close palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The close palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CLOSE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Close { get; set; }
 
-        /// <summary>Gets or sets the context palette button spec style.</summary>
+        /// <summary>Gets or sets the context palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The context palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CONTEXT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Context { get; set; }
 
-        /// <summary>Gets or sets the next palette button spec style.</summary>
+        /// <summary>Gets or sets the next palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The next palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_NEXT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Next { get; set; }
 
-        /// <summary>Gets or sets the previous palette button spec style.</summary>
+        /// <summary>Gets or sets the previous palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The previous palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PREVIOUS)]
         [RefreshProperties(RefreshProperties.All)]
         public string Previous { get; set; }
 
-        /// <summary>Gets or sets the generic palette button spec style.</summary>
+        /// <summary>Gets or sets the generic palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The generic palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_GENERIC)]
         [RefreshProperties(RefreshProperties.All)]
         public string Generic { get; set; }
 
-        /// <summary>Gets or sets the arrow left palette button spec style.</summary>
+        /// <summary>Gets or sets the arrow left palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The arrow left palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_LEFT)]
         [RefreshProperties(RefreshProperties.All)]
         public string ArrowLeft { get; set; }
 
-        /// <summary>Gets or sets the arrow right palette button spec style.</summary>
+        /// <summary>Gets or sets the arrow right palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The arrow right palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_RIGHT)]
         [RefreshProperties(RefreshProperties.All)]
         public string ArrowRight { get; set; }
 
-        /// <summary>Gets or sets the arrow up palette button spec style.</summary>
+        /// <summary>Gets or sets the arrow up palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The arrow up palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_UP)]
         [RefreshProperties(RefreshProperties.All)]
         public string ArrowUp { get; set; }
 
-        /// <summary>Gets or sets the arrow down palette button spec style.</summary>
+        /// <summary>Gets or sets the arrow down palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The arrow down palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_DOWN)]
         [RefreshProperties(RefreshProperties.All)]
         public string ArrowDown { get; set; }
 
-        /// <summary>Gets or sets the drop down palette button spec style.</summary>
+        /// <summary>Gets or sets the drop down palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The drop down palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_DROP_DOWN)]
         [RefreshProperties(RefreshProperties.All)]
         public string DropDown { get; set; }
 
-        /// <summary>Gets or sets the pin vertical palette button spec style.</summary>
+        /// <summary>Gets or sets the pin vertical palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The pin vertical palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PIN_VERTICAL)]
         [RefreshProperties(RefreshProperties.All)]
         public string PinVertical { get; set; }
 
-        /// <summary>Gets or sets the pin horizontal palette button spec style.</summary>
+        /// <summary>Gets or sets the pin horizontal palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The pin horizontal palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PIN_HORIZONTAL)]
         [RefreshProperties(RefreshProperties.All)]
         public string PinHorizontal { get; set; }
 
-        /// <summary>Gets or sets the form close palette button spec style.</summary>
+        /// <summary>Gets or sets the form close palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form close palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_FORM_CLOSE)]
         [RefreshProperties(RefreshProperties.All)]
         public string FormClose { get; set; }
 
-        /// <summary>Gets or sets the form maximise palette button spec style.</summary>
+        /// <summary>Gets or sets the form maximise palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form maximise palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_FORM_MAX)]
         [RefreshProperties(RefreshProperties.All)]
         public string FormMaximise { get; set; }
 
-        /// <summary>Gets or sets the form minimise palette button spec style.</summary>
+        /// <summary>Gets or sets the form minimise palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form minimise palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_FORM_MIN)]
         [RefreshProperties(RefreshProperties.All)]
         public string FormMinimise { get; set; }
 
-        /// <summary>Gets or sets the form restore palette button spec style.</summary>
+        /// <summary>Gets or sets the form restore palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form restore palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_FORM_RESTORE)]
         [RefreshProperties(RefreshProperties.All)]
         public string FormRestore { get; set; }
 
-        /// <summary>Gets or sets the form help palette button spec style.</summary>
+        /// <summary>Gets or sets the form help palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form help palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_FORM_HELP)]
         [RefreshProperties(RefreshProperties.All)]
         public string FormHelp { get; set; }
 
-        /// <summary>Gets or sets the pendant close palette button spec style.</summary>
+        /// <summary>Gets or sets the pendant close palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The pendant close palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PENDANT_CLOSE)]
         [RefreshProperties(RefreshProperties.All)]
         public string PendantClose { get; set; }
 
-        /// <summary>Gets or sets the pendant minimise palette button spec style.</summary>
+        /// <summary>Gets or sets the pendant minimise palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The pendant minimise palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PENDANT_MIN)]
         [RefreshProperties(RefreshProperties.All)]
         public string PendantMinimise { get; set; }
 
-        /// <summary>Gets or sets the pendant restore palette button spec style.</summary>
+        /// <summary>Gets or sets the pendant restore palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The pendant restore palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PENDANT_RESTORE)]
         [RefreshProperties(RefreshProperties.All)]
         public string PendantRestore { get; set; }
 
-        /// <summary>Gets or sets the workspace maximise palette button spec style.</summary>
+        /// <summary>Gets or sets the workspace maximise palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The workspace maximise palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_WORKSPACE_MAXIMIZE)]
         [RefreshProperties(RefreshProperties.All)]
         public string WorkspaceMaximise { get; set; }
 
-        /// <summary>Gets or sets the workspace restore palette button spec style.</summary>
+        /// <summary>Gets or sets the workspace restore palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The workspace restore palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_WORKSPACE_RESTORE)]
         [RefreshProperties(RefreshProperties.All)]
         public string WorkspaceRestore { get; set; }
 
-        /// <summary>Gets or sets the ribbon minimise palette button spec style.</summary>
+        /// <summary>Gets or sets the ribbon minimise palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The ribbon minimise palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_RIBBON_MINIMIZE)]
         [RefreshProperties(RefreshProperties.All)]
         public string RibbonMinimise { get; set; }
 
-        /// <summary>Gets or sets the ribbon expand palette button spec style.</summary>
+        /// <summary>Gets or sets the ribbon expand palette button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The ribbon expand palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_RIBBON_EXPAND)]

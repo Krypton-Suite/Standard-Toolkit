@@ -47,21 +47,21 @@ namespace Krypton.Toolkit
             NeverUnderline = DEFAULT_LINK_BEHAVIOR_NEVER_UNDERLINE;
         }
 
-        /// <summary>Gets or sets the always underline link behavior style.</summary>
+        /// <summary>Gets or sets the always underline link behavior style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The always underline link behavior style.")]
         [DefaultValue(DEFAULT_LINK_BEHAVIOR_ALWAYS_UNDERLINE)]
         [RefreshProperties(RefreshProperties.All)]
         public string AlwaysUnderline { get; set; }
 
-        /// <summary>Gets or sets the hover underline link behavior style.</summary>
+        /// <summary>Gets or sets the hover underline link behavior style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The hover underline link behavior style.")]
         [DefaultValue(DEFAULT_LINK_BEHAVIOR_HOVER_UNDERLINE)]
         [RefreshProperties(RefreshProperties.All)]
         public string HoverUnderline { get; set; }
 
-        /// <summary>Gets or sets the never underline link behavior style.</summary>
+        /// <summary>Gets or sets the never underline link behavior style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The never underline link behavior style.")]
         [DefaultValue(DEFAULT_LINK_BEHAVIOR_NEVER_UNDERLINE)]

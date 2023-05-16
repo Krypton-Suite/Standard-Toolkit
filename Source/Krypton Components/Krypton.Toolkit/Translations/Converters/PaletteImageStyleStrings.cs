@@ -95,92 +95,92 @@ namespace Krypton.Toolkit
             BottomRight = DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_RIGHT;
         }
 
-        /// <summary>Gets or sets the inherit palette image style.</summary>
+        /// <summary>Gets or sets the inherit palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The inherit palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_INHERIT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Inherit { get; set; }
 
-        /// <summary>Gets or sets the stretch palette image style.</summary>
+        /// <summary>Gets or sets the stretch palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The stretch palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_STRETCH)]
         public string Stretch { get; set; }
 
-        /// <summary>Gets or sets the tile palette image style.</summary>
+        /// <summary>Gets or sets the tile palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The tile palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TILE)]
         public string Tile { get; set; }
 
-        /// <summary>Gets or sets the tile flip X palette image style.</summary>
+        /// <summary>Gets or sets the tile flip X palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The tile flip X palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_X)]
         public string TileFlipX { get; set; }
 
-        /// <summary>Gets or sets the tile flip Y palette image style.</summary>
+        /// <summary>Gets or sets the tile flip Y palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The tile flip Y palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_Y)]
         public string TileFlipY { get; set; }
 
-        /// <summary>Gets or sets the tile flip X & Y palette image style.</summary>
+        /// <summary>Gets or sets the tile flip X & Y palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The tile flip X & Y palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_X_Y)]
         public string TileFlipXY { get; set; }
 
-        /// <summary>Gets or sets the top left palette image style.</summary>
+        /// <summary>Gets or sets the top left palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The top left palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TOP_LEFT)]
         public string TopLeft { get; set; }
 
-        /// <summary>Gets or sets the top middle palette image style.</summary>
+        /// <summary>Gets or sets the top middle palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The top middle palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TOP_MIDDLE)]
         public string TopMiddle { get; set; }
 
-        /// <summary>Gets or sets the top right palette image style.</summary>
+        /// <summary>Gets or sets the top right palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The top right palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TOP_RIGHT)]
         public string TopRight { get; set; }
 
-        /// <summary>Gets or sets the center left palette image style.</summary>
+        /// <summary>Gets or sets the center left palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The center left palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_CENTER_LEFT)]
         public string CenterLeft { get; set; }
 
-        /// <summary>Gets or sets the center middle palette image style.</summary>
+        /// <summary>Gets or sets the center middle palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The center middle palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_CENTER_MIDDLE)]
         public string CenterMiddle { get; set; }
 
-        /// <summary>Gets or sets the center right palette image style.</summary>
+        /// <summary>Gets or sets the center right palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The center right palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_CENTER_RIGHT)]
         public string CenterRight { get; set; }
 
-        /// <summary>Gets or sets the bottom left palette image style.</summary>
+        /// <summary>Gets or sets the bottom left palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The bottom left palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_LEFT)]
         public string BottomLeft { get; set; }
 
-        /// <summary>Gets or sets the bottom middle palette image style.</summary>
+        /// <summary>Gets or sets the bottom middle palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The bottom middle palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_MIDDLE)]
         public string BottomMiddle { get; set; }
 
-        /// <summary>Gets or sets the bottom right palette image style.</summary>
+        /// <summary>Gets or sets the bottom right palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The bottom right palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_RIGHT)]

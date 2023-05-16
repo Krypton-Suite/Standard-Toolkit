@@ -95,105 +95,105 @@ namespace Krypton.Toolkit
             KeyTip = DEFAULT_LABEL_STYLE_KEY_TIP;
         }
 
-        // <summary>Gets or sets the bold control label style.</summary>
+        // <summary>Gets or sets the bold control label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The bold control label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_BOLD_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string BoldControl { get; set; }
 
-        // <summary>Gets or sets the bold panel label style.</summary>
+        // <summary>Gets or sets the bold panel label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The bold panel label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_BOLD_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string BoldPanel { get; set; }
 
-        // <summary>Gets or sets the custom 1 label style.</summary>
+        // <summary>Gets or sets the custom 1 label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_CUSTOM_ONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomOne { get; set; }
 
-        /// <summary>Gets or sets the custom 2 label style.</summary>
+        /// <summary>Gets or sets the custom 2 label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_CUSTOM_TWO)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomTwo { get; set; }
 
-        /// <summary>Gets or sets the custom 3 label style.</summary>
+        /// <summary>Gets or sets the custom 3 label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_CUSTOM_THREE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomThree { get; set; }
 
-        // <summary>Gets or sets the group box caption label style.</summary>
+        // <summary>Gets or sets the group box caption label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The group box caption label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_GROUP_BOX_CAPTION)]
         [RefreshProperties(RefreshProperties.All)]
         public string GroupBoxCaption { get; set; }
 
-        // <summary>Gets or sets the normal control label style.</summary>
+        // <summary>Gets or sets the normal control label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The normal control label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_NORMAL_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string NormalControl { get; set; }
 
-        // <summary>Gets or sets the normal panel label style.</summary>
+        // <summary>Gets or sets the normal panel label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The normal panel label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_NORMAL_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string NormalPanel { get; set; }
 
-        // <summary>Gets or sets the title control label style.</summary>
+        // <summary>Gets or sets the title control label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The title control label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_TITLE_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string TitleControl { get; set; }
 
-        // <summary>Gets or sets the title panel label style.</summary>
+        // <summary>Gets or sets the title panel label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The title panel label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_TITLE_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string TitlePanel { get; set; }
 
-        // <summary>Gets or sets the italic control label style.</summary>
+        // <summary>Gets or sets the italic control label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The italic control label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_ITALIC_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string ItalicControl { get; set; }
 
-        // <summary>Gets or sets the italic panel label style.</summary>
+        // <summary>Gets or sets the italic panel label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The italic panel label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_ITALIC_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string ItalicPanel { get; set; }
 
-        // <summary>Gets or sets the tool tip label style.</summary>
+        // <summary>Gets or sets the tool tip label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The tool tip label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_TOOL_TIP)]
         [RefreshProperties(RefreshProperties.All)]
         public string ToolTip { get; set; }
 
-        // <summary>Gets or sets the super tip label style.</summary>
+        // <summary>Gets or sets the super tip label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The super tip label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_SUPER_TIP)]
         [RefreshProperties(RefreshProperties.All)]
         public string SuperTip { get; set; }
 
-        // <summary>Gets or sets the key tip label style.</summary>
+        // <summary>Gets or sets the key tip label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The key tip label style.")]
         [DefaultValue(DEFAULT_LABEL_STYLE_KEY_TIP)]

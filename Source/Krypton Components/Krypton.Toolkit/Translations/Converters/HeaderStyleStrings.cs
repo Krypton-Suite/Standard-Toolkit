@@ -71,63 +71,63 @@ namespace Krypton.Toolkit
             Secondary = DEFAULT_HEADER_STYLE_SECONDARY;
         }
 
-        /// <summary>Gets or sets the calendar header style.</summary>
+        /// <summary>Gets or sets the calendar header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The calendar header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_CALENDAR)]
         [RefreshProperties(RefreshProperties.All)]
         public string Calendar { get; set; }
 
-        /// <summary>Gets or sets the custom 1 header style.</summary>
+        /// <summary>Gets or sets the custom 1 header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_CUSTOM_ONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomOne { get; set; }
 
-        /// <summary>Gets or sets the custom 2 header style.</summary>
+        /// <summary>Gets or sets the custom 2 header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_CUSTOM_TWO)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomTwo { get; set; }
 
-        /// <summary>Gets or sets the custom 3 header style.</summary>
+        /// <summary>Gets or sets the custom 3 header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_CUSTOM_THREE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomThree { get; set; }
 
-        /// <summary>Gets or sets the dock active header style.</summary>
+        /// <summary>Gets or sets the dock active header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The dock active header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_DOCK_ACTIVE)]
         [RefreshProperties(RefreshProperties.All)]
         public string DockActive { get; set; }
 
-        /// <summary>Gets or sets the dock inactive header style.</summary>
+        /// <summary>Gets or sets the dock inactive header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The dock inactive header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_DOCK_INACTIVE)]
         [RefreshProperties(RefreshProperties.All)]
         public string DockInactive { get; set; }
 
-        /// <summary>Gets or sets the form header style.</summary>
+        /// <summary>Gets or sets the form header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_FORM)]
         [RefreshProperties(RefreshProperties.All)]
         public string Form { get; set; }
 
-        /// <summary>Gets or sets the primary header style.</summary>
+        /// <summary>Gets or sets the primary header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The primary header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_PRIMARY)]
         [RefreshProperties(RefreshProperties.All)]
         public string Primary { get; set; }
 
-        /// <summary>Gets or sets the secondary header style.</summary>
+        /// <summary>Gets or sets the secondary header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The secondary header style.")]
         [DefaultValue(DEFAULT_HEADER_STYLE_SECONDARY)]

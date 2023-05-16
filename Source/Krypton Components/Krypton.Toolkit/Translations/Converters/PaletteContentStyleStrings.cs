@@ -332,525 +332,525 @@ namespace Krypton.Toolkit
             InputControlCustom3 = DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM3;
         }
 
-        /// <summary>Gets or sets the standalone palette button content style.</summary>
+        /// <summary>Gets or sets the standalone palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The standalone palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_STANDALONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonStandalone { get; set; }
 
-        /// <summary>Gets or sets the low profile palette button content style.</summary>
+        /// <summary>Gets or sets the low profile palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The low profile palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LOW_PROFILE)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonLowProfile { get; set; }
 
-        /// <summary>Gets or sets the button spec palette button content style.</summary>
+        /// <summary>Gets or sets the button spec palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The button spec palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BUTTON_SPEC)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonButtonSpec { get; set; }
 
-        /// <summary>Gets or sets the breadcrumb palette button content style.</summary>
+        /// <summary>Gets or sets the breadcrumb palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The breadcrumb palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BREAD_CRUMB)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonBreadCrumb { get; set; }
 
-        /// <summary>Gets or sets the calendar day palette button content style.</summary>
+        /// <summary>Gets or sets the calendar day palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The calendar day palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CALENDAR_DAY)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonCalendarDay { get; set; }
 
-        /// <summary>Gets or sets the cluster palette button content style.</summary>
+        /// <summary>Gets or sets the cluster palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The cluster palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonCluster { get; set; }
 
-        /// <summary>Gets or sets the gallery palette button content style.</summary>
+        /// <summary>Gets or sets the gallery palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The gallery palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonGallery { get; set; }
 
-        /// <summary>Gets or sets the navigator stack palette button content style.</summary>
+        /// <summary>Gets or sets the navigator stack palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The navigator stack palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonNavigatorStack { get; set; }
 
-        /// <summary>Gets or sets the navigator overflow palette button content style.</summary>
+        /// <summary>Gets or sets the navigator overflow palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The navigator overflow palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonNavigatorOverflow { get; set; }
 
-        /// <summary>Gets or sets the navigator mini palette button content style.</summary>
+        /// <summary>Gets or sets the navigator mini palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The navigator mini palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonNavigatorMini { get; set; }
 
-        /// <summary>Gets or sets the input control palette button content style.</summary>
+        /// <summary>Gets or sets the input control palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The input control palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_INPUT_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonInputControl { get; set; }
 
-        /// <summary>Gets or sets the list item palette button content style.</summary>
+        /// <summary>Gets or sets the list item palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The list item palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LIST_ITEM)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonListItem { get; set; }
 
-        /// <summary>Gets or sets the form palette button content style.</summary>
+        /// <summary>Gets or sets the form palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonForm { get; set; }
 
-        /// <summary>Gets or sets the form close palette button content style.</summary>
+        /// <summary>Gets or sets the form close palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form close palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM_CLOSE)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonFormClose { get; set; }
 
-        /// <summary>Gets or sets the command palette button content style.</summary>
+        /// <summary>Gets or sets the command palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The commannd palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_COMMAND)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonCommand { get; set; }
 
-        /// <summary>Gets or sets the command 1 palette button content style.</summary>
+        /// <summary>Gets or sets the command 1 palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The command 1 palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonCustom1 { get; set; }
 
-        /// <summary>Gets or sets the command 2 palette button content style.</summary>
+        /// <summary>Gets or sets the command 2 palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The command 2 palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonCustom2 { get; set; }
 
-        /// <summary>Gets or sets the command 3 palette button content style.</summary>
+        /// <summary>Gets or sets the command 3 palette button content style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The command 3 palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM3)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonCustom3 { get; set; }
 
-        /// <summary>Gets or sets the heading palette context menu style.</summary>
+        /// <summary>Gets or sets the heading palette context menu style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The heading palette context menu style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING)]
         [RefreshProperties(RefreshProperties.All)]
         public string ContextMenuHeading { get; set; }
 
-        /// <summary>Gets or sets the item image palette context menu style.</summary>
+        /// <summary>Gets or sets the item image palette context menu style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The item image palette context menu style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE)]
         [RefreshProperties(RefreshProperties.All)]
         public string ContextMenuItemImage { get; set; }
 
-        /// <summary>Gets or sets the item standard text palette context menu style.</summary>
+        /// <summary>Gets or sets the item standard text palette context menu style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The item standard text palette context menu style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD)]
         [RefreshProperties(RefreshProperties.All)]
         public string ContextMenuItemTextStandard { get; set; }
 
-        /// <summary>Gets or sets the item alternate text palette context menu style.</summary>
+        /// <summary>Gets or sets the item alternate text palette context menu style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The item alternate text palette context menu style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE)]
         [RefreshProperties(RefreshProperties.All)]
         public string ContextMenuItemTextAlternate { get; set; }
 
-        /// <summary>Gets or sets the item shortcut text palette context menu style.</summary>
+        /// <summary>Gets or sets the item shortcut text palette context menu style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The item shortcut text palette context menu style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT)]
         [RefreshProperties(RefreshProperties.All)]
         public string ContextMenuItemShortcutText { get; set; }
 
-        /// <summary>Gets or sets the header column list grid style.</summary>
+        /// <summary>Gets or sets the header column list grid style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The header column list grid style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderColumnList { get; set; }
 
-        /// <summary>Gets or sets the header row list grid style.</summary>
+        /// <summary>Gets or sets the header row list grid style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The header row list grid style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderRowList { get; set; }
 
-        /// <summary>Gets or sets the data cell list grid style.</summary>
+        /// <summary>Gets or sets the data cell list grid style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The data cell list grid style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellList { get; set; }
 
-        /// <summary>Gets or sets the header column sheet grid style.</summary>
+        /// <summary>Gets or sets the header column sheet grid style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The header column sheet grid style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_SHEET)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderColumnSheet { get; set; }
 
-        /// <summary>Gets or sets the header row sheet grid style.</summary>
+        /// <summary>Gets or sets the header row sheet grid style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The header row sheet grid style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_SHEET)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderRowSheet { get; set; }
 
-        /// <summary>Gets or sets the data cell sheet grid style.</summary>
+        /// <summary>Gets or sets the data cell sheet grid style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The data cell sheet grid style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellSheet { get; set; }
 
-        /// <summary>Gets or sets the custom 1 grid header column style.</summary>
+        /// <summary>Gets or sets the custom 1 grid header column style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 grid header column style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderColumnCustom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 grid header column style.</summary>
+        /// <summary>Gets or sets the custom 2 grid header column style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 grid header column style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderColumnCustom2 { get; set; }
 
-        /// <summary>Gets or sets the custom 3 grid header column style.</summary>
+        /// <summary>Gets or sets the custom 3 grid header column style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 grid header column style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM3)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderColumnCustom3 { get; set; }
 
-        /// <summary>Gets or sets the custom 1 grid header row style.</summary>
+        /// <summary>Gets or sets the custom 1 grid header row style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 grid header row style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderRowCustom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 grid header row style.</summary>
+        /// <summary>Gets or sets the custom 2 grid header row style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 grid header row style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderRowCustom2 { get; set; }
 
-        /// <summary>Gets or sets the custom 3 grid header row style.</summary>
+        /// <summary>Gets or sets the custom 3 grid header row style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 grid header row style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM3)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridHeaderRowCustom3 { get; set; }
 
-        /// <summary>Gets or sets the custom 1 grid data cell style.</summary>
+        /// <summary>Gets or sets the custom 1 grid data cell style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 grid data cell style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellCustom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 grid data cell style.</summary>
+        /// <summary>Gets or sets the custom 2 grid data cell style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 grid data cell style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellCustom2 { get; set; }
 
-        /// <summary>Gets or sets the custom 3 grid data cell style.</summary>
+        /// <summary>Gets or sets the custom 3 grid data cell style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 grid data cell style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM3)]
         [RefreshProperties(RefreshProperties.All)]
         public string GridDataCellCustom3 { get; set; }
 
-        /// <summary>Gets or sets the primary header style.</summary>
+        /// <summary>Gets or sets the primary header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The primary header style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderPrimary { get; set; }
 
-        /// <summary>Gets or sets the secondary header style.</summary>
+        /// <summary>Gets or sets the secondary header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The secondary header style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_SECONDARY)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderSecondary { get; set; }
 
-        /// <summary>Gets or sets the active header dock style.</summary>
+        /// <summary>Gets or sets the active header dock style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The active header dock style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_ACTIVE)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderDockActive { get; set; }
 
-        /// <summary>Gets or sets the inactive header dock style.</summary>
+        /// <summary>Gets or sets the inactive header dock style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The inactive header dock style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_INACTIVE)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderDockInactive { get; set; }
 
-        /// <summary>Gets or sets the form header style.</summary>
+        /// <summary>Gets or sets the form header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form header style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_FORM)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderForm { get; set; }
 
-        /// <summary>Gets or sets the calendar header style.</summary>
+        /// <summary>Gets or sets the calendar header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The calendar header style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CALENDAR)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderCalendar { get; set; }
 
-        /// <summary>Gets or sets the custom 1 header style.</summary>
+        /// <summary>Gets or sets the custom 1 header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 header style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderCustom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 header style.</summary>
+        /// <summary>Gets or sets the custom 2 header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 header style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderCustom2 { get; set; }
 
-        /// <summary>Gets or sets the custom 3 header style.</summary>
+        /// <summary>Gets or sets the custom 3 header style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 header style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM3)]
         [RefreshProperties(RefreshProperties.All)]
         public string HeaderCustom3 { get; set; }
 
-        /// <summary>Gets or sets the normal label control style.</summary>
+        /// <summary>Gets or sets the normal label control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The normal label control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelNormalControl { get; set; }
 
-        /// <summary>Gets or sets the bold label control style.</summary>
+        /// <summary>Gets or sets the bold label control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The bold label control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelBoldControl { get; set; }
 
-        /// <summary>Gets or sets the italic label control style.</summary>
+        /// <summary>Gets or sets the italic label control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The italic label control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelItalicControl { get; set; }
 
-        /// <summary>Gets or sets the title label control style.</summary>
+        /// <summary>Gets or sets the title label control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The title label control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelTitleControl { get; set; }
 
-        /// <summary>Gets or sets the normal label panel style.</summary>
+        /// <summary>Gets or sets the normal label panel style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The normal label panel style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelNormalPanel { get; set; }
 
-        /// <summary>Gets or sets the bold label panel style.</summary>
+        /// <summary>Gets or sets the bold label panel style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The bold label panel style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelBoldPanel { get; set; }
 
-        /// <summary>Gets or sets the italic label panel style.</summary>
+        /// <summary>Gets or sets the italic label panel style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The italic label panel style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelItalicPanel { get; set; }
 
-        /// <summary>Gets or sets the title label panel style.</summary>
+        /// <summary>Gets or sets the title label panel style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The title label panel style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_PANEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelTitlePanel { get; set; }
 
-        /// <summary>Gets or sets the group box caption label style.</summary>
+        /// <summary>Gets or sets the group box caption label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The group box caption label style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_GROUP_BOX_CAPTION)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelGroupBoxCaption { get; set; }
 
-        /// <summary>Gets or sets the tool tip label style.</summary>
+        /// <summary>Gets or sets the tool tip label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The tool tip label style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TOOL_TIP)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelToolTip { get; set; }
 
-        /// <summary>Gets or sets the super tip label style.</summary>
+        /// <summary>Gets or sets the super tip label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The super tip label style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_SUPER_TIP)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelSuperTip { get; set; }
 
-        /// <summary>Gets or sets the key tip label style.</summary>
+        /// <summary>Gets or sets the key tip label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The key tip label style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelKeyTip { get; set; }
 
-        /// <summary>Gets or sets the custom 1 label style.</summary>
+        /// <summary>Gets or sets the custom 1 label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 label style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelCustom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 label style.</summary>
+        /// <summary>Gets or sets the custom 2 label style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 label style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string LabelCustom2 { get; set; }
 
-        /// <summary>Gets or sets the high profile tab style.</summary>
+        /// <summary>Gets or sets the high profile tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The high profile tab style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_HIGH_PROFILE)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabHighProfile { get; set; }
 
-        /// <summary>Gets or sets the standard profile tab style.</summary>
+        /// <summary>Gets or sets the standard profile tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The standard profile tab style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_STANDARD_PROFILE)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabStandardProfile { get; set; }
 
-        /// <summary>Gets or sets the low profile tab style.</summary>
+        /// <summary>Gets or sets the low profile tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The low profile tab style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_LOW_PROFILE)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabLowProfile { get; set; }
 
-        /// <summary>Gets or sets the OneNote tab style.</summary>
+        /// <summary>Gets or sets the OneNote tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The OneNote tab style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_ONE_NOTE)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabOneNote { get; set; }
 
-        /// <summary>Gets or sets the dock style.</summary>
+        /// <summary>Gets or sets the dock style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The dock style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabDock { get; set; }
 
-        /// <summary>Gets or sets the auto hidden dock style.</summary>
+        /// <summary>Gets or sets the auto hidden dock style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The auto hidden dock style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK_AUTO_HIDDEN)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabDockAutoHidden { get; set; }
 
-        /// <summary>Gets or sets the custom 1 tab style.</summary>
+        /// <summary>Gets or sets the custom 1 tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 tab style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabCustom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 tab style.</summary>
+        /// <summary>Gets or sets the custom 2 tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 tab style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabCustom2 { get; set; }
 
-        /// <summary>Gets or sets the custom 3 tab style.</summary>
+        /// <summary>Gets or sets the custom 3 tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 tab style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM3)]
         [RefreshProperties(RefreshProperties.All)]
         public string TabCustom3 { get; set; }
 
-        /// <summary>Gets or sets the standalone input control style.</summary>
+        /// <summary>Gets or sets the standalone input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The standalone input control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_STANDALONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string InputControlStandalone { get; set; }
 
-        /// <summary>Gets or sets the ribbon input control style.</summary>
+        /// <summary>Gets or sets the ribbon input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The ribbon input control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_RIBBON)]
         [RefreshProperties(RefreshProperties.All)]
         public string InputControlRibbon { get; set; }
 
-        /// <summary>Gets or sets the custom 1 input control style.</summary>
+        /// <summary>Gets or sets the custom 1 input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 input control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string InputControlCustom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 input control style.</summary>
+        /// <summary>Gets or sets the custom 2 input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 input control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string InputControlCustom2 { get; set; }
 
-        /// <summary>Gets or sets the custom 3 input control style.</summary>
+        /// <summary>Gets or sets the custom 3 input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 input control style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM3)]

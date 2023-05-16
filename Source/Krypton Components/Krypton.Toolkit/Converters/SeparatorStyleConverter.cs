@@ -19,15 +19,31 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(SeparatorStyle.LowProfile, "Low Profile"),
+        //    new(SeparatorStyle.HighProfile, "High Profile"),
+        //    new(SeparatorStyle.HighInternalProfile, "High Internal Profile"),
+        //    new(SeparatorStyle.Custom1, "Custom1"),
+        //    new(SeparatorStyle.Custom2, "Custom2"),
+        //    new(SeparatorStyle.Custom3, "Custom3")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(SeparatorStyle.LowProfile, "Low Profile"),
-            new(SeparatorStyle.HighProfile, "High Profile"),
-            new(SeparatorStyle.HighInternalProfile, "High Internal Profile"),
-            new(SeparatorStyle.Custom1, "Custom1"),
-            new(SeparatorStyle.Custom2, "Custom2"),
-            new(SeparatorStyle.Custom3, "Custom3")
+            new(SeparatorStyle.LowProfile, KryptonLanguageManager.SeparatorStyles.LowProfile),
+            new(SeparatorStyle.HighProfile, KryptonLanguageManager.SeparatorStyles.HighProfile),
+            new(SeparatorStyle.HighInternalProfile, KryptonLanguageManager.SeparatorStyles.HighInternalProfile),
+            new(SeparatorStyle.Custom1, KryptonLanguageManager.SeparatorStyles.Custom1),
+            new(SeparatorStyle.Custom2, KryptonLanguageManager.SeparatorStyles.Custom2),
+            new(SeparatorStyle.Custom3, KryptonLanguageManager.SeparatorStyles.Custom3)
         };
+
         #endregion
 
         #region Identity

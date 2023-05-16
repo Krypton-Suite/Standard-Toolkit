@@ -325,6 +325,45 @@ namespace Krypton.Toolkit
 
         public void ResetPlacementModeStrings() => PlacementModeStrings.Reset();
 
+        /// <summary>Gets the separator style strings.</summary>
+        /// <value>The separator style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of separator style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public SeparatorStyleStrings SeparatorStyleStrings => SeparatorStyles;
+
+        private bool ShouldSerializeSeparatorStyleStrings() => !SeparatorStyles.IsDefault;
+
+        public void ResetSeparatorStyleStrings() => SeparatorStyles.Reset();
+
+        /// <summary>Gets the tab border style strings.</summary>
+        /// <value>The tab border style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of tab border style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public TabBorderStyleStrings TabBorderStyleStrings => TabBorderStyles;
+
+        private bool ShouldSerializeTabBorderStyleStrings() => !TabBorderStyles.IsDefault;
+
+        public void ResetTabBorderStyleStrings() => TabBorderStyles.Reset();
+
+        /// <summary>Gets the tab style strings.</summary>
+        /// <value>The tab style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of tab style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public TabStyleStrings TabStyleStrings => TabStyles;
+
+        private bool ShouldSerializeTabStyleStrings() => !TabStyles.IsDefault;
+
+        public void ResetTabStyleStrings() => TabStyles.Reset();
+
         #endregion
 
         #region Static Strings
@@ -409,6 +448,12 @@ namespace Krypton.Toolkit
 
         public static PlacementModeStrings PlacementModeStrings { get; } = new();
 
+        public static SeparatorStyleStrings SeparatorStyles { get; } = new();
+
+        public static TabBorderStyleStrings TabBorderStyles { get; } = new();
+
+        public static TabStyleStrings TabStyles { get; } = new();
+
         #endregion
 
         #region Identity
@@ -448,7 +493,10 @@ namespace Krypton.Toolkit
                                    ShouldSerializePaletteImageEffectStrings() ||
                                    ShouldSerializePaletteImageStyleStrings() ||
                                    ShouldSerializePaletteTextTrimStrings() ||
-                                   ShouldSerializePlacementModeStrings());
+                                   ShouldSerializePlacementModeStrings() ||
+                                   ShouldSerializeSeparatorStyleStrings() ||
+                                   ShouldSerializeTabBorderStyleStrings() ||
+                                   ShouldSerializeTabStyleStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -494,6 +542,12 @@ namespace Krypton.Toolkit
             ResetPaletteTextTrimStrings();
 
             ResetPlacementModeStrings();
+
+            ResetSeparatorStyleStrings();
+
+            ResetTabBorderStyleStrings();
+
+            ResetTabStyleStrings();
         }
 
         #endregion

@@ -63,49 +63,49 @@ namespace Krypton.Toolkit
             EllipsisPath = DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_PATH;
         }
 
-        /// <summary>Gets or sets the inherit palette text trim style.</summary>
+        /// <summary>Gets or sets the inherit palette text trim style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The inherit palette text trim style.")]
         [DefaultValue(DEFAULT_PALETTE_TEXT_TRIM_INHERIT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Inherit { get; set; }
 
-        /// <summary>Gets or sets the hide palette text trim style.</summary>
+        /// <summary>Gets or sets the hide palette text trim style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The hide palette text trim style.")]
         [DefaultValue(DEFAULT_PALETTE_TEXT_TRIM_HIDE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Hide { get; set; }
 
-        /// <summary>Gets or sets the character palette text trim style.</summary>
+        /// <summary>Gets or sets the character palette text trim style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The character palette text trim style.")]
         [DefaultValue(DEFAULT_PALETTE_TEXT_TRIM_CHARACTER)]
         [RefreshProperties(RefreshProperties.All)]
         public string Character { get; set; }
 
-        /// <summary>Gets or sets the word palette text trim style.</summary>
+        /// <summary>Gets or sets the word palette text trim style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The word palette text trim style.")]
         [DefaultValue(DEFAULT_PALETTE_TEXT_TRIM_WORD)]
         [RefreshProperties(RefreshProperties.All)]
         public string Word { get; set; }
 
-        /// <summary>Gets or sets the ellipsis character palette text trim style.</summary>
+        /// <summary>Gets or sets the ellipsis character palette text trim style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The ellipsis character palette text trim style.")]
         [DefaultValue(DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_CHARACTER)]
         [RefreshProperties(RefreshProperties.All)]
         public string EllipsisCharacter { get; set; }
 
-        /// <summary>Gets or sets the ellipsis word palette text trim style.</summary>
+        /// <summary>Gets or sets the ellipsis word palette text trim style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The ellipsis word palette text trim style.")]
         [DefaultValue(DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_WORD)]
         [RefreshProperties(RefreshProperties.All)]
         public string EllipsisWord { get; set; }
 
-        /// <summary>Gets or sets the ellipsis path palette text trim style.</summary>
+        /// <summary>Gets or sets the ellipsis path palette text trim style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The ellipsis path palette text trim style.")]
         [DefaultValue(DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_PATH)]
