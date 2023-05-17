@@ -59,42 +59,42 @@ namespace Krypton.Toolkit
             Sheet = DEFAULT_DATA_GRID_VIEW_STYLE_SHEET;
         }
 
-        /// <summary>Gets or sets the custom 1 data grid view style.</summary>
+        /// <summary>Gets or sets the custom 1 data grid view style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 data grid view style.")]
         [DefaultValue(DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_ONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomOne { get; set; }
 
-        /// <summary>Gets or sets the custom 2 data grid view style.</summary>
+        /// <summary>Gets or sets the custom 2 data grid view style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 data grid view style.")]
         [DefaultValue(DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_TWO)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomTwo { get; set; }
 
-        /// <summary>Gets or sets the custom 3 data grid view style.</summary>
+        /// <summary>Gets or sets the custom 3 data grid view style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 data grid view style.")]
         [DefaultValue(DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_THREE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomThree { get; set; }
 
-        /// <summary>Gets or sets the mixed data grid view style.</summary>
+        /// <summary>Gets or sets the mixed data grid view style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The mixed data grid view style.")]
         [DefaultValue(DEFAULT_DATA_GRID_VIEW_STYLE_MIXED)]
         [RefreshProperties(RefreshProperties.All)]
         public string Mixed { get; set; }
 
-        /// <summary>Gets or sets the list data grid view style.</summary>
+        /// <summary>Gets or sets the list data grid view style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The list data grid view style.")]
         [DefaultValue(DEFAULT_DATA_GRID_VIEW_STYLE_LIST)]
         [RefreshProperties(RefreshProperties.All)]
         public string List { get; set; }
 
-        /// <summary>Gets or sets the sheet data grid view style.</summary>
+        /// <summary>Gets or sets the sheet data grid view style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The sheet data grid view style.")]
         [DefaultValue(DEFAULT_DATA_GRID_VIEW_STYLE_SHEET)]

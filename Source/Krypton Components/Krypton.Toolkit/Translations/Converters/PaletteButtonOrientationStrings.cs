@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             Inherit = DEFAULT_PALETTE_BUTTON_ORIENTATION_INHERIT;
         }
 
-        /// <summary>Gets or sets the auto button orientation string.</summary>
+        /// <summary>Gets or sets the auto button orientation string string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The auto button orientation string.")]
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Auto { get; set; }
 
-        /// <summary>Gets or sets the fixed bottom button orientation string.</summary>
+        /// <summary>Gets or sets the fixed bottom button orientation string string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The fixed bottom button orientation string.")]
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string FixedBottom { get; set; }
 
-        /// <summary>Gets or sets the fixed top button orientation string.</summary>
+        /// <summary>Gets or sets the fixed top button orientation string string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The fixed top button orientation string.")]
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string FixedTop { get; set; }
 
-        /// <summary>Gets or sets the fixed left button orientation string.</summary>
+        /// <summary>Gets or sets the fixed left button orientation string string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The fixed left button orientation string.")]
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string FixedLeft { get; set; }
 
-        /// <summary>Gets or sets the fixed right button orientation string.</summary>
+        /// <summary>Gets or sets the fixed right button orientation string string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The fixed right orientation string.")]
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string FixedRight { get; set; }
 
-        /// <summary>Gets or sets the inherit button orientation string.</summary>
+        /// <summary>Gets or sets the inherit button orientation string string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The inherit orientation string.")]

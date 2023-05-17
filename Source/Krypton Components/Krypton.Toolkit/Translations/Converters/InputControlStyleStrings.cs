@@ -63,49 +63,49 @@ namespace Krypton.Toolkit
             Standalone = DEFAULT_INPUT_CONTROL_STYLE_STANDALONE;
         }
 
-        /// <summary>Gets or sets the custom 1 input control style.</summary>
+        /// <summary>Gets or sets the custom 1 input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 input control style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_ONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomOne { get; set; }
 
-        /// <summary>Gets or sets the custom 2 input control style.</summary>
+        /// <summary>Gets or sets the custom 2 input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 input control style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_TWO)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomTwo { get; set; }
 
-        /// <summary>Gets or sets the custom 3 input control style.</summary>
+        /// <summary>Gets or sets the custom 3 input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 input control style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_THREE)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomThree { get; set; }
 
-        /// <summary>Gets or sets the ribbon input control style.</summary>
+        /// <summary>Gets or sets the ribbon input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The ribbon input control style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_STYLE_RIBBON)]
         [RefreshProperties(RefreshProperties.All)]
         public string Ribbon { get; set; }
 
-        /// <summary>Gets or sets the panel alternate input control style.</summary>
+        /// <summary>Gets or sets the panel alternate input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The panel alternate input control style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE)]
         [RefreshProperties(RefreshProperties.All)]
         public string PanelAlternate { get; set; }
 
-        /// <summary>Gets or sets the panel client input control style.</summary>
+        /// <summary>Gets or sets the panel client input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The panel client input control style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_STYLE_PANEL_CLIENT)]
         [RefreshProperties(RefreshProperties.All)]
         public string PanelClient { get; set; }
 
-        /// <summary>Gets or sets the standalone input control style.</summary>
+        /// <summary>Gets or sets the standalone input control style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The standalone input control style.")]
         [DefaultValue(DEFAULT_INPUT_CONTROL_STYLE_STANDALONE)]

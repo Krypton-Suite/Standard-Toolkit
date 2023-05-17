@@ -19,18 +19,37 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(TabStyle.HighProfile, "High Profile"),
+        //    new(TabStyle.StandardProfile, "Standard Profile"),
+        //    new(TabStyle.LowProfile, "Low Profile"),
+        //    new(TabStyle.OneNote, "OneNote"),
+        //    new(TabStyle.Dock, "Dock"),
+        //    new(TabStyle.DockAutoHidden, "Dock AutoHidden"),
+        //    new(TabStyle.Custom1, "Custom1"),
+        //    new(TabStyle.Custom2, "Custom2"),
+        //    new(TabStyle.Custom3, "Custom3")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(TabStyle.HighProfile, "High Profile"),
-            new(TabStyle.StandardProfile, "Standard Profile"),
-            new(TabStyle.LowProfile, "Low Profile"),
-            new(TabStyle.OneNote, "OneNote"),
-            new(TabStyle.Dock, "Dock"),
-            new(TabStyle.DockAutoHidden, "Dock AutoHidden"),
-            new(TabStyle.Custom1, "Custom1"),
-            new(TabStyle.Custom2, "Custom2"),
-            new(TabStyle.Custom3, "Custom3")
+            new(TabStyle.HighProfile, KryptonLanguageManager.TabStyles.HighProfile),
+            new(TabStyle.StandardProfile, KryptonLanguageManager.TabStyles.StandardProfile),
+            new(TabStyle.LowProfile, KryptonLanguageManager.TabStyles.LowProfile),
+            new(TabStyle.OneNote, KryptonLanguageManager.TabStyles.OneNote),
+            new(TabStyle.Dock, KryptonLanguageManager.TabStyles.Dock),
+            new(TabStyle.DockAutoHidden, KryptonLanguageManager.TabStyles.DockAutoHidden),
+            new(TabStyle.Custom1, KryptonLanguageManager.TabStyles.Custom1),
+            new(TabStyle.Custom2, KryptonLanguageManager.TabStyles.Custom2),
+            new(TabStyle.Custom3, KryptonLanguageManager.TabStyles.Custom3)
         };
+
         #endregion
 
         #region Identity

@@ -16,19 +16,39 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Old
+
+        //private readonly Pair[] _pairs =
+        //{
+        //    new(PlacementMode.Absolute, "Placement Mode - Absolute"),
+        //    new(PlacementMode.AbsolutePoint, "Placement Mode - Absolute Point"),
+        //    new(PlacementMode.Bottom, "Placement Mode - Bottom"),
+        //    new(PlacementMode.Center, "Placement Mode - Center"),
+        //    new(PlacementMode.Left, "Placement Mode - Left"),
+        //    new(PlacementMode.Mouse, "Placement Mode - Mouse"),
+        //    new(PlacementMode.MousePoint, "Placement Mode - Mouse Point"),
+        //    new(PlacementMode.Relative, "Placement Mode - Relative"),
+        //    new(PlacementMode.RelativePoint, "Placement Mode - Relative Point"),
+        //    new(PlacementMode.Right, "Placement Mode - Right"),
+        //    new(PlacementMode.Top, "Placement Mode - Top")
+        //};
+
+        #endregion
+
+        [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PlacementMode.Absolute, "Placement Mode - Absolute"),
-            new(PlacementMode.AbsolutePoint, "Placement Mode - Absolute Point"),
-            new(PlacementMode.Bottom, "Placement Mode - Bottom"),
-            new(PlacementMode.Center, "Placement Mode - Center"),
-            new(PlacementMode.Left, "Placement Mode - Left"),
-            new(PlacementMode.Mouse, "Placement Mode - Mouse"),
-            new(PlacementMode.MousePoint, "Placement Mode - Mouse Point"),
-            new(PlacementMode.Relative, "Placement Mode - Relative"),
-            new(PlacementMode.RelativePoint, "Placement Mode - Relative Point"),
-            new(PlacementMode.Right, "Placement Mode - Right"),
-            new(PlacementMode.Top, "Placement Mode - Top")
+            new(PlacementMode.Absolute, KryptonLanguageManager.PlacementModeStrings.Absolute),
+            new(PlacementMode.AbsolutePoint, KryptonLanguageManager.PlacementModeStrings.AbsolutePoint),
+            new(PlacementMode.Bottom, KryptonLanguageManager.PlacementModeStrings.Bottom),
+            new(PlacementMode.Center, KryptonLanguageManager.PlacementModeStrings.Center),
+            new(PlacementMode.Left, KryptonLanguageManager.PlacementModeStrings.Left),
+            new(PlacementMode.Mouse, KryptonLanguageManager.PlacementModeStrings.Mouse),
+            new(PlacementMode.MousePoint, KryptonLanguageManager.PlacementModeStrings.MousePoint),
+            new(PlacementMode.Relative, KryptonLanguageManager.PlacementModeStrings.Relative),
+            new(PlacementMode.RelativePoint, KryptonLanguageManager.PlacementModeStrings.RelativePoint),
+            new(PlacementMode.Right, KryptonLanguageManager.PlacementModeStrings.Right),
+            new(PlacementMode.Top, KryptonLanguageManager.PlacementModeStrings.Top)
         };
 
         #endregion

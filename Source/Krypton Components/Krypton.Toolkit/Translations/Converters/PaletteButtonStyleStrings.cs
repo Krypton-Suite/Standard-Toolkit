@@ -107,126 +107,126 @@ namespace Krypton.Toolkit
             NavigatorStack = DEFAULT_PALETTE_BUTTON_STYLE_NAVIGATOR_STACK;
         }
 
-        /// <summary>Gets or sets the alternate palette button style.</summary>
+        /// <summary>Gets or sets the alternate palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The alternate palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_ALTERNATE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Alternate { get; set; }
 
-        /// <summary>Gets or sets the breadcrumb palette button style.</summary>
+        /// <summary>Gets or sets the breadcrumb palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The breadcrumb palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_BREAD_CRUMB)]
         [RefreshProperties(RefreshProperties.All)]
         public string BreadCrumb { get; set; }
 
-        /// <summary>Gets or sets the buttonspec palette button style.</summary>
+        /// <summary>Gets or sets the buttonspec palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The buttonspec palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_BUTTON_SPEC)]
         [RefreshProperties(RefreshProperties.All)]
         public string ButtonSpec { get; set; }
 
-        /// <summary>Gets or sets the cluster palette button style.</summary>
+        /// <summary>Gets or sets the cluster palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The cluster palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_CLUSTER)]
         [RefreshProperties(RefreshProperties.All)]
         public string Cluster { get; set; }
 
-        /// <summary>Gets or sets the command palette button style.</summary>
+        /// <summary>Gets or sets the command palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The command palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_COMMAND)]
         [RefreshProperties(RefreshProperties.All)]
         public string Command { get; set; }
 
-        /// <summary>Gets or sets the custom 1 palette button style.</summary>
+        /// <summary>Gets or sets the custom 1 palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 1 palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM1)]
         [RefreshProperties(RefreshProperties.All)]
         public string Custom1 { get; set; }
 
-        /// <summary>Gets or sets the custom 2 palette button style.</summary>
+        /// <summary>Gets or sets the custom 2 palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 2 palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM2)]
         [RefreshProperties(RefreshProperties.All)]
         public string Custom2 { get; set; }
 
-        /// <summary>Gets or sets the custom 3 palette button style.</summary>
+        /// <summary>Gets or sets the custom 3 palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The custom 3 palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM3)]
         [RefreshProperties(RefreshProperties.All)]
         public string Custom3 { get; set; }
 
-        /// <summary>Gets or sets the form palette button style.</summary>
+        /// <summary>Gets or sets the form palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_FORM)]
         [RefreshProperties(RefreshProperties.All)]
         public string Form { get; set; }
 
-        /// <summary>Gets or sets the form close palette button style.</summary>
+        /// <summary>Gets or sets the form close palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The form close palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_FORM_CLOSE)]
         [RefreshProperties(RefreshProperties.All)]
         public string FormClose { get; set; }
 
-        /// <summary>Gets or sets the inherit palette button style.</summary>
+        /// <summary>Gets or sets the inherit palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The inherit palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_INHERIT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Inherit { get; set; }
 
-        /// <summary>Gets or sets the input control palette button style.</summary>
+        /// <summary>Gets or sets the input control palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The input control palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_INPUT_CONTROL)]
         [RefreshProperties(RefreshProperties.All)]
         public string InputControl { get; set; }
 
-        /// <summary>Gets or sets the standalone palette button style.</summary>
+        /// <summary>Gets or sets the standalone palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The standalone palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_STANDALONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Standalone { get; set; }
 
-        /// <summary>Gets or sets the low profile palette button style.</summary>
+        /// <summary>Gets or sets the low profile palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The low profile palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_LOW_PROFILE)]
         [RefreshProperties(RefreshProperties.All)]
         public string LowProfile { get; set; }
 
-        /// <summary>Gets or sets the list item palette button style.</summary>
+        /// <summary>Gets or sets the list item palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The list item palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_LIST_ITEM)]
         [RefreshProperties(RefreshProperties.All)]
         public string ListItem { get; set; }
 
-        /// <summary>Gets or sets the navigator stack palette button style.</summary>
+        /// <summary>Gets or sets the navigator stack palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The navigator stack palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_NAVIGATOR_STACK)]
         [RefreshProperties(RefreshProperties.All)]
         public string NavigatorStack { get; set; }
 
-        /// <summary>Gets or sets the navigator mini palette button style.</summary>
+        /// <summary>Gets or sets the navigator mini palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The navigator mini palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_NAVIGATOR_MINI)]
         [RefreshProperties(RefreshProperties.All)]
         public string NavigatorMini { get; set; }
 
-        /// <summary>Gets or sets the navigator overflow palette button style.</summary>
+        /// <summary>Gets or sets the navigator overflow palette button style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The navigator overflow palette button style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_STYLE_NAVIGATOR_OVERFLOW)]

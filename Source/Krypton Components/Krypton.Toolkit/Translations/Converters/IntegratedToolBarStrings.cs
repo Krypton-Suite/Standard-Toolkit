@@ -90,98 +90,98 @@ namespace Krypton.Toolkit
             QuickPrint = DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT;
         }
 
-        /// <summary>Gets or sets the new integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the new integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The new integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_NEW)]
         [RefreshProperties(RefreshProperties.All)]
         public string New { get; set; }
 
-        /// <summary>Gets or sets the open integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the open integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The open integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_OPEN)]
         [RefreshProperties(RefreshProperties.All)]
         public string Open { get; set; }
 
-        /// <summary>Gets or sets the save integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the save integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The save integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_SAVE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Save { get; set; }
 
-        /// <summary>Gets or sets the save as integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the save as integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The save as integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_SAVE_AS)]
         [RefreshProperties(RefreshProperties.All)]
         public string SaveAs { get; set; }
 
-        /// <summary>Gets or sets the save all integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the save all integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The save all integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_SAVE_ALL)]
         [RefreshProperties(RefreshProperties.All)]
         public string SaveAll { get; set; }
 
-        /// <summary>Gets or sets the cut integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the cut integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The cut integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CUT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Cut { get; set; }
 
-        /// <summary>Gets or sets the copy integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the copy integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The copy integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_COPY)]
         [RefreshProperties(RefreshProperties.All)]
         public string Copy { get; set; }
 
-        /// <summary>Gets or sets the paste integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the paste integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The paste integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PASTE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Paste { get; set; }
 
-        /// <summary>Gets or sets the undo integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the undo integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The undo integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_UNDO)]
         [RefreshProperties(RefreshProperties.All)]
         public string Undo { get; set; }
 
-        /// <summary>Gets or sets the redo integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the redo integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The redo integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_REDO)]
         [RefreshProperties(RefreshProperties.All)]
         public string Redo { get; set; }
 
-        /// <summary>Gets or sets the page setup integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the page setup integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The page setup integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PAGE_SETUP)]
         [RefreshProperties(RefreshProperties.All)]
         public string PageSetup { get; set; }
 
-        /// <summary>Gets or sets the print preview integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the print preview integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The print preview integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT_PREVIEW)]
         [RefreshProperties(RefreshProperties.All)]
         public string PrintPreview { get; set; }
 
-        /// <summary>Gets or sets the print integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the print integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The print integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Print { get; set; }
 
-        /// <summary>Gets or sets the quick print integrated toolbar button spec style.</summary>
+        /// <summary>Gets or sets the quick print integrated toolbar button spec style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The quick print integrated toolbar button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT)]

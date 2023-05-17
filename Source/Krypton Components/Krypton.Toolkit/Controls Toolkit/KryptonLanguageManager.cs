@@ -246,6 +246,44 @@ namespace Krypton.Toolkit
 
         private void ResetPaletteButtonStyleStrings() => ButtonStyleStrings.Reset();
 
+        /// <summary>Gets the palette content style strings.</summary>
+        /// <value>The palette content style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette mode strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteContentStyleStrings PaletteContentStyleStrings => ContentStyleStrings;
+
+        private bool ShouldSerializePaletteContentStyleStrings() => !ContentStyleStrings.IsDefault;
+
+        public void ResetPaletteContentStyleStrings() => ContentStyleStrings.Reset();
+
+        /// <summary>Gets the image effect strings.</summary>
+        /// <value>The image effect strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of image effect strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteImageEffectStrings PaletteImageEffectStrings => ImageEffectStrings;
+
+        private bool ShouldSerializePaletteImageEffectStrings() => !ImageEffectStrings.IsDefault;
+
+        public void ResetPaletteImageEffectStrings() => ImageEffectStrings.Reset();
+
+        /// <summary>Gets the image style strings.</summary>
+        /// <value>The image style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of image style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteImageStyleStrings PaletteImageStyleStrings => ImageStyleStrings;
+
+        private bool ShouldSerializePaletteImageStyleStrings() => !ImageStyleStrings.IsDefault;
+
+        public void ResetPaletteImageStyleStrings() => ImageStyleStrings.Reset();
 
         /// <summary>Gets the palette mode strings.</summary>
         /// <value>The palette mode strings.</value>
@@ -261,14 +299,78 @@ namespace Krypton.Toolkit
         /// <summary>Resets the palette mode strings.</summary>
         public void ResetPaletteModeStrings() => ModeStrings.Reset();
 
+        /// <summary>Gets the palette text trim strings.</summary>
+        /// <value>The palette text trim strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette text trim strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteTextTrimStrings PaletteTextTrimStrings => TextTrimStrings;
+
+        private bool ShouldSerializePaletteTextTrimStrings() => !TextTrimStrings.IsDefault;
+
+        public void ResetPaletteTextTrimStrings() => TextTrimStrings.Reset();
+
+        /// <summary>Gets the placement mode strings.</summary>
+        /// <value>The placement mode strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of placement mode strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PlacementModeStrings PlacementMode => PlacementModeStrings;
+
+        private bool ShouldSerializePlacementModeStrings() => !PlacementModeStrings.IsDefault;
+
+        public void ResetPlacementModeStrings() => PlacementModeStrings.Reset();
+
+        /// <summary>Gets the separator style strings.</summary>
+        /// <value>The separator style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of separator style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public SeparatorStyleStrings SeparatorStyleStrings => SeparatorStyles;
+
+        private bool ShouldSerializeSeparatorStyleStrings() => !SeparatorStyles.IsDefault;
+
+        public void ResetSeparatorStyleStrings() => SeparatorStyles.Reset();
+
+        /// <summary>Gets the tab border style strings.</summary>
+        /// <value>The tab border style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of tab border style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public TabBorderStyleStrings TabBorderStyleStrings => TabBorderStyles;
+
+        private bool ShouldSerializeTabBorderStyleStrings() => !TabBorderStyles.IsDefault;
+
+        public void ResetTabBorderStyleStrings() => TabBorderStyles.Reset();
+
+        /// <summary>Gets the tab style strings.</summary>
+        /// <value>The tab style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of tab style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public TabStyleStrings TabStyleStrings => TabStyles;
+
+        private bool ShouldSerializeTabStyleStrings() => !TabStyles.IsDefault;
+
+        public void ResetTabStyleStrings() => TabStyles.Reset();
+
         #endregion
 
         #region Static Strings
 
         /// <summary>Gets the color strings.</summary>
         /// <value>The color strings.</value>
-        public static GlobalColorStrings ColorStrings
-        { get; } = new();
+        public static GlobalColorStrings ColorStrings { get; } = new();
 
         /// <summary>Gets the spec style strings.</summary>
         /// <value>The spec style strings.</value>
@@ -330,11 +432,27 @@ namespace Krypton.Toolkit
         /// <value>The button style strings.</value>
         public static PaletteButtonStyleStrings ButtonStyleStrings { get; } = new();
 
+        /// <summary>Gets the content style strings.</summary>
+        /// <value>The content style strings.</value>
+        public static PaletteContentStyleStrings ContentStyleStrings { get; } = new();
 
+        public static PaletteImageEffectStrings ImageEffectStrings { get; } = new();
+
+        public static PaletteImageStyleStrings ImageStyleStrings { get; } = new();
 
         /// <summary>Gets the mode strings.</summary>
         /// <value>The mode strings.</value>
         public static PaletteModeStrings ModeStrings { get; } = new();
+
+        public static PaletteTextTrimStrings TextTrimStrings { get; } = new();
+
+        public static PlacementModeStrings PlacementModeStrings { get; } = new();
+
+        public static SeparatorStyleStrings SeparatorStyles { get; } = new();
+
+        public static TabBorderStyleStrings TabBorderStyles { get; } = new();
+
+        public static TabStyleStrings TabStyles { get; } = new();
 
         #endregion
 
@@ -370,7 +488,15 @@ namespace Krypton.Toolkit
                                    ShouldSerializePaletteBorderStyleStrings() ||
                                    ShouldSerializePaletteButtonOrientationStrings() ||
                                    ShouldSerializePaletteButtonSpecStyleStrings() ||
-                                   ShouldSerializePaletteButtonStyleStrings());
+                                   ShouldSerializePaletteButtonStyleStrings() ||
+                                   ShouldSerializePaletteContentStyleStrings() ||
+                                   ShouldSerializePaletteImageEffectStrings() ||
+                                   ShouldSerializePaletteImageStyleStrings() ||
+                                   ShouldSerializePaletteTextTrimStrings() ||
+                                   ShouldSerializePlacementModeStrings() ||
+                                   ShouldSerializeSeparatorStyleStrings() ||
+                                   ShouldSerializeTabBorderStyleStrings() ||
+                                   ShouldSerializeTabStyleStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -406,6 +532,22 @@ namespace Krypton.Toolkit
             ResetPaletteButtonSpecStyleStrings();
 
             ResetPaletteButtonStyleStrings();
+
+            ResetPaletteContentStyleStrings();
+
+            ResetPaletteImageEffectStrings();
+
+            ResetPaletteImageStyleStrings();
+
+            ResetPaletteTextTrimStrings();
+
+            ResetPlacementModeStrings();
+
+            ResetSeparatorStyleStrings();
+
+            ResetTabBorderStyleStrings();
+
+            ResetTabStyleStrings();
         }
 
         #endregion

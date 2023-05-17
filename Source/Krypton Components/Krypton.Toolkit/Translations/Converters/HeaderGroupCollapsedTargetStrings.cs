@@ -47,21 +47,21 @@ namespace Krypton.Toolkit
             CollapsedToSecondary = DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_SECONDARY;
         }
 
-        /// <summary>Gets or sets the collapsed to both header group.</summary>
+        /// <summary>Gets or sets the collapsed to both header group string.</summary>
         [Category(@"Visuals")]
         [Description(@"The collapsed to both header group.")]
         [DefaultValue(DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_BOTH)]
         [RefreshProperties(RefreshProperties.All)]
         public string CollapsedToBoth { get; set; }
 
-        /// <summary>Gets or sets the collapsed to primary header group.</summary>
+        /// <summary>Gets or sets the collapsed to primary header group string.</summary>
         [Category(@"Visuals")]
         [Description(@"The collapsed to both primary group.")]
         [DefaultValue(DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_PRIMARY)]
         [RefreshProperties(RefreshProperties.All)]
         public string CollapsedToPrimary { get; set; }
 
-        /// <summary>Gets or sets the collapsed to secondary header group.</summary>
+        /// <summary>Gets or sets the collapsed to secondary header group string.</summary>
         [Category(@"Visuals")]
         [Description(@"The collapsed to secondary header group.")]
         [DefaultValue(DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_SECONDARY)]

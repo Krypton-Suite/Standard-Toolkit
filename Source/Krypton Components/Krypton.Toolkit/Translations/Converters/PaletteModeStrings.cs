@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
             SparklePurpleLightMode = DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE;
         }
 
-        /// <summary>Gets or sets the custom palette name.</summary>
+        /// <summary>Gets or sets the custom palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The custom palette name.")]
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Custom { get; set; }
 
-        /// <summary>Gets or sets the professional palette name.</summary>
+        /// <summary>Gets or sets the professional palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The professional palette name.")]
@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Professional { get; set; }
 
-        /// <summary>Gets or sets the Office 2003 palette name.</summary>
+        /// <summary>Gets or sets the Office 2003 palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2003 palette name.")]
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Professional2003 { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Black palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Black palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Black palette name.")]
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007Black { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Blue palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Blue palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Blue palette name.")]
@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007Blue { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Silver palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Silver palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Silver palette name.")]
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007Silver { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 White palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 White palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 White palette name.")]
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007White { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Black (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Black (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Black (Dark Mode) palette name.")]
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007BlackDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Blue (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Blue (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Blue (Dark Mode) palette name.")]
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007BlueDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Silver (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Silver (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Silver (Dark Mode) palette name.")]
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007SilverDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Blue (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Blue (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Blue (Light Mode) palette name.")]
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007BlueLightMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Silver (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Silver (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Silver (Light Mode) palette name.")]
@@ -330,7 +330,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007SilverLightMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Dark Gray palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Dark Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Dark Gray palette name.")]
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007DarkGray { get; set; }
 
-        /// <summary>Gets or sets the Office 2007 Light Gray palette name.</summary>
+        /// <summary>Gets or sets the Office 2007 Light Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2007 Light Gray palette name.")]
@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007LightGray { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Black palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Black palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Black palette name.")]
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010Black { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Blue palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Blue palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Blue palette name.")]
@@ -362,7 +362,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010Blue { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Silver palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Silver palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Silver palette name.")]
@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010Silver { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 White palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 White palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 White palette name.")]
@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010White { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Black (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Black (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Black (Dark Mode) palette name.")]
@@ -386,7 +386,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010BlackDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Blue (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Blue (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Blue (Dark Mode) palette name.")]
@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010BlueDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Silver (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Silver (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Silver (Dark Mode) palette name.")]
@@ -402,7 +402,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010SilverDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Blue (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Blue (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Blue (Light Mode) palette name.")]
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010BlueLightMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Silver (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Silver (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Silver (Light Mode) palette name.")]
@@ -418,7 +418,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010SilverLightMode { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Dark Gray palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Dark Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Dark Gray palette name.")]
@@ -426,7 +426,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010DarkGray { get; set; }
 
-        /// <summary>Gets or sets the Office 2010 Light Gray palette name.</summary>
+        /// <summary>Gets or sets the Office 2010 Light Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2010 Light Gray palette name.")]
@@ -434,7 +434,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010LightGray { get; set; }
 
-        /// <summary>Gets or sets the Office 2013 White palette name.</summary>
+        /// <summary>Gets or sets the Office 2013 White palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2013 White palette name.")]
@@ -442,7 +442,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2013White { get; set; }
 
-        /// <summary>Gets or sets the Office 2013 Dark Gray palette name.</summary>
+        /// <summary>Gets or sets the Office 2013 Dark Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2013 Dark Gray palette name.")]
@@ -450,7 +450,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2013DarkGray { get; set; }
 
-        /// <summary>Gets or sets the Office 2013 Light Gray palette name.</summary>
+        /// <summary>Gets or sets the Office 2013 Light Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Office 2013 Light Gray palette name.")]
@@ -458,7 +458,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2013LightGray { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Black palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Black palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Black palette name.")]
@@ -466,7 +466,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365Black { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Blue palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Blue palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Blue palette name.")]
@@ -474,7 +474,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365Blue { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Silver palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Silver palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Silver palette name.")]
@@ -482,7 +482,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365Silver { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 White palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 White palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 White palette name.")]
@@ -490,7 +490,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365White { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Black (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Black (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Black (Dark Mode) palette name.")]
@@ -498,7 +498,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365BlackDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Blue (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Blue (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Blue (Dark Mode) palette name.")]
@@ -506,7 +506,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365BlueDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Silver (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Silver (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Silver (Dark Mode) palette name.")]
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365SilverDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Blue (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Blue (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Blue (Light Mode) palette name.")]
@@ -522,7 +522,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365BlueLightMode { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Silver (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Silver (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Silver (Light Mode) palette name.")]
@@ -530,7 +530,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365SilverLightMode { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Dark Gray palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Dark Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Dark Gray palette name.")]
@@ -538,7 +538,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365DarkGray { get; set; }
 
-        /// <summary>Gets or sets the Microsoft 365 Light Gray palette name.</summary>
+        /// <summary>Gets or sets the Microsoft 365 Light Gray palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Microsoft 365 Light Gray palette name.")]
@@ -546,7 +546,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365LightGray { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Blue palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Blue palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Blue palette name.")]
@@ -554,7 +554,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparkleBlue { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Orange palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Orange palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Orange palette name.")]
@@ -562,7 +562,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparkleOrange { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Purple palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Purple palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Purple palette name.")]
@@ -570,7 +570,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparklePurple { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Blue (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Blue (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Blue (Dark Mode) palette name.")]
@@ -578,7 +578,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparkleBlueDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Orange (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Orange (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Orange (Dark Mode) palette name.")]
@@ -586,7 +586,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparkleOrangeDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Purple (Dark Mode) palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Purple (Dark Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Purple (Dark Mode) palette name.")]
@@ -594,7 +594,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparklePurpleDarkMode { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Blue (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Blue (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Blue (Light Mode) palette name.")]
@@ -602,7 +602,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparkleBlueLightMode { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Orange (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Orange (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Orange (Light Mode) palette name.")]
@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparkleOrangeLightMode { get; set; }
 
-        /// <summary>Gets or sets the Sparkle Purple (Light Mode) palette name.</summary>
+        /// <summary>Gets or sets the Sparkle Purple (Light Mode) palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The Sparkle Purple (Light Mode) palette name.")]
