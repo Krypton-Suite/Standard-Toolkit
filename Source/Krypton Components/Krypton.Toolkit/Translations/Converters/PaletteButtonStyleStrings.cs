@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes the set of <see cref="PaletteButtonStyleConverter"/> strings used within Krypton and that are localizable.</summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PaletteButtonStyleStrings : GlobalId
     {

@@ -3,9 +3,11 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Added `KryptonLanguageManager` to the `KryptonManager` action list
 * Resolved [#1008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1008), Krypton Save/Open file dialogs are not accessible from the toolbox
 * Implemented [#1007](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1007), A way to alter all of the strings in the toolkit to language specific strings
 * Implemented [#1006](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1006), Make converter strings localisable
+    - **Note:** Components that use these strings may need to be 'refreshed' once changes have been made
 * Implemented [#894](https://github.com/Krypton-Suite/Standard-Toolkit/issues/894), `KryptonPropertyGrid` needs to have full Krypton support
 * Resolved [#999](https://github.com/Krypton-Suite/Standard-Toolkit/issues/999), Incorrect project file names while building
 * Part resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), to allow ribbon designer in vs 17.5x and .net48 project types.
@@ -42,7 +44,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#867](https://github.com/Krypton-Suite/Standard-Toolkit/issues/867), KryptonMessageBox does not show help button
 * Resolved [#728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/728), Bring MessageBox States in-line with latest .Net 6
 * Resolved [#861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/861), Ribbon QAT Button downscaled when disabling HiDPI
-* Implemented [#854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/854), Please remove "2019" from the build sequence etc. 
+* Implemented [#854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/854), Please remove "2019" from the build sequence etc.
 * Resolved [#848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/848), KryptonTreeView Font Issues
 * Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385), [Feature Request:] `KryptonColorButton` Modify Recent Colors
 * Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), [Feature Request]: A way to set the TextBox / ComboBox / RichTextBox Cue font Rendering hint style

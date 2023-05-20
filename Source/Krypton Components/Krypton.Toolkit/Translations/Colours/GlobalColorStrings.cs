@@ -13,9 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// Expose a global set of color strings used within Krypton and that are localizable.
-    /// </summary>
+    /// <summary>Exposes a global set of color strings used within Krypton and that are localizable.</summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class GlobalColorStrings : GlobalId
     {

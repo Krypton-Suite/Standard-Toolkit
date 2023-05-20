@@ -48,24 +48,24 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PaletteButtonStyle.Inherit, KryptonLanguageManager.ButtonStyleStrings.Inherit),
-            new(PaletteButtonStyle.Standalone, KryptonLanguageManager.ButtonStyleStrings.Standalone),
-            new(PaletteButtonStyle.Alternate, KryptonLanguageManager.ButtonStyleStrings.Alternate),
-            new(PaletteButtonStyle.LowProfile, KryptonLanguageManager.ButtonStyleStrings.LowProfile),
-            new(PaletteButtonStyle.BreadCrumb, KryptonLanguageManager.ButtonStyleStrings.BreadCrumb),
-            new(PaletteButtonStyle.Cluster, KryptonLanguageManager.ButtonStyleStrings.Cluster),
-            new(PaletteButtonStyle.NavigatorStack, KryptonLanguageManager.ButtonStyleStrings.NavigatorStack),
-            new(PaletteButtonStyle.NavigatorOverflow, KryptonLanguageManager.ButtonStyleStrings.NavigatorOverflow),
-            new(PaletteButtonStyle.NavigatorMini, KryptonLanguageManager.ButtonStyleStrings.NavigatorMini),
-            new(PaletteButtonStyle.InputControl, KryptonLanguageManager.ButtonStyleStrings.InputControl),
-            new(PaletteButtonStyle.ListItem, KryptonLanguageManager.ButtonStyleStrings.ListItem),
-            new(PaletteButtonStyle.Form, KryptonLanguageManager.ButtonStyleStrings.Form),
-            new(PaletteButtonStyle.FormClose, KryptonLanguageManager.ButtonStyleStrings.FormClose),
-            new(PaletteButtonStyle.ButtonSpec, KryptonLanguageManager.ButtonStyleStrings.ButtonSpec),
-            new(PaletteButtonStyle.Command, KryptonLanguageManager.ButtonStyleStrings.Command),
-            new(PaletteButtonStyle.Custom1, KryptonLanguageManager.ButtonStyleStrings.Custom1),
-            new(PaletteButtonStyle.Custom2, KryptonLanguageManager.ButtonStyleStrings.Custom2),
-            new(PaletteButtonStyle.Custom3, KryptonLanguageManager.ButtonStyleStrings.Custom3)
+            new(PaletteButtonStyle.Inherit, KryptonLanguageManager.PaletteButtonStyles.Inherit),
+            new(PaletteButtonStyle.Standalone, KryptonLanguageManager.PaletteButtonStyles.Standalone),
+            new(PaletteButtonStyle.Alternate, KryptonLanguageManager.PaletteButtonStyles.Alternate),
+            new(PaletteButtonStyle.LowProfile, KryptonLanguageManager.PaletteButtonStyles.LowProfile),
+            new(PaletteButtonStyle.BreadCrumb, KryptonLanguageManager.PaletteButtonStyles.BreadCrumb),
+            new(PaletteButtonStyle.Cluster, KryptonLanguageManager.PaletteButtonStyles.Cluster),
+            new(PaletteButtonStyle.NavigatorStack, KryptonLanguageManager.PaletteButtonStyles.NavigatorStack),
+            new(PaletteButtonStyle.NavigatorOverflow, KryptonLanguageManager.PaletteButtonStyles.NavigatorOverflow),
+            new(PaletteButtonStyle.NavigatorMini, KryptonLanguageManager.PaletteButtonStyles.NavigatorMini),
+            new(PaletteButtonStyle.InputControl, KryptonLanguageManager.PaletteButtonStyles.InputControl),
+            new(PaletteButtonStyle.ListItem, KryptonLanguageManager.PaletteButtonStyles.ListItem),
+            new(PaletteButtonStyle.Form, KryptonLanguageManager.PaletteButtonStyles.Form),
+            new(PaletteButtonStyle.FormClose, KryptonLanguageManager.PaletteButtonStyles.FormClose),
+            new(PaletteButtonStyle.ButtonSpec, KryptonLanguageManager.PaletteButtonStyles.ButtonSpec),
+            new(PaletteButtonStyle.Command, KryptonLanguageManager.PaletteButtonStyles.Command),
+            new(PaletteButtonStyle.Custom1, KryptonLanguageManager.PaletteButtonStyles.Custom1),
+            new(PaletteButtonStyle.Custom2, KryptonLanguageManager.PaletteButtonStyles.Custom2),
+            new(PaletteButtonStyle.Custom3, KryptonLanguageManager.PaletteButtonStyles.Custom3)
         };
 
         #endregion

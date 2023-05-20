@@ -7,8 +7,10 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes the set of <see cref="PaletteImageStyleConverter"/> strings used within Krypton and that are localizable.</summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PaletteImageStyleStrings : GlobalId
     {
@@ -126,7 +128,7 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_Y)]
         public string TileFlipY { get; set; }
 
-        /// <summary>Gets or sets the tile flip X & Y palette image style string.</summary>
+        /// <summary>Gets or sets the tile flip X and Y palette image style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The tile flip X & Y palette image style.")]
         [DefaultValue(DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_X_Y)]
