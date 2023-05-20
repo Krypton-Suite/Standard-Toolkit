@@ -10,6 +10,8 @@
  */
 #endregion
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -36,6 +38,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
         private int _suspendCount;
         private IRenderer? _baseRenderer;
         private RendererMode _baseRenderMode;
@@ -45,6 +48,7 @@ namespace Krypton.Toolkit
         private readonly PaletteRedirect? _redirector;
         private readonly PaletteRedirectCommon? _redirectCommon;
         private readonly NeedPaintHandler _needPaintDelegate;
+
         #endregion
 
         #region Identity
@@ -2045,30 +2049,60 @@ namespace Krypton.Toolkit
         /// Import palette settings from an xml file.
         /// </summary>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string Import()
+        public string? Import()
         {
-            using OpenFileDialog dialog = new();
-            // Palette files are just XML documents
-            dialog.CheckFileExists = true;
-            dialog.CheckPathExists = true;
-            dialog.DefaultExt = @"xml";
-            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
-            dialog.Title = @"Load Palette";
-
-            // Get the actual file selected by the user
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (UseKryptonFileDialogs)
             {
-                // Use the existing import overload that takes the target name
-                return Import(dialog.FileName, false);
+                using KryptonOpenFileDialog kofd = new()
+                {
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+                    DefaultExt = @"xml",
+                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                    Title = @"Load Custom Palette"
+                };
+
+                if (kofd.ShowDialog() == DialogResult.OK)
+                {
+                    return Import(kofd.FileName, false);
+                }
+
+                if (!string.IsNullOrWhiteSpace(kofd.FileName))
+                {
+                    // Set the file path
+                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(kofd.FileName));
+
+                    // Set the palette name
+                    SetPaletteName(Path.GetFileName(kofd.FileName));
+                }
             }
-
-            if (!string.IsNullOrWhiteSpace(dialog.FileName))
+            else
             {
-                // Set the file path
-                SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+                using OpenFileDialog dialog = new()
+                {
+                    // Palette files are just XML documents
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+                    DefaultExt = @"xml",
+                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                    Title = @"Load Palette"
+                };
 
-                // Set the palette name
-                SetPaletteName(Path.GetFileName(dialog.FileName));
+                // Get the actual file selected by the user
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Use the existing import overload that takes the target name
+                    return Import(dialog.FileName, false);
+                }
+
+                if (!string.IsNullOrWhiteSpace(dialog.FileName))
+                {
+                    // Set the file path
+                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+
+                    // Set the palette name
+                    SetPaletteName(Path.GetFileName(dialog.FileName));
+                }
             }
 
             return string.Empty;
@@ -2079,7 +2113,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="filename">Filename to load.</param>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string Import(string filename) => Import(filename, true);
+        public string? Import(string filename) => Import(filename, true);
 
         /// <summary>
         /// Import palette settings from the specified xml file.
@@ -2087,9 +2121,9 @@ namespace Krypton.Toolkit
         /// <param name="filename">Filename to load.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string Import(string filename, bool silent)
+        public string? Import(string filename, bool silent)
         {
-            string ret;
+            string? ret;
 
             try
             {
@@ -2103,7 +2137,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    ret = (string)CommonHelper.PerformOperation(ImportFromFile, filename);
+                    ret = CommonHelper.PerformOperation(ImportFromFile, filename) as string;
 
                     KryptonMessageBox.Show($"Import from file '{filename}' completed.",
                                     @"Palette Import",
@@ -2244,22 +2278,44 @@ namespace Krypton.Toolkit
         /// Export palette settings to a user specified xml file.
         /// </summary>
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
-        public string Export()
+        public string? Export()
         {
-            using SaveFileDialog dialog = new();
-            // Palette files are just xml documents
-            dialog.OverwritePrompt = true;
-            dialog.DefaultExt = @"xml";
-            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
-            dialog.Title = @"Save Palette As";
-
-            // Get the actual file selected by the user
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (UseKryptonFileDialogs)
             {
-                SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+                using KryptonSaveFileDialog ksfd = new()
+                {
+                    OverwritePrompt = true,
+                    DefaultExt = @"xml",
+                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                    Title = @"Save Palette As"
+                };
 
-                // Use the existing export overload that takes the target name
-                return Export(dialog.FileName, true, false);
+                if (ksfd.ShowDialog() == DialogResult.OK)
+                {
+                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ksfd.FileName));
+
+                    return Export(ksfd.FileName, true, false);
+                }
+            }
+            else
+            {
+                using SaveFileDialog dialog = new()
+                {
+                    // Palette files are just xml documents
+                    OverwritePrompt = true,
+                    DefaultExt = @"xml",
+                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                    Title = @"Save Palette As"
+                };
+
+                // Get the actual file selected by the user
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+
+                    // Use the existing export overload that takes the target name
+                    return Export(dialog.FileName, true, false);
+                }
             }
 
             return string.Empty;
@@ -2271,7 +2327,7 @@ namespace Krypton.Toolkit
         /// <param name="filename">Filename to create or overwrite.</param>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
-        public string Export(string filename, bool ignoreDefaults)
+        public string? Export(string filename, bool ignoreDefaults)
         => Export(filename, ignoreDefaults, true);
 
         /// <summary>
@@ -2281,9 +2337,9 @@ namespace Krypton.Toolkit
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
-        public string Export(string filename, bool ignoreDefaults, bool silent)
+        public string? Export(string filename, bool ignoreDefaults, bool silent)
         {
-            string ret;
+            string? ret;
 
             try
             {
@@ -2297,8 +2353,8 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    ret = (string)CommonHelper.PerformOperation(ExportToFile,
-                                                                new object[] { filename, ignoreDefaults });
+                    ret = CommonHelper.PerformOperation(ExportToFile,
+                        new object[] { filename, ignoreDefaults }) as string;
 
                     KryptonMessageBox.Show($"Export to file '{filename}' completed.",
                                     @"Palette Export",
@@ -2388,7 +2444,7 @@ namespace Krypton.Toolkit
         /// Export palette settings into an array of bytes.
         /// </summary>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
-        public byte[] Export(bool ignoreDefaults)
+        public byte[]? Export(bool ignoreDefaults)
         => Export(ignoreDefaults, true);
 
         /// <summary>
@@ -2396,9 +2452,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
-        public byte[] Export(bool ignoreDefaults, bool silent)
+        public byte[]? Export(bool ignoreDefaults, bool silent)
         {
-            byte[] ret;
+            byte[]? ret;
 
             try
             {
@@ -2412,8 +2468,8 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    ret = (byte[])CommonHelper.PerformOperation(ExportToByteArray,
-                                                                new object[] { ignoreDefaults });
+                    ret = CommonHelper.PerformOperation(ExportToByteArray,
+                        new object[] { ignoreDefaults }) as byte[];
 
                     KryptonMessageBox.Show(@"Export completed with success.",
                                     @"Palette Export",
@@ -2518,7 +2574,7 @@ namespace Krypton.Toolkit
                         default:
                             // Cache the original values
                             PaletteMode tempMode = _basePaletteMode;
-                            PaletteBase tempPalette = _basePalette;
+                            PaletteBase? tempPalette = _basePalette;
 
                             // Use the new value
                             _basePaletteMode = value;
@@ -2576,7 +2632,7 @@ namespace Krypton.Toolkit
                 {
                     // Store the original values
                     PaletteMode tempMode = _basePaletteMode;
-                    PaletteBase tempPalette = _basePalette;
+                    PaletteBase? tempPalette = _basePalette;
 
                     // Find the new palette mode based on the incoming value
                     _basePaletteMode = value == null ? PaletteMode.Microsoft365Blue : PaletteMode.Custom;
@@ -2797,10 +2853,10 @@ namespace Krypton.Toolkit
         internal bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
-            var paletteSet = new Dictionary<PaletteBase, bool>();
+            var paletteSet = new Dictionary<PaletteBase?, bool>();
 
             // Start processing from ourself upwards
-            PaletteBase palette = this;
+            PaletteBase? palette = this;
 
             // Keep searching until no more palettes found
             while (palette != null)
@@ -2853,7 +2909,10 @@ namespace Krypton.Toolkit
             ResetObjectToDefault(this, true);
 
             // Ask each part of the palette to populate itself
-            _allowFormChrome = _basePalette.GetAllowFormChrome();
+            if (_basePalette != null)
+            {
+                _allowFormChrome = _basePalette.GetAllowFormChrome();
+            }
             ButtonStyles.PopulateFromBase(Common);
             CalendarDay.PopulateFromBase();
             ButtonSpecs.PopulateFromBase();
@@ -2953,7 +3012,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Try and grab the root element
-                XmlElement root = (XmlElement)doc.SelectSingleNode("KryptonPalette");
+                XmlElement? root = doc.SelectSingleNode("KryptonPalette") as XmlElement;
 
                 // We insist the root is always present
                 if (root == null)
@@ -2977,8 +3036,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the properties and images elements
-                XmlElement props = (XmlElement)root.SelectSingleNode(nameof(Properties));
-                XmlElement images = (XmlElement)root.SelectSingleNode(nameof(Images));
+                XmlElement? props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
+                XmlElement? images = root.SelectSingleNode(nameof(Images)) as XmlElement;
 
                 // There must be both properties and images elements present
                 if (props == null)
@@ -3017,7 +3076,7 @@ namespace Krypton.Toolkit
             FileInfo info = new(filename);
 
             // Check the target directory actually exists
-            if (!info.Directory.Exists)
+            if (info.Directory != null && !info.Directory.Exists)
             {
                 throw new ArgumentException("Provided directory does not exist.");
             }
@@ -3120,9 +3179,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ImportObjectFromElement(XmlElement element,
+        private void ImportObjectFromElement(XmlElement? element,
                                              ImageReverseDictionary imageCache,
-                                             object obj)
+                                             object? obj)
         {
             // Cannot import to nothing
             if (obj != null)
@@ -3142,72 +3201,75 @@ namespace Krypton.Toolkit
                             // Cast attribute to the correct type
 
                             // Check if there is an element matching the property
-                            XmlElement childElement = (XmlElement)element.SelectSingleNode(prop.Name);
-
-                            // Can only import if a matching XML element is found
-                            if (childElement != null)
+                            if (element != null)
                             {
-                                // Should we navigate down inside the property?
-                                if (persistAttribute.Navigate)
-                                {
-                                    // If we can read the property value
-                                    if (prop.CanRead)
-                                    {
-                                        // Grab the property object and recurse into it
-                                        var childObj = prop.GetValue(obj, null);
-                                        ImportObjectFromElement(childElement, imageCache, childObj);
-                                    }
-                                }
-                                else
-                                {
-                                    // The xml element must have a type and value in order to recreate it
-                                    if (childElement.HasAttribute(nameof(Type)) &&
-                                        childElement.HasAttribute(@"Value"))
-                                    {
-                                        // Get the type/value attributes
-                                        var valueType = childElement.GetAttribute(nameof(Type));
-                                        var valueValue = childElement.GetAttribute(@"Value");
+                                XmlElement? childElement = element.SelectSingleNode(prop.Name) as XmlElement;
 
-                                        // We special case the loading of images
-                                        if (prop.PropertyType.Equals(typeof(Image)))
+                                // Can only import if a matching XML element is found
+                                if (childElement != null)
+                                {
+                                    // Should we navigate down inside the property?
+                                    if (persistAttribute.Navigate)
+                                    {
+                                        // If we can read the property value
+                                        if (prop.CanRead)
                                         {
-                                            if (valueValue.Length == 0)
+                                            // Grab the property object and recurse into it
+                                            var childObj = prop.GetValue(obj, null);
+                                            ImportObjectFromElement(childElement, imageCache, childObj);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // The xml element must have a type and value in order to recreate it
+                                        if (childElement.HasAttribute(nameof(Type)) &&
+                                            childElement.HasAttribute(@"Value"))
+                                        {
+                                            // Get the type/value attributes
+                                            var valueType = childElement.GetAttribute(nameof(Type));
+                                            var valueValue = childElement.GetAttribute(@"Value");
+
+                                            // We special case the loading of images
+                                            if (prop.PropertyType.Equals(typeof(Image)))
                                             {
-                                                // An empty string represents a null image value
-                                                prop.SetValue(obj, null, null);
-                                            }
-                                            else
-                                            {
-                                                // Have we already encountered the image?
-                                                if (imageCache.ContainsKey(valueValue))
+                                                if (valueValue.Length == 0)
                                                 {
-                                                    // Push the image from the cache into the property
-                                                    prop.SetValue(obj, imageCache[valueValue], null);
+                                                    // An empty string represents a null image value
+                                                    prop.SetValue(obj, null, null);
                                                 }
                                                 else
                                                 {
-                                                    // Cannot find image to set to empty
-                                                    prop.SetValue(obj, null, null);
+                                                    // Have we already encountered the image?
+                                                    if (imageCache.ContainsKey(valueValue))
+                                                    {
+                                                        // Push the image from the cache into the property
+                                                        prop.SetValue(obj, valueValue, null);
+                                                    }
+                                                    else
+                                                    {
+                                                        // Cannot find image to set to empty
+                                                        prop.SetValue(obj, null, null);
+                                                    }
                                                 }
                                             }
-                                        }
-                                        else
-                                        {
-                                            object setValue = null;
-
-                                            // We ignore conversion of a Font of value (none) because instead
-                                            // of providing null it returns a default font value
-                                            if (valueType != nameof(Font) || valueValue != @"(none)")
+                                            else
                                             {
-                                                // We need the type converter to create a string representation
-                                                TypeConverter converter = TypeDescriptor.GetConverter(StringToType(valueType));
+                                                object? setValue = null;
 
-                                                // Recreate the value using the converter
-                                                setValue = converter.ConvertFromInvariantString(valueValue);
+                                                // We ignore conversion of a Font of value (none) because instead
+                                                // of providing null it returns a default font value
+                                                if (valueType != nameof(Font) || valueValue != @"(none)")
+                                                {
+                                                    // We need the type converter to create a string representation
+                                                    TypeConverter converter = TypeDescriptor.GetConverter(StringToType(valueType));
+
+                                                    // Recreate the value using the converter
+                                                    setValue = converter.ConvertFromInvariantString(valueValue);
+                                                }
+
+                                                // Push the value into the actual property
+                                                prop.SetValue(obj, setValue, null);
                                             }
-
-                                            // Push the value into the actual property
-                                            prop.SetValue(obj, setValue, null);
                                         }
                                     }
                                 }
@@ -3221,7 +3283,7 @@ namespace Krypton.Toolkit
         private void ImportImagesFromElement(XmlElement element, ImageReverseDictionary imageCache)
         {
             // Get all nodes storing images
-            XmlNodeList images = element.SelectNodes(nameof(Image));
+            XmlNodeList? images = element.SelectNodes(nameof(Image));
 
             // Load each image node entry in turn
             if (images != null)
@@ -3281,8 +3343,8 @@ namespace Krypton.Toolkit
 
         private void ExportObjectToElement(XmlDocument doc,
                                            XmlElement element,
-                                           ImageDictionary imageCache,
-                                           object obj,
+                                           ImageDictionary? imageCache,
+                                           object? obj,
                                            bool ignoreDefaults)
         {
             // Cannot export from nothing
@@ -3394,7 +3456,7 @@ namespace Krypton.Toolkit
                                             }
 
                                             // Have we already encountered the image?
-                                            if (imageCache.ContainsKey(image))
+                                            if (imageCache != null && imageCache.ContainsKey(image))
                                             {
                                                 // Save reference to the existing cached image
                                                 childElement.SetAttribute(@"Value", imageCache[image]);
@@ -3465,7 +3527,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetObjectToDefault(object obj, bool populate)
+        private void ResetObjectToDefault(object? obj, bool populate)
         {
             // Cannot reset nothing
             if (obj != null)
@@ -4672,19 +4734,19 @@ namespace Krypton.Toolkit
                 case PaletteState.TodayOverride:
                     return CalendarDay.OverrideToday.Back;
                 default:
-                {
-                    PaletteTriple? buttonState = GetPaletteButton(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Back;
+                        PaletteTriple? buttonState = GetPaletteButton(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Back;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4702,19 +4764,19 @@ namespace Krypton.Toolkit
                 case PaletteState.TodayOverride:
                     return CalendarDay.OverrideToday.Border;
                 default:
-                {
-                    PaletteTriple buttonState = GetPaletteButton(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Border;
+                        PaletteTriple buttonState = GetPaletteButton(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Border;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4732,19 +4794,19 @@ namespace Krypton.Toolkit
                 case PaletteState.TodayOverride:
                     return CalendarDay.OverrideToday.Content;
                 default:
-                {
-                    PaletteTriple? buttonState = GetPaletteButton(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Content;
+                        PaletteTriple? buttonState = GetPaletteButton(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Content;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4785,19 +4847,19 @@ namespace Krypton.Toolkit
                 case PaletteState.TodayOverride:
                     return button.OverrideToday.Back;
                 default:
-                {
-                    PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Back;
+                        PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Back;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4813,19 +4875,19 @@ namespace Krypton.Toolkit
                 case PaletteState.TodayOverride:
                     return button.OverrideToday.Border;
                 default:
-                {
-                    PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Border;
+                        PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Border;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4841,19 +4903,19 @@ namespace Krypton.Toolkit
                 case PaletteState.TodayOverride:
                     return button.OverrideToday.Content;
                 default:
-                {
-                    PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Content;
+                        PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Content;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4908,19 +4970,19 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return button.OverrideFocus.Back;
                 default:
-                {
-                    PaletteTabTriple? buttonState = GetPaletteTab(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Back;
+                        PaletteTabTriple? buttonState = GetPaletteTab(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Back;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4932,19 +4994,19 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return button.OverrideFocus.Border;
                 default:
-                {
-                    PaletteTabTriple? buttonState = GetPaletteTab(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Border;
+                        PaletteTabTriple? buttonState = GetPaletteTab(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Border;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -4956,19 +5018,19 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return button.OverrideFocus.Content;
                 default:
-                {
-                    PaletteTabTriple? buttonState = GetPaletteTab(button, state);
-                    if (buttonState != null)
                     {
-                        return buttonState.Content;
+                        PaletteTabTriple? buttonState = GetPaletteTab(button, state);
+                        if (buttonState != null)
+                        {
+                            return buttonState.Content;
+                        }
+                        else
+                        {
+                            // Should never happen!
+                            Debug.Assert(false);
+                            return null;
+                        }
                     }
-                    else
-                    {
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                    }
-                }
             }
         }
 
@@ -5623,7 +5685,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase basePalette)
+        private void SetPalette(PaletteBase? basePalette)
         {
             if (basePalette != _basePalette)
             {

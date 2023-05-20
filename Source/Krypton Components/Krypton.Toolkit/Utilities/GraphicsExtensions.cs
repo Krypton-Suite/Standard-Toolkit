@@ -34,7 +34,8 @@ namespace Krypton.Toolkit
 
             try
             {
-                result = Icon.ExtractAssociatedIcon(executablePath);
+                if (executablePath != null)
+                { result = Icon.ExtractAssociatedIcon(executablePath); }
             }
             catch (Exception e)
             {
@@ -46,9 +47,7 @@ namespace Krypton.Toolkit
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Icon sizes.</summary>
         public enum SystemIconSize
         {
             Small = 0,
@@ -113,21 +112,26 @@ namespace Krypton.Toolkit
             }
         }
 
-        public static Bitmap? ScaleImage(Image? image, int width, int height)
-        {
-            return ScaleImage(image, new Size(width, height));
-        }
+        /// <summary>Scales the image.</summary>
+        /// <param name="image">The image.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        public static Bitmap? ScaleImage(Image? image, int width, int height) => ScaleImage(image, new Size(width, height));
 
-        public enum IconType
-        {
-            Warning = 101,
-            Help = 102,
-            Error = 103,
-            Info = 104,
-            Shield = 106
-        }
+        // TODO: Remove, as this is redundant
+        //public enum IconType
+        //{
+        //    Warning = 101,
+        //    Help = 102,
+        //    Error = 103,
+        //    Info = 104,
+        //    Shield = 106
+        //}
 
-        public static Image SetIcon(Image image, Size size) => (Image)new Bitmap(image, size);
+        /// <summary>Sets the icon.</summary>
+        /// <param name="image">The image.</param>
+        /// <param name="size">The size.</param>
+        public static Image SetIcon(Image image, Size size) => new Bitmap(image, size);
     }
 
     #endregion

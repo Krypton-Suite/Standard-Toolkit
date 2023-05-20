@@ -19,11 +19,23 @@ namespace Krypton.Toolkit
     public abstract class PaletteBase : Component
     {
         #region Instance Fields
+
+        private bool _useKryptonFileDialogs;
         private BasePaletteType _basePaletteType;
         private float? _baseFontSize;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
         private string? _themeName;
+
+        #endregion
+
+        #region Public
+
+        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
+        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
+        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
+        public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
+
         #endregion
 
         #region Events
@@ -64,6 +76,8 @@ namespace Krypton.Toolkit
             _dragFeedback = PaletteDragFeedback.Inherit;
 
             _themeName = null;
+
+            _useKryptonFileDialogs = false;
         }
         #endregion
 

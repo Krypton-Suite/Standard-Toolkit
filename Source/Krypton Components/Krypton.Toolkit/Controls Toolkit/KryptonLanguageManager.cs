@@ -12,6 +12,7 @@ namespace Krypton.Toolkit
     /// <summary>Access 'Global' Krypton string settings.</summary>
     [Category(@"Code")]
     [Description(@"Access 'Global' Krypton string settings.")]
+    //[Designer(typeof(KryptonLanguageManagerDesigner))]
     [ToolboxBitmap(typeof(KryptonLanguageManager), "ToolboxBitmaps.KryptonLanguageManager.bmp")]
     [ToolboxItem(true)]
     public class KryptonLanguageManager : Component

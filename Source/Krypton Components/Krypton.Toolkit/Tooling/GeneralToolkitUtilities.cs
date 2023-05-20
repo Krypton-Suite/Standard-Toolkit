@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit.Tooling
+namespace Krypton.Toolkit
 {
  //   public class GeneralToolkitUtilities
  //   {

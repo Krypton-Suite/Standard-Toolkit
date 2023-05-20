@@ -53,6 +53,7 @@ namespace Krypton.Toolkit
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Populate from Base", OnPopulateClick), "Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import from Xml file...", OnImportClick), "Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export to Xml file...", OnExportClick), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export theme to binary", OnExportToBinaryClick), "Actions"));
             }
 
             return actions;
@@ -64,10 +65,10 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (MessageBox.Show("Are you sure you want to reset the palette?",
-                                    "Palette Reset",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (KryptonMessageBox.Show(@"Are you sure you want to reset the palette?",
+                                    @"Palette Reset",
+                                    KryptonMessageBoxButtons.YesNo,
+                                    KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     _palette.ResetToDefaults(false);
                     _service.OnComponentChanged(_palette, null, null, null);
@@ -79,10 +80,10 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (MessageBox.Show("Are you sure you want to populate from the base?",
-                                    "Populate From Base",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (KryptonMessageBox.Show(@"Are you sure you want to populate from the base?",
+                                    @"Populate From Base",
+                                    KryptonMessageBoxButtons.YesNo,
+                                    KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     _palette.PopulateFromBase(false);
                     _service.OnComponentChanged(_palette, null, null, null);
@@ -100,6 +101,8 @@ namespace Krypton.Toolkit
         }
 
         private void OnExportClick(object sender, EventArgs e) => _palette?.Export();
+
+        private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonPaletteActionList", 105);
 
         #endregion
     }

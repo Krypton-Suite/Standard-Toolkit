@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="parameter">Operation parameter.</param>
     /// <returns>Operation result.</returns>
-    public delegate object Operation(object parameter);
+    public delegate object? Operation(object parameter);
 
     /// <summary>
     /// Signature of a method that returns a ToolStripRenderer instance.
