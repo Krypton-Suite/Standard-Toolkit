@@ -49,25 +49,25 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(ButtonStyle.Standalone, KryptonLanguageManager.SpecStyleStrings.Standalone),
-            new(ButtonStyle.Alternate, KryptonLanguageManager.SpecStyleStrings.Alternate),
-            new(ButtonStyle.LowProfile, KryptonLanguageManager.SpecStyleStrings.LowProfile),
-            new(ButtonStyle.ButtonSpec, KryptonLanguageManager.SpecStyleStrings.ButtonSpec),
-            new(ButtonStyle.BreadCrumb, KryptonLanguageManager.SpecStyleStrings.BreadCrumb),
-            new(ButtonStyle.CalendarDay, KryptonLanguageManager.SpecStyleStrings.CalendarDay),
-            new(ButtonStyle.Cluster, KryptonLanguageManager.SpecStyleStrings.Cluster),
-            new(ButtonStyle.Gallery, KryptonLanguageManager.SpecStyleStrings.Gallery),
-            new(ButtonStyle.NavigatorStack, KryptonLanguageManager.SpecStyleStrings.NavigatorStack),
-            new(ButtonStyle.NavigatorOverflow, KryptonLanguageManager.SpecStyleStrings.NavigatorOverflow),
-            new(ButtonStyle.NavigatorMini, KryptonLanguageManager.SpecStyleStrings.NavigatorMini),
-            new(ButtonStyle.InputControl, KryptonLanguageManager.SpecStyleStrings.InputControl),
-            new(ButtonStyle.ListItem, KryptonLanguageManager.SpecStyleStrings.ListItem),
-            new(ButtonStyle.Form, KryptonLanguageManager.SpecStyleStrings.Form),
-            new(ButtonStyle.FormClose, KryptonLanguageManager.SpecStyleStrings.FormClose),
-            new(ButtonStyle.Command, KryptonLanguageManager.SpecStyleStrings.Command),
-            new(ButtonStyle.Custom1, KryptonLanguageManager.SpecStyleStrings.CustomOne),
-            new(ButtonStyle.Custom2, KryptonLanguageManager.SpecStyleStrings.CustomTwo),
-            new(ButtonStyle.Custom3, KryptonLanguageManager.SpecStyleStrings.CustomThree)
+            new(ButtonStyle.Standalone, KryptonLanguageManager.ButtonStyles.Standalone),
+            new(ButtonStyle.Alternate, KryptonLanguageManager.ButtonStyles.Alternate),
+            new(ButtonStyle.LowProfile, KryptonLanguageManager.ButtonStyles.LowProfile),
+            new(ButtonStyle.ButtonSpec, KryptonLanguageManager.ButtonStyles.ButtonSpec),
+            new(ButtonStyle.BreadCrumb, KryptonLanguageManager.ButtonStyles.BreadCrumb),
+            new(ButtonStyle.CalendarDay, KryptonLanguageManager.ButtonStyles.CalendarDay),
+            new(ButtonStyle.Cluster, KryptonLanguageManager.ButtonStyles.Cluster),
+            new(ButtonStyle.Gallery, KryptonLanguageManager.ButtonStyles.Gallery),
+            new(ButtonStyle.NavigatorStack, KryptonLanguageManager.ButtonStyles.NavigatorStack),
+            new(ButtonStyle.NavigatorOverflow, KryptonLanguageManager.ButtonStyles.NavigatorOverflow),
+            new(ButtonStyle.NavigatorMini, KryptonLanguageManager.ButtonStyles.NavigatorMini),
+            new(ButtonStyle.InputControl, KryptonLanguageManager.ButtonStyles.InputControl),
+            new(ButtonStyle.ListItem, KryptonLanguageManager.ButtonStyles.ListItem),
+            new(ButtonStyle.Form, KryptonLanguageManager.ButtonStyles.Form),
+            new(ButtonStyle.FormClose, KryptonLanguageManager.ButtonStyles.FormClose),
+            new(ButtonStyle.Command, KryptonLanguageManager.ButtonStyles.Command),
+            new(ButtonStyle.Custom1, KryptonLanguageManager.ButtonStyles.CustomOne),
+            new(ButtonStyle.Custom2, KryptonLanguageManager.ButtonStyles.CustomTwo),
+            new(ButtonStyle.Custom3, KryptonLanguageManager.ButtonStyles.CustomThree)
         };
 
         #endregion

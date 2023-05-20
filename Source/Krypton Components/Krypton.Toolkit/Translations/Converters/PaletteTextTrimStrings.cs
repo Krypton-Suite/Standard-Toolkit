@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes the set of <see cref="PaletteTextTrimConverter"/> strings used within Krypton and that are localizable.</summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PaletteTextTrimStrings : GlobalId
     {

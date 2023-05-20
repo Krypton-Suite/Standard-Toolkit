@@ -37,6 +37,7 @@
             this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.kryptonLanguageManager1 = new Krypton.Toolkit.KryptonLanguageManager();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -76,7 +77,6 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | Krypton.Toolkit.PaletteDrawBorders.Left) 
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Inherit;
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 4;
             // 
@@ -133,6 +133,11 @@
             this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
             this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
+            // kryptonLanguageManager1
+            // 
+            this.kryptonLanguageManager1.PaletteContentStyleStrings.ButtonGallery = null;
+            this.kryptonLanguageManager1.PaletteContentStyleStrings.GridHeaderRowList = "Grid - RowColumn - List";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -143,6 +148,7 @@
             this.Name = "Form1";
             this.PaletteMode = Krypton.Toolkit.PaletteMode.Office2007BlackDarkMode;
             this.Text = "Form1";
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
@@ -161,5 +167,6 @@
         private Krypton.Toolkit.KryptonButton kryptonButton1;
         private Krypton.Toolkit.KryptonButton kryptonButton2;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
+        private Krypton.Toolkit.KryptonLanguageManager kryptonLanguageManager1;
     }
 }

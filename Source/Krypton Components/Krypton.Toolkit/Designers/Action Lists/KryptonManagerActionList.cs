@@ -52,6 +52,22 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the language manager.</summary>
+        /// <value>The language manager.</value>
+        public KryptonLanguageManager? LanguageManager
+        {
+            get => _manager.LanguageManager;
+
+            set
+            {
+                if (_manager.LanguageManager != value)
+                {
+                    _service.OnComponentChanged(_manager, null, _manager.LanguageManager, value);
+                    _manager.LanguageManager = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -70,6 +86,8 @@ namespace Krypton.Toolkit
                 // Add the list of panel specific actions
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
+                actions.Add(new DesignerActionHeaderItem(@"Data"));
+                actions.Add(new DesignerActionPropertyItem(nameof(LanguageManager), @"Language Manager", @"Data", @"Global string settings"));
             }
 
             return actions;

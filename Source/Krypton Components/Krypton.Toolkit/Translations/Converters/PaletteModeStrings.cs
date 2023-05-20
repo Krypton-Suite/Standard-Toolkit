@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes the set of <see cref="PaletteModeConverter"/> strings used within Krypton and that are localizable.</summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PaletteModeStrings : GlobalId
     {

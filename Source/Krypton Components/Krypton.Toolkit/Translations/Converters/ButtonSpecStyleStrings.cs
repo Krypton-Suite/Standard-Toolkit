@@ -9,8 +9,9 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes the set of <see cref="ButtonStyleConverter"/> strings used within Krypton and that are localizable.</summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class ButtonSpecStyleStrings : GlobalId
+    public class ButtonStyleStrings : GlobalId
     {
         #region Static Fields
 
@@ -38,7 +39,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public ButtonSpecStyleStrings()
+        public ButtonStyleStrings()
         {
             Reset();
         }

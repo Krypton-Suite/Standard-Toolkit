@@ -44,12 +44,12 @@ namespace Krypton.Toolkit
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public ButtonSpecStyleStrings ButtonSpecStyleStrings => SpecStyleStrings;
+        public ButtonStyleStrings ButtonStyleStrings => ButtonStyles;
 
-        private bool ShouldSerializeButtonSpecStyleStrings() => !SpecStyleStrings.IsDefault;
+        private bool ShouldSerializeButtonSpecStyleStrings() => !ButtonStyles.IsDefault;
 
         /// <summary>Resets the button spec style strings.</summary>
-        public void ResetButtonSpecStyleStrings() => SpecStyleStrings.Reset();
+        public void ResetButtonSpecStyleStrings() => ButtonStyles.Reset();
 
         /// <summary>Gets the general strings.</summary>
         /// <value>The general strings.</value>
@@ -240,11 +240,11 @@ namespace Krypton.Toolkit
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public PaletteButtonStyleStrings PaletteButtonStyleStrings => ButtonStyleStrings;
+        public PaletteButtonStyleStrings PaletteButtonStyleStrings => PaletteButtonStyles;
 
-        private bool ShouldSerializePaletteButtonStyleStrings() => !ButtonStyleStrings.IsDefault;
+        private bool ShouldSerializePaletteButtonStyleStrings() => !PaletteButtonStyles.IsDefault;
 
-        private void ResetPaletteButtonStyleStrings() => ButtonStyleStrings.Reset();
+        private void ResetPaletteButtonStyleStrings() => PaletteButtonStyles.Reset();
 
         /// <summary>Gets the palette content style strings.</summary>
         /// <value>The palette content style strings.</value>
@@ -374,7 +374,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the spec style strings.</summary>
         /// <value>The spec style strings.</value>
-        public static ButtonSpecStyleStrings SpecStyleStrings { get; } = new();
+        public static ButtonStyleStrings ButtonStyles { get; } = new();
 
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the button style strings.</summary>
         /// <value>The button style strings.</value>
-        public static PaletteButtonStyleStrings ButtonStyleStrings { get; } = new();
+        public static PaletteButtonStyleStrings PaletteButtonStyles { get; } = new();
 
         /// <summary>Gets the content style strings.</summary>
         /// <value>The content style strings.</value>

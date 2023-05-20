@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes the set of <see cref="HeaderGroupCollapsedTargetConverter"/> strings used within Krypton and that are localizable.</summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class HeaderGroupCollapsedTargetStrings : GlobalId
     {
