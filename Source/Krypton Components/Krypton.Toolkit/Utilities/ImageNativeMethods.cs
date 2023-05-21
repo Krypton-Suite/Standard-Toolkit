@@ -19,6 +19,6 @@ namespace Krypton.Toolkit
 
         [DllImport(USER32, EntryPoint = "LoadImageW", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        public static extern IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
+        public static extern IntPtr LoadImage(IntPtr hInt, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
     }
 }

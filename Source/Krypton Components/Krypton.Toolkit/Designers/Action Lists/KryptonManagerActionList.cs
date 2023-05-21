@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonManagerActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonManager _manager;
+        private readonly KryptonManager? _manager;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -61,13 +61,45 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_manager.LanguageManager != value)
+                if (_manager != null && _manager.LanguageManager != value)
                 {
                     _service.OnComponentChanged(_manager, null, _manager.LanguageManager, value);
                     _manager.LanguageManager = value;
                 }
             }
         }
+        #endregion
+
+        #region Implementation
+
+        private void OnAddLanguageManager(object sender, EventArgs e)
+        {
+            if (_manager != null)
+            {
+                if (_manager.LanguageManager == null)
+                {
+                    _manager.LanguageManager = new();
+
+                    KryptonLanguageManager languageManager = new();
+
+                    _service.OnComponentChanged(_manager, null, null, languageManager);
+                }
+            }
+        }
+
+        private void OnRemoveLanguageManager(object sender, EventArgs e)
+        {
+            if (_manager != null)
+            {
+                if (_manager.LanguageManager != null)
+                {
+                    _manager.LanguageManager = null;
+
+                    _service.OnComponentChanged(_manager, null, _manager.LanguageManager, null);
+                }
+            }
+        }
+
         #endregion
 
         #region Public Override
@@ -84,10 +116,13 @@ namespace Krypton.Toolkit
             if (_manager != null)
             {
                 // Add the list of panel specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
+                actions.Add(new DesignerActionHeaderItem(@"Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions"));
                 actions.Add(new DesignerActionHeaderItem(@"Data"));
                 actions.Add(new DesignerActionPropertyItem(nameof(LanguageManager), @"Language Manager", @"Data", @"Global string settings"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
             }
 
             return actions;

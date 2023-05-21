@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Captures a stack trace of the exception.</summary>
-        /// <param name="exc">The incoming exception.</param>
+        /// <param name="exception">The incoming exception.</param>
         /// <param name="fileName">The file to write the exception stack trace to.</param>
-        public static void PrintStackTrace(Exception exc, string fileName)
+        public static void PrintStackTrace(Exception exception, string fileName)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
 
                 StreamWriter writer = new(fileName);
 
-                writer.Write(exc.ToString());
+                writer.Write(exception.ToString());
 
                 writer.Close();
 
@@ -80,9 +80,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Captures a stack trace of the exception.</summary>
-        /// <param name="exc">The incoming exception.</param>
+        /// <param name="exception">The incoming exception.</param>
         /// <param name="fileName">The file to write the exception stack trace to.</param>
-        public static void PrintExceptionStackTrace(Exception exc, string fileName)
+        public static void PrintExceptionStackTrace(Exception exception, string fileName)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
 
                 StreamWriter writer = new(fileName);
 
-                writer.Write(exc.StackTrace);
+                writer.Write(exception.StackTrace);
 
                 writer.Close();
 

@@ -35,18 +35,18 @@ namespace Krypton.Toolkit
         /// <param name="factorDpiX">multiplier from dpi of 96 X</param>
         /// <param name="factorDpiY">multiplier from dpi of 96 Y</param>
         /// <param name="pal">KryptonPalette</param>
-        public static void ScalePalette(float factorDpiX, float factorDpiY, KryptonCustomPaletteBase pal)
+        public static void ScalePalette(float factorDpiX, float factorDpiY, KryptonCustomPaletteBase? pal)
         {
-            if (pal == null 
+            if (pal == null
                 //|| pal.HasAlreadyBeenScaled
                 )
             {
                 return;
             }
 
-             //pal.HasAlreadyBeenScaled = true;
+            //pal.HasAlreadyBeenScaled = true;
 
-            var scaleFactor = new SizeF( factorDpiX, factorDpiY);
+            var scaleFactor = new SizeF(factorDpiX, factorDpiY);
 
             // if the scale is the same then no further processing needed (we are at 96 dpi).
             if (scaleFactor is { Width: 1.0F, Height: 1.0F })

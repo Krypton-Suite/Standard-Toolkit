@@ -38,6 +38,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonLanguageManager1 = new Krypton.Toolkit.KryptonLanguageManager();
+            this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -77,6 +78,7 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | Krypton.Toolkit.PaletteDrawBorders.Left) 
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Inherit;
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 4;
             // 
@@ -133,10 +135,22 @@
             this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
             this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.LanguageManager = this.kryptonLanguageManager1;
+            // 
             // kryptonLanguageManager1
             // 
             this.kryptonLanguageManager1.PaletteContentStyleStrings.ButtonGallery = null;
             this.kryptonLanguageManager1.PaletteContentStyleStrings.GridHeaderRowList = "Grid - RowColumn - List";
+            // 
+            // kryptonCustomPaletteBase1
+            // 
+            this.kryptonCustomPaletteBase1.BaseFontSize = 9F;
+            this.kryptonCustomPaletteBase1.BasePaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
+            this.kryptonCustomPaletteBase1.ThemeName = null;
+            this.kryptonCustomPaletteBase1.UseKryptonFileDialogs = true;
             // 
             // Form1
             // 
@@ -168,5 +182,6 @@
         private Krypton.Toolkit.KryptonButton kryptonButton2;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.KryptonLanguageManager kryptonLanguageManager1;
+        private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
     }
 }
