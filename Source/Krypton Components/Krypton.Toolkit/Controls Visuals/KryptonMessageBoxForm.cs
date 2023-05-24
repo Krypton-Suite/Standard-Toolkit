@@ -43,6 +43,11 @@ namespace Krypton.Toolkit
         private readonly string _actionButtonText;
         private readonly KryptonCommand? _actionButtonCommand;
 
+        // For the LinkLabel option
+        private readonly MessageBoxContentAreaType? _contentAreaType;
+        private readonly KryptonCommand? _linkLabelCommand;
+        private readonly int _linkAreaStart, _linkAreaEnd;
+
         #endregion
 
         #region Identity
@@ -55,11 +60,17 @@ namespace Krypton.Toolkit
 
 
         internal KryptonMessageBoxForm(IWin32Window? showOwner, string text, string caption,
-                                       KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
-                                       KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-                                       HelpInfo? helpInfo, bool? showCtrlCopy, bool? showHelpButton,
-                                       bool? showActionButton, string? actionButtonText,
-                                       KryptonCommand? actionButtonCommand, Image? applicationImage, string? applicationPath)
+                                               KryptonMessageBoxButtons buttons,
+                                               KryptonMessageBoxIcon icon,
+                                               KryptonMessageBoxDefaultButton defaultButton,
+                                               MessageBoxOptions options,
+                                               HelpInfo? helpInfo, bool? showCtrlCopy,
+                                               bool? showHelpButton,
+                                               bool? showActionButton, string? actionButtonText,
+                                               KryptonCommand? actionButtonCommand, Image? applicationImage,
+                                               string? applicationPath, MessageBoxContentAreaType? contentAreaType,
+                                               KryptonCommand? linkLabelCommand,
+                                               int? linkAreaStart, int? linkAreaEnd)
         {
             // Store incoming values
             _text = text;
@@ -76,6 +87,10 @@ namespace Krypton.Toolkit
             _actionButtonCommand = actionButtonCommand;
             _applicationImage = applicationImage;
             _applicationPath = applicationPath ?? string.Empty;
+            _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
+            _linkLabelCommand = linkLabelCommand ?? new();
+            _linkAreaStart = linkAreaStart ?? 0;
+            _linkAreaEnd = linkAreaEnd ?? 0;
 
             // Create the form contents
             InitializeComponent();
@@ -89,6 +104,7 @@ namespace Krypton.Toolkit
             UpdateDefault();
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
+            UpdateContentAreaType(contentAreaType);
 
             SetupActionButtonUI(_showActionButton);
 
@@ -102,12 +118,24 @@ namespace Krypton.Toolkit
         private void UpdateText()
         {
             Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0];
-            _messageText.Text = _text;
-            _messageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
-                ? RightToLeft.Yes
-                : _options.HasFlag(MessageBoxOptions.RtlReading)
-                    ? RightToLeft.Inherit
-                    : RightToLeft.No;
+
+            if (_contentAreaType == MessageBoxContentAreaType.Normal)
+            {
+                _messageText.Text = _text;
+
+                _messageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
+                    ? RightToLeft.Yes
+                    : _options.HasFlag(MessageBoxOptions.RtlReading)
+                        ? RightToLeft.Inherit
+                        : RightToLeft.No;
+            }
+            else
+            {
+                _linkLabelMessageText.Text = _text;
+
+                _linkLabelMessageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    _options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
+            }
         }
 
         private void UpdateTextExtra(bool? showCtrlCopy)
@@ -732,6 +760,27 @@ namespace Krypton.Toolkit
                     DialogResult = DialogResult.None;
                 }
             };
+        }
+
+        /// <summary>Updates the type of the content area.</summary>
+        /// <param name="contentAreaType">Type of the content area.</param>
+        private void UpdateContentAreaType(MessageBoxContentAreaType? contentAreaType)
+        {
+            switch (contentAreaType)
+            {
+                case MessageBoxContentAreaType.Normal:
+                    _linkLabelMessageText.Visible = false;
+
+                    _messageText.Visible = true;
+                    break;
+                case MessageBoxContentAreaType.LinkLabel:
+                    _linkLabelMessageText.Visible = true;
+
+                    _messageText.Visible = false;
+
+                    _linkLabelMessageText.LinkArea = new(_linkAreaStart, _linkAreaEnd);
+                    break;
+            }
         }
 
         #endregion

@@ -1848,4 +1848,17 @@ namespace Krypton.Toolkit
         Top = 10
     }
     #endregion Enum PlacementMode
+
+    #region Enum MessageBoxContentAreaType
+
+    /// <summary>Defines the content area type of a <see cref="T:KryptonMessageBox"/>.</summary>
+    public enum MessageBoxContentAreaType
+    {
+        /// <summary>The default content area type of a <see cref="T:KryptonMessageBox"/>.</summary>
+        Normal = 0,
+        /// <summary>Use a <see cref="T:KryptonLinkWrapLabel"/> as the content area type of a <see cref="T:KryptonMessageBox"/>.</summary>
+        LinkLabel = 1
+    }
+
+    #endregion
 }
