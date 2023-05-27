@@ -1,4 +1,7 @@
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 using Krypton.Toolkit;
 
@@ -142,6 +145,25 @@ namespace TestForm
             Form3 form3 = new Form3();
 
             form3.ShowDialog();
+        }
+
+        private void kbtnTestMessagebox_Click(object sender, System.EventArgs e)
+        {
+            KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
+                linkAreaCommand: kcmdMessageboxTest);
+        }
+
+        private void kcmdMessageboxTest_Execute(object sender, System.EventArgs e)
+        {
+            try
+            {
+                Process.Start(@"C:\\Windows\\Notepad.exe");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
     }
 }

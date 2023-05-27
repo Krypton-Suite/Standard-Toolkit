@@ -47,6 +47,7 @@ namespace Krypton.Toolkit
         private readonly MessageBoxContentAreaType? _contentAreaType;
         private readonly KryptonCommand? _linkLabelCommand;
         private readonly int _linkAreaStart, _linkAreaEnd;
+        private readonly ProcessStartInfo? _linkLaunchArgument;
 
         #endregion
 
@@ -67,9 +68,12 @@ namespace Krypton.Toolkit
                                                HelpInfo? helpInfo, bool? showCtrlCopy,
                                                bool? showHelpButton,
                                                bool? showActionButton, string? actionButtonText,
-                                               KryptonCommand? actionButtonCommand, Image? applicationImage,
-                                               string? applicationPath, MessageBoxContentAreaType? contentAreaType,
+                                               KryptonCommand? actionButtonCommand,
+                                               Image? applicationImage,
+                                               string? applicationPath,
+                                               MessageBoxContentAreaType? contentAreaType,
                                                KryptonCommand? linkLabelCommand,
+                                               ProcessStartInfo? linkLaunchArgument,
                                                int? linkAreaStart, int? linkAreaEnd)
         {
             // Store incoming values
@@ -90,7 +94,8 @@ namespace Krypton.Toolkit
             _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
             _linkLabelCommand = linkLabelCommand ?? new();
             _linkAreaStart = linkAreaStart ?? 0;
-            _linkAreaEnd = linkAreaEnd ?? 0;
+            _linkAreaEnd = linkAreaEnd ?? text.Length;
+            _linkLaunchArgument = linkLaunchArgument ?? new();
 
             // Create the form contents
             InitializeComponent();
@@ -760,6 +765,25 @@ namespace Krypton.Toolkit
                     DialogResult = DialogResult.None;
                 }
             };
+        }
+
+        private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                if (_linkLabelCommand != null)
+                {
+                    _linkLabelCommand.PerformExecute();
+                }
+                else if (_linkLaunchArgument != null)
+                {
+                    Process.Start(_linkLaunchArgument);
+                }
+            }
+            catch (Exception exception)
+            {
+                ExceptionHandler.CaptureException(exception);
+            }
         }
 
         /// <summary>Updates the type of the content area.</summary>
