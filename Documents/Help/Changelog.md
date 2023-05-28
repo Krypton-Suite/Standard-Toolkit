@@ -3,6 +3,12 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Added ability to embed links into the `KryptonMessageBox` content. The new options are:-
+    - `ContentAreaType` - Defines content area type of a `KryptonMessageBox`, default is normal
+    - `LinkLabelCommand` - Specifies a `KryptonCommand` if using the `MessageBoxContentAreaType.LinkLabel` type.
+    - `LinkLaunchArgument` - Specifies the `ProcessStartInfo` if a `LinkLabelCommand` has not been defined.
+    - `LinkAreaStart` - Specifies the start of a link if using the `MessageBoxContentAreaType.LinkLabel` type.
+    - `LinkAreaEnd` - Specifies the end of a link if using the `MessageBoxContentAreaType.LinkLabel` type.
 * Added `KryptonLanguageManager` to the `KryptonManager` action list
 * Resolved [#1008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1008), Krypton Save/Open file dialogs are not accessible from the toolbox
 * Implemented [#1007](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1007), A way to alter all of the strings in the toolkit to language specific strings

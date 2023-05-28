@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnTestMessagebox = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
@@ -39,6 +40,7 @@
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonLanguageManager1 = new Krypton.Toolkit.KryptonLanguageManager();
             this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
+            this.kcmdMessageboxTest = new Krypton.Toolkit.KryptonCommand();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -46,6 +48,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnTestMessagebox);
             this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
@@ -58,6 +61,15 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(600, 366);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnTestMessagebox
+            // 
+            this.kbtnTestMessagebox.Location = new System.Drawing.Point(55, 295);
+            this.kbtnTestMessagebox.Name = "kbtnTestMessagebox";
+            this.kbtnTestMessagebox.Size = new System.Drawing.Size(90, 25);
+            this.kbtnTestMessagebox.TabIndex = 7;
+            this.kbtnTestMessagebox.Values.Text = "Test Messagebox";
+            this.kbtnTestMessagebox.Click += new System.EventHandler(this.kbtnTestMessagebox_Click);
             // 
             // kryptonButton2
             // 
@@ -152,6 +164,11 @@
             this.kryptonCustomPaletteBase1.ThemeName = null;
             this.kryptonCustomPaletteBase1.UseKryptonFileDialogs = true;
             // 
+            // kcmdMessageboxTest
+            // 
+            this.kcmdMessageboxTest.Text = "kryptonCommand1";
+            this.kcmdMessageboxTest.Execute += new System.EventHandler(this.kcmdMessageboxTest_Execute);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -183,5 +200,7 @@
         private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.KryptonLanguageManager kryptonLanguageManager1;
         private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
+        private Krypton.Toolkit.KryptonCommand kcmdMessageboxTest;
+        private Krypton.Toolkit.KryptonButton kbtnTestMessagebox;
     }
 }
