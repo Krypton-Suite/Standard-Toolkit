@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTextBox _textBox;
+        private readonly KryptonTextBox? _textBox;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -40,13 +40,13 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _textBox.KryptonContextMenu;
+            get => _textBox?.KryptonContextMenu;
 
             set
             {
-                if (_textBox.KryptonContextMenu != value)
+                if (_textBox?.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.KryptonContextMenu, value);
+                    _service.OnComponentChanged(_textBox, null, _textBox?.KryptonContextMenu, value);
 
                     _textBox.KryptonContextMenu = value;
                 }
@@ -58,13 +58,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _textBox.PaletteMode;
+            get => _textBox!.PaletteMode;
 
             set
             {
-                if (_textBox.PaletteMode != value)
+                if (_textBox?.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.PaletteMode, value);
+                    _service.OnComponentChanged(_textBox, null, _textBox?.PaletteMode, value);
                     _textBox.PaletteMode = value;
                 }
             }
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_textBox.InputControlStyle != value)
+                if (_textBox?.InputControlStyle != value)
                 {
                     _service.OnComponentChanged(_textBox, null, _textBox.InputControlStyle, value);
                     _textBox.InputControlStyle = value;
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_textBox.Multiline != value)
+                if (_textBox?.Multiline != value)
                 {
                     _service.OnComponentChanged(_textBox, null, _textBox.Multiline, value);
                     _textBox.Multiline = value;
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_textBox.WordWrap != value)
+                if (_textBox?.WordWrap != value)
                 {
                     _service.OnComponentChanged(_textBox, null, _textBox.WordWrap, value);
                     _textBox.WordWrap = value;
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_textBox.UseSystemPasswordChar != value)
+                if (_textBox?.UseSystemPasswordChar != value)
                 {
                     _service.OnComponentChanged(_textBox, null, _textBox.UseSystemPasswordChar, value);
                     _textBox.UseSystemPasswordChar = value;
@@ -141,13 +141,13 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the hint.</summary>
         /// <value>The hint.</value>
         [Obsolete("Deprecated - Use CueHint.CueHintText")]
-        public string Hint
+        public string CueHintText
         {
             get => _textBox.CueHint.CueHintText;
 
             set
             {
-                if (_textBox.CueHint.CueHintText != value)
+                if (_textBox?.CueHint.CueHintText != value)
                 {
                     _service.OnComponentChanged(_textBox, null, _textBox.CueHint.CueHintText, value);
 
@@ -158,13 +158,13 @@ namespace Krypton.Toolkit
 
         // <summary>Gets or sets the text box font.</summary>
         /// <value>The text box font.</value>
-        public Font Font
+        public Font? Font
         {
-            get => _textBox.StateCommon.Content.Font;
+            get => _textBox?.StateCommon.Content.Font;
 
             set
             {
-                if (_textBox.StateCommon.Content.Font != value)
+                if (_textBox?.StateCommon.Content.Font != value)
                 {
                     _service.OnComponentChanged(_textBox, null, _textBox.StateCommon.Content.Font, value);
 
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_textBox.StateCommon.Border.Rounding != value)
+                if (_textBox?.StateCommon.Border.Rounding != value)
                 {
                     _service.OnComponentChanged(_textBox, null, _textBox.StateCommon.Border.Rounding, value);
 
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(Multiline), nameof(Multiline), nameof(TextBox), @"Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(nameof(WordWrap), nameof(WordWrap), nameof(TextBox), @"Should words be wrapped over multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(nameof(UseSystemPasswordChar), nameof(UseSystemPasswordChar), nameof(TextBox), @"Should characters be Displayed in password characters."));
-                actions.Add(new DesignerActionPropertyItem(nameof(Hint), nameof(Hint), nameof(TextBox), @"Sets the hint string for the textbox."));
+                actions.Add(new DesignerActionPropertyItem(nameof(CueHintText), nameof(CueHintText), nameof(TextBox), @"Sets the hint string for the textbox."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
