@@ -258,6 +258,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePaletteContentStyleStrings() => !ContentStyleStrings.IsDefault;
 
+        /// <summary>Resets the palette content style strings.</summary>
         public void ResetPaletteContentStyleStrings() => ContentStyleStrings.Reset();
 
         /// <summary>Gets the image effect strings.</summary>
@@ -271,6 +272,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePaletteImageEffectStrings() => !ImageEffectStrings.IsDefault;
 
+        /// <summary>Resets the palette image effect strings.</summary>
         public void ResetPaletteImageEffectStrings() => ImageEffectStrings.Reset();
 
         /// <summary>Gets the image style strings.</summary>
@@ -284,6 +286,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePaletteImageStyleStrings() => !ImageStyleStrings.IsDefault;
 
+        /// <summary>Resets the palette image style strings.</summary>
         public void ResetPaletteImageStyleStrings() => ImageStyleStrings.Reset();
 
         /// <summary>Gets the palette mode strings.</summary>
@@ -311,6 +314,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePaletteTextTrimStrings() => !TextTrimStrings.IsDefault;
 
+        /// <summary>Resets the palette text trim strings.</summary>
         public void ResetPaletteTextTrimStrings() => TextTrimStrings.Reset();
 
         /// <summary>Gets the placement mode strings.</summary>
@@ -324,6 +328,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePlacementModeStrings() => !PlacementModeStrings.IsDefault;
 
+        /// <summary>Resets the placement mode strings.</summary>
         public void ResetPlacementModeStrings() => PlacementModeStrings.Reset();
 
         /// <summary>Gets the separator style strings.</summary>
@@ -337,6 +342,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeSeparatorStyleStrings() => !SeparatorStyles.IsDefault;
 
+        /// <summary>Resets the separator style strings.</summary>
         public void ResetSeparatorStyleStrings() => SeparatorStyles.Reset();
 
         /// <summary>Gets the tab border style strings.</summary>
@@ -350,6 +356,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeTabBorderStyleStrings() => !TabBorderStyles.IsDefault;
 
+        /// <summary>Resets the tab border style strings.</summary>
         public void ResetTabBorderStyleStrings() => TabBorderStyles.Reset();
 
         /// <summary>Gets the tab style strings.</summary>
@@ -363,7 +370,22 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeTabStyleStrings() => !TabStyles.IsDefault;
 
+        /// <summary>Resets the tab style strings.</summary>
         public void ResetTabStyleStrings() => TabStyles.Reset();
+
+        /// <summary>Gets the scrollbar strings.</summary>
+        /// <value>The scrollbar strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of scrollbar strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonScrollBarStrings KryptonScrollBarStrings => ScrollBarStrings;
+
+        private bool ShouldSerializeKryptonScrollBarStrings() => !ScrollBarStrings.IsDefault;
+
+        /// <summary>Resets the krypton scroll bar strings.</summary>
+        public void ResetKryptonScrollBarStrings() => ScrollBarStrings.Reset();
 
         #endregion
 
@@ -437,23 +459,41 @@ namespace Krypton.Toolkit
         /// <value>The content style strings.</value>
         public static PaletteContentStyleStrings ContentStyleStrings { get; } = new();
 
+        /// <summary>Gets the image effect strings.</summary>
+        /// <value>The image effect strings.</value>
         public static PaletteImageEffectStrings ImageEffectStrings { get; } = new();
 
+        /// <summary>Gets the image style strings.</summary>
+        /// <value>The image style strings.</value>
         public static PaletteImageStyleStrings ImageStyleStrings { get; } = new();
 
         /// <summary>Gets the mode strings.</summary>
         /// <value>The mode strings.</value>
         public static PaletteModeStrings ModeStrings { get; } = new();
 
+        /// <summary>Gets the text trim strings.</summary>
+        /// <value>The text trim strings.</value>
         public static PaletteTextTrimStrings TextTrimStrings { get; } = new();
 
+        /// <summary>Gets the placement mode strings.</summary>
+        /// <value>The placement mode strings.</value>
         public static PlacementModeStrings PlacementModeStrings { get; } = new();
 
+        /// <summary>Gets the separator styles.</summary>
+        /// <value>The separator styles.</value>
         public static SeparatorStyleStrings SeparatorStyles { get; } = new();
 
+        /// <summary>Gets the tab border styles.</summary>
+        /// <value>The tab border styles.</value>
         public static TabBorderStyleStrings TabBorderStyles { get; } = new();
 
+        /// <summary>Gets the tab styles.</summary>
+        /// <value>The tab styles.</value>
         public static TabStyleStrings TabStyles { get; } = new();
+
+        /// <summary>Gets the scroll bar strings.</summary>
+        /// <value>The scroll bar strings.</value>
+        public static KryptonScrollBarStrings ScrollBarStrings { get; } = new();
 
         #endregion
 
@@ -497,7 +537,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializePlacementModeStrings() ||
                                    ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() ||
-                                   ShouldSerializeTabStyleStrings());
+                                   ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeKryptonScrollBarStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -549,6 +590,8 @@ namespace Krypton.Toolkit
             ResetTabBorderStyleStrings();
 
             ResetTabStyleStrings();
+
+            ResetKryptonScrollBarStrings();
         }
 
         #endregion

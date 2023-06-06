@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTextBox _textBox;
+        private readonly KryptonTextBox? _textBox;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.KryptonContextMenu, value);
+                    _service.OnComponentChanged(_textBox, null, _textBox?.KryptonContextMenu, value);
 
                     _textBox.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.PaletteMode, value);
+                    _service.OnComponentChanged(_textBox, null, _textBox?.PaletteMode, value);
                     _textBox.PaletteMode = value;
                 }
             }
@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the hint.</summary>
         /// <value>The hint.</value>
         [Obsolete("Deprecated - Use CueHint.CueHintText")]
-        public string Hint
+        public string CueHintText
         {
             get => _textBox.CueHint.CueHintText;
 
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
 
         // <summary>Gets or sets the text box font.</summary>
         /// <value>The text box font.</value>
-        public Font Font
+        public Font? Font
         {
             get => _textBox.StateCommon.Content.Font;
 
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(Multiline), nameof(Multiline), nameof(TextBox), @"Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(nameof(WordWrap), nameof(WordWrap), nameof(TextBox), @"Should words be wrapped over multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(nameof(UseSystemPasswordChar), nameof(UseSystemPasswordChar), nameof(TextBox), @"Should characters be Displayed in password characters."));
-                actions.Add(new DesignerActionPropertyItem(nameof(Hint), nameof(Hint), nameof(TextBox), @"Sets the hint string for the textbox."));
+                actions.Add(new DesignerActionPropertyItem(nameof(CueHintText), nameof(CueHintText), nameof(TextBox), @"Sets the hint string for the textbox."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }

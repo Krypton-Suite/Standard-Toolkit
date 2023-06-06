@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable CompareOfFloatsByEqualityOperator
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -22,7 +23,7 @@ namespace Krypton.Toolkit
     [DesignerCategory(@"code")]
     public class KryptonScrollBar : Control
     {
-        #region fields
+        #region Instance Fields
 
         /// <summary>
         /// Indicates many changes to the scrollbar are happening, so stop painting till finished.
@@ -75,7 +76,7 @@ namespace Krypton.Toolkit
         private Color _borderColor = Color.FromArgb(93, 140, 201);
         private Color _disabledBorderColor = Color.Gray;
 
-        #region context menu items
+        #region Context Menu Items
 
         private ContextMenuStrip _contextMenu;
         private IContainer components;
@@ -94,7 +95,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region constructor
+        #region Identity
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KryptonScrollBar"/> class.
@@ -134,7 +135,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region events
+        #region Events
         /// <summary>
         /// Occurs when the scrollbar scrolled.
         /// </summary>
@@ -143,7 +144,7 @@ namespace Krypton.Toolkit
         public event ScrollEventHandler Scroll;
         #endregion
 
-        #region properties
+        #region Public
 
         /// <summary>
         /// Gets or sets the orientation.
@@ -426,7 +427,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        #region public methods
+        #region Public Methods
 
         /// <summary>
         /// Prevents the drawing of the control until <see cref="EndUpdate"/> is called.
@@ -450,7 +451,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region protected methods
+        #region Protected Methods
 
         /// <summary>
         /// Raises the <see cref="Scroll"/> event.
@@ -458,7 +459,7 @@ namespace Krypton.Toolkit
         /// <param name="e">The <see cref="ScrollEventArgs"/> that contains the event data.</param>
         protected virtual void OnScroll(ScrollEventArgs e) =>
             // if event handler is attached - raise scroll event
-            Scroll?.Invoke(this, e);
+            Scroll.Invoke(this, e);
 
         /// <summary>
         /// Paints the background of the control.
@@ -801,17 +802,17 @@ namespace Krypton.Toolkit
                             arrowSize = _arrowWidth;
                         }
 
-                        var perc = 0f;
+                        var percent = 0f;
 
                         if (pixelRange != 0)
                         {
                             // percent of the new position
-                            perc = (float)(thumbPos - arrowSize) / (float)pixelRange;
+                            percent = (thumbPos - arrowSize) / (float)pixelRange;
                         }
 
                         // the new value is somewhere between max and min, starting
                         // at min position
-                        _value = Convert.ToInt32((perc * (_maximum - _minimum)) + _minimum);
+                        _value = Convert.ToInt32((percent * (_maximum - _minimum)) + _minimum);
                     }
 
                     // raise scroll event if new value different
@@ -999,7 +1000,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region misc methods
+        #region Misc Methods
 
         /// <summary>
         /// Sets up the scrollbar.
@@ -1216,7 +1217,7 @@ namespace Krypton.Toolkit
 
             if (realRange != 0)
             {
-                perc = ((float)_value - (float)_minimum) / (float)realRange;
+                perc = (_value - _minimum) / (float)realRange;
             }
 
             return Math.Max(_thumbTopLimit, Math.Min(
@@ -1239,9 +1240,9 @@ namespace Krypton.Toolkit
                 return trackSize;
             }
 
-            var newThumbSize = (float)_largeChange * (float)trackSize / (float)_maximum;
+            var newThumbSize = _largeChange * trackSize / (float)_maximum;
 
-            return Convert.ToInt32(Math.Min((float)trackSize, Math.Max(newThumbSize, 10f)));
+            return Convert.ToInt32(Math.Min(trackSize, Math.Max(newThumbSize, 10f)));
         }
 
         /// <summary>
@@ -1382,27 +1383,27 @@ namespace Krypton.Toolkit
             {
                 _tsmiTop.Text = nameof(Top);
                 _tsmiBottom.Text = nameof(Bottom);
-                _tsmiLargeDown.Text = "Page down";
-                _tsmiLargeUp.Text = "Page up";
-                _tsmiSmallDown.Text = "Scroll down";
-                _tsmiSmallUp.Text = "Scroll up";
-                _tsmiScrollHere.Text = "Scroll here";
+                _tsmiLargeDown.Text = KryptonLanguageManager.ScrollBarStrings.PageDown;
+                _tsmiLargeUp.Text = KryptonLanguageManager.ScrollBarStrings.PageUp;
+                _tsmiSmallDown.Text = KryptonLanguageManager.ScrollBarStrings.ScrollDown;
+                _tsmiSmallUp.Text = KryptonLanguageManager.ScrollBarStrings.ScrollUp;
+                _tsmiScrollHere.Text = KryptonLanguageManager.ScrollBarStrings.ScrollHere;
             }
             else
             {
                 _tsmiTop.Text = nameof(Left);
                 _tsmiBottom.Text = nameof(Right);
-                _tsmiLargeDown.Text = "Page left";
-                _tsmiLargeUp.Text = "Page right";
-                _tsmiSmallDown.Text = "Scroll right";
-                _tsmiSmallUp.Text = "Scroll left";
-                _tsmiScrollHere.Text = "Scroll here";
+                _tsmiLargeDown.Text = KryptonLanguageManager.ScrollBarStrings.PageLeft;
+                _tsmiLargeUp.Text = KryptonLanguageManager.ScrollBarStrings.PageRight;
+                _tsmiSmallDown.Text = KryptonLanguageManager.ScrollBarStrings.ScrollRight;
+                _tsmiSmallUp.Text = KryptonLanguageManager.ScrollBarStrings.ScrollLeft;
+                _tsmiScrollHere.Text = KryptonLanguageManager.ScrollBarStrings.ScrollHere;
             }
         }
 
         #endregion
 
-        #region context menu methods
+        #region Context Menu Methods
 
         /// <summary>
         /// Initializes the context menu.
@@ -1445,7 +1446,7 @@ namespace Krypton.Toolkit
             _tsmiScrollHere.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiScrollHere.Name = nameof(_tsmiScrollHere);
             _tsmiScrollHere.Size = new Size(150, 22);
-            _tsmiScrollHere.Text = "Scroll here";
+            _tsmiScrollHere.Text = KryptonLanguageManager.ScrollBarStrings.ScrollHere;
             _tsmiScrollHere.Click += ScrollHereClick;
             // 
             // toolStripSeparator1
@@ -1479,7 +1480,7 @@ namespace Krypton.Toolkit
             _tsmiLargeUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiLargeUp.Name = nameof(_tsmiLargeUp);
             _tsmiLargeUp.Size = new Size(150, 22);
-            _tsmiLargeUp.Text = "Page up";
+            _tsmiLargeUp.Text = KryptonLanguageManager.ScrollBarStrings.PageUp;
             _tsmiLargeUp.Click += LargeUpClick;
             // 
             // tsmiLargeDown
@@ -1487,7 +1488,7 @@ namespace Krypton.Toolkit
             _tsmiLargeDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiLargeDown.Name = nameof(_tsmiLargeDown);
             _tsmiLargeDown.Size = new Size(150, 22);
-            _tsmiLargeDown.Text = "Page down";
+            _tsmiLargeDown.Text = KryptonLanguageManager.ScrollBarStrings.PageDown;
             _tsmiLargeDown.Click += LargeDownClick;
             // 
             // toolStripSeparator3
@@ -1500,7 +1501,7 @@ namespace Krypton.Toolkit
             _tsmiSmallUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiSmallUp.Name = nameof(_tsmiSmallUp);
             _tsmiSmallUp.Size = new Size(150, 22);
-            _tsmiSmallUp.Text = "Scroll up";
+            _tsmiSmallUp.Text = KryptonLanguageManager.ScrollBarStrings.ScrollUp;
             _tsmiSmallUp.Click += SmallUpClick;
             // 
             // tsmiSmallDown
@@ -1508,7 +1509,7 @@ namespace Krypton.Toolkit
             _tsmiSmallDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiSmallDown.Name = nameof(_tsmiSmallDown);
             _tsmiSmallDown.Size = new Size(150, 22);
-            _tsmiSmallDown.Text = "Scroll down";
+            _tsmiSmallDown.Text = KryptonLanguageManager.ScrollBarStrings.ScrollDown;
             _tsmiSmallDown.Click += SmallDownClick;
             _contextMenu.ResumeLayout(false);
             ResumeLayout(false);
@@ -1549,7 +1550,7 @@ namespace Krypton.Toolkit
 
             if (pixelRange != 0)
             {
-                perc = (float)(thumbPos - arrowSize) / (float)pixelRange;
+                perc = (thumbPos - arrowSize) / (float)pixelRange;
             }
 
             var oldValue = _value;
