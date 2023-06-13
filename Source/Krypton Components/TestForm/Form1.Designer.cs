@@ -41,6 +41,11 @@
             this.kryptonLanguageManager1 = new Krypton.Toolkit.KryptonLanguageManager();
             this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             this.kcmdMessageboxTest = new Krypton.Toolkit.KryptonCommand();
+            this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -96,8 +101,10 @@
             // 
             // kryptonButton1
             // 
+            this.kryptonButton1.KryptonContextMenu = this.kryptonContextMenu1;
             this.kryptonButton1.Location = new System.Drawing.Point(55, 231);
             this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.ShowSplitOption = true;
             this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton1.TabIndex = 5;
             this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
@@ -169,6 +176,30 @@
             this.kcmdMessageboxTest.Text = "kryptonCommand1";
             this.kcmdMessageboxTest.Execute += new System.EventHandler(this.kcmdMessageboxTest_Execute);
             // 
+            // kryptonContextMenu1
+            // 
+            this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItems1});
+            // 
+            // kryptonContextMenuItems1
+            // 
+            this.kryptonContextMenuItems1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem1,
+            this.kryptonContextMenuItem2,
+            this.kryptonContextMenuItem3});
+            // 
+            // kryptonContextMenuItem1
+            // 
+            this.kryptonContextMenuItem1.Text = "Menu Item";
+            // 
+            // kryptonContextMenuItem2
+            // 
+            this.kryptonContextMenuItem2.Text = "Menu Item";
+            // 
+            // kryptonContextMenuItem3
+            // 
+            this.kryptonContextMenuItem3.Text = "Menu Item";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,5 +233,10 @@
         private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
         private Krypton.Toolkit.KryptonCommand kcmdMessageboxTest;
         private Krypton.Toolkit.KryptonButton kbtnTestMessagebox;
+        private Krypton.Toolkit.KryptonContextMenu kryptonContextMenu1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems1;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem1;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem3;
     }
 }

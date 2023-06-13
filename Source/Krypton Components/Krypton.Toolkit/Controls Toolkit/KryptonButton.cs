@@ -26,6 +26,14 @@ namespace Krypton.Toolkit
     [Designer(typeof(KryptonButtonDesigner))]
     public class KryptonButton : VisualSimpleBase, IButtonControl, IContentValues
     {
+        #region Static Fields
+
+        private const int DEFAULT_PUSH_BUTTON_WIDTH = 14;
+
+        private static readonly int BORDER_SIZE = SystemInformation.Border3DSize.Width * 2;
+
+        #endregion
+
         #region Instance Fields
 
         private readonly ViewDrawButton _drawButton;
@@ -42,10 +50,13 @@ namespace Krypton.Toolkit
         private bool _useMnemonic;
         private bool _wasEnabled;
         private bool _useAsUACElevationButton;
+        private bool _skipNextOpen;
+        private bool _showSplitOption;
         //private bool _useOSUACShieldIcon;
         private float _cornerRoundingRadius;
         private Size _customUACShieldSize;
         private UACShieldIconSize _uacShieldIconSize;
+        private Rectangle _dropDownRectangle;
 
         #endregion
 
@@ -136,6 +147,13 @@ namespace Krypton.Toolkit
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
             _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            // Split settings
+            _showSplitOption = false;
+
+            _skipNextOpen = false;
+
+            _dropDownRectangle = new();
         }
         #endregion
 
@@ -527,6 +545,32 @@ namespace Krypton.Toolkit
             get => base.ImeMode;
             set => base.ImeMode = value;
         }
+
+        /// <summary>Gets or sets a value indicating whether [show split option].</summary>
+        /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [DefaultValue(false)]
+        [Description(@"Displays the split/dropdown option.")]
+        public bool ShowSplitOption
+        {
+            get => _showSplitOption;
+
+            set
+            {
+                if (value != _showSplitOption)
+                {
+                    _showSplitOption = value;
+
+                    Invalidate();
+
+                    if (Parent != null)
+                    {
+                        Parent.PerformLayout();
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region IContentValues
@@ -556,6 +600,22 @@ namespace Krypton.Toolkit
         /// <returns>Colour value.</returns>
         public Color GetImageTransparentColor(PaletteState state) =>
             KryptonCommand?.ImageTransparentColor ?? Values.GetImageTransparentColor(state);
+        #endregion
+
+        #region Public Overrides
+
+        public override Size GetPreferredSize(Size proposedSize)
+        {
+            Size preferredSize = base.GetPreferredSize(proposedSize);
+
+            if (_showSplitOption && !string.IsNullOrWhiteSpace(Text) && TextRenderer.MeasureText(Text, Font).Width + DEFAULT_PUSH_BUTTON_WIDTH > preferredSize.Width)
+            {
+                return preferredSize + new Size(DEFAULT_PUSH_BUTTON_WIDTH + BORDER_SIZE * 2, 0);
+            }
+
+            return preferredSize;
+        }
+
         #endregion
 
         #region Protected Overrides
@@ -750,7 +810,114 @@ namespace Krypton.Toolkit
             }
 
             base.OnPaint(e);
+
+            #region Split Code
+
+            if (!_showSplitOption)
+            {
+                return;
+            }
+
+            Graphics g = e.Graphics;
+
+            Rectangle bounds = ClientRectangle;
+
+            _dropDownRectangle = new(bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, BORDER_SIZE, DEFAULT_PUSH_BUTTON_WIDTH, bounds.Height - BORDER_SIZE * 2);
+
+            int internalBorder = BORDER_SIZE;
+
+            Rectangle focusRectangle = new(internalBorder, internalBorder, bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
+
+            PaletteBase? palette = KryptonManager.CurrentGlobalPalette;
+
+            Pen shadow = SystemPens.ButtonShadow, face = SystemPens.ButtonFace;
+
+            if (palette != null)
+            {
+                shadow = new(palette.ColorTable.GripDark);
+
+                face = new(palette.ColorTable.GripLight);
+            }
+
+            if (RightToLeft == RightToLeft.Yes)
+            {
+                _dropDownRectangle.X = bounds.Left + 1;
+
+                focusRectangle.X = _dropDownRectangle.Right;
+
+                g.DrawLine(shadow, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH, BORDER_SIZE, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH, bounds.Bottom - BORDER_SIZE);
+
+                g.DrawLine(face, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH + 1, BORDER_SIZE, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH + 1, bounds.Bottom - BORDER_SIZE);
+            }
+            else
+            {
+                // draw two lines at the edge of the dropdown button 
+                g.DrawLine(shadow, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH, BORDER_SIZE, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH, bounds.Bottom - BORDER_SIZE);
+
+                g.DrawLine(face, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, BORDER_SIZE, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, bounds.Bottom - BORDER_SIZE);
+            }
+
+            // Draw an arrow in the correct location 
+            PaintArrow(g, _dropDownRectangle);
+
+            #endregion
         }
+
+        protected override bool IsInputKey(Keys keyData)
+        {
+            if (keyData.Equals(Keys.Down) && _showSplitOption)
+            {
+                return true;
+            }
+            else
+            {
+                return base.IsInputKey(keyData);
+            }
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (_showSplitOption && e.KeyCode.Equals(Keys.Down))
+            {
+                ShowContextMenuStrip();
+            }
+
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            if (!_showSplitOption)
+            {
+                base.OnMouseDown(e);
+                return;
+            }
+
+            if (_dropDownRectangle.Contains(e.Location))
+            {
+                ShowContextMenuStrip();
+            }
+            else
+            {
+                base.OnMouseDown(e);
+            }
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            if (!_showSplitOption)
+            {
+                base.OnMouseUp(e);
+
+                return;
+            }
+
+            if (ContextMenuStrip == null || !ContextMenuStrip.Visible)
+            {
+                base.OnMouseUp(e);
+            }
+        }
+
         #endregion
 
         #region Protected Virtual
@@ -942,6 +1109,78 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+
+        #region Splitter Stuff
+
+        private static void PaintArrow(Graphics graphics, Rectangle rectangle)
+        {
+            Point midPoint = new(Convert.ToInt32(rectangle.Left + rectangle.Width / 2), Convert.ToInt32(rectangle.Top + rectangle.Height / 2));
+
+            midPoint.X += (rectangle.Width % 2);
+
+            Point[] arrow = new Point[] { new(midPoint.X - 2, midPoint.Y - 1), new(midPoint.X + 3, midPoint.Y - 1), new(midPoint.X, midPoint.Y + 2) };
+
+            graphics.FillPolygon(SystemBrushes.ControlText, arrow);
+        }
+
+        private void ShowContextMenuStrip()
+        {
+            if (_skipNextOpen)
+            {
+                // we were called because we're closing the context menu strip 
+                // when clicking the dropdown button. 
+                _skipNextOpen = false;
+
+                return;
+            }
+
+            if (KryptonContextMenu != null)
+            {
+                KryptonContextMenu.Show(FindForm().PointToScreen(Location) + new Size(0, Height));
+
+                KryptonContextMenu.Closed += KryptonContextMenu_Closed;
+            }
+            else if (ContextMenuStrip != null)
+            {
+                ContextMenuStrip.Closing += ContextMenuStrip_Closing;
+
+                ContextMenuStrip.Show(this, new(0, Height), ToolStripDropDownDirection.BelowRight);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Event Handlers
+
+        private void KryptonContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            KryptonContextMenu? kcm = sender as KryptonContextMenu;
+            if (kcm != null)
+            {
+                kcm.Closed -= KryptonContextMenu_Closed;
+            }
+
+            //if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked) 
+            //{ 
+            _skipNextOpen = (_dropDownRectangle.Contains(PointToClient(Cursor.Position)));
+            //} 
+        }
+
+        private void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            ContextMenuStrip? cms = sender as ContextMenuStrip;
+            if (cms != null)
+            {
+                cms.Closing -= ContextMenuStrip_Closing;
+            }
+
+            if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked)
+            {
+                _skipNextOpen = (_dropDownRectangle.Contains(PointToClient(Cursor.Position)));
+            }
+        }
 
         #endregion
     }
