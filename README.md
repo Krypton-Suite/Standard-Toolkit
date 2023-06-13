@@ -141,11 +141,14 @@ As of V80.##, support for .NET Core 3.1 and .NET 5 has been removed due to their
 
 ### KryptonMessageBoxButtons
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/728:  
-Bring MessageBox States inline with latest .Net 6 by using a new `KryptonMessageBoxButtons` type, which is effectively the same as .Net6 enum version of `MessageBoxButtons` but backward compatible with .net4.6.x onwards.
+Bring MessageBox States inline with latest .Net 6 by using a new `KryptonMessageBoxButtons` type, which is effectively the same as .NET 6 enum version of `MessageBoxButtons` but backward compatible with .NET Framework 4.6.x onwards.
 
 ### Palette usages
 - `KryptonPalette` has become `KryptonCustomPaletteBase` to better signify it's usage.
 - `IPalette` has been removed, and the usage of `PaletteBase` throughout the toolkit is used; to ensure consistent usage.
+
+### Depreciation of `KryptonManager.Strings`
+In a effort to support translations, `KryptonManager.Strings` is now obsolete. As such, the new `KryptonLanguageManager` will handle such strings.
 
 ## V70.## (2022-11-08 - Build 2211 - November 2022)
 There are list of changes that have occurred during the development of the V70.## version
@@ -173,12 +176,6 @@ After updating to v70, you may need to sign your assemblies for a successful bui
 ## Management of `using` Statements
 
 As of version 60, all `using` statements are contained in one file per project unless otherwise. For details, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Manage-Using-Statements.md).
-
-## V80.xx (2023-11-xx - Build 2311 - November 2023)
-There are list of changes that have occurred during the development of the V80.## version
-
-### Depreciation of `KryptonManager.Strings`
-In a effort to support translations, `KryptonManager.Strings` is now obsolete. As such, the new `KryptonLanguageManager` will handle such strings.
 
 =======
 
