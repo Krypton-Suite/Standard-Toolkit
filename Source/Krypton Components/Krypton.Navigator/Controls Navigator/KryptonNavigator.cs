@@ -1933,7 +1933,7 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page);
+            var pos = Pages.IndexOf(page!);
 
             // Search backwards towards start of pages collection
             for (var i = pos - 1; i >= 0; i--)
@@ -1953,7 +1953,7 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page);
+            var pos = Pages.IndexOf(page!);
 
             // Search towards end of pages collection
             for (var i = pos + 1; i < Pages.Count; i++)
