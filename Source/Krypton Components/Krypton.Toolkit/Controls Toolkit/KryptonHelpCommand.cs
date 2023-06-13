@@ -12,7 +12,7 @@ namespace Krypton.Toolkit
     /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.FormHelp"/> button spec.</summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelp.bmp")]
-    [Description(@"")]
+    [Description(@"For use with the 'Help' ButtonSpec style.")]
     [DesignerCategory(@"code")]
     public class KryptonHelpCommand : KryptonCommand
     {
@@ -302,7 +302,6 @@ namespace Krypton.Toolkit
         /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateActiveImage(PaletteMode mode)
         {
-            object HelpIconResources = null;
             switch (mode)
             {
                 case PaletteMode.Global:
