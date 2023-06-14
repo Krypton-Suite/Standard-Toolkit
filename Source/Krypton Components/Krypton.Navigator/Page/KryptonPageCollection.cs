@@ -20,7 +20,7 @@ namespace Krypton.Navigator
     /// <summary>
     /// Specialise the generic collection event args with specific type.
     /// </summary>
-    public class KryptonPageEventArgs : TypedCollectionEventArgs<KryptonPage> 
+    public class KryptonPageEventArgs : TypedCollectionEventArgs<KryptonPage>
     {
         #region Public
         /// <summary>

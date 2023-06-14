@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a palette change requires a repaint.
         /// </summary>
-        public event EventHandler<PaletteLayoutEventArgs> PalettePaint;
+        public event EventHandler<PaletteLayoutEventArgs>? PalettePaint;
 
         /// <summary>
         /// Occurs when the AllowFormChrome setting changes.
@@ -1356,12 +1356,20 @@ namespace Krypton.Toolkit
         #endregion
 
         #region OnPalettePaint
+
         /// <summary>
         /// Raises the PalettePaint event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaletteLayoutEventArgs containing event data.</param>
-        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => PalettePaint(this, e);
+        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+        {
+            // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023#issuecomment-1588810368
+            if (PalettePaint != null)
+            {
+                PalettePaint(this, e);
+            }
+        }
 
         #endregion
 

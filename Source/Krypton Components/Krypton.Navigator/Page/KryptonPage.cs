@@ -1459,7 +1459,11 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnTabStopChanged(EventArgs e)
         {
-            TabStopChanged.Invoke(this, e);
+            // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023#issuecomment-1588810368
+            if (TabStopChanged != null)
+            {
+                TabStopChanged.Invoke(this, e);
+            }
         }
 
         /// <summary>
