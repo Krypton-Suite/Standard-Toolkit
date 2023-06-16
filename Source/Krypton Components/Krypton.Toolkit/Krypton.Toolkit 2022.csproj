@@ -401,6 +401,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>GenericToolbarImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\Toolbars\Microsoft365ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Microsoft365ToolbarImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Toolbars\Office2003ToolbarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -425,6 +430,11 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>Office2016ToolbarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\Toolbars\Office2019ToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2019ToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Toolbars\SystemToolbarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -773,6 +783,10 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>GenericToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\Toolbars\Microsoft365ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Microsoft365ToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\Office2003ToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2003ToolbarImageResources.Designer.cs</LastGenOutput>
@@ -792,6 +806,10 @@
         <EmbeddedResource Update="ResourceFiles\Toolbars\Office2016ToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Office2016ToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\Toolbars\Office2019ToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2019ToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\SystemToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
