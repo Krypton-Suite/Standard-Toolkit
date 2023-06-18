@@ -1866,7 +1866,7 @@ namespace Krypton.Toolkit
         {
             if (showToolBar)
             {
-                _intergratedToolBarItems = new ButtonSpecAny[16];
+                _intergratedToolBarItems = new ButtonSpecAny[14];
 
                 SetupIntegratedToolBarButtons();
             }
@@ -1880,7 +1880,79 @@ namespace Krypton.Toolkit
         {
             if (_intergratedToolBarItems != null)
             {
-                ButtonSpecAny newButtonSpec = new ButtonSpecAny(), openButtonSpecAny = new ButtonSpecAny();
+                ButtonSpecAny newButtonSpec = new ButtonSpecAny(),
+                    openButtonSpecAny = new ButtonSpecAny(),
+                    saveButtonSpecAny = new ButtonSpecAny(),
+                    saveAsButtonSpecAny = new ButtonSpecAny(),
+                    saveAllButtonSpecAny = new ButtonSpecAny(),
+                    cutButtonSpecAny = new ButtonSpecAny(),
+                    copyButtonSpecAny = new ButtonSpecAny(),
+                    pasteButtonSpecAny = new ButtonSpecAny(),
+                    undoButtonSpecAny = new ButtonSpecAny(),
+                    redoButtonSpecAny = new ButtonSpecAny(),
+                    pageSetupButtonSpecAny = new ButtonSpecAny(),
+                    printPreviewButtonSpecAny = new ButtonSpecAny(),
+                    printButtonSpecAny = new ButtonSpecAny(),
+                    quickPrintButtonSpecAny = new ButtonSpecAny();
+
+                // Set up buttons
+                newButtonSpec.Type = PaletteButtonSpecStyle.New;
+
+                openButtonSpecAny.Type = PaletteButtonSpecStyle.Open;
+
+                saveAllButtonSpecAny.Type = PaletteButtonSpecStyle.SaveAll;
+
+                saveAsButtonSpecAny.Type = PaletteButtonSpecStyle.SaveAs;
+
+                saveButtonSpecAny.Type = PaletteButtonSpecStyle.Save;
+
+                cutButtonSpecAny.Type = PaletteButtonSpecStyle.Cut;
+
+                copyButtonSpecAny.Type = PaletteButtonSpecStyle.Copy;
+
+                pasteButtonSpecAny.Type = PaletteButtonSpecStyle.Paste;
+
+                undoButtonSpecAny.Type = PaletteButtonSpecStyle.Undo;
+
+                redoButtonSpecAny.Type = PaletteButtonSpecStyle.Redo;
+
+                pageSetupButtonSpecAny.Type = PaletteButtonSpecStyle.PageSetup;
+
+                printPreviewButtonSpecAny.Type = PaletteButtonSpecStyle.PrintPreview;
+
+                printButtonSpecAny.Type = PaletteButtonSpecStyle.Print;
+
+                quickPrintButtonSpecAny.Type = PaletteButtonSpecStyle.QuickPrint;
+
+                // Add configured buttons to array...
+
+                _intergratedToolBarItems[0] = newButtonSpec;
+
+                _intergratedToolBarItems[1] = openButtonSpecAny;
+
+                _intergratedToolBarItems[2] = saveButtonSpecAny;
+
+                _intergratedToolBarItems[3] = saveAsButtonSpecAny;
+
+                _intergratedToolBarItems[4] = saveAllButtonSpecAny;
+
+                _intergratedToolBarItems[5] = cutButtonSpecAny;
+
+                _intergratedToolBarItems[6] = copyButtonSpecAny;
+
+                _intergratedToolBarItems[7] = pasteButtonSpecAny;
+
+                _intergratedToolBarItems[8] = undoButtonSpecAny;
+
+                _intergratedToolBarItems[9] = redoButtonSpecAny;
+
+                _intergratedToolBarItems[10] = pageSetupButtonSpecAny;
+
+                _intergratedToolBarItems[11] = printPreviewButtonSpecAny;
+
+                _intergratedToolBarItems[12] = printPreviewButtonSpecAny;
+
+                _intergratedToolBarItems[13] = quickPrintButtonSpecAny;
             }
         }
 
