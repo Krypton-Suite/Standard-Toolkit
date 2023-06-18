@@ -63,6 +63,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarSaveAllCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.SaveAll;
         }
 
         #endregion
@@ -154,7 +156,7 @@ namespace Krypton.Toolkit
                     UpdateImage(SystemToolbarImageResources.SystemToolbarSaveNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarSaveNormal);
+                    UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal);
@@ -308,7 +310,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveNormal);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal);
@@ -453,7 +455,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveDisabled);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllDisabled);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAllDisabled);
@@ -598,7 +600,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveNormal);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal);
@@ -743,7 +745,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveNormal);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal);
@@ -890,7 +892,7 @@ namespace Krypton.Toolkit
                         AddImageStates(null, SystemToolbarImageResources.SystemToolbarSaveDisabled, SystemToolbarImageResources.SystemToolbarSaveNormal, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
-                        AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarSaveDisabled, Office2003ToolbarImageResources.Office2003ToolbarSaveNormal, null);
+                        AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarSaveAllDisabled, Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal, null);
                         break;
                     case PaletteMode.Office2007DarkGray:
                         AddImageStates(Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal, Office2007ToolbarImageResources.Office2007ToolbarSaveAllDisabled, Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal, Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal);

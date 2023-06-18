@@ -132,4 +132,16 @@
   <metadata name="kcmdMessageboxTest.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>573, 17</value>
   </metadata>
+  <metadata name="kryptonIntegratedToolbarCopyCommand1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 56</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="kryptonIntegratedToolbarCopyCommand1.ImageSmall" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wQAADsEBuJFr7QAAAH5JREFUOE+9j8ENwCAMA5mv4/CmQ3UQvlmHyhWRIDiAqqon+eNGVxM+IcZYWHLO
+        pZ7MwbEFXUppT8IEoH5eo4LjvJ4o6FmGVSgZrEc3PE0PdYGu8AQi0kvYIbBigK5NJ9hZ0DIILExsf7Al
+        8OgENq14ucBDBR7/CFapp28J4Qav4wj4Xtqk0wAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

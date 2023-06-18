@@ -143,6 +143,26 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarPageSetupDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarPageSetupDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarPageSetupNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarPageSetupNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2003ToolbarPasteDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2003ToolbarPasteDisabled", resourceCulture);
@@ -163,6 +183,46 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarPrintDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarPrintDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarPrintNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarPrintNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarPrintPreviewDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarPrintPreviewDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarPrintPreviewNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarPrintPreviewNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2003ToolbarRedoDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2003ToolbarRedoDisabled", resourceCulture);
@@ -176,6 +236,26 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         internal static System.Drawing.Bitmap Office2003ToolbarRedoNormal {
             get {
                 object obj = ResourceManager.GetObject("Office2003ToolbarRedoNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarSaveAllDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarSaveAllDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2003ToolbarSaveAllNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2003ToolbarSaveAllNormal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -63,6 +63,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarPasteCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.Paste;
         }
 
         #endregion

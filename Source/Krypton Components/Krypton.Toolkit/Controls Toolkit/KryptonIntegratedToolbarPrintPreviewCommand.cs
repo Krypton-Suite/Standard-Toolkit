@@ -64,6 +64,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarPrintPreviewCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.PrintPreview;
         }
 
         #endregion
@@ -155,7 +157,7 @@ namespace Krypton.Toolkit
                     UpdateImage(GenericToolbarImageResources.GenericPrintPreview);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
@@ -309,7 +311,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
@@ -454,7 +456,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewDisabled);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewDisabled);
@@ -599,7 +601,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
@@ -744,7 +746,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
@@ -891,7 +893,7 @@ namespace Krypton.Toolkit
                         AddImageStates(null, GenericToolbarImageResources.GenericPrintPreview, GenericToolbarImageResources.GenericPrintPreview, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
-                        AddImageStates(null, GenericToolbarImageResources.GenericPrintPreview, GenericToolbarImageResources.GenericPrintPreview, null);
+                        AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewDisabled, Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal, null);
                         break;
                     case PaletteMode.Office2007DarkGray:
                         AddImageStates(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal, Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewDisabled, Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal, Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);

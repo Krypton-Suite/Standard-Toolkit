@@ -52,8 +52,12 @@ namespace Krypton.Toolkit
         /// <value>The disabled image.</value>
         public Image? DisabledImage { get => _disabledImage; private set => _disabledImage = value; }
 
+        /// <summary>Gets the normal image.</summary>
+        /// <value>The normal image.</value>
         public Image? NormalImage { get => _normalImage; private set => _normalImage = value; }
 
+        /// <summary>Gets the pressed image.</summary>
+        /// <value>The pressed image.</value>
         public Image? PressedImage { get => _pressedImage; private set => _pressedImage = value; }
 
         #endregion
@@ -64,6 +68,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarPrintCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.Print;
         }
 
         #endregion
@@ -155,7 +161,7 @@ namespace Krypton.Toolkit
                     UpdateImage(GenericToolbarImageResources.GenericPrint);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPrintNormal);
@@ -309,7 +315,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintNormal);
@@ -454,7 +460,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintDisabled);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintDisabled);
@@ -599,7 +605,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintNormal);
@@ -744,7 +750,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintNormal);
@@ -891,7 +897,7 @@ namespace Krypton.Toolkit
                         AddImageStates(null, GenericToolbarImageResources.GenericPrint, GenericToolbarImageResources.GenericPrint, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
-                        AddImageStates(null, GenericToolbarImageResources.GenericPrint, GenericToolbarImageResources.GenericPrint, null);
+                        AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarPrintDisabled, Office2003ToolbarImageResources.Office2003ToolbarPrintNormal, null);
                         break;
                     case PaletteMode.Office2007DarkGray:
                         AddImageStates(Office2007ToolbarImageResources.Office2007ToolbarPrintNormal, Office2007ToolbarImageResources.Office2007ToolbarPrintDisabled, Office2007ToolbarImageResources.Office2007ToolbarPrintNormal, Office2007ToolbarImageResources.Office2007ToolbarPrintNormal);

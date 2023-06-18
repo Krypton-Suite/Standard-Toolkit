@@ -63,6 +63,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarOpenCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.Open;
         }
 
         #endregion

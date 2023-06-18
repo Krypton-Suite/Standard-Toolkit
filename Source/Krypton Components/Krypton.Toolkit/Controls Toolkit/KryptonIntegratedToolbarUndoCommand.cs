@@ -63,6 +63,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarUndoCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.Undo;
         }
 
         #endregion

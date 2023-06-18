@@ -63,6 +63,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarRedoCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.Redo;
         }
 
         #endregion

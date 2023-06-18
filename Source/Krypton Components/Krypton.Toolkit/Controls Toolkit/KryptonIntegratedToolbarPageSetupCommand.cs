@@ -64,6 +64,8 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarPageSetupCommand()
         {
             _imageStates = new();
+
+            Text = KryptonLanguageManager.ToolBarStrings.PageSetup;
         }
 
         #endregion
@@ -155,7 +157,7 @@ namespace Krypton.Toolkit
                     UpdateImage(GenericToolbarImageResources.GenericPrintSetup);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal);
@@ -309,7 +311,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal);
@@ -454,7 +456,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupDisabled);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPageSetupDisabled);
@@ -599,7 +601,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal);
@@ -744,7 +746,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
                     break;
                 case PaletteMode.Office2007DarkGray:
                     UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal);
@@ -891,7 +893,7 @@ namespace Krypton.Toolkit
                         AddImageStates(null, GenericToolbarImageResources.GenericPrintSetup, GenericToolbarImageResources.GenericPrintSetup, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
-                        AddImageStates(null, GenericToolbarImageResources.GenericPrintSetup, GenericToolbarImageResources.GenericPrintSetup, null);
+                        AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarPageSetupDisabled, Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal, null);
                         break;
                     case PaletteMode.Office2007DarkGray:
                         AddImageStates(Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal, Office2007ToolbarImageResources.Office2007ToolbarPageSetupDisabled, Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal, Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal);
