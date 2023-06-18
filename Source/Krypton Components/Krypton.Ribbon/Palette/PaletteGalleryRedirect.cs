@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Paint delegate.</param>
-        public PaletteGalleryRedirect([DisallowNull] PaletteRedirect redirect,
+        public PaletteGalleryRedirect([DisallowNull] PaletteRedirect? redirect,
                                       NeedPaintHandler needPaint)
             : base(redirect)
         {

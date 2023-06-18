@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRibbonGeneralInheritRedirect class.
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
-        public PaletteRibbonGeneralInheritRedirect([DisallowNull] PaletteRedirect redirect)
+        public PaletteRibbonGeneralInheritRedirect([DisallowNull] PaletteRedirect? redirect)
         {
             Debug.Assert(redirect != null);
             _redirect = redirect;

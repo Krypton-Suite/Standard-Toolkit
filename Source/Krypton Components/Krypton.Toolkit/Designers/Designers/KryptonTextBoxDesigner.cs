@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
             if ((_textBox != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _textBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _textBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -173,7 +173,7 @@ namespace Krypton.Toolkit
         private void OnTextBoxDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _textBox?.DesignerComponentFromPoint(pt);
+            Component? component = _textBox?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {

@@ -9,6 +9,11 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.New"/> button spec.</summary>
+    [ToolboxItem(true)]
+    //[ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelp.bmp")]
+    [Description(@"For use with the 'New' ButtonSpec style.")]
+    [DesignerCategory(@"code")]
     public class KryptonIntegratedToolbarNewCommand : KryptonCommand
     {
         #region Instance Fields
@@ -29,9 +34,9 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        /// <summary>Gets or sets the help button.</summary>
-        /// <value>The help button.</value>
-        [DefaultValue(null), Description(@"Access to the help button spec.")]
+        /// <summary>Gets or sets the new button.</summary>
+        /// <value>The new button.</value>
+        [DefaultValue(null), Description(@"Access to the new button spec.")]
         public ButtonSpecAny? ToolBarNewButton
         {
             get => _newButtonSpec ?? new();

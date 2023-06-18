@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="panelBackStyle">Initial background style.</param>
         /// <param name="needPaint">Paint delegate.</param>
-        public PaletteRibbonRedirect([DisallowNull] PaletteRedirect redirect,
+        public PaletteRibbonRedirect([DisallowNull] PaletteRedirect? redirect,
                                      PaletteBackStyle panelBackStyle,
                                      NeedPaintHandler needPaint)
             : base(redirect)
