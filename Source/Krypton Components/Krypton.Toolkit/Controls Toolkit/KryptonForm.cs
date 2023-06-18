@@ -92,11 +92,13 @@ namespace Krypton.Toolkit
         private bool _firstCheckView;
         private bool _lastNotNormal;
         private bool _useDropShadow;
+        private bool _showIntegratedToolBar;
         private StatusStrip? _statusStrip;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
         private float _cornerRoundingRadius;
         private Control? _activeControl;
+        private ButtonSpecAny[]? _intergratedToolBarItems;
         private KryptonFormTitleStyle _titleStyle;
 
         #endregion
@@ -197,6 +199,10 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
+
+            _showIntegratedToolBar = false;
+
+            _intergratedToolBarItems = null;
         }
 
         /// <summary>
@@ -302,6 +308,13 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        [Category(@"Visuals")]
+        [Description(@"")]
+        [DefaultValue(false)]
+        public bool ShowIntegratedToolBar { get => _showIntegratedToolBar; set { _showIntegratedToolBar = value; SetupIntegratedToolBar(value); } }
+
+        public ButtonSpecAny[]? IntegratedToolBarItems { get => _intergratedToolBarItems; set => _intergratedToolBarItems = value; }
 
         /// <summary>
         /// Gets and sets the header style for a main form.
@@ -1845,6 +1858,32 @@ namespace Krypton.Toolkit
 
             return form.IsInAdministratorMode;
         }
+        #endregion
+
+        #region Itegrated Toolbar
+
+        private void SetupIntegratedToolBar(bool showToolBar)
+        {
+            if (showToolBar)
+            {
+                _intergratedToolBarItems = new ButtonSpecAny[16];
+
+                SetupIntegratedToolBarButtons();
+            }
+            else
+            {
+                _intergratedToolBarItems = null;
+            }
+        }
+
+        private void SetupIntegratedToolBarButtons()
+        {
+            if (_intergratedToolBarItems != null)
+            {
+                ButtonSpecAny newButtonSpec = new ButtonSpecAny(), openButtonSpecAny = new ButtonSpecAny();
+            }
+        }
+
         #endregion
     }
 }

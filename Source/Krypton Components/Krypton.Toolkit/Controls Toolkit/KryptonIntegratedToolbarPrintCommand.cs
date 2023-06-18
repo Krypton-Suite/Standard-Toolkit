@@ -21,6 +21,8 @@ namespace Krypton.Toolkit
 
         private ButtonSpecAny? _printButtonSpec;
 
+        private PaletteButtonSpecStyle _style;
+
         private ButtonImageStates? _imageStates;
 
         private Image? _activeImage;
@@ -35,13 +37,15 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        public PaletteButtonSpecStyle ButtonSpecStyle { get => _style; private set { _style = value; UpdateButtonSpec(); } }
+
         /// <summary>Gets or sets the print button.</summary>
         /// <value>The print button.</value>
         [DefaultValue(null), Description(@"Access to the print button spec.")]
         public ButtonSpecAny? ToolBarPrintButton
         {
             get => _printButtonSpec ?? new();
-            set { _printButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _printButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); UpdateButtonSpec(); }
         }
 
         /// <summary>Gets the active image.</summary>
@@ -68,6 +72,10 @@ namespace Krypton.Toolkit
         public KryptonIntegratedToolbarPrintCommand()
         {
             _imageStates = new();
+
+            _style = PaletteButtonSpecStyle.Print;
+
+            _printButtonSpec = null;
 
             Text = KryptonLanguageManager.ToolBarStrings.Print;
         }
@@ -1028,6 +1036,14 @@ namespace Krypton.Toolkit
                     default:
                         throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
                 }
+            }
+        }
+
+        private void UpdateButtonSpec()
+        {
+            if (_printButtonSpec != null)
+            {
+                _printButtonSpec.Type = _style;
             }
         }
 
