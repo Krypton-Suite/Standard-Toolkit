@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBarRedirect([DisallowNull] PaletteRedirect? redirect,
+        public PaletteBarRedirect([DisallowNull] PaletteRedirect redirect,
                                   NeedPaintHandler needPaint)
             : base(redirect)
         {
@@ -47,7 +47,7 @@ namespace Krypton.Navigator
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Set default value for padding property
             _barPaddingTabs = CommonHelper.InheritPadding;
             _barPaddingInside = CommonHelper.InheritPadding;
