@@ -97,22 +97,14 @@
         <Compile Update="ButtonSpec\ButtonSpec.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2007\Non Official Themes\PaletteOffice2007White.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Office 2010\Non Official Themes\PaletteOffice2010White.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Office 2007\Non Official Themes\PaletteOffice2007White.cs" />
+        <Compile Update="Palette Builtin\Office 2010\Non Official Themes\PaletteOffice2010White.cs" />
         <Compile Update="Palette Builtin\Office 2013\Non Official Themes\PaletteOffice2013AccessLegacy.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2013\Bases\PaletteOffice2013Base.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Office 2013\Bases\PaletteOffice2013Base.cs" />
         <Compile Update="Palette Builtin\Office 2013\Official Themes\PaletteOffice2013White.cs" />
-        <Compile Update="Palette Builtin\Microsoft 365\Bases\PaletteMicrosoft365Base.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Microsoft 365\Bases\PaletteMicrosoft365Base.cs" />
         <Compile Update="Palette Builtin\Office 365\Non Official Themes\PaletteOffice365AccessLegacy.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -123,40 +115,18 @@
         <Compile Update="Palette Builtin\PaletteVisualStudio2020Base.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Black.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Blue.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Silver.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Office 2010\Bases\PaletteOffice2010Base.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparklePurple.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Sparkle\Base\PaletteSparkleBase.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparkleOrange.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Black.cs" />
+        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Blue.cs" />
+        <Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Silver.cs" />
+        <Compile Update="Palette Builtin\Office 2010\Bases\PaletteOffice2010Base.cs" />
+        <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparklePurple.cs" />
+        <Compile Update="Palette Builtin\Sparkle\Base\PaletteSparkleBase.cs" />
+        <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparkleOrange.cs" />
         <Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparkleBlue.cs" />
-        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Black.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Silver.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Blue.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Office 2007\Bases\PaletteOffice2007Base.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Black.cs" />
+        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Silver.cs" />
+        <Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Blue.cs" />
+        <Compile Update="Palette Builtin\Office 2007\Bases\PaletteOffice2007Base.cs" />
         <Compile Update="Properties\Resources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -180,21 +150,15 @@
         <Compile Update="Controls Toolkit\KryptonManager.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Professional\PaletteProfessionalSystem.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="Palette Builtin\Base\PaletteBase.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Professional\PaletteProfessionalSystem.cs" />
+        <Compile Update="Palette Builtin\Base\PaletteBase.cs" />
         <Compile Update="Rendering\RenderOffice2010.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Rendering\RenderProfessional.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Professional\PaletteProfessionalOffice2003.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Professional\PaletteProfessionalOffice2003.cs" />
         <Compile Update="Rendering\RenderBase.cs">
             <SubType>Component</SubType>
         </Compile>

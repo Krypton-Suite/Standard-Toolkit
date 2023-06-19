@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         private Icon? _cacheIcon;
         private float _cornerRoundingRadius;
         private Control? _activeControl;
-        private ButtonSpecAny[]? _intergratedToolBarItems;
+        private ButtonSpecAny[]? _integratedToolBarItems;
         private KryptonFormTitleStyle _titleStyle;
 
         #endregion
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
 
             _showIntegratedToolBar = false;
 
-            _intergratedToolBarItems = null;
+            _integratedToolBarItems = null;
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool ShowIntegratedToolBar { get => _showIntegratedToolBar; set { _showIntegratedToolBar = value; SetupIntegratedToolBar(value); } }
 
-        public ButtonSpecAny[]? IntegratedToolBarItems { get => _intergratedToolBarItems; set => _intergratedToolBarItems = value; }
+        public ButtonSpecAny[]? IntegratedToolBarItems { get => _integratedToolBarItems; set => _integratedToolBarItems = value; }
 
         /// <summary>
         /// Gets and sets the header style for a main form.
@@ -1866,19 +1866,19 @@ namespace Krypton.Toolkit
         {
             if (showToolBar)
             {
-                _intergratedToolBarItems = new ButtonSpecAny[14];
+                _integratedToolBarItems = new ButtonSpecAny[14];
 
                 SetupIntegratedToolBarButtons();
             }
             else
             {
-                _intergratedToolBarItems = null;
+                _integratedToolBarItems = null;
             }
         }
 
         private void SetupIntegratedToolBarButtons()
         {
-            if (_intergratedToolBarItems != null)
+            if (_integratedToolBarItems != null)
             {
                 ButtonSpecAny newButtonSpec = new ButtonSpecAny(),
                     openButtonSpecAny = new ButtonSpecAny(),
@@ -1926,33 +1926,33 @@ namespace Krypton.Toolkit
 
                 // Add configured buttons to array...
 
-                _intergratedToolBarItems[0] = newButtonSpec;
+                _integratedToolBarItems[0] = newButtonSpec;
 
-                _intergratedToolBarItems[1] = openButtonSpecAny;
+                _integratedToolBarItems[1] = openButtonSpecAny;
 
-                _intergratedToolBarItems[2] = saveButtonSpecAny;
+                _integratedToolBarItems[2] = saveButtonSpecAny;
 
-                _intergratedToolBarItems[3] = saveAsButtonSpecAny;
+                _integratedToolBarItems[3] = saveAsButtonSpecAny;
 
-                _intergratedToolBarItems[4] = saveAllButtonSpecAny;
+                _integratedToolBarItems[4] = saveAllButtonSpecAny;
 
-                _intergratedToolBarItems[5] = cutButtonSpecAny;
+                _integratedToolBarItems[5] = cutButtonSpecAny;
 
-                _intergratedToolBarItems[6] = copyButtonSpecAny;
+                _integratedToolBarItems[6] = copyButtonSpecAny;
 
-                _intergratedToolBarItems[7] = pasteButtonSpecAny;
+                _integratedToolBarItems[7] = pasteButtonSpecAny;
 
-                _intergratedToolBarItems[8] = undoButtonSpecAny;
+                _integratedToolBarItems[8] = undoButtonSpecAny;
 
-                _intergratedToolBarItems[9] = redoButtonSpecAny;
+                _integratedToolBarItems[9] = redoButtonSpecAny;
 
-                _intergratedToolBarItems[10] = pageSetupButtonSpecAny;
+                _integratedToolBarItems[10] = pageSetupButtonSpecAny;
 
-                _intergratedToolBarItems[11] = printPreviewButtonSpecAny;
+                _integratedToolBarItems[11] = printPreviewButtonSpecAny;
 
-                _intergratedToolBarItems[12] = printPreviewButtonSpecAny;
+                _integratedToolBarItems[12] = printPreviewButtonSpecAny;
 
-                _intergratedToolBarItems[13] = quickPrintButtonSpecAny;
+                _integratedToolBarItems[13] = quickPrintButtonSpecAny;
             }
         }
 
