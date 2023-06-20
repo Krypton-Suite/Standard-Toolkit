@@ -1879,13 +1879,20 @@ namespace Krypton.Toolkit
             {
                 _integratedToolBarItems = null;
 
-                // Check to see if there are items in there...
-                if (ButtonSpecs.Count > 0)
+                try
                 {
-                    foreach (ButtonSpecAny item in ButtonSpecs)
+                    // Check to see if there are items in there...
+                    if (ButtonSpecs.Count > 0)
                     {
-                        ButtonSpecs.Remove(item);
+                        foreach (ButtonSpecAny item in ButtonSpecs)
+                        {
+                            ButtonSpecs.Remove(item);
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+                    ExceptionHandler.CaptureException(e);
                 }
             }
         }
