@@ -1860,7 +1860,7 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Itegrated Toolbar
+        #region Integrated Toolbar
 
         private void SetupIntegratedToolBar(bool showToolBar)
         {
@@ -1869,10 +1869,24 @@ namespace Krypton.Toolkit
                 _integratedToolBarItems = new ButtonSpecAny[14];
 
                 SetupIntegratedToolBarButtons();
+
+                foreach (ButtonSpecAny item in _integratedToolBarItems)
+                {
+                    ButtonSpecs.Add(item);
+                }
             }
             else
             {
                 _integratedToolBarItems = null;
+
+                // Check to see if there are items in there...
+                if (ButtonSpecs.Count > 0)
+                {
+                    foreach (ButtonSpecAny item in ButtonSpecs)
+                    {
+                        ButtonSpecs.Remove(item);
+                    }
+                }
             }
         }
 
