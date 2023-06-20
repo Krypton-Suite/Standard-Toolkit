@@ -55,6 +55,67 @@ namespace Krypton.Toolkit
         private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
         private static readonly Image _formHelpDisabled = Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled;
 
+        #region Integrated Toolbar Images
+
+        private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
+
+        private static readonly Image _integratedToolbarNewDisabled = Office2019ToolbarImageResources.Office2019ToolbarNewDisabled;
+
+        private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
+
+        private static readonly Image _integratedToolbarOpenDisabled = Office2019ToolbarImageResources.Office2019ToolbarOpenDisabled;
+
+        private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
+
+        private static readonly Image _integratedToolbarSaveAllDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAllDisabled;
+
+        private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
+
+        private static readonly Image _integratedToolbarSaveAsDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAsDisabled;
+
+        private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
+
+        private static readonly Image _integratedToolbarSaveDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveDisabled;
+
+        private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
+
+        private static readonly Image _integratedToolbarCutDisabled = Office2019ToolbarImageResources.Office2019ToolbarCutDisabled;
+
+        private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
+
+        private static readonly Image _integratedToolbarCopyDisabled = Office2019ToolbarImageResources.Office2019ToolbarCopyDisabled;
+
+        private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
+
+        private static readonly Image _integratedToolbarPasteDisabled = Office2019ToolbarImageResources.Office2019ToolbarPasteDisabled;
+
+        private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
+
+        private static readonly Image _integratedToolbarUndoDisabled = Office2019ToolbarImageResources.Office2019ToolbarUndoDisabled;
+
+        private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
+
+        private static readonly Image _integratedToolbarRedoDisabled = Office2019ToolbarImageResources.Office2019ToolbarRedoDisabled;
+
+        private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
+
+        private static readonly Image _integratedToolbarPageSetupDisabled = Office2019ToolbarImageResources.Office2019ToolbarPageSetupDisabled;
+
+        private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
+
+        private static readonly Image _integratedToolbarPrintPreviewDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled;
+
+        private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
+
+        private static readonly Image _integratedToolbarPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintDisabled;
+
+        private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
+
+        private static readonly Image _integratedToolbarQuickPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintDisabled;
+
+        #endregion
+
+
         #endregion
 
         #region Colour Arrays
@@ -401,6 +462,90 @@ namespace Krypton.Toolkit
                     PaletteState.Normal => _formHelpNormal,
                     _ => _formHelpDisabled
                 },
+                PaletteButtonSpecStyle.New => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarNewNormal,
+                    PaletteState.Disabled => _integratedToolbarNewDisabled,
+                    _ => _integratedToolbarNewDisabled
+                },
+                PaletteButtonSpecStyle.Open => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarOpenNormal,
+                    PaletteState.Disabled => _integratedToolbarOpenDisabled,
+                    _ => _integratedToolbarOpenDisabled
+                },
+                PaletteButtonSpecStyle.SaveAll => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarSaveAllNormal,
+                    PaletteState.Disabled => _integratedToolbarSaveAllDisabled,
+                    _ => _integratedToolbarSaveAllDisabled
+                },
+                PaletteButtonSpecStyle.SaveAs => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarSaveAsNormal,
+                    PaletteState.Disabled => _integratedToolbarSaveAsDisabled,
+                    _ => _integratedToolbarSaveAsDisabled
+                },
+                PaletteButtonSpecStyle.Save => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarSaveNormal,
+                    PaletteState.Disabled => _integratedToolbarSaveDisabled,
+                    _ => _integratedToolbarSaveDisabled
+                },
+                PaletteButtonSpecStyle.Cut => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarCutNormal,
+                    PaletteState.Disabled => _integratedToolbarCutDisabled,
+                    _ => _integratedToolbarCutDisabled
+                },
+                PaletteButtonSpecStyle.Copy => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarCopyNormal,
+                    PaletteState.Disabled => _integratedToolbarCopyDisabled,
+                    _ => _integratedToolbarCopyDisabled
+                },
+                PaletteButtonSpecStyle.Paste => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarPasteNormal,
+                    PaletteState.Disabled => _integratedToolbarPasteDisabled,
+                    _ => _integratedToolbarPasteDisabled
+                },
+                PaletteButtonSpecStyle.Undo => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarUndoNormal,
+                    PaletteState.Disabled => _integratedToolbarUndoDisabled,
+                    _ => _integratedToolbarUndoDisabled
+                },
+                PaletteButtonSpecStyle.Redo => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarRedoNormal,
+                    PaletteState.Disabled => _integratedToolbarRedoDisabled,
+                    _ => _integratedToolbarRedoDisabled
+                },
+                PaletteButtonSpecStyle.PageSetup => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarPageSetupNormal,
+                    PaletteState.Disabled => _integratedToolbarPageSetupDisabled,
+                    _ => _integratedToolbarPageSetupDisabled
+                },
+                PaletteButtonSpecStyle.PrintPreview => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarPrintPreviewNormal,
+                    PaletteState.Disabled => _integratedToolbarPrintPreviewDisabled,
+                    _ => _integratedToolbarPrintPreviewDisabled
+                },
+                PaletteButtonSpecStyle.Print => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarPrintNormal,
+                    PaletteState.Disabled => _integratedToolbarPrintDisabled,
+                    _ => _integratedToolbarPrintDisabled
+                },
+                PaletteButtonSpecStyle.QuickPrint => state switch
+                {
+                    PaletteState.Normal => _integratedToolbarQuickPrintNormal,
+                    PaletteState.Disabled => _integratedToolbarQuickPrintDisabled,
+                    _ => _integratedToolbarQuickPrintDisabled
+                },
                 _ => base.GetButtonSpecImage(style, state)
             };
         }
@@ -622,9 +767,9 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        protected PaletteMicrosoft365BlueLightModeBase([DisallowNull] Color[] schemeColours, 
-            [DisallowNull] ImageList checkBoxList, 
-            [DisallowNull] ImageList galleryButtonList, 
+        protected PaletteMicrosoft365BlueLightModeBase([DisallowNull] Color[] schemeColours,
+            [DisallowNull] ImageList checkBoxList,
+            [DisallowNull] ImageList galleryButtonList,
             [DisallowNull] Image[] radioButtonArray, Color[]? trackBarColours)
         {
             Debug.Assert(schemeColours != null);
@@ -5187,8 +5332,8 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTable365BlueLightMode([DisallowNull] Color[] colors, 
-            InheritBool roundedEdges, PaletteBase palette) 
+        public KryptonColorTable365BlueLightMode([DisallowNull] Color[] colors,
+            InheritBool roundedEdges, PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);
