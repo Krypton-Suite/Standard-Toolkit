@@ -142,17 +142,41 @@
   <data name="SystemToolbarOpenNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SystemToolbarOpenNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SystemToolbarPageSetupDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarPageSetupDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemToolbarPageSetupNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarPageSetupNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SystemToolbarPasteDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SystemToolbarPasteDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SystemToolbarPasteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SystemToolbarPasteNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SystemToolbarPrintDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarPrintDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemToolbarPrintNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarPrintNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemToolbarPrintPreviewDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarPrintPreviewDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemToolbarPrintPreviewNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarPrintPreviewNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SystemToolbarRedoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SystemToolbarRedoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SystemToolbarRedoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SystemToolbarRedoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemToolbarSaveAllDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarSaveAllDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemToolbarSaveAllNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SystemToolbarSaveAllNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SystemToolbarSaveDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SystemToolbarSaveDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
