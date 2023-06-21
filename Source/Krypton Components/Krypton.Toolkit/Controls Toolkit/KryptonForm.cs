@@ -1862,6 +1862,8 @@ namespace Krypton.Toolkit
 
         #region Integrated Toolbar
 
+        /// <summary>Setup the integrated tool bar.</summary>
+        /// <param name="showToolBar">if set to <c>true</c> [show tool bar].</param>
         private void SetupIntegratedToolBar(bool showToolBar)
         {
             if (showToolBar)
@@ -1881,13 +1883,9 @@ namespace Krypton.Toolkit
 
                 try
                 {
-                    // Check to see if there are items in there...
-                    if (ButtonSpecs.Count > 0)
+                    foreach (ButtonSpecAny item in ButtonSpecs)
                     {
-                        foreach (ButtonSpecAny item in ButtonSpecs)
-                        {
-                            ButtonSpecs.Remove(item);
-                        }
+                        ButtonSpecs.Remove(item);
                     }
                 }
                 catch (Exception e)
@@ -1897,6 +1895,7 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Setup the integrated tool bar buttons.</summary>
         private void SetupIntegratedToolBarButtons()
         {
             if (_integratedToolBarItems != null)
@@ -1976,6 +1975,10 @@ namespace Krypton.Toolkit
                 _integratedToolBarItems[13] = quickPrintButtonSpecAny;
             }
         }
+
+        /// <summary>Returns the integrated tool bar.</summary>
+        /// <returns>Returns the integrated tool bar.</returns>
+        private ButtonSpecAny[] ReturnIntegratedToolBar() => _integratedToolBarItems;
 
         #endregion
     }

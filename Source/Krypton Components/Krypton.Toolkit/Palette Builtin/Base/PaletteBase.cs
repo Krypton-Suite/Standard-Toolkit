@@ -774,6 +774,7 @@ namespace Krypton.Toolkit
         {
             switch (style)
             {
+                // TODO: Use LanguageManager for strings
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.PendantClose:
                 case PaletteButtonSpecStyle.FormClose:
@@ -806,6 +807,20 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.ArrowUp:
                 case PaletteButtonSpecStyle.ArrowDown:
                 case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
                     return string.Empty;
                 default:
                     // Should never happen!

@@ -37,6 +37,8 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        /// <summary>Gets the button spec style.</summary>
+        /// <value>The button spec style.</value>
         public PaletteButtonSpecStyle ButtonSpecStyle { get => _style; private set { _style = value; UpdateButtonSpec(); } }
 
         /// <summary>Gets or sets the print button.</summary>
