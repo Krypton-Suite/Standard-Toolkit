@@ -2,14 +2,13 @@
 /*
  * 
  *  PageSetup BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    // TODO: Replace 'GenericToolbarImageResources.GenericPrintSetup' with equivalents
     /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.PageSetup"/> button spec.</summary>
     [ToolboxItem(true)]
     //[ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelp.bmp")]
@@ -52,8 +51,12 @@ namespace Krypton.Toolkit
         /// <value>The disabled image.</value>
         public Image? DisabledImage { get => _disabledImage; private set => _disabledImage = value; }
 
+        /// <summary>Gets the normal image.</summary>
+        /// <value>The normal image.</value>
         public Image? NormalImage { get => _normalImage; private set => _normalImage = value; }
 
+        /// <summary>Gets the pressed image.</summary>
+        /// <value>The pressed image.</value>
         public Image? PressedImage { get => _pressedImage; private set => _pressedImage = value; }
 
         #endregion
@@ -154,7 +157,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateImage(SystemToolbarImageResources.SystemToolbarPageSetupNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
@@ -308,7 +311,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPageSetupNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
@@ -453,7 +456,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPageSetupDisabled);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupDisabled);
@@ -598,7 +601,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPageSetupNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
@@ -743,7 +746,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintSetup);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPageSetupNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
@@ -890,7 +893,7 @@ namespace Krypton.Toolkit
                     case PaletteMode.Global:
                         break;
                     case PaletteMode.ProfessionalSystem:
-                        AddImageStates(null, GenericToolbarImageResources.GenericPrintSetup, GenericToolbarImageResources.GenericPrintSetup, null);
+                        AddImageStates(null, SystemToolbarImageResources.SystemToolbarPageSetupDisabled, SystemToolbarImageResources.SystemToolbarPageSetupNormal, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
                         AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarPageSetupDisabled, Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal, null);

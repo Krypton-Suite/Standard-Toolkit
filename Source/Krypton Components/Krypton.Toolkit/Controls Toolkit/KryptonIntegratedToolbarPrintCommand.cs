@@ -2,14 +2,13 @@
 /*
  * 
  *  Print BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    // TODO: Replace 'GenericToolbarImageResources.GenericPrint' with equivalents
     /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.Print"/> button spec.</summary>
     [ToolboxItem(true)]
     //[ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelp.bmp")]
@@ -168,7 +167,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateImage(SystemToolbarImageResources.SystemToolbarPrintNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
@@ -322,7 +321,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
@@ -467,7 +466,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintDisabled);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintDisabled);
@@ -612,7 +611,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
@@ -757,7 +756,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrint);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
@@ -904,7 +903,7 @@ namespace Krypton.Toolkit
                     case PaletteMode.Global:
                         break;
                     case PaletteMode.ProfessionalSystem:
-                        AddImageStates(null, GenericToolbarImageResources.GenericPrint, GenericToolbarImageResources.GenericPrint, null);
+                        AddImageStates(null, SystemToolbarImageResources.SystemToolbarPrintDisabled, SystemToolbarImageResources.SystemToolbarPrintNormal, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
                         AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarPrintDisabled, Office2003ToolbarImageResources.Office2003ToolbarPrintNormal, null);

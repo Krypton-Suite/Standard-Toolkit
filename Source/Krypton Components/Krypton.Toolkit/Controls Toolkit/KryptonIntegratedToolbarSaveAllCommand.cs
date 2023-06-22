@@ -2,10 +2,12 @@
 /*
  * 
  *  SaveAll BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
+
+using System.Runtime.InteropServices;
 
 namespace Krypton.Toolkit
 {
@@ -30,9 +32,15 @@ namespace Krypton.Toolkit
 
         private Image? _pressedImage;
 
+        private PaletteButtonSpecStyle _style;
+
         #endregion
 
         #region Public
+
+        /// <summary>Gets the button spec style.</summary>
+        /// <value>The button spec style.</value>
+        public PaletteButtonSpecStyle ButtonSpecStyle { get => _style; private set { _style = value; UpdateButtonSpec(); } }
 
         /// <summary>Gets or sets the save all button.</summary>
         /// <value>The save all button.</value>
@@ -68,7 +76,11 @@ namespace Krypton.Toolkit
         {
             _imageStates = new();
 
+            _style = PaletteButtonSpecStyle.SaveAll;
+
             Text = KryptonLanguageManager.ToolBarStrings.SaveAll;
+
+            UpdateButtonSpec();
         }
 
         #endregion
@@ -157,7 +169,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateImage(SystemToolbarImageResources.SystemToolbarSaveNormal);
+                    UpdateImage(SystemToolbarImageResources.SystemToolbarSaveAllNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
@@ -311,7 +323,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarSaveAllNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
@@ -456,7 +468,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarSaveAllDisabled);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllDisabled);
@@ -601,7 +613,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarSaveAllNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
@@ -746,7 +758,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericSaveAll);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarSaveAllNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
@@ -893,7 +905,7 @@ namespace Krypton.Toolkit
                     case PaletteMode.Global:
                         break;
                     case PaletteMode.ProfessionalSystem:
-                        AddImageStates(null, SystemToolbarImageResources.SystemToolbarSaveDisabled, SystemToolbarImageResources.SystemToolbarSaveNormal, null);
+                        AddImageStates(null, SystemToolbarImageResources.SystemToolbarSaveAllDisabled, SystemToolbarImageResources.SystemToolbarSaveAllNormal, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
                         AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarSaveAllDisabled, Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal, null);
@@ -1027,6 +1039,14 @@ namespace Krypton.Toolkit
                     default:
                         throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
                 }
+            }
+        }
+
+        private void UpdateButtonSpec()
+        {
+            if (_saveAllButtonSpec != null)
+            {
+                _saveAllButtonSpec.Type = _style;
             }
         }
 

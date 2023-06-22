@@ -2,7 +2,7 @@
 /*
  * 
  *  Undo BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -51,8 +51,12 @@ namespace Krypton.Toolkit
         /// <value>The disabled image.</value>
         public Image? DisabledImage { get => _disabledImage; private set => _disabledImage = value; }
 
+        /// <summary>Gets the normal image.</summary>
+        /// <value>The normal image.</value>
         public Image? NormalImage { get => _normalImage; private set => _normalImage = value; }
 
+        /// <summary>Gets the pressed image.</summary>
+        /// <value>The pressed image.</value>
         public Image? PressedImage { get => _pressedImage; private set => _pressedImage = value; }
 
         #endregion

@@ -2,14 +2,13 @@
 /*
  * 
  *  PrintPreview BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    // TODO: Replace 'GenericToolbarImageResources.GenericPrintPreview' with equivalents
     /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.PrintPreview"/> button spec.</summary>
     [ToolboxItem(true)]
     //[ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelp.bmp")]
@@ -158,7 +157,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
@@ -312,7 +311,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
@@ -457,7 +456,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewDisabled);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewDisabled);
@@ -602,7 +601,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
@@ -747,7 +746,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Global:
                     break;
                 case PaletteMode.ProfessionalSystem:
-                    UpdateActiveImage(GenericToolbarImageResources.GenericPrintPreview);
+                    UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
@@ -894,7 +893,7 @@ namespace Krypton.Toolkit
                     case PaletteMode.Global:
                         break;
                     case PaletteMode.ProfessionalSystem:
-                        AddImageStates(null, GenericToolbarImageResources.GenericPrintPreview, GenericToolbarImageResources.GenericPrintPreview, null);
+                        AddImageStates(null, SystemToolbarImageResources.SystemToolbarPrintPreviewDisabled, SystemToolbarImageResources.SystemToolbarPrintPreviewNormal, null);
                         break;
                     case PaletteMode.ProfessionalOffice2003:
                         AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewDisabled, Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal, null);
