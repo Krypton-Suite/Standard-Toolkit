@@ -47,7 +47,7 @@ namespace Krypton.Navigator
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Set default value for padding property
             _barPaddingTabs = CommonHelper.InheritPadding;
             _barPaddingInside = CommonHelper.InheritPadding;

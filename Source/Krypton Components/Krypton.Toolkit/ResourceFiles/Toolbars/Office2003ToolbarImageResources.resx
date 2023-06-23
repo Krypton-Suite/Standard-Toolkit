@@ -142,17 +142,41 @@
   <data name="Office2003ToolbarOpenNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003ToolbarOpenNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2003ToolbarPageSetupDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarPageSetupDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2003ToolbarPageSetupNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarPageSetupNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2003ToolbarPasteDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003ToolbarPasteDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2003ToolbarPasteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003ToolbarPasteNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2003ToolbarPrintDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarPrintDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2003ToolbarPrintNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarPrintNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2003ToolbarPrintPreviewDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarPrintPreviewDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2003ToolbarPrintPreviewNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarPrintPreviewNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2003ToolbarRedoDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003ToolbarRedoDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2003ToolbarRedoNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003ToolbarRedoNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2003ToolbarSaveAllDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarSaveAllDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2003ToolbarSaveAllNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Office2003ToolbarSaveAllNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2003ToolbarSaveDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Office2003ToolbarSaveDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

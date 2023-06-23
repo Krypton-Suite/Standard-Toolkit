@@ -47,22 +47,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the AllowFormChrome setting changes.
         /// </summary>
-        public event EventHandler AllowFormChromeChanged;
+        public event EventHandler? AllowFormChromeChanged;
 
         /// <summary>
         /// Occurs when the BasePalette/BasePaletteMode setting changes.
         /// </summary>
-        public event EventHandler BasePaletteChanged;
+        public event EventHandler? BasePaletteChanged;
 
         /// <summary>
         /// Occurs when the BaseRenderer/BaseRendererMode setting changes.
         /// </summary>
-        public event EventHandler BaseRendererChanged;
+        public event EventHandler? BaseRendererChanged;
 
         /// <summary>
         /// Occurs when a button spec change occurs.
         /// </summary>
-        public event EventHandler ButtonSpecChanged;
+        public event EventHandler? ButtonSpecChanged;
         #endregion
 
         #region Identity
@@ -774,6 +774,7 @@ namespace Krypton.Toolkit
         {
             switch (style)
             {
+                // TODO: Use LanguageManager for strings
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.PendantClose:
                 case PaletteButtonSpecStyle.FormClose:
@@ -806,6 +807,20 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.ArrowUp:
                 case PaletteButtonSpecStyle.ArrowDown:
                 case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
                     return string.Empty;
                 default:
                     // Should never happen!
@@ -1374,22 +1389,36 @@ namespace Krypton.Toolkit
         #endregion
 
         #region OnAllowFormChromeChanged
+
         /// <summary>
         /// Raises the AllowFormChromeChanged event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged(this, e);
+        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e)
+        {
+            if (AllowFormChromeChanged != null)
+            {
+                AllowFormChromeChanged(this, e);
+            }
+        }
 
         #endregion
 
         #region OnBasePaletteChanged
+
         /// <summary>
         /// Raises the BasePaletteChanged event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBasePaletteChanged(object sender, EventArgs e) => BasePaletteChanged(this, e);
+        protected virtual void OnBasePaletteChanged(object sender, EventArgs e)
+        {
+            if (BasePaletteChanged != null)
+            {
+                BasePaletteChanged(this, e);
+            }
+        }
 
         #endregion
 
@@ -1399,7 +1428,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBaseRendererChanged(object sender, EventArgs e) => BaseRendererChanged(this, e);
+        protected virtual void OnBaseRendererChanged(object sender, EventArgs e)
+        {
+            if (BaseRendererChanged != null)
+            {
+                BaseRendererChanged(this, e);
+            }
+        }
 
         #endregion
 
@@ -1409,7 +1444,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged(this, e);
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
+        {
+            if (ButtonSpecChanged != null)
+            {
+                ButtonSpecChanged(this, e);
+            }
+        }
 
         #endregion
     }

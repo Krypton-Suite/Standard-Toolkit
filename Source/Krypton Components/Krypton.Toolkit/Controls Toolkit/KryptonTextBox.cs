@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Paint the entire area in the background color
-                            using Graphics? g = Graphics.FromHdc(hdc);
+                            using Graphics g = Graphics.FromHdc(hdc);
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
                                     // it from the device context. Resulting in blurred text.
                                     g.TextRenderingHint =
                                         CommonHelper.PaletteTextHintToRenderingHint(
-                                            _kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(
+                                            _kryptonTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(
                                                 PaletteState.Disabled));
 
                                     // Define the string formatting requirements
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
                                     {
                                         using SolidBrush foreBrush = new(ForeColor);
                                         g.DrawString(drawString,
-                                            _kryptonTextBox.GetTripleState().PaletteContent
+                                            _kryptonTextBox.GetTripleState().PaletteContent?
                                                 .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left,
                                                 rect.bottom - rect.top),
@@ -287,13 +287,13 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave.Invoke(this, e);
             #endregion
         }
 
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private VisualPopupToolTip _visualPopupToolTip;
-        private readonly ButtonSpecManagerLayout _buttonManager;
+        private readonly ButtonSpecManagerLayout? _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
@@ -335,6 +335,7 @@ namespace Krypton.Toolkit
         private bool _trackingMouseEnter;
         private int _cachedHeight;
         private bool _multilineStringEditor;
+        private bool _isInAlphaNumericMode;
         private readonly ButtonSpecAny _editorButton;
         private float _cornerRoundingRadius;
 
@@ -455,7 +456,7 @@ namespace Krypton.Toolkit
             ButtonSpecs = new TextBoxButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
+            StateCommon = new PaletteInputControlTripleRedirect(Redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
@@ -530,6 +531,8 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
 
             _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _isInAlphaNumericMode = false;
         }
 
         /// <summary>
@@ -544,7 +547,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -552,6 +555,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        // TODO: Return to this...
+        /*
+        /// <summary>Gets or sets a value indicating whether this instance is in alpha numeric mode.</summary>
+        /// <value><c>true</c> if this instance is in alpha numeric mode; otherwise, <c>false</c>.</value>
+        [Category(@"Data"), DefaultValue(false), Description(@"Only allow numerical input.")]
+        public bool IsInAlphaNumericMode { get => _isInAlphaNumericMode; set { _isInAlphaNumericMode = value; SetIsInAlphaNumericMode(this); } }
+        */
 
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
@@ -1285,12 +1296,12 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TextBox?.Focus() == true;
+        public new bool Focus() => TextBox.Focus() == true;
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => TextBox?.Select();
+        public new void Select() => TextBox.Select();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -1375,7 +1386,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
             IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
@@ -1439,51 +1450,51 @@ namespace Krypton.Toolkit
         /// Raises the AcceptsTabChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAcceptsTabChanged(EventArgs e) => AcceptsTabChanged?.Invoke(this, e);
+        protected virtual void OnAcceptsTabChanged(EventArgs e) => AcceptsTabChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the TextAlignChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged?.Invoke(this, e);
+        protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
+        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
+        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the MultilineChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMultilineChanged(EventArgs e) => MultilineChanged?.Invoke(this, e);
+        protected virtual void OnMultilineChanged(EventArgs e) => MultilineChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
+        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseEnter event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         [Description(@"Raises the TrackMouseEnter event.")]
-        protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
+        protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseLeave event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         [Description(@"Raises the TrackMouseLeave event.")]
-        protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+        protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -1528,7 +1539,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             PerformNeedPaint(true);
 
@@ -1550,25 +1561,25 @@ namespace Krypton.Toolkit
         /// Raises the BackColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackColorChanged(EventArgs e) => BackColorChanged?.Invoke(this, e);
+        protected override void OnBackColorChanged(EventArgs e) => BackColorChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged?.Invoke(this, e);
+        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged?.Invoke(this, e);
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the ForeColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnForeColorChanged(EventArgs e) => ForeColorChanged?.Invoke(this, e);
+        protected override void OnForeColorChanged(EventArgs e) => ForeColorChanged.Invoke(this, e);
 
         /// <summary>
         /// Raises the Resize event.
@@ -1592,8 +1603,12 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Update with latest content padding for placing around the contained text box control
-                Padding contentPadding = GetTripleState().PaletteContent.GetContentPadding(_drawDockerOuter.State);
-                _layoutFill.DisplayPadding = contentPadding;
+                var paletteContent = GetTripleState().PaletteContent;
+                if (paletteContent != null)
+                {
+                    Padding contentPadding = paletteContent.GetContentPadding(_drawDockerOuter.State);
+                    _layoutFill.DisplayPadding = contentPadding;
+                }
             }
 
             // Ensure the height is correct
@@ -1916,11 +1931,11 @@ namespace Krypton.Toolkit
                     if (sourceContent != null)
                     {
                         // Remove any currently showing tooltip
-                        _visualPopupToolTip?.Dispose();
+                        _visualPopupToolTip.Dispose();
 
                         if (AllowButtonSpecToolTipPriority)
                         {
-                            visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip.Dispose();
                         }
 
                         // Create the actual tooltip popup object
@@ -1940,7 +1955,7 @@ namespace Krypton.Toolkit
         }
 
         // Remove any currently showing tooltip
-        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip?.Dispose();
+        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip.Dispose();
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
@@ -1989,6 +2004,11 @@ namespace Krypton.Toolkit
             _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetIsInAlphaNumericMode(KryptonTextBox owner)
+        {
+            // TODO: Return to this...
         }
 
         #endregion

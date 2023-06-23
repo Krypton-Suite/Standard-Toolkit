@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleText">Ribbon item text style.</param>
-        public PaletteRibbonTextInheritRedirect([DisallowNull] PaletteRedirect redirect,
+        public PaletteRibbonTextInheritRedirect([DisallowNull] PaletteRedirect? redirect,
                                                 PaletteRibbonTextStyle styleText)
         {
             Debug.Assert(redirect != null);

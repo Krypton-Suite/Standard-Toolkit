@@ -143,6 +143,26 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarPageSetupDisabled {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarPageSetupDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarPageSetupNormal {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarPageSetupNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SystemToolbarPasteDisabled {
             get {
                 object obj = ResourceManager.GetObject("SystemToolbarPasteDisabled", resourceCulture);
@@ -163,6 +183,46 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarPrintDisabled {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarPrintDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarPrintNormal {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarPrintNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarPrintPreviewDisabled {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarPrintPreviewDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarPrintPreviewNormal {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarPrintPreviewNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SystemToolbarRedoDisabled {
             get {
                 object obj = ResourceManager.GetObject("SystemToolbarRedoDisabled", resourceCulture);
@@ -176,6 +236,26 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         internal static System.Drawing.Bitmap SystemToolbarRedoNormal {
             get {
                 object obj = ResourceManager.GetObject("SystemToolbarRedoNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarSaveAllDisabled {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarSaveAllDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemToolbarSaveAllNormal {
+            get {
+                object obj = ResourceManager.GetObject("SystemToolbarSaveAllNormal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

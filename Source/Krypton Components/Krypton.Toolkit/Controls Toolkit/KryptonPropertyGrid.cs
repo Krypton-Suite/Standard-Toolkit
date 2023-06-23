@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
         #region Variables
         private PaletteBase? _palette;
 
-        private readonly PaletteRedirect _paletteRedirect;
+        private readonly PaletteRedirect? _paletteRedirect;
         private readonly PaletteInputControlTripleRedirect _stateCommon;
         private readonly PaletteInputControlTripleStates _stateNormal;
         private readonly PaletteInputControlTripleStates _stateDisabled;
