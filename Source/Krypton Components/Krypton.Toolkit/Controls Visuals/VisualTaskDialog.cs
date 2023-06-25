@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
                 }
 
                 firstButton = _buttonOK;
-                _buttonOK.Text = KryptonLanguageManager.Strings.OK;
+                _buttonOK.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
                 _buttonOK.Visible = true;
             }
             else
@@ -428,7 +428,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonYes;
 
-                _buttonYes.Text = KryptonLanguageManager.Strings.Yes;
+                _buttonYes.Text = KryptonLanguageManager.GeneralToolkitStrings.Yes;
                 _buttonYes.Visible = true;
             }
             else
@@ -445,7 +445,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonNo;
 
-                _buttonNo.Text = KryptonLanguageManager.Strings.No;
+                _buttonNo.Text = KryptonLanguageManager.GeneralToolkitStrings.No;
                 _buttonNo.Visible = true;
             }
             else
@@ -462,7 +462,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonCancel;
 
-                _buttonCancel.Text = KryptonLanguageManager.Strings.Cancel;
+                _buttonCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
                 _buttonCancel.Visible = true;
             }
             else
@@ -479,7 +479,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonRetry;
 
-                _buttonRetry.Text = KryptonLanguageManager.Strings.Retry;
+                _buttonRetry.Text = KryptonLanguageManager.GeneralToolkitStrings.Retry;
                 _buttonRetry.Visible = true;
             }
             else
@@ -496,7 +496,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonClose;
 
-                _buttonClose.Text = KryptonLanguageManager.Strings.Close;
+                _buttonClose.Text = KryptonLanguageManager.GeneralToolkitStrings.Close;
                 _buttonClose.Visible = true;
             }
             else

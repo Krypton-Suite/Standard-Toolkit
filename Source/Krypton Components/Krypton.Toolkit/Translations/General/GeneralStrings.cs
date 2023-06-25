@@ -48,6 +48,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_YES_TO_ALL = @"Yes &to All"; // Accelerator key - T
         private const string DEFAULT_NO_TO_ALL = @"No t&o All"; // Accelerator key - O
         private const string DEFAULT_OK_TO_ALL = @"O&k to All"; // Accelerator key - K
+        private const string DEFAULT_RESET = @"&Reset"; // Accelerator key - R
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
@@ -60,7 +61,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="GeneralStrings" /> class.</summary>
         public GeneralStrings()
         {
-            Reset();
+            ResetValues();
         }
 
         /// <summary>
@@ -106,7 +107,8 @@ namespace Krypton.Toolkit
                                  ClearClipboard.Equals(DEFAULT_CLEAR_CLIPBOARD) &&
                                  YesToAll.Equals(DEFAULT_YES_TO_ALL) &&
                                  NoToAll.Equals(DEFAULT_NO_TO_ALL) &&
-                                 OkToAll.Equals(DEFAULT_OK_TO_ALL);
+                                 OkToAll.Equals(DEFAULT_OK_TO_ALL) &&
+                                 Reset.Equals(DEFAULT_RESET);
         // Note: The following may not be needed...
         /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
         LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
@@ -114,7 +116,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset all strings to default values.
         /// </summary>
-        public void Reset()
+        public void ResetValues()
         {
             OK = DEFAULT_OK;
             Cancel = DEFAULT_CANCEL;
@@ -149,6 +151,7 @@ namespace Krypton.Toolkit
             YesToAll = DEFAULT_YES_TO_ALL;
             NoToAll = DEFAULT_NO_TO_ALL;
             OkToAll = DEFAULT_OK_TO_ALL;
+            Reset = DEFAULT_RESET;
 
             // Note: The following may not be needed...
             /*MoreDetails = DEFAULT_MORE_DETAILS;
@@ -413,6 +416,13 @@ namespace Krypton.Toolkit
         [Description(@"Ok to All string used for custom situations.")]
         [DefaultValue(DEFAULT_OK_TO_ALL)]
         public string OkToAll { get; set; }
+
+        /// <summary>Gets or sets the reset string used for custom situations.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Reset string used for custom situations.")]
+        [DefaultValue(DEFAULT_RESET)]
+        public string Reset { get; set; }
 
         // Note: The following may not be needed...
 

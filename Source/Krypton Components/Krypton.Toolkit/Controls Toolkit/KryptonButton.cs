@@ -775,37 +775,37 @@ namespace Krypton.Toolkit
             {
                 if (DialogResult == DialogResult.Abort)
                 {
-                    Text = KryptonLanguageManager.Strings.Abort;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Abort;
                 }
 
                 if (DialogResult == DialogResult.Cancel)
                 {
-                    Text = KryptonLanguageManager.Strings.Cancel;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
                 }
 
                 if (DialogResult == DialogResult.OK)
                 {
-                    Text = KryptonLanguageManager.Strings.OK;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
                 }
 
                 if (DialogResult == DialogResult.Yes)
                 {
-                    Text = KryptonLanguageManager.Strings.Yes;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Yes;
                 }
 
                 if (DialogResult == DialogResult.No)
                 {
-                    Text = KryptonLanguageManager.Strings.No;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.No;
                 }
 
                 if (DialogResult == DialogResult.Retry)
                 {
-                    Text = KryptonLanguageManager.Strings.Retry;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Retry;
                 }
 
                 if (DialogResult == DialogResult.Ignore)
                 {
-                    Text = KryptonLanguageManager.Strings.Ignore;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Ignore;
                 }
             }
 

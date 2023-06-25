@@ -36,13 +36,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the contents of the text field.</summary>
         /// <value>The contents of the text field.</value>
-        [Category(@"Data"), 
-         DefaultValue(null), 
+        [Category(@"Data"),
+         DefaultValue(null),
          Description(@"The contents of the text field.")]
-        public string[]? Contents 
-        { 
-            get => _contents; 
-            private set => _contents = value; 
+        public string[]? Contents
+        {
+            get => _contents;
+            private set => _contents = value;
         }
 
         #endregion
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
 
-            SetupVariables(contents,  collection, useRichTextBox, headerText, windowTitle);
+            SetupVariables(contents, collection, useRichTextBox, headerText, windowTitle);
 
             SetupControlsText();
 
@@ -75,25 +75,25 @@ namespace Krypton.Toolkit
 
         private void SetupControlsText()
         {
-            kbtnCancel.Text = KryptonLanguageManager.Strings.Cancel;
+            kbtnCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
 
-            kbtnOk.Text = KryptonLanguageManager.Strings.OK;
+            kbtnOk.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
 
-            kcRichTextBoxCopy.Text = KryptonLanguageManager.Strings.Copy;
+            kcRichTextBoxCopy.Text = KryptonLanguageManager.GeneralToolkitStrings.Copy;
 
-            kcRichTextBoxCut.Text = KryptonLanguageManager.Strings.Cut;
+            kcRichTextBoxCut.Text = KryptonLanguageManager.GeneralToolkitStrings.Cut;
 
-            kcRichTextBoxPaste.Text = KryptonLanguageManager.Strings.Paste;
+            kcRichTextBoxPaste.Text = KryptonLanguageManager.GeneralToolkitStrings.Paste;
 
-            kcRichTextBoxSelectAll.Text = KryptonLanguageManager.Strings.SelectAll;
+            kcRichTextBoxSelectAll.Text = KryptonLanguageManager.GeneralToolkitStrings.SelectAll;
 
-            kcTextBoxCopy.Text = KryptonLanguageManager.Strings.Copy;
+            kcTextBoxCopy.Text = KryptonLanguageManager.GeneralToolkitStrings.Copy;
 
-            kcTextBoxCut.Text = KryptonLanguageManager.Strings.Cut;
+            kcTextBoxCut.Text = KryptonLanguageManager.GeneralToolkitStrings.Cut;
 
-            kcTextBoxPaste.Text = KryptonLanguageManager.Strings.Paste;
+            kcTextBoxPaste.Text = KryptonLanguageManager.GeneralToolkitStrings.Paste;
 
-            kcTextBoxSelectAll.Text = KryptonLanguageManager.Strings.SelectAll;
+            kcTextBoxSelectAll.Text = KryptonLanguageManager.GeneralToolkitStrings.SelectAll;
         }
 
         private void SetupVariables(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
 
             IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using KryptonMultilineStringEditorForm kmse = new(input, null, useRichTextBox, headerText,  windowTitle);
+            using KryptonMultilineStringEditorForm kmse = new(input, null, useRichTextBox, headerText, windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 

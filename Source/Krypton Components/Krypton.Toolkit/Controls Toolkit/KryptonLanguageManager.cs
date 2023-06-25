@@ -59,12 +59,12 @@ namespace Krypton.Toolkit
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public GeneralStrings GeneralStrings => Strings;
+        public GeneralStrings GeneralStrings => GeneralToolkitStrings;
 
-        private bool ShouldSerializeGeneralStrings() => !Strings.IsDefault;
+        private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
 
         /// <summary>Resets the general strings.</summary>
-        public void ResetGeneralStrings() => Strings.Reset();
+        public void ResetGeneralStrings() => GeneralToolkitStrings.ResetValues();
 
         /// <summary>Gets the data grid view style strings.</summary>
         /// <value>The data grid view style strings.</value>
@@ -401,7 +401,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
-        public static GeneralStrings Strings { get; } = new();
+        public static GeneralStrings GeneralToolkitStrings { get; } = new();
 
         /// <summary>Gets the grid view style strings.</summary>
         /// <value>The grid view style strings.</value>

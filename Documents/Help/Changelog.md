@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* New `KryptonLanguageManager.Strings` is now `KryptonLanguageManager.GeneralToolkitStrings`
 * New `ShowSplitOption` for `KryptonButton`, allows a krypton/context menu to be shown
 * Implemented [#1023](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023), Please remove "sealed" from `KryptonWrapLabel` and `KryptonLinkWrapLabel`
 * Added ability to embed links into the `KryptonMessageBox` content. The new options are:-
