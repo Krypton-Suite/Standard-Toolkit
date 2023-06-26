@@ -2117,10 +2117,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (ButtonSpecs.Contains(bsaEllipsisButton))
-                {
-                    ButtonSpecs.Remove(bsaEllipsisButton);
-                }
+                bsaEllipsisButton.Visible = false;
+
+                ButtonSpecs.Remove(bsaEllipsisButton);
             }
         }
 
