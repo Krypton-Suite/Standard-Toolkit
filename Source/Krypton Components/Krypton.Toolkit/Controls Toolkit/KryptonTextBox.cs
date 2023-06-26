@@ -2022,11 +2022,14 @@ namespace Krypton.Toolkit
                     if (sourceContent != null)
                     {
                         // Remove any currently showing tooltip
-                        _visualPopupToolTip.Dispose();
-
-                        if (AllowButtonSpecToolTipPriority)
+                        if (_visualPopupToolTip != null)
                         {
-                            visualBasePopupToolTip.Dispose();
+                            _visualPopupToolTip.Dispose();
+
+                            if (AllowButtonSpecToolTipPriority)
+                            {
+                                visualBasePopupToolTip.Dispose();
+                            }
                         }
 
                         // Create the actual tooltip popup object
@@ -2046,7 +2049,13 @@ namespace Krypton.Toolkit
         }
 
         // Remove any currently showing tooltip
-        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip.Dispose();
+        private void OnCancelToolTip(object sender, EventArgs e)
+        {
+            if (_visualPopupToolTip != null)
+            {
+                _visualPopupToolTip.Dispose();
+            }
+        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
