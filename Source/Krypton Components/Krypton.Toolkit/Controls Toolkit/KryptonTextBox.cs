@@ -2009,14 +2009,17 @@ namespace Krypton.Toolkit
                             if (AllowButtonSpecToolTips)
                             {
                                 // Create a helper object to provide tooltip values
-                                ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
-
-                                // Is there actually anything to show for the tooltip
-                                if (buttonSpecMapping.HasContent)
+                                if (Redirector != null)
                                 {
-                                    sourceContent = buttonSpecMapping;
-                                    toolTipStyle = buttonSpec.ToolTipStyle;
-                                    shadow = buttonSpec.ToolTipShadow;
+                                    ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+
+                                    // Is there actually anything to show for the tooltip
+                                    if (buttonSpecMapping.HasContent)
+                                    {
+                                        sourceContent = buttonSpecMapping;
+                                        toolTipStyle = buttonSpec.ToolTipStyle;
+                                        shadow = buttonSpec.ToolTipShadow;
+                                    }
                                 }
                             }
                         }
