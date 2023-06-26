@@ -2143,7 +2143,7 @@ namespace Krypton.Navigator
 
         internal void ShowPopupPage(KryptonPage? page,
                                          ViewBase? relative,
-                                         EventHandler finishDelegate)
+                                         EventHandler? finishDelegate)
         {
             Debug.Assert(page != null);
             Debug.Assert(relative != null);
@@ -2186,7 +2186,10 @@ namespace Krypton.Navigator
 
             if (!delayDelegate)
             {
-                finishDelegate(this, EventArgs.Empty);
+                if (finishDelegate != null)
+                {
+                    finishDelegate(this, EventArgs.Empty);
+                }
             }
         }
 
