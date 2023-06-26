@@ -68,20 +68,20 @@ namespace Krypton.Toolkit
         {
             if (_integratedToolBarItems != null)
             {
-                ButtonSpecAny newButtonSpec = new ButtonSpecAny(),
-                    openButtonSpecAny = new ButtonSpecAny(),
-                    saveButtonSpecAny = new ButtonSpecAny(),
-                    saveAsButtonSpecAny = new ButtonSpecAny(),
-                    saveAllButtonSpecAny = new ButtonSpecAny(),
-                    cutButtonSpecAny = new ButtonSpecAny(),
-                    copyButtonSpecAny = new ButtonSpecAny(),
-                    pasteButtonSpecAny = new ButtonSpecAny(),
-                    undoButtonSpecAny = new ButtonSpecAny(),
-                    redoButtonSpecAny = new ButtonSpecAny(),
-                    pageSetupButtonSpecAny = new ButtonSpecAny(),
-                    printPreviewButtonSpecAny = new ButtonSpecAny(),
-                    printButtonSpecAny = new ButtonSpecAny(),
-                    quickPrintButtonSpecAny = new ButtonSpecAny();
+                ButtonSpecAny newButtonSpec = new(),
+                    openButtonSpecAny = new(),
+                    saveButtonSpecAny = new(),
+                    saveAsButtonSpecAny = new(),
+                    saveAllButtonSpecAny = new(),
+                    cutButtonSpecAny = new(),
+                    copyButtonSpecAny = new(),
+                    pasteButtonSpecAny = new(),
+                    undoButtonSpecAny = new(),
+                    redoButtonSpecAny = new(),
+                    pageSetupButtonSpecAny = new(),
+                    printPreviewButtonSpecAny = new(),
+                    printButtonSpecAny = new(),
+                    quickPrintButtonSpecAny = new();
 
                 // Set up buttons
                 newButtonSpec.Type = PaletteButtonSpecStyle.New;

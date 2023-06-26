@@ -296,7 +296,8 @@ namespace Krypton.Docking
                     page = args.Page;
 
                     // Add recreated page to the looking dictionary
-                    if ((page != null)
+                    if (page.UniqueName != null
+                        && (page != null)
                         && !existingPages.ContainsKey(page.UniqueName))
                     {
                         existingPages.Add(page.UniqueName, page);

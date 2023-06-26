@@ -1505,7 +1505,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Boolean value.</returns>
-        public static bool StringToBool(string s) => (bool)_bc.ConvertFromInvariantString(s);
+        public static bool StringToBool(string? s) => (bool)_bc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Color to a culture invariant string value.

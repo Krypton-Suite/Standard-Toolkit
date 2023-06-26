@@ -84,7 +84,7 @@ namespace Krypton.Docking
 
             // Create a list of pages that have not yet store placeholders
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach(KryptonPage page in Pages)
+            foreach (KryptonPage page in Pages)
             {
                 if (page is not KryptonStorePage)
                 {
@@ -132,12 +132,15 @@ namespace Krypton.Docking
             foreach (KryptonPage page in pages)
             {
                 // If a matching page exists and it is not a store placeholder already
-                KryptonPage? storePage = Pages[page.UniqueName];
-                if (storePage is KryptonStorePage)
+                if (page.UniqueName != null)
                 {
-                    // Replace the existing placeholder with the actual page
-                    Pages.Insert(Pages.IndexOf(storePage), page);
-                    Pages.Remove(storePage);
+                    KryptonPage? storePage = Pages[page.UniqueName];
+                    if (storePage is KryptonStorePage)
+                    {
+                        // Replace the existing placeholder with the actual page
+                        Pages.Insert(Pages.IndexOf(storePage), page);
+                        Pages.Remove(storePage);
+                    }
                 }
             }
         }
