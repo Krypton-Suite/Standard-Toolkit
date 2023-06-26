@@ -38,12 +38,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalTextBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalTextBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -287,13 +287,25 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter.Invoke(this, e);
+            protected virtual void OnTrackMouseEnter(EventArgs e)
+            {
+                if (TrackMouseEnter != null)
+                {
+                    TrackMouseEnter.Invoke(this, e);
+                }
+            }
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave.Invoke(this, e);
+            protected virtual void OnTrackMouseLeave(EventArgs e)
+            {
+                if (TrackMouseLeave != null)
+                {
+                    TrackMouseLeave.Invoke(this, e);
+                }
+            }
             #endregion
         }
 
@@ -320,7 +332,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout? _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
@@ -347,42 +359,42 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the value of the AcceptsTab property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler AcceptsTabChanged;
+        public event EventHandler? AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
         [Description(@"Occurs when the value of the HideSelection property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler HideSelectionChanged;
+        public event EventHandler? HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the TextAlign property changes.
         /// </summary>
         [Description(@"Occurs when the value of the TextAlign property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler TextAlignChanged;
+        public event EventHandler? TextAlignChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Modified property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ModifiedChanged;
+        public event EventHandler? ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Multiline property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler MultilineChanged;
+        public event EventHandler? MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ReadOnly property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ReadOnlyChanged;
+        public event EventHandler? ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -390,7 +402,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -398,35 +410,35 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
         #endregion
 
         #region Identity
@@ -1450,51 +1462,99 @@ namespace Krypton.Toolkit
         /// Raises the AcceptsTabChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAcceptsTabChanged(EventArgs e) => AcceptsTabChanged.Invoke(this, e);
+        protected virtual void OnAcceptsTabChanged(EventArgs e)
+        {
+            if (AcceptsTabChanged != null)
+            {
+                AcceptsTabChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TextAlignChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged.Invoke(this, e);
+        protected virtual void OnTextAlignChanged(EventArgs e)
+        {
+            if (TextAlignChanged != null)
+            {
+                TextAlignChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged.Invoke(this, e);
+        protected virtual void OnHideSelectionChanged(EventArgs e)
+        {
+            if (HideSelectionChanged != null)
+            {
+                HideSelectionChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged.Invoke(this, e);
+        protected virtual void OnModifiedChanged(EventArgs e)
+        {
+            if (ModifiedChanged != null)
+            {
+                ModifiedChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the MultilineChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMultilineChanged(EventArgs e) => MultilineChanged.Invoke(this, e);
+        protected virtual void OnMultilineChanged(EventArgs e)
+        {
+            if (MultilineChanged != null)
+            {
+                MultilineChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged.Invoke(this, e);
+        protected virtual void OnReadOnlyChanged(EventArgs e)
+        {
+            if (ReadOnlyChanged != null)
+            {
+                ReadOnlyChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TrackMouseEnter event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         [Description(@"Raises the TrackMouseEnter event.")]
-        protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter.Invoke(this, e);
+        protected virtual void OnTrackMouseEnter(EventArgs e)
+        {
+            if (TrackMouseEnter != null)
+            {
+                TrackMouseEnter.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TrackMouseLeave event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         [Description(@"Raises the TrackMouseLeave event.")]
-        protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave.Invoke(this, e);
+        protected virtual void OnTrackMouseLeave(EventArgs e)
+        {
+            if (TrackMouseLeave != null)
+            {
+                TrackMouseLeave.Invoke(this, e);
+            }
+        }
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -1561,25 +1621,45 @@ namespace Krypton.Toolkit
         /// Raises the BackColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackColorChanged(EventArgs e) => BackColorChanged.Invoke(this, e);
+        protected override void OnBackColorChanged(EventArgs e)
+        {
+            if (BackColorChanged != null)
+            {
+                BackColorChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged.Invoke(this, e);
+        protected override void OnBackgroundImageChanged(EventArgs e)
+        {
+            if (BackgroundImageChanged != null)
+            {
+                BackgroundImageChanged.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged.Invoke(this, e);
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e)
+        {
+            if (BackgroundImageLayoutChanged != null)
+                BackgroundImageLayoutChanged.Invoke(this, e);
+        }
 
         /// <summary>
         /// Raises the ForeColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnForeColorChanged(EventArgs e) => ForeColorChanged.Invoke(this, e);
+        protected override void OnForeColorChanged(EventArgs e)
+        {
+            if (ForeColorChanged != null)
+                ForeColorChanged.Invoke(this, e);
+        }
 
         /// <summary>
         /// Raises the Resize event.

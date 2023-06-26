@@ -66,198 +66,198 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Navigator Selection")]
         [Description(@"Occurs when the SelectedPage property is changed.")]
-        public event EventHandler SelectedPageChanged;
+        public event EventHandler? SelectedPageChanged;
 
         /// <summary>
         /// Occurs before a page is selected.
         /// </summary>
         [Category(@"Navigator Selection")]
         [Description(@"Occurs before a page is selected.")]
-        public event EventHandler<KryptonPageCancelEventArgs> Selecting;
+        public event EventHandler<KryptonPageCancelEventArgs>? Selecting;
 
         /// <summary>
         /// Occurs after a page is selected.
         /// </summary>
         [Category(@"Navigator Selection")]
         [Description(@"Occurs after a page is selected.")]
-        public event EventHandler<KryptonPageEventArgs> Selected;
+        public event EventHandler<KryptonPageEventArgs>? Selected;
 
         /// <summary>
         /// Occurs before a page is deselected.
         /// </summary>
         [Category(@"Navigator Selection")]
         [Description(@"Occurs before a page is deselected.")]
-        public event EventHandler<KryptonPageCancelEventArgs> Deselecting;
+        public event EventHandler<KryptonPageCancelEventArgs>? Deselecting;
 
         /// <summary>
         /// Occurs after a page is deselected.
         /// </summary>
         [Category(@"Navigator Selection")]
         [Description(@"Occurs after a page is deselected.")]
-        public event EventHandler<KryptonPageEventArgs> Deselected;
+        public event EventHandler<KryptonPageEventArgs>? Deselected;
 
         /// <summary>
         /// Occurs when the previous action occurs.
         /// </summary>
         [Category(@"Navigator Actions")]
         [Description(@"Occurs when the previous action occurs.")]
-        public event EventHandler<DirectionActionEventArgs> PreviousAction;
+        public event EventHandler<DirectionActionEventArgs>? PreviousAction;
 
         /// <summary>
         /// Occurs when the next action occurs.
         /// </summary>
         [Category(@"Navigator Actions")]
         [Description(@"Occurs when the next action occurs.")]
-        public event EventHandler<DirectionActionEventArgs> NextAction;
+        public event EventHandler<DirectionActionEventArgs>? NextAction;
 
         /// <summary>
         /// Occurs when the context action occurs.
         /// </summary>
         [Category(@"Navigator Actions")]
         [Description(@"Occurs when the context action occurs.")]
-        public event EventHandler<ContextActionEventArgs> ContextAction;
+        public event EventHandler<ContextActionEventArgs>? ContextAction;
 
         /// <summary>
         /// Occurs when the close action occurs.
         /// </summary>
         [Category(@"Navigator Actions")]
         [Description(@"Occurs when the close action occurs.")]
-        public event EventHandler<CloseActionEventArgs> CloseAction;
+        public event EventHandler<CloseActionEventArgs>? CloseAction;
 
         /// <summary>
         /// Occurs when the context action occurs.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the drop down button is clicked in Outlook mode.")]
-        public event EventHandler<KryptonContextMenuEventArgs> OutlookDropDown;
+        public event EventHandler<KryptonContextMenuEventArgs>? OutlookDropDown;
 
         /// <summary>
         /// Occurs when a page is about to be shown as a popup.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when a page is about to be shown as a popup.")]
-        public event EventHandler<PopupPageEventArgs> DisplayPopupPage;
+        public event EventHandler<PopupPageEventArgs>? DisplayPopupPage;
 
         /// <summary>
         /// Occurs when a page is about to be shown as a popup.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when you right click a page header and requests a context menu for display.")]
-        public event EventHandler<ShowContextMenuArgs> ShowContextMenu;
+        public event EventHandler<ShowContextMenuArgs>? ShowContextMenu;
 
         /// <summary>
         /// Occurs after the number of pages has changed.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs after the number of pages has changed.")]
-        public event EventHandler TabCountChanged;
+        public event EventHandler? TabCountChanged;
 
         /// <summary>
         /// Occurs after the number of visible pages has changed.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs after the number of visible pages has changed.")]
-        public event EventHandler TabVisibleCountChanged;
+        public event EventHandler? TabVisibleCountChanged;
 
         /// <summary>
         /// Occurs when the mouse clicks a page tab.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the mouse clicks a page tab.")]
-        public event EventHandler<KryptonPageEventArgs> TabClicked;
+        public event EventHandler<KryptonPageEventArgs>? TabClicked;
 
         /// <summary>
         /// Occurs when the mouse double clicks a page tab.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the mouse double clicks a page tab.")]
-        public event EventHandler<KryptonPageEventArgs> TabDoubleClicked;
+        public event EventHandler<KryptonPageEventArgs>? TabDoubleClicked;
 
         /// <summary>
         /// Occurs when the left mouse clicks the primary header.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the left mouse clicks the primary header.")]
-        public event EventHandler PrimaryHeaderLeftClicked;
+        public event EventHandler? PrimaryHeaderLeftClicked;
 
         /// <summary>
         /// Occurs when the right mouse clicks the primary header.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the right mouse clicks the primary header.")]
-        public event EventHandler PrimaryHeaderRightClicked;
+        public event EventHandler? PrimaryHeaderRightClicked;
 
         /// <summary>
         /// Occurs when the mouse double clicks the primary header.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the mouse double clicks the primary header.")]
-        public event EventHandler PrimaryHeaderDoubleClicked;
+        public event EventHandler? PrimaryHeaderDoubleClicked;
 
         /// <summary>
         /// Occurs just before a page is reordered.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs just before a page is reordered.")]
-        public event EventHandler<PageReorderEventArgs> BeforePageReorder;
+        public event EventHandler<PageReorderEventArgs>? BeforePageReorder;
 
         /// <summary>
         /// Occurs just before a page drag operation is started.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs just before a page drag operation is started.")]
-        public event EventHandler<PageDragCancelEventArgs> BeforePageDrag;
+        public event EventHandler<PageDragCancelEventArgs>? BeforePageDrag;
 
         /// <summary>
         /// Occurs after a page drag operation has finished/aborted.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs after a page drag operation has finished/aborted.")]
-        public event EventHandler<PageDragEndEventArgs> AfterPageDrag;
+        public event EventHandler<PageDragEndEventArgs>? AfterPageDrag;
 
         /// <summary>
         /// Occurs when a page is being dropped.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when a page is being dropped.")]
-        public event EventHandler<PageDropEventArgs> PageDrop;
+        public event EventHandler<PageDropEventArgs>? PageDrop;
 
         /// <summary>
         /// Occurs when control tabbing is starting.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when control tabbing is starting.")]
-        public event EventHandler<CtrlTabCancelEventArgs> CtrlTabStart;
+        public event EventHandler<CtrlTabCancelEventArgs>? CtrlTabStart;
 
         /// <summary>
         /// Occurs when control tabbing is about to wrap around pages.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when control tabbing is about to wrap around pages.")]
-        public event EventHandler<CtrlTabCancelEventArgs> CtrlTabWrap;
+        public event EventHandler<CtrlTabCancelEventArgs>? CtrlTabWrap;
 
         /// <summary>
         /// Occurs when the mouse starts hovering over a tab.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the mouse starts hovering over a tab.")]
-        public event EventHandler<KryptonPageEventArgs> TabMouseHoverStart;
+        public event EventHandler<KryptonPageEventArgs>? TabMouseHoverStart;
 
         /// <summary>
         /// Occurs when mouse hovering over a tab ends.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when mouse hovering over a tab ends.")]
-        public event EventHandler TabMouseHoverEnd;
+        public event EventHandler? TabMouseHoverEnd;
 
         /// <summary>
         /// Occurs when the user moves a tab to a new indexed position.
         /// </summary>
         [Category(@"Navigator")]
         [Description(@"Occurs when the user moves a tab to a new indexed position.")]
-        public event EventHandler<TabMovedEventArgs> TabMoved;
+        public event EventHandler<TabMovedEventArgs>? TabMoved;
 
-        internal event PropertyChangedEventHandler ViewBuilderPropertyChanged;
+        internal event PropertyChangedEventHandler? ViewBuilderPropertyChanged;
         #endregion
 
         #region Identity
@@ -1423,52 +1423,96 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="e">A KryptonPageCancelEventArgs containing event details.</param>
         protected virtual void OnDeselecting(KryptonPageCancelEventArgs e)
-        => Deselecting(this, e);
+        {
+            if (Deselecting != null)
+            {
+                Deselecting(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the Selecting event.
         /// </summary>
         /// <param name="e">A KryptonPageCancelEventArgs containing event details.</param>
         protected virtual void OnSelecting(KryptonPageCancelEventArgs e)
-        => Selecting(this, e);
+        {
+            if (Selecting != null)
+            {
+                Selecting(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the Deselected event.
         /// </summary>
         /// <param name="e">A KryptonPageEventArgs containing event details.</param>
         protected virtual void OnDeselected(KryptonPageEventArgs e)
-        => Deselected(this, e);
+        {
+            if (Deselected != null)
+            {
+                Deselected(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the Selected event.
         /// </summary>
         /// <param name="e">A KryptonPageEventArgs containing event details.</param>
         protected virtual void OnSelected(KryptonPageEventArgs e)
-        => Selected(this, e);
+        {
+            if (Selected != null)
+            {
+                Selected(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the BeforePageReorder event.
         /// </summary>
         /// <param name="de">A PageDragCancelEventArgs containing event details.</param>
-        protected internal virtual void OnBeforePageReorder(PageReorderEventArgs de) => BeforePageReorder(this, de);
+        protected internal virtual void OnBeforePageReorder(PageReorderEventArgs de)
+        {
+            if (BeforePageReorder != null)
+            {
+                BeforePageReorder(this, de);
+            }
+        }
 
         /// <summary>
         /// Raises the BeforePageDrag event.
         /// </summary>
         /// <param name="de">A PageDragCancelEventArgs containing event details.</param>
-        protected virtual void OnBeforePageDrag(PageDragCancelEventArgs de) => BeforePageDrag(this, de);
+        protected virtual void OnBeforePageDrag(PageDragCancelEventArgs de)
+        {
+            if (BeforePageDrag != null)
+            {
+                BeforePageDrag(this, de);
+            }
+        }
 
         /// <summary>
         /// Raises the AfterPageDrag event.
         /// </summary>
         /// <param name="e">A EventArgs containing event details.</param>
-        protected virtual void OnAfterPageDrag(PageDragEndEventArgs e) => AfterPageDrag(this, e);
+        protected virtual void OnAfterPageDrag(PageDragEndEventArgs e)
+        {
+            if (AfterPageDrag != null)
+            {
+                AfterPageDrag(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the PageDrop event.
         /// </summary>
         /// <param name="e">A v containing event details.</param>
-        protected internal virtual void OnPageDrop(PageDropEventArgs e) => PageDrop(this, e);
+        protected internal virtual void OnPageDrop(PageDropEventArgs e)
+        {
+            if (PageDrop != null)
+            {
+                PageDrop(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the SelectedPageChanged event.
@@ -1514,7 +1558,10 @@ namespace Krypton.Navigator
                     PerformLayout();
                 }
 
-                SelectedPageChanged(this, e);
+                if (SelectedPageChanged != null)
+                {
+                    SelectedPageChanged(this, e);
+                }
             }
         }
 
@@ -1536,7 +1583,10 @@ namespace Krypton.Navigator
                         SelectedIndex,
                         Button.PreviousButtonAction);
 
-                    PreviousAction(this, e);
+                    if (PreviousAction != null)
+                    {
+                        PreviousAction(this, e);
+                    }
 
                     // Return the actual action performed
                     dba = e.Action;
@@ -1570,7 +1620,10 @@ namespace Krypton.Navigator
                         SelectedIndex,
                         Button.NextButtonAction);
 
-                    NextAction(this, e);
+                    if (NextAction != null)
+                    {
+                        NextAction(this, e);
+                    }
 
                     // Return the actual action performed
                     dba = e.Action;
@@ -1589,9 +1642,13 @@ namespace Krypton.Navigator
         /// <summary>
         /// Raises and processes the ContextAction event.
         /// </summary>
-        protected virtual void OnContextAction()
+        protected virtual void OnContextAction(/*ContextActionEventArgs e*/)
         {
             // Ask the context button spec to fire and perform default action
+            //if (ContextAction != null)
+            //{
+            //    ContextAction(this, e);
+            //}
         }
 
         /// <summary>
@@ -1599,7 +1656,12 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="e">An CloseActionEventArgs containing the event args.</param>
         protected virtual void OnCloseAction(CloseActionEventArgs e)
-        => CloseAction(this, e);
+        {
+            if (CloseAction != null)
+            {
+                CloseAction(this, e);
+            }
+        }
 
         /// <summary>
         /// Should the OnInitialized call perform layout.
@@ -1630,7 +1692,10 @@ namespace Krypton.Navigator
                                                                           Pages.IndexOf(page),
                                                                           Button.CloseButtonAction);
 
-                        CloseAction(this, e);
+                        if (CloseAction != null)
+                        {
+                            CloseAction(this, e);
+                        }
 
                         // Return the action we processed
                         cba = e.Action;
@@ -1688,97 +1753,193 @@ namespace Krypton.Navigator
         /// Raises the TabCountChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected virtual void OnTabCountChanged(EventArgs e) => TabCountChanged(this, e);
+        protected virtual void OnTabCountChanged(EventArgs e)
+        {
+            if (TabCountChanged != null)
+            {
+                TabCountChanged(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TabVisibleCountChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnTabVisibleCountChanged(EventArgs e) => TabVisibleCountChanged(this, e);
+        protected internal virtual void OnTabVisibleCountChanged(EventArgs e)
+        {
+            if (TabVisibleCountChanged != null)
+            {
+                TabVisibleCountChanged(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TabClicked event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing the event args.</param>
-        protected internal virtual void OnTabClicked(KryptonPageEventArgs e) => TabClicked(this, e);
+        protected internal virtual void OnTabClicked(KryptonPageEventArgs e)
+        {
+            if (TabClicked != null)
+            {
+                TabClicked(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TabDoubleClicked event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing the event args.</param>
-        protected internal virtual void OnTabDoubleClicked(KryptonPageEventArgs e) => TabDoubleClicked(this, e);
+        protected internal virtual void OnTabDoubleClicked(KryptonPageEventArgs e)
+        {
+            if (TabDoubleClicked != null)
+            {
+                TabDoubleClicked(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the PrimaryHeaderLeftClicked event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnPrimaryHeaderLeftClicked(EventArgs e) => PrimaryHeaderLeftClicked(this, e);
+        protected internal virtual void OnPrimaryHeaderLeftClicked(EventArgs e)
+        {
+            if (PrimaryHeaderLeftClicked != null)
+            {
+                PrimaryHeaderLeftClicked(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the PrimaryHeaderRightClicked event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnPrimaryHeaderRightClicked(EventArgs e) => PrimaryHeaderRightClicked(this, e);
+        protected internal virtual void OnPrimaryHeaderRightClicked(EventArgs e)
+        {
+            if (PrimaryHeaderRightClicked != null)
+            {
+                PrimaryHeaderRightClicked(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the PrimaryHeaderDoubleClicked event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected internal virtual void OnPrimaryHeaderDoubleClicked(EventArgs e) => PrimaryHeaderDoubleClicked(this, e);
+        protected internal virtual void OnPrimaryHeaderDoubleClicked(EventArgs e)
+        {
+            if (PrimaryHeaderDoubleClicked != null)
+            {
+                PrimaryHeaderDoubleClicked(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the OutlookDropDown event.
         /// </summary>
         /// <param name="kcm">Context menu about to be Displayed.</param>
-        protected internal virtual void OnOutlookDropDown(KryptonContextMenu kcm) => OutlookDropDown(this, new KryptonContextMenuEventArgs(SelectedPage, SelectedIndex, kcm));
+        protected internal virtual void OnOutlookDropDown(KryptonContextMenu kcm)
+        {
+            if (OutlookDropDown != null)
+            {
+                OutlookDropDown(this, new KryptonContextMenuEventArgs(SelectedPage, SelectedIndex, kcm));
+            }
+        }
 
         /// <summary>
         /// Raises the DisplayPopupPage event.
         /// </summary>
         /// <param name="e">A PopupPageEventArgs containing event data.</param>
-        protected internal virtual void OnDisplayPopupPage(PopupPageEventArgs e) => DisplayPopupPage(this, e);
+        protected internal virtual void OnDisplayPopupPage(PopupPageEventArgs e)
+        {
+            if (DisplayPopupPage != null)
+            {
+                DisplayPopupPage(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the ShowContextMenu event.
         /// </summary>
         /// <param name="e">A ShowContextMenuArgs containing event data.</param>
-        protected internal virtual void OnShowContextMenu(ShowContextMenuArgs e) => ShowContextMenu(this, e);
+        protected internal virtual void OnShowContextMenu(ShowContextMenuArgs e)
+        {
+            if (ShowContextMenu != null)
+            {
+                ShowContextMenu(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the CtrlTabStart event.
         /// </summary>
         /// <param name="e">An CtrlTabCancelEventArgs containing event details.</param>
-        protected internal virtual void OnCtrlTabStart(CtrlTabCancelEventArgs e) => CtrlTabStart(this, e);
+        protected internal virtual void OnCtrlTabStart(CtrlTabCancelEventArgs e)
+        {
+            if (CtrlTabStart != null)
+            {
+                CtrlTabStart(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the CtrlTabWrap event.
         /// </summary>
         /// <param name="e">An CtrlTabCancelEventArgs containing event details.</param>
-        protected internal virtual void OnCtrlTabWrap(CtrlTabCancelEventArgs e) => CtrlTabWrap(this, e);
+        protected internal virtual void OnCtrlTabWrap(CtrlTabCancelEventArgs e)
+        {
+            if (CtrlTabWrap != null)
+            {
+                CtrlTabWrap(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TabMouseHoverStart event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing event details.</param>
-        protected virtual void OnTabMouseHoverStart(KryptonPageEventArgs e) => TabMouseHoverStart(this, e);
+        protected virtual void OnTabMouseHoverStart(KryptonPageEventArgs e)
+        {
+            if (TabMouseHoverStart != null)
+            {
+                TabMouseHoverStart(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TabMouseHoverEnd event.
         /// </summary>
         /// <param name="e">An EventArgs containing event details.</param>
-        protected virtual void OnTabMouseHoverEnd(EventArgs e) => TabMouseHoverEnd(this, e);
+        protected virtual void OnTabMouseHoverEnd(EventArgs e)
+        {
+            if (TabMouseHoverEnd != null)
+            {
+                TabMouseHoverEnd(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the TabMoved event.
         /// </summary>
         /// <param name="e">An TabMovedEventArgs containing event details.</param>
-        protected internal virtual void OnTabMoved(TabMovedEventArgs e) => TabMoved(this, e);
+        protected internal virtual void OnTabMoved(TabMovedEventArgs e)
+        {
+            if (TabMoved != null)
+            {
+                TabMoved(this, e);
+            }
+        }
 
         /// <summary>
         /// Raises the ViewBuilderPropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the property that has changed.</param>
-        protected internal virtual void OnViewBuilderPropertyChanged(string propertyName) => ViewBuilderPropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        protected internal virtual void OnViewBuilderPropertyChanged(string propertyName)
+        {
+            if (ViewBuilderPropertyChanged != null)
+            {
+                ViewBuilderPropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         #endregion
 
@@ -1928,12 +2089,12 @@ namespace Krypton.Navigator
             return null;
         }
 
-        internal KryptonPage? PreviousActionPage([DisallowNull] KryptonPage page)
+        internal KryptonPage? PreviousActionPage(KryptonPage page)
         {
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page!);
+            var pos = Pages.IndexOf(page);
 
             // Search backwards towards start of pages collection
             for (var i = pos - 1; i >= 0; i--)
@@ -1948,12 +2109,12 @@ namespace Krypton.Navigator
             return null;
         }
 
-        internal KryptonPage? NextActionPage([DisallowNull] KryptonPage page)
+        internal KryptonPage? NextActionPage(KryptonPage page)
         {
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page!);
+            var pos = Pages.IndexOf(page);
 
             // Search towards end of pages collection
             for (var i = pos + 1; i < Pages.Count; i++)
@@ -1980,9 +2141,9 @@ namespace Krypton.Navigator
             return position;
         }
 
-        internal void ShowPopupPage([DisallowNull] KryptonPage? page,
-            [DisallowNull] ViewBase? relative,
-                                    EventHandler finishDelegate)
+        internal void ShowPopupPage(KryptonPage? page,
+                                         ViewBase? relative,
+                                         EventHandler finishDelegate)
         {
             Debug.Assert(page != null);
             Debug.Assert(relative != null);
@@ -2847,7 +3008,10 @@ namespace Krypton.Navigator
                                                                             Button.ContextButtonAction,
                                                                             contextMenu);
 
-                    ContextAction(this, cae);
+                    if (ContextAction != null)
+                    {
+                        ContextAction(this, cae);
+                    }
 
                     // Process the requested action
                     switch (cae.Action)

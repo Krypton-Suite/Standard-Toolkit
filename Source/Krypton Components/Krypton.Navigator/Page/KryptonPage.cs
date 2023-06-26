@@ -68,7 +68,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Page")]
         [Description(@"Occurs when the control is loaded.")]
-        public event EventHandler Load;
+        public event EventHandler? Load;
 
         /// <summary>
         /// Occurs when an appearance specific page property has changed.
@@ -76,7 +76,7 @@ namespace Krypton.Navigator
         [Category(@"Page")]
         [Description(@"Occurs when an appearance specific page property has changed.")]
 #pragma warning disable CA1070 // Do not declare event fields as virtual
-        public virtual event PropertyChangedEventHandler AppearancePropertyChanged;
+        public virtual event PropertyChangedEventHandler? AppearancePropertyChanged;
 #pragma warning restore CA1070 // Do not declare event fields as virtual
 
         /// <summary>
@@ -84,14 +84,14 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Page")]
         [Description(@"Occurs when the flags have changed.")]
-        public event KryptonPageFlagsEventHandler FlagsChanged;
+        public event KryptonPageFlagsEventHandler? FlagsChanged;
 
         /// <summary>
         /// Occurs when the AutoHiddenSlideSize property has changed.
         /// </summary>
         [Category(@"Page")]
         [Description(@"Occurs when the auto hidden slide size have changed.")]
-        public event EventHandler AutoHiddenSlideSizeChanged;
+        public event EventHandler? AutoHiddenSlideSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the Dock property changes.
@@ -99,7 +99,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler DockChanged;
+        public new event EventHandler? DockChanged;
 
         /// <summary>
         /// Occurs when the value of the Location property changes.
@@ -107,7 +107,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler LocationChanged;
+        public new event EventHandler? LocationChanged;
 
         /// <summary>
         /// Occurs when the value of the TabIndex property changes.
@@ -115,7 +115,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabIndexChanged;
+        public new event EventHandler? TabIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the TabStop property changes.
@@ -123,7 +123,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabStopChanged;
+        public new event EventHandler? TabStopChanged;
         #endregion
 
         #region Identity
@@ -1432,7 +1432,10 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnDockChanged(EventArgs e)
         {
-            DockChanged.Invoke(this, e);
+            if (DockChanged != null)
+            {
+                DockChanged.Invoke(this, e);
+            }
         }
 
         /// <summary>
@@ -1441,7 +1444,10 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnLocationChanged(EventArgs e)
         {
-            LocationChanged.Invoke(this, e);
+            if (LocationChanged != null)
+            {
+                LocationChanged.Invoke(this, e);
+            }
         }
 
         /// <summary>
@@ -1450,7 +1456,10 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnTabIndexChanged(EventArgs e)
         {
-            TabIndexChanged.Invoke(this, e);
+            if (TabIndexChanged != null)
+            {
+                TabIndexChanged.Invoke(this, e);
+            }
         }
 
         /// <summary>

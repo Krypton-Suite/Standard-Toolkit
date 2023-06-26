@@ -707,8 +707,11 @@ namespace Krypton.Toolkit
                     if (owner is KryptonMessageBoxForm)
                     {
                         // need to gain access to `dialogResult` and set it forcefully
-                        FieldInfo fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
-                        fi.SetValue(owner, DialogResult);
+                        FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (fi != null)
+                        {
+                            fi.SetValue(owner, DialogResult);
+                        }
                     }
                     else
                     {
@@ -1136,7 +1139,7 @@ namespace Krypton.Toolkit
 
             if (KryptonContextMenu != null)
             {
-                KryptonContextMenu.Show(FindForm().PointToScreen(Location) + new Size(0, Height));
+                KryptonContextMenu.Show(FindForm()!.PointToScreen(Location) + new Size(0, Height));
 
                 KryptonContextMenu.Closed += KryptonContextMenu_Closed;
             }

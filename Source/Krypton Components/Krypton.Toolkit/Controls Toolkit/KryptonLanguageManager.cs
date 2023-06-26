@@ -52,19 +52,33 @@ namespace Krypton.Toolkit
         /// <summary>Resets the button spec style strings.</summary>
         public void ResetButtonSpecStyleStrings() => ButtonStyles.Reset();
 
-        /// <summary>Gets the general strings.</summary>
-        /// <value>The general strings.</value>
+        /// <summary>Gets the custom toolkit strings.</summary>
+        /// <value>The custom toolkit strings.</value>
         [Category(@"Visuals")]
-        [Description(@"Collection of general strings.")]
+        [Description(@"Collection of custom toolkit strings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public GeneralStrings GeneralStrings => GeneralToolkitStrings;
+        public CustomToolkitStrings CustomStrings => CustomToolkitStrings;
+
+        private bool ShouldSerializeCustomStrings() => !CustomToolkitStrings.IsDefault;
+
+        /// <summary>Resets the custom strings.</summary>
+        public void ResetCustomStrings() => CustomToolkitStrings.ResetValues();
+
+        /// <summary>Gets the general toolkit strings.</summary>
+        /// <value>The general toolkit strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of general toolkit strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public GeneralToolkitStrings GeneralStrings => GeneralToolkitStrings;
 
         private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
 
         /// <summary>Resets the general strings.</summary>
-        public void ResetGeneralStrings() => GeneralToolkitStrings.ResetValues();
+        public void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
 
         /// <summary>Gets the data grid view style strings.</summary>
         /// <value>The data grid view style strings.</value>
@@ -399,9 +413,12 @@ namespace Krypton.Toolkit
         /// <value>The spec style strings.</value>
         public static ButtonStyleStrings ButtonStyles { get; } = new();
 
+        public static CustomToolkitStrings CustomToolkitStrings { get; } = new();
+
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
-        public static GeneralStrings GeneralToolkitStrings { get; } = new();
+        public static GeneralToolkitStrings GeneralToolkitStrings
+        { get; } = new();
 
         /// <summary>Gets the grid view style strings.</summary>
         /// <value>The grid view style strings.</value>
@@ -514,7 +531,8 @@ namespace Krypton.Toolkit
         ///   <c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool IsDefault => !(ShouldSerializeGeneralStrings() ||
+        public bool IsDefault => !(ShouldSerializeCustomStrings() ||
+                                   ShouldSerializeGeneralStrings() ||
                                    ShouldSerializeColorStrings() ||
                                    ShouldSerializePaletteModeStrings() ||
                                    ShouldSerializeButtonSpecStyleStrings() ||
@@ -546,6 +564,8 @@ namespace Krypton.Toolkit
             ResetColorStrings();
 
             ResetButtonSpecStyleStrings();
+
+            ResetCustomStrings();
 
             ResetGeneralStrings();
 

@@ -6,6 +6,7 @@
 * New `KryptonLanguageManager.Strings` is now `KryptonLanguageManager.GeneralToolkitStrings`
 * New `ShowSplitOption` for `KryptonButton`, allows a krypton/context menu to be shown
 * Implemented [#1023](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023), Please remove "sealed" from `KryptonWrapLabel` and `KryptonLinkWrapLabel`
+* Resolved [#1020](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1020), Cannot add a `KryptonPage` to a `KryptonNavigator`
 * Added ability to embed links into the `KryptonMessageBox` content. The new options are:-
     - `ContentAreaType` - Defines content area type of a `KryptonMessageBox`, default is normal
     - `LinkLabelCommand` - Specifies a `KryptonCommand` if using the `MessageBoxContentAreaType.LinkLabel` type.
