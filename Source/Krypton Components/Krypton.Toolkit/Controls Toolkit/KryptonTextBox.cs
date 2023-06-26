@@ -1998,23 +1998,26 @@ namespace Krypton.Toolkit
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
-
-                    // If the tooltip is for a button spec
-                    if (buttonSpec != null)
+                    if (_buttonManager != null)
                     {
-                        // Are we allowed to show page related tooltips
-                        if (AllowButtonSpecToolTips)
-                        {
-                            // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                        ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
-                            // Is there actually anything to show for the tooltip
-                            if (buttonSpecMapping.HasContent)
+                        // If the tooltip is for a button spec
+                        if (buttonSpec != null)
+                        {
+                            // Are we allowed to show page related tooltips
+                            if (AllowButtonSpecToolTips)
                             {
-                                sourceContent = buttonSpecMapping;
-                                toolTipStyle = buttonSpec.ToolTipStyle;
-                                shadow = buttonSpec.ToolTipShadow;
+                                // Create a helper object to provide tooltip values
+                                ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+
+                                // Is there actually anything to show for the tooltip
+                                if (buttonSpecMapping.HasContent)
+                                {
+                                    sourceContent = buttonSpecMapping;
+                                    toolTipStyle = buttonSpec.ToolTipStyle;
+                                    shadow = buttonSpec.ToolTipShadow;
+                                }
                             }
                         }
                     }
