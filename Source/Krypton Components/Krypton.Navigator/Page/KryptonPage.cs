@@ -1472,7 +1472,10 @@ namespace Krypton.Navigator
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
         protected virtual void OnAppearancePropertyChanged(string propertyName)
         {
-            AppearancePropertyChanged.Invoke(this, new(propertyName));
+            if (AppearancePropertyChanged != null)
+            {
+                AppearancePropertyChanged.Invoke(this, new(propertyName));
+            }
         }
 
         /// <summary>
@@ -1481,7 +1484,10 @@ namespace Krypton.Navigator
         /// <param name="changed">Set of flags that have changed.</param>
         protected virtual void OnFlagsChanged(KryptonPageFlags changed)
         {
-            FlagsChanged.Invoke(this, new(changed));
+            if (FlagsChanged != null)
+            {
+                FlagsChanged.Invoke(this, new(changed));
+            }
         }
 
         /// <summary>
@@ -1490,7 +1496,10 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e)
         {
-            AutoHiddenSlideSizeChanged.Invoke(this, e);
+            if (AutoHiddenSlideSizeChanged != null)
+            {
+                AutoHiddenSlideSizeChanged.Invoke(this, e);
+            }
         }
 
         /// <summary>
@@ -1499,7 +1508,10 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnLoad(EventArgs e)
         {
-            Load.Invoke(this, e);
+            if (Load != null)
+            {
+                Load.Invoke(this, e);
+            }
         }
 
         /// <summary>
