@@ -347,6 +347,7 @@ namespace Krypton.Toolkit
         private bool _trackingMouseEnter;
         private int _cachedHeight;
         private bool _multilineStringEditor;
+        private bool _showEllipsisButton;
         private bool _isInAlphaNumericMode;
         private readonly ButtonSpecAny _editorButton;
         private float _cornerRoundingRadius;
@@ -545,6 +546,8 @@ namespace Krypton.Toolkit
             _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             _isInAlphaNumericMode = false;
+
+            _showEllipsisButton = false;
         }
 
         /// <summary>
@@ -649,6 +652,14 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets a value indicating whether [show ellipsis button].</summary>
+        /// <value><c>true</c> if [show ellipsis button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [Description(@"Shows a ellipsis (...) button in the textbox.")]
+        [DefaultValue(false)]
+        public bool ShowEllipsisButton { get => _showEllipsisButton; set { _showEllipsisButton = value; ToggleEllipsisButtonVisibility(value); } }
+
         /// <summary>
         /// Gets access to the contained TextBox instance.
         /// </summary>
@@ -2089,6 +2100,28 @@ namespace Krypton.Toolkit
         private void SetIsInAlphaNumericMode(KryptonTextBox owner)
         {
             // TODO: Return to this...
+        }
+
+        private void ToggleEllipsisButtonVisibility(bool visible)
+        {
+            // Setup button
+            ButtonSpecAny bsaEllipsisButton = new ButtonSpecAny();
+
+            bsaEllipsisButton.Text = @"&...";
+
+            if (visible)
+            {
+                ButtonSpecs.Add(bsaEllipsisButton);
+
+                bsaEllipsisButton.Visible = true;
+            }
+            else
+            {
+                if (ButtonSpecs.Contains(bsaEllipsisButton))
+                {
+                    ButtonSpecs.Remove(bsaEllipsisButton);
+                }
+            }
         }
 
         #endregion
