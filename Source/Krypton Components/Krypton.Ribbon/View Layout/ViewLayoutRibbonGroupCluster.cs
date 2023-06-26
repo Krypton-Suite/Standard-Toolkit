@@ -30,17 +30,17 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
-        private ViewDrawRibbonDesignCluster _viewAddItem;
+        private ViewDrawRibbonDesignCluster? _viewAddItem;
         private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
         private readonly ViewDrawRibbonGroupClusterSeparator _endSep;
         private readonly PaletteBorderEdge _paletteBorderEdge;
-        private PaletteRibbonShape _lastShape;
-        private readonly NeedPaintHandler _needPaint;
+        private PaletteRibbonShape? _lastShape;
+        private readonly NeedPaintHandler? _needPaint;
         private ItemToView _itemToView;
         private ViewToEdge _viewToEdge;
         private readonly ViewToSize _viewToSizeMedium;
         private readonly ViewToSize _viewToSizeSmall;
-        private GroupItemSize _currentSize;
+        private GroupItemSize? _currentSize;
         private bool _startSepVisible;
         private bool _endSepVisible;
         #endregion
@@ -76,7 +76,7 @@ namespace Krypton.Ribbon
             _endSepVisible = false;
 
             // Create palette used to supply a width to a border edge view
-            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
+            PaletteBorderEdgeRedirect? borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
             _paletteBorderEdge = new PaletteBorderEdge(borderEdgeRedirect, needPaint);
             _lastShape = PaletteRibbonShape.Office2007;
 
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new(this, needPaint);
+                ViewHightlightController? controller = new(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -131,7 +131,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in Reverse())
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -235,7 +235,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -317,7 +317,7 @@ namespace Krypton.Ribbon
 
             foreach (KryptonRibbonGroupItem item in _ribbonCluster.Items)
             {
-                IRibbonViewGroupItemView viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
+                IRibbonViewGroupItemView? viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
                 viewItemSize?.SetGroupItemSize(size);
             }
 
@@ -331,12 +331,12 @@ namespace Krypton.Ribbon
         {
             foreach (KryptonRibbonGroupItem item in _ribbonCluster.Items)
             {
-                IRibbonViewGroupItemView viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
+                IRibbonViewGroupItemView? viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
                 viewItemSize?.ResetGroupItemSize();
             }
 
             // Our current size is based on the parent one
-            ViewLayoutRibbonGroupLines viewLines = (ViewLayoutRibbonGroupLines)Parent;
+            ViewLayoutRibbonGroupLines? viewLines = (ViewLayoutRibbonGroupLines)Parent;
             _currentSize = viewLines.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
         }
 
@@ -349,12 +349,12 @@ namespace Krypton.Ribbon
             // Sync child elements to the current group items
             SyncChildrenToRibbonGroupItems();
 
-            ViewToSize viewToSize;
+            ViewToSize? viewToSize;
 
             viewToSize = _currentSize == GroupItemSize.Small ? _viewToSizeSmall : _viewToSizeMedium;
 
             viewToSize.Clear();
-            
+
             Size preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
@@ -406,7 +406,7 @@ namespace Krypton.Ribbon
             // Are there any children to layout?
             if (Count > 0)
             {
-                ViewToSize viewToSize;
+                ViewToSize? viewToSize;
 
                 viewToSize = _currentSize == GroupItemSize.Small ? _viewToSizeSmall : _viewToSizeMedium;
 
@@ -506,14 +506,14 @@ namespace Krypton.Ribbon
             ViewToEdge regenEdge = new();
 
             // Cache the first and last visible children
-            ViewBase viewFirst = null;
-            ViewBase viewLast = null;
+            ViewBase? viewFirst = null;
+            ViewBase? viewLast = null;
 
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonCluster.Items)
             {
-                ViewBase itemView;
-                ViewDrawRibbonGroupClusterEdge itemEdge;
+                ViewBase? itemView;
+                ViewDrawRibbonGroupClusterEdge? itemEdge;
 
                 // Do we already have a view for this item definition
                 if (_itemToView.ContainsKey(item))
