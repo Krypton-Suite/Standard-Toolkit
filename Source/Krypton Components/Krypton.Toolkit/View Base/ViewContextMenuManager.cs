@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private IContextMenuTarget _target;
-        private IContextMenuTarget _targetSubMenu;
+        private IContextMenuTarget? _targetSubMenu;
         private System.Windows.Forms.Timer _itemDelayTimer;
         #endregion
 
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
                 {
                     // Find the currently selected target
                     TargetList targets = ConstructKeyboardTargets(Root);
-                    for(var i=0; i<targets.Count; i++)
+                    for (var i = 0; i < targets.Count; i++)
                     {
                         if (targets[i] == _target)
                         {
@@ -622,7 +622,7 @@ namespace Krypton.Toolkit
 
             return nextTarget;
         }
-        
+
         private IContextMenuTarget FindUpTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item above the current one
@@ -748,7 +748,7 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindLeftTarget(TargetList targets, 
+        private IContextMenuTarget FindLeftTarget(TargetList targets,
                                                   IContextMenuTarget current,
                                                   bool wrap,
                                                   ref bool hitEdge)

@@ -28,27 +28,27 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs just before the layout cycle.
         /// </summary>
-        public event EventHandler LayoutBefore;
+        public event EventHandler? LayoutBefore;
 
         /// <summary>
         /// Occurs just after the layout cycle.
         /// </summary>
-        public event EventHandler LayoutAfter;
+        public event EventHandler? LayoutAfter;
 
         /// <summary>
         /// Occurs when the mouse down event is processed.
         /// </summary>
-        public event MouseEventHandler MouseDownProcessed;
+        public event MouseEventHandler? MouseDownProcessed;
 
         /// <summary>
         /// Occurs when the mouse up event is processed.
         /// </summary>
-        public event MouseEventHandler MouseUpProcessed;
+        public event MouseEventHandler? MouseUpProcessed;
 
         /// <summary>
         /// Occurs when the mouse up event is processed.
         /// </summary>
-        public event PointHandler DoubleClickProcessed;
+        public event PointHandler? DoubleClickProcessed;
         #endregion
 
         #region Identity
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the view root.
         /// </summary>
-        [DisallowNull] 
+        [DisallowNull]
         public ViewBase? Root
         {
             [DebuggerStepThrough]
