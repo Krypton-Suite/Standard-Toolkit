@@ -76,7 +76,7 @@ namespace Krypton.Ribbon
             _endSepVisible = false;
 
             // Create palette used to supply a width to a border edge view
-            PaletteBorderEdgeRedirect? borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
+            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
             _paletteBorderEdge = new PaletteBorderEdge(borderEdgeRedirect, needPaint);
             _lastShape = PaletteRibbonShape.Office2007;
 
