@@ -103,7 +103,10 @@ namespace Krypton.Docking
         {
             if (e.Item != null)
             {
-                OnPageCloseClicked(new(e.Item.UniqueName));
+                if (e.Item.UniqueName != null)
+                {
+                    OnPageCloseClicked(new(e.Item.UniqueName));
+                }
             }
         }
         #endregion

@@ -29,13 +29,9 @@ namespace Krypton.Toolkit
         /// Helper, to return a new list of names
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string> SupportedThemesList
-        {
-            get => _supportedThemesNames.ToList();
+        public List<string> SupportedThemesList => _supportedThemesNames.ToList();
 
-            //private set { _supportedThemesNames = value.ToArray(); }
-        }
-
+        //private set { _supportedThemesNames = value.ToArray(); }
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
         /// </summary>

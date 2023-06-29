@@ -79,21 +79,21 @@ namespace Krypton.Toolkit
 
             kbtnOk.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
 
-            kcRichTextBoxCopy.Text = KryptonLanguageManager.GeneralToolkitStrings.Copy;
+            kcRichTextBoxCopy.Text = KryptonLanguageManager.CustomToolkitStrings.Copy;
 
-            kcRichTextBoxCut.Text = KryptonLanguageManager.GeneralToolkitStrings.Cut;
+            kcRichTextBoxCut.Text = KryptonLanguageManager.CustomToolkitStrings.Cut;
 
-            kcRichTextBoxPaste.Text = KryptonLanguageManager.GeneralToolkitStrings.Paste;
+            kcRichTextBoxPaste.Text = KryptonLanguageManager.CustomToolkitStrings.Paste;
 
-            kcRichTextBoxSelectAll.Text = KryptonLanguageManager.GeneralToolkitStrings.SelectAll;
+            kcRichTextBoxSelectAll.Text = KryptonLanguageManager.CustomToolkitStrings.SelectAll;
 
-            kcTextBoxCopy.Text = KryptonLanguageManager.GeneralToolkitStrings.Copy;
+            kcTextBoxCopy.Text = KryptonLanguageManager.CustomToolkitStrings.Copy;
 
-            kcTextBoxCut.Text = KryptonLanguageManager.GeneralToolkitStrings.Cut;
+            kcTextBoxCut.Text = KryptonLanguageManager.CustomToolkitStrings.Cut;
 
-            kcTextBoxPaste.Text = KryptonLanguageManager.GeneralToolkitStrings.Paste;
+            kcTextBoxPaste.Text = KryptonLanguageManager.CustomToolkitStrings.Paste;
 
-            kcTextBoxSelectAll.Text = KryptonLanguageManager.GeneralToolkitStrings.SelectAll;
+            kcTextBoxSelectAll.Text = KryptonLanguageManager.CustomToolkitStrings.SelectAll;
         }
 
         private void SetupVariables(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)

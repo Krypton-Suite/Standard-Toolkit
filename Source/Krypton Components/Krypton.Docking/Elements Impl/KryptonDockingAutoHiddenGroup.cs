@@ -544,8 +544,8 @@ namespace Krypton.Docking
 
             // Get the unique name of the page
             string uniqueName = xmlReader.GetAttribute(@"UN") ?? string.Empty;
-            string boolStore = xmlReader.GetAttribute(@"S") ?? string.Empty;
-            string boolVisible = xmlReader.GetAttribute(@"V") ?? string.Empty;
+            string? boolStore = xmlReader.GetAttribute(@"S") ?? string.Empty;
+            string? boolVisible = xmlReader.GetAttribute(@"V") ?? string.Empty;
 
             KryptonPage? page;
 

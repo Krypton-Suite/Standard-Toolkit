@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupLines _ribbonLines;
-        private ViewDrawRibbonDesignGroupLines _viewAddItem;
+        private ViewDrawRibbonDesignGroupLines? _viewAddItem;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         private ItemToView _itemToView;
@@ -163,7 +163,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -483,7 +483,7 @@ namespace Krypton.Ribbon
 
             // Ensure original value is put back
             ResetSize();
-            
+
             return results.ToArray();
         }
 
@@ -524,7 +524,7 @@ namespace Krypton.Ribbon
             _viewToGap.Clear();
 
             var totalWidth = 0;
-            ViewBase previousChild = null;
+            ViewBase? previousChild = null;
 
             // Find the size of each individual visible child item
             for (var i = 0; i < Count; i++)
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
                 // Only interested in visible items
                 if (child.Visible)
                 {
-                    // Inform cluster if it is immediatley after another cluster (and so potentially needs a separator)
+                    // Inform cluster if it is immediately after another cluster (and so potentially needs a separator)
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild)
                     {
@@ -543,7 +543,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Can we calculate the spacing gap between the previous and this item
-                    if (previousChild != null) 
+                    if (previousChild != null)
                     {
                         if (_viewToItem.ContainsKey(child) &&
                             _viewToItem.ContainsKey(previousChild))
@@ -733,7 +733,7 @@ namespace Krypton.Ribbon
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonLines.Items)
             {
-                ViewBase itemView;
+                ViewBase? itemView;
 
                 // Do we already have a view for this item definition
                 if (_itemToView.ContainsKey(item))
@@ -933,9 +933,9 @@ namespace Krypton.Ribbon
                         }
 
                         // Add the spacing gaps before relevant items
-                        if ((_split1Small >= 0) 
-                            && (_split1Small < _sizeList.Count) 
-                            && (_split2Small >= 0) 
+                        if ((_split1Small >= 0)
+                            && (_split1Small < _sizeList.Count)
+                            && (_split2Small >= 0)
                             && (_split2Small < _sizeList.Count)
                             )
                         {
@@ -948,7 +948,7 @@ namespace Krypton.Ribbon
                     }
                     break;
             }
-            
+
             // Our height is always the same as a triple, the entire content height
             preferredSize.Height = _ribbon.CalculatedValues.GroupTripleHeight;
 
@@ -972,7 +972,7 @@ namespace Krypton.Ribbon
                 x += DesignTimeDraw.FlapWidth;
             }
 
-            ViewBase previousChild = null;
+            ViewBase? previousChild = null;
 
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
@@ -985,7 +985,7 @@ namespace Krypton.Ribbon
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
-                        // Inform cluster if it is immediatley after another cluster (and so potentially needs a separator)
+                        // Inform cluster if it is immediately after another cluster (and so potentially needs a separator)
                         clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }
@@ -1059,7 +1059,7 @@ namespace Krypton.Ribbon
                 x += DesignTimeDraw.FlapWidth;
             }
 
-            ViewBase previousChild = null;
+            ViewBase? previousChild = null;
 
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
@@ -1072,7 +1072,7 @@ namespace Krypton.Ribbon
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
-                        // Inform cluster if it is immediatley after another item and so needs a start separator
+                        // Inform cluster if it is immediately after another item and so needs a start separator
                         clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }

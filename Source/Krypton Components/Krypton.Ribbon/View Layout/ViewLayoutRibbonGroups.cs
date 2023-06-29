@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroups : ViewComposite
     {
         #region Classes
-        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup> {}
+        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup> { }
         private class ViewDrawRibbonGroupSepList : List<ViewLayoutRibbonSeparator> { }
         #endregion
 
@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly KryptonRibbonTab _ribbonTab;
         private NeedPaintHandler _needPaint;
         private ViewDrawRibbonDesignGroup _viewAddGroup;
@@ -184,7 +184,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Search each group until one of them returns a focus item
             foreach (ViewDrawRibbonGroup group in _groupToView.Values)
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             var groups = new ViewDrawRibbonGroup[_groupToView.Count];
             _groupToView.Values.CopyTo(groups, 0);
@@ -234,7 +234,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
             var matched = false;
 
             // Search each group until one of them returns a focus item
@@ -262,7 +262,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
             var matched = false;
 
             var groups = new ViewDrawRibbonGroup[_groupToView.Count];
@@ -384,9 +384,9 @@ namespace Krypton.Ribbon
 
             // Create a new lookup that reflects any changes in groups
             GroupToView regenerate = new();
-            
+
             // Make sure we have a view element to match each group
-            foreach(KryptonRibbonGroup ribGroup in _ribbonTab.Groups)
+            foreach (KryptonRibbonGroup ribGroup in _ribbonTab.Groups)
             {
                 ViewDrawRibbonGroup view = null;
 
@@ -439,7 +439,7 @@ namespace Krypton.Ribbon
 
                 Add(_groupSepCache[i]);
                 Add(regenerate[ribbonGroup]);
-                
+
                 // Remove entries we still are using
                 if (_groupToView.ContainsKey(ribbonGroup))
                 {
@@ -448,7 +448,7 @@ namespace Krypton.Ribbon
             }
 
             // When in design time help mode
-            if (_ribbon.InDesignHelperMode)
+            if (_ribbon != null && _ribbon.InDesignHelperMode)
             {
                 // Create the design time 'Add Group' first time it is needed
                 _viewAddGroup ??= new ViewDrawRibbonDesignGroup(_ribbon, _needPaint);
@@ -458,7 +458,7 @@ namespace Krypton.Ribbon
             }
 
             // Dispose of views no longer required
-            foreach(ViewDrawRibbonGroup ribGroup in _groupToView.Values)
+            foreach (ViewDrawRibbonGroup ribGroup in _groupToView.Values)
             {
                 ribGroup.Dispose();
             }
@@ -502,7 +502,7 @@ namespace Krypton.Ribbon
 
             var bestWidth = 0;
             var availableWidth = context.DisplayRectangle.Width;
-            int[] bestIndexes = null;
+            int[]? bestIndexes = null;
             var permIndexes = new List<int>();
 
             // Scan each horizontal slice of the 2D array of values

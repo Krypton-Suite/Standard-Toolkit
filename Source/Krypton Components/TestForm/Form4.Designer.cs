@@ -31,8 +31,9 @@
             this.kryptonNavigator1 = new Krypton.Navigator.KryptonNavigator();
             this.kryptonCommand1 = new Krypton.Toolkit.KryptonCommand();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonPage6 = new Krypton.Navigator.KryptonPage();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).BeginInit();
             this.kryptonNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
@@ -40,13 +41,13 @@
             this.kryptonGroupBox1.Panel.SuspendLayout();
             this.kryptonGroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage6)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonNavigator1
             // 
             this.kryptonNavigator1.ControlKryptonFormFeatures = false;
-            this.kryptonNavigator1.Location = new System.Drawing.Point(634, 41);
-            this.kryptonNavigator1.Margin = new System.Windows.Forms.Padding(4);
+            this.kryptonNavigator1.Location = new System.Drawing.Point(476, 33);
             this.kryptonNavigator1.Name = "kryptonNavigator1";
             this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonNavigator1.Owner = null;
@@ -61,43 +62,57 @@
             // 
             // kryptonGroupBox1
             // 
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(65, 66);
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(49, 54);
+            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBox1);
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonCheckBox1);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(278, 255);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(208, 207);
             this.kryptonGroupBox1.TabIndex = 1;
-            // 
-            // kryptonCheckBox1
-            // 
-            this.kryptonCheckBox1.Location = new System.Drawing.Point(46, 23);
-            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
-            this.kryptonCheckBox1.Size = new System.Drawing.Size(152, 24);
-            this.kryptonCheckBox1.TabIndex = 0;
-            this.kryptonCheckBox1.Values.Text = "kryptonCheckBox1";
             // 
             // kryptonComboBox1
             // 
             this.kryptonComboBox1.DropDownWidth = 121;
             this.kryptonComboBox1.IntegralHeight = false;
-            this.kryptonComboBox1.Location = new System.Drawing.Point(28, 99);
+            this.kryptonComboBox1.Location = new System.Drawing.Point(21, 80);
+            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonComboBox1.Name = "kryptonComboBox1";
-            this.kryptonComboBox1.Size = new System.Drawing.Size(121, 25);
+            this.kryptonComboBox1.Size = new System.Drawing.Size(91, 21);
             this.kryptonComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonComboBox1.TabIndex = 1;
             this.kryptonComboBox1.Text = "kryptonComboBox1";
             // 
+            // kryptonCheckBox1
+            // 
+            this.kryptonCheckBox1.Location = new System.Drawing.Point(34, 19);
+            this.kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
+            this.kryptonCheckBox1.Size = new System.Drawing.Size(125, 20);
+            this.kryptonCheckBox1.TabIndex = 0;
+            this.kryptonCheckBox1.Values.Text = "kryptonCheckBox1";
+            // 
+            // kryptonPage6
+            // 
+            this.kryptonPage6.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPage6.Flags = 65534;
+            this.kryptonPage6.LastVisibleSet = true;
+            this.kryptonPage6.MinimumSize = new System.Drawing.Size(150, 50);
+            this.kryptonPage6.Name = "kryptonPage6";
+            this.kryptonPage6.Size = new System.Drawing.Size(150, 100);
+            this.kryptonPage6.Text = "kryptonPage6";
+            this.kryptonPage6.ToolTipTitle = "Page ToolTip";
+            this.kryptonPage6.UniqueName = "4efe7db16ebe4584a708f5d09fc41c1e";
+            // 
             // Form4
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.kryptonGroupBox1);
             this.Controls.Add(this.kryptonNavigator1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form4";
             this.Text = "Form4";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).EndInit();
@@ -108,6 +123,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
             this.kryptonGroupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage6)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -121,5 +137,6 @@
         private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
         private Krypton.Toolkit.KryptonCheckBox kryptonCheckBox1;
+        private Krypton.Navigator.KryptonPage kryptonPage6;
     }
 }

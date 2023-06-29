@@ -488,19 +488,25 @@ namespace Krypton.Ribbon
             LayoutAppTab = new ViewLayoutRibbonAppTab(_ribbon);
 
             // Connect up the application button controller to the app button element
-            _appButtonController.Target3 = LayoutAppButton.AppButton;
-            _appButtonController.Click += OnAppButtonClicked;
-            _appButtonController.MouseReleased += OnAppButtonReleased;
-            LayoutAppButton.MouseController = _appButtonController;
-            LayoutAppButton.SourceController = _appButtonController;
-            LayoutAppButton.KeyController = _appButtonController;
+            if (_appButtonController != null)
+            {
+                _appButtonController.Target3 = LayoutAppButton.AppButton;
+                _appButtonController.Click += OnAppButtonClicked;
+                _appButtonController.MouseReleased += OnAppButtonReleased;
+                LayoutAppButton.MouseController = _appButtonController;
+                LayoutAppButton.SourceController = _appButtonController;
+                LayoutAppButton.KeyController = _appButtonController;
+            }
 
-            _appTabController.Target1 = LayoutAppTab.AppTab;
-            _appTabController.Click += OnAppButtonClicked;
-            _appTabController.MouseReleased += OnAppButtonReleased;
-            LayoutAppTab.MouseController = _appTabController;
-            LayoutAppTab.SourceController = _appTabController;
-            LayoutAppTab.KeyController = _appTabController;
+            if (_appTabController != null)
+            {
+                _appTabController.Target1 = LayoutAppTab.AppTab;
+                _appTabController.Click += OnAppButtonClicked;
+                _appTabController.MouseReleased += OnAppButtonReleased;
+                LayoutAppTab.MouseController = _appTabController;
+                LayoutAppTab.SourceController = _appTabController;
+                LayoutAppTab.KeyController = _appTabController;
+            }
 
             // When the app button is not visible we need separator instead before start of first tab
             _layoutAppButtonSep = new ViewLayoutSeparator(5, 0)
@@ -739,8 +745,15 @@ namespace Krypton.Ribbon
             _ribbon.KillKeyboardMode();
 
             // Remove the fixed 'pressed' state from the application button
-            _appButtonController.RemoveFixed();
-            _appTabController.RemoveFixed();
+            if (_appButtonController != null)
+            {
+                _appButtonController.RemoveFixed();
+            }
+
+            if (_appTabController != null)
+            {
+                _appTabController.RemoveFixed();
+            }
 
             // Should still be caching a reference to actual display control
             if (_appMenu != null)
@@ -806,7 +819,7 @@ namespace Krypton.Ribbon
                                 // Grab the style from the app button settings
                                 toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
                                 shadow = _ribbon.RibbonAppButton.ToolTipShadow;
-                                
+
                                 // Display below the mouse cursor
                                 screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
                             }
@@ -863,7 +876,7 @@ namespace Krypton.Ribbon
                                 {
                                     // Cast to correct type
                                     if (e.Target.Parent is { Component: IRibbonGroupItem { ToolTipValues.EnableToolTips: true } groupItem })
-                                        // Is there actually anything to show for the tooltip
+                                    // Is there actually anything to show for the tooltip
                                     {
                                         sourceContent = groupItem.ToolTipValues;
 

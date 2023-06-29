@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
             _textContent = new ViewDrawMenuItemContent(menuItemStyle, _fixedTextExtraText, 1);
             docker.Add(_textContent, ViewDockStyle.Fill);
             _textContent.Enabled = ItemEnabled;
-            
+
             // Shortcut
             if (KryptonContextMenuItem.ShowShortcutKeys)
             {
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
             _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : Color.Empty), 3);
             docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
             _subMenuContent.Enabled = ItemEnabled;
-            
+
             Add(docker);
 
             // Add a controller for handing mouse and keyboard events
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
 
             // Want to know when a property changes whilst displayed
             KryptonContextMenuItem.PropertyChanged += OnPropertyChanged;
-            
+
             // We need to know if a property of the command changes
             if (KryptonContextMenuItem.KryptonCommand != null)
             {
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
             }
 
             base.Dispose(disposing);
-        }        
+        }
         #endregion
 
         #region KryptonContextMenuItem
@@ -608,10 +608,10 @@ namespace Krypton.Toolkit
                     break;
             }
         }
-            
+
         private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            switch (e.PropertyName)
             {
                 case @"Text":
                 case @"ExtraText":

@@ -339,7 +339,10 @@ namespace Krypton.Docking
             if (cell == null)
             {
                 cell = new();
-                DockspaceControl.Root.Children.Add(cell);
+                if (DockspaceControl.Root.Children != null)
+                {
+                    DockspaceControl.Root.Children.Add(cell);
+                }
             }
 
             // Replace any existing page with the new one

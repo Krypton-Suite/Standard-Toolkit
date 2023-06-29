@@ -7,31 +7,15 @@
  */
 #endregion
 
-// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
-    /// <summary>Exposes a general set of strings that are used within the Krypton Toolkit, and are localisable.</summary>
+    /// <summary>Exposes a custom set of strings that are used within the Krypton Toolkit, and are localisable.</summary>
     /// <seealso cref="GlobalId" />
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class GeneralStrings : GlobalId
+    public class CustomToolkitStrings : GlobalId
     {
-        #region Static Fields
-        private const string DEFAULT_OK = @"O&K"; // Accelerator key - K
-        private const string DEFAULT_CANCEL = @"Cance&l"; // Accelerator key - L
-        private const string DEFAULT_YES = @"&Yes"; // Accelerator key - Y
-        private const string DEFAULT_NO = @"N&o"; // Accelerator key - O
-        private const string DEFAULT_ABORT = @"A&bort"; // Accelerator key - B
-        private const string DEFAULT_RETRY = @"Ret&ry"; // Accelerator key - R
-        private const string DEFAULT_IGNORE = @"I&gnore"; // Accelerator key - G
-        private const string DEFAULT_CLOSE = @"Clo&se"; // Accelerator key - S
-        private const string DEFAULT_TODAY = @"&Today"; // Accelerator key - T
-        private const string DEFAULT_HELP = @"H&elp"; // Accelerator key - E
+        #region Static Strings
 
-        // NET 6 & newer
-        private const string DEFAULT_CONTINUE = @"Co&ntinue"; // Accelerator key - N
-        private const string DEFAULT_TRY_AGAIN = @"Try Aga&in"; // Accelerator key - I
-
-        // Custom
         private const string DEFAULT_APPLY = @"A&pply"; // Accelerator key - P
         private const string DEFAULT_BACK = @"Bac&k"; // Accelerator key - K
         private const string DEFAULT_COLLAPSE = @"C&ollapse"; // Accelerator key - O
@@ -58,16 +42,14 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="GeneralStrings" /> class.</summary>
-        public GeneralStrings()
+        /// <summary>Initializes a new instance of the <see cref="CustomToolkitStrings" /> class.</summary>
+        public CustomToolkitStrings()
         {
             ResetValues();
         }
 
-        /// <summary>
-        /// Returns a string that represents the current defaulted state.
-        /// </summary>
-        /// <returns>A string that represents the current defaulted state.</returns>
+        /// <summary>Converts to string.</summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
         #endregion
@@ -79,19 +61,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
-        public bool IsDefault => OK.Equals(DEFAULT_OK) &&
-                                 Cancel.Equals(DEFAULT_CANCEL) &&
-                                 Yes.Equals(DEFAULT_YES) &&
-                                 No.Equals(DEFAULT_NO) &&
-                                 Abort.Equals(DEFAULT_ABORT) &&
-                                 Retry.Equals(DEFAULT_RETRY) &&
-                                 Ignore.Equals(DEFAULT_IGNORE) &&
-                                 Close.Equals(DEFAULT_CLOSE) &&
-                                 Today.Equals(DEFAULT_TODAY) &&
-                                 Help.Equals(DEFAULT_HELP) &&
-                                 Continue.Equals(DEFAULT_CONTINUE) &&
-                                 TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
-                                 Apply.Equals(DEFAULT_APPLY) &&
+        public bool IsDefault => Apply.Equals(DEFAULT_APPLY) &&
                                  Collapse.Equals(DEFAULT_COLLAPSE) &&
                                  Expand.Equals(DEFAULT_EXPAND) &&
                                  Apply.Equals(DEFAULT_APPLY) &&
@@ -109,31 +79,9 @@ namespace Krypton.Toolkit
                                  NoToAll.Equals(DEFAULT_NO_TO_ALL) &&
                                  OkToAll.Equals(DEFAULT_OK_TO_ALL) &&
                                  Reset.Equals(DEFAULT_RESET);
-        // Note: The following may not be needed...
-        /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
-        LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
 
-        /// <summary>
-        /// Reset all strings to default values.
-        /// </summary>
         public void ResetValues()
         {
-            OK = DEFAULT_OK;
-            Cancel = DEFAULT_CANCEL;
-            Yes = DEFAULT_YES;
-            No = DEFAULT_NO;
-            Abort = DEFAULT_ABORT;
-            Retry = DEFAULT_RETRY;
-            Ignore = DEFAULT_IGNORE;
-            Close = DEFAULT_CLOSE;
-            Today = DEFAULT_TODAY;
-            Help = DEFAULT_HELP;
-
-            // NET 6 & newer
-            Continue = DEFAULT_CONTINUE;
-            TryAgain = DEFAULT_TRY_AGAIN;
-
-            // Custom
             Apply = DEFAULT_APPLY;
             Collapse = DEFAULT_COLLAPSE;
             Expand = DEFAULT_EXPAND;
@@ -152,130 +100,7 @@ namespace Krypton.Toolkit
             NoToAll = DEFAULT_NO_TO_ALL;
             OkToAll = DEFAULT_OK_TO_ALL;
             Reset = DEFAULT_RESET;
-
-            // Note: The following may not be needed...
-            /*MoreDetails = DEFAULT_MORE_DETAILS;
-            LessDetails = DEFAULT_LESS_DETAILS;*/
         }
-
-        /// <summary>
-        /// Gets and sets the OK string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"OK string used for message box buttons.")]
-        [DefaultValue(DEFAULT_OK)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string OK { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Cancel string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Cancel string used for message box buttons.")]
-        [DefaultValue(DEFAULT_CANCEL)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string Cancel { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Yes string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Yes string used for message box buttons.")]
-        [DefaultValue(DEFAULT_YES)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string Yes { get; set; }
-
-        /// <summary>
-        /// Gets and sets the No string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"No string used for message box buttons.")]
-        [DefaultValue(DEFAULT_NO)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string No { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Abort string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Abort string used for message box buttons.")]
-        [DefaultValue(DEFAULT_ABORT)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string Abort { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Retry string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Retry string used for message box buttons.")]
-        [DefaultValue(DEFAULT_RETRY)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string Retry { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Ignore string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Ignore string used for message box buttons.")]
-        [DefaultValue(DEFAULT_IGNORE)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string Ignore { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Close string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Close string used for message box buttons.")]
-        [DefaultValue(DEFAULT_CLOSE)]
-
-        [RefreshProperties(RefreshProperties.All)]
-        public string Close { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Close string used in calendars.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Today string used for calendars.")]
-        [DefaultValue(DEFAULT_TODAY)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string Today { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Help string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Help string used for Message Box Buttons.")]
-        [DefaultValue(DEFAULT_HELP)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string Help { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Continue string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Continue string used for Message Box Buttons.")]
-        [DefaultValue(DEFAULT_CONTINUE)]
-        public string Continue { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Try Again string used in message box buttons.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Try Again string used for Message Box Buttons.")]
-        [DefaultValue(DEFAULT_TRY_AGAIN)]
-        public string TryAgain { get; set; }
 
         /// <summary>Gets or sets the collapse string used in expandable footers.</summary>
         [Localizable(true)]
@@ -424,19 +249,7 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_RESET)]
         public string Reset { get; set; }
 
-        // Note: The following may not be needed...
 
-        /*/// <summary>Gets or sets the more details string used in expandable footers.</summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"More details string used in expandable footers.")]
-        public string MoreDetails { get; set; }
-
-        /// <summary>Gets or sets the less details string used in expandable footers.</summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Less details string used in expandable footers.")]
-        public string LessDetails { get; set; }*/
         #endregion
     }
 }

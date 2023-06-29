@@ -58,11 +58,14 @@ namespace Krypton.Docking
 
             // Hook into floatspace events and add as the content of the floating window
             FloatspaceControl = floatspace;
-            FloatspaceControl.CellCountChanged += OnFloatspaceCellCountChanged!;
-            FloatspaceControl.CellVisibleCountChanged += OnFloatspaceCellVisibleCountChanged!;
-            FloatspaceControl.WorkspaceCellAdding += OnFloatspaceCellAdding!;
-            FloatspaceControl.WorkspaceCellRemoved += OnFloatspaceCellRemoved!;
-            Controls.Add(FloatspaceControl);
+            if (FloatspaceControl != null)
+            {
+                FloatspaceControl.CellCountChanged += OnFloatspaceCellCountChanged!;
+                FloatspaceControl.CellVisibleCountChanged += OnFloatspaceCellVisibleCountChanged!;
+                FloatspaceControl.WorkspaceCellAdding += OnFloatspaceCellAdding!;
+                FloatspaceControl.WorkspaceCellRemoved += OnFloatspaceCellRemoved!;
+                Controls.Add(FloatspaceControl);
+            }
         }
 
         #endregion
@@ -215,7 +218,7 @@ namespace Krypton.Docking
         private void OnFloatspaceCellCountChanged(object sender, EventArgs e)
         {
             // When all the cells (and so pages) have been removed we kill ourself
-            if (FloatspaceControl.CellCount == 0)
+            if (FloatspaceControl != null && FloatspaceControl.CellCount == 0)
             {
                 FloatspaceControl.Dispose();
             }
@@ -247,49 +250,61 @@ namespace Krypton.Docking
 
         private void OnLayoutWorkspace(object sender, EventArgs e)
         {
-            FloatspaceControl.PerformNeedPaint(true);
+            if (FloatspaceControl != null)
+            {
+                FloatspaceControl.PerformNeedPaint(true);
+            }
         }
 
         private void UpdateCellSettings()
         {
-            KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
-            if (cell != null)
+            if (FloatspaceControl != null)
             {
-                // If there is only a single cell inside the floating window
-                if (FloatspaceControl.CellVisibleCount <= 1)
+                KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
+                if (cell != null)
                 {
-                    // Cell display mode depends on the number of tabs in the cell
-                    cell.NavigatorMode = cell.Pages.VisibleCount == 1 ? NavigatorMode.HeaderGroup : NavigatorMode.HeaderGroupTab;
-                }
-                else
-                {
-                    do
+                    // If there is only a single cell inside the floating window
+                    if (FloatspaceControl.CellVisibleCount <= 1)
                     {
-                        // With multiple cells we always need the tabs showing
-                        cell.NavigatorMode = NavigatorMode.HeaderGroupTab;
-                        cell = FloatspaceControl.NextVisibleCell(cell);
+                        // Cell display mode depends on the number of tabs in the cell
+                        cell.NavigatorMode = cell.Pages.VisibleCount == 1 ? NavigatorMode.HeaderGroup : NavigatorMode.HeaderGroupTab;
                     }
-                    while (cell != null);
+                    else
+                    {
+                        do
+                        {
+                            // With multiple cells we always need the tabs showing
+                            cell.NavigatorMode = NavigatorMode.HeaderGroupTab;
+                            cell = FloatspaceControl.NextVisibleCell(cell);
+                        }
+                        while (cell != null);
+                    }
                 }
             }
 
             // Only show the floating window if there is a visible cell
-            Visible = (FloatspaceControl.CellVisibleCount > 0);
+            if (FloatspaceControl != null)
+            {
+                Visible = (FloatspaceControl.CellVisibleCount > 0);
+            }
         }
 
         private IReadOnlyList<string> VisibleCloseableUniqueNames()
         {
             var uniqueNames = new List<string>();
-            KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
-            while (cell != null)
+            if (FloatspaceControl != null)
             {
-                // Create a list of all the visible page names in the floatspace that are allowed to be closed
-                uniqueNames.AddRange(from page in cell.Pages
-                                     where page.LastVisibleSet
-                                     && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose)
-                                     select page.UniqueName);
+                KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
+                while (cell != null)
+                {
+                    // Create a list of all the visible page names in the floatspace that are allowed to be closed
+                    uniqueNames.AddRange(from page in cell.Pages
+                                         where page.LastVisibleSet
+                                               && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose)
+                                         select page.UniqueName);
 
-                cell = FloatspaceControl.NextVisibleCell(cell);
+                    cell = FloatspaceControl.NextVisibleCell(cell);
+                }
             }
 
             return uniqueNames;

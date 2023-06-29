@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
                                          IPaletteTriple palette,
                                          ViewLayoutRibbonGalleryItems layout,
                                          NeedPaintHandler needPaint)
-            : base(palette, palette, palette, palette, 
+            : base(palette, palette, palette, palette,
                    null, null, VisualOrientation.Top, false)
         {
             _gallery = gallery;
@@ -115,7 +115,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public ImageList? ImageList
         {
-            set 
+            set
             {
                 if (_imageList != value)
                 {
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public int ImageIndex
         {
-            set 
+            set
             {
                 if (_imageIndex != value)
                 {
@@ -166,7 +166,7 @@ namespace Krypton.Ribbon
             PaletteState tempState = ElementState;
             if (_gallery.TrackingIndex == _imageIndex)
             {
-                switch(tempState)
+                switch (tempState)
                 {
                     case PaletteState.Normal:
                         ElementState = PaletteState.Tracking;
@@ -191,11 +191,11 @@ namespace Krypton.Ribbon
         /// <returns>Image value.</returns>
         public virtual Image? GetImage(PaletteState state)
         {
-           // Cache image so we do not copy it every time it is requested
-           if ((_image == null) && (_imageList != null) && (_imageIndex >= 0))
-           {
-               _image = _imageList.Images[_imageIndex];
-           }
+            // Cache image so we do not copy it every time it is requested
+            if ((_image == null) && (_imageList != null) && (_imageIndex >= 0))
+            {
+                _image = _imageList.Images[_imageIndex];
+            }
 
             return _image;
         }

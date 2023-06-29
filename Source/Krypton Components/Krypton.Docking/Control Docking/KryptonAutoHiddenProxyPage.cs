@@ -318,7 +318,7 @@ namespace Krypton.Docking
         }
 
         /// <summary>Occurs when an appearance specific page property has changed.</summary>
-        public override event PropertyChangedEventHandler AppearancePropertyChanged
+        public override event PropertyChangedEventHandler? AppearancePropertyChanged
         {
             add
             {
