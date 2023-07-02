@@ -1,4 +1,4 @@
-:: Last updated: Sunday 23rd April, 2023 @ 10:00
+:: Last updated: Sunday 2nd June, 2023 @ 17:00
 
 @echo off
 
@@ -6,7 +6,7 @@ title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.8c. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.8d. Please select an option below.
 
 @echo ==============================================================================================
 
@@ -192,7 +192,7 @@ cls
 
 cd Scripts
 
-build-nightly-2022.cmd
+build-nightly.cmd
 
 cd ..
 
@@ -201,7 +201,7 @@ cls
 
 cd Scripts
 
-build-canary-2022.cmd
+build-canary.cmd
 
 cd ..
 
@@ -210,7 +210,7 @@ cls
 
 cd Scripts
 
-build-installer-2022.cmd
+build-installer.cmd
 cls
 
 cd Scripts
@@ -222,7 +222,7 @@ cls
 
 cd Scripts
 
-build-stable-2022.cmd
+build-stable.cmd
 
 cd ..
 
@@ -233,21 +233,21 @@ cls
 
 cd Scripts
 
-build-nightly-2022.cmd Pack
+build-nightly.cmd Pack
 
 :packcanaryusingvisualstudio2022
 cls
 
 cd Scripts
 
-build-canary-2022.cmd Pack
+build-canary.cmd Pack
 
 :packinstallerusingvisualstudio2022
 cls
 
 cd Scripts
 
-build-installer-2022.cmd Pack
+build-installer.cmd Pack
 
 :packstableusingvisualstudio2022
 cls
@@ -276,21 +276,21 @@ cls
 
 cd Scripts
 
-build-stable-2022.cmd PackLite
+build-stable.cmd PackLite
 
 :packstableusingvisualstudio2022full
 cls
 
 cd Scripts
 
-build-stable-2022.cmd PackAll
+build-stable.cmd PackAll
 
 :packstableusingvisualstudio2022both
 cls
 
 cd Scripts
 
-build-stable-2022.cmd Pack
+build-stable.cmd Pack
 
 :: ===================================================================================================
 
@@ -323,7 +323,7 @@ cls
 
 cd Scripts
 
-build-nightly-2022.cmd
+build-nightly.cmd
 
 :: ===================================================================================================
 
@@ -411,7 +411,7 @@ cls
 
 cd Scripts
 
-rebuild-build-nightly-2022.cmd
+rebuild-build-nightly.cmd
 
 :: ===================================================================================================
 

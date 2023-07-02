@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _imageContent;
         private readonly ViewDrawMenuItemContent _textContent;
         private readonly FixedContentValue _fixedImage;
-        private VisualContextMenu _contextMenu;
+        private VisualContextMenu? _contextMenu;
         private readonly ViewDrawMenuItemContent _shortcutContent;
         private readonly ViewDrawMenuItemContent _subMenuContent;
         private readonly FixedContentValue _fixedTextExtraText;
@@ -389,7 +389,10 @@ namespace Krypton.Toolkit
             if ((_contextMenu == null) || _contextMenu.IsDisposed)
             {
                 // No need for the sub menu timer anymore, we are showing
-                _provider.ProviderViewManager.SetTargetSubMenu((IContextMenuTarget)KeyController);
+                if (KeyController != null)
+                {
+                    _provider.ProviderViewManager.SetTargetSubMenu((IContextMenuTarget)KeyController);
+                }
 
                 // Only show a sub menu if there is one to be shown!
                 if (HasSubMenu)
