@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
 
             // Create and place an image column inside a docker so it appears on the left side
             _imageColumn = new ViewDrawMenuImageColumn(items, provider.ProviderStateCommon.ItemImageColumn);
-            ViewLayoutDocker imageDocker = new()
+            ViewLayoutDocker imageDocker = new ViewLayoutDocker
             {
                 { _imageColumn, ViewDockStyle.Left }
             };
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
             };
 
             // Use a docker with the item stack as the fill
-            ViewLayoutDocker stackDocker = new()
+            ViewLayoutDocker stackDocker = new ViewLayoutDocker
             {
                 { ItemStack, ViewDockStyle.Fill }
             };
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutMenuItemsPile:" + Id;
+            $"ViewLayoutMenuItemsPile:{Id}";
 
         #endregion
 

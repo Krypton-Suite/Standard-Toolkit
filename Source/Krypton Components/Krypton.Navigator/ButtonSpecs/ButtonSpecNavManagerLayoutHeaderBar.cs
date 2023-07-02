@@ -80,7 +80,7 @@ namespace Krypton.Navigator
             foreach (ButtonSpecView view in ButtonSpecViews)
             {
                 // Cast the remapping palette to the correct type
-                ButtonSpecRemapByContentCache? remapPalette = (ButtonSpecRemapByContentCache)view.RemapPalette!;
+                ButtonSpecRemapByContentCache remapPalette = (ButtonSpecRemapByContentCache)view.RemapPalette!;
                 remapPalette.SetPaletteContent(_paletteContent);
                 remapPalette.SetPaletteState(_paletteState);
             }
@@ -115,7 +115,7 @@ namespace Krypton.Navigator
                                                   int viewDockerIndex)
         {
             // Cast the remapping palette to the correct type
-            ButtonSpecRemapByContentCache? remapPalette = (ButtonSpecRemapByContentCache)buttonView.RemapPalette!;
+            ButtonSpecRemapByContentCache remapPalette = (ButtonSpecRemapByContentCache)buttonView.RemapPalette!;
 
             // Update button with the foreground used for color mapping
             remapPalette.SetPaletteContent(_paletteContent);

@@ -22,7 +22,8 @@ namespace Krypton.Ribbon
         /// The supported themes
         /// </summary>
         // TODO: This should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
-        private static readonly BiDictionary<string, PaletteMode> _supportedThemes = new(new Dictionary<string, PaletteMode>
+        private static readonly BiDictionary<string, PaletteMode> _supportedThemes =
+            new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
             {
                 { @"Professional - System", PaletteMode.ProfessionalSystem },
                 { @"Professional - Office 2003", PaletteMode.ProfessionalOffice2003 },
@@ -198,9 +199,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="paletteMode">The palette mode.</param>
         /// <returns></returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode)
+        public static string? ReturnPaletteModeAsString(PaletteMode paletteMode)
         {
-            PaletteModeConverter modeConverter = new();
+            var modeConverter = new PaletteModeConverter();
 
             return modeConverter.ConvertToString(paletteMode);
         }

@@ -83,9 +83,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon!;
-            ViewLayoutRibbonTabs = layoutTabs!;
-            _needPaint = needPaint!;
+            Ribbon = ribbon;
+            ViewLayoutRibbonTabs = layoutTabs;
+            _needPaint = needPaint;
 
             // Create overrides for handling a focus state
             _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
@@ -106,9 +106,9 @@ namespace Krypton.Ribbon
             _contentProvider = new RibbonTabToContent(_paletteGeneral, _paletteContextCurrent);
 
             // Use a controller to change state because of mouse movement
-            RibbonTabController controller = new(Ribbon, this, _needPaint);
-            controller.Click += OnTabClicked;
-            controller.ContextClick += OnTabContextClicked;
+            var controller = new RibbonTabController(Ribbon, this, _needPaint);
+            controller.Click += OnTabClicked!;
+            controller.ContextClick += OnTabContextClicked!;
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonTab:" + Id;
+            $@"ViewDrawRibbonTab:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -353,10 +353,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context!);
+            CheckPaletteState(context);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -504,14 +504,16 @@ namespace Krypton.Ribbon
                 Color sepColor = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
 
                 Rectangle parentRect = Parent.ClientRectangle;
-                Rectangle contextRect = new(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2, parentRect.Height);
-                Rectangle gradientRect = new(ClientRectangle.X - 1, parentRect.Y - 1, ClientRectangle.Width + 2, parentRect.Height + 2);
+                var contextRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2,
+                    parentRect.Height);
+                var gradientRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y - 1,
+                    ClientRectangle.Width + 2, parentRect.Height + 2);
 
-                using LinearGradientBrush sepBrush = new(gradientRect, sepColor, Color.Transparent, 90f);
+                using var sepBrush = new LinearGradientBrush(gradientRect, sepColor, Color.Transparent, 90f);
                 // We need to customize the way the color blends over the background
                 sepBrush.Blend = _contextBlend2007;
 
-                using Pen sepPen = new(sepBrush);
+                using var sepPen = new Pen(sepBrush);
                 if (cts.IsFirstTab(this))
                 {
                     context.Graphics.DrawLine(sepPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 1);
@@ -532,16 +534,18 @@ namespace Krypton.Ribbon
             Color lightC2 = ControlPaint.Light(c2);
             Color c3 = CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f);
 
-            Rectangle contextRect = new(ClientRectangle.X - 1, ClientRectangle.Y - 1, ClientRectangle.Width + 2, ClientRectangle.Height + 1);
-            Rectangle fillRect = new(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4, ClientRectangle.Height);
+            var contextRect = new Rectangle(ClientRectangle.X - 1, ClientRectangle.Y - 1,
+                ClientRectangle.Width + 2, ClientRectangle.Height + 1);
+            var fillRect = new Rectangle(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4,
+                ClientRectangle.Height);
 
-            using LinearGradientBrush outerBrush = new(contextRect, c1, Color.Transparent, 90f),
-                innerBrush = new(contextRect, c3, Color.Transparent, 90f),
-                fillBrush = new(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f);
+            using var outerBrush = new LinearGradientBrush(contextRect, c1, Color.Transparent, 90f);
+            using var innerBrush = new LinearGradientBrush(contextRect, c3, Color.Transparent, 90f);
+            using var fillBrush = new LinearGradientBrush(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f);
             fillBrush.Blend = _contextBlend2010;
 
-            using Pen outerPen = new(outerBrush),
-                innerPen = new(innerBrush);
+            using var outerPen = new Pen(outerBrush);
+            using var innerPen = new Pen(innerBrush);
             if (cts.IsFirstTab(this))
             {
                 // Draw left separators

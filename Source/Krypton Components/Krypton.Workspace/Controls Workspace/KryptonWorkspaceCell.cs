@@ -45,7 +45,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
         /// </summary>
-        public event EventHandler MaximizeRestoreClicked;
+        public event EventHandler? MaximizeRestoreClicked;
         #endregion
 
         #region Identity
@@ -477,7 +477,7 @@ namespace Krypton.Workspace
                         var finished = xmlReader.IsEmptyElement;
 
                         // Generate event so custom data can be loaded and/or the page to be added can be modified
-                        PageLoadingEventArgs plea = new(workspace, page, xmlReader);
+                        PageLoadingEventArgs plea = new PageLoadingEventArgs(workspace, page, xmlReader);
                         workspace.OnPageLoading(plea);
                         page = plea.Page;
 

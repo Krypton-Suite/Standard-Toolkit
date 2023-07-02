@@ -108,12 +108,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -290,10 +290,11 @@ namespace Krypton.Toolkit
                             rect.bottom -= borderSize.Height;
 
                             // Create rectangle that represents the drop down button
-                            Rectangle dropRect = new(rect.right + 2, rect.top, dropDownWidth - 2, rect.bottom - rect.top);
+                            Rectangle dropRect = new Rectangle(rect.right + 2, rect.top, dropDownWidth - 2,
+                                rect.bottom - rect.top);
 
                             // Extract the point in client coordinates
-                            Point clientPoint = new((int)m.LParam);
+                            Point clientPoint = new Point((int)m.LParam);
                             var mouseTracking = dropRect.Contains(clientPoint);
                             if (mouseTracking != _mouseTracking)
                             {
@@ -310,7 +311,7 @@ namespace Krypton.Toolkit
                             {
                                 PI.SendMessage(Handle, PI.CB_SETCUEBANNER, IntPtr.Zero, _kryptonComboBox.CueHint.CueHintText);
                             }
-                            PI.PAINTSTRUCT ps = new();
+                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -333,7 +334,7 @@ namespace Krypton.Toolkit
                             //}
 
                             // Paint the entire area in the background color
-                            using (Graphics? g = Graphics.FromHdc(hdc))
+                            using (Graphics g = Graphics.FromHdc(hdc))
                             {
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);
@@ -346,7 +347,7 @@ namespace Krypton.Toolkit
                                 PaletteInputControlTripleStates states = _kryptonComboBox.GetComboBoxTripleState();
 
                                 // Drawn entire client area in the background color
-                                using SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state));
+                                using SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
                                 g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
 
                                 // Get the constant used to crack open the display
@@ -419,7 +420,8 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Draw text using font defined by the control
-                                    Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+                                    Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                        rect.bottom - rect.top);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
                                     // Find correct text color
                                     Color textColor = states.Content.GetContentShortTextColor1(state);
@@ -453,7 +455,7 @@ namespace Krypton.Toolkit
                         if (_kryptonComboBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -543,7 +545,8 @@ namespace Krypton.Toolkit
                 _viewButton.ElementState = state;
 
                 // Position the button element inside the available drop down button area
-                using (ViewLayoutContext layoutContext = new(_kryptonComboBox, _kryptonComboBox.Renderer))
+                using (ViewLayoutContext layoutContext =
+                       new ViewLayoutContext(_kryptonComboBox, _kryptonComboBox.Renderer))
                 {
                     // Define the available area for layout
                     layoutContext.DisplayRectangle = drawRect;
@@ -553,13 +556,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill background with the solid background color
-                using (SolidBrush backBrush = new(BackColor))
+                using (SolidBrush backBrush = new SolidBrush(BackColor))
                 {
                     g.FillRectangle(backBrush, drawRect);
                 }
 
                 // Ask the element to draw now
-                using (RenderContext renderContext = new(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
+                using (RenderContext renderContext =
+                       new RenderContext(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
                 {
                     // Ask the button element to draw itself
                     _viewButton.Render(renderContext);
@@ -602,12 +606,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -699,7 +703,7 @@ namespace Krypton.Toolkit
                         // Mouse is over the control
                         if (!MouseOver)
                         {
-                            PI.TRACKMOUSEEVENTS tme = new()
+                            PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
                             {
 
                                 // This structure needs to know its own size in bytes
@@ -726,7 +730,7 @@ namespace Krypton.Toolkit
                         if (_kryptonComboBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -832,63 +836,63 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when an item needs to be Drawn.")]
-        public event DrawItemEventHandler DrawItem;
+        public event DrawItemEventHandler? DrawItem;
 
         /// <summary>
         /// Occurs when the control is initialized.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the control has been fully initialized.")]
-        public event EventHandler Initialized;
+        public event EventHandler? Initialized;
 
         /// <summary>
         /// Occurs when the drop-down portion of the KryptonComboBox is shown.
         /// </summary>
         [Description(@"Occurs when the drop-down portion of the KryptonComboBox is shown.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDown;
+        public event EventHandler? DropDown;
 
         /// <summary>
         /// Indicates that the drop-down portion of the KryptonComboBox has closed.
         /// </summary>
         [Description(@"Indicates that the drop-down portion of the KryptonComboBox has closed.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDownClosed;
+        public event EventHandler? DropDownClosed;
 
         /// <summary>
         /// Occurs when the value of the DropDownStyle property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DropDownStyle property changed.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDownStyleChanged;
+        public event EventHandler? DropDownStyleChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when an item is chosen from the drop-down list and the drop-down list is closed.
         /// </summary>
         [Description(@"Occurs when an item is chosen from the drop-down list and the drop-down list is closed.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectionChangeCommitted;
+        public event EventHandler? SelectionChangeCommitted;
 
         /// <summary>
         /// Occurs when the value of the DataSource property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DataSource property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler DataSourceChanged;
+        public event EventHandler? DataSourceChanged;
 
         /// <summary>
         /// Occurs when the value of the DisplayMember property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DisplayMember property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler DisplayMemberChanged;
+        public event EventHandler? DisplayMemberChanged;
 
         /// <summary>
         /// Occurs when the list format has changed.
@@ -902,56 +906,56 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the value of the FormatInfo property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormatInfoChanged;
+        public event EventHandler? FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormatString property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormatStringChanged;
+        public event EventHandler? FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormattingEnabled property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormattingEnabledChanged;
+        public event EventHandler? FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changed.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedValue property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler SelectedValueChanged;
+        public event EventHandler? SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the ValueMember property changed.
         /// </summary>
         [Description(@"Occurs when the value of the ValueMember property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler ValueMemberChanged;
+        public event EventHandler? ValueMemberChanged;
 
         /// <summary>
         /// Occurs when the KryptonComboBox text has changed.
         /// </summary>
         [Description(@"Occurs when the KryptonComboBox text has changed.")]
         [Category(@"Behavior")]
-        public event EventHandler TextUpdate;
+        public event EventHandler? TextUpdate;
 
         /// <summary>
         /// Occurs when the hovered selection changed.
         /// </summary>
         [Description(@"Occurs when the hovered selection changed.")]
         [Category(@"Behavior")]
-        public event EventHandler<HoveredSelectionChangedEventArgs> HoveredSelectionChanged;
+        public event EventHandler<HoveredSelectionChangedEventArgs>? HoveredSelectionChanged;
 
         /// <summary>
         /// Occurs when the <see cref="KryptonComboBox"/> wants to display a tooltip.
         /// </summary>
         [Description(@"Occurs when the KryptonComboBox wants to display a tooltip.")]
         [Category(@"Behavior")]
-        public event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
+        public event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -959,7 +963,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -967,49 +971,49 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the value of the Paint property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler Paint;
+        public new event EventHandler? Paint;
 
         /// <summary>
         /// Occurs when the value of the PaddingChanged property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
         #endregion
 
         #region Identity
@@ -2285,7 +2289,7 @@ namespace Krypton.Toolkit
         {
             HoveredSelectionChanged?.Invoke(this, e);
             // See if there is a tooltip to display for the new selection.
-            ToolTipNeededEventArgs args = new(e.Index, e.Item);
+            ToolTipNeededEventArgs args = new ToolTipNeededEventArgs(e.Index, e.Item);
             OnToolTipNeeded(args);
             if (!args.IsEmpty)
             {
@@ -2571,7 +2575,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(121, PreferredHeight);
+        protected override Size DefaultSize => new Size(121, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -2817,7 +2821,7 @@ namespace Krypton.Toolkit
                                 _hoverIndex = e.Index;
                                 // Raise the Hover event
                                 HoveredSelectionChangedEventArgs ev =
-                                    new(e.Bounds, e.Index, Items[e.Index]);
+                                    new HoveredSelectionChangedEventArgs(e.Bounds, e.Index, Items[e.Index]);
                                 OnHoverSelectionChanged(ev);
                             }
                         }
@@ -2846,7 +2850,7 @@ namespace Krypton.Toolkit
                                 // Easier to draw using a graphics instance than a DC!
                                 using Graphics g = Graphics.FromHdc(_screenDC);
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new(this, Renderer))
+                                using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
                                 {
                                     context.DisplayRectangle = drawBounds;
                                     _drawPanel.Layout(context);
@@ -2854,7 +2858,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Ask the view element to actually draw
-                                using (RenderContext context = new(this, g, drawBounds, Renderer))
+                                using (RenderContext context = new RenderContext(this, g, drawBounds, Renderer))
                                 {
                                     _drawPanel.Render(context);
                                     _drawButton.Render(context);
@@ -2884,7 +2888,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using ViewLayoutContext context = new(this, Renderer);
+            using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
             Size size = _drawButton.GetPreferredSize(context);
             e.ItemWidth = size.Width;
             e.ItemHeight = size.Height;
@@ -3066,7 +3070,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -3125,7 +3129,7 @@ namespace Krypton.Toolkit
                 return _toolTip;
             }
 
-            PaletteRedirect? redirector = new(KryptonManager.CurrentGlobalPalette);
+            PaletteRedirect redirector = new PaletteRedirect(KryptonManager.CurrentGlobalPalette);
             _toolTip = new VisualPopupToolTip(redirector,
                 new ButtonSpecToContent(redirector, _toolTipSpec), KryptonManager
                     .CurrentGlobalPalette.GetRenderer(),
@@ -3141,7 +3145,7 @@ namespace Krypton.Toolkit
             VisualPopupToolTip tip = GetToolTip();
             // Needed to make Krypton update the tooltip data with the data of the spec.
             tip.PerformNeedPaint(true);
-            Point point = new(location.X + DropDownWidth, location.Y);
+            Point point = new Point(location.X + DropDownWidth, location.Y);
             tip.ShowCalculatingSize(PointToScreen(point));
         }
 

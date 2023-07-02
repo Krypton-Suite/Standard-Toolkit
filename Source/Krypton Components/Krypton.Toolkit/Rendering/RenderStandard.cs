@@ -386,7 +386,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonStandardRenderer renderer = new(colorPalette.ColorTable)
+            KryptonStandardRenderer renderer = new KryptonStandardRenderer(colorPalette.ColorTable)
             {
 
                 // Setup the need to use rounded corners
@@ -593,7 +593,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Use helper to create a border path on the outside
             return CreateBorderBackPath(true, false, rect,
@@ -635,7 +635,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateBorderBackPath(false,
@@ -679,7 +679,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateBorderBackPath(false,
@@ -722,7 +722,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
 
@@ -733,7 +733,7 @@ namespace Krypton.Toolkit
                 SmoothingMode smoothMode = palette.GetBorderRounding(state) > 0 ? SmoothingMode.AntiAlias : SmoothingMode.Default;
 
                 // We want to draw using anti aliasing for a nice smooth effect
-                using GraphicsHint hint = new(context.Graphics, palette.GetBorderGraphicsHint(state));
+                using GraphicsHint hint = new GraphicsHint(context.Graphics, palette.GetBorderGraphicsHint(state));
                 // Cache commonly used values
                 var borderWidth = palette.GetBorderWidth(state);
 
@@ -764,12 +764,11 @@ namespace Krypton.Toolkit
 
                     // Use standard helper routine to create appropriate color brush
                     PaletteColorStyle colorStyle = palette.GetBorderColorStyle(state);
-                    using (Pen borderPen = new(CreateColorBrush(gradientRect,
-                               palette.GetBorderColor1(state),
-                               palette.GetBorderColor2(state),
-                               colorStyle,
-                               palette.GetBorderColorAngle(state),
-                               orientation), borderWidth))
+                    using (Pen borderPen =
+                           new Pen(
+                               CreateColorBrush(gradientRect, palette.GetBorderColor1(state),
+                                   palette.GetBorderColor2(state), colorStyle, palette.GetBorderColorAngle(state),
+                                   orientation), borderWidth))
                     {
                         if (colorStyle == PaletteColorStyle.Dashed)
                         {
@@ -795,7 +794,8 @@ namespace Krypton.Toolkit
                         Rectangle imageRect = context.GetAlignedRectangle(palette.GetBorderImageAlign(state), rect);
 
                         // Use standard helper routine to create appropriate image brush
-                        using Pen borderPen = new(CreateImageBrush(imageRect, borderImage!, borderImageStyle), borderWidth);
+                        using Pen borderPen = new Pen(CreateImageBrush(imageRect, borderImage!, borderImageStyle),
+                            borderWidth);
                         context.Graphics.DrawPath(borderPen, borderPath0);
 
                         // Optionally also draw the second path
@@ -854,7 +854,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Is there anything to actually draw?
             if ((rect.Width <= 0)
@@ -873,7 +873,7 @@ namespace Krypton.Toolkit
             }
 
             // We want to draw using anti aliasing for a nice smooth effect
-            using GraphicsHint smooth = new(context.Graphics, palette.GetBackGraphicsHint(state));
+            using GraphicsHint smooth = new GraphicsHint(context.Graphics, palette.GetBackGraphicsHint(state));
             // Cache commonly used values
             Image? backImage = palette.GetBackImage(state);
             PaletteImageStyle backImageStyle = palette.GetBackImageStyle(state);
@@ -1063,11 +1063,11 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Provide a maximum sized rectangle for placing content into, in 
             // order to work out how much of the space is actually allocated
-            Rectangle displayRect = new(Point.Empty, new Size(int.MaxValue, int.MaxValue));
+            Rectangle displayRect = new Rectangle(Point.Empty, new Size(int.MaxValue, int.MaxValue));
 
             // Track the allocated space in each grid position
             var allocation = new Size[3, 3] { { Size.Empty, Size.Empty, Size.Empty },
@@ -1075,7 +1075,7 @@ namespace Krypton.Toolkit
                                                   { Size.Empty, Size.Empty, Size.Empty } };
 
             // Create a memento for storing calculations
-            using StandardContentMemento memento = new();
+            using StandardContentMemento memento = new StandardContentMemento();
             // Cache the size of a spacing gap
             var spacingGap = palette.GetContentAdjacentGap(state);
 
@@ -1163,7 +1163,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Remember the original value, for use later
             Rectangle cacheDisplayRect = availableRect;
@@ -1205,7 +1205,7 @@ namespace Krypton.Toolkit
                                                   { Size.Empty, Size.Empty, Size.Empty } };
 
             // Create a memento to return to caller
-            StandardContentMemento memento = new();
+            StandardContentMemento memento = new StandardContentMemento();
 
             // Cache the size of a spacing gap
             var spacingGap = palette.GetContentAdjacentGap(state);
@@ -1322,7 +1322,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Cast the incoming memento to the correct type
             StandardContentMemento standard = (StandardContentMemento)memento;
@@ -1341,7 +1341,7 @@ namespace Krypton.Toolkit
 
             if (standard.DrawShortText)
             {
-                using GraphicsTextHint hint = new(context.Graphics, standard.ShortTextHint);
+                using GraphicsTextHint hint = new GraphicsTextHint(context.Graphics, standard.ShortTextHint);
                 // Get the rectangle to use when dealing with gradients
                 Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentShortTextColorAlign(state), standard.ShortTextRect);
 
@@ -1420,7 +1420,7 @@ namespace Krypton.Toolkit
 
             if (standard.DrawLongText)
             {
-                using GraphicsTextHint hint = new(context.Graphics, standard.LongTextHint);
+                using GraphicsTextHint hint = new GraphicsTextHint(context.Graphics, standard.LongTextHint);
                 // Get the rectangle to use when dealing with gradients
                 Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentLongTextColorAlign(state), standard.LongTextRect);
 
@@ -1887,7 +1887,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateTabBorderBackPath(context.Control.RightToLeft, state, false, rect,
@@ -1928,7 +1928,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
             return CreateTabBorderBackPath(context.Control.RightToLeft, state, false, rect,
@@ -1968,13 +1968,13 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Is there anything to actually draw?
             if (rect is { Width: > 0, Height: > 0 })
             {
                 // Decide if we need to use anti aliasing for a smoother looking visual
-                using GraphicsHint hint = new(context.Graphics, palette.GetBorderGraphicsHint(state));
+                using GraphicsHint hint = new GraphicsHint(context.Graphics, palette.GetBorderGraphicsHint(state));
                 // Cache commonly used values
                 var borderWidth = palette.GetBorderWidth(state);
 
@@ -1996,7 +1996,7 @@ namespace Krypton.Toolkit
                                palette.GetBorderColorAngle(state),
                                orientation))
                     {
-                        using (Pen borderPen = new(borderBrush, borderWidth))
+                        using (Pen borderPen = new Pen(borderBrush, borderWidth))
                         {
                             context.Graphics.DrawPath(borderPen, borderPath);
                         }
@@ -2014,7 +2014,8 @@ namespace Krypton.Toolkit
                         PaletteImageStyle borderImageStyle = palette.GetBorderImageStyle(state);
 
                         // Use standard helper routine to create appropriate image brush
-                        using Pen borderPen = new(CreateImageBrush(imageRect, borderImage, borderImageStyle), borderWidth);
+                        using Pen borderPen = new Pen(CreateImageBrush(imageRect, borderImage, borderImageStyle),
+                            borderWidth);
                         context.Graphics.DrawPath(borderPen, borderPath);
                     }
                 }
@@ -2057,7 +2058,7 @@ namespace Krypton.Toolkit
                     // Do nothing
                     break;
                 case PaletteRibbonColorStyle.Solid:
-                    using (SolidBrush backBrush = new(palette.GetRibbonBackColor1(state)))
+                    using (SolidBrush backBrush = new SolidBrush(palette.GetRibbonBackColor1(state)))
                     {
                         context.Graphics.FillRectangle(backBrush, rect);
                     }
@@ -2231,7 +2232,7 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteBack != null);
 
             // Draw inside of the border edge in a lighter version of the border
-            using SolidBrush drawBrush = new(paletteBack.GetBackColor1(state));
+            using SolidBrush drawBrush = new SolidBrush(paletteBack.GetBackColor1(state));
             context.Graphics.FillRectangle(drawBrush, displayRect);
         }
         #endregion
@@ -2278,7 +2279,7 @@ namespace Krypton.Toolkit
             }
 
             Debug.Assert(context.Control != null);
-            Debug.Assert(!context.Control!.IsDisposed);
+            Debug.Assert(!context.Control.IsDisposed);
 
             // Do we need to draw the background?
             if (paletteBack.GetBackDraw(state) == InheritBool.True)
@@ -2616,8 +2617,8 @@ namespace Krypton.Toolkit
             var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using Pen darkPen = new(c1),
-                lightPen = new(c2);
+            using Pen darkPen = new Pen(c1),
+                lightPen = new Pen(c2);
             context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
             context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
             context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
@@ -2659,8 +2660,8 @@ namespace Krypton.Toolkit
             var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using Pen darkPen = new(c1),
-                lightPen = new(c2);
+            using Pen darkPen = new Pen(c1),
+                lightPen = new Pen(c2);
             context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
             context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
             context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
@@ -2702,8 +2703,8 @@ namespace Krypton.Toolkit
             var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using Pen darkPen = new(c1),
-                lightPen = new(c2);
+            using Pen darkPen = new Pen(c1),
+                lightPen = new Pen(c2);
             context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
             context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
             context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
@@ -2744,8 +2745,8 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                    using (Pen darkPen = new(paletteGeneral.GetRibbonGroupDialogDark(state)),
-                               lightPen = new(paletteGeneral.GetRibbonGroupDialogLight(state)))
+                    using (Pen darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state)),
+                               lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state)))
                     {
                         context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left, displayRect.Top);
                         context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5, displayRect.Top);
@@ -2762,12 +2763,12 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonShape.Office2010:
-                    LinearGradientBrush dialogBrush = new(new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2, displayRect.Height + 2),
-                                                                              paletteGeneral.GetRibbonGroupDialogLight(state),
-                                                                              paletteGeneral.GetRibbonGroupDialogDark(state),
-                                                                              45f);
+                    LinearGradientBrush dialogBrush = new LinearGradientBrush(
+                        new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                            displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
+                        paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
 
-                    using (Pen dialogPen = new(dialogBrush))
+                    using (Pen dialogPen = new Pen(dialogBrush))
                     {
                         context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left, displayRect.Top);
                         context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5, displayRect.Top);
@@ -2820,8 +2821,8 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                    using (Pen darkPen = new(darkColor),
-                               lightPen = new(lightColor))
+                    using (Pen darkPen = new Pen(darkColor),
+                               lightPen = new Pen(lightColor))
                     {
                         context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4, displayRect.Top);
                         context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1, displayRect.Left + 3, displayRect.Top + 1);
@@ -2831,12 +2832,14 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonShape.Office2010:
-                    using (LinearGradientBrush fillBrush = new(new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2, displayRect.Height + 2),
-                                                                                   lightColor, darkColor, 45f))
+                    using (LinearGradientBrush fillBrush = new LinearGradientBrush(
+                               new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                                   displayRect.Height + 2), lightColor, darkColor, 45f))
                     {
-                        context.Graphics.FillPolygon(fillBrush, new Point[]{ new(displayRect.Left - 1, displayRect.Top - 1),
-                                                                             new(displayRect.Left + 2, displayRect.Top + 3),
-                                                                             new(displayRect.Left + 5, displayRect.Top) });
+                        context.Graphics.FillPolygon(fillBrush, new Point[]{
+                            new Point(displayRect.Left - 1, displayRect.Top - 1),
+                            new Point(displayRect.Left + 2, displayRect.Top + 3),
+                            new Point(displayRect.Left + 5, displayRect.Top) });
                     }
                     break;
             }
@@ -2881,8 +2884,8 @@ namespace Krypton.Toolkit
                 c2 = CommonHelper.ColorToBlackAndWhite(c2);
             }
 
-            using Pen darkPen = new(c1),
-                lightPen = new(c2);
+            using Pen darkPen = new Pen(c1),
+                lightPen = new Pen(c2);
             // TODO: WagnerP - please provide a better way of doing this for Various themes and dpi's
             if (shape == PaletteRibbonShape.Office2010)
             {
@@ -2947,8 +2950,8 @@ namespace Krypton.Toolkit
                 c2 = CommonHelper.ColorToBlackAndWhite(c2);
             }
 
-            using Pen darkPen = new(c1),
-                lightPen = new(c2);
+            using Pen darkPen = new Pen(c1),
+                lightPen = new Pen(c2);
             // TODO: WagnerP - please provide a better way of doing this for Various themes and dpi's
             context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 1, displayRect.Left, displayRect.Top + 3);
             context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 2, displayRect.Left, displayRect.Top + 3);
@@ -2998,21 +3001,27 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                    using (Pen darkPen = new(darkColor),
-                               lightPen = new(lightColor))
+                    using (Pen darkPen = new Pen(darkColor),
+                               lightPen = new Pen(lightColor))
                     {
                         context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
                         context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
                     }
                     break;
                 case PaletteRibbonShape.Office2010:
-                    using (LinearGradientBrush darkBrush = new(new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width, displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
-                                               lightBrush = new(new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2, displayRect.Height + 2), Color.FromArgb(128, lightColor), lightColor, 90f))
+                    using (LinearGradientBrush darkBrush =
+                           new LinearGradientBrush(
+                               new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width,
+                                   displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
+                                               lightBrush = new LinearGradientBrush(
+                                                   new RectangleF(displayRect.X - 1, displayRect.Y - 1,
+                                                       displayRect.Width + 2, displayRect.Height + 2),
+                                                   Color.FromArgb(128, lightColor), lightColor, 90f))
                     {
                         darkBrush.SetSigmaBellShape(0.5f);
                         lightBrush.SetSigmaBellShape(0.5f);
 
-                        using (Pen darkPen = new(darkBrush))
+                        using (Pen darkPen = new Pen(darkBrush))
                         {
                             context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
                             context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
@@ -3056,9 +3065,9 @@ namespace Krypton.Toolkit
                 Color imageColor = paletteContent.GetContentShortTextColor1(state);
 
                 // Draw the image with remapping the image color to the foreground color
-                using (ImageAttributes attribs = new())
+                using (ImageAttributes attribs = new ImageAttributes())
                 {
-                    ColorMap cm = new()
+                    ColorMap cm = new ColorMap
                     {
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
@@ -3136,9 +3145,9 @@ namespace Krypton.Toolkit
                 Color imageColor = paletteContent.GetContentShortTextColor1(state);
 
                 // Draw the image with remapping the image color to the foreground color
-                using (ImageAttributes attribs = new())
+                using (ImageAttributes attribs = new ImageAttributes())
                 {
-                    ColorMap cm = new()
+                    ColorMap cm = new ColorMap
                     {
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
@@ -3224,12 +3233,12 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
             Debug.Assert(dragDropPalette != null);
 
-            using (SolidBrush backBrush = new(dragDropPalette.GetDragDropSolidBack()))
+            using (SolidBrush backBrush = new SolidBrush(dragDropPalette.GetDragDropSolidBack()))
             {
                 context.Graphics.FillRectangle(backBrush, drawRect);
             }
 
-            using (Pen borderPen = new(dragDropPalette.GetDragDropSolidBorder()))
+            using (Pen borderPen = new Pen(dragDropPalette.GetDragDropSolidBorder()))
             {
                 context.Graphics.DrawRectangle(borderPen, drawRect);
             }
@@ -3409,7 +3418,7 @@ namespace Krypton.Toolkit
             }
 
             float range = maximum - minimum;
-            using Pen tickPen = new(elementPalette.GetElementColor1(state));
+            using Pen tickPen = new Pen(elementPalette.GetElementColor1(state));
             if (orientation == Orientation.Horizontal)
             {
                 // Reduce area by half the position indicator on each side
@@ -3511,52 +3520,48 @@ namespace Krypton.Toolkit
                 drawRect.Inflate(0, -1);
             }
 
-            using Pen border1Pen = new(elementPalette.GetElementColor1(state)),
-                border2Pen = new(elementPalette.GetElementColor2(state));
-            using SolidBrush insideBrush = new(elementPalette.GetElementColor3(state));
+            using Pen border1Pen = new Pen(elementPalette.GetElementColor1(state)),
+                border2Pen = new Pen(elementPalette.GetElementColor2(state));
+            using SolidBrush insideBrush = new SolidBrush(elementPalette.GetElementColor3(state));
             if (!volumeControl)
             {
                 context.Graphics.FillRectangle(insideBrush, drawRect.X + 1, drawRect.Y + 1, drawRect.Width - 2, drawRect.Height - 2);
 
-                context.Graphics.DrawLines(border1Pen, new Point[]{ new(drawRect.Right - 1, drawRect.Y),
-                    new(drawRect.X, drawRect.Y),
-                    new(drawRect.X, drawRect.Bottom - 1)});
+                context.Graphics.DrawLines(border1Pen, new Point[]{
+                    new Point(drawRect.Right - 1, drawRect.Y), new Point(drawRect.X, drawRect.Y),
+                    new Point(drawRect.X, drawRect.Bottom - 1)});
 
-                context.Graphics.DrawLines(border2Pen, new Point[]{ new(drawRect.Right - 1, drawRect.Y + 1),
-                    new(drawRect.Right - 1, drawRect.Bottom - 1),
-                    new(drawRect.X + 1, drawRect.Bottom - 1)});
+                context.Graphics.DrawLines(border2Pen, new Point[]{
+                    new Point(drawRect.Right - 1, drawRect.Y + 1), new Point(drawRect.Right - 1, drawRect.Bottom - 1),
+                    new Point(drawRect.X + 1, drawRect.Bottom - 1)});
             }
             else
             {
                 if (orientation == Orientation.Horizontal)
                 {
-                    using AntiAlias aa = new(context.Graphics);
-                    context.Graphics.FillPolygon(insideBrush, new Point[]{ new(drawRect.X, drawRect.Bottom - 2),
-                        new(drawRect.Right - 1, drawRect.Y),
-                        new(drawRect.Right - 1, drawRect.Bottom - 1),
-                        new(drawRect.X, drawRect.Bottom - 1),
-                        new(drawRect.X, drawRect.Bottom - 2)});
+                    using AntiAlias aa = new AntiAlias(context.Graphics);
+                    context.Graphics.FillPolygon(insideBrush, new Point[]{
+                        new Point(drawRect.X, drawRect.Bottom - 2), new Point(drawRect.Right - 1, drawRect.Y),
+                        new Point(drawRect.Right - 1, drawRect.Bottom - 1), new Point(drawRect.X, drawRect.Bottom - 1),
+                        new Point(drawRect.X, drawRect.Bottom - 2)});
 
-                    context.Graphics.DrawLines(border1Pen, new Point[]{ new(drawRect.Right - 1, drawRect.Y),
-                        new(drawRect.Right - 1, drawRect.Bottom - 1),
-                        new(drawRect.X, drawRect.Bottom - 1),
-                        new(drawRect.X, drawRect.Bottom - 2),
-                        new(drawRect.Right - 1, drawRect.Y)});
+                    context.Graphics.DrawLines(border1Pen, new Point[]{
+                        new Point(drawRect.Right - 1, drawRect.Y), new Point(drawRect.Right - 1, drawRect.Bottom - 1),
+                        new Point(drawRect.X, drawRect.Bottom - 1), new Point(drawRect.X, drawRect.Bottom - 2),
+                        new Point(drawRect.Right - 1, drawRect.Y)});
                 }
                 else
                 {
-                    using AntiAlias aa = new(context.Graphics);
-                    context.Graphics.FillPolygon(insideBrush, new Point[]{ new(drawRect.X + 1, drawRect.Bottom - 1),
-                        new(drawRect.Right - 1, drawRect.Y + 1),
-                        new(drawRect.X, drawRect.Y + 1),
-                        new(drawRect.X, drawRect.Bottom - 1),
-                        new(drawRect.X + 1, drawRect.Bottom - 1)});
+                    using AntiAlias aa = new AntiAlias(context.Graphics);
+                    context.Graphics.FillPolygon(insideBrush, new Point[]{
+                        new Point(drawRect.X + 1, drawRect.Bottom - 1), new Point(drawRect.Right - 1, drawRect.Y + 1),
+                        new Point(drawRect.X, drawRect.Y + 1), new Point(drawRect.X, drawRect.Bottom - 1),
+                        new Point(drawRect.X + 1, drawRect.Bottom - 1)});
 
-                    context.Graphics.DrawLines(border1Pen, new Point[]{ new(drawRect.Right - 1, drawRect.Y + 1),
-                        new(drawRect.X, drawRect.Y + 1),
-                        new(drawRect.X, drawRect.Bottom - 1),
-                        new(drawRect.X + 1, drawRect.Bottom - 1),
-                        new(drawRect.Right - 1, drawRect.Y + 1)});
+                    context.Graphics.DrawLines(border1Pen, new Point[]{
+                        new Point(drawRect.Right - 1, drawRect.Y + 1), new Point(drawRect.X, drawRect.Y + 1),
+                        new Point(drawRect.X, drawRect.Bottom - 1), new Point(drawRect.X + 1, drawRect.Bottom - 1),
+                        new Point(drawRect.Right - 1, drawRect.Y + 1)});
                 }
             }
         }
@@ -3619,24 +3624,22 @@ namespace Krypton.Toolkit
                 && (inside != null)
                 )
             {
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    using (Pen outsidePen = new(elementPalette.GetElementColor1(state)),
-                              borderPen = new(elementPalette.GetElementColor2(state)))
+                    using (Pen outsidePen = new Pen(elementPalette.GetElementColor1(state)),
+                              borderPen = new Pen(elementPalette.GetElementColor2(state)))
                     {
                         context.Graphics.DrawPath(outsidePen, outside);
 
-                        using (SolidBrush insideBrush = new(elementPalette.GetElementColor3(state)))
+                        using (SolidBrush insideBrush = new SolidBrush(elementPalette.GetElementColor3(state)))
                         {
                             context.Graphics.FillPath(insideBrush, border);
                         }
 
                         context.Graphics.DrawPath(borderPen, border);
 
-                        using (LinearGradientBrush innerBrush = new(inside.GetBounds(),
-                                                                                        elementPalette.GetElementColor4(state),
-                                                                                        elementPalette.GetElementColor5(state),
-                                                                                        90f))
+                        using (LinearGradientBrush innerBrush = new LinearGradientBrush(inside.GetBounds(),
+                                   elementPalette.GetElementColor4(state), elementPalette.GetElementColor5(state), 90f))
                         {
                             context.Graphics.FillPath(innerBrush, inside);
                         }
@@ -3664,16 +3667,14 @@ namespace Krypton.Toolkit
 
         private GraphicsPath CreatePositionPathsBoth(Rectangle drawRect)
         {
-            GraphicsPath path = new();
-            path.AddLines(new PointF[]{ new(drawRect.X + 0.75f, drawRect.Y),
-                                        new(drawRect.Right - 1.75f, drawRect.Y),
-                                        new(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
-                                        new(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
-                                        new(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X + 1.0f, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X, drawRect.Bottom - 2.0f),
-                                        new(drawRect.X, drawRect.Y + 0.75f),
-                                        new(drawRect.X + 0.75f, drawRect.Y)});
+            GraphicsPath path = new GraphicsPath();
+            path.AddLines(new PointF[]{
+                new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - 1.75f, drawRect.Y),
+                new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
+                new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
+                new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
+                new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
+                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)});
 
             return path;
         }
@@ -3696,15 +3697,13 @@ namespace Krypton.Toolkit
         {
             var half = ((float)drawRect.Width / 2) - 0.5f;
 
-            GraphicsPath path = new();
-            path.AddLines(new PointF[]{ new(drawRect.X + half, drawRect.Y),
-                                        new(drawRect.Right - 1.0f, drawRect.Y +  + half),
-                                        new(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
-                                        new(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X + 1.0f, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X, drawRect.Bottom - 2.0f),
-                                        new(drawRect.X, drawRect.Y + half),
-                                        new(drawRect.X + half, drawRect.Y)});
+            GraphicsPath path = new GraphicsPath();
+            path.AddLines(new PointF[]{
+                new PointF(drawRect.X + half, drawRect.Y), new PointF(drawRect.Right - 1.0f, drawRect.Y + +half),
+                new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
+                new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
+                new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
+                new PointF(drawRect.X, drawRect.Y + half), new PointF(drawRect.X + half, drawRect.Y)});
             return path;
         }
 
@@ -3725,15 +3724,14 @@ namespace Krypton.Toolkit
         {
             var half = ((float)drawRect.Width / 2) - 0.5f;
 
-            GraphicsPath path = new();
-            path.AddLines(new PointF[]{ new(drawRect.X + 0.75f, drawRect.Y),
-                                        new(drawRect.Right - 1.75f, drawRect.Y),
-                                        new(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
-                                        new(drawRect.Right - 1.0f, drawRect.Bottom - half - 1.0f),
-                                        new(drawRect.X + half, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X, drawRect.Bottom - half - 1.0f),
-                                        new(drawRect.X, drawRect.Y + 0.75f),
-                                        new(drawRect.X + 0.75f, drawRect.Y)});
+            GraphicsPath path = new GraphicsPath();
+            path.AddLines(new PointF[]{
+                new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - 1.75f, drawRect.Y),
+                new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
+                new PointF(drawRect.Right - 1.0f, drawRect.Bottom - half - 1.0f),
+                new PointF(drawRect.X + half, drawRect.Bottom - 1.0f),
+                new PointF(drawRect.X, drawRect.Bottom - half - 1.0f), new PointF(drawRect.X, drawRect.Y + 0.75f),
+                new PointF(drawRect.X + 0.75f, drawRect.Y)});
             return path;
         }
 
@@ -3754,15 +3752,13 @@ namespace Krypton.Toolkit
         {
             var half = ((float)drawRect.Height / 2) - 0.5f;
 
-            GraphicsPath path = new();
-            path.AddLines(new PointF[]{ new(drawRect.X + 0.75f, drawRect.Y),
-                                        new(drawRect.Right - half - 1.0f, drawRect.Y),
-                                        new(drawRect.Right - 1.0f, drawRect.Y + half),
-                                        new(drawRect.Right - half - 1.0f, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X + 1.0f, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X, drawRect.Bottom - 2.0f),
-                                        new(drawRect.X, drawRect.Y + 0.75f),
-                                        new(drawRect.X + 0.75f, drawRect.Y)});
+            GraphicsPath path = new GraphicsPath();
+            path.AddLines(new PointF[]{
+                new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - half - 1.0f, drawRect.Y),
+                new PointF(drawRect.Right - 1.0f, drawRect.Y + half),
+                new PointF(drawRect.Right - half - 1.0f, drawRect.Bottom - 1.0f),
+                new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
+                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)});
             return path;
         }
 
@@ -3784,15 +3780,14 @@ namespace Krypton.Toolkit
         {
             var half = ((float)drawRect.Height / 2) - 0.5f;
 
-            GraphicsPath path = new();
-            path.AddLines(new PointF[]{ new(drawRect.Right - 1.75f, drawRect.Y),
-                                        new(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
-                                        new(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
-                                        new(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X + half, drawRect.Bottom - 1.0f),
-                                        new(drawRect.X, drawRect.Bottom - half - 1.0f),
-                                        new(drawRect.X + half, drawRect.Y),
-                                        new(drawRect.Right - 1.75f, drawRect.Y)});
+            GraphicsPath path = new GraphicsPath();
+            path.AddLines(new PointF[]{
+                new PointF(drawRect.Right - 1.75f, drawRect.Y), new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
+                new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
+                new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
+                new PointF(drawRect.X + half, drawRect.Bottom - 1.0f),
+                new PointF(drawRect.X, drawRect.Bottom - half - 1.0f), new PointF(drawRect.X + half, drawRect.Y),
+                new PointF(drawRect.Right - 1.75f, drawRect.Y)});
 
             return path;
         }
@@ -3808,7 +3803,7 @@ namespace Krypton.Toolkit
                                                          bool smoothing,
                                                          int variant)
         {
-            GraphicsPath borderPath = new();
+            GraphicsPath borderPath = new GraphicsPath();
 
             // A zero size rectangle cannot be drawn, so return a null path
             if (rect is { Width: > 0, Height: > 0 })
@@ -3934,7 +3929,7 @@ namespace Krypton.Toolkit
             else
             {
                 // We create the path using a floating point rectangle
-                RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
+                RectangleF rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // If trying to get the outside edge then perform some offsetting so that
                 // when converted to a region it draws nicely inside the path outline
@@ -4056,7 +4051,7 @@ namespace Krypton.Toolkit
             rect.Height -= 1;
 
             // We create the path using a floating point rectangle
-            RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
+            RectangleF rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
             // If trying to get the outside edge then perform some offsetting so that
             // when converted to a region it draws nicely inside the path outline
@@ -4166,7 +4161,7 @@ namespace Krypton.Toolkit
             rect.Height--;
 
             // We create the path using a floating point rectangle
-            RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
+            RectangleF rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
             // If trying to get the outside edge then perform some offsetting so that
             // when converted to a region it draws nicely inside the path outline
@@ -4252,7 +4247,7 @@ namespace Krypton.Toolkit
                                                          float arcLength)
         {
             // We create the path using a floating point rectangle
-            RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
+            RectangleF rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
             // If trying to get the outside edge then perform some offsetting so that
             // when converted to a region it draws nicely inside the path outline
@@ -4361,7 +4356,7 @@ namespace Krypton.Toolkit
                                                             VisualOrientation orientation,
                                                             bool smoothing)
         {
-            GraphicsPath borderPath = new();
+            GraphicsPath borderPath = new GraphicsPath();
 
             // A zero size rectangle cannot be drawn, so return a null path
             if (rect is { Width: > 0, Height: > 0 })
@@ -5030,13 +5025,11 @@ namespace Krypton.Toolkit
                         var x2T = rect.Width / 2;
                         var x6T = rect.Width / 6;
 
-                        borderPath.AddCurve(new Point[]{new(rect.Left, rect.Bottom),
-                                                        new(rect.Left + indentW, rect.Top + 5),
-                                                        new(rect.Left + x6T, rect.Top + 2),
-                                                        new(rect.Left + x2T, rect.Top),
-                                                        new(rect.Right - x6T, rect.Top + 2),
-                                                        new(rect.Right - indentW, rect.Top + 5),
-                                                        new(rect.Right, rect.Bottom)}, tension);
+                        borderPath.AddCurve(new Point[]{
+                            new Point(rect.Left, rect.Bottom), new Point(rect.Left + indentW, rect.Top + 5),
+                            new Point(rect.Left + x6T, rect.Top + 2), new Point(rect.Left + x2T, rect.Top),
+                            new Point(rect.Right - x6T, rect.Top + 2), new Point(rect.Right - indentW, rect.Top + 5),
+                            new Point(rect.Right, rect.Bottom)}, tension);
                     }
                     break;
                 case VisualOrientation.Bottom:
@@ -5056,13 +5049,11 @@ namespace Krypton.Toolkit
                         var x2B = rect.Width / 2;
                         var x6B = rect.Width / 6;
 
-                        borderPath.AddCurve(new Point[]{new(rect.Left, rect.Top),
-                                                        new(rect.Left + indentW, rect.Bottom - 5),
-                                                        new(rect.Left + x6B, rect.Bottom - 2),
-                                                        new(rect.Left + x2B, rect.Bottom),
-                                                        new(rect.Right - x6B, rect.Bottom - 2),
-                                                        new(rect.Right - indentW, rect.Bottom - 5),
-                                                        new(rect.Right, rect.Top)}, tension);
+                        borderPath.AddCurve(new Point[]{
+                            new Point(rect.Left, rect.Top), new Point(rect.Left + indentW, rect.Bottom - 5),
+                            new Point(rect.Left + x6B, rect.Bottom - 2), new Point(rect.Left + x2B, rect.Bottom),
+                            new Point(rect.Right - x6B, rect.Bottom - 2),
+                            new Point(rect.Right - indentW, rect.Bottom - 5), new Point(rect.Right, rect.Top)}, tension);
                     }
                     break;
                 case VisualOrientation.Left:
@@ -5082,13 +5073,11 @@ namespace Krypton.Toolkit
                         var y2L = rect.Height / 2;
                         var y6L = rect.Height / 6;
 
-                        borderPath.AddCurve(new Point[]{new(rect.Right, rect.Bottom),
-                                                        new(rect.Left + 5, rect.Bottom - indentH),
-                                                        new(rect.Left + 2, rect.Bottom - y6L),
-                                                        new(rect.Left, rect.Bottom - y2L),
-                                                        new(rect.Left + 2, rect.Top + y6L),
-                                                        new(rect.Left + 5, rect.Top + indentH),
-                                                        new(rect.Right, rect.Top)}, tension);
+                        borderPath.AddCurve(new Point[]{
+                            new Point(rect.Right, rect.Bottom), new Point(rect.Left + 5, rect.Bottom - indentH),
+                            new Point(rect.Left + 2, rect.Bottom - y6L), new Point(rect.Left, rect.Bottom - y2L),
+                            new Point(rect.Left + 2, rect.Top + y6L), new Point(rect.Left + 5, rect.Top + indentH),
+                            new Point(rect.Right, rect.Top)}, tension);
                     }
                     break;
                 case VisualOrientation.Right:
@@ -5108,13 +5097,11 @@ namespace Krypton.Toolkit
                         var y2R = rect.Height / 2;
                         var y6R = rect.Height / 6;
 
-                        borderPath.AddCurve(new Point[]{new(rect.Left, rect.Bottom),
-                                                        new(rect.Right - 5, rect.Bottom - indentH),
-                                                        new(rect.Right - 2, rect.Bottom - y6R),
-                                                        new(rect.Right, rect.Bottom - y2R),
-                                                        new(rect.Right - 2, rect.Top + y6R),
-                                                        new(rect.Right - 5, rect.Top + indentH),
-                                                        new(rect.Left, rect.Top)}, tension);
+                        borderPath.AddCurve(new Point[]{
+                            new Point(rect.Left, rect.Bottom), new Point(rect.Right - 5, rect.Bottom - indentH),
+                            new Point(rect.Right - 2, rect.Bottom - y6R), new Point(rect.Right, rect.Bottom - y2R),
+                            new Point(rect.Right - 2, rect.Top + y6R), new Point(rect.Right - 5, rect.Top + indentH),
+                            new Point(rect.Left, rect.Top)}, tension);
                     }
                     break;
             }
@@ -5160,7 +5147,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Otherwise we always create a linear brush using provided colors and angle
-                LinearGradientBrush brush = new(rect, color1, color2, angle);
+                LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, angle);
 
                 switch (gradientStyle)
                 {
@@ -5226,7 +5213,7 @@ namespace Krypton.Toolkit
                                               PaletteImageStyle imageStyle)
         {
             // Create brush based on the provided image
-            TextureBrush brush = new(image);
+            TextureBrush brush = new TextureBrush(image);
 
             // Create appropriate wrapping mode from image style
             switch (imageStyle)
@@ -5304,7 +5291,7 @@ namespace Krypton.Toolkit
                                          GraphicsPath path)
         {
             // Clip to prevent drawing outside the path
-            using Clipping clip = new(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Get the rectangle that encloses the path
             RectangleF rectF = path.GetBounds();
 
@@ -5381,7 +5368,7 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            using (Clipping clip = new(context.Graphics, path))
+            using (Clipping clip = new Clipping(context.Graphics, path))
             {
                 // Draw the second color as the offset background
                 using (Brush backBrush = CreateColorBrush(gradientRect,
@@ -5406,9 +5393,9 @@ namespace Krypton.Toolkit
                                        PaletteColorStyle style,
                                        GraphicsPath path)
         {
-            using Clipping clip = new(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw entire background in second color
-            using (SolidBrush brushColor2 = new(backColor2))
+            using (SolidBrush brushColor2 = new SolidBrush(backColor2))
             {
                 context.Graphics.FillRectangle(brushColor2, rect);
             }
@@ -5439,7 +5426,7 @@ namespace Krypton.Toolkit
             }
 
             // Draw the second color as a solid block
-            using (SolidBrush brushColor2 = new(backColor1))
+            using (SolidBrush brushColor2 = new SolidBrush(backColor1))
             {
                 context.Graphics.FillRectangle(brushColor2, rect);
             }
@@ -5455,7 +5442,7 @@ namespace Krypton.Toolkit
                                                  VisualOrientation orientation,
                                                  GraphicsPath path)
         {
-            using Clipping clip = new(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw entire background in white
             context.Graphics.FillRectangle(Brushes.White, rect);
 
@@ -5487,9 +5474,9 @@ namespace Krypton.Toolkit
                                              VisualOrientation orientation,
                                              GraphicsPath path)
         {
-            using Clipping clip = new(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw entire background in white
-            using (SolidBrush lightBrush = new(ControlPaint.LightLight(backColor1)))
+            using (SolidBrush lightBrush = new SolidBrush(ControlPaint.LightLight(backColor1)))
             {
                 context.Graphics.FillRectangle(lightBrush, rect);
             }
@@ -5535,7 +5522,7 @@ namespace Krypton.Toolkit
                                       VisualOrientation orientation,
                                       GraphicsPath path)
         {
-            using Clipping clip = new(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Use standard helper routine to create appropriate color brush
             using (Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
                        backColorStyle, backColorAngle, orientation))
@@ -5543,7 +5530,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(backBrush, path);
             }
 
-            using (Pen linePen = new(backColor1))
+            using (Pen linePen = new Pen(backColor1))
             {
                 // Adjust angle for the orientation
                 switch (orientation)
@@ -5578,7 +5565,7 @@ namespace Krypton.Toolkit
             rect.Inflate(-1, -1);
 
             // Prevent drawing over that ourside edge
-            using Clipping clip = new(context.Graphics, rect);
+            using Clipping clip = new Clipping(context.Graphics, rect);
             // Use standard helper routine to create appropriate color brush
             using Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
                 PaletteColorStyle.Rounding5, backColorAngle,
@@ -5597,7 +5584,7 @@ namespace Krypton.Toolkit
                                           GraphicsPath path)
         {
             // Prevent drawing over that ourside edge
-            using Clipping clip = new(context.Graphics, rect);
+            using Clipping clip = new Clipping(context.Graphics, rect);
             // Use standard helper routine to create appropriate color brush
             using (Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
                        PaletteColorStyle.Linear, backColorAngle,
@@ -5607,7 +5594,7 @@ namespace Krypton.Toolkit
             }
 
             // Use path gradient to give the outside of the area a shadow effect
-            using (PathGradientBrush borderBrush = new(path))
+            using (PathGradientBrush borderBrush = new PathGradientBrush(path))
             {
                 borderBrush.Blend = _linearShadowBlend;
                 borderBrush.CenterColor = backColor1;
@@ -6159,7 +6146,7 @@ namespace Krypton.Toolkit
                                                  int spacingGap)
         {
             // Create client rectangle covering cell size
-            Rectangle cellRect = new(cellX, cellY, cellWidth, cellHeight);
+            Rectangle cellRect = new Rectangle(cellX, cellY, cellWidth, cellHeight);
 
             PaletteRelativeAlign drawHImage = paletteContent.GetContentImageH(state);
             PaletteRelativeAlign drawVImage = paletteContent.GetContentImageV(state);
@@ -6504,30 +6491,31 @@ namespace Krypton.Toolkit
         {
             Color borderColor = dragData.ActiveMiddle ? active : border;
             Color insideColor = dragData.ActiveMiddle ? active : inside;
-            using AntiAlias aa = new(context.Graphics);
-            using GraphicsPath borderPath = new(),
-                insidePath = new();
+            using AntiAlias aa = new AntiAlias(context.Graphics);
+            using GraphicsPath borderPath = new GraphicsPath(),
+                insidePath = new GraphicsPath();
             // Generate the graphics paths for the border and the inside area which is just inside the border
             Rectangle rect = dragData.RectMiddle;
-            Rectangle rectInside = new(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4);
+            Rectangle rectInside = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4);
             DrawDragDockingMiddleLines(borderPath, dragData.RectMiddle, 13);
             DrawDragDockingMiddleLines(insidePath, rectInside, 9);
 
             // Fill the entire border area
-            using (SolidBrush borderBrush = new(Color.FromArgb(196, Color.White)))
+            using (SolidBrush borderBrush = new SolidBrush(Color.FromArgb(196, Color.White)))
             {
                 context.Graphics.FillPath(borderBrush, borderPath);
             }
 
             // Fill with gradient the area inside the border
-            RectangleF rectBoundsF = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
-            using (LinearGradientBrush insideBrush = new(rectBoundsF, Color.FromArgb(196, Color.White), insideColor, 90))
+            RectangleF rectBoundsF = new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+            using (LinearGradientBrush insideBrush =
+                   new LinearGradientBrush(rectBoundsF, Color.FromArgb(196, Color.White), insideColor, 90))
             {
                 insideBrush.Blend = _dragRoundedInsideBlend;
                 context.Graphics.FillPath(insideBrush, insidePath);
             }
 
-            using (Pen borderPen = new(borderColor))
+            using (Pen borderPen = new Pen(borderColor))
             {
                 // Finally draw the actual border
                 context.Graphics.DrawPath(borderPen, borderPath);
@@ -6541,18 +6529,13 @@ namespace Krypton.Toolkit
 
         private void DrawDragDockingMiddleLines(GraphicsPath path, Rectangle rect, int tabExtend)
         {
-            path.AddLines(new Point[] { new(rect.X, rect.Bottom - 2),
-                                                  new(rect.X, rect.Y + 1),
-                                                  new(rect.X + 1, rect.Y),
-                                                  new(rect.Right - 1, rect.Y),
-                                                  new(rect.Right, rect.Y + 1),
-                                                  new(rect.Right, rect.Bottom - 6),
-                                                  new(rect.Right - 2, rect.Bottom - 4),
-                                                  new(rect.X + tabExtend, rect.Bottom - 4),
-                                                  new(rect.X + tabExtend, rect.Bottom - 2),
-                                                  new(rect.X + tabExtend - 1, rect.Bottom - 1),
-                                                  new(rect.X + 1, rect.Bottom - 1),
-                                                  new(rect.X, rect.Bottom - 2)});
+            path.AddLines(new Point[] {
+                new Point(rect.X, rect.Bottom - 2), new Point(rect.X, rect.Y + 1), new Point(rect.X + 1, rect.Y),
+                new Point(rect.Right - 1, rect.Y), new Point(rect.Right, rect.Y + 1),
+                new Point(rect.Right, rect.Bottom - 6), new Point(rect.Right - 2, rect.Bottom - 4),
+                new Point(rect.X + tabExtend, rect.Bottom - 4), new Point(rect.X + tabExtend, rect.Bottom - 2),
+                new Point(rect.X + tabExtend - 1, rect.Bottom - 1), new Point(rect.X + 1, rect.Bottom - 1),
+                new Point(rect.X, rect.Bottom - 2)});
         }
 
         private void DrawDragDockingRoundedRect(RenderContext context,
@@ -6561,23 +6544,26 @@ namespace Krypton.Toolkit
                                                 Rectangle drawRect,
                                                 int rounding)
         {
-            using AntiAlias aa = new(context.Graphics);
-            RectangleF rectBoundsF = new(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 1);
-            Rectangle rectInside = new(drawRect.X + 2, drawRect.Y + 2, drawRect.Width - 4, drawRect.Height - 4);
+            using AntiAlias aa = new AntiAlias(context.Graphics);
+            RectangleF rectBoundsF =
+                new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 1);
+            Rectangle rectInside =
+                new Rectangle(drawRect.X + 2, drawRect.Y + 2, drawRect.Width - 4, drawRect.Height - 4);
             using GraphicsPath borderPath = CreateBorderBackPath(true, true, drawRect, PaletteDrawBorders.All, 1, rounding, true, 0),
                 insidePath = CreateBorderBackPath(true, true, rectInside, PaletteDrawBorders.All, 1, rounding - 1, true, 0);
-            using (SolidBrush borderBrush = new(Color.FromArgb(196, Color.White)))
+            using (SolidBrush borderBrush = new SolidBrush(Color.FromArgb(196, Color.White)))
             {
                 context.Graphics.FillPath(borderBrush, borderPath);
             }
 
-            using (LinearGradientBrush insideBrush = new(rectBoundsF, Color.FromArgb(196, Color.White), inside, 90))
+            using (LinearGradientBrush insideBrush =
+                   new LinearGradientBrush(rectBoundsF, Color.FromArgb(196, Color.White), inside, 90))
             {
                 insideBrush.Blend = _dragRoundedInsideBlend;
                 context.Graphics.FillPath(insideBrush, insidePath);
             }
 
-            using (Pen borderPen = new(border))
+            using (Pen borderPen = new Pen(border))
             {
                 context.Graphics.DrawPath(borderPen, borderPath);
             }
@@ -6588,7 +6574,7 @@ namespace Krypton.Toolkit
                                           Rectangle rect,
                                           VisualOrientation orientation)
         {
-            using GraphicsPath innerPath = new();
+            using GraphicsPath innerPath = new GraphicsPath();
             var angle = 0f;
             switch (orientation)
             {
@@ -6597,18 +6583,18 @@ namespace Krypton.Toolkit
                         rect.Y + ((rect.Height - DRAG_ARROW_WIDTH) / 2),
                         DRAG_ARROW_HEIGHT, DRAG_ARROW_WIDTH);
 
-                    innerPath.AddLines(new Point[] { new(rect.X + 1, rect.Top + 6),
-                        new(rect.Right - 1, rect.Top + 1),
-                        new(rect.Right - 1, rect.Bottom - 2)});
+                    innerPath.AddLines(new Point[] {
+                        new Point(rect.X + 1, rect.Top + 6), new Point(rect.Right - 1, rect.Top + 1),
+                        new Point(rect.Right - 1, rect.Bottom - 2)});
                     break;
                 case VisualOrientation.Right:
                     rect = new Rectangle(rect.Left + DRAG_ARROW_GAP,
                         rect.Y + ((rect.Height - DRAG_ARROW_WIDTH) / 2),
                         DRAG_ARROW_HEIGHT, DRAG_ARROW_WIDTH);
 
-                    innerPath.AddLines(new Point[] { new(rect.X + 1, rect.Top + 1),
-                        new(rect.X + 1, rect.Bottom - 2),
-                        new(rect.Right - 1, rect.Top + 6) });
+                    innerPath.AddLines(new Point[] {
+                        new Point(rect.X + 1, rect.Top + 1), new Point(rect.X + 1, rect.Bottom - 2),
+                        new Point(rect.Right - 1, rect.Top + 6) });
                     angle = 180f;
                     break;
                 case VisualOrientation.Top:
@@ -6616,9 +6602,9 @@ namespace Krypton.Toolkit
                         rect.Bottom - DRAG_ARROW_HEIGHT - DRAG_ARROW_GAP - 1,
                         DRAG_ARROW_WIDTH, DRAG_ARROW_HEIGHT);
 
-                    innerPath.AddLines(new Point[] { new(rect.X + 1, rect.Bottom),
-                        new(rect.Right - 1, rect.Bottom),
-                        new(rect.X + 6, rect.Top + 1) });
+                    innerPath.AddLines(new Point[] {
+                        new Point(rect.X + 1, rect.Bottom), new Point(rect.Right - 1, rect.Bottom),
+                        new Point(rect.X + 6, rect.Top + 1) });
                     angle = 90f;
                     break;
                 case VisualOrientation.Bottom:
@@ -6626,21 +6612,22 @@ namespace Krypton.Toolkit
                         rect.Top + DRAG_ARROW_GAP,
                         DRAG_ARROW_WIDTH, DRAG_ARROW_HEIGHT);
 
-                    innerPath.AddLines(new Point[] { new(rect.X + 2, rect.Top + 1),
-                        new(rect.Right - 2, rect.Top + 1),
-                        new(rect.X + 6, rect.Bottom - 1) });
+                    innerPath.AddLines(new Point[] {
+                        new Point(rect.X + 2, rect.Top + 1), new Point(rect.Right - 2, rect.Top + 1),
+                        new Point(rect.X + 6, rect.Bottom - 1) });
                     angle = 270f;
                     break;
             }
 
             // Draw background in white top highlight the arrow
-            using (AntiAlias aa = new(context.Graphics))
+            using (AntiAlias aa = new AntiAlias(context.Graphics))
             {
                 context.Graphics.FillPath(Brushes.White, innerPath);
             }
 
             // Draw the actual arrow itself
-            using (LinearGradientBrush innerBrush = new(rect, ControlPaint.Dark(active), ControlPaint.Light(active), angle))
+            using (LinearGradientBrush innerBrush =
+                   new LinearGradientBrush(rect, ControlPaint.Dark(active), ControlPaint.Light(active), angle))
             {
                 context.Graphics.FillPath(innerBrush, innerPath);
             }
@@ -6687,43 +6674,55 @@ namespace Krypton.Toolkit
                                                       Color border,
                                                       RenderDragDockingData dragData)
         {
-            if (g == null) throw new ArgumentNullException(nameof(g));
-            if (dragData == null) throw new ArgumentNullException(nameof(dragData));
+            if (g == null)
+            {
+                throw new ArgumentNullException(nameof(g));
+            }
+
+            if (dragData == null)
+            {
+                throw new ArgumentNullException(nameof(dragData));
+            }
 
             Color start = Color.FromArgb(190, 190, 190);
-            using Pen borderPen = new(border);
-            using SolidBrush insideBrush = new(inside);
-            using LinearGradientBrush gradientLL = new(new Rectangle(-1, -1, 5, 5), start, inside, 0f),
-                gradientTL = new(new Rectangle(-1, 23, 5, 5), start, inside, 90f),
-                gradientCC = new(new Rectangle(24, 25, 5, 5), start, inside, 45f),
-                gradientLT = new(new Rectangle(28, -1, 5, 5), start, inside, 0f),
-                gradientML = new(new Rectangle(22, -1, 5, 5), start, inside, 0f),
-                gradientMT = new(new Rectangle(-1, 22, 5, 5), start, inside, 90f),
-                gradientTT = new(new Rectangle(-1, -1, 5, 5), start, inside, 90f);
+            using Pen borderPen = new Pen(border);
+            using SolidBrush insideBrush = new SolidBrush(inside);
+            using LinearGradientBrush gradientLL =
+                    new LinearGradientBrush(new Rectangle(-1, -1, 5, 5), start, inside, 0f),
+                gradientTL = new LinearGradientBrush(new Rectangle(-1, 23, 5, 5), start, inside, 90f),
+                gradientCC = new LinearGradientBrush(new Rectangle(24, 25, 5, 5), start, inside, 45f),
+                gradientLT = new LinearGradientBrush(new Rectangle(28, -1, 5, 5), start, inside, 0f),
+                gradientML = new LinearGradientBrush(new Rectangle(22, -1, 5, 5), start, inside, 0f),
+                gradientMT = new LinearGradientBrush(new Rectangle(-1, 22, 5, 5), start, inside, 90f),
+                gradientTT = new LinearGradientBrush(new Rectangle(-1, -1, 5, 5), start, inside, 90f);
             // Draw all the background cross?
             if (dragData.ShowBack)
             {
                 // Create points for a polygon
-                Point[] pts = {new(0,  29), new(23, 29),
-                    new(29, 23), new(29, 0),
-                    new(57, 0),  new(57, 23),
-                    new(63, 29), new(87, 29),
-                    new(87, 57), new(63, 57),
-                    new(57, 63), new(57, 87),
-                    new(29, 87), new(29, 63),
-                    new(23, 57), new(0,  57)};
+                Point[] pts = {
+                    new Point(0, 29), new Point(23, 29), new Point(29, 23), new Point(29, 0), new Point(57, 0),
+                    new Point(57, 23), new Point(63, 29), new Point(87, 29), new Point(87, 57), new Point(63, 57),
+                    new Point(57, 63), new Point(57, 87), new Point(29, 87), new Point(29, 63), new Point(23, 57),
+                    new Point(0, 57)};
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
 
                 // Draw shadow at some of the box edges
-                g.FillPolygon(gradientLL, new Point[] { new(1, 57), new(1, 30), new(4, 33), new(4, 57) });
-                g.FillPolygon(gradientTL, new Point[] { new(1, 30), new(25, 30), new(27, 33), new(3, 33) });
-                g.FillPolygon(gradientCC, new Point[] { new(23, 30), new(30, 23), new(33, 26), new(26, 33) });
-                g.FillPolygon(gradientLT, new Point[] { new(30, 1), new(30, 24), new(33, 26), new(33, 4) });
-                g.FillPolygon(gradientTT, new Point[] { new(30, 1), new(57, 1), new(57, 4), new(33, 4) });
-                g.FillPolygon(gradientLT, new Point[] { new(30, 63), new(30, 87), new(33, 87), new(33, 66) });
-                g.FillPolygon(gradientTL, new Point[] { new(63, 30), new(87, 30), new(87, 33), new(66, 33) });
+                g.FillPolygon(gradientLL, new Point[] { new Point(1, 57), new Point(1, 30), new Point(4, 33),
+                    new Point(4, 57) });
+                g.FillPolygon(gradientTL, new Point[] { new Point(1, 30), new Point(25, 30), new Point(27, 33),
+                    new Point(3, 33) });
+                g.FillPolygon(gradientCC, new Point[] { new Point(23, 30), new Point(30, 23), new Point(33, 26),
+                    new Point(26, 33) });
+                g.FillPolygon(gradientLT, new Point[] { new Point(30, 1), new Point(30, 24), new Point(33, 26),
+                    new Point(33, 4) });
+                g.FillPolygon(gradientTT, new Point[] { new Point(30, 1), new Point(57, 1), new Point(57, 4),
+                    new Point(33, 4) });
+                g.FillPolygon(gradientLT, new Point[] { new Point(30, 63), new Point(30, 87), new Point(33, 87),
+                    new Point(33, 66) });
+                g.FillPolygon(gradientTL, new Point[] { new Point(63, 30), new Point(87, 30), new Point(87, 33),
+                    new Point(66, 33) });
 
                 // Draw outline in darker colour
                 g.DrawPolygon(borderPen, pts);
@@ -6731,22 +6730,25 @@ namespace Krypton.Toolkit
             else if (dragData is { ShowLeft: true, ShowRight: true })
             {
                 // Create points for a polygon
-                Point[] pts = {new(0,  29), new(23, 29),
-                    new(29, 23), new(57, 23),
-                    new(63, 29), new(87, 29),
-                    new(87, 57), new(63, 57),
-                    new(57, 63), new(29, 63),
-                    new(23, 57), new(0,  57)};
+                Point[] pts = {
+                    new Point(0, 29), new Point(23, 29), new Point(29, 23), new Point(57, 23), new Point(63, 29),
+                    new Point(87, 29), new Point(87, 57), new Point(63, 57), new Point(57, 63), new Point(29, 63),
+                    new Point(23, 57), new Point(0, 57)};
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
 
                 // Draw shadow at some of the box edges
-                g.FillPolygon(gradientLL, new Point[] { new(1, 57), new(1, 30), new(4, 33), new(4, 57) });
-                g.FillPolygon(gradientTL, new Point[] { new(1, 30), new(25, 30), new(27, 33), new(3, 33) });
-                g.FillPolygon(gradientCC, new Point[] { new(23, 30), new(30, 23), new(33, 26), new(26, 33) });
-                g.FillPolygon(gradientMT, new Point[] { new(30, 24), new(57, 24), new(60, 27), new(33, 27) });
-                g.FillPolygon(gradientTL, new Point[] { new(63, 30), new(87, 30), new(87, 33), new(66, 33) });
+                g.FillPolygon(gradientLL, new Point[] { new Point(1, 57), new Point(1, 30), new Point(4, 33),
+                    new Point(4, 57) });
+                g.FillPolygon(gradientTL, new Point[] { new Point(1, 30), new Point(25, 30), new Point(27, 33),
+                    new Point(3, 33) });
+                g.FillPolygon(gradientCC, new Point[] { new Point(23, 30), new Point(30, 23), new Point(33, 26),
+                    new Point(26, 33) });
+                g.FillPolygon(gradientMT, new Point[] { new Point(30, 24), new Point(57, 24), new Point(60, 27),
+                    new Point(33, 27) });
+                g.FillPolygon(gradientTL, new Point[] { new Point(63, 30), new Point(87, 30), new Point(87, 33),
+                    new Point(66, 33) });
 
                 // Draw outline in darker colour
                 g.DrawPolygon(borderPen, pts);
@@ -6766,21 +6768,24 @@ namespace Krypton.Toolkit
             else if (dragData is { ShowTop: true, ShowBottom: true })
             {
                 // Create points for a polygon
-                Point[] pts = {new(23, 29), new(29, 23),
-                    new(29, 0),  new(57, 0),
-                    new(57, 23), new(63, 29),
-                    new(63, 57), new(57, 63),
-                    new(57, 87), new(29, 87),
-                    new(29, 63), new(23, 57)};
+                Point[] pts = {
+                    new Point(23, 29), new Point(29, 23), new Point(29, 0), new Point(57, 0), new Point(57, 23),
+                    new Point(63, 29), new Point(63, 57), new Point(57, 63), new Point(57, 87), new Point(29, 87),
+                    new Point(29, 63), new Point(23, 57)};
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
 
-                g.FillPolygon(gradientLT, new Point[] { new(30, 1), new(30, 24), new(33, 26), new(33, 4) });
-                g.FillPolygon(gradientTT, new Point[] { new(30, 1), new(57, 1), new(57, 4), new(33, 4) });
-                g.FillPolygon(gradientCC, new Point[] { new(23, 30), new(30, 23), new(33, 26), new(26, 33) });
-                g.FillPolygon(gradientML, new Point[] { new(24, 57), new(24, 30), new(27, 33), new(27, 60) });
-                g.FillPolygon(gradientLT, new Point[] { new(30, 63), new(30, 87), new(33, 87), new(33, 66) });
+                g.FillPolygon(gradientLT, new Point[] { new Point(30, 1), new Point(30, 24), new Point(33, 26),
+                    new Point(33, 4) });
+                g.FillPolygon(gradientTT, new Point[] { new Point(30, 1), new Point(57, 1), new Point(57, 4),
+                    new Point(33, 4) });
+                g.FillPolygon(gradientCC, new Point[] { new Point(23, 30), new Point(30, 23), new Point(33, 26),
+                    new Point(26, 33) });
+                g.FillPolygon(gradientML, new Point[] { new Point(24, 57), new Point(24, 30), new Point(27, 33),
+                    new Point(27, 60) });
+                g.FillPolygon(gradientLT, new Point[] { new Point(30, 63), new Point(30, 87), new Point(33, 87),
+                    new Point(33, 66) });
 
                 // Draw outline in darker colour
                 g.DrawPolygon(borderPen, pts);
@@ -6800,10 +6805,9 @@ namespace Krypton.Toolkit
             else if (dragData.ShowMiddle)
             {
                 // Only draw the background for the middle square
-                Point[] pts = {new(23, 29), new(29, 23),
-                    new(57, 23), new(63, 29),
-                    new(63, 57), new(57, 63),
-                    new(29, 63), new(23, 57)};
+                Point[] pts = {
+                    new Point(23, 29), new Point(29, 23), new Point(57, 23), new Point(63, 29), new Point(63, 57),
+                    new Point(57, 63), new Point(29, 63), new Point(23, 57)};
 
                 g.FillPolygon(insideBrush, pts);
                 g.DrawPolygon(borderPen, pts);
@@ -6815,20 +6819,28 @@ namespace Krypton.Toolkit
                                                 Color inactiveColor,
                                                 RenderDragDockingData dragData)
         {
-            if (g == null) throw new ArgumentNullException(nameof(g));
+            if (g == null)
+            {
+                throw new ArgumentNullException(nameof(g));
+            }
 
             Color borderColour = ControlPaint.Dark(activeColor);
 
             // Draw border around the window square
-            using Pen borderPen = new(borderColour),
-                dashPen = new(borderColour),
-                shadow1Pen = new(_190),
-                shadow2Pen = new(_218);
+            using Pen borderPen = new Pen(borderColour),
+                dashPen = new Pen(borderColour),
+                shadow1Pen = new Pen(_190),
+                shadow2Pen = new Pen(_218);
             // Draw the caption area at top of window
-            using LinearGradientBrush middleBrush = new(new Rectangle(4, 33, 23, 1), ControlPaint.LightLight(inactiveColor), activeColor, 0f),
-                bottomBrush = new(new Rectangle(4, 34, 23, 1), ControlPaint.Light(activeColor), activeColor, 0f),
-                positionBrush = new(new Rectangle(4, 35, 11, 1), Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 0f),
-                arrowBrush = new(new Rectangle(18, 40, 5, 8), borderColour, Color.FromArgb(175, borderColour), 0f);
+            using LinearGradientBrush middleBrush =
+                    new LinearGradientBrush(new Rectangle(4, 33, 23, 1), ControlPaint.LightLight(inactiveColor),
+                        activeColor, 0f),
+                bottomBrush = new LinearGradientBrush(new Rectangle(4, 34, 23, 1), ControlPaint.Light(activeColor),
+                    activeColor, 0f),
+                positionBrush = new LinearGradientBrush(new Rectangle(4, 35, 11, 1), Color.FromArgb(160, inactiveColor),
+                    Color.FromArgb(64, inactiveColor), 0f),
+                arrowBrush = new LinearGradientBrush(new Rectangle(18, 40, 5, 8), borderColour,
+                    Color.FromArgb(175, borderColour), 0f);
             // Draw border
             g.DrawLine(borderPen, 4, 33, 4, 53);
             g.DrawLine(borderPen, 27, 33, 27, 53);
@@ -6856,7 +6868,8 @@ namespace Krypton.Toolkit
             g.DrawLine(dashPen, 15, 37, 15, 52);
 
             // Draw the direction arrow
-            g.FillPolygon(arrowBrush, new Point[] { new(19, 44), new(23, 40), new(23, 48), new(19, 44) });
+            g.FillPolygon(arrowBrush, new Point[] { new Point(19, 44), new Point(23, 40), new Point(23, 48),
+                new Point(19, 44) });
 
             // If active, then draw highlighted border
             if (dragData.ActiveLeft)
@@ -6875,15 +6888,20 @@ namespace Krypton.Toolkit
             Color borderColour = ControlPaint.Dark(activeColor);
 
             // Draw border around the window square
-            using Pen borderPen = new(borderColour),
-                dashPen = new(borderColour),
-                shadow1Pen = new(_190),
-                shadow2Pen = new(_218);
+            using Pen borderPen = new Pen(borderColour),
+                dashPen = new Pen(borderColour),
+                shadow1Pen = new Pen(_190),
+                shadow2Pen = new Pen(_218);
             // Draw the caption area at top of window
-            using LinearGradientBrush middleBrush = new(new Rectangle(60, 33, 23, 1), ControlPaint.LightLight(inactiveColor), activeColor, 0f),
-                bottomBrush = new(new Rectangle(60, 34, 23, 1), ControlPaint.Light(activeColor), activeColor, 0f),
-                positionBrush = new(new Rectangle(71, 35, 11, 1), Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 180f),
-                arrowBrush = new(new Rectangle(68, 40, 5, 8), borderColour, Color.FromArgb(175, borderColour), 180f);
+            using LinearGradientBrush middleBrush =
+                    new LinearGradientBrush(new Rectangle(60, 33, 23, 1), ControlPaint.LightLight(inactiveColor),
+                        activeColor, 0f),
+                bottomBrush = new LinearGradientBrush(new Rectangle(60, 34, 23, 1), ControlPaint.Light(activeColor),
+                    activeColor, 0f),
+                positionBrush = new LinearGradientBrush(new Rectangle(71, 35, 11, 1),
+                    Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 180f),
+                arrowBrush = new LinearGradientBrush(new Rectangle(68, 40, 5, 8), borderColour,
+                    Color.FromArgb(175, borderColour), 180f);
             // Draw border
             g.DrawLine(borderPen, 60, 33, 60, 53);
             g.DrawLine(borderPen, 83, 33, 83, 53);
@@ -6911,7 +6929,8 @@ namespace Krypton.Toolkit
             g.DrawLine(dashPen, 72, 37, 72, 52);
 
             // Draw the direction arrow
-            g.FillPolygon(arrowBrush, new Point[] { new(69, 44), new(65, 40), new(65, 48), new(69, 44) });
+            g.FillPolygon(arrowBrush, new Point[] { new Point(69, 44), new Point(65, 40), new Point(65, 48),
+                new Point(69, 44) });
 
             // If active, then draw highlighted border
             if (dragData.ActiveRight)
@@ -6930,15 +6949,20 @@ namespace Krypton.Toolkit
             Color borderColour = ControlPaint.Dark(activeColor);
 
             // Draw border around the window square
-            using Pen borderPen = new(borderColour),
-                dashPen = new(borderColour),
-                shadow1Pen = new(_190),
-                shadow2Pen = new(_218);
+            using Pen borderPen = new Pen(borderColour),
+                dashPen = new Pen(borderColour),
+                shadow1Pen = new Pen(_190),
+                shadow2Pen = new Pen(_218);
             // Draw the caption area at top of window
-            using LinearGradientBrush middleBrush = new(new Rectangle(33, 5, 20, 1), ControlPaint.LightLight(inactiveColor), activeColor, 0f),
-                bottomBrush = new(new Rectangle(33, 6, 20, 1), ControlPaint.Light(activeColor), activeColor, 0f),
-                positionBrush = new(new Rectangle(34, 6, 19, 10), Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 90f),
-                arrowBrush = new(new Rectangle(39, 40, 8, 4), borderColour, Color.FromArgb(175, borderColour), 90f);
+            using LinearGradientBrush middleBrush =
+                    new LinearGradientBrush(new Rectangle(33, 5, 20, 1), ControlPaint.LightLight(inactiveColor),
+                        activeColor, 0f),
+                bottomBrush = new LinearGradientBrush(new Rectangle(33, 6, 20, 1), ControlPaint.Light(activeColor),
+                    activeColor, 0f),
+                positionBrush = new LinearGradientBrush(new Rectangle(34, 6, 19, 10),
+                    Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 90f),
+                arrowBrush = new LinearGradientBrush(new Rectangle(39, 40, 8, 4), borderColour,
+                    Color.FromArgb(175, borderColour), 90f);
             // Draw border
             g.DrawLine(borderPen, 33, 4, 53, 4);
             g.DrawLine(borderPen, 53, 4, 53, 27);
@@ -6966,7 +6990,8 @@ namespace Krypton.Toolkit
             g.DrawLine(dashPen, 35, 15, 53, 15);
 
             // Draw the direction arrow
-            g.FillPolygon(arrowBrush, new Point[] { new(43, 18), new(47, 23), new(39, 23), new(43, 18) });
+            g.FillPolygon(arrowBrush, new Point[] { new Point(43, 18), new Point(47, 23), new Point(39, 23),
+                new Point(43, 18) });
 
             // If active, then draw highlighted border
             if (dragData.ActiveTop)
@@ -6985,15 +7010,20 @@ namespace Krypton.Toolkit
             Color borderColour = ControlPaint.Dark(activeColor);
 
             // Draw border around the window square
-            using Pen borderPen = new(borderColour),
-                dashPen = new(borderColour),
-                shadow1Pen = new(_190),
-                shadow2Pen = new(_218);
+            using Pen borderPen = new Pen(borderColour),
+                dashPen = new Pen(borderColour),
+                shadow1Pen = new Pen(_190),
+                shadow2Pen = new Pen(_218);
             // Draw the caption area at top of window
-            using LinearGradientBrush middleBrush = new(new Rectangle(33, 61, 20, 1), ControlPaint.LightLight(inactiveColor), activeColor, 0f),
-                bottomBrush = new(new Rectangle(33, 62, 20, 1), ControlPaint.Light(activeColor), activeColor, 0f),
-                positionBrush = new(new Rectangle(34, 72, 19, 11), Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 270f),
-                arrowBrush = new(new Rectangle(39, 66, 8, 4), borderColour, Color.FromArgb(175, borderColour), 270f);
+            using LinearGradientBrush middleBrush =
+                    new LinearGradientBrush(new Rectangle(33, 61, 20, 1), ControlPaint.LightLight(inactiveColor),
+                        activeColor, 0f),
+                bottomBrush = new LinearGradientBrush(new Rectangle(33, 62, 20, 1), ControlPaint.Light(activeColor),
+                    activeColor, 0f),
+                positionBrush = new LinearGradientBrush(new Rectangle(34, 72, 19, 11),
+                    Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 270f),
+                arrowBrush = new LinearGradientBrush(new Rectangle(39, 66, 8, 4), borderColour,
+                    Color.FromArgb(175, borderColour), 270f);
             // Draw border
             g.DrawLine(borderPen, 33, 60, 53, 60);
             g.DrawLine(borderPen, 53, 60, 53, 83);
@@ -7021,7 +7051,8 @@ namespace Krypton.Toolkit
             g.DrawLine(dashPen, 35, 73, 53, 73);
 
             // Draw the direction arrow
-            g.FillPolygon(arrowBrush, new Point[] { new(43, 71), new(47, 67), new(40, 67), new(43, 71) });
+            g.FillPolygon(arrowBrush, new Point[] { new Point(43, 71), new Point(47, 67), new Point(40, 67),
+                new Point(43, 71) });
 
             // If active, then draw highlighted border
             if (dragData.ActiveBottom)
@@ -7040,13 +7071,16 @@ namespace Krypton.Toolkit
             Color borderColour = ControlPaint.Dark(activeColor);
 
             // Draw border around the window square
-            using Pen borderPen = new(borderColour),
-                dashPen = new(borderColour),
-                shadow1Pen = new(_190),
-                shadow2Pen = new(_218);
+            using Pen borderPen = new Pen(borderColour),
+                dashPen = new Pen(borderColour),
+                shadow1Pen = new Pen(_190),
+                shadow2Pen = new Pen(_218);
             // Draw the caption area at top of window
-            using (LinearGradientBrush middleBrush = new(new Rectangle(32, 34, 21, 1), ControlPaint.LightLight(inactiveColor), activeColor, 0f),
-                   bottomBrush = new(new Rectangle(32, 35, 21, 1), ControlPaint.Light(activeColor), activeColor, 0f))
+            using (LinearGradientBrush middleBrush =
+                   new LinearGradientBrush(new Rectangle(32, 34, 21, 1), ControlPaint.LightLight(inactiveColor),
+                       activeColor, 0f),
+                   bottomBrush = new LinearGradientBrush(new Rectangle(32, 35, 21, 1), ControlPaint.Light(activeColor),
+                       activeColor, 0f))
             {
                 // Draw border
                 g.DrawLine(borderPen, 32, 32, 54, 32);
@@ -7077,7 +7111,7 @@ namespace Krypton.Toolkit
                 g.FillRectangle(SystemBrushes.Window, 49, 51, 5, 3);
 
                 // Fill the inner indicator area
-                using (SolidBrush innerBrush = new(Color.FromArgb(64, inactiveColor)))
+                using (SolidBrush innerBrush = new SolidBrush(Color.FromArgb(64, inactiveColor)))
                 {
                     g.FillRectangle(innerBrush, 34, 36, 19, 13);
                     g.FillRectangle(innerBrush, 34, 49, 7, 3);
@@ -7162,10 +7196,10 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath outsidePath = new();
-                    GraphicsPath insidePathN = new();
-                    GraphicsPath insidePathL = new();
-                    GraphicsPath shadowPath = new();
+                    GraphicsPath outsidePath = new GraphicsPath();
+                    GraphicsPath insidePathN = new GraphicsPath();
+                    GraphicsPath insidePathL = new GraphicsPath();
+                    GraphicsPath shadowPath = new GraphicsPath();
 
                     // Create path for the entire border
                     outsidePath.AddLine(rect.Left + 2, rect.Top, rect.Right - 3, rect.Top);
@@ -7191,12 +7225,12 @@ namespace Krypton.Toolkit
                     shadowPath.AddLine(rect.Right - 4, rect.Bottom, rect.Right, rect.Bottom - 3);
                     shadowPath.AddLine(rect.Right, rect.Bottom - 3, rect.Right, rect.Top + 3);
 
-                    LinearGradientBrush insideBrush = new(rect, Color.Transparent, c2, 95f);
+                    LinearGradientBrush insideBrush = new LinearGradientBrush(rect, Color.Transparent, c2, 95f);
                     cache.InsidePen = new Pen(insideBrush);
 
-                    Rectangle rectGradient = new(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height + 1);
-                    LinearGradientBrush shadowBrushN = new(rectGradient, _darken8, _darken38, 90f);
-                    LinearGradientBrush shadowBrushL = new(rectGradient, _darken8, _darken18, 90f);
+                    Rectangle rectGradient = new Rectangle(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height + 1);
+                    LinearGradientBrush shadowBrushN = new LinearGradientBrush(rectGradient, _darken8, _darken38, 90f);
+                    LinearGradientBrush shadowBrushL = new LinearGradientBrush(rectGradient, _darken8, _darken18, 90f);
                     cache.ShadowPenN = new Pen(shadowBrushN);
                     cache.ShadowPenL = new Pen(shadowBrushL);
 
@@ -7219,12 +7253,12 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.FillBrush, cache.OutsidePath);
 
                 // Clip drawing to the outside border
-                using (Clipping clip = new(context.Graphics, cache.OutsidePath))
+                using (Clipping clip = new Clipping(context.Graphics, cache.OutsidePath))
                 {
                     context.Graphics.FillPath(cache.FillTopBrush, cache.OutsidePath);
                 }
 
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     // Draw the outside of the entire border line
                     context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
@@ -7290,7 +7324,9 @@ namespace Krypton.Toolkit
                     innerRect.Height -= 3;
                     var halfHeight = innerRect.Height / 2;
                     cache.BorderRect = innerRect;
-                    cache.BorderPoints = new Point[] { new(innerRect.X, rect.Y), new(innerRect.X, innerRect.Bottom), new(innerRect.Right, innerRect.Bottom), new(innerRect.Right, innerRect.Top) };
+                    cache.BorderPoints = new Point[] { new Point(innerRect.X, rect.Y),
+                        new Point(innerRect.X, innerRect.Bottom), new Point(innerRect.Right, innerRect.Bottom),
+                        new Point(innerRect.Right, innerRect.Top) };
                     cache.BackRect1 = new Rectangle(innerRect.X, innerRect.Y, rect.Width, halfHeight);
                     cache.BackRect2 = new Rectangle(innerRect.X, innerRect.Y + halfHeight, innerRect.Width, innerRect.Height - halfHeight);
                     cache.BackBrush1 = new LinearGradientBrush(new RectangleF(cache.BackRect1.X - 1, cache.BackRect1.Y - 1, cache.BackRect1.Width + 2, cache.BackRect1.Height + 1), c3, c4, 90f);
@@ -7364,9 +7400,9 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath outsidePath = new();
-                    GraphicsPath insidePath = new();
-                    GraphicsPath shadowPath = new();
+                    GraphicsPath outsidePath = new GraphicsPath();
+                    GraphicsPath insidePath = new GraphicsPath();
+                    GraphicsPath shadowPath = new GraphicsPath();
 
                     // Create path for the entire border
                     outsidePath.AddLine(rect.Left + 2, rect.Top, rect.Right - 3, rect.Top);
@@ -7391,11 +7427,11 @@ namespace Krypton.Toolkit
                     shadowPath.AddLine(rect.Right - 4, rect.Bottom, rect.Right, rect.Bottom - 3);
                     shadowPath.AddLine(rect.Right, rect.Bottom - 3, rect.Right, rect.Top + 3);
 
-                    LinearGradientBrush insideBrush = new(rect, Color.Transparent, c2, 95f);
+                    LinearGradientBrush insideBrush = new LinearGradientBrush(rect, Color.Transparent, c2, 95f);
                     cache.InsidePen = new Pen(insideBrush);
 
-                    Rectangle rectGradient = new(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height + 1);
-                    LinearGradientBrush shadowBrush = new(rectGradient, _darken8, _darken38, 90f);
+                    Rectangle rectGradient = new Rectangle(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height + 1);
+                    LinearGradientBrush shadowBrush = new LinearGradientBrush(rectGradient, _darken8, _darken38, 90f);
                     cache.ShadowPen = new Pen(shadowBrush);
 
                     cache.FillBrush = new LinearGradientBrush(rect, Color.White, _242, 90f)
@@ -7416,12 +7452,12 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.FillBrush, cache.OutsidePath);
 
                 // Clip drawing to the outside border
-                using (Clipping clip = new(context.Graphics, cache.OutsidePath))
+                using (Clipping clip = new Clipping(context.Graphics, cache.OutsidePath))
                 {
                     context.Graphics.FillPath(cache.FillTopBrush, cache.OutsidePath);
                 }
 
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     // Draw the outside of the entire border line
                     context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
@@ -7516,7 +7552,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the actual border
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
                 }
@@ -7551,7 +7587,7 @@ namespace Krypton.Toolkit
                                                             MementoRibbonTabTracking2007 cache)
         {
             // Create path for a curved border around the tab
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
             outsidePath.AddLine(rect.Left + 1, rect.Bottom - 2, rect.Left + 1, rect.Top + 1.5f);
             outsidePath.AddLine(rect.Left + 1, rect.Top + 1.5f, rect.Left + 3, rect.Top);
             outsidePath.AddLine(rect.Left + 3, rect.Top, rect.Right - 4, rect.Top);
@@ -7559,7 +7595,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Top + 1.5f, rect.Right - 2, rect.Bottom - 2);
 
             // Create path for the top hightlight line
-            GraphicsPath topPath = new();
+            GraphicsPath topPath = new GraphicsPath();
             topPath.AddLine(rect.Left + 3, rect.Top + 2, rect.Left + 4, rect.Top + 1);
             topPath.AddLine(rect.Left + 4, rect.Top + 1, rect.Right - 5, rect.Top + 1);
             topPath.AddLine(rect.Right - 5, rect.Top + 1, rect.Right - 4, rect.Top + 2);
@@ -7570,8 +7606,9 @@ namespace Krypton.Toolkit
             var half2 = full - half1;
             cache.Half1Rect = new Rectangle(rect.Left + 3, rect.Top + 2, rect.Width - 6, half1);
             cache.Half2Rect = new Rectangle(rect.Left + 3, rect.Top + 2 + half1, rect.Width - 6, half2);
-            Rectangle fullRect = new(rect.Left + 3, rect.Top + 2, rect.Width - 6, half1 + half2);
-            RectangleF half1RectF = new(cache.Half1Rect.Left - 1, cache.Half1Rect.Top - 0.5f, cache.Half1Rect.Width + 2, cache.Half1Rect.Height + 1);
+            Rectangle fullRect = new Rectangle(rect.Left + 3, rect.Top + 2, rect.Width - 6, half1 + half2);
+            RectangleF half1RectF = new RectangleF(cache.Half1Rect.Left - 1, cache.Half1Rect.Top - 0.5f,
+                cache.Half1Rect.Width + 2, cache.Half1Rect.Height + 1);
             cache.Half2RectF = new RectangleF(cache.Half2Rect.Left - 1, cache.Half2Rect.Top - 0.5f, cache.Half2Rect.Width + 2, cache.Half2Rect.Height + 1);
 
             cache.Half1LeftBrush = new LinearGradientBrush(half1RectF, Color.FromArgb(85, c2), Color.Transparent, 0f)
@@ -7589,7 +7626,7 @@ namespace Krypton.Toolkit
             cache.EllipseRect = new RectangleF(fullRect.Left - (fullRect.Width / 8), fullRect.Top, fullRect.Width * 1.25f, fullRect.Height);
 
             // Cannot draw a path that contains a zero sized element
-            GraphicsPath ellipsePath = new();
+            GraphicsPath ellipsePath = new GraphicsPath();
             if (cache.EllipseRect is { Width: > 0, Height: > 0 })
             {
                 ellipsePath.AddEllipse(cache.EllipseRect);
@@ -7597,13 +7634,14 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = Color.FromArgb(92, Color.White)
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
-            RectangleF vertRectF = new(rect.Left - 1, rect.Top + 2, rect.Width + 2, rect.Height - 2);
-            RectangleF horzRectF = new(rect.Left + 1, rect.Top, rect.Width - 2, rect.Height);
+            RectangleF vertRectF = new RectangleF(rect.Left - 1, rect.Top + 2, rect.Width + 2, rect.Height - 2);
+            RectangleF horzRectF = new RectangleF(rect.Left + 1, rect.Top, rect.Width - 2, rect.Height);
             cache.OutsideBrush = new LinearGradientBrush(vertRectF, Color.Transparent, _whiten128, 90f)
             {
                 Blend = _ribbonOutBlend
@@ -7645,7 +7683,7 @@ namespace Krypton.Toolkit
                                                          MementoRibbonTabTracking2007 cache)
         {
             // Create path for a curved border around the tab
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 2, rect.Left + 1.5f, rect.Bottom - 2);
             outsidePath.AddLine(rect.Left + 1.5f, rect.Bottom - 2, rect.Left, rect.Bottom - 4);
             outsidePath.AddLine(rect.Left, rect.Bottom - 4, rect.Left, rect.Top + 3);
@@ -7653,7 +7691,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Left + 1.5f, rect.Top + 1, rect.Right - 2, rect.Top + 1);
 
             // Create path for the top hightlight line
-            GraphicsPath topPath = new();
+            GraphicsPath topPath = new GraphicsPath();
             topPath.AddLine(rect.Left + 2, rect.Bottom - 4, rect.Left + 1, rect.Bottom - 5);
             topPath.AddLine(rect.Left + 1, rect.Bottom - 5, rect.Left + 1, rect.Top + 4);
             topPath.AddLine(rect.Left + 1, rect.Top + 4, rect.Left + 2, rect.Top + 3);
@@ -7664,8 +7702,9 @@ namespace Krypton.Toolkit
             var half2 = full - half1;
             cache.Half1Rect = new Rectangle(rect.Left + 2, rect.Top + 3, half1, rect.Height - 6);
             cache.Half2Rect = new Rectangle(rect.Left + 2 + half1, rect.Top + 3, half2, rect.Height - 6);
-            Rectangle fullRect = new(rect.Left + 2, rect.Top + 3, half1 + half2, rect.Height - 6);
-            RectangleF half1RectF = new(cache.Half1Rect.Left - 0.5f, cache.Half1Rect.Top - 1f, cache.Half1Rect.Width + 1, cache.Half1Rect.Height + 2);
+            Rectangle fullRect = new Rectangle(rect.Left + 2, rect.Top + 3, half1 + half2, rect.Height - 6);
+            RectangleF half1RectF = new RectangleF(cache.Half1Rect.Left - 0.5f, cache.Half1Rect.Top - 1f,
+                cache.Half1Rect.Width + 1, cache.Half1Rect.Height + 2);
             cache.Half2RectF = new RectangleF(cache.Half2Rect.Left - 0.5f, cache.Half2Rect.Top - 1f, cache.Half2Rect.Width + 1, cache.Half2Rect.Height + 2);
 
             cache.Half1LeftBrush = new LinearGradientBrush(half1RectF, Color.FromArgb(85, c2), Color.Transparent, 90f)
@@ -7682,7 +7721,7 @@ namespace Krypton.Toolkit
             // Create ellipse information for lightening the bottom hald
             cache.EllipseRect = new RectangleF(fullRect.Left, fullRect.Top - (fullRect.Width / 8), fullRect.Width, fullRect.Height * 1.25f);
 
-            GraphicsPath ellipsePath = new();
+            GraphicsPath ellipsePath = new GraphicsPath();
             // Cannot draw a path that contains a zero sized element
             if (cache.EllipseRect is { Width: > 0, Height: > 0 })
             {
@@ -7691,13 +7730,14 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = Color.FromArgb(48, Color.White)
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
-            RectangleF vertRectF = new(rect.Left + 2, rect.Top - 1, rect.Width - 2, rect.Height + 2);
-            RectangleF horzRectF = new(rect.Left, rect.Top + 1, rect.Width, rect.Height - 2);
+            RectangleF vertRectF = new RectangleF(rect.Left + 2, rect.Top - 1, rect.Width - 2, rect.Height + 2);
+            RectangleF horzRectF = new RectangleF(rect.Left, rect.Top + 1, rect.Width, rect.Height - 2);
             cache.OutsideBrush = new LinearGradientBrush(vertRectF, Color.Transparent, _whiten128, 180f)
             {
                 Blend = _ribbonOutBlend
@@ -7739,7 +7779,7 @@ namespace Krypton.Toolkit
                                                               MementoRibbonTabTracking2007 cache)
         {
             // Create path for a curved border around the tab
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
             outsidePath.AddLine(rect.Left + 1, rect.Bottom - 2, rect.Right - 2.5f, rect.Bottom - 2);
             outsidePath.AddLine(rect.Right - 2.5f, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 4);
             outsidePath.AddLine(rect.Right - 1, rect.Bottom - 4, rect.Right - 1, rect.Top + 3);
@@ -7747,7 +7787,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2.5f, rect.Top + 1, rect.Left + 1, rect.Top + 1);
 
             // Create path for the top hightlight line
-            GraphicsPath topPath = new();
+            GraphicsPath topPath = new GraphicsPath();
             topPath.AddLine(rect.Right - 3, rect.Bottom - 4, rect.Right - 2, rect.Bottom - 5);
             topPath.AddLine(rect.Right - 2, rect.Bottom - 5, rect.Right - 2, rect.Top + 4);
             topPath.AddLine(rect.Right - 2, rect.Top + 4, rect.Right - 3, rect.Top + 3);
@@ -7758,8 +7798,10 @@ namespace Krypton.Toolkit
             var half2 = full - half1;
             cache.Half1Rect = new Rectangle(rect.Right - 2 - half1, rect.Top + 3, half1, rect.Height - 6);
             cache.Half2Rect = new Rectangle(rect.Right - 2 - half1 - half2, rect.Top + 3, half2, rect.Height - 6);
-            Rectangle fullRect = new(rect.Right - 2 - half1 - half2, rect.Top + 3, half1 + half2, rect.Height - 6);
-            RectangleF half1RectF = new(cache.Half1Rect.Left - 0.5f, cache.Half1Rect.Top - 1f, cache.Half1Rect.Width + 1, cache.Half1Rect.Height + 2);
+            Rectangle fullRect = new Rectangle(rect.Right - 2 - half1 - half2, rect.Top + 3, half1 + half2,
+                rect.Height - 6);
+            RectangleF half1RectF = new RectangleF(cache.Half1Rect.Left - 0.5f, cache.Half1Rect.Top - 1f,
+                cache.Half1Rect.Width + 1, cache.Half1Rect.Height + 2);
             cache.Half2RectF = new RectangleF(cache.Half2Rect.Left - 0.5f, cache.Half2Rect.Top - 1f, cache.Half2Rect.Width + 1, cache.Half2Rect.Height + 2);
 
             cache.Half1LeftBrush = new LinearGradientBrush(half1RectF, Color.FromArgb(85, c2), Color.Transparent, 270f)
@@ -7776,7 +7818,7 @@ namespace Krypton.Toolkit
             // Create ellipse information for lightening the bottom hald
             cache.EllipseRect = new RectangleF(fullRect.Left, fullRect.Top - (fullRect.Width / 8), fullRect.Width, fullRect.Height * 1.25f);
 
-            GraphicsPath ellipsePath = new();
+            GraphicsPath ellipsePath = new GraphicsPath();
             // Cannot draw a path that contains a zero sized element
             if (cache.EllipseRect is { Width: > 0, Height: > 0 })
             {
@@ -7785,13 +7827,14 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = Color.FromArgb(48, Color.White)
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
-            RectangleF vertRectF = new(rect.Left, rect.Top - 1, rect.Width - 2, rect.Height + 2);
-            RectangleF horzRectF = new(rect.Left, rect.Top + 1, rect.Width, rect.Height - 2);
+            RectangleF vertRectF = new RectangleF(rect.Left, rect.Top - 1, rect.Width - 2, rect.Height + 2);
+            RectangleF horzRectF = new RectangleF(rect.Left, rect.Top + 1, rect.Width, rect.Height - 2);
             cache.OutsideBrush = new LinearGradientBrush(vertRectF, Color.Transparent, _whiten128, 0f)
             {
                 Blend = _ribbonOutBlend
@@ -7833,7 +7876,7 @@ namespace Krypton.Toolkit
                                                                MementoRibbonTabTracking2007 cache)
         {
             // Create path for a curved border around the tab
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
             outsidePath.AddLine(rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Bottom - 2.5f);
             outsidePath.AddLine(rect.Left + 1, rect.Bottom - 2.5f, rect.Left + 3, rect.Bottom - 1);
             outsidePath.AddLine(rect.Left + 3, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
@@ -7841,7 +7884,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 2.5f, rect.Right - 2, rect.Top + 1);
 
             // Create path for the bottom hightlight line
-            GraphicsPath topPath = new();
+            GraphicsPath topPath = new GraphicsPath();
             topPath.AddLine(rect.Left + 3, rect.Bottom - 3, rect.Left + 4, rect.Bottom - 2);
             topPath.AddLine(rect.Left + 4, rect.Bottom - 2, rect.Right - 5, rect.Bottom - 2);
             topPath.AddLine(rect.Right - 5, rect.Bottom - 2, rect.Right - 4, rect.Bottom - 3);
@@ -7852,8 +7895,10 @@ namespace Krypton.Toolkit
             var half2 = full - half1;
             cache.Half1Rect = new Rectangle(rect.Left + 3, rect.Bottom - 2 - half1, rect.Width - 6, half1);
             cache.Half2Rect = new Rectangle(rect.Left + 3, rect.Bottom - 2 - half1 - half2, rect.Width - 6, half2);
-            Rectangle fullRect = new(rect.Left + 3, rect.Bottom - 2 - half1 - half2, rect.Width - 6, half1 + half2);
-            RectangleF half1RectF = new(cache.Half1Rect.Left - 1, cache.Half1Rect.Top - 0.5f, cache.Half1Rect.Width + 2, cache.Half1Rect.Height + 1);
+            Rectangle fullRect = new Rectangle(rect.Left + 3, rect.Bottom - 2 - half1 - half2, rect.Width - 6,
+                half1 + half2);
+            RectangleF half1RectF = new RectangleF(cache.Half1Rect.Left - 1, cache.Half1Rect.Top - 0.5f,
+                cache.Half1Rect.Width + 2, cache.Half1Rect.Height + 1);
             cache.Half2RectF = new RectangleF(cache.Half2Rect.Left - 1, cache.Half2Rect.Top - 0.5f, cache.Half2Rect.Width + 2, cache.Half2Rect.Height + 1);
 
             cache.Half1LeftBrush = new LinearGradientBrush(half1RectF, Color.FromArgb(85, c2), Color.Transparent, 180f)
@@ -7870,7 +7915,7 @@ namespace Krypton.Toolkit
             // Create ellipse information for lightening the bottom hald
             cache.EllipseRect = new RectangleF(fullRect.Left - (fullRect.Width / 8), fullRect.Top, fullRect.Width * 1.25f, fullRect.Height);
 
-            GraphicsPath ellipsePath = new();
+            GraphicsPath ellipsePath = new GraphicsPath();
             // Cannot draw a path that contains a zero sized element
             if (cache.EllipseRect is { Width: > 0, Height: > 0 })
             {
@@ -7879,13 +7924,14 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = Color.FromArgb(92, Color.White)
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Bottom - (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Bottom - (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
-            RectangleF vertRectF = new(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height - 2);
-            RectangleF horzRectF = new(rect.Left + 1, rect.Top, rect.Width - 2, rect.Height);
+            RectangleF vertRectF = new RectangleF(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height - 2);
+            RectangleF horzRectF = new RectangleF(rect.Left + 1, rect.Top, rect.Width - 2, rect.Height);
             cache.OutsideBrush = new LinearGradientBrush(vertRectF, Color.Transparent, _whiten128, 270f)
             {
                 Blend = _ribbonOutBlend
@@ -7999,7 +8045,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.OutsideBrush, cache.OutsidePath);
 
                 // Draw the border
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.OutsidePen, cache.BorderPath);
                 }
@@ -8018,9 +8064,9 @@ namespace Krypton.Toolkit
                                                             Color c3, Color c4,
                                                             MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1.75f);
@@ -8065,9 +8111,9 @@ namespace Krypton.Toolkit
                                                                Color c3, Color c4,
                                                                MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Left, rect.Top, rect.Left, rect.Bottom - 2.75f);
@@ -8111,9 +8157,9 @@ namespace Krypton.Toolkit
                                                              Color c3, Color c4,
                                                              MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Right - 1, rect.Top, rect.Left + 1.75f, rect.Top);
@@ -8158,9 +8204,9 @@ namespace Krypton.Toolkit
                                                               Color c3, Color c4,
                                                               MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Left, rect.Top, rect.Right - 2.75f, rect.Top);
@@ -8271,7 +8317,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.OutsideBrush, cache.OutsidePath);
 
                 // Draw the border
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.OutsidePen, cache.BorderPath);
                 }
@@ -8290,9 +8336,9 @@ namespace Krypton.Toolkit
                                                          Color c3, Color c4,
                                                          MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Left, rect.Bottom - 1, rect.Left + 1, rect.Bottom - 2);
@@ -8343,9 +8389,9 @@ namespace Krypton.Toolkit
                                                             Color c3, Color c4,
                                                             MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Left, rect.Top, rect.Left + 1, rect.Top + 1);
@@ -8395,9 +8441,9 @@ namespace Krypton.Toolkit
                                                           Color c3, Color c4,
                                                           MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Right - 1, rect.Top - 1, rect.Right - 2, rect.Top);
@@ -8446,9 +8492,9 @@ namespace Krypton.Toolkit
                                                            Color c3, Color c4,
                                                            MementoRibbonTabTracking2010 cache)
         {
-            GraphicsPath borderPath = new();
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath borderPath = new GraphicsPath();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a border pen
             borderPath.AddLine(rect.Left, rect.Top - 1, rect.Left + 1, rect.Top);
@@ -8562,7 +8608,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the border over the edge of the inside color
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
                 }
@@ -8587,9 +8633,9 @@ namespace Krypton.Toolkit
                                                        Color c1, Color c2, Color insideColor,
                                                        MementoRibbonTabGlowing cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath topPath = new();
-            GraphicsPath ellipsePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath topPath = new GraphicsPath();
+            GraphicsPath ellipsePath = new GraphicsPath();
 
             // Create path for a curved border around the tab
             outsidePath.AddLine(rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1.5f);
@@ -8608,7 +8654,7 @@ namespace Krypton.Toolkit
             topPath.AddLine(rect.Right - 2, rect.Top + 2 + q4, rect.Right - 2, rect.Top + 2);
             topPath.AddLine(rect.Right - 2, rect.Top + 2, rect.Right - 3, rect.Top + 1);
 
-            RectangleF topRectF = new(rect.Left, rect.Top, rect.Width, q4 + 5);
+            RectangleF topRectF = new RectangleF(rect.Left, rect.Top, rect.Width, q4 + 5);
             cache.TopBrush = new LinearGradientBrush(topRectF, c1, Color.Transparent, 90f);
 
             var ellipseWidth = (int)(rect.Width * 1.2f);
@@ -8624,7 +8670,8 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = c2
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
@@ -8644,9 +8691,9 @@ namespace Krypton.Toolkit
                                                         Color c1, Color c2, Color insideColor,
                                                         MementoRibbonTabGlowing cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath topPath = new();
-            GraphicsPath ellipsePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath topPath = new GraphicsPath();
+            GraphicsPath ellipsePath = new GraphicsPath();
 
             // Create path for a curved border around the tab
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 1, rect.Left + 1.5f, rect.Bottom - 1);
@@ -8665,7 +8712,7 @@ namespace Krypton.Toolkit
             topPath.AddLine(rect.Left + 2 + q4, rect.Top + 1, rect.Left + 2, rect.Top + 2);
             topPath.AddLine(rect.Left + 2, rect.Top + 2, rect.Left + 1, rect.Top + 2);
 
-            RectangleF topRectF = new(rect.Left, rect.Top, q4 + 5, rect.Height);
+            RectangleF topRectF = new RectangleF(rect.Left, rect.Top, q4 + 5, rect.Height);
             cache.TopBrush = new LinearGradientBrush(topRectF, c1, Color.Transparent, 0f);
 
             var ellipseWidth = (int)(rect.Width * 0.4f);
@@ -8681,7 +8728,8 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = c2
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
@@ -8701,9 +8749,9 @@ namespace Krypton.Toolkit
                                                          Color c1, Color c2, Color insideColor,
                                                          MementoRibbonTabGlowing cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath topPath = new();
-            GraphicsPath ellipsePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath topPath = new GraphicsPath();
+            GraphicsPath ellipsePath = new GraphicsPath();
 
             // Create path for a curved border around the tab
             outsidePath.AddLine(rect.Left + 1, rect.Bottom - 1, rect.Right - 2.5f, rect.Bottom - 1);
@@ -8722,7 +8770,7 @@ namespace Krypton.Toolkit
             topPath.AddLine(rect.Right - 2 - q4, rect.Top + 1, rect.Right - 2, rect.Top + 2);
             topPath.AddLine(rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 2);
 
-            RectangleF topRectF = new(rect.Right - q4 - 5, rect.Top, q4 + 5, rect.Height);
+            RectangleF topRectF = new RectangleF(rect.Right - q4 - 5, rect.Top, q4 + 5, rect.Height);
             cache.TopBrush = new LinearGradientBrush(topRectF, c1, Color.Transparent, 180f);
 
             var ellipseWidth = (int)(rect.Width * 0.4f);
@@ -8738,7 +8786,8 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = c2
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
@@ -8758,9 +8807,9 @@ namespace Krypton.Toolkit
                                                           Color c1, Color c2, Color insideColor,
                                                           MementoRibbonTabGlowing cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath topPath = new();
-            GraphicsPath ellipsePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath topPath = new GraphicsPath();
+            GraphicsPath ellipsePath = new GraphicsPath();
 
             // Create path for a curved border around the tab
             outsidePath.AddLine(rect.Left, rect.Top + 1, rect.Left, rect.Bottom - 2.5f);
@@ -8779,7 +8828,7 @@ namespace Krypton.Toolkit
             topPath.AddLine(rect.Right - 2, rect.Bottom - 2 - q4, rect.Right - 2, rect.Bottom - 2);
             topPath.AddLine(rect.Right - 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 1);
 
-            RectangleF topRectF = new(rect.Left, rect.Bottom - 6 - q4, rect.Width, q4 + 5);
+            RectangleF topRectF = new RectangleF(rect.Left, rect.Bottom - 6 - q4, rect.Width, q4 + 5);
             cache.TopBrush = new LinearGradientBrush(topRectF, c1, Color.Transparent, 270f);
 
             var ellipseWidth = (int)(rect.Width * 1.2f);
@@ -8795,7 +8844,8 @@ namespace Krypton.Toolkit
                 {
                     CenterColor = c2
                 };
-                PointF centerPoint = new(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2), cache.EllipseRect.Bottom - 1 - (cache.EllipseRect.Height / 2));
+                PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
+                    cache.EllipseRect.Bottom - 1 - (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
                 cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
             }
@@ -8876,7 +8926,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.InsideBrush, cache.OutsidePath);
 
                 // Draw the actual border
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
                 }
@@ -8911,7 +8961,7 @@ namespace Krypton.Toolkit
                                                             Color c4, Color c5,
                                                             MementoRibbonTabSelected2007 cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left, rect.Bottom - 2, rect.Left + 1, rect.Bottom - 3);
@@ -8923,7 +8973,8 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
 
             cache.CenterRect = new Rectangle(rect.Left + 4, rect.Top + 4, rect.Width - 8, rect.Height - 4);
-            RectangleF centerRectF = new(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1, cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
+            RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
+                cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 90f);
             cache.OutsidePath = outsidePath;
         }
@@ -8940,7 +8991,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.InsidePen, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
             g.DrawLine(cache.CenterPen, rect.Left + 3, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw a line on the inside of the left and right border edges
             g.DrawLine(cache.MiddlePen, rect.Left + 0.5f, rect.Bottom - 1, rect.Left + 2, rect.Bottom - 3);
             g.DrawLine(cache.MiddlePen, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
@@ -8961,7 +9012,7 @@ namespace Krypton.Toolkit
                                                              Color c4, Color c5,
                                                              MementoRibbonTabSelected2007 cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 1, rect.Right - 3, rect.Bottom - 2);
@@ -8973,7 +9024,8 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 3, rect.Top + 1, rect.Right - 1, rect.Top);
 
             cache.CenterRect = new Rectangle(rect.Left + 4, rect.Top + 4, rect.Width - 4, rect.Height - 8);
-            RectangleF centerRectF = new(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1, cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
+            RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
+                cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 0f);
             cache.OutsidePath = outsidePath;
         }
@@ -8990,7 +9042,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.InsidePen, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
             g.DrawLine(cache.CenterPen, rect.Right - 1, rect.Bottom - 4, rect.Right - 1, rect.Top + 3);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw a line on the inside of the left and right border edges
             g.DrawLine(cache.MiddlePen, rect.Right - 1, rect.Bottom - 1.5f, rect.Right - 3, rect.Bottom - 3);
             g.DrawLine(cache.MiddlePen, rect.Right - 3, rect.Bottom - 3, rect.Left + 2, rect.Bottom - 3);
@@ -9011,7 +9063,7 @@ namespace Krypton.Toolkit
                                                               Color c4, Color c5,
                                                               MementoRibbonTabSelected2007 cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left + 1, rect.Bottom - 1, rect.Left + 2, rect.Bottom - 2);
@@ -9023,7 +9075,8 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Left + 2, rect.Top + 1, rect.Left, rect.Top);
 
             cache.CenterRect = new Rectangle(rect.Left, rect.Top + 4, rect.Width - 4, rect.Height - 8);
-            RectangleF centerRectF = new(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1, cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
+            RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
+                cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 180f);
             cache.OutsidePath = outsidePath;
         }
@@ -9040,7 +9093,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.InsidePen, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
             g.DrawLine(cache.CenterPen, rect.Left, rect.Bottom - 4, rect.Left, rect.Top + 3);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw a line on the inside of the left and right border edges
             g.DrawLine(cache.MiddlePen, rect.Left, rect.Bottom - 1.5f, rect.Left + 2, rect.Bottom - 3);
             g.DrawLine(cache.MiddlePen, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
@@ -9061,7 +9114,7 @@ namespace Krypton.Toolkit
                                                                Color c4, Color c5,
                                                                MementoRibbonTabSelected2007 cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left, rect.Top + 1, rect.Left + 1, rect.Top + 2);
@@ -9073,7 +9126,8 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 1);
 
             cache.CenterRect = new Rectangle(rect.Left + 4, rect.Top, rect.Width - 8, rect.Height - 4);
-            RectangleF centerRectF = new(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1, cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
+            RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
+                cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 270f);
             cache.OutsidePath = outsidePath;
         }
@@ -9090,7 +9144,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.InsidePen, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
             g.DrawLine(cache.CenterPen, rect.Left + 3, rect.Top, rect.Right - 4, rect.Top);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw a line on the inside of the left and right border edges
             g.DrawLine(cache.MiddlePen, rect.Left + 0.5f, rect.Top, rect.Left + 2, rect.Top + 2);
             g.DrawLine(cache.MiddlePen, rect.Left + 2, rect.Top + 2, rect.Left + 2, rect.Bottom - 3);
@@ -9184,7 +9238,7 @@ namespace Krypton.Toolkit
                     context.Graphics.FillPath(cache.InsideBrush, cache.InsidePath);
                 }
 
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
                 }
@@ -9216,8 +9270,8 @@ namespace Krypton.Toolkit
                                                             Color c2, Color c3, Color c5,
                                                             MementoRibbonTabSelected2010 cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left, rect.Bottom - 2, rect.Left + 1, rect.Bottom - 3);
@@ -9228,7 +9282,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 3);
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
 
-            RectangleF centerRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF centerRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c2, c3, 90f)
             {
                 Blend = _ribbonTabSelected1Blend
@@ -9250,7 +9304,7 @@ namespace Krypton.Toolkit
             insidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 3);
             insidePath.AddLine(rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
 
-            RectangleF insideRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF insideRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.InsideBrush = new LinearGradientBrush(insideRectF, Color.FromArgb(32, c5), Color.Transparent, 90f)
             {
                 Blend = _ribbonTabSelected2Blend
@@ -9269,7 +9323,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.CenterPen, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
             g.DrawLine(cache.CenterPen, rect.Left + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw shadow lines on the outside of the left and right edges
             g.DrawLine(_mediumShadowPen, rect.Left, rect.Bottom - 3, rect.Left, rect.Top + 2);
             g.DrawLine(_mediumShadowPen, rect.Right - 1, rect.Bottom - 3, rect.Right - 1, rect.Top + 2);
@@ -9282,8 +9336,8 @@ namespace Krypton.Toolkit
                                                              Color c2, Color c3, Color c5,
                                                              MementoRibbonTabSelected2010 cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 2);
@@ -9294,7 +9348,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Left + 1, rect.Top + 1, rect.Right - 2, rect.Top + 1);
             outsidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Top);
 
-            RectangleF centerRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF centerRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c2, c3, 0f)
             {
                 Blend = _ribbonTabSelected1Blend
@@ -9316,7 +9370,7 @@ namespace Krypton.Toolkit
             insidePath.AddLine(rect.Left + 1, rect.Top + 1, rect.Right - 2, rect.Top + 1);
             insidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Top);
 
-            RectangleF insideRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF insideRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.InsideBrush = new LinearGradientBrush(insideRectF, Color.FromArgb(32, c5), Color.Transparent, 0f)
             {
                 Blend = _ribbonTabSelected2Blend
@@ -9335,7 +9389,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.CenterPen, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
             g.DrawLine(cache.CenterPen, rect.Right - 1, rect.Bottom - 2, rect.Right - 1, rect.Top + 1);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw shadow lines on the outside of the top and bottom edges
             g.DrawLine(_mediumShadowPen, rect.Right - 3, rect.Bottom - 1, rect.Left + 3, rect.Bottom - 1);
             g.DrawLine(_mediumShadowPen, rect.Right - 3, rect.Top, rect.Left + 3, rect.Top);
@@ -9348,8 +9402,8 @@ namespace Krypton.Toolkit
                                                               Color c2, Color c3, Color c5,
                                                               MementoRibbonTabSelected2010 cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left + 1, rect.Bottom - 1, rect.Left + 1, rect.Bottom - 2);
@@ -9360,7 +9414,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Left + 1, rect.Top + 1);
             outsidePath.AddLine(rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Top);
 
-            RectangleF centerRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF centerRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c2, c3, 180f)
             {
                 Blend = _ribbonTabSelected1Blend
@@ -9381,7 +9435,7 @@ namespace Krypton.Toolkit
             insidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Left + 1, rect.Top + 1);
             insidePath.AddLine(rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Top);
 
-            RectangleF insideRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF insideRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.InsideBrush = new LinearGradientBrush(insideRectF, Color.FromArgb(32, c5), Color.Transparent, 180f)
             {
                 Blend = _ribbonTabSelected2Blend
@@ -9401,7 +9455,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.CenterPen, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
             g.DrawLine(cache.CenterPen, rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw shadow lines on the outside of the top and bottom edges
             g.DrawLine(_mediumShadowPen, rect.Left + 2, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
             g.DrawLine(_mediumShadowPen, rect.Left + 2, rect.Top, rect.Right - 4, rect.Top);
@@ -9414,8 +9468,8 @@ namespace Krypton.Toolkit
                                                                Color c2, Color c3, Color c5,
                                                                MementoRibbonTabSelected2010 cache)
         {
-            GraphicsPath outsidePath = new();
-            GraphicsPath insidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
+            GraphicsPath insidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left, rect.Top + 1, rect.Left + 1, rect.Top + 1);
@@ -9426,7 +9480,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 1);
             outsidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top + 1);
 
-            RectangleF centerRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF centerRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c2, c3, 270f)
             {
                 Blend = _ribbonTabSelected1Blend
@@ -9447,7 +9501,7 @@ namespace Krypton.Toolkit
             insidePath.AddLine(rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 1);
             insidePath.AddLine(rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top + 1);
 
-            RectangleF insideRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+            RectangleF insideRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
             cache.InsideBrush = new LinearGradientBrush(insideRectF, Color.FromArgb(32, c5), Color.Transparent, 270f)
             {
                 Blend = _ribbonTabSelected2Blend
@@ -9466,7 +9520,7 @@ namespace Krypton.Toolkit
             g.DrawLine(cache.CenterPen, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
             g.DrawLine(cache.CenterPen, rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
 
-            using AntiAlias aa = new(g);
+            using AntiAlias aa = new AntiAlias(g);
             // Draw shadow lines on the outside of the left and right edges
             g.DrawLine(_mediumShadowPen, rect.Left, rect.Top + 2, rect.Left, rect.Bottom - 4);
             g.DrawLine(_mediumShadowPen, rect.Right - 1, rect.Top + 2, rect.Right - 1, rect.Bottom - 4);
@@ -9540,7 +9594,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillRectangle(cache.InsideBrush, cache.InteriorRect);
 
                 // Draw the actual border
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
                 }
@@ -9572,7 +9626,7 @@ namespace Krypton.Toolkit
                                                                Color c2,
                                                                MementoRibbonTabContextSelected cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left, rect.Bottom - 2, rect.Left + 1, rect.Bottom - 3);
@@ -9583,8 +9637,10 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Top + 1.5f, rect.Right - 2, rect.Bottom - 3);
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
 
-            LinearGradientBrush leftBrush = new(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 90f);
-            LinearGradientBrush rightBrush = new(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 90f);
+            LinearGradientBrush leftBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 90f);
+            LinearGradientBrush rightBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 90f);
             cache.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
@@ -9627,7 +9683,7 @@ namespace Krypton.Toolkit
                                                                 Color c2,
                                                                 MementoRibbonTabContextSelected cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 1, rect.Right - 3, rect.Bottom - 2);
@@ -9638,8 +9694,10 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Left + 1.5f, rect.Top + 1, rect.Right - 3, rect.Top + 1);
             outsidePath.AddLine(rect.Right - 3, rect.Top + 1, rect.Right - 2, rect.Top);
 
-            LinearGradientBrush leftBrush = new(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 0f);
-            LinearGradientBrush rightBrush = new(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 0f);
+            LinearGradientBrush leftBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 0f);
+            LinearGradientBrush rightBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 0f);
             cache.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
@@ -9682,7 +9740,7 @@ namespace Krypton.Toolkit
                                                                  Color c2,
                                                                  MementoRibbonTabContextSelected cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left + 1, rect.Bottom - 1, rect.Left + 2, rect.Bottom - 2);
@@ -9693,8 +9751,10 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2.5f, rect.Top + 1, rect.Left + 2, rect.Top + 1);
             outsidePath.AddLine(rect.Left + 2, rect.Top + 1, rect.Left + 1, rect.Top);
 
-            LinearGradientBrush leftBrush = new(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 180f);
-            LinearGradientBrush rightBrush = new(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 180f);
+            LinearGradientBrush leftBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 180f);
+            LinearGradientBrush rightBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 180f);
             cache.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
@@ -9737,7 +9797,7 @@ namespace Krypton.Toolkit
                                                                   Color c2,
                                                                   MementoRibbonTabContextSelected cache)
         {
-            GraphicsPath outsidePath = new();
+            GraphicsPath outsidePath = new GraphicsPath();
 
             // Create path for a curved dark border around the tab
             outsidePath.AddLine(rect.Left, rect.Top + 1, rect.Left + 1, rect.Top + 2);
@@ -9748,8 +9808,10 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 2.5f, rect.Right - 2, rect.Top + 2);
             outsidePath.AddLine(rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 1);
 
-            LinearGradientBrush leftBrush = new(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 270f);
-            LinearGradientBrush rightBrush = new(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 270f);
+            LinearGradientBrush leftBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 270f);
+            LinearGradientBrush rightBrush =
+                new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 270f);
             cache.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
@@ -9879,8 +9941,8 @@ namespace Krypton.Toolkit
                                                          Color c4, Color c5,
                                                          MementoRibbonTabHighlight cache)
         {
-            RectangleF hF = new(rect.Left - 2, rect.Top - 1, rect.Width + 4, 6);
-            RectangleF vF = new(rect.Left - 2, rect.Top + 1, rect.Width + 4, rect.Height - 1);
+            RectangleF hF = new RectangleF(rect.Left - 2, rect.Top - 1, rect.Width + 4, 6);
+            RectangleF vF = new RectangleF(rect.Left - 2, rect.Top + 1, rect.Width + 4, rect.Height - 1);
             cache.TopBorderBrush = new LinearGradientBrush(hF, Color.FromArgb(48, c5), Color.FromArgb(64, c5), 90f);
             cache.BorderVertBrush = new LinearGradientBrush(vF, c5, c4, 90f);
             cache.OutsideVertBrush = new LinearGradientBrush(vF, Color.FromArgb(48, c5), c5, 90f);
@@ -9928,8 +9990,8 @@ namespace Krypton.Toolkit
                                                           Color c4, Color c5,
                                                           MementoRibbonTabHighlight cache)
         {
-            RectangleF hF = new(rect.Left - 1, rect.Top - 2, 6, rect.Height - 4);
-            RectangleF vF = new(rect.Left + 1, rect.Top - 2, rect.Width - 1, rect.Height - 4);
+            RectangleF hF = new RectangleF(rect.Left - 1, rect.Top - 2, 6, rect.Height - 4);
+            RectangleF vF = new RectangleF(rect.Left + 1, rect.Top - 2, rect.Width - 1, rect.Height - 4);
             cache.TopBorderBrush = new LinearGradientBrush(hF, Color.FromArgb(48, c5), Color.FromArgb(64, c5), 0f);
             cache.BorderVertBrush = new LinearGradientBrush(vF, c5, c4, 0f);
             cache.OutsideVertBrush = new LinearGradientBrush(vF, Color.FromArgb(48, c5), c5, 0f);
@@ -9977,8 +10039,8 @@ namespace Krypton.Toolkit
                                                            Color c4, Color c5,
                                                            MementoRibbonTabHighlight cache)
         {
-            RectangleF hF = new(rect.Right - 6, rect.Top - 2, 6, rect.Height - 4);
-            RectangleF vF = new(rect.Left, rect.Top - 2, rect.Width - 1, rect.Height - 4);
+            RectangleF hF = new RectangleF(rect.Right - 6, rect.Top - 2, 6, rect.Height - 4);
+            RectangleF vF = new RectangleF(rect.Left, rect.Top - 2, rect.Width - 1, rect.Height - 4);
             cache.TopBorderBrush = new LinearGradientBrush(hF, Color.FromArgb(48, c5), Color.FromArgb(64, c5), 180f);
             cache.BorderVertBrush = new LinearGradientBrush(vF, c5, c4, 180f);
             cache.OutsideVertBrush = new LinearGradientBrush(vF, Color.FromArgb(48, c5), c5, 180f);
@@ -10026,8 +10088,8 @@ namespace Krypton.Toolkit
                                                             Color c4, Color c5,
                                                             MementoRibbonTabHighlight cache)
         {
-            RectangleF hF = new(rect.Left - 2, rect.Bottom - 6, rect.Width + 4, 6);
-            RectangleF vF = new(rect.Left - 2, rect.Top, rect.Width + 4, rect.Height - 1);
+            RectangleF hF = new RectangleF(rect.Left - 2, rect.Bottom - 6, rect.Width + 4, 6);
+            RectangleF vF = new RectangleF(rect.Left - 2, rect.Top, rect.Width + 4, rect.Height - 1);
             cache.TopBorderBrush = new LinearGradientBrush(hF, Color.FromArgb(48, c5), Color.FromArgb(64, c5), 270f);
             cache.BorderVertBrush = new LinearGradientBrush(vF, c5, c4, 270f);
             cache.OutsideVertBrush = new LinearGradientBrush(vF, Color.FromArgb(48, c5), c5, 270f);
@@ -10105,16 +10167,17 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    Rectangle borderRect = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    Rectangle borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.FillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
-                    LinearGradientBrush borderBrush = new(borderRect, c1, Color.Transparent, 270f)
+                    LinearGradientBrush borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
                     cache.BorderPen = new Pen(borderBrush);
 
-                    LinearGradientBrush underlineBrush = new(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
+                    LinearGradientBrush underlineBrush =
+                        new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
                     {
                         Blend = _ribbonGroup7Blend
                     };
@@ -10210,7 +10273,7 @@ namespace Krypton.Toolkit
                     cache.BrushLower = new LinearGradientBrush(cache.RectLower, Color.Transparent, Color.Transparent, LinearGradientMode.Horizontal);
                 }
 
-                using AntiAlias aa = new(context.Graphics);
+                using AntiAlias aa = new AntiAlias(context.Graphics);
                 DrawRibbonAppButtonBorder1(context.Graphics, cache);
                 DrawRibbonAppButtonUpperHalf(context.Graphics, cache, state, topDark, bottomDark, topLight, topMedium, trackBorderAsPressed);
                 DrawRibbonAppButtonLowerHalf(context.Graphics, cache, state, bottomDark, bottomLight, bottomMedium);
@@ -10259,7 +10322,7 @@ namespace Krypton.Toolkit
                 Color[] colorsUpperHalf = { topDark, topMedium, topLight, topLight, topMedium, topDark };
                 float[] posUpperHalf = { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
 
-                ColorBlend blendUpperHalf = new()
+                ColorBlend blendUpperHalf = new ColorBlend
                 {
                     Colors = colorsUpperHalf,
                     Positions = posUpperHalf
@@ -10284,7 +10347,8 @@ namespace Krypton.Toolkit
                 c2 = topDark;
             }
 
-            using LinearGradientBrush brushUpper2 = new(memento.Rect, c1, c2, LinearGradientMode.Vertical);
+            using LinearGradientBrush brushUpper2 =
+                new LinearGradientBrush(memento.Rect, c1, c2, LinearGradientMode.Vertical);
             g.FillPie(brushUpper2, memento.Rect.X, memento.Rect.Y, memento.Rect.Width, memento.Rect.Height, 180, 180);
         }
 
@@ -10304,7 +10368,7 @@ namespace Krypton.Toolkit
                 ? new[] { 0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f }
                 : new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
 
-            ColorBlend blendLowerHalf = new()
+            ColorBlend blendLowerHalf = new ColorBlend
             {
                 Colors = colorsLowerHalf,
                 Positions = posLowerHalf
@@ -10323,7 +10387,8 @@ namespace Krypton.Toolkit
                                                              Color topLight,
                                                              Color bottomLight)
         {
-            using LinearGradientBrush brushBottomGlow = new(memento.RectBottomGlow, Color.FromArgb(50, Color.White), Color.FromArgb(30, Color.White), LinearGradientMode.Vertical);
+            using LinearGradientBrush brushBottomGlow = new LinearGradientBrush(memento.RectBottomGlow,
+                Color.FromArgb(50, Color.White), Color.FromArgb(30, Color.White), LinearGradientMode.Vertical);
             RectangleF rectBottomGlow = memento.RectBottomGlow;
             rectBottomGlow.X = memento.Rect.X + ((memento.Rect.Width - rectBottomGlow.Width) / 2);
             rectBottomGlow.Y = memento.Rect.Y + (memento.Rect.Height - rectBottomGlow.Height - 2);
@@ -10340,9 +10405,9 @@ namespace Krypton.Toolkit
                 rectBottomGlow.X = memento.Rect.X + ((memento.Rect.Width - rectBottomGlow.Width) / 2);
                 rectBottomGlow.Y = memento.Rect.Y + (memento.Rect.Height - rectBottomGlow.Height);
 
-                using GraphicsPath path = new();
+                using GraphicsPath path = new GraphicsPath();
                 path.AddEllipse(rectBottomGlow);
-                using PathGradientBrush pathGradient = new(path);
+                using PathGradientBrush pathGradient = new PathGradientBrush(path);
                 pathGradient.CenterColor = topLight;
                 pathGradient.SurroundColors = new[] { Color.FromArgb(100, bottomLight) };
                 g.FillEllipse(pathGradient, rectBottomGlow);
@@ -10368,7 +10433,8 @@ namespace Krypton.Toolkit
                 mediumTransparency = 200;
             }
 
-            using LinearGradientBrush brushUpperGlow = new(memento.RectUpperGlow, Color.Transparent, Color.Transparent, LinearGradientMode.Horizontal);
+            using LinearGradientBrush brushUpperGlow = new LinearGradientBrush(memento.RectUpperGlow, Color.Transparent,
+                Color.Transparent, LinearGradientMode.Horizontal);
             Color[] colorsUpperGlow = { Color.FromArgb(180, bottomDark),
                 Color.FromArgb(mediumTransparency, bottomMedium),
                 Color.FromArgb(lightTransparency, bottomLight),
@@ -10378,7 +10444,7 @@ namespace Krypton.Toolkit
 
             float[] posUpperGlow = { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
 
-            ColorBlend blendUpperGlow = new()
+            ColorBlend blendUpperGlow = new ColorBlend
             {
                 Colors = colorsUpperGlow,
                 Positions = posUpperGlow
@@ -10421,12 +10487,12 @@ namespace Krypton.Toolkit
                 borderGlowColor = _whiten120;
             }
 
-            using (Pen p = new(borderGlowColor))
+            using (Pen p = new Pen(borderGlowColor))
             {
                 g.DrawEllipse(p, memento.BorderMain1);
             }
 
-            using (Pen p = new(Color.FromArgb(100, 52, 59, 64)))
+            using (Pen p = new Pen(Color.FromArgb(100, 52, 59, 64)))
             {
                 g.DrawEllipse(p, memento.Rect);
             }
@@ -10434,12 +10500,12 @@ namespace Krypton.Toolkit
             if (pressed)
             {
                 borderGlowColor = _whiten60;
-                using Pen p = new(borderGlowColor);
+                using Pen p = new Pen(borderGlowColor);
                 g.DrawEllipse(p, memento.BorderMain3);
             }
 
             borderGlowColor = pressed ? _whiten50 : _whiten80;
-            using (Pen p = new(borderGlowColor))
+            using (Pen p = new Pen(borderGlowColor))
             {
                 g.DrawArc(p, memento.BorderMain2, 180, 180);
             }
@@ -10447,13 +10513,13 @@ namespace Krypton.Toolkit
             if (!pressed)
             {
                 borderGlowColor = _whiten30;
-                using Pen p = new(borderGlowColor);
+                using Pen p = new Pen(borderGlowColor);
                 g.DrawArc(p, memento.BorderMain4, 180, 180);
             }
 
             if (tracking && !pressed)
             {
-                using Pen p = new(Color.FromArgb(100, borderGlowColor));
+                using Pen p = new Pen(Color.FromArgb(100, borderGlowColor));
                 g.DrawEllipse(p, memento.Rect);
             }
         }
@@ -10548,7 +10614,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.BorderBrush, cache.BorderFillPath);
 
                 // Draw the outside border
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
                 }
@@ -10557,7 +10623,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillPath(cache.InsideFillBrush, cache.InsideFillPath);
 
                 // Draw highlight over bottom half
-                using (Clipping clip = new(context.Graphics, cache.InsideFillPath))
+                using (Clipping clip = new Clipping(context.Graphics, cache.InsideFillPath))
                 {
                     context.Graphics.FillPath(cache.HighlightBrush, cache.HighlightPath);
                 }
@@ -10610,7 +10676,7 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath trackingPath = new();
+                    GraphicsPath trackingPath = new GraphicsPath();
                     trackingPath.AddEllipse(new Rectangle(rect.X, rect.Y + (rect.Height / 2), rect.Width - 3, rect.Height));
                     cache.TrackHighlightBrush = new PathGradientBrush(trackingPath)
                     {
@@ -10691,10 +10757,10 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath solidPath = new();
-                    GraphicsPath insidePath = new();
-                    GraphicsPath outsidePath = new();
-                    GraphicsPath lightPath = new();
+                    GraphicsPath solidPath = new GraphicsPath();
+                    GraphicsPath insidePath = new GraphicsPath();
+                    GraphicsPath outsidePath = new GraphicsPath();
+                    GraphicsPath lightPath = new GraphicsPath();
 
                     // Create the rounded complete border
                     solidPath.AddLine(rect.Left + 2, rect.Top, rect.Right - 4, rect.Top);
@@ -10726,8 +10792,8 @@ namespace Krypton.Toolkit
                     lightPath.AddLine(rect.Left + 1, rect.Bottom - 4, rect.Left + 1, rect.Top + 2);
                     lightPath.AddLine(rect.Left + 1, rect.Top + 2, rect.Left + 2, rect.Top + 1);
 
-                    RectangleF solidRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
-                    LinearGradientBrush solidBrush = new(solidRectF, c1, c2, 90f);
+                    RectangleF solidRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+                    LinearGradientBrush solidBrush = new LinearGradientBrush(solidRectF, c1, c2, 90f);
                     cache.SolidPen = new Pen(solidBrush);
 
                     cache.BackRect = new Rectangle(rect.Left + 2, rect.Top + 1, rect.Width - 4, rect.Height - 4);
@@ -10743,7 +10809,7 @@ namespace Krypton.Toolkit
                     context.Graphics.FillRectangle(lightInside ? _whitenLightLBrush : _whitenLightBrush, cache.BackRect);
                 }
 
-                using (AntiAlias aa = new(context.Graphics))
+                using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     // Draw the solid border
                     context.Graphics.DrawPath(cache.SolidPen, cache.SolidPath);
@@ -10811,7 +10877,7 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    RectangleF rectF = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    RectangleF rectF = new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.TotalBrush = new LinearGradientBrush(rectF, c2, c1, 90f);
 
                     cache.InnerBrush = new LinearGradientBrush(rectF, c4, c3, 90f);
@@ -10890,7 +10956,7 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath titlePath = new();
+                    GraphicsPath titlePath = new GraphicsPath();
 
                     // Create the rounded bottom edge to fit inside a group border
                     titlePath.AddLine(rect.Left, rect.Top, rect.Right - 1, rect.Top);
@@ -10900,7 +10966,8 @@ namespace Krypton.Toolkit
                     titlePath.AddLine(rect.Left + 2, rect.Bottom - 1, rect.Left, rect.Bottom - 3);
                     titlePath.AddLine(rect.Left, rect.Bottom - 3, rect.Left, rect.Top);
 
-                    RectangleF rectF = new(rect.Left - 0.5f, rect.Top - 0.5f, rect.Width + 1, rect.Height + 1);
+                    RectangleF rectF = new RectangleF(rect.Left - 0.5f, rect.Top - 0.5f, rect.Width + 1,
+                        rect.Height + 1);
                     cache.TitleBrush = new LinearGradientBrush(rectF, c1, c2, 90f);
                     cache.TitlePath = titlePath;
                 }
@@ -10952,8 +11019,8 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath solidPath = new();
-                    GraphicsPath insidePath = new();
+                    GraphicsPath solidPath = new GraphicsPath();
+                    GraphicsPath insidePath = new GraphicsPath();
 
                     // Create the rounded complete border
                     solidPath.AddLine(rect.Left + 1.25f, rect.Top, rect.Right - 2, rect.Top);
@@ -10975,11 +11042,11 @@ namespace Krypton.Toolkit
                     insidePath.AddLine(rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
                     insidePath.AddLine(rect.Left + 1, rect.Top + 2, rect.Left + 2, rect.Top + 1);
 
-                    RectangleF solidRectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
-                    RectangleF insideRectF = new(rect.Left, rect.Top, rect.Width, rect.Height);
+                    RectangleF solidRectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+                    RectangleF insideRectF = new RectangleF(rect.Left, rect.Top, rect.Width, rect.Height);
 
-                    LinearGradientBrush solidBrush = new(solidRectF, c1, c2, 90f);
-                    LinearGradientBrush insideBrush = new(insideRectF, c3, c4, 90f);
+                    LinearGradientBrush solidBrush = new LinearGradientBrush(solidRectF, c1, c2, 90f);
+                    LinearGradientBrush insideBrush = new LinearGradientBrush(insideRectF, c3, c4, 90f);
 
                     cache.SolidPath = solidPath;
                     cache.InsidePath = insidePath;
@@ -10988,7 +11055,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Perform actual drawing using the cache values
-                using AntiAlias aa = new(context.Graphics);
+                using AntiAlias aa = new AntiAlias(context.Graphics);
                 context.Graphics.DrawPath(cache.SolidPen, cache.SolidPath);
                 context.Graphics.DrawPath(cache.InsidePen, cache.InsidePath);
             }
@@ -11033,7 +11100,7 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath solidPath = new();
+                    GraphicsPath solidPath = new GraphicsPath();
 
                     // Create the rounded complete border
                     solidPath.AddLine(rect.Left + 2, rect.Top, rect.Right - 3, rect.Top);
@@ -11051,10 +11118,11 @@ namespace Krypton.Toolkit
                 }
 
                 // Perform actual drawing using the cache values
-                Rectangle titleRect = new(rect.Left + 1, rect.Bottom - GROUP_FRAME_TITLE_HEIGHT, rect.Width - 2, GROUP_FRAME_TITLE_HEIGHT - 1);
+                Rectangle titleRect = new Rectangle(rect.Left + 1, rect.Bottom - GROUP_FRAME_TITLE_HEIGHT,
+                    rect.Width - 2, GROUP_FRAME_TITLE_HEIGHT - 1);
                 context.Graphics.FillRectangle(cache.TitleBrush, titleRect);
 
-                using AntiAlias aa = new(context.Graphics);
+                using AntiAlias aa = new AntiAlias(context.Graphics);
                 context.Graphics.DrawPath(cache.SolidPen, cache.SolidPath);
             }
 
@@ -11098,7 +11166,7 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    RectangleF rectF = new(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
+                    RectangleF rectF = new RectangleF(rect.Left - 1, rect.Top - 1, rect.Width + 2, rect.Height + 2);
                     cache.Brush = new LinearGradientBrush(rectF, c1, c2, 90f)
                     {
                         Blend = _ribbonGroup8Blend
@@ -11153,10 +11221,12 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     var topHeight = (int)(rect.Height * percent);
-                    Rectangle topRect = new(rect.Left, rect.Top, rect.Width, topHeight);
-                    Rectangle bottomRect = new(rect.Left, topRect.Bottom, rect.Width, rect.Height - topHeight);
-                    RectangleF topRectF = new(topRect.Left - 1, topRect.Top - 1, topRect.Width + 2, topRect.Height + 2);
-                    RectangleF bottomRectF = new(bottomRect.Left - 1, bottomRect.Top - 1, bottomRect.Width + 2, bottomRect.Height + 2);
+                    Rectangle topRect = new Rectangle(rect.Left, rect.Top, rect.Width, topHeight);
+                    Rectangle bottomRect = new Rectangle(rect.Left, topRect.Bottom, rect.Width, rect.Height - topHeight);
+                    RectangleF topRectF = new RectangleF(topRect.Left - 1, topRect.Top - 1, topRect.Width + 2,
+                        topRect.Height + 2);
+                    RectangleF bottomRectF = new RectangleF(bottomRect.Left - 1, bottomRect.Top - 1,
+                        bottomRect.Width + 2, bottomRect.Height + 2);
 
                     cache.TopBrush = new LinearGradientBrush(topRectF, c1, c2, 90f);
                     cache.BottomBrush = new LinearGradientBrush(bottomRectF, c3, c4, 90f);
@@ -11213,9 +11283,9 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath borderPath = new();
-                    GraphicsPath topRight1 = new();
-                    GraphicsPath bottomLeft1 = new();
+                    GraphicsPath borderPath = new GraphicsPath();
+                    GraphicsPath topRight1 = new GraphicsPath();
+                    GraphicsPath bottomLeft1 = new GraphicsPath();
 
                     // Find values needed for drawing the main border
                     var left = rect.X + 1;
@@ -11271,7 +11341,7 @@ namespace Krypton.Toolkit
                     cache.WhitenPen = new Pen(c5);
                 }
 
-                using AntiAlias aa = new(context.Graphics);
+                using AntiAlias aa = new AntiAlias(context.Graphics);
                 if (!composition)
                 {
                     // Draw the light borders
@@ -11339,9 +11409,9 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    GraphicsPath borderPath = new();
-                    GraphicsPath topRight1 = new();
-                    GraphicsPath bottomLeft1 = new();
+                    GraphicsPath borderPath = new GraphicsPath();
+                    GraphicsPath topRight1 = new GraphicsPath();
+                    GraphicsPath bottomLeft1 = new GraphicsPath();
 
                     // Find values needed for drawing the main border
                     var left = rect.X + 1;
@@ -11398,7 +11468,7 @@ namespace Krypton.Toolkit
                     cache.WhitenPen = new Pen(c5);
                 }
 
-                using AntiAlias aa = new(context.Graphics);
+                using AntiAlias aa = new AntiAlias(context.Graphics);
                 if (!composition)
                 {
                     // Draw the light borders
@@ -11507,7 +11577,7 @@ namespace Krypton.Toolkit
                     cache.LinearPen = new Pen(cache.LinearBrush);
 
                     // Create the rounded complete border
-                    GraphicsPath borderPath = new();
+                    GraphicsPath borderPath = new GraphicsPath();
                     borderPath.AddLine(rect.Left + 2, rect.Top, rect.Right - 3, rect.Top);
                     borderPath.AddLine(rect.Right - 3, rect.Top, rect.Right - 1, rect.Top + 2);
                     borderPath.AddLine(rect.Right - 1, rect.Top + 2, rect.Right - 1, rect.Bottom - 3);
@@ -11683,9 +11753,9 @@ namespace Krypton.Toolkit
                     cache.InnerBrush = new LinearGradientBrush(rect, c1, c2, 90f);
                     cache.DarkPen = new Pen(c3);
 
-                    GraphicsPath darkPath = new();
-                    GraphicsPath lightPath1 = new();
-                    GraphicsPath lightPath2 = new();
+                    GraphicsPath darkPath = new GraphicsPath();
+                    GraphicsPath lightPath1 = new GraphicsPath();
+                    GraphicsPath lightPath2 = new GraphicsPath();
 
                     // Create the dark border
                     darkPath.AddLine(rect.Left, rect.Top + 0.75f, rect.Left + 1, rect.Top);
@@ -11714,7 +11784,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillRectangle(cache.InnerBrush, cache.InnerRect);
 
                 // Draw the dark/light lines
-                using AntiAlias aa = new(context.Graphics);
+                using AntiAlias aa = new AntiAlias(context.Graphics);
                 context.Graphics.DrawPath(cache.DarkPen, cache.DarkPath);
                 context.Graphics.DrawPath(_light1Pen, cache.LightPath1);
                 context.Graphics.DrawPath(_light2Pen, cache.LightPath2);
@@ -11825,17 +11895,14 @@ namespace Krypton.Toolkit
                 // Draw a gradient for the inside of the area
                 context.Graphics.FillRectangle(cache.BackBrush, rect);
 
-                using AntiAlias aa = new(context.Graphics);
+                using AntiAlias aa = new AntiAlias(context.Graphics);
                 if (shape == PaletteRibbonShape.Office2010)
                 {
-                    context.Graphics.DrawPolygon(cache.BorderPen, new Point[]{ new(rect.Left + 1, rect.Top),
-                        new(rect.Right - 2, rect.Top),
-                        new(rect.Right - 1, rect.Top + 1),
-                        new(rect.Right - 1, rect.Bottom - 2),
-                        new(rect.Right - 2, rect.Bottom - 1),
-                        new(rect.Left + 1, rect.Bottom - 1),
-                        new(rect.Left, rect.Bottom - 2),
-                        new(rect.Left, rect.Top + 1) });
+                    context.Graphics.DrawPolygon(cache.BorderPen, new Point[]{
+                        new Point(rect.Left + 1, rect.Top), new Point(rect.Right - 2, rect.Top),
+                        new Point(rect.Right - 1, rect.Top + 1), new Point(rect.Right - 1, rect.Bottom - 2),
+                        new Point(rect.Right - 2, rect.Bottom - 1), new Point(rect.Left + 1, rect.Bottom - 1),
+                        new Point(rect.Left, rect.Bottom - 2), new Point(rect.Left, rect.Top + 1) });
                 }
                 else
                 {

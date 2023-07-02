@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the save all button spec.")]
         public ButtonSpecAny? ToolBarSaveAllButton
         {
-            get => _saveAllButtonSpec ?? new();
+            get => _saveAllButtonSpec ?? new ButtonSpecAny();
             set { _saveAllButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarSaveAllCommand" /> class.</summary>
         public KryptonIntegratedToolbarSaveAllCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             _style = PaletteButtonSpecStyle.SaveAll;
 

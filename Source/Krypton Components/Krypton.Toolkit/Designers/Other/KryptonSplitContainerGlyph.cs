@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                 if (bounds.Contains(pt))
                 {
                     // Convert from adorner coordinates to the control client coordinates
-                    Point splitPt = new(pt.X - bounds.X, pt.Y - bounds.Y);
+                    Point splitPt = new Point(pt.X - bounds.X, pt.Y - bounds.Y);
 
                     // Ask the split container for the correct cursor to use
                     return _splitContainer.DesignGetHitTest(splitPt);

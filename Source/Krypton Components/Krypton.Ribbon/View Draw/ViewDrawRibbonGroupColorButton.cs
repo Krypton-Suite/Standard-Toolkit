@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupColorButton:" + Id;
+            $@"ViewDrawRibbonGroupColorButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -357,11 +357,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            var contentLayout = new ViewLayoutDocker();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupColorButtonImage(_ribbon, GroupColorButton, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
+            var largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -413,7 +413,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            var contentLayout = new ViewLayoutDocker();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupColorButtonImage(_ribbon, GroupColorButton, false);
@@ -422,7 +422,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep3 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
+            var imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };

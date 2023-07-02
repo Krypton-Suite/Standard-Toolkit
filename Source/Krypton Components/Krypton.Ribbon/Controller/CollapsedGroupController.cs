@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -52,9 +52,9 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon!;
-            _target = target!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            _target = target;
+            _needPaint = needPaint;
         }
         #endregion
 
@@ -221,7 +221,7 @@ namespace Krypton.Ribbon
             {
                 // Grab the list of key tips from the popup group
                 _ribbon.KeyTipMode = KeyTipMode.PopupGroup;
-                KeyTipInfoList keyTipList = new();
+                var keyTipList = new KeyTipInfoList();
                 visualPopupGroup.ViewGroup.GetGroupKeyTips(keyTipList);
 
                 // Update key tips with those appropriate for this tab

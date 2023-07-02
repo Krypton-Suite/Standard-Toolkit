@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                DesignerActionListCollection actionLists = new DesignerActionListCollection
                 {
 
                     // Add the header specific list
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
                     _header.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new()
+                    ArrayList selectionList = new ArrayList
                     {
                         component
                     };

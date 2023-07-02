@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         /// Gets the string representation of the object.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => "(" + Items.Count.ToString() + ") " + ShortText;
+        public override string ToString() => $"({Items.Count}) {ShortText}";
 
         #endregion
 

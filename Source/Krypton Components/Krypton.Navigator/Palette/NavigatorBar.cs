@@ -22,8 +22,8 @@ namespace Krypton.Navigator
         private const int DEFAULT_BAR_MINIMUM_HEIGHT = 21;
         private const int DEFAULT_BAR_FIRST_ITEM_INSET = 0;
         private const int DEFAULT_BAR_LAST_ITEM_INSET = 0;
-        private static readonly Size _defaultItemMinimumSize = new(20, 20);
-        private static readonly Size _defaultItemMaximumSize = new(200, 200);
+        private static readonly Size _defaultItemMinimumSize = new Size(20, 20);
+        private static readonly Size _defaultItemMaximumSize = new Size(200, 200);
         #endregion
 
         #region Instance Fields

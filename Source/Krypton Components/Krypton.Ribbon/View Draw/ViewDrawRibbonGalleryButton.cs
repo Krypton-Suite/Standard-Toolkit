@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
             _paletteBorder = new PaletteBorderToPalette(palette, PaletteBorderStyle.ButtonGallery);
             _paletteContent = new PaletteContentToPalette(palette, PaletteContentStyle.ButtonGallery);
             _controller = new GalleryButtonController(this, needPaint, alignment != PaletteRelativeAlign.Far);
-            _controller.Click += OnButtonClick;
+            _controller.Click += OnButtonClick!;
             base.MouseController = _controller;
         }
 
@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGalleryButton:" + Id;
+            $@"ViewDrawRibbonGalleryButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -183,8 +183,8 @@ namespace Krypton.Ribbon
                 Color borderColor = _paletteBorder.GetBorderColor1(State);
 
                 // Draw the border last to overlap the background
-                using AntiAlias aa = new(context.Graphics);
-                using Pen borderPen = new(borderColor);
+                using var aa = new AntiAlias(context.Graphics);
+                using var borderPen = new Pen(borderColor);
                 context.Graphics.DrawPath(borderPen, borderPath);
             }
         }
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private GraphicsPath CreateBorderPath(Rectangle rect)
         {
-            GraphicsPath path = new();
+            var path = new GraphicsPath();
 
             switch (_alignment)
             {

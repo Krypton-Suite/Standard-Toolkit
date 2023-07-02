@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -253,7 +253,7 @@ namespace Krypton.Toolkit
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkAreaCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -344,7 +344,7 @@ namespace Krypton.Toolkit
         /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
         /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
         /// <param name="linkLabelCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
-        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <param name="linkLabelCommand"> has not been defined.</param></param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkLabelCommand"> has not been defined.</paramref></param>
         /// <param name="linkAreaStart">Specifies the start of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <param name="linkAreaEnd">Specifies the end of a link if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -369,15 +369,10 @@ namespace Krypton.Toolkit
             IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon,
-                                                  defaultButton, options,
-                                                  helpInfo, showCtrlCopy,
-                                                  showHelpButton, showActionButton,
-                                                  actionButtonText, actionButtonCommand,
-                                                  applicationImage, applicationPath,
-                                                  contentAreaType, linkLabelCommand,
-                                                  linkLaunchArgument,
-                                                  linkAreaStart, linkAreaEnd);
+            using KryptonMessageBoxForm kmb = new KryptonMessageBoxForm(showOwner, text, caption, buttons, icon,
+                defaultButton, options, helpInfo, showCtrlCopy, showHelpButton, showActionButton, actionButtonText,
+                actionButtonCommand, applicationImage, applicationPath, contentAreaType, linkLabelCommand,
+                linkLaunchArgument, linkAreaStart, linkAreaEnd);
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return kmb.ShowDialog(showOwner);

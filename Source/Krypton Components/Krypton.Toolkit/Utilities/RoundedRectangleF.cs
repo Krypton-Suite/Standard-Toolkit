@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the rectangle.</summary>
         /// <value>The rectangle.</value>
-        public RectangleF Rect => new (_x, _y, _width, _height);
+        public RectangleF Rect => new RectangleF(_x, _y, _width, _height);
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
 
             var diameter = radius * 2;
             var size = new SizeF(diameter, diameter);
-            RectangleF arc = new (Rect.Location, size);
+            RectangleF arc = new RectangleF(Rect.Location, size);
 
             // The border is made of up a quarter of a circle arc, in each corner
             // top left arc  

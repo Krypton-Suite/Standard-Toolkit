@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
                                        int end, 
                                        bool enabled)
         {
-            ViewLayoutColorStack vertical = new();
+            ViewLayoutColorStack vertical = new ViewLayoutColorStack();
 
             for (var i = start; i < end; i++)
             {
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuColorColumn:" + Id;
+            $"ViewDrawMenuColorColumn:{Id}";
 
         #endregion
 
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            using SolidBrush brush = new(Color.FromArgb(197, 197, 197));
+            using SolidBrush brush = new SolidBrush(Color.FromArgb(197, 197, 197));
             context.Graphics.FillRectangle(brush, ClientRectangle);
         }
         #endregion

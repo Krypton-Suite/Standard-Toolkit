@@ -62,7 +62,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when drag quits.
         /// </summary>
-        public event EventHandler DragQuit;
+        public event EventHandler? DragQuit;
         #endregion
 
         #region Identity
@@ -131,7 +131,7 @@ namespace Krypton.Navigator
                     {
                         _draggingAttempt = true;
                         Point targetOrigin = Target.ClientLocation;
-                        Point offset = new(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
+                        var offset = new Point(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
                         OnDragStart(MousePoint, offset, c);
                     }
                 }
@@ -419,7 +419,7 @@ namespace Krypton.Navigator
         {
             // Convert point from client to screen coordinates
             mousePt = Target.OwningControl.PointToScreen(mousePt);
-            DragStartEventCancelArgs ce = new(mousePt, offset, c);
+            var ce = new DragStartEventCancelArgs(mousePt, offset, c);
 
             DragStart?.Invoke(this, ce);
 

@@ -49,10 +49,10 @@ namespace Krypton.Ribbon
             _maxWidth = maxWidth;
             Provider = provider;
             RecentDoc = recentDoc;
-            ShortcutText = index < 10 ? @"&" + index.ToString() : @"A";
+            ShortcutText = index < 10 ? $@"&{index}" : @"A";
 
             // Use docker to organize horizontal items
-            ViewLayoutDocker docker = new()
+            var docker = new ViewLayoutDocker
             {
 
                 // End of line gap
@@ -60,25 +60,28 @@ namespace Krypton.Ribbon
             };
 
             // Add the text/extraText/Image entry
-            FixedContentValue entryContent = new(recentDoc.Text, recentDoc.ExtraText, recentDoc.Image, recentDoc.ImageTransparentColor);
-            RibbonRecentDocsEntryToContent entryPalette = new(ribbon.StateCommon.RibbonGeneral, ribbon.StateCommon.RibbonAppMenuDocsEntry);
-            ViewDrawContent entryDraw = new(entryPalette, entryContent, VisualOrientation.Top);
+            var entryContent = new FixedContentValue(recentDoc.Text, recentDoc.ExtraText, recentDoc.Image,
+                recentDoc.ImageTransparentColor);
+            var entryPalette = new RibbonRecentDocsEntryToContent(ribbon.StateCommon.RibbonGeneral,
+                    ribbon.StateCommon.RibbonAppMenuDocsEntry);
+            ViewDrawContent entryDraw = new ViewDrawContent(entryPalette, entryContent, VisualOrientation.Top);
             docker.Add(entryDraw, ViewDockStyle.Fill);
 
             // Shortcut to Content gap
             docker.Add(new ViewLayoutSeparator(5), ViewDockStyle.Left);
 
             // Add the shortcut column
-            FixedContentValue shortcutContent = new(ShortcutText, null, null, Color.Empty);
-            RibbonRecentDocsShortcutToContent shortcutPalette = new(ribbon.StateCommon.RibbonGeneral, ribbon.StateCommon.RibbonAppMenuDocsEntry);
-            ViewDrawRibbonRecentShortcut shortcutDraw = new(shortcutPalette, shortcutContent);
+            FixedContentValue shortcutContent = new FixedContentValue(ShortcutText, null, null, Color.Empty);
+            var shortcutPalette = new RibbonRecentDocsShortcutToContent(ribbon.StateCommon.RibbonGeneral,
+                    ribbon.StateCommon.RibbonAppMenuDocsEntry);
+            var shortcutDraw = new ViewDrawRibbonRecentShortcut(shortcutPalette, shortcutContent);
             docker.Add(shortcutDraw, ViewDockStyle.Left);
 
             // Start of line gap
             docker.Add(new ViewLayoutSeparator(3), ViewDockStyle.Left);
 
             // Attach a controller so menu item can be tracked and pressed
-            RecentDocController controller = new(Provider.ProviderViewManager, this, needPaintDelegate);
+            var controller = new RecentDocController(Provider.ProviderViewManager, this, needPaintDelegate);
             MouseController = controller;
             KeyController = controller;
             SourceController = controller;
@@ -92,7 +95,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonAppMenuRecentDec:" + Id;
+            $@"ViewDrawRibbonAppMenuRecentDec:{Id}";
 
         #endregion
 

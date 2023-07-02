@@ -172,7 +172,7 @@ namespace Krypton.Navigator
                     {
                         // Use event to allow decision on if the page should be dropped
                         // (or even swap the page for a different page to be dropped)
-                        PageDropEventArgs e = new(page);
+                        var e = new PageDropEventArgs(page);
                         target.OnPageDrop(e);
 
                         if (e is { Cancel: false, Page: { } })

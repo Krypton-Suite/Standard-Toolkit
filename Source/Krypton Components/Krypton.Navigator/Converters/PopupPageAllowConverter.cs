@@ -32,9 +32,11 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new(PopupPageAllow.Never,                 "Never"),
-            new(PopupPageAllow.OnlyCompatibleModes,   "Only Compatible Modes"),
-            new(PopupPageAllow.OnlyOutlookMiniMode,   "Only Outlook Mini Mode")};
+        {
+            new Pair(PopupPageAllow.Never, "Never"),
+            new Pair(PopupPageAllow.OnlyCompatibleModes, "Only Compatible Modes"),
+            new Pair(PopupPageAllow.OnlyOutlookMiniMode, "Only Outlook Mini Mode")
+        };
 
         #endregion
     }

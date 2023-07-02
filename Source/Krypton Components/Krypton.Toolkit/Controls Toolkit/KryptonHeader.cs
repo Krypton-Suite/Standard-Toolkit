@@ -512,7 +512,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(240, 30);
+        protected override Size DefaultSize => new Size(240, 30);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -561,7 +561,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

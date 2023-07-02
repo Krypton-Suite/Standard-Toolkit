@@ -30,7 +30,7 @@ namespace Krypton.Docking
         public KryptonDockspace()
             : base(@"Docked") =>
             // Define a sensible default minimum size
-            base.MinimumSize = new(150, 150);
+            base.MinimumSize = new Size(150, 150);
 
         /// <summary>
         /// Gets a string representation of the class.

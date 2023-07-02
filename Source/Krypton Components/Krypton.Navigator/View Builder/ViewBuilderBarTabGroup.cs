@@ -44,14 +44,9 @@ namespace Krypton.Navigator
             };
 
             // Create the view element that lays out the check/tab buttons
-            ViewLayoutBarForTabs layoutBar = new(Navigator.Bar.ItemSizing,
-                                                                      Navigator.Bar.ItemAlignment,
-                                                                      Navigator.Bar.BarMultiline,
-                                                                      Navigator.Bar.ItemMinimumSize,
-                                                                      Navigator.Bar.ItemMaximumSize,
-                                                                      Navigator.Bar.BarMinimumHeight,
-                                                                      Navigator.Bar.TabBorderStyle,
-                                                                      true);
+            var layoutBar = new ViewLayoutBarForTabs(Navigator.Bar.ItemSizing,
+                Navigator.Bar.ItemAlignment, Navigator.Bar.BarMultiline, Navigator.Bar.ItemMinimumSize,
+                Navigator.Bar.ItemMaximumSize, Navigator.Bar.BarMinimumHeight, Navigator.Bar.TabBorderStyle, true);
             _layoutBar = layoutBar;
 
             // Create the scroll spacer that restricts display

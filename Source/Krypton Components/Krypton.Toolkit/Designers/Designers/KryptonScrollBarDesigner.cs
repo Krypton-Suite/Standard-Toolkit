@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                DesignerActionListCollection actionList = new()
+                DesignerActionListCollection actionList = new DesignerActionListCollection
                 {
                     new KryptonScrollBarActionList(this)
                 };

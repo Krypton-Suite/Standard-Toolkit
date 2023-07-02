@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer;
 
             if (_viewMetrics != null)
             {
@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
             if (_variableSpecs != null)
             {
                 // Need to hook into changes in the button collection
-                _variableSpecs.Inserted += OnButtonSpecInserted!;
-                _variableSpecs.Removed += OnButtonSpecRemoved!;
+                _variableSpecs.Inserted += OnButtonSpecInserted;
+                _variableSpecs.Removed += OnButtonSpecRemoved;
             }
         }
         #endregion
@@ -156,8 +156,8 @@ namespace Krypton.Toolkit
                     _viewSpacers[i] = new ListSpacers();
 
                     // Always create the outside edge spacers
-                    ViewLayoutMetricSpacer spacerL1 = new(viewMetric, viewMetricIntOutside);
-                    ViewLayoutMetricSpacer spacerR1 = new(viewMetric, viewMetricIntOutside);
+                    var spacerL1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
+                    var spacerR1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
                     spacerL1.Visible = spacerR1.Visible = false;
 
                     // Add the spacers to the docker instance
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
                         PaletteMetricInt viewMetricIntInside = _viewMetricIntInside[i];
 
                         // Create the inside edge spacers
-                        ViewLayoutMetricSpacer spacerL2 = new(viewMetric, viewMetricIntInside);
-                        ViewLayoutMetricSpacer spacerR2 = new(viewMetric, viewMetricIntInside);
+                        var spacerL2 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntInside);
+                        var spacerR2 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntInside);
                         spacerL2.Visible = spacerR2.Visible = false;
 
                         // Add them into the view docker instance
@@ -194,8 +194,8 @@ namespace Krypton.Toolkit
             if (_variableSpecs != null)
             {
                 // Unhook from button collection events
-                _variableSpecs.Inserted -= OnButtonSpecInserted!;
-                _variableSpecs.Removed -= OnButtonSpecRemoved!;
+                _variableSpecs.Inserted -= OnButtonSpecInserted;
+                _variableSpecs.Removed -= OnButtonSpecRemoved;
             }
 
             // Destruct each of the button views
@@ -658,15 +658,11 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPadding">Target metric padding.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
-        protected virtual ButtonSpecView CreateButtonSpecView([DisallowNull] PaletteRedirect? redirector,
+        protected virtual ButtonSpecView CreateButtonSpecView([DisallowNull] PaletteRedirect redirector,
                                                               IPaletteMetric? viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec) =>
-            new(redirector,
-                viewPaletteMetric,
-                viewMetricPadding,
-                this,
-                buttonSpec);
+            new ButtonSpecView(redirector, viewPaletteMetric, viewMetricPadding, this, buttonSpec);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -799,7 +795,7 @@ namespace Krypton.Toolkit
                 ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
 
                 // Hook in to the button spec change event
-                buttonSpec.ButtonSpecPropertyChanged += OnPropertyChanged!;
+                buttonSpec.ButtonSpecPropertyChanged += OnPropertyChanged;
 
                 return buttonView;
             }
@@ -810,7 +806,7 @@ namespace Krypton.Toolkit
         private void RemoveButtonSpec(ButtonSpec buttonSpec)
         {
             // Unhook from button spec events
-            buttonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged!;
+            buttonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged;
 
             // Get the button view from the button spec
             ButtonSpecView? buttonView = _specLookup[buttonSpec];

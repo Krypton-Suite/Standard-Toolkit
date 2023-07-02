@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                PaletteModeStrings strings = new();
+                PaletteModeStrings strings = new PaletteModeStrings();
 
                 return strings._themeArray;
             }

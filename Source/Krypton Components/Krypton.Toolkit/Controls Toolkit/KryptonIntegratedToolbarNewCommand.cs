@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the new button spec.")]
         public ButtonSpecAny? ToolBarNewButton
         {
-            get => _newButtonSpec ?? new();
+            get => _newButtonSpec ?? new ButtonSpecAny();
             set { _newButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarNewCommand" /> class.</summary>
         public KryptonIntegratedToolbarNewCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.New;
         }

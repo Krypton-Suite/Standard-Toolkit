@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Gallery")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity

@@ -782,12 +782,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the dragging start rectangle is needed.
         /// </summary>
-        event EventHandler<ButtonDragRectangleEventArgs> ButtonDragRectangle;
+        event EventHandler<ButtonDragRectangleEventArgs>? ButtonDragRectangle;
 
         /// <summary>
         /// Occurs when the dragging offset has changed.
         /// </summary>
-        event EventHandler<ButtonDragOffsetEventArgs> ButtonDragOffset;
+        event EventHandler<ButtonDragOffsetEventArgs>? ButtonDragOffset;
 
         /// <summary>
         /// Gets the view associated with the check item.
@@ -817,7 +817,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the paint delegate to use for refresh requests.
         /// </summary>
-        NeedPaintHandler NeedPaint { get; set; }
+        NeedPaintHandler? NeedPaint { get; set; }
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided item.

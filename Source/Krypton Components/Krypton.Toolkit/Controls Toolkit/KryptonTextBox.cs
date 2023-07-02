@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new();
+                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -153,12 +153,12 @@ namespace Krypton.Toolkit
                             )
                             {
                                 // Go perform the drawing of the CueHint
-                                using SolidBrush backBrush = new(BackColor);
+                                using SolidBrush backBrush = new SolidBrush(BackColor);
                                 _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect, backBrush);
                             }
                             else
                             {
-                                using (SolidBrush backBrush = new(BackColor))
+                                using (SolidBrush backBrush = new SolidBrush(BackColor))
                                 {
                                     // Draw entire client area in the background color
                                     g.FillRectangle(backBrush,
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
                                                 PaletteState.Disabled));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new()
+                                    StringFormat stringFormat = new StringFormat
                                     {
                                         Trimming = StringTrimming.None,
                                         LineAlignment = StringAlignment.Near
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using SolidBrush foreBrush = new(ForeColor);
+                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString, Font, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left,
                                                 rect.bottom - rect.top),
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using SolidBrush foreBrush = new(ForeColor);
+                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent?
                                                 .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
@@ -261,7 +261,7 @@ namespace Krypton.Toolkit
                         if (_kryptonTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -289,10 +289,7 @@ namespace Krypton.Toolkit
             /// <param name="e">An EventArgs containing the event data.</param>
             protected virtual void OnTrackMouseEnter(EventArgs e)
             {
-                if (TrackMouseEnter != null)
-                {
-                    TrackMouseEnter.Invoke(this, e);
-                }
+                TrackMouseEnter?.Invoke(this, e);
             }
 
             /// <summary>
@@ -301,10 +298,7 @@ namespace Krypton.Toolkit
             /// <param name="e">An EventArgs containing the event data.</param>
             protected virtual void OnTrackMouseLeave(EventArgs e)
             {
-                if (TrackMouseLeave != null)
-                {
-                    TrackMouseLeave.Invoke(this, e);
-                }
+                TrackMouseLeave?.Invoke(this, e);
             }
             #endregion
         }
@@ -348,7 +342,7 @@ namespace Krypton.Toolkit
         private int _cachedHeight;
         private bool _multilineStringEditor;
         private bool _showEllipsisButton;
-        private bool _isInAlphaNumericMode;
+        //private bool _isInAlphaNumericMode;
         private readonly ButtonSpecAny _editorButton;
         private float _cornerRoundingRadius;
 
@@ -545,7 +539,7 @@ namespace Krypton.Toolkit
 
             _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            _isInAlphaNumericMode = false;
+            //_isInAlphaNumericMode = false;
 
             _showEllipsisButton = false;
         }
@@ -1475,10 +1469,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnAcceptsTabChanged(EventArgs e)
         {
-            if (AcceptsTabChanged != null)
-            {
-                AcceptsTabChanged.Invoke(this, e);
-            }
+            AcceptsTabChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1487,10 +1478,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnTextAlignChanged(EventArgs e)
         {
-            if (TextAlignChanged != null)
-            {
-                TextAlignChanged.Invoke(this, e);
-            }
+            TextAlignChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1499,10 +1487,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnHideSelectionChanged(EventArgs e)
         {
-            if (HideSelectionChanged != null)
-            {
-                HideSelectionChanged.Invoke(this, e);
-            }
+            HideSelectionChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1511,10 +1496,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnModifiedChanged(EventArgs e)
         {
-            if (ModifiedChanged != null)
-            {
-                ModifiedChanged.Invoke(this, e);
-            }
+            ModifiedChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1523,10 +1505,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnMultilineChanged(EventArgs e)
         {
-            if (MultilineChanged != null)
-            {
-                MultilineChanged.Invoke(this, e);
-            }
+            MultilineChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1535,10 +1514,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnReadOnlyChanged(EventArgs e)
         {
-            if (ReadOnlyChanged != null)
-            {
-                ReadOnlyChanged.Invoke(this, e);
-            }
+            ReadOnlyChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1548,10 +1524,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event.")]
         protected virtual void OnTrackMouseEnter(EventArgs e)
         {
-            if (TrackMouseEnter != null)
-            {
-                TrackMouseEnter.Invoke(this, e);
-            }
+            TrackMouseEnter?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1561,10 +1534,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event.")]
         protected virtual void OnTrackMouseLeave(EventArgs e)
         {
-            if (TrackMouseLeave != null)
-            {
-                TrackMouseLeave.Invoke(this, e);
-            }
+            TrackMouseLeave?.Invoke(this, e);
         }
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
@@ -1634,10 +1604,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnBackColorChanged(EventArgs e)
         {
-            if (BackColorChanged != null)
-            {
-                BackColorChanged.Invoke(this, e);
-            }
+            BackColorChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1646,10 +1613,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnBackgroundImageChanged(EventArgs e)
         {
-            if (BackgroundImageChanged != null)
-            {
-                BackgroundImageChanged.Invoke(this, e);
-            }
+            BackgroundImageChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1658,8 +1622,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnBackgroundImageLayoutChanged(EventArgs e)
         {
-            if (BackgroundImageLayoutChanged != null)
-                BackgroundImageLayoutChanged.Invoke(this, e);
+            BackgroundImageLayoutChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1668,8 +1631,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnForeColorChanged(EventArgs e)
         {
-            if (ForeColorChanged != null)
-                ForeColorChanged.Invoke(this, e);
+            ForeColorChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1786,7 +1748,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(100, PreferredHeight);
+        protected override Size DefaultSize => new Size(100, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -1998,28 +1960,25 @@ namespace Krypton.Toolkit
                     bool shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    if (_buttonManager != null)
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
+
+                    // If the tooltip is for a button spec
+                    if (buttonSpec != null)
                     {
-                        ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
-
-                        // If the tooltip is for a button spec
-                        if (buttonSpec != null)
+                        // Are we allowed to show page related tooltips
+                        if (AllowButtonSpecToolTips)
                         {
-                            // Are we allowed to show page related tooltips
-                            if (AllowButtonSpecToolTips)
+                            // Create a helper object to provide tooltip values
+                            if (Redirector != null)
                             {
-                                // Create a helper object to provide tooltip values
-                                if (Redirector != null)
-                                {
-                                    ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                                ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
-                                    // Is there actually anything to show for the tooltip
-                                    if (buttonSpecMapping.HasContent)
-                                    {
-                                        sourceContent = buttonSpecMapping;
-                                        toolTipStyle = buttonSpec.ToolTipStyle;
-                                        shadow = buttonSpec.ToolTipShadow;
-                                    }
+                                // Is there actually anything to show for the tooltip
+                                if (buttonSpecMapping.HasContent)
+                                {
+                                    sourceContent = buttonSpecMapping;
+                                    toolTipStyle = buttonSpec.ToolTipStyle;
+                                    shadow = buttonSpec.ToolTipShadow;
                                 }
                             }
                         }
@@ -2057,10 +2016,7 @@ namespace Krypton.Toolkit
         // Remove any currently showing tooltip
         private void OnCancelToolTip(object sender, EventArgs e)
         {
-            if (_visualPopupToolTip != null)
-            {
-                _visualPopupToolTip.Dispose();
-            }
+            _visualPopupToolTip?.Dispose();
         }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)

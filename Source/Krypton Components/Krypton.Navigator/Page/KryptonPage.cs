@@ -166,7 +166,7 @@ namespace Krypton.Navigator
         /// If Min Size not set in the Embedded control, then will default to 150, 50
         /// </remarks>
         public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName)
-            : this(text, imageSmall, uniqueName, new(150, 50))
+            : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
 
         }
@@ -192,7 +192,7 @@ namespace Krypton.Navigator
             _toolTipImageTransparentColor = Color.Empty;
             _imageSmall = imageSmall;
             _setVisible = true;
-            _autoHiddenSlideSize = new(200, 200);
+            _autoHiddenSlideSize = new Size(200, 200);
             _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName;
             _flags.Flags = (int)KryptonPageFlags.All;
             _flags.ClearFlags((int)KryptonPageFlags.PageInOverflowBarForOutlookMode);
@@ -202,23 +202,23 @@ namespace Krypton.Navigator
             _needNormalPaint = OnNeedNormalPaint!;
 
             // Create redirector for inheriting from owning navigator
-            _redirectNavigator = new(Redirector);
-            _redirectNavigatorPage = new(Redirector);
-            _redirectNavigatorHeaderGroup = new(Redirector);
-            _redirectNavigatorHeaderPrimary = new(Redirector);
-            _redirectNavigatorHeaderSecondary = new(Redirector);
-            _redirectNavigatorHeaderBar = new(Redirector);
-            _redirectNavigatorHeaderOverflow = new(Redirector);
-            _redirectNavigatorCheckButton = new(Redirector);
-            _redirectNavigatorOverflowButton = new(Redirector);
-            _redirectNavigatorMiniButton = new(Redirector);
-            _redirectNavigatorBar = new(Redirector);
-            _redirectNavigatorSeparator = new(Redirector);
-            _redirectNavigatorTab = new(Redirector);
-            _redirectNavigatorRibbonTab = new(Redirector);
+            _redirectNavigator = new PaletteRedirectDoubleMetric(Redirector);
+            _redirectNavigatorPage = new PaletteRedirectDouble(Redirector);
+            _redirectNavigatorHeaderGroup = new PaletteRedirectDoubleMetric(Redirector);
+            _redirectNavigatorHeaderPrimary = new PaletteRedirectTripleMetric(Redirector);
+            _redirectNavigatorHeaderSecondary = new PaletteRedirectTripleMetric(Redirector);
+            _redirectNavigatorHeaderBar = new PaletteRedirectTripleMetric(Redirector);
+            _redirectNavigatorHeaderOverflow = new PaletteRedirectTripleMetric(Redirector);
+            _redirectNavigatorCheckButton = new PaletteRedirectTriple(Redirector);
+            _redirectNavigatorOverflowButton = new PaletteRedirectTriple(Redirector);
+            _redirectNavigatorMiniButton = new PaletteRedirectTriple(Redirector);
+            _redirectNavigatorBar = new PaletteRedirectMetric(Redirector);
+            _redirectNavigatorSeparator = new PaletteRedirectDoubleMetric(Redirector);
+            _redirectNavigatorTab = new PaletteRedirectTriple(Redirector);
+            _redirectNavigatorRibbonTab = new PaletteRedirectRibbonTabContent(Redirector);
 
             // Create the palette storage
-            _stateCommon = new(null,
+            _stateCommon = new PaletteNavigatorRedirect(null,
                                                         _redirectNavigator,
                                                         _redirectNavigatorPage,
                                                         _redirectNavigatorHeaderGroup,
@@ -237,33 +237,33 @@ namespace Krypton.Navigator
                                                         new PaletteRedirectRibbonGeneral(Redirector),
                                                         NeedPaintDelegate);
 
-            _stateDisabled = new(_stateCommon, _needDisabledPaint);
-            _stateNormal = new(_stateCommon, _needNormalPaint);
-            StateTracking = new(_stateCommon, _needNormalPaint);
-            StatePressed = new(_stateCommon, _needNormalPaint);
-            StateSelected = new(_stateCommon, _needNormalPaint);
+            _stateDisabled = new PaletteNavigator(_stateCommon, _needDisabledPaint);
+            _stateNormal = new PaletteNavigator(_stateCommon, _needNormalPaint);
+            StateTracking = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
+            StatePressed = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
+            StateSelected = new PaletteNavigatorOther(_stateCommon, _needNormalPaint);
 
-            OverrideFocus = new(_redirectNavigatorCheckButton,
+            OverrideFocus = new PaletteNavigatorOtherRedirect(_redirectNavigatorCheckButton,
                                                             _redirectNavigatorOverflowButton,
                                                             _redirectNavigatorMiniButton,
                                                             _redirectNavigatorTab,
                                                             _redirectNavigatorRibbonTab, _needNormalPaint);
 
             // Our view contains just a simple canvas that covers entire client area
-            _drawPanel = new(_stateNormal.Page);
+            _drawPanel = new ViewDrawPanel(_stateNormal.Page);
 
             // Create page specific button spec storage
-            ButtonSpecs = new(this);
+            ButtonSpecs = new PageButtonSpecCollection(this);
 
             // Create the view manager instance
-            ViewManager = new(this, _drawPanel);
+            ViewManager = new ViewManager(this, _drawPanel);
         }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => "KryptonPage " + Text;
+        public override string ToString() => $"KryptonPage {Text}";
 
         #endregion
 
@@ -813,93 +813,50 @@ namespace Krypton.Navigator
             }
 
             // Setup the redirection states
-            if (_redirectNavigator != null)
-            {
-                _redirectNavigator.SetRedirectStates(disabled, disabled, normal, normal);
-            }
+            _redirectNavigator?.SetRedirectStates(disabled, disabled, normal, normal);
 
-            if (_redirectNavigatorPage != null)
-            {
-                _redirectNavigatorPage.SetRedirectStates(disabled!.PalettePage, normal!.PalettePage);
-            }
+            _redirectNavigatorPage?.SetRedirectStates(disabled!.PalettePage, normal!.PalettePage);
 
-            if (_redirectNavigatorHeaderGroup != null)
-            {
-                _redirectNavigatorHeaderGroup.SetRedirectStates(disabled!.HeaderGroup, disabled.HeaderGroup,
-                    normal!.HeaderGroup, normal.HeaderGroup);
-            }
+            _redirectNavigatorHeaderGroup?.SetRedirectStates(disabled!.HeaderGroup, disabled.HeaderGroup,
+                normal!.HeaderGroup, normal.HeaderGroup);
 
-            if (_redirectNavigatorHeaderPrimary != null)
-            {
-                _redirectNavigatorHeaderPrimary.SetRedirectStates(disabled!.HeaderGroup!.HeaderPrimary,
-                    disabled.HeaderGroup.HeaderPrimary, normal!.HeaderGroup!.HeaderPrimary,
-                    normal.HeaderGroup.HeaderPrimary);
-            }
+            _redirectNavigatorHeaderPrimary?.SetRedirectStates(disabled!.HeaderGroup!.HeaderPrimary,
+                disabled.HeaderGroup.HeaderPrimary, normal!.HeaderGroup!.HeaderPrimary,
+                normal.HeaderGroup.HeaderPrimary);
 
-            if (_redirectNavigatorHeaderSecondary != null)
-            {
-                _redirectNavigatorHeaderSecondary.SetRedirectStates(disabled!.HeaderGroup!.HeaderSecondary,
-                    disabled.HeaderGroup.HeaderSecondary, normal!.HeaderGroup!.HeaderSecondary,
-                    normal.HeaderGroup.HeaderSecondary);
-            }
+            _redirectNavigatorHeaderSecondary?.SetRedirectStates(disabled!.HeaderGroup!.HeaderSecondary,
+                disabled.HeaderGroup.HeaderSecondary, normal!.HeaderGroup!.HeaderSecondary,
+                normal.HeaderGroup.HeaderSecondary);
 
-            if (_redirectNavigatorHeaderBar != null)
-            {
-                _redirectNavigatorHeaderBar.SetRedirectStates(disabled!.HeaderGroup!.HeaderBar,
-                    disabled.HeaderGroup.HeaderBar, normal!.HeaderGroup!.HeaderBar, normal.HeaderGroup.HeaderBar);
-            }
+            _redirectNavigatorHeaderBar?.SetRedirectStates(disabled!.HeaderGroup!.HeaderBar,
+                disabled.HeaderGroup.HeaderBar, normal!.HeaderGroup!.HeaderBar, normal.HeaderGroup.HeaderBar);
 
-            if (_redirectNavigatorHeaderOverflow != null)
-            {
-                _redirectNavigatorHeaderOverflow.SetRedirectStates(disabled!.HeaderGroup!.HeaderOverflow,
-                    disabled.HeaderGroup.HeaderOverflow, normal!.HeaderGroup!.HeaderOverflow,
-                    normal.HeaderGroup.HeaderOverflow);
-            }
+            _redirectNavigatorHeaderOverflow?.SetRedirectStates(disabled!.HeaderGroup!.HeaderOverflow,
+                disabled.HeaderGroup.HeaderOverflow, normal!.HeaderGroup!.HeaderOverflow,
+                normal.HeaderGroup.HeaderOverflow);
 
-            if (_redirectNavigatorCheckButton != null)
-            {
-                _redirectNavigatorCheckButton.SetRedirectStates(disabled!.CheckButton, normal!.CheckButton,
-                    pressed.CheckButton, tracking.CheckButton, selected.CheckButton, selected.CheckButton,
-                    selected.CheckButton, focus.CheckButton, null);
-            }
+            _redirectNavigatorCheckButton?.SetRedirectStates(disabled!.CheckButton, normal!.CheckButton,
+                pressed.CheckButton, tracking.CheckButton, selected.CheckButton, selected.CheckButton,
+                selected.CheckButton, focus.CheckButton, null);
 
-            if (_redirectNavigatorOverflowButton != null)
-            {
-                _redirectNavigatorOverflowButton.SetRedirectStates(disabled!.OverflowButton, normal!.OverflowButton,
-                    pressed.OverflowButton, tracking.OverflowButton, selected.OverflowButton, selected.OverflowButton,
-                    selected.OverflowButton, focus.OverflowButton, null);
-            }
+            _redirectNavigatorOverflowButton?.SetRedirectStates(disabled!.OverflowButton, normal!.OverflowButton,
+                pressed.OverflowButton, tracking.OverflowButton, selected.OverflowButton, selected.OverflowButton,
+                selected.OverflowButton, focus.OverflowButton, null);
 
-            if (_redirectNavigatorMiniButton != null)
-            {
+            _redirectNavigatorMiniButton?.SetRedirectStates(disabled!.MiniButton, normal!.MiniButton,
+                pressed.MiniButton, tracking.MiniButton, selected.MiniButton, selected.MiniButton,
+                selected.MiniButton, focus.MiniButton, null);
 
-                _redirectNavigatorMiniButton.SetRedirectStates(disabled!.MiniButton, normal!.MiniButton,
-                    pressed.MiniButton, tracking.MiniButton, selected.MiniButton, selected.MiniButton,
-                    selected.MiniButton, focus.MiniButton, null);
-            }
+            _redirectNavigatorBar?.SetRedirectStates(common!.Bar, common.Bar);
 
-            if (_redirectNavigatorBar != null)
-            {
-                _redirectNavigatorBar.SetRedirectStates(common!.Bar, common.Bar);
-            }
+            _redirectNavigatorSeparator?.SetRedirectStates(disabled!.Separator, disabled.Separator, normal!.Separator,
+                normal.Separator, pressed.Separator, pressed.Separator, tracking.Separator, tracking.Separator);
 
-            if (_redirectNavigatorSeparator != null)
-            {
-                _redirectNavigatorSeparator.SetRedirectStates(disabled!.Separator, disabled.Separator, normal!.Separator,
-                    normal.Separator, pressed.Separator, pressed.Separator, tracking.Separator, tracking.Separator);
-            }
+            _redirectNavigatorTab?.SetRedirectStates(disabled!.Tab, normal!.Tab, pressed.Tab, tracking.Tab,
+                selected.Tab, selected.Tab, selected.Tab, focus.Tab, null);
 
-            if (_redirectNavigatorTab != null)
-            {
-                _redirectNavigatorTab.SetRedirectStates(disabled!.Tab, normal!.Tab, pressed.Tab, tracking.Tab,
-                    selected.Tab, selected.Tab, selected.Tab, focus.Tab, null);
-            }
-
-            if (_redirectNavigatorRibbonTab != null)
-            {
-                _redirectNavigatorRibbonTab.SetRedirectStates(disabled!.RibbonTab, normal!.RibbonTab, pressed.RibbonTab,
-                    tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);
-            }
+            _redirectNavigatorRibbonTab?.SetRedirectStates(disabled!.RibbonTab, normal!.RibbonTab, pressed.RibbonTab,
+                tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);
 
             if (_stateCommon != null)
             {
@@ -920,75 +877,33 @@ namespace Krypton.Navigator
                 ViewManager.AlignControl = this;
 
                 // Clear down the redirection states
-                if (_redirectNavigator != null)
-                {
-                    _redirectNavigator.ResetRedirectStates();
-                }
+                _redirectNavigator?.ResetRedirectStates();
 
-                if (_redirectNavigatorPage != null)
-                {
-                    _redirectNavigatorPage.ResetRedirectStates();
-                }
+                _redirectNavigatorPage?.ResetRedirectStates();
 
-                if (_redirectNavigatorHeaderGroup != null)
-                {
-                    _redirectNavigatorHeaderGroup.ResetRedirectStates();
-                }
+                _redirectNavigatorHeaderGroup?.ResetRedirectStates();
 
-                if (_redirectNavigatorHeaderPrimary != null)
-                {
-                    _redirectNavigatorHeaderPrimary.ResetRedirectStates();
-                }
+                _redirectNavigatorHeaderPrimary?.ResetRedirectStates();
 
-                if (_redirectNavigatorHeaderSecondary != null)
-                {
-                    _redirectNavigatorHeaderSecondary.ResetRedirectStates();
-                }
+                _redirectNavigatorHeaderSecondary?.ResetRedirectStates();
 
-                if (_redirectNavigatorHeaderBar != null)
-                {
-                    _redirectNavigatorHeaderBar.ResetRedirectStates();
-                }
+                _redirectNavigatorHeaderBar?.ResetRedirectStates();
 
-                if (_redirectNavigatorHeaderOverflow != null)
-                {
-                    _redirectNavigatorHeaderOverflow.ResetRedirectStates();
-                }
+                _redirectNavigatorHeaderOverflow?.ResetRedirectStates();
 
-                if (_redirectNavigatorCheckButton != null)
-                {
-                    _redirectNavigatorCheckButton.ResetRedirectStates();
-                }
+                _redirectNavigatorCheckButton?.ResetRedirectStates();
 
-                if (_redirectNavigatorOverflowButton != null)
-                {
-                    _redirectNavigatorOverflowButton.ResetRedirectStates();
-                }
+                _redirectNavigatorOverflowButton?.ResetRedirectStates();
 
-                if (_redirectNavigatorMiniButton != null)
-                {
-                    _redirectNavigatorMiniButton.ResetRedirectStates();
-                }
+                _redirectNavigatorMiniButton?.ResetRedirectStates();
 
-                if (_redirectNavigatorBar != null)
-                {
-                    _redirectNavigatorBar.ResetRedirectStates();
-                }
+                _redirectNavigatorBar?.ResetRedirectStates();
 
-                if (_redirectNavigatorSeparator != null)
-                {
-                    _redirectNavigatorSeparator.ResetRedirectStates();
-                }
+                _redirectNavigatorSeparator?.ResetRedirectStates();
 
-                if (_redirectNavigatorTab != null)
-                {
-                    _redirectNavigatorTab.ResetRedirectStates();
-                }
+                _redirectNavigatorTab?.ResetRedirectStates();
 
-                if (_redirectNavigatorRibbonTab != null)
-                {
-                    _redirectNavigatorRibbonTab.ResetRedirectStates();
-                }
+                _redirectNavigatorRibbonTab?.ResetRedirectStates();
 
                 if (_stateCommon != null)
                 {
@@ -1380,10 +1295,10 @@ namespace Krypton.Navigator
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
-                    mousePt = ((int)m.LParam) == -1 ? new(Width / 2, Height / 2) : PointToClient(mousePt);
+                    mousePt = ((int)m.LParam) == -1 ? new Point(Width / 2, Height / 2) : PointToClient(mousePt);
 
                     // If the mouse position is within our client area
                     if (ClientRectangle.Contains(mousePt))
@@ -1432,10 +1347,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnDockChanged(EventArgs e)
         {
-            if (DockChanged != null)
-            {
-                DockChanged.Invoke(this, e);
-            }
+            DockChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1444,10 +1356,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnLocationChanged(EventArgs e)
         {
-            if (LocationChanged != null)
-            {
-                LocationChanged.Invoke(this, e);
-            }
+            LocationChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1456,10 +1365,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnTabIndexChanged(EventArgs e)
         {
-            if (TabIndexChanged != null)
-            {
-                TabIndexChanged.Invoke(this, e);
-            }
+            TabIndexChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1469,10 +1375,7 @@ namespace Krypton.Navigator
         protected override void OnTabStopChanged(EventArgs e)
         {
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023#issuecomment-1588810368
-            if (TabStopChanged != null)
-            {
-                TabStopChanged.Invoke(this, e);
-            }
+            TabStopChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1481,10 +1384,7 @@ namespace Krypton.Navigator
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
         protected virtual void OnAppearancePropertyChanged(string propertyName)
         {
-            if (AppearancePropertyChanged != null)
-            {
-                AppearancePropertyChanged.Invoke(this, new(propertyName));
-            }
+            AppearancePropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -1493,10 +1393,7 @@ namespace Krypton.Navigator
         /// <param name="changed">Set of flags that have changed.</param>
         protected virtual void OnFlagsChanged(KryptonPageFlags changed)
         {
-            if (FlagsChanged != null)
-            {
-                FlagsChanged.Invoke(this, new(changed));
-            }
+            FlagsChanged?.Invoke(this, new KryptonPageFlagsEventArgs(changed));
         }
 
         /// <summary>
@@ -1505,10 +1402,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e)
         {
-            if (AutoHiddenSlideSizeChanged != null)
-            {
-                AutoHiddenSlideSizeChanged.Invoke(this, e);
-            }
+            AutoHiddenSlideSizeChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1517,10 +1411,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnLoad(EventArgs e)
         {
-            if (Load != null)
-            {
-                Load.Invoke(this, e);
-            }
+            Load?.Invoke(this, e);
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
         /// </summary>
-        public event EventHandler MaximizeRestoreClicked;
+        public event EventHandler? MaximizeRestoreClicked;
         #endregion
 
         #region Identity
@@ -49,7 +49,7 @@ namespace Krypton.Workspace
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => Count.ToString() + " Children";
+        public override string ToString() => $"{Count} Children";
 
         #endregion
 

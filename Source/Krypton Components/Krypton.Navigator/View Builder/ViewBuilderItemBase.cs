@@ -330,7 +330,7 @@ namespace Krypton.Navigator
                 Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
                 // We want the context menu to show just below the button
-                Point pt = new(rect.Left, rect.Bottom + 3);
+                var pt = new Point(rect.Left, rect.Bottom + 3);
 
                 // Convert from control coordinates to screen coordinates
                 return Navigator.PointToScreen(pt);
@@ -575,7 +575,7 @@ namespace Krypton.Navigator
                     if (control)
                     {
                         // Are we allowed to perform a Ctrl+Tab change in selection
-                        CtrlTabCancelEventArgs ce = new(!shift);
+                        var ce = new CtrlTabCancelEventArgs(!shift);
                         Navigator.OnCtrlTabStart(ce);
 
                         if (!ce.Cancel)
@@ -758,7 +758,7 @@ namespace Krypton.Navigator
                                                         VisualOrientation orientation)
         {
             // Create a check button view element
-            ViewDrawNavCheckButtonBar checkButton = new(Navigator, page, orientation);
+            var checkButton = new ViewDrawNavCheckButtonBar(Navigator, page, orientation);
 
             // Convert the button orientation to the appropriate visual orientations
             VisualOrientation orientBackBorder = ConvertButtonBorderBackOrientation();
@@ -1142,7 +1142,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnItemPageInserted(object sender, TypedCollectionEventArgs<KryptonPage?> e)
+        private void OnItemPageInserted(object sender, TypedCollectionEventArgs<KryptonPage> e)
         {
             if (!Navigator.IsDisposed && (_events > 0))
             {
@@ -1237,7 +1237,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, false);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, false);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
@@ -1268,7 +1268,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, true);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, true);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);

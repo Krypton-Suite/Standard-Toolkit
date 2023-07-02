@@ -21,9 +21,9 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         private const int WEEKS = 6;
-        private static readonly TimeSpan TIMESPAN_1DAY = new(1, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_6DAYS = new(6, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_1WEEK = new(7, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_6DAYS = new TimeSpan(6, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1WEEK = new TimeSpan(7, 0, 0, 0);
         #endregion
 
         #region Instance Fields
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawWeekNumbers:" + Id;
+            $"ViewDrawWeekNumbers:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Find the first day of the year
-                DateTime yearDay = new(value.Year, 1, 1);
+                DateTime yearDay = new DateTime(value.Year, 1, 1);
                 _weekDay = _firstDay;
 
                 // Move forewards until we hit the starting day of the year
@@ -156,7 +156,8 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle layoutRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle layoutRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
             for (var j = 0; j < WEEKS; j++)
@@ -206,7 +207,8 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle drawRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle drawRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
             for (var j = 0; j < WEEKS; j++)

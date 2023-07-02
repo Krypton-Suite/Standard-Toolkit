@@ -31,7 +31,7 @@ namespace Krypton.Docking
         /// Gets a string representation of the instance.
         /// </summary>
         /// <returns>String.</returns>
-        public override string ToString() => "KryptonDockableWorkspace " + Dock.ToString();
+        public override string ToString() => $"KryptonDockableWorkspace {Dock}";
 
         #endregion
 
@@ -101,12 +101,9 @@ namespace Krypton.Docking
         #region Implementation
         private void OnCellCloseAction(object sender, CloseActionEventArgs e)
         {
-            if (e.Item != null)
+            if (e.Item?.UniqueName != null)
             {
-                if (e.Item.UniqueName != null)
-                {
-                    OnPageCloseClicked(new(e.Item.UniqueName));
-                }
+                OnPageCloseClicked(new UniqueNameEventArgs(e.Item.UniqueName));
             }
         }
         #endregion

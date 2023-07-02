@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                DesignerActionListCollection actionLists = new DesignerActionListCollection
                 {
 
                     // Add the label specific list
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
                     _domainUpDown.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new()
+                    ArrayList selectionList = new ArrayList
                     {
                         component
                     };

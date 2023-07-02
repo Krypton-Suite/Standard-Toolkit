@@ -163,7 +163,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Point _nullPoint = new(-1, -1);
+        // TODO: Should be scaled
+        private static readonly Point _nullPoint = new Point(-1, -1);
         private static readonly Cursor _cursorHSplit = Cursors.HSplit;
         private static readonly Cursor _cursorVSplit = Cursors.VSplit;
         private static readonly Cursor _cursorHMove = Cursors.SizeNS;

@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupTitle:" + Id;
+            $@"ViewDrawRibbonGroupTitle:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -111,7 +111,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) => new (0, Height);
+        public override Size GetPreferredSize(ViewLayoutContext context) => new Size(0, Height);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
         {
             if (!string.IsNullOrEmpty(_ribbonGroup.TextLine2))
             {
-                return _ribbonGroup.TextLine1 + " " + _ribbonGroup.TextLine2;
+                return $"{_ribbonGroup.TextLine1} {_ribbonGroup.TextLine2}";
             }
             else
             {

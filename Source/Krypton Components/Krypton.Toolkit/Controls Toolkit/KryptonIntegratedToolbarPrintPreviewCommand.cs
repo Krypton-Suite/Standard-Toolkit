@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the print preview button spec.")]
         public ButtonSpecAny? ToolBarPrintPreviewButton
         {
-            get => _printPreviewButtonSpec ?? new();
+            get => _printPreviewButtonSpec ?? new ButtonSpecAny();
             set { _printPreviewButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarPrintPreviewCommand" /> class.</summary>
         public KryptonIntegratedToolbarPrintPreviewCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.PrintPreview;
         }

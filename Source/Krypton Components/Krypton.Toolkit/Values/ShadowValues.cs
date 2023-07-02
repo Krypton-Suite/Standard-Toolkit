@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     public class ShadowValues : Storage
     {
         #region statics
-        private static readonly Point _defaultOffset = new(5, 5);
+        private static readonly Point _defaultOffset = new Point(5, 5);
         private double _blurDistance;
         private bool _enableShadows;
         private Point _offset;
@@ -32,15 +32,15 @@ namespace Krypton.Toolkit
         #region Events
 #pragma warning disable 1591
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler EnableShadowsChanged;
+        public event EventHandler? EnableShadowsChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler MarginsChanged;
+        public event EventHandler? MarginsChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler BlurDistanceChanged;
+        public event EventHandler? BlurDistanceChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler<ColorEventArgs> ColourChanged;
+        public event EventHandler<ColorEventArgs>? ColourChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler OpacityChanged;
+        public event EventHandler? OpacityChanged;
 #pragma warning restore 1591
         #endregion
 

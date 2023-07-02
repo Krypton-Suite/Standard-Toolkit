@@ -30,14 +30,14 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText2;
         private GroupCheckBoxController? _viewLargeController;
-        private readonly EventHandler _finishDelegateLarge;
+        private readonly EventHandler? _finishDelegateLarge;
         private ViewLayoutRibbonCheckBox _viewMediumSmall;
         private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
         private ViewDrawRibbonGroupCheckBoxImage _viewMediumSmallImage;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText1;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText2;
         private GroupCheckBoxController? _viewMediumSmallController;
-        private readonly EventHandler _finishDelegateMediumSmall;
+        private readonly EventHandler? _finishDelegateMediumSmall;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         #endregion
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupCheckBox:" + Id;
+            $@"ViewDrawRibbonGroupCheckBox:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -321,7 +321,7 @@ namespace Krypton.Ribbon
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -360,7 +360,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -473,7 +473,7 @@ namespace Krypton.Ribbon
         private void ActionFinishedLarge(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.Actionoccurred();
+            _ribbon?.ActionOccurred();
 
             // Remove the fixed pressed appearance
             _viewLargeController.RemoveFixed();
@@ -482,7 +482,7 @@ namespace Krypton.Ribbon
         private void ActionFinishedMediumSmall(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.Actionoccurred();
+            _ribbon?.ActionOccurred();
 
             // Remove the fixed pressed appearance
             _viewMediumSmallController.RemoveFixed();

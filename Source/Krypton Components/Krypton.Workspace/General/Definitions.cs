@@ -65,7 +65,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
         /// </summary>
-        event EventHandler MaximizeRestoreClicked;
+        event EventHandler? MaximizeRestoreClicked;
 
         /// <summary>
         /// Reference to owning workspace item.

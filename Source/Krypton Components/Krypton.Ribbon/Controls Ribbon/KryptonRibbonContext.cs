@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity

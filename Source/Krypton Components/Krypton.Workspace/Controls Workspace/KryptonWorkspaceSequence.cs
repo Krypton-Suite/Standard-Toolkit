@@ -43,7 +43,7 @@ namespace Krypton.Workspace
         /// Occurs when the user clicks the maximize/restore button.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler MaximizeRestoreClicked;
+        public event EventHandler? MaximizeRestoreClicked;
         #endregion
 
         #region Identity
@@ -106,7 +106,7 @@ namespace Krypton.Workspace
         {
             if (Children != null)
             {
-                return Orientation + $@" ({Children.Count} Children)";
+                return $@"{Orientation} ({Children.Count} Children)";
             }
             else
             {
@@ -362,7 +362,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                Size maxSize = new(int.MaxValue, int.MaxValue);
+                Size maxSize = new Size(int.MaxValue, int.MaxValue);
 
                 // Search all children for the smallest defined maximum
                 if (Children != null)
@@ -437,14 +437,11 @@ namespace Krypton.Workspace
                 // If any child says no resizing then we cannot be resized
                 if (Children != null)
                 {
-                    if (Children != null)
+                    foreach (Component component in Children)
                     {
-                        foreach (Component component in Children)
+                        if ((component is IWorkspaceItem { WorkspaceVisible: true, WorkspaceAllowResizing: false }))
                         {
-                            if ((component is IWorkspaceItem { WorkspaceVisible: true, WorkspaceAllowResizing: false }))
-                            {
-                                return false;
-                            }
+                            return false;
                         }
                     }
                 }
@@ -556,20 +553,14 @@ namespace Krypton.Workspace
                     switch (xmlReader.Name)
                     {
                         case "WS":
-                            KryptonWorkspaceSequence sequence = new();
+                            KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence();
                             sequence.LoadFromXml(workspace, xmlReader, existingPages);
-                            if (Children != null)
-                            {
-                                Children.Add(sequence);
-                            }
+                            Children?.Add(sequence);
                             break;
                         case "WC":
-                            KryptonWorkspaceCell cell = new();
+                            KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
                             cell.LoadFromXml(workspace, xmlReader, existingPages);
-                            if (Children != null)
-                            {
-                                Children.Add(cell);
-                            }
+                            Children?.Add(cell);
                             break;
                         default:
                             throw new ArgumentException("Unknown element was encountered.");

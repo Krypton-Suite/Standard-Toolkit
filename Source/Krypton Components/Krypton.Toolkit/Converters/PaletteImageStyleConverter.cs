@@ -45,21 +45,21 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PaletteImageStyle.Inherit,        KryptonLanguageManager.ImageStyleStrings.Inherit),
-            new(PaletteImageStyle.Stretch,        KryptonLanguageManager.ImageStyleStrings.Stretch),
-            new(PaletteImageStyle.Tile,           KryptonLanguageManager.ImageStyleStrings.Tile),
-            new(PaletteImageStyle.TileFlipX,      KryptonLanguageManager.ImageStyleStrings.TileFlipX),
-            new(PaletteImageStyle.TileFlipY,      KryptonLanguageManager.ImageStyleStrings.TileFlipY),
-            new(PaletteImageStyle.TileFlipXY,     KryptonLanguageManager.ImageStyleStrings.TileFlipXY),
-            new(PaletteImageStyle.TopLeft,        KryptonLanguageManager.ImageStyleStrings.TopLeft),
-            new(PaletteImageStyle.TopMiddle,      KryptonLanguageManager.ImageStyleStrings.TopMiddle),
-            new(PaletteImageStyle.TopRight,       KryptonLanguageManager.ImageStyleStrings.TopRight),
-            new(PaletteImageStyle.CenterLeft,     KryptonLanguageManager.ImageStyleStrings.CenterLeft),
-            new(PaletteImageStyle.CenterMiddle,   KryptonLanguageManager.ImageStyleStrings.CenterMiddle),
-            new(PaletteImageStyle.CenterRight,    KryptonLanguageManager.ImageStyleStrings.CenterRight),
-            new(PaletteImageStyle.BottomLeft,     KryptonLanguageManager.ImageStyleStrings.BottomLeft),
-            new(PaletteImageStyle.BottomMiddle,   KryptonLanguageManager.ImageStyleStrings.BottomMiddle),
-            new(PaletteImageStyle.BottomRight,    KryptonLanguageManager.ImageStyleStrings.BottomRight)
+            new Pair(PaletteImageStyle.Inherit, KryptonLanguageManager.ImageStyleStrings.Inherit),
+            new Pair(PaletteImageStyle.Stretch, KryptonLanguageManager.ImageStyleStrings.Stretch),
+            new Pair(PaletteImageStyle.Tile, KryptonLanguageManager.ImageStyleStrings.Tile),
+            new Pair(PaletteImageStyle.TileFlipX, KryptonLanguageManager.ImageStyleStrings.TileFlipX),
+            new Pair(PaletteImageStyle.TileFlipY, KryptonLanguageManager.ImageStyleStrings.TileFlipY),
+            new Pair(PaletteImageStyle.TileFlipXY, KryptonLanguageManager.ImageStyleStrings.TileFlipXY),
+            new Pair(PaletteImageStyle.TopLeft, KryptonLanguageManager.ImageStyleStrings.TopLeft),
+            new Pair(PaletteImageStyle.TopMiddle, KryptonLanguageManager.ImageStyleStrings.TopMiddle),
+            new Pair(PaletteImageStyle.TopRight, KryptonLanguageManager.ImageStyleStrings.TopRight),
+            new Pair(PaletteImageStyle.CenterLeft, KryptonLanguageManager.ImageStyleStrings.CenterLeft),
+            new Pair(PaletteImageStyle.CenterMiddle, KryptonLanguageManager.ImageStyleStrings.CenterMiddle),
+            new Pair(PaletteImageStyle.CenterRight, KryptonLanguageManager.ImageStyleStrings.CenterRight),
+            new Pair(PaletteImageStyle.BottomLeft, KryptonLanguageManager.ImageStyleStrings.BottomLeft),
+            new Pair(PaletteImageStyle.BottomMiddle, KryptonLanguageManager.ImageStyleStrings.BottomMiddle),
+            new Pair(PaletteImageStyle.BottomRight, KryptonLanguageManager.ImageStyleStrings.BottomRight)
         };
 
         #endregion

@@ -45,14 +45,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the drop down portion of the button is pressed.")]
-        public event EventHandler<ContextPositionMenuArgs> DropDown;
+        public event EventHandler<ContextPositionMenuArgs>? DropDown;
 
         /// <summary>
         /// Occurs when the value of the KryptonCommand property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the KryptonCommand property changes.")]
-        public event EventHandler KryptonCommandChanged;
+        public event EventHandler? KryptonCommandChanged;
         #endregion
 
         #region Identity
@@ -569,7 +569,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -768,7 +768,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new(needPaint);
+        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
 
         /// <summary>
         /// Gets access to the view element for the button.
@@ -822,10 +822,8 @@ namespace Krypton.Toolkit
             }
 
             // Package up the context menu and positioning values we will use later
-            ContextPositionMenuArgs cpma = new(ContextMenuStrip,
-                                                                       KryptonContextMenu,
-                                                                       GetPositionH(),
-                                                                       GetPositionV());
+            ContextPositionMenuArgs cpma = new ContextPositionMenuArgs(ContextMenuStrip,
+                KryptonContextMenu, GetPositionH(), GetPositionV());
             // Let use examine and later values
             OnDropDown(cpma);
 

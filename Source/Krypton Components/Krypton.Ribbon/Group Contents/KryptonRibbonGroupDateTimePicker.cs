@@ -39,27 +39,27 @@ namespace Krypton.Ribbon
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when the Value property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the Value property is changed.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs when the ValueNullable property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the ValueNullable property is changed.")]
-        public event EventHandler ValueNullableChanged;
+        public event EventHandler? ValueNullableChanged;
 
         /// <summary>
         /// Occurs when the drop down is shown.
@@ -80,59 +80,59 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Checked property is changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the Format property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Format property is changed.")]
-        public event EventHandler FormatChanged;
+        public event EventHandler? FormatChanged;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyPressEventHandler KeyPress;
+        public event KeyPressEventHandler? KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is released while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyUp;
+        public event KeyEventHandler? KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler? KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
         [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
         [Category(@"Key")]
-        public event PreviewKeyDownEventHandler PreviewKeyDown;
+        public event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity

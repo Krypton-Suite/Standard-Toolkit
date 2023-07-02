@@ -45,21 +45,21 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(LabelStyle.NormalControl, KryptonLanguageManager.KryptonLabelStyleStrings.NormalControl),
-            new(LabelStyle.BoldControl, KryptonLanguageManager.KryptonLabelStyleStrings.BoldControl),
-            new(LabelStyle.ItalicControl, KryptonLanguageManager.KryptonLabelStyleStrings.ItalicControl),
-            new(LabelStyle.TitleControl, KryptonLanguageManager.KryptonLabelStyleStrings.TitleControl),
-            new(LabelStyle.NormalPanel, KryptonLanguageManager.KryptonLabelStyleStrings.NormalPanel),
-            new(LabelStyle.BoldPanel, KryptonLanguageManager.KryptonLabelStyleStrings.BoldPanel),
-            new(LabelStyle.ItalicPanel, KryptonLanguageManager.KryptonLabelStyleStrings.ItalicPanel),
-            new(LabelStyle.TitlePanel, KryptonLanguageManager.KryptonLabelStyleStrings.TitlePanel),
-            new(LabelStyle.GroupBoxCaption, KryptonLanguageManager.KryptonLabelStyleStrings.GroupBoxCaption),
-            new(LabelStyle.ToolTip, KryptonLanguageManager.KryptonLabelStyleStrings.ToolTip),
-            new(LabelStyle.SuperTip, KryptonLanguageManager.KryptonLabelStyleStrings.SuperTip),
-            new(LabelStyle.KeyTip, KryptonLanguageManager.KryptonLabelStyleStrings.KeyTip),
-            new(LabelStyle.Custom1, KryptonLanguageManager.KryptonLabelStyleStrings.CustomOne),
-            new(LabelStyle.Custom2, KryptonLanguageManager.KryptonLabelStyleStrings.CustomTwo),
-            new(LabelStyle.Custom3, KryptonLanguageManager.KryptonLabelStyleStrings.CustomThree)
+            new Pair(LabelStyle.NormalControl, KryptonLanguageManager.KryptonLabelStyleStrings.NormalControl),
+            new Pair(LabelStyle.BoldControl, KryptonLanguageManager.KryptonLabelStyleStrings.BoldControl),
+            new Pair(LabelStyle.ItalicControl, KryptonLanguageManager.KryptonLabelStyleStrings.ItalicControl),
+            new Pair(LabelStyle.TitleControl, KryptonLanguageManager.KryptonLabelStyleStrings.TitleControl),
+            new Pair(LabelStyle.NormalPanel, KryptonLanguageManager.KryptonLabelStyleStrings.NormalPanel),
+            new Pair(LabelStyle.BoldPanel, KryptonLanguageManager.KryptonLabelStyleStrings.BoldPanel),
+            new Pair(LabelStyle.ItalicPanel, KryptonLanguageManager.KryptonLabelStyleStrings.ItalicPanel),
+            new Pair(LabelStyle.TitlePanel, KryptonLanguageManager.KryptonLabelStyleStrings.TitlePanel),
+            new Pair(LabelStyle.GroupBoxCaption, KryptonLanguageManager.KryptonLabelStyleStrings.GroupBoxCaption),
+            new Pair(LabelStyle.ToolTip, KryptonLanguageManager.KryptonLabelStyleStrings.ToolTip),
+            new Pair(LabelStyle.SuperTip, KryptonLanguageManager.KryptonLabelStyleStrings.SuperTip),
+            new Pair(LabelStyle.KeyTip, KryptonLanguageManager.KryptonLabelStyleStrings.KeyTip),
+            new Pair(LabelStyle.Custom1, KryptonLanguageManager.KryptonLabelStyleStrings.CustomOne),
+            new Pair(LabelStyle.Custom2, KryptonLanguageManager.KryptonLabelStyleStrings.CustomTwo),
+            new Pair(LabelStyle.Custom3, KryptonLanguageManager.KryptonLabelStyleStrings.CustomThree)
         };
 
         #endregion

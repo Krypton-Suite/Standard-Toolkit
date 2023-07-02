@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawPanel:" + Id;
+            $"ViewDrawPanel:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
                 if (_paletteBack.GetBackDraw(State) == InheritBool.True)
                 {
                     // Render the background
-                    using GraphicsPath panelPath = new();
+                    using GraphicsPath panelPath = new GraphicsPath();
                     var rectF = ClientRectangleF;
                     // Now workaround https://github.com/Krypton-Suite/Standard-Toolkit/issues/308
                     rectF.Offset(-0.25f, -0.25f);

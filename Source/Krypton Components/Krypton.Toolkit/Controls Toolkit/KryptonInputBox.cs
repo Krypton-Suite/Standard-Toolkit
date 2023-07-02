@@ -24,7 +24,7 @@
             string caption = @"",
             string defaultResponse = @"",
             string cueText = @"",
-            Color cueColour = new(),
+            Color cueColour = new Color(),
             Font? cueTypeface = null,
             bool usePasswordOption = false)
             =>  InternalShow(null, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
@@ -45,7 +45,7 @@
             string caption = @"",
             string defaultResponse = @"",
             string cueText = @"",
-            Color cueColour = new(),
+            Color cueColour = new Color(),
             Font? cueTypeface = null,
             bool usePasswordOption = false)
             => InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);

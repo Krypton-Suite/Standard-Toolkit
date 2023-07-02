@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
             _large = large;
 
             // Use redirector to get the check box images and redirect to parent palette
-            PaletteRedirectCheckBox? redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
+            var redirectImages = new PaletteRedirectCheckBox(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
 
             // Create drawing element
             _drawCheckBox = new ViewDrawCheckBox(redirectImages);
@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupCheckBoxImage:" + Id;
+            $@"ViewDrawRibbonGroupCheckBoxImage:{Id}";
 
         #endregion
 
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Get the size of the check box when it is drawn
-            Rectangle checkBoxRect = new(Point.Empty, _drawCheckBox.GetPreferredSize(context));
+            var checkBoxRect = new Rectangle(Point.Empty, _drawCheckBox.GetPreferredSize(context));
 
             // Decide on correct position within our rectangle
             if (_large)

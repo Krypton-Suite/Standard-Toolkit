@@ -48,21 +48,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the menu item is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the menu item is clicked.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the checked property changes.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the menu item is clicked.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the check state property changes.")]
-        public event EventHandler CheckStateChanged;
+        public event EventHandler? CheckStateChanged;
         #endregion
 
         #region Identity

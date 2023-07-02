@@ -92,10 +92,10 @@ namespace Krypton.Toolkit
             _applicationImage = applicationImage;
             _applicationPath = applicationPath ?? string.Empty;
             _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
-            _linkLabelCommand = linkLabelCommand ?? new();
+            _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
             _linkAreaStart = linkAreaStart ?? 0;
             _linkAreaEnd = linkAreaEnd ?? text.Length;
-            _linkLaunchArgument = linkLaunchArgument ?? new();
+            _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
 
             // Create the form contents
             InitializeComponent();
@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
-            Size maxButtonSize = new(button1Size.Width + GAP, button1Size.Height);
+            Size maxButtonSize = new Size(button1Size.Width + GAP, button1Size.Height);
 
             // If Button2 is visible
             if (_button2.Enabled)
@@ -802,7 +802,7 @@ namespace Krypton.Toolkit
 
                     _messageText.Visible = false;
 
-                    _linkLabelMessageText.LinkArea = new(_linkAreaStart, _linkAreaEnd);
+                    _linkLabelMessageText.LinkArea = new LinkArea(_linkAreaStart, _linkAreaEnd);
                     break;
             }
         }

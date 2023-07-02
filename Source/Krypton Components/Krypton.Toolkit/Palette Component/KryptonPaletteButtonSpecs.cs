@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a button spec change occurs.
         /// </summary>
-        public event EventHandler ButtonSpecChanged;
+        public event EventHandler? ButtonSpecChanged;
         #endregion
 
         #region Identity
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
             RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector);
 
             // Create redirector for inheriting from style specific to style common
-            PaletteRedirectButtonSpec? redirectCommon = new(redirector, Common);
+            PaletteRedirectButtonSpec redirectCommon = new PaletteRedirectButtonSpec(redirector, Common);
 
             // Inform the button spec to use the new redirector
             Generic.SetRedirector(redirectCommon);

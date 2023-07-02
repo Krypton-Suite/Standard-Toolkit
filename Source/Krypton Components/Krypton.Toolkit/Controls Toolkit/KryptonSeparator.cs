@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler AutoSizeChanged;
+        public new event EventHandler? AutoSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ControlAdded property changes.
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event ControlEventHandler ControlAdded;
+        public new event ControlEventHandler? ControlAdded;
 
         /// <summary>
         /// Occurs when the value of the ControlRemoved property changes.
@@ -76,35 +76,35 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event ControlEventHandler ControlRemoved;
+        public new event ControlEventHandler? ControlRemoved;
 
         /// <summary>
         /// Occurs when the separator is about to be moved and requests the rectangle of allowed movement.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the separator is about to be moved and requests the rectangle of allowed movement.")]
-        public event EventHandler<SplitterMoveRectMenuArgs> SplitterMoveRect;
+        public event EventHandler<SplitterMoveRectMenuArgs>? SplitterMoveRect;
 
         /// <summary>
         /// Occurs when the separator move finishes and a move has occurred.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the separator move finishes and a move has occurred.")]
-        public event SplitterEventHandler SplitterMoved;
+        public event SplitterEventHandler? SplitterMoved;
 
         /// <summary>
         /// Occurs when the separator move finishes and a move has not occurred.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the separator move finishes and a move has not occurred.")]
-        public event EventHandler SplitterNotMoved;
+        public event EventHandler? SplitterNotMoved;
 
         /// <summary>
         /// Occurs when the separator is currently in the process of moving.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the separator is currently in the process of moving.")]
-        public event SplitterCancelEventHandler SplitterMoving;
+        public event SplitterCancelEventHandler? SplitterMoving;
         #endregion
 
         #region Identity
@@ -478,7 +478,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Fire event to recover the rectangle of allowed separator movement
-                SplitterMoveRectMenuArgs args = new(Rectangle.Empty);
+                SplitterMoveRectMenuArgs args = new SplitterMoveRectMenuArgs(Rectangle.Empty);
                 OnSplitterMoveRect(args);
 
                 return Orientation == Orientation.Horizontal
@@ -497,7 +497,7 @@ namespace Krypton.Toolkit
         public bool SeparatorMoving(Point mouse, Point splitter)
         {
             // Fire the event that indicates the splitter is being moved
-            SplitterCancelEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterCancelEventArgs e = new SplitterCancelEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoving(e);
 
             // Tell caller if the movement should be cancelled or not
@@ -513,7 +513,7 @@ namespace Krypton.Toolkit
         public void SeparatorMoved(Point mouse, Point splitter)
         {
             // Fire the event that indicates the splitter has finished being moved
-            SplitterEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterEventArgs e = new SplitterEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoved(e);
 
             _redrawTimer?.Start();
@@ -577,7 +577,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(5, 5);
+        protected override Size DefaultSize => new Size(5, 5);
 
         /// <summary>
         /// Raises the Initialized event.

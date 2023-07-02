@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a new collection for both values
-                    ArrayList compound = new(baseComponents);
+                    ArrayList compound = new ArrayList(baseComponents);
 
                     // Add all the button specs to the end
                     compound.AddRange(_monthCalendar.ButtonSpecs);
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                DesignerActionListCollection actionLists = new DesignerActionListCollection
                 {
 
                     // Add the bread crumb specific list
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
                     _monthCalendar.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new()
+                    ArrayList selectionList = new ArrayList
                     {
                         component
                     };

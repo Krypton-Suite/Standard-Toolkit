@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the help button spec.")]
         public ButtonSpecAny? HelpButton
         {
-            get => _helpButtonSpec ?? new();
+            get => _helpButtonSpec ?? new ButtonSpecAny();
             set { _helpButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonHelpCommand" /> class.</summary>
         public KryptonHelpCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ButtonSpecStyles.FormHelp;
         }

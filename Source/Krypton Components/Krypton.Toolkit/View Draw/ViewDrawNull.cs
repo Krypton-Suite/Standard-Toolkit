@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawNull:" + Id;
+            $"ViewDrawNull:{Id}";
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            using SolidBrush fillBrush = new(_fillColor);
+            using SolidBrush fillBrush = new SolidBrush(_fillColor);
             context.Graphics.FillRectangle(fillBrush, ClientRectangle);
         }
         #endregion

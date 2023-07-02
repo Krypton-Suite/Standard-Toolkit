@@ -122,20 +122,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
-        public static event EventHandler GlobalPaletteChanged;
+        public static event EventHandler? GlobalPaletteChanged;
 
         /// <summary>
         /// Occurs when the AllowFormChrome property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the GlobalAllowFormChrome property is changed.")]
-        public static event EventHandler GlobalAllowFormChromeChanged;
-        #endregion
-
-        #region Instance Fields
-
-        //private readonly bool _useOSLanguageStrings;
-
+        public static event EventHandler? GlobalAllowFormChromeChanged;
         #endregion
 
         #region Identity
@@ -199,8 +193,6 @@ namespace Krypton.Toolkit
                                    || ShouldSerializeGlobalPalette()
                                    || ShouldSerializeGlobalApplyToolstrips()
                                    || ShouldSerializeGlobalAllowFormChrome()
-                                //|| ShouldSerializeGlobalStrings()
-                                //|| ShouldSerializeGlobalColorStrings()
                                 );
 
         /// <summary>
@@ -212,8 +204,6 @@ namespace Krypton.Toolkit
             ResetGlobalPalette();
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
-            //ResetGlobalStrings();
-            //ResetGlobalColorStrings();
 
             _customPalette = null;
 
@@ -245,7 +235,7 @@ namespace Krypton.Toolkit
                         default:
                             // Cache the new values
                             PaletteMode tempMode = InternalGlobalPaletteMode;
-                            PaletteBase tempPalette = InternalGlobalPalette;
+                            PaletteBase? tempPalette = InternalGlobalPalette;
 
                             // Use the new value
                             InternalGlobalPaletteMode = value;
@@ -379,40 +369,6 @@ namespace Krypton.Toolkit
 
         private void ResetGlobalAllowFormChrome() => GlobalAllowFormChrome = true;
 
-        /*/// <summary>
-        /// Gets a set of global strings used by Krypton that can be localized.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Collection of global strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public GlobalStrings GlobalStrings => Strings;
-
-        private bool ShouldSerializeGlobalStrings() => !Strings.IsDefault;
-
-        /// <summary>
-        /// Resets the GlobalStrings property to its default value.
-        /// </summary>
-        public void ResetGlobalStrings() => Strings.Reset();
-
-        /// <summary>
-        /// Gets a set of global color strings used by Krypton that can be localized.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Collection of global color strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public GlobalColorStrings GlobalColorStrings => ColorStrings;
-
-        private bool ShouldSerializeGlobalColorStrings() => !ColorStrings.IsDefault;
-
-        /// <summary>
-        /// Resets the GlobalColorStrings property to its default value.
-        /// </summary>
-        public void ResetGlobalColorStrings() => ColorStrings.Reset();*/
-
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(null)]
@@ -495,19 +451,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Static Strings
-
-        /*/// <summary>
-        /// Gets access to the set of global strings.
-        /// </summary>
-        public static GlobalStrings Strings { get; } = new();
-
-        /// <summary>
-        /// Gets access to the set of global color strings.
-        /// </summary>
-        public static GlobalColorStrings ColorStrings { get; } = new();*/
-
-        #endregion
 
         #region Static Palette
         /// <summary>
@@ -1130,7 +1073,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void SetPalette(PaletteBase globalPalette)
+        private static void SetPalette(PaletteBase? globalPalette)
         {
             if (globalPalette != InternalGlobalPalette)
             {

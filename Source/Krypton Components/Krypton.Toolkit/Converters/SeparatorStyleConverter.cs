@@ -36,12 +36,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(SeparatorStyle.LowProfile, KryptonLanguageManager.SeparatorStyles.LowProfile),
-            new(SeparatorStyle.HighProfile, KryptonLanguageManager.SeparatorStyles.HighProfile),
-            new(SeparatorStyle.HighInternalProfile, KryptonLanguageManager.SeparatorStyles.HighInternalProfile),
-            new(SeparatorStyle.Custom1, KryptonLanguageManager.SeparatorStyles.Custom1),
-            new(SeparatorStyle.Custom2, KryptonLanguageManager.SeparatorStyles.Custom2),
-            new(SeparatorStyle.Custom3, KryptonLanguageManager.SeparatorStyles.Custom3)
+            new Pair(SeparatorStyle.LowProfile, KryptonLanguageManager.SeparatorStyles.LowProfile),
+            new Pair(SeparatorStyle.HighProfile, KryptonLanguageManager.SeparatorStyles.HighProfile),
+            new Pair(SeparatorStyle.HighInternalProfile, KryptonLanguageManager.SeparatorStyles.HighInternalProfile),
+            new Pair(SeparatorStyle.Custom1, KryptonLanguageManager.SeparatorStyles.Custom1),
+            new Pair(SeparatorStyle.Custom2, KryptonLanguageManager.SeparatorStyles.Custom2),
+            new Pair(SeparatorStyle.Custom3, KryptonLanguageManager.SeparatorStyles.Custom3)
         };
 
         #endregion

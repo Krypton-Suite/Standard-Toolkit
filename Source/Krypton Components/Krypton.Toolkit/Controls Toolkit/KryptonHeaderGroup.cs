@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip _visualPopupToolTip;
         private ScreenObscurer _obscurer;
-        private readonly EventHandler _removeObscurer;
+        private readonly EventHandler? _removeObscurer;
         private bool _forcedLayout;
         private bool _visiblePrimary;
         private bool _visibleSecondary;
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the Collapsed property is changed.")]
-        public event EventHandler CollapsedChanged;
+        public event EventHandler? CollapsedChanged;
         #endregion
 
         #region Identity
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = value + ".Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 
@@ -1137,7 +1137,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

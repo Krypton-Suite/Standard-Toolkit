@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawDebug:" + Id;
+            $"ViewDrawDebug:{Id}";
 
         #endregion
 
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             }
 
             // Ignore renderer, we just draw using solid color for debugging purposes
-            using SolidBrush brush = new(_color);
+            using SolidBrush brush = new SolidBrush(_color);
             context.Graphics.FillRectangle(brush, ClientRectangle);
         }
         #endregion    

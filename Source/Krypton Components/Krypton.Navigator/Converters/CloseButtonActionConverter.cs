@@ -32,10 +32,12 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new(CloseButtonAction.None,                   "None (Do nothing)"),
-            new(CloseButtonAction.RemovePage,             "RemovePage"),
-            new(CloseButtonAction.RemovePageAndDispose,   "RemovePage & Dispose"),
-            new(CloseButtonAction.HidePage,               "Hide Page") };
+        {
+            new Pair(CloseButtonAction.None, "None (Do nothing)"), 
+            new Pair(CloseButtonAction.RemovePage, "RemovePage"),
+            new Pair(CloseButtonAction.RemovePageAndDispose, "RemovePage & Dispose"),
+            new Pair(CloseButtonAction.HidePage, "Hide Page")
+        };
 
         #endregion
     }

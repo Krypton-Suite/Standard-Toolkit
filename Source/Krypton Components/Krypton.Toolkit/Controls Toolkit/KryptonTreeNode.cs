@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity

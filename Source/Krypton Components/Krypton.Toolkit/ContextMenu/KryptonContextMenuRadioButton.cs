@@ -43,14 +43,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the radio button is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Misc")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
         #endregion
 
         #region Identity

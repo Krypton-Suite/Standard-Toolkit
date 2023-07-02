@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutDocker:" + Id + " " + _childDocking.Count.ToString();
+            $"ViewLayoutDocker:{Id} {_childDocking.Count}";
 
         #endregion
 
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Create new lookup that only contains entries for current child items
-            ViewDockStyleLookup newChildDocking = new();
+            ViewDockStyleLookup newChildDocking = new ViewDockStyleLookup();
 
             // Remember the original display rectangle provided
             Rectangle originalRect = context.DisplayRectangle;

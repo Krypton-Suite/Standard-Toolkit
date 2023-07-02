@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewNumericUpDownEditingControl);
         private static readonly Type _defaultValueType = typeof(decimal);
-        private static readonly Size _sizeLarge = new(10000, 10000);
+        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -73,8 +73,7 @@ namespace Krypton.Toolkit
         /// Returns a standard textual representation of the cell.
         /// </summary>
         public override string ToString() =>
-            "DataGridViewNumericUpDownCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
+            $"DataGridViewNumericUpDownCell {{ ColumnIndex={ColumnIndex.ToString(CultureInfo.CurrentCulture)}, RowIndex={RowIndex.ToString(CultureInfo.CurrentCulture)} }}";
 
         #endregion
 

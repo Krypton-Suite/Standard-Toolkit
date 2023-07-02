@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                DesignerActionListCollection actionList = new()
+                DesignerActionListCollection actionList = new DesignerActionListCollection
                 {
                     new KryptonPropertyGridActionList(this)
                 };

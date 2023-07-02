@@ -883,7 +883,7 @@ namespace Krypton.Navigator
         /// <returns>List of drag targets.</returns>
         public virtual DragTargetList GenerateDragTargets(PageDragEndData? dragEndData, KryptonPageFlags allowFlags)
         {
-            DragTargetList targets = new()
+            var targets = new DragTargetList
             {
 
                 // Generate target for the entire navigator client area
@@ -1393,7 +1393,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(250, 150);
+        protected override Size DefaultSize => new Size(250, 150);
 
         /// <summary>
         /// Update global event attachments.
@@ -1424,10 +1424,7 @@ namespace Krypton.Navigator
         /// <param name="e">A KryptonPageCancelEventArgs containing event details.</param>
         protected virtual void OnDeselecting(KryptonPageCancelEventArgs e)
         {
-            if (Deselecting != null)
-            {
-                Deselecting(this, e);
-            }
+            Deselecting?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1436,10 +1433,7 @@ namespace Krypton.Navigator
         /// <param name="e">A KryptonPageCancelEventArgs containing event details.</param>
         protected virtual void OnSelecting(KryptonPageCancelEventArgs e)
         {
-            if (Selecting != null)
-            {
-                Selecting(this, e);
-            }
+            Selecting?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1448,10 +1442,7 @@ namespace Krypton.Navigator
         /// <param name="e">A KryptonPageEventArgs containing event details.</param>
         protected virtual void OnDeselected(KryptonPageEventArgs e)
         {
-            if (Deselected != null)
-            {
-                Deselected(this, e);
-            }
+            Deselected?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1460,10 +1451,7 @@ namespace Krypton.Navigator
         /// <param name="e">A KryptonPageEventArgs containing event details.</param>
         protected virtual void OnSelected(KryptonPageEventArgs e)
         {
-            if (Selected != null)
-            {
-                Selected(this, e);
-            }
+            Selected?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1472,10 +1460,7 @@ namespace Krypton.Navigator
         /// <param name="de">A PageDragCancelEventArgs containing event details.</param>
         protected internal virtual void OnBeforePageReorder(PageReorderEventArgs de)
         {
-            if (BeforePageReorder != null)
-            {
-                BeforePageReorder(this, de);
-            }
+            BeforePageReorder?.Invoke(this, de);
         }
 
         /// <summary>
@@ -1484,10 +1469,7 @@ namespace Krypton.Navigator
         /// <param name="de">A PageDragCancelEventArgs containing event details.</param>
         protected virtual void OnBeforePageDrag(PageDragCancelEventArgs de)
         {
-            if (BeforePageDrag != null)
-            {
-                BeforePageDrag(this, de);
-            }
+            BeforePageDrag?.Invoke(this, de);
         }
 
         /// <summary>
@@ -1496,10 +1478,7 @@ namespace Krypton.Navigator
         /// <param name="e">A EventArgs containing event details.</param>
         protected virtual void OnAfterPageDrag(PageDragEndEventArgs e)
         {
-            if (AfterPageDrag != null)
-            {
-                AfterPageDrag(this, e);
-            }
+            AfterPageDrag?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1508,10 +1487,7 @@ namespace Krypton.Navigator
         /// <param name="e">A v containing event details.</param>
         protected internal virtual void OnPageDrop(PageDropEventArgs e)
         {
-            if (PageDrop != null)
-            {
-                PageDrop(this, e);
-            }
+            PageDrop?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1558,10 +1534,7 @@ namespace Krypton.Navigator
                     PerformLayout();
                 }
 
-                if (SelectedPageChanged != null)
-                {
-                    SelectedPageChanged(this, e);
-                }
+                SelectedPageChanged?.Invoke(this, e);
             }
         }
 
@@ -1583,10 +1556,7 @@ namespace Krypton.Navigator
                         SelectedIndex,
                         Button.PreviousButtonAction);
 
-                    if (PreviousAction != null)
-                    {
-                        PreviousAction(this, e);
-                    }
+                    PreviousAction?.Invoke(this, e);
 
                     // Return the actual action performed
                     dba = e.Action;
@@ -1620,10 +1590,7 @@ namespace Krypton.Navigator
                         SelectedIndex,
                         Button.NextButtonAction);
 
-                    if (NextAction != null)
-                    {
-                        NextAction(this, e);
-                    }
+                    NextAction?.Invoke(this, e);
 
                     // Return the actual action performed
                     dba = e.Action;
@@ -1657,10 +1624,7 @@ namespace Krypton.Navigator
         /// <param name="e">An CloseActionEventArgs containing the event args.</param>
         protected virtual void OnCloseAction(CloseActionEventArgs e)
         {
-            if (CloseAction != null)
-            {
-                CloseAction(this, e);
-            }
+            CloseAction?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1692,10 +1656,7 @@ namespace Krypton.Navigator
                                                                           Pages.IndexOf(page),
                                                                           Button.CloseButtonAction);
 
-                        if (CloseAction != null)
-                        {
-                            CloseAction(this, e);
-                        }
+                        CloseAction?.Invoke(this, e);
 
                         // Return the action we processed
                         cba = e.Action;
@@ -1755,10 +1716,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event args.</param>
         protected virtual void OnTabCountChanged(EventArgs e)
         {
-            if (TabCountChanged != null)
-            {
-                TabCountChanged(this, e);
-            }
+            TabCountChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1767,10 +1725,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event args.</param>
         protected internal virtual void OnTabVisibleCountChanged(EventArgs e)
         {
-            if (TabVisibleCountChanged != null)
-            {
-                TabVisibleCountChanged(this, e);
-            }
+            TabVisibleCountChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1779,10 +1734,7 @@ namespace Krypton.Navigator
         /// <param name="e">An KryptonPageEventArgs containing the event args.</param>
         protected internal virtual void OnTabClicked(KryptonPageEventArgs e)
         {
-            if (TabClicked != null)
-            {
-                TabClicked(this, e);
-            }
+            TabClicked?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1791,10 +1743,7 @@ namespace Krypton.Navigator
         /// <param name="e">An KryptonPageEventArgs containing the event args.</param>
         protected internal virtual void OnTabDoubleClicked(KryptonPageEventArgs e)
         {
-            if (TabDoubleClicked != null)
-            {
-                TabDoubleClicked(this, e);
-            }
+            TabDoubleClicked?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1803,10 +1752,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event args.</param>
         protected internal virtual void OnPrimaryHeaderLeftClicked(EventArgs e)
         {
-            if (PrimaryHeaderLeftClicked != null)
-            {
-                PrimaryHeaderLeftClicked(this, e);
-            }
+            PrimaryHeaderLeftClicked?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1815,10 +1761,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event args.</param>
         protected internal virtual void OnPrimaryHeaderRightClicked(EventArgs e)
         {
-            if (PrimaryHeaderRightClicked != null)
-            {
-                PrimaryHeaderRightClicked(this, e);
-            }
+            PrimaryHeaderRightClicked?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1827,10 +1770,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing the event args.</param>
         protected internal virtual void OnPrimaryHeaderDoubleClicked(EventArgs e)
         {
-            if (PrimaryHeaderDoubleClicked != null)
-            {
-                PrimaryHeaderDoubleClicked(this, e);
-            }
+            PrimaryHeaderDoubleClicked?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1839,10 +1779,7 @@ namespace Krypton.Navigator
         /// <param name="kcm">Context menu about to be Displayed.</param>
         protected internal virtual void OnOutlookDropDown(KryptonContextMenu kcm)
         {
-            if (OutlookDropDown != null)
-            {
-                OutlookDropDown(this, new KryptonContextMenuEventArgs(SelectedPage, SelectedIndex, kcm));
-            }
+            OutlookDropDown?.Invoke(this, new KryptonContextMenuEventArgs(SelectedPage, SelectedIndex, kcm));
         }
 
         /// <summary>
@@ -1851,10 +1788,7 @@ namespace Krypton.Navigator
         /// <param name="e">A PopupPageEventArgs containing event data.</param>
         protected internal virtual void OnDisplayPopupPage(PopupPageEventArgs e)
         {
-            if (DisplayPopupPage != null)
-            {
-                DisplayPopupPage(this, e);
-            }
+            DisplayPopupPage?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1863,10 +1797,7 @@ namespace Krypton.Navigator
         /// <param name="e">A ShowContextMenuArgs containing event data.</param>
         protected internal virtual void OnShowContextMenu(ShowContextMenuArgs e)
         {
-            if (ShowContextMenu != null)
-            {
-                ShowContextMenu(this, e);
-            }
+            ShowContextMenu?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1875,10 +1806,7 @@ namespace Krypton.Navigator
         /// <param name="e">An CtrlTabCancelEventArgs containing event details.</param>
         protected internal virtual void OnCtrlTabStart(CtrlTabCancelEventArgs e)
         {
-            if (CtrlTabStart != null)
-            {
-                CtrlTabStart(this, e);
-            }
+            CtrlTabStart?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1887,10 +1815,7 @@ namespace Krypton.Navigator
         /// <param name="e">An CtrlTabCancelEventArgs containing event details.</param>
         protected internal virtual void OnCtrlTabWrap(CtrlTabCancelEventArgs e)
         {
-            if (CtrlTabWrap != null)
-            {
-                CtrlTabWrap(this, e);
-            }
+            CtrlTabWrap?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1899,10 +1824,7 @@ namespace Krypton.Navigator
         /// <param name="e">An KryptonPageEventArgs containing event details.</param>
         protected virtual void OnTabMouseHoverStart(KryptonPageEventArgs e)
         {
-            if (TabMouseHoverStart != null)
-            {
-                TabMouseHoverStart(this, e);
-            }
+            TabMouseHoverStart?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1911,10 +1833,7 @@ namespace Krypton.Navigator
         /// <param name="e">An EventArgs containing event details.</param>
         protected virtual void OnTabMouseHoverEnd(EventArgs e)
         {
-            if (TabMouseHoverEnd != null)
-            {
-                TabMouseHoverEnd(this, e);
-            }
+            TabMouseHoverEnd?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1923,10 +1842,7 @@ namespace Krypton.Navigator
         /// <param name="e">An TabMovedEventArgs containing event details.</param>
         protected internal virtual void OnTabMoved(TabMovedEventArgs e)
         {
-            if (TabMoved != null)
-            {
-                TabMoved(this, e);
-            }
+            TabMoved?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1935,10 +1851,7 @@ namespace Krypton.Navigator
         /// <param name="propertyName">Name of the property that has changed.</param>
         protected internal virtual void OnViewBuilderPropertyChanged(string propertyName)
         {
-            if (ViewBuilderPropertyChanged != null)
-            {
-                ViewBuilderPropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            ViewBuilderPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
@@ -2186,10 +2099,7 @@ namespace Krypton.Navigator
 
             if (!delayDelegate)
             {
-                if (finishDelegate != null)
-                {
-                    finishDelegate(this, EventArgs.Empty);
-                }
+                finishDelegate?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -2240,7 +2150,7 @@ namespace Krypton.Navigator
 
                 // Generate event allowing the DragPageNotify setting to be updated before the
                 // actual drag processing occurs. You can even cancel the drag entirely.
-                PageDragCancelEventArgs de = new(e.Point, e.Offset, e.Control, _dragPages)
+                var de = new PageDragCancelEventArgs(e.Point, e.Offset, e.Control, _dragPages)
                 {
                     Cancel = (!AllowPageDrag || !allowPageDrag)
                 };
@@ -2328,8 +2238,8 @@ namespace Krypton.Navigator
             Pages.Inserted += OnPageInserted;
             Pages.Removing += OnPageRemoving;
             Pages.Removed += OnPageRemoved;
-            Pages.Clearing += OnPageClearing!;
-            Pages.Cleared += OnPageCleared!;
+            Pages.Clearing += OnPageClearing;
+            Pages.Cleared += OnPageCleared;
 
             // Init fields used to notice a change in the page/page visible counts
             _cachePageCount = 0;
@@ -2366,7 +2276,7 @@ namespace Krypton.Navigator
             // can then populate it with the correct set of values dependent on the current pages
             if (Button.ContextButton.KryptonContextMenu != null)
             {
-                Button.ContextButton.KryptonContextMenu.Opening += OnOpeningContextMenu!;
+                Button.ContextButton.KryptonContextMenu.Opening += OnOpeningContextMenu;
             }
         }
 
@@ -2383,8 +2293,8 @@ namespace Krypton.Navigator
             }
 
             // We need to know when the layout cycle is starting/ending
-            ViewManager.LayoutBefore += OnViewManagerLayoutBefore!;
-            ViewManager.LayoutAfter += OnViewManagerLayoutAfter!;
+            ViewManager.LayoutBefore += OnViewManagerLayoutBefore;
+            ViewManager.LayoutAfter += OnViewManagerLayoutAfter;
         }
 
         private void CreateChildControl()
@@ -2406,7 +2316,7 @@ namespace Krypton.Navigator
             // We need to know whenever a control is removed from the child panel
             if (ChildPanel != null)
             {
-                ChildPanel.ControlRemoved += OnChildPanelControlRemoved!;
+                ChildPanel.ControlRemoved += OnChildPanelControlRemoved;
 
                 // Add panel to the controls collection
                 ((KryptonReadOnlyControls)Controls).AddInternal(ChildPanel);
@@ -2417,13 +2327,13 @@ namespace Krypton.Navigator
         {
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(ToolTipValues);
-            ToolTipManager.ShowToolTip += OnShowToolTip!;
-            ToolTipManager.CancelToolTip += OnCancelToolTip!;
+            ToolTipManager.ShowToolTip += OnShowToolTip;
+            ToolTipManager.CancelToolTip += OnCancelToolTip;
 
             // Create the manager for handling hovering
             HoverManager = new ToolTipManager(ToolTipValues);
-            HoverManager.ShowToolTip += OnStartHover!;
-            HoverManager.CancelToolTip += OnEndHover!;
+            HoverManager.ShowToolTip += OnStartHover;
+            HoverManager.CancelToolTip += OnEndHover;
         }
         #endregion
 
@@ -2439,9 +2349,9 @@ namespace Krypton.Navigator
                 // Hook into page events
                 if (e.Item != null)
                 {
-                    e.Item.VisibleChanged += OnPageVisibleChanged!;
-                    e.Item.EnabledChanged += OnPageEnabledChanged!;
-                    e.Item.AppearancePropertyChanged += OnPageAppearanceChanged!;
+                    e.Item.VisibleChanged += OnPageVisibleChanged;
+                    e.Item.EnabledChanged += OnPageEnabledChanged;
+                    e.Item.AppearancePropertyChanged += OnPageAppearanceChanged;
                     e.Item.FlagsChanged += OnPageFlagsChanged;
 
                     // Make the page inherit palette values from the navigator
@@ -2501,9 +2411,9 @@ namespace Krypton.Navigator
 
                 // Unhook from page events
                 e.Item.FlagsChanged -= OnPageFlagsChanged;
-                e.Item.AppearancePropertyChanged -= OnPageAppearanceChanged!;
-                e.Item.VisibleChanged -= OnPageVisibleChanged!;
-                e.Item.EnabledChanged -= OnPageEnabledChanged!;
+                e.Item.AppearancePropertyChanged -= OnPageAppearanceChanged;
+                e.Item.VisibleChanged -= OnPageVisibleChanged;
+                e.Item.EnabledChanged -= OnPageEnabledChanged;
 
                 // Remove page from the child panel
                 if (ChildPanel?.Controls.Contains(e.Item) == true)
@@ -2540,9 +2450,9 @@ namespace Krypton.Navigator
 
                 // Unhook from page events
                 page.FlagsChanged -= OnPageFlagsChanged;
-                page.AppearancePropertyChanged -= OnPageAppearanceChanged!;
-                page.VisibleChanged -= OnPageVisibleChanged!;
-                page.EnabledChanged -= OnPageEnabledChanged!;
+                page.AppearancePropertyChanged -= OnPageAppearanceChanged;
+                page.VisibleChanged -= OnPageVisibleChanged;
+                page.EnabledChanged -= OnPageEnabledChanged;
             }
         }
 
@@ -2729,7 +2639,7 @@ namespace Krypton.Navigator
                 }
 
                 // Create event information
-                KryptonPageCancelEventArgs args = new(next, Pages.IndexOf(next))
+                var args = new KryptonPageCancelEventArgs(next, Pages.IndexOf(next))
                 {
                     // Disabled pages default to not becoming selected
                     Cancel = !next.Enabled
@@ -2828,7 +2738,7 @@ namespace Krypton.Navigator
                     }
 
                     // Create event information
-                    KryptonPageCancelEventArgs args = new(next, Pages.IndexOf(next))
+                    var args = new KryptonPageCancelEventArgs(next, Pages.IndexOf(next))
                     {
 
                         // Disabled pages default to not becoming selected
@@ -2974,9 +2884,11 @@ namespace Krypton.Navigator
                             || page is { LastVisibleSet: true, Enabled: true })
                         {
                             // Add a vertical break after every 20 items
-                            if ((menuItems > 0) && ((menuItems % 20) == 0))
+                            if ((menuItems > 0) 
+                                && ((menuItems % 20) == 0)
+                                )
                             {
-                                KryptonContextMenuSeparator vertBreak = new()
+                                var vertBreak = new KryptonContextMenuSeparator
                                 {
                                     Horizontal = false
                                 };
@@ -2986,7 +2898,7 @@ namespace Krypton.Navigator
                             // Create a menu item for the page
                             var pageMenuItem = new KryptonContextMenuItem(page.GetTextMapping(Button.ContextMenuMapText),
                                                                                              page.GetImageMapping(Button.ContextMenuMapImage),
-                                                                                             OnContextMenuClick!)
+                                                                                             OnContextMenuClick)
                             {
 
                                 // Should the item be enabled?
@@ -3011,10 +2923,7 @@ namespace Krypton.Navigator
                                                                             Button.ContextButtonAction,
                                                                             contextMenu);
 
-                    if (ContextAction != null)
-                    {
-                        ContextAction(this, cae);
-                    }
+                    ContextAction?.Invoke(this, cae);
 
                     // Process the requested action
                     switch (cae.Action)
@@ -3116,7 +3025,7 @@ namespace Krypton.Navigator
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 
                         // Show relative to the provided screen point
                         _visualPopupToolTip.ShowCalculatingSize(e.ControlMousePosition);
@@ -3172,7 +3081,7 @@ namespace Krypton.Navigator
         {
             // Unhook events from the specific instance that generated event
             VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
@@ -3182,7 +3091,7 @@ namespace Krypton.Navigator
         {
             // Unhook events from the specific instance that generated event
             VisualPopupPage popupPage = (VisualPopupPage)sender;
-            popupPage.Disposed -= OnVisualPopupPageDisposed!;
+            popupPage.Disposed -= OnVisualPopupPageDisposed;
 
             // Not showing a popup page any more
             _visualPopupPage = null;

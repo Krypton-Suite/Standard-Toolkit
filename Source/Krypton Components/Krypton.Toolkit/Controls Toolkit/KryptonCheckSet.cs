@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs whenever the CheckedButton property has changed.")]
-        public event EventHandler CheckedButtonChanged;
+        public event EventHandler? CheckedButtonChanged;
         #endregion
 
         #region Identity

@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class KryptonRibbonActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -82,7 +82,7 @@ namespace Krypton.Ribbon
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_ribbon != null)

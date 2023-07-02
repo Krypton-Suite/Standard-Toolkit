@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when animation has moved another step.
         /// </summary>
-        public event EventHandler AnimateStep;
+        public event EventHandler? AnimateStep;
         #endregion
 
         #region Identity
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutScrollViewport:" + Id;
+            $"ViewLayoutScrollViewport:{Id}";
 
         #endregion
 

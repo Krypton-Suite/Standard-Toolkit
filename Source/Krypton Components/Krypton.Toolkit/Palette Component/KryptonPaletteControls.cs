@@ -41,7 +41,8 @@ namespace Krypton.Toolkit
             ControlCustom3 = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlCustom3, PaletteBorderStyle.ControlCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectDouble? redirectCommon = new(redirector, ControlCommon.StateDisabled, ControlCommon.StateNormal);
+            PaletteRedirectDouble redirectCommon =
+                new PaletteRedirectDouble(redirector, ControlCommon.StateDisabled, ControlCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             ControlClient.SetRedirector(redirectCommon);

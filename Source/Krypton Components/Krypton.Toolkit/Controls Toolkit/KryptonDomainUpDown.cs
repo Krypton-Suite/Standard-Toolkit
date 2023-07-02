@@ -38,12 +38,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalTextBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalTextBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -134,7 +134,7 @@ namespace Krypton.Toolkit
                         if (_kryptonDomainUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -195,12 +195,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalDomainUpDown.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalDomainUpDown.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
                         // Mouse is over the control
                         if (!MouseOver)
                         {
-                            PI.TRACKMOUSEEVENTS tme = new()
+                            PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
                             {
 
                                 // This structure needs to know its own size in bytes
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new();
+                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
                                 PaletteInputControlTripleStates states = DomainUpDown.GetTripleState();
 
                                 // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state)))
+                                using (SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state)))
                                 {
                                     g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
                                 }
@@ -398,7 +398,7 @@ namespace Krypton.Toolkit
                         if (DomainUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -534,14 +534,14 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new();
+                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
-                            Rectangle clientRect = new(rect.left, rect.top, rect.right - rect.left,
+                            Rectangle clientRect = new Rectangle(rect.left, rect.top, rect.right - rect.left,
                                 rect.bottom - rect.top);
 
                             try
@@ -562,7 +562,7 @@ namespace Krypton.Toolkit
                                         using Graphics g = Graphics.FromHdc(_screenDC);
                                         // Drawn entire client area in the background color
                                         using (SolidBrush backBrush =
-                                            new(DomainUpDown.DomainUpDown.BackColor))
+                                               new SolidBrush(DomainUpDown.DomainUpDown.BackColor))
                                         {
                                             g.FillRectangle(backBrush, clientRect);
                                         }
@@ -623,12 +623,14 @@ namespace Krypton.Toolkit
                 _palette.SetStyles(DomainUpDown.UpDownButtonStyle);
 
                 // Find button rectangles
-                Rectangle upRect = new(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
-                Rectangle downRect = new(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
+                Rectangle upRect = new Rectangle(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
+                Rectangle downRect = new Rectangle(clientRect.X, upRect.Bottom, clientRect.Width,
+                    clientRect.Bottom - upRect.Bottom);
 
                 // Position and draw the up/down buttons
-                using ViewLayoutContext layoutContext = new(DomainUpDown, DomainUpDown.Renderer);
-                using RenderContext renderContext = new(DomainUpDown, g, clientRect, DomainUpDown.Renderer);
+                using ViewLayoutContext layoutContext = new ViewLayoutContext(DomainUpDown, DomainUpDown.Renderer);
+                using RenderContext renderContext =
+                    new RenderContext(DomainUpDown, g, clientRect, DomainUpDown.Renderer);
                 // Up button
                 layoutContext.DisplayRectangle = upRect;
                 _viewButton.ElementState = ButtonElementState(upRect);
@@ -719,14 +721,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the value of the SelectedItem property changes.")]
-        public event EventHandler SelectedItemChanged;
+        public event EventHandler? SelectedItemChanged;
 
         /// <summary>
         /// Occurs when the user scrolls the scroll box.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the user scrolls the scroll box.")]
-        public event ScrollEventHandler Scroll;
+        public event ScrollEventHandler? Scroll;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -734,7 +736,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -742,42 +744,42 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the value of the PaddingChanged property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
         #endregion
 
         #region Identity
@@ -1701,7 +1703,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(120, PreferredHeight);
+        protected override Size DefaultSize => new Size(120, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -1967,7 +1969,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

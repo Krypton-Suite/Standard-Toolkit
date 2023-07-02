@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutMetricSpacer:" + Id;
+            $"ViewLayoutMetricSpacer:{Id}";
 
         #endregion
 

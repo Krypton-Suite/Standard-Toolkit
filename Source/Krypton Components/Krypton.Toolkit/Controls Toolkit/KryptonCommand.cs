@@ -44,14 +44,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the command needs executing.")]
-        public event EventHandler Execute;
+        public event EventHandler? Execute;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity

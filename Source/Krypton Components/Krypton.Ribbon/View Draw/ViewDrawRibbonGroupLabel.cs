@@ -86,7 +86,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupLabel:" + Id;
+            $@"ViewDrawRibbonGroupLabel:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -274,8 +274,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 _viewLarge.MouseController = controller;
             }
 
@@ -311,8 +311,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 _viewMediumSmall.MouseController = controller;
             }
 

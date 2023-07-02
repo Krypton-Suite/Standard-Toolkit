@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMonthDayNames:" + Id;
+            $"ViewDrawMonthDayNames:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Layout the 7 day names
-            Rectangle layoutRect = new(ClientLocation, _months.SizeDays);
+            Rectangle layoutRect = new Rectangle(ClientLocation, _months.SizeDays);
             for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
             {
                 // Define text to be drawn
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Draw the 7 day names
-            Rectangle drawRect = new(ClientLocation, _months.SizeDays);
+            Rectangle drawRect = new Rectangle(ClientLocation, _months.SizeDays);
             for(int i=0, day=(int)_months.DisplayDayOfWeek; i<7; i++, day++)
             {
                 // Draw using memento cached from the layout call

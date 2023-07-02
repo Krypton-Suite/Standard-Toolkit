@@ -81,16 +81,16 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public virtual void Construct([DisallowNull] KryptonNavigator navigator, 
             [DisallowNull] ViewManager manager,
-            [DisallowNull] PaletteRedirect? redirector)
+            [DisallowNull] PaletteRedirect redirector)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator != null, $"{nameof(navigator)} != null");
             Debug.Assert(manager != null);
             Debug.Assert(redirector != null);
             Debug.Assert(_constructed == false);
 
             // Save provided references
-            Navigator = navigator!;
-            ViewManager = manager!;
+            Navigator = navigator;
+            ViewManager = manager;
             Redirector = redirector;
             _constructed = true;
 
@@ -104,10 +104,10 @@ namespace Krypton.Navigator
         public virtual void Destruct()
         {
             Debug.Assert(_constructed);
-            Debug.Assert(Navigator != null);
+            Debug.Assert(Navigator != null, $"{nameof(Navigator)} != null");
 
             // Unhook from the navigator events
-            Navigator!.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
+            Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
 
             // No longer constructed
             _constructed = false;
@@ -490,7 +490,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new(true);
+                        var ce = new CtrlTabCancelEventArgs(true);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -529,7 +529,7 @@ namespace Krypton.Navigator
                         if ((next == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new(true);
+                            var ce = new CtrlTabCancelEventArgs(true);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)
@@ -589,7 +589,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new(false);
+                        var ce = new CtrlTabCancelEventArgs(false);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -628,7 +628,7 @@ namespace Krypton.Navigator
                         if ((previous == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new(false);
+                            var ce = new CtrlTabCancelEventArgs(false);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)
@@ -663,7 +663,7 @@ namespace Krypton.Navigator
             [DebuggerStepThrough]
             get =>
                 // Only create the delegate when it is first needed
-                _needPaintDelegate ??= OnNeedPaint!;
+                _needPaintDelegate ??= OnNeedPaint;
         }
 
         /// <summary>
@@ -714,8 +714,10 @@ namespace Krypton.Navigator
         protected virtual void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (Navigator.StateCommon == null)
+            {
                 return;
-            
+            }
+
             switch (e.PropertyName)
             {
                 case @"PanelBackStyle":
@@ -724,12 +726,18 @@ namespace Krypton.Navigator
                     break;
                 case @"PageBackStyle":
                     if (Navigator.StateCommon.PalettePage != null)
+                    {
                         Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
+                    }
+
                     Navigator.PerformNeedPagePaint(true);
                     break;
                 case @"GroupBackStyle":
                     if (Navigator.ChildPanel != null)
+                    {
                         Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
+                    }
+
                     Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
                     Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);

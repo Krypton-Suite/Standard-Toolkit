@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the check button has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
                 if (_menuCheckButton.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    var cea = new CancelEventArgs();
                     _menuCheckButton.Closing(cea);
 
                     if (!cea.Cancel)

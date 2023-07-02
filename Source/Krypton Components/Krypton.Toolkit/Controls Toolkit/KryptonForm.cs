@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Size CAPTION_ICON_SIZE = new(16, 16);
+        private static readonly Size CAPTION_ICON_SIZE = new Size(16, 16);
         private const int HT_CORNER = 8;
         // Drop shadow
         private const int CS_DROPSHADOW = 0x00020000;
@@ -535,7 +535,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just add to the docking edge requested
-                    _drawHeading.Add(element!, style);
+                    _drawHeading.Add(element, style);
                 }
             }
         }
@@ -569,7 +569,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just remove the specified elements
-                    _drawHeading.Remove(element!);
+                    _drawHeading.Remove(element);
                 }
             }
         }
@@ -1068,7 +1068,7 @@ namespace Krypton.Toolkit
                 return new IntPtr(PI.HT.CLIENT);
             }
 
-            using (ViewLayoutContext context = new(this, Renderer))
+            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
             {
                 // Discover if the form icon is being Displayed
                 if (_drawContent.IsImageDisplayed(context))
@@ -1194,12 +1194,12 @@ namespace Krypton.Toolkit
         /// <returns>True if the message was processed; otherwise false.</returns>
         protected override bool OnWM_NCLBUTTONDOWN(ref Message m)
         {
-            using ViewLayoutContext context = new(this, Renderer);
+            using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
             // Discover if the form icon is being Displayed
             if (_drawContent.IsImageDisplayed(context))
             {
                 // Extract the point in screen coordinates
-                Point screenPoint = new((int)m.LParam.ToInt64());
+                Point screenPoint = new Point((int)m.LParam.ToInt64());
 
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
@@ -1440,7 +1440,7 @@ namespace Krypton.Toolkit
                             _regionWindowState = WindowState;
 
                             // Get the path for the border so we can shape the form using it
-                            using RenderContext context = new(this, null, Bounds, Renderer);
+                            using RenderContext context = new RenderContext(this, null, Bounds, Renderer);
                             using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
                             if (!_firstCheckView)
                             {
@@ -1495,9 +1495,8 @@ namespace Krypton.Toolkit
                 Padding padding = RealWindowBorders;
 
                 // Reduce the Bounds by the padding on all but the top
-                Rectangle maximizedRect = new(padding.Left, padding.Left,
-                                                        Width - padding.Horizontal,
-                                                        Height - padding.Left - padding.Bottom);
+                Rectangle maximizedRect = new Rectangle(padding.Left, padding.Left, Width - padding.Horizontal,
+                    Height - padding.Left - padding.Bottom);
 
                 // Use this as the new region
                 SuspendPaint();
@@ -1609,7 +1608,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector!, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1814,7 +1813,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                WindowsPrincipal principal = new(WindowsIdentity.GetCurrent());
+                WindowsPrincipal principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
 
                 var hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
@@ -1844,7 +1843,7 @@ namespace Krypton.Toolkit
         public static void SetIsInAdministratorMode(bool value)
         {
             // TODO: @wagnerp: what is this supposed to be doing ?
-            KryptonForm form = new();
+            KryptonForm form = new KryptonForm();
 
             //form.IsInAdministratorMode = value;
         }
@@ -1854,7 +1853,7 @@ namespace Krypton.Toolkit
         public static bool GetIsInAdministratorMode()
         {
             // TODO: @wagnerp: what is this supposed to be doing ?
-            KryptonForm form = new();
+            KryptonForm form = new KryptonForm();
 
             return form.IsInAdministratorMode;
         }
@@ -1900,20 +1899,20 @@ namespace Krypton.Toolkit
         {
             if (_integratedToolBarItems != null)
             {
-                ButtonSpecAny newButtonSpec = new(),
-                    openButtonSpecAny = new(),
-                    saveButtonSpecAny = new(),
-                    saveAsButtonSpecAny = new(),
-                    saveAllButtonSpecAny = new(),
-                    cutButtonSpecAny = new(),
-                    copyButtonSpecAny = new(),
-                    pasteButtonSpecAny = new(),
-                    undoButtonSpecAny = new(),
-                    redoButtonSpecAny = new(),
-                    pageSetupButtonSpecAny = new(),
-                    printPreviewButtonSpecAny = new(),
-                    printButtonSpecAny = new(),
-                    quickPrintButtonSpecAny = new();
+                ButtonSpecAny newButtonSpec = new ButtonSpecAny(),
+                    openButtonSpecAny = new ButtonSpecAny(),
+                    saveButtonSpecAny = new ButtonSpecAny(),
+                    saveAsButtonSpecAny = new ButtonSpecAny(),
+                    saveAllButtonSpecAny = new ButtonSpecAny(),
+                    cutButtonSpecAny = new ButtonSpecAny(),
+                    copyButtonSpecAny = new ButtonSpecAny(),
+                    pasteButtonSpecAny = new ButtonSpecAny(),
+                    undoButtonSpecAny = new ButtonSpecAny(),
+                    redoButtonSpecAny = new ButtonSpecAny(),
+                    pageSetupButtonSpecAny = new ButtonSpecAny(),
+                    printPreviewButtonSpecAny = new ButtonSpecAny(),
+                    printButtonSpecAny = new ButtonSpecAny(),
+                    quickPrintButtonSpecAny = new ButtonSpecAny();
 
                 // Set up buttons
                 newButtonSpec.Type = PaletteButtonSpecStyle.New;

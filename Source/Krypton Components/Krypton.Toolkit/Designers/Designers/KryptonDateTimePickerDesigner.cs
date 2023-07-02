@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                DesignerActionListCollection actionLists = new DesignerActionListCollection
                 {
 
                     // Add the bread crumb specific list
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
                     _dateTimePicker.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new()
+                    ArrayList selectionList = new ArrayList
                     {
                         component
                     };

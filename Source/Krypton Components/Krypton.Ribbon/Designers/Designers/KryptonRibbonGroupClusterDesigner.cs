@@ -89,7 +89,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonCluster.Items);
                 return compound;
             }

@@ -38,7 +38,8 @@ namespace Krypton.Toolkit
             PanelCustom3 = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectBack? redirectCommon = new(redirector, PanelCommon.StateDisabled, PanelCommon.StateNormal);
+            PaletteRedirectBack redirectCommon =
+                new PaletteRedirectBack(redirector, PanelCommon.StateDisabled, PanelCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             PanelClient.SetRedirector(redirectCommon);

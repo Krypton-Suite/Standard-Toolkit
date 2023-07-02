@@ -50,11 +50,11 @@ namespace Krypton.Toolkit
         private static PropertyInfo? _cachedDesignModePI;
         private static MethodInfo? _cachedShortcutMI;
         private static NullContentValues? _nullContentValues;
-        private static readonly DoubleConverter _dc = new();
-        private static readonly SizeConverter _sc = new();
-        private static readonly PointConverter _pc = new();
-        private static readonly BooleanConverter _bc = new();
-        private static readonly ColorConverter _cc = new();
+        private static readonly DoubleConverter _dc = new DoubleConverter();
+        private static readonly SizeConverter _sc = new SizeConverter();
+        private static readonly PointConverter _pc = new PointConverter();
+        private static readonly BooleanConverter _bc = new BooleanConverter();
+        private static readonly ColorConverter _cc = new ColorConverter();
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(int.MaxValue, int.MaxValue);
+        } = new Point(int.MaxValue, int.MaxValue);
 
         /// <summary>
         /// Gets access to the global null rectangle value.
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(int.MaxValue, int.MaxValue, 0, 0);
+        } = new Rectangle(int.MaxValue, int.MaxValue, 0, 0);
 
         /// <summary>
         /// Color matrix used to adjust colors to look disabled.
@@ -83,15 +83,11 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(new[]
-            {
-                new[]{0.3f,0.3f,0.3f,0,0},
-                new[]{0.59f,0.59f,0.59f,0,0},
-                new[]{0.11f,0.11f,0.11f,0,0},
-                new[]{0,0,0,0.5f,0},
-                new float[]{0,0,0,0,1}
-            }
-            );
+        } = new ColorMatrix(new[]
+        {
+            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
+            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new[] { 0, 0, 0, 0.5f, 0 }, new float[] { 0, 0, 0, 0, 1 }
+        });
 
         /// <summary>
         /// Gets the next global identifier in sequence.
@@ -123,7 +119,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(-1);
+        } = new Padding(-1);
 
         /// <summary>
         /// Check a short cut menu for a matching short and invoke that item if found.
@@ -420,12 +416,12 @@ namespace Krypton.Toolkit
         public static object? PerformOperation(Operation op, object parameter)
         {
             // Create a modal window for showing feedback
-            using ModalWaitDialog wait = new();
+            using ModalWaitDialog wait = new ModalWaitDialog();
             // Create the object that runs the operation in a separate thread
-            OperationThread opThread = new(op, parameter);
+            OperationThread opThread = new OperationThread(op, parameter);
 
             // Create the actual thread and provide thread entry point
-            Thread thread = new(opThread.Run);
+            Thread thread = new Thread(opThread.Run);
 
             // Kick off the thread action
             thread.Start();
@@ -829,7 +825,7 @@ namespace Krypton.Toolkit
         /// <returns>GraphicsPath instance.</returns>
         public static GraphicsPath RoundedRectanglePath(Rectangle rect, int rounding)
         {
-            GraphicsPath roundedPath = new();
+            GraphicsPath roundedPath = new GraphicsPath();
 
             // Only use a rounding that will fit inside the rect
             rounding = Math.Min(rounding, Math.Min(rect.Width / 2, rect.Height / 2) - rounding);
@@ -843,7 +839,7 @@ namespace Krypton.Toolkit
             else
             {
                 // We create the path using a floating point rectangle
-                RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
+                RectangleF rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // The border is made of up a quarter of a circle arc, in each corner
                 var arcLength = rounding * 2;
@@ -1128,14 +1124,14 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c!.Parent != null)
+            if (c.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent!.Controls is KryptonControlCollection cc)
+            if (parent.Controls is KryptonControlCollection cc)
             {
                 cc.AddInternal(c);
             }
@@ -1155,7 +1151,7 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is inside a parent collection
-            if (c!.Parent != null)
+            if (c.Parent != null)
             {
                 // Then must use the internal method for adding a new instance
                 // If the control collection is one of our internal collections...
@@ -1178,7 +1174,7 @@ namespace Krypton.Toolkit
         /// <returns>Border sizing.</returns>
         public static Padding GetWindowBorders(CreateParams cp)
         {
-            PI.RECT rect = new()
+            PI.RECT rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
                 left = 0,
@@ -1231,7 +1227,7 @@ namespace Krypton.Toolkit
         {
             // Grab the actual current size of the window, this is more accurate than using
             // the 'this.Size' which is out of date when performing a resize of the window.
-            PI.RECT windowRect = new();
+            PI.RECT windowRect = new PI.RECT();
             PI.GetWindowRect(handle, ref windowRect);
 
             // Create rectangle that encloses the entire window
@@ -1357,7 +1353,7 @@ namespace Krypton.Toolkit
                 if (format.IndexOfAny(_singleDateFormat) == 0)
                 {
                     // Insert the percentage sign so it is a custom format and not a predefined one
-                    format = "%" + format;
+                    format = $"%{format}";
                 }
             }
 
@@ -1425,9 +1421,9 @@ namespace Krypton.Toolkit
         public static void LogOutput(string str)
         {
             // TODO: Make this thread aware !
-            FileInfo fi = new(Application.ExecutablePath);
-            using var writer = new StreamWriter(fi.DirectoryName + @"LogOutput.txt", true, Encoding.ASCII);
-            writer.Write(DateTime.Now.ToLongTimeString() + @" :  ");
+            FileInfo fi = new FileInfo(Application.ExecutablePath);
+            using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
+            writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
             writer.WriteLine(str);
             writer.Flush();
         }
@@ -1529,7 +1525,7 @@ namespace Krypton.Toolkit
         public static Point ClientMouseMessageToScreenPt(Message m)
         {
             // Extract the x and y mouse position from message
-            PI.POINTC clientPt = new()
+            PI.POINTC clientPt = new PI.POINTC
             {
                 x = PI.LOWORD((int)m.LParam),
                 y = PI.HIWORD((int)m.LParam)
@@ -1548,7 +1544,7 @@ namespace Krypton.Toolkit
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
-            PI.POINTC zeroPIPt = new()
+            PI.POINTC zeroPIPt = new PI.POINTC
             {
                 x = 0,
                 y = 0

@@ -87,7 +87,10 @@ namespace Krypton.Navigator
                 _moreButtons = new Bitmap(streamBlueUp, true);
             }
 
-            if (streamBlueDown != null) _fewerButtons = new Bitmap(streamBlueDown, true);
+            if (streamBlueDown != null)
+            {
+                _fewerButtons = new Bitmap(streamBlueDown, true);
+            }
         }
         #endregion
 
@@ -490,7 +493,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page!, property!);
+            base.PageAppearanceChanged(page, property);
         }
 
         /// <summary>
@@ -712,7 +715,7 @@ namespace Krypton.Navigator
                         if (control)
                         {
                             // Are we allowed to perform a Ctrl+Tab change in selection
-                            CtrlTabCancelEventArgs ce = new(!shift);
+                            var ce = new CtrlTabCancelEventArgs(!shift);
                             Navigator.OnCtrlTabStart(ce);
 
                             if (!ce.Cancel)
@@ -1168,7 +1171,7 @@ namespace Krypton.Navigator
             };
 
             // Use a separator to ensure a minimum size to the overflow area
-            ViewLayoutSeparator sep = new(0, 18)
+            var sep = new ViewLayoutSeparator(0, 18)
             {
                 Visible = false
             };
@@ -1225,7 +1228,7 @@ namespace Krypton.Navigator
                                                                         ViewDockStyle dockFar)
         {
             // Create the draw view element for the check button and provide page it represents
-            ViewDrawNavOutlookOverflow checkButton = new(Navigator, page, checkButtonOrient)
+            var checkButton = new ViewDrawNavOutlookOverflow(Navigator, page, checkButtonOrient)
             {
 
                 // Need to know when check button needs repainting
@@ -1661,7 +1664,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage? page in Navigator.Pages)
             {
                 // Create the draw view element for the check button and provide page it represents
-                ViewDrawNavOutlookStack checkButton = new(Navigator, page, checkButtonOrient);
+                var checkButton = new ViewDrawNavOutlookStack(Navigator, page, checkButtonOrient);
 
                 // Provide the drag rectangle when requested for this button
                 checkButton.ButtonDragRectangle += OnCheckButtonDragRect;
@@ -1679,7 +1682,7 @@ namespace Krypton.Navigator
                 checkButton.Checked = (Navigator.SelectedPage == page);
 
                 // Create the border edge for use next to the check button
-                ViewDrawBorderEdge buttonEdge = new(buttonEdgePalette, buttonEdgeOrient)
+                var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, buttonEdgeOrient)
                 {
                     Visible = showPage
                 };
@@ -1850,8 +1853,8 @@ namespace Krypton.Navigator
             if (!Navigator.IsDisposed && _events)
             {
                 // Create the view elements for the page
-                ViewDrawNavOutlookStack checkButtonStack = new(Navigator, e.Item, ResolveStackButtonOrientation());
-                ViewDrawNavOutlookOverflow checkButtonOverflow = new(Navigator, e.Item, ResolveOverflowButtonOrientation());
+                var checkButtonStack = new ViewDrawNavOutlookStack(Navigator, e.Item, ResolveStackButtonOrientation());
+                var checkButtonOverflow = new ViewDrawNavOutlookOverflow(Navigator, e.Item, ResolveOverflowButtonOrientation());
 
                 // Provide the drag rectangle when requested for this button
                 checkButtonStack.ButtonDragRectangle += OnCheckButtonDragRect;
@@ -1878,7 +1881,7 @@ namespace Krypton.Navigator
                                                                            Navigator.StateDisabled.BorderEdge);
 
                 // Create the border edge for use next to the check button
-                ViewDrawBorderEdge buttonEdge = new(buttonEdgePalette, Navigator.Outlook.Orientation)
+                var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, Navigator.Outlook.Orientation)
                 {
                     Visible = showPageStack
                 };
@@ -2054,23 +2057,13 @@ namespace Krypton.Navigator
         private ViewDrawNavCheckButtonBase? GetShrinkStackItem()
         {
             // If there is a visible stack item, then we can always shrink it away
-            if (_pageStackLookup != null)
-            {
-                return _pageStackLookup.Values.FirstOrDefault(static checkButton => checkButton.Visible);
-            }
-
-            return null;
+            return _pageStackLookup?.Values.FirstOrDefault(static checkButton => checkButton.Visible);
         }
 
         private ViewDrawNavCheckButtonBase? GetExpandOverflowItem()
         {
             // If there is a overflow stack item, then we can always show it
-            if (_pageOverflowLookup != null)
-            {
-                return _pageOverflowLookup.Values.FirstOrDefault(static checkButton => checkButton.Visible);
-            }
-
-            return null;
+            return _pageOverflowLookup?.Values.FirstOrDefault(static checkButton => checkButton.Visible);
         }
 
         private bool PageInTheStack(KryptonPage page)
@@ -2122,10 +2115,11 @@ namespace Krypton.Navigator
                 ResetCachedKryptonContextMenu();
 
                 // Add the three standard entries
-                KryptonContextMenuItem moreButtons = new(Navigator.Outlook.TextMoreButtons, _moreButtons, OnShowMoreClick);
-                KryptonContextMenuItem fewerButtons = new(Navigator.Outlook.TextFewerButtons, _fewerButtons, OnShowFewerClick);
-                KryptonContextMenuItem addRemoveButtons = new(Navigator.Outlook.TextAddRemoveButtons);
-                KryptonContextMenuItems addRemoveButtonItems = new();
+                var moreButtons = new KryptonContextMenuItem(Navigator.Outlook.TextMoreButtons, _moreButtons, OnShowMoreClick);
+                var fewerButtons = new KryptonContextMenuItem(Navigator.Outlook.TextFewerButtons,
+                    _fewerButtons, OnShowFewerClick);
+                var addRemoveButtons = new KryptonContextMenuItem(Navigator.Outlook.TextAddRemoveButtons);
+                var addRemoveButtonItems = new KryptonContextMenuItems();
                 addRemoveButtons.Items.Add(addRemoveButtonItems);
 
                 // Setup the transparent color for the images
@@ -2144,9 +2138,8 @@ namespace Krypton.Navigator
                 foreach (KryptonPage page in Navigator.Pages)
                 {
                     // Create a menu item for the page
-                    KryptonContextMenuItem pageMenuItem = new(page.GetTextMapping(Navigator.Button.ContextMenuMapText),
-                                                                                     page.GetImageMapping(Navigator.Button.ContextMenuMapImage),
-                                                                                     OnPageAddRemoveClick)
+                    var pageMenuItem = new KryptonContextMenuItem(page.GetTextMapping(Navigator.Button.ContextMenuMapText),
+                            page.GetImageMapping(Navigator.Button.ContextMenuMapImage), OnPageAddRemoveClick)
                     {
 
                         // The selected page should be checked
@@ -2241,7 +2234,9 @@ namespace Krypton.Navigator
 
             // Toggle the visible state of the page
             if (menuItem?.Tag is KryptonPage page)
+            {
                 page.Visible = !page.Visible;
+            }
         }
 
         private void ResetCachedKryptonContextMenu()
@@ -2315,7 +2310,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage? movePage = PageFromView(reorderView);
                                 KryptonPage? targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, false);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, false);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
@@ -2346,7 +2341,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage? movePage = PageFromView(reorderView);
                                 KryptonPage? targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, true);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, true);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);

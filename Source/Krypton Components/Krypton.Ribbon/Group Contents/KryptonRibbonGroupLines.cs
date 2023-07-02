@@ -38,119 +38,119 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time wants to add a button.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddButton;
+        public event EventHandler? DesignTimeAddButton;
 
         /// <summary>
         /// Occurs when the design time wants to add a color button.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddColorButton;
+        public event EventHandler? DesignTimeAddColorButton;
 
         /// <summary>
         /// Occurs when the design time wants to add a check box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddCheckBox;
+        public event EventHandler? DesignTimeAddCheckBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a radio button.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddRadioButton;
+        public event EventHandler? DesignTimeAddRadioButton;
 
         /// <summary>
         /// Occurs when the design time wants to add a label.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddLabel;
+        public event EventHandler? DesignTimeAddLabel;
 
         /// <summary>
         /// Occurs when the design time wants to add a custom control.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddCustomControl;
+        public event EventHandler? DesignTimeAddCustomControl;
 
         /// <summary>
         /// Occurs when the design time wants to add a cluster.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddCluster;
+        public event EventHandler? DesignTimeAddCluster;
 
         /// <summary>
         /// Occurs when the design time wants to add a text box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddTextBox;
+        public event EventHandler? DesignTimeAddTextBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a masked text box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddMaskedTextBox;
+        public event EventHandler? DesignTimeAddMaskedTextBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a rich text box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddRichTextBox;
+        public event EventHandler? DesignTimeAddRichTextBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a combobox.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddComboBox;
+        public event EventHandler? DesignTimeAddComboBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a numeric up down.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddNumericUpDown;
+        public event EventHandler? DesignTimeAddNumericUpDown;
 
         /// <summary>
         /// Occurs when the design time wants to add a domain up down.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddDomainUpDown;
+        public event EventHandler? DesignTimeAddDomainUpDown;
 
         /// <summary>
         /// Occurs when the design time wants to add a date time picker.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddDateTimePicker;
+        public event EventHandler? DesignTimeAddDateTimePicker;
 
         /// <summary>
         /// Occurs when the design time wants to add a track bar.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddTrackBar;
+        public event EventHandler? DesignTimeAddTrackBar;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
         #endregion
 

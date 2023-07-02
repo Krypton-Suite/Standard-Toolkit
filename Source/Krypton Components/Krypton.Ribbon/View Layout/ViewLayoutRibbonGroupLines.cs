@@ -100,14 +100,14 @@ namespace Krypton.Ribbon
             ApplySize(ribbonLines.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
-            _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
+            _ribbonLines.PropertyChanged += OnLinesPropertyChanged!;
             _ribbonLines.LinesView = this;
 
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new(this, needPaint);
-                controller.ContextClick += OnContextClick;
+                var controller = new ViewHightlightController(this, needPaint);
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
         }
@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGroupLines:" + Id;
+            $"ViewLayoutRibbonGroupLines:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -433,7 +433,7 @@ namespace Krypton.Ribbon
                 ((int)_ribbonLines.ItemSizeMinimum <= (int)GroupItemSize.Medium))
             {
                 ApplySize(GroupItemSize.Medium);
-                ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                var mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -459,7 +459,7 @@ namespace Krypton.Ribbon
             if (_ribbonLines.ItemSizeMinimum == GroupItemSize.Small)
             {
                 ApplySize(GroupItemSize.Small);
-                ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
+                var smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -727,8 +727,8 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ItemToView regenItemToView = new();
-            ViewToItem regenViewToItem = new();
+            var regenItemToView = new ItemToView();
+            var regenViewToItem = new ViewToItem();
 
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonLines.Items)

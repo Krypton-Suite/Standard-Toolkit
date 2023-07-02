@@ -58,7 +58,7 @@ namespace Krypton.Docking
             if (FloatspaceControl.CellVisibleCount > 0)
             {
                 // Create list of the pages that are allowed to be dropped into this floatspace
-                KryptonPageCollection pages = new();
+                var pages = new KryptonPageCollection();
                 if (dragData != null)
                 {
                     foreach (KryptonPage page in dragData.Pages)
@@ -182,7 +182,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceEventArgs args = new(FloatspaceControl, this);
+                var args = new FloatspaceEventArgs(FloatspaceControl, this);
                 dockingManager.RaiseFloatspaceRemoved(args);
             }
 
@@ -200,7 +200,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
+                var args = new FloatspaceCellEventArgs(FloatspaceControl, this, cell);
                 dockingManager.RaiseFloatspaceCellAdding(args);
             }
         }
@@ -215,7 +215,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
+                var args = new FloatspaceCellEventArgs(FloatspaceControl, this, cell);
                 dockingManager.RaiseFloatspaceCellRemoved(args);
             }
         }
@@ -233,7 +233,7 @@ namespace Krypton.Docking
             {
                 if (e.Page != null)
                 {
-                    CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
+                    var args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
                     dockingManager.RaisePageFloatingRequest(args);
 
                     // Pass back the result of the event

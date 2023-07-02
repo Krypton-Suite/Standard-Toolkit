@@ -134,10 +134,17 @@ namespace Krypton.Toolkit
                     // The screen, or PlacementRectangle if it is set. The PlacementRectangle is relative to the screen.
                     if (positionPlacementRectangle.IsEmpty)
                     {
-                        // PlacementTarget or parent.
-                        positionPlacementRectangle =
-                            position.PlacementTarget?.ClientRectangle ?? target.ClientRectangle;
-                        positionPlacementRectangle = (position.PlacementTarget?.OwningControl ?? target.OwningControl).RectangleToScreen(positionPlacementRectangle);
+                        var ctrl = (position.PlacementTarget?.OwningControl ?? target.OwningControl);
+                        if (ctrl is not null)
+                        {
+                            // PlacementTarget or parent.
+                            positionPlacementRectangle = position.PlacementTarget?.ClientRectangle ?? target.ClientRectangle;
+                            positionPlacementRectangle = ctrl.RectangleToScreen(positionPlacementRectangle);
+                        }
+                        else
+                        {
+                            positionPlacementRectangle = new Rectangle(controlMousePosition.X, controlMousePosition.Y, currentCursorHotSpot.X + 2, currentCursorHotSpot.Y + 2);
+                        }
                     }
                     else
                     {
@@ -228,7 +235,7 @@ namespace Krypton.Toolkit
             base.OnLayout(lEvent);
 
             // Need a render context for accessing the renderer
-            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            using RenderContext context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
             GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);

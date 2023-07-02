@@ -51,7 +51,8 @@ namespace Krypton.Toolkit
             _blockSize = colorColumns.BlockSize;
 
             // Use context menu specific version of the radio button controller
-            MenuColorBlockController mcbc = new(provider.ProviderViewManager, this, this, provider.ProviderNeedPaintDelegate);
+            MenuColorBlockController mcbc = new MenuColorBlockController(provider.ProviderViewManager, this, this,
+                provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
             MouseController = mcbc;
             KeyController = mcbc;
@@ -63,7 +64,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuColorBlock:" + Id;
+            $"ViewDrawMenuColorBlock:{Id}";
 
         #endregion
         
@@ -190,7 +191,7 @@ namespace Krypton.Toolkit
             }
 
             // Draw ourself in the designated color
-            using SolidBrush brush = new(Color);
+            using SolidBrush brush = new SolidBrush(Color);
             context.Graphics.FillRectangle(brush, drawRect);
         }
 
@@ -243,8 +244,8 @@ namespace Krypton.Toolkit
             if (!outside.IsEmpty && !inside.IsEmpty)
             {
                 // Draw the outside and inside areas of the block
-                using Pen outsidePen = new(outside),
-                    insidePen = new(inside);
+                using Pen outsidePen = new Pen(outside),
+                    insidePen = new Pen(inside);
                 context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
                 context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
             }

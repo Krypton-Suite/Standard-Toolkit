@@ -37,13 +37,13 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PaletteTextTrim.Inherit, KryptonLanguageManager.TextTrimStrings.Inherit),
-            new(PaletteTextTrim.Hide, KryptonLanguageManager.TextTrimStrings.Hide),
-            new(PaletteTextTrim.Character, KryptonLanguageManager.TextTrimStrings.Character),
-            new(PaletteTextTrim.Word, KryptonLanguageManager.TextTrimStrings.Word),
-            new(PaletteTextTrim.EllipsisCharacter, KryptonLanguageManager.TextTrimStrings.EllipsisCharacter),
-            new(PaletteTextTrim.EllipsisWord, KryptonLanguageManager.TextTrimStrings.EllipsisWord),
-            new(PaletteTextTrim.EllipsisPath, KryptonLanguageManager.TextTrimStrings.EllipsisPath)
+            new Pair(PaletteTextTrim.Inherit, KryptonLanguageManager.TextTrimStrings.Inherit),
+            new Pair(PaletteTextTrim.Hide, KryptonLanguageManager.TextTrimStrings.Hide),
+            new Pair(PaletteTextTrim.Character, KryptonLanguageManager.TextTrimStrings.Character),
+            new Pair(PaletteTextTrim.Word, KryptonLanguageManager.TextTrimStrings.Word),
+            new Pair(PaletteTextTrim.EllipsisCharacter, KryptonLanguageManager.TextTrimStrings.EllipsisCharacter),
+            new Pair(PaletteTextTrim.EllipsisWord, KryptonLanguageManager.TextTrimStrings.EllipsisWord),
+            new Pair(PaletteTextTrim.EllipsisPath, KryptonLanguageManager.TextTrimStrings.EllipsisPath)
         };
 
         #endregion

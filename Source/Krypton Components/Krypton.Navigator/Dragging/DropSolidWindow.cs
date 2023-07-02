@@ -108,7 +108,7 @@ namespace Krypton.Navigator
                 && (_renderer != null)
                 )
             {
-                using RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer);
+                using var context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer);
                 _renderer.RenderGlyph.DrawDragDropSolidGlyph(context, ClientRectangle, _paletteDragDrop);
             }
         }

@@ -76,9 +76,9 @@ namespace Krypton.Ribbon
                                                   _viewColumns, palette, paletteMode,
                                                   redirector, NeedPaintDelegate);
 
-            _provider.Closing += OnProviderClosing;
-            _provider.Close += OnProviderClose;
-            _provider.Dispose += OnProviderClose;
+            _provider.Closing += OnProviderClosing!;
+            _provider.Close += OnProviderClose!;
+            _provider.Dispose += OnProviderClose!;
 
             CreateAppButtonBottom();
             CreateButtonSpecView();
@@ -88,8 +88,6 @@ namespace Krypton.Ribbon
             CreateOuterBacking();
             CreateOutsideDocker();
             CreateButtonManager(appButton);
-
-            ViewManager.Root = _drawOutsideDocker;
 
             // With keyboard activate we select the first valid item
             if (keyboardActivated)
@@ -107,8 +105,8 @@ namespace Krypton.Ribbon
         private void CreateContextMenuView(RibbonAppButton appButton)
         {
             // Ask the top level collection to generate the child view elements
-            KryptonContextMenuCollection topCollection = new();
-            KryptonContextMenuItems topItems = new()
+            var topCollection = new KryptonContextMenuCollection();
+            var topItems = new KryptonContextMenuItems
             {
                 ImageColumn = false
             };
@@ -126,7 +124,7 @@ namespace Krypton.Ribbon
             if (_ribbon.RibbonAppButton.AppButtonShowRecentDocs)
             {
                 // Create a dummy vertical menu separator for separating recent documents from menu items
-                KryptonContextMenuSeparator dummySep1 = new()
+                var dummySep1 = new KryptonContextMenuSeparator
                 {
                     Horizontal = false
                 };
@@ -134,11 +132,11 @@ namespace Krypton.Ribbon
                 _viewColumns.Add(new ViewLayoutSeparator(0, _ribbon.RibbonAppButton.AppButtonMinRecentSize.Height));
 
                 // Use a layout that draws the background color of the recent docs area
-                ViewDrawRibbonAppMenuDocs recentDocsBack = new(_ribbon);
+                var recentDocsBack = new ViewDrawRibbonAppMenuDocs(_ribbon);
                 _viewColumns.Add(recentDocsBack);
 
                 // Stack the document entries vertically
-                ViewLayoutStack documentStack = new(false);
+                var documentStack = new ViewLayoutStack(false);
                 recentDocsBack.Add(documentStack);
 
                 // Use fixed width separator to enforce a minimum width to column
@@ -148,7 +146,7 @@ namespace Krypton.Ribbon
                 documentStack.Add(new ViewDrawRibbonRecentDocs(_ribbon));
 
                 // Followed by a horizontal separator
-                KryptonContextMenuSeparator dummySep2 = new();
+                var dummySep2 = new KryptonContextMenuSeparator();
                 documentStack.Add(new ViewDrawMenuSeparator(dummySep2, _provider.ProviderStateCommon.Separator));
                 documentStack.Add(new ViewLayoutSeparator(2));
 
@@ -169,7 +167,8 @@ namespace Krypton.Ribbon
 
         private ViewDrawCanvas CreateInsideCanvas()
         {
-            ViewDrawCanvas mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
+            var mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back,
+                _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
             {
                 _viewColumns
             };
@@ -221,6 +220,7 @@ namespace Krypton.Ribbon
                 KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager)
             };
             _drawOutsideDocker.Add(_drawOutsideBacking, ViewDockStyle.Fill);
+            ViewManager.Root = _drawOutsideDocker;
         }
 
         private void CreateButtonManager(RibbonAppButton appButton)
@@ -278,7 +278,7 @@ namespace Krypton.Ribbon
         {
             // Find the preferred size of the context menu if it could be any size it likes
             Size preferredSize = CalculatePreferredSize();
-            Rectangle preferredRect = new(screenRect.Location, preferredSize);
+            var preferredRect = new Rectangle(screenRect.Location, preferredSize);
 
             // Get the working area of the monitor that most of the screen rectangle is inside
             Rectangle workingArea = Screen.GetWorkingArea(preferredRect);
@@ -449,7 +449,7 @@ namespace Krypton.Ribbon
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
             GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
@@ -486,7 +486,7 @@ namespace Krypton.Ribbon
             try
             {
                 // Find the preferred size which fits exactly the calculated contents size
-                using ViewLayoutContext context = new(this, Renderer);
+                using var context = new ViewLayoutContext(this, Renderer);
                 return ViewManager.Root.GetPreferredSize(context);
             }
             finally
@@ -503,9 +503,9 @@ namespace Krypton.Ribbon
                 // Unhook from current palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= OnPaletteNeedPaint;
-                    _palette.BasePaletteChanged -= OnBaseChanged;
-                    _palette.BaseRendererChanged -= OnBaseChanged;
+                    _palette.PalettePaint -= OnPaletteNeedPaint!;
+                    _palette.BasePaletteChanged -= OnBaseChanged!;
+                    _palette.BaseRendererChanged -= OnBaseChanged!;
                 }
 
                 // Remember the new palette
@@ -520,9 +520,9 @@ namespace Krypton.Ribbon
                 // Hook to new palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint += OnPaletteNeedPaint;
-                    _palette.BasePaletteChanged += OnBaseChanged;
-                    _palette.BaseRendererChanged += OnBaseChanged;
+                    _palette.PalettePaint += OnPaletteNeedPaint!;
+                    _palette.BasePaletteChanged += OnBaseChanged!;
+                    _palette.BaseRendererChanged += OnBaseChanged!;
                 }
             }
         }
@@ -553,7 +553,7 @@ namespace Krypton.Ribbon
         {
             // Unhook from event source
             IContextMenuProvider provider = (IContextMenuProvider)sender;
-            _provider.Dispose -= OnProviderClose;
+            _provider.Dispose -= OnProviderClose!;
 
             // Kill this poup window
             Dispose();

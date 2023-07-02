@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the link is clicked.")]
-        public event EventHandler LinkClicked;
+        public event EventHandler? LinkClicked;
         #endregion
 
         #region Identity

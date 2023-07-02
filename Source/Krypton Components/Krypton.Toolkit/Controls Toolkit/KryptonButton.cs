@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the KryptonCommand property changes.")]
-        public event EventHandler KryptonCommandChanged;
+        public event EventHandler? KryptonCommandChanged;
         #endregion
 
         #region Identity
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
 
             _skipNextOpen = false;
 
-            _dropDownRectangle = new();
+            _dropDownRectangle = new Rectangle();
         }
         #endregion
 
@@ -563,10 +563,7 @@ namespace Krypton.Toolkit
 
                     Invalidate();
 
-                    if (Parent != null)
-                    {
-                        Parent.PerformLayout();
-                    }
+                    Parent?.PerformLayout();
                 }
             }
         }
@@ -622,7 +619,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -691,7 +688,7 @@ namespace Krypton.Toolkit
         protected override void OnClick(EventArgs e)
         {
             // Find the form this button is on
-            Form owner = FindForm();
+            Form? owner = FindForm();
 
             // If we find a valid owner
             if (owner != null)
@@ -825,11 +822,12 @@ namespace Krypton.Toolkit
 
             Rectangle bounds = ClientRectangle;
 
-            _dropDownRectangle = new(bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, BORDER_SIZE, DEFAULT_PUSH_BUTTON_WIDTH, bounds.Height - BORDER_SIZE * 2);
+            _dropDownRectangle = new Rectangle(bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, BORDER_SIZE, DEFAULT_PUSH_BUTTON_WIDTH, bounds.Height - BORDER_SIZE * 2);
 
             int internalBorder = BORDER_SIZE;
 
-            Rectangle focusRectangle = new(internalBorder, internalBorder, bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
+            Rectangle focusRectangle = new Rectangle(internalBorder, internalBorder,
+                bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
 
             PaletteBase? palette = KryptonManager.CurrentGlobalPalette;
 
@@ -837,9 +835,9 @@ namespace Krypton.Toolkit
 
             if (palette != null)
             {
-                shadow = new(palette.ColorTable.GripDark);
+                shadow = new Pen(palette.ColorTable.GripDark);
 
-                face = new(palette.ColorTable.GripLight);
+                face = new Pen(palette.ColorTable.GripLight);
             }
 
             if (RightToLeft == RightToLeft.Yes)
@@ -941,7 +939,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new(needPaint);
+        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
 
         /// <summary>
         /// Raises the KryptonCommandChanged event.
@@ -1030,7 +1028,7 @@ namespace Krypton.Toolkit
             {
                 int h = height ?? 16, w = width ?? 16;
 
-                Image? shield = SystemIcons.Shield.ToBitmap();
+                Image shield = SystemIcons.Shield.ToBitmap();
 
                 switch (shieldIconSize)
                 {
@@ -1117,11 +1115,13 @@ namespace Krypton.Toolkit
 
         private static void PaintArrow(Graphics graphics, Rectangle rectangle)
         {
-            Point midPoint = new(Convert.ToInt32(rectangle.Left + rectangle.Width / 2), Convert.ToInt32(rectangle.Top + rectangle.Height / 2));
+            Point midPoint = new Point(Convert.ToInt32(rectangle.Left + rectangle.Width / 2),
+                Convert.ToInt32(rectangle.Top + rectangle.Height / 2));
 
             midPoint.X += (rectangle.Width % 2);
 
-            Point[] arrow = new Point[] { new(midPoint.X - 2, midPoint.Y - 1), new(midPoint.X + 3, midPoint.Y - 1), new(midPoint.X, midPoint.Y + 2) };
+            Point[] arrow = new Point[] { new Point(midPoint.X - 2, midPoint.Y - 1),
+                new Point(midPoint.X + 3, midPoint.Y - 1), new Point(midPoint.X, midPoint.Y + 2) };
 
             graphics.FillPolygon(SystemBrushes.ControlText, arrow);
         }
@@ -1147,7 +1147,7 @@ namespace Krypton.Toolkit
             {
                 ContextMenuStrip.Closing += ContextMenuStrip_Closing;
 
-                ContextMenuStrip.Show(this, new(0, Height), ToolStripDropDownDirection.BelowRight);
+                ContextMenuStrip.Show(this, new Point(0, Height), ToolStripDropDownDirection.BelowRight);
             }
         }
 

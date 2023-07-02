@@ -44,12 +44,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
                 fmtRange.rc = rectToPrint;
                 fmtRange.rcPage = rectPage;
 
-                IntPtr wparam = new(1);
+                IntPtr wparam = new IntPtr(1);
 
                 //Get the pointer to the FORMATRANGE structure in memory
                 IntPtr lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
                         if (_kryptonRichTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -220,10 +220,10 @@ namespace Krypton.Toolkit
                             && (_kryptonRichTextBox.TextLength == 0)
                         )
                         {
-                            PI.PAINTSTRUCT ps = new();
+                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
-                            using (Graphics? g = Graphics.FromHdc(hdc))
+                            using (Graphics g = Graphics.FromHdc(hdc))
                             {
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
                                 var states = _kryptonRichTextBox.GetTripleState();
 
                                 // Drawn entire client area in the background color
-                                using SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state));
+                                using SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
                                 // Go perform the drawing of the CueHint
                                 _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, rect, backBrush);
                             }
@@ -326,70 +326,70 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the value of the AcceptsTab property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler AcceptsTabChanged;
+        public event EventHandler? AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
         [Description(@"Occurs when the value of the HideSelection property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler HideSelectionChanged;
+        public event EventHandler? HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Modified property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ModifiedChanged;
+        public event EventHandler? ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Multiline property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler MultilineChanged;
+        public event EventHandler? MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ReadOnly property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ReadOnlyChanged;
+        public event EventHandler? ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the current selection has changed.
         /// </summary>
         [Description(@"Occurs when the current selection has changed.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectionChanged;
+        public event EventHandler? SelectionChanged;
 
         /// <summary>
         /// Occurs when the user takes an action that would change a protected range of text.
         /// </summary>
         [Description(@"Occurs when the user takes an action that would change a protected range of text.")]
         [Category(@"Behavior")]
-        public event EventHandler Protected;
+        public event EventHandler? Protected;
 
         /// <summary>
         /// Occurs when a hyperlink in the text is clicked.
         /// </summary>
         [Description(@"Occurs when a hyperlink in the text is clicked.")]
         [Category(@"Behavior")]
-        public event LinkClickedEventHandler LinkClicked;
+        public event LinkClickedEventHandler? LinkClicked;
 
         /// <summary>
         /// Occurs when the horizontal scroll bar is clicked.
         /// </summary>
         [Description(@"Occurs when the horizontal scroll bar is clicked.")]
         [Category(@"Behavior")]
-        public event EventHandler HScroll;
+        public event EventHandler? HScroll;
 
         /// <summary>
         /// Occurs when the vertical scroll bar is clicked.
         /// </summary>
         [Description(@"Occurs when the vertical scroll bar is clicked.")]
         [Category(@"Behavior")]
-        public event EventHandler VScroll;
+        public event EventHandler? VScroll;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -405,35 +405,35 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
         #endregion
 
         #region Identity
@@ -2007,7 +2007,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(100, 96);
+        protected override Size DefaultSize => new Size(100, 96);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -2240,7 +2240,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

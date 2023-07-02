@@ -38,13 +38,13 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(InputControlStyle.Standalone, KryptonLanguageManager.InputControlStyles.Standalone),
-            new(InputControlStyle.Ribbon, KryptonLanguageManager.InputControlStyles.Ribbon),
-            new(InputControlStyle.Custom1, KryptonLanguageManager.InputControlStyles.CustomOne),
-            new(InputControlStyle.Custom2, KryptonLanguageManager.InputControlStyles.CustomTwo),
-            new(InputControlStyle.Custom3, KryptonLanguageManager.InputControlStyles.CustomThree),
-            new(InputControlStyle.PanelClient, KryptonLanguageManager.InputControlStyles.PanelClient),
-            new(InputControlStyle.PanelAlternate, KryptonLanguageManager.InputControlStyles.PanelAlternate),
+            new Pair(InputControlStyle.Standalone, KryptonLanguageManager.InputControlStyles.Standalone),
+            new Pair(InputControlStyle.Ribbon, KryptonLanguageManager.InputControlStyles.Ribbon),
+            new Pair(InputControlStyle.Custom1, KryptonLanguageManager.InputControlStyles.CustomOne),
+            new Pair(InputControlStyle.Custom2, KryptonLanguageManager.InputControlStyles.CustomTwo),
+            new Pair(InputControlStyle.Custom3, KryptonLanguageManager.InputControlStyles.CustomThree),
+            new Pair(InputControlStyle.PanelClient, KryptonLanguageManager.InputControlStyles.PanelClient),
+            new Pair(InputControlStyle.PanelAlternate, KryptonLanguageManager.InputControlStyles.PanelAlternate),
             // new(InputControlStyle.Disabled, "Disabled")
         };
 

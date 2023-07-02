@@ -37,12 +37,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when a click portion is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the user right clicks the view.
         /// </summary>
-        public event MouseEventHandler ContextClick;
+        public event MouseEventHandler? ContextClick;
         #endregion
 
         #region Identity

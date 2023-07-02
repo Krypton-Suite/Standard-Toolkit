@@ -39,15 +39,15 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(TabStyle.HighProfile, KryptonLanguageManager.TabStyles.HighProfile),
-            new(TabStyle.StandardProfile, KryptonLanguageManager.TabStyles.StandardProfile),
-            new(TabStyle.LowProfile, KryptonLanguageManager.TabStyles.LowProfile),
-            new(TabStyle.OneNote, KryptonLanguageManager.TabStyles.OneNote),
-            new(TabStyle.Dock, KryptonLanguageManager.TabStyles.Dock),
-            new(TabStyle.DockAutoHidden, KryptonLanguageManager.TabStyles.DockAutoHidden),
-            new(TabStyle.Custom1, KryptonLanguageManager.TabStyles.Custom1),
-            new(TabStyle.Custom2, KryptonLanguageManager.TabStyles.Custom2),
-            new(TabStyle.Custom3, KryptonLanguageManager.TabStyles.Custom3)
+            new Pair(TabStyle.HighProfile, KryptonLanguageManager.TabStyles.HighProfile),
+            new Pair(TabStyle.StandardProfile, KryptonLanguageManager.TabStyles.StandardProfile),
+            new Pair(TabStyle.LowProfile, KryptonLanguageManager.TabStyles.LowProfile),
+            new Pair(TabStyle.OneNote, KryptonLanguageManager.TabStyles.OneNote),
+            new Pair(TabStyle.Dock, KryptonLanguageManager.TabStyles.Dock),
+            new Pair(TabStyle.DockAutoHidden, KryptonLanguageManager.TabStyles.DockAutoHidden),
+            new Pair(TabStyle.Custom1, KryptonLanguageManager.TabStyles.Custom1),
+            new Pair(TabStyle.Custom2, KryptonLanguageManager.TabStyles.Custom2),
+            new Pair(TabStyle.Custom3, KryptonLanguageManager.TabStyles.Custom3)
         };
 
         #endregion

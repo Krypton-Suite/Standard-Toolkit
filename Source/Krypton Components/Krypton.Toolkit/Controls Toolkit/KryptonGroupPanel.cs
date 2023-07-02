@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler AutoSizeChanged;
+        public new event EventHandler? AutoSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the Dock property changes.
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler DockChanged;
+        public new event EventHandler? DockChanged;
 
         /// <summary>
         /// Occurs when the value of the Location property changes.
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler LocationChanged;
+        public new event EventHandler? LocationChanged;
 
         /// <summary>
         /// Occurs when the value of the TabIndex property changes.
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabIndexChanged;
+        public new event EventHandler? TabIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the TabStop property changes.
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabStopChanged;
+        public new event EventHandler? TabStopChanged;
 
         /// <summary>
         /// Occurs when the value of the Visible property changes.
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler VisibleChanged;
+        public new event EventHandler? VisibleChanged;
         #endregion
 
         #region Identity
@@ -363,7 +363,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the space, in pixels, that is specified by default between controls.
         /// </summary>
-        protected override Padding DefaultMargin => new(0, 0, 0, 0);
+        protected override Padding DefaultMargin => new Padding(0, 0, 0, 0);
 
         /// <summary>
         /// Raises the Layout event.

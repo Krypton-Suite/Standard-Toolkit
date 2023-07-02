@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
 
             // Need controller to handle tracking/pressing etc
             _controller = new GalleryItemController(this, layout, needPaint);
-            _controller.Click += OnItemClick;
+            _controller.Click += OnItemClick!;
             MouseController = _controller;
             SourceController = _controller;
             KeyController = _controller;
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGalleryItem:" + Id;
+            $@"ViewDrawRibbonGalleryItem:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

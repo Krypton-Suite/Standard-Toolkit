@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event EventHandler SyncPropertyChanged;
+        public event EventHandler? SyncPropertyChanged;
         #endregion
 
         #region IsDefault

@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonCompoRightBorder:" + Id;
+            $@"ViewDrawRibbonCompoRightBorder:{Id}";
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // We need an owning form to perform calculations
             if (CompOwnerForm is { ApplyCustomChrome: true, ApplyComposition: true })
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Create structure that will be populated by call to WM_GETTITLEBARINFOEX
-                    PI.TITLEBARINFOEX tbi = new();
+                    var tbi = new PI.TITLEBARINFOEX();
                     tbi.cbSize = (uint) Marshal.SizeOf(tbi);
 
                     // Ask the window for the title bar information

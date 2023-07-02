@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the Palette property is changed.")]
-        public event EventHandler PaletteChanged;
+        public event EventHandler? PaletteChanged;
         #endregion
 
         #region Identity
@@ -629,7 +629,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        private PaletteRedirect CreateRedirector() => new(_palette);
+        private PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
         /// <summary>
         /// Update the view elements based on the requested label style.
@@ -714,7 +714,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)(long)m.LParam) == -1)

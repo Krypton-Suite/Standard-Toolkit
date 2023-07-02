@@ -49,14 +49,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the users clicks the footer hyperlink.")]
-        public event EventHandler FooterHyperlinkClicked;
+        public event EventHandler? FooterHyperlinkClicked;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -507,7 +507,7 @@ namespace Krypton.Toolkit
                                         TaskDialogButtons commonButtons)
         {
             // Create a temporary task dialog for storing definition whilst showing
-            using KryptonTaskDialog taskDialog = new();
+            using KryptonTaskDialog taskDialog = new KryptonTaskDialog();
             // Store incoming values
             taskDialog.WindowTitle = windowTitle;
             taskDialog.MainInstruction = mainInstruction;

@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
                         if (mcs != null)
                         {
                             // Get the min/restore/close internal menu items
-                            Type? mcsType = mcs.GetType();
+                            Type mcsType = mcs.GetType();
                             FieldInfo? fiM = mcsType.GetField("minimize", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
                             FieldInfo? fiR = mcsType.GetField("restore", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
                             FieldInfo? fiC = mcsType.GetField("close", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
@@ -97,9 +97,9 @@ namespace Krypton.Toolkit
                                         // Finally we actually have an image to draw!
                                         if (paletteImage != null)
                                         {
-                                            using ImageAttributes? attribs = new();
+                                            using ImageAttributes attribs = new ImageAttributes();
                                             // Setup mapping to make required color transparent
-                                            ColorMap? remap = new()
+                                            ColorMap remap = new ColorMap
                                             {
                                                 OldColor = transparentColor,
                                                 NewColor = Color.Transparent

@@ -44,21 +44,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over an image.")]
-        public event EventHandler<ImageSelectEventArgs> TrackingImage;
+        public event EventHandler<ImageSelectEventArgs>? TrackingImage;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when an image is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         #endregion
 

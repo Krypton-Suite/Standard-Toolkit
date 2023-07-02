@@ -49,12 +49,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the mouse is used to left select the target.
         /// </summary>
-        public event MouseEventHandler MouseSelect;
+        public event MouseEventHandler? MouseSelect;
         #endregion
 
         #region Identity
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMonthUpDown:" + Id;
+            $"ViewDrawMonthUpDown:{Id}";
 
         #endregion
 
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We want to be as wide as drop down buttons on standard controls
-            new (SystemInformation.VerticalScrollBarWidth - 2, 0);
+            new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
 
         /// <summary>
         /// Perform a layout of the elements.

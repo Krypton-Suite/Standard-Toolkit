@@ -129,7 +129,7 @@ namespace Krypton.Workspace
         /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_workspace != null)

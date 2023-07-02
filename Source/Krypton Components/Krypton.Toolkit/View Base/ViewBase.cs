@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         private PaletteState _fixedState;
         private PaletteState _elementState;
 
-        private Control _owningControl;
+        private Control? _owningControl;
         private float _factorDpiY;
         private float _factorDpiX;
 
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewBase:" + Id;
+            $@"ViewBase:{Id}";
 
         #endregion
 
@@ -118,9 +118,20 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a reference to the control instance that contains this view element.
         /// </summary>
-        public virtual Control OwningControl
+        public virtual Control? OwningControl
         {
-            get => _owningControl;
+            get
+            {
+                Control? owningCrl = _owningControl;
+                ViewBase? parent = Parent;
+                while (owningCrl is null
+                    && parent is not null)
+                {
+                    owningCrl = parent.OwningControl;
+                    parent = parent.Parent;
+                }
+                return owningCrl;
+            }
 
             set => _owningControl = value;
         }

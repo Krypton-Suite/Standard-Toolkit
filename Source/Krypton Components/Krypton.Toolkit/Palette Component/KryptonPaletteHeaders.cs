@@ -40,9 +40,9 @@ namespace Krypton.Toolkit
             HeaderCustom3 = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderCustom3, PaletteBorderStyle.HeaderCustom3, PaletteContentStyle.HeaderCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTripleMetric? redirectCommon = new(redirector, 
-                                                                         HeaderCommon.StateDisabled, HeaderCommon.StateDisabled,
-                                                                         HeaderCommon.StateNormal, HeaderCommon.StateNormal);
+            PaletteRedirectTripleMetric redirectCommon = new PaletteRedirectTripleMetric(redirector,
+                HeaderCommon.StateDisabled, HeaderCommon.StateDisabled, HeaderCommon.StateNormal,
+                HeaderCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             HeaderPrimary.SetRedirector(redirectCommon);

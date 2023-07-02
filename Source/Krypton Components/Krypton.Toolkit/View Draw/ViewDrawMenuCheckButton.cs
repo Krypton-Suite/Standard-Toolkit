@@ -83,7 +83,8 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the check box controller
-            MenuCheckButtonController mcbc = new(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
+            MenuCheckButtonController mcbc = new MenuCheckButtonController(provider.ProviderViewManager, _innerDocker,
+                this, provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
             _innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
@@ -108,7 +109,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuCheckButton:" + Id;
+            $"ViewDrawMenuCheckButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

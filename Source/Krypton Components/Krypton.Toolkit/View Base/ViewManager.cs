@@ -176,11 +176,8 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using ViewLayoutContext context = new(this,
-                    Control,
-                    AlignControl,
-                    renderer,
-                    proposedSize);
+                using ViewLayoutContext context = new ViewLayoutContext(this,
+                    Control, AlignControl, renderer, proposedSize);
                 retSize = Root.GetPreferredSize(context);
             }
 
@@ -217,10 +214,7 @@ namespace Krypton.Toolkit
             }
 
             // Create a layout context for calculating size and positioning
-            using ViewContext context = new(this,
-                Control,
-                AlignControl,
-                renderer);
+            using ViewContext context = new ViewContext(this, Control, AlignControl, renderer);
             // Ask the view to perform operation
             return Root.EvalTransparentPaint(context);
         }
@@ -299,10 +293,7 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using ViewLayoutContext context = new(this,
-                    Control,
-                    AlignControl,
-                    renderer);
+                using ViewLayoutContext context = new ViewLayoutContext(this, Control, AlignControl, renderer);
                 Layout(context);
             }
         }
@@ -389,12 +380,8 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a render context for drawing the view
-                using RenderContext context = new(this,
-                    Control,
-                    AlignControl,
-                    e.Graphics,
-                    e.ClipRectangle,
-                    renderer);
+                using RenderContext context = new RenderContext(this,
+                    Control, AlignControl, e.Graphics, e.ClipRectangle, renderer);
                 Paint(context);
             }
         }
@@ -462,7 +449,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new(e.X, e.Y);
+            Point pt = new Point(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -487,7 +474,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new(e.X, e.Y);
+            Point pt = new Point(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -518,7 +505,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new(e.X, e.Y);
+            Point pt = new Point(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);

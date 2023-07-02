@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the print button spec.")]
         public ButtonSpecAny? ToolBarPrintButton
         {
-            get => _printButtonSpec ?? new();
+            get => _printButtonSpec ?? new ButtonSpecAny();
             set { _printButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); UpdateButtonSpec(); }
         }
 
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarPrintCommand" /> class.</summary>
         public KryptonIntegratedToolbarPrintCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             _style = PaletteButtonSpecStyle.Print;
 

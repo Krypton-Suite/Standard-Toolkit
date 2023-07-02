@@ -32,10 +32,12 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new(ButtonDisplay.Hide,           "Hide"),
-            new(ButtonDisplay.ShowDisabled,   "Show Disabled"),
-            new(ButtonDisplay.ShowEnabled,    "Show Enabled"),
-            new(ButtonDisplay.Logic,          "Logic") };
+        {
+            new Pair(ButtonDisplay.Hide, "Hide"), 
+            new Pair(ButtonDisplay.ShowDisabled, "Show Disabled"),
+            new Pair(ButtonDisplay.ShowEnabled, "Show Enabled"), 
+            new Pair(ButtonDisplay.Logic, "Logic")
+        };
 
         #endregion
     }

@@ -74,7 +74,7 @@ namespace Krypton.Docking
                 KryptonDockingManager? dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
-                    DockableWorkspaceEventArgs args = new(DockableWorkspaceControl, this);
+                    var args = new DockableWorkspaceEventArgs(DockableWorkspaceControl, this);
                     dockingManager.RaiseDockableWorkspaceAdded(args);
                 }
             }
@@ -168,7 +168,7 @@ namespace Krypton.Docking
                     }
                 }
 
-                using DockingMultiUpdate update = new(this);
+                using var update = new DockingMultiUpdate(this);
                 base.PropogateAction(DockingPropogateAction.ShowPages, uniqueNames);
             }
         }
@@ -178,7 +178,7 @@ namespace Krypton.Docking
         /// </summary>
         public void ShowAllPages()
         {
-            using DockingMultiUpdate update = new(this);
+            using var update = new DockingMultiUpdate(this);
             base.PropogateAction(DockingPropogateAction.ShowAllPages, null as string[]);
         }
 
@@ -274,7 +274,7 @@ namespace Krypton.Docking
                     }
                 }
 
-                using DockingMultiUpdate update = new(this);
+                using var update = new DockingMultiUpdate(this);
                 base.PropogateAction(DockingPropogateAction.HidePages, uniqueNames);
             }
         }
@@ -284,7 +284,7 @@ namespace Krypton.Docking
         /// </summary>
         public void HideAllPages()
         {
-            using DockingMultiUpdate update = new(this);
+            using var update = new DockingMultiUpdate(this);
             base.PropogateAction(DockingPropogateAction.HideAllPages, null as string[]);
         }
 
@@ -372,7 +372,7 @@ namespace Krypton.Docking
                 }
 
                 // Remove page details from all parts of the hierarchy
-                using DockingMultiUpdate update = new(this);
+                using var update = new DockingMultiUpdate(this);
                 base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposePages : DockingPropogateAction.RemovePages, uniqueNames);
             }
         }
@@ -384,7 +384,7 @@ namespace Krypton.Docking
         public void RemoveAllPages(bool disposePage)
         {
             // Remove all details about all pages from all parts of the hierarchy
-            using DockingMultiUpdate update = new(this);
+            using var update = new DockingMultiUpdate(this);
             base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposeAllPages : DockingPropogateAction.RemoveAllPages, null as string[]);
         }
 
@@ -420,7 +420,7 @@ namespace Krypton.Docking
                                                   DragTargetList targets)
         {
             // Create list of the pages that are allowed to be dropped into this workspace
-            KryptonPageCollection pages = new();
+            var pages = new KryptonPageCollection();
             if (dragData != null)
             {
                 foreach (KryptonPage page in dragData.Pages.Where(static page =>
@@ -521,7 +521,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockableWorkspaceEventArgs args = new(DockableWorkspaceControl, this);
+                var args = new DockableWorkspaceEventArgs(DockableWorkspaceControl, this);
                 dockingManager.RaiseDockableWorkspaceRemoved(args);
             }
         }
@@ -538,7 +538,7 @@ namespace Krypton.Docking
             {
                 if (DockableWorkspaceControl != null)
                 {
-                    DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
+                    var args = new DockableWorkspaceCellEventArgs(DockableWorkspaceControl, this, cell);
                     dockingManager.RaiseDockableWorkspaceCellAdding(args);
                 }
             }
@@ -556,7 +556,7 @@ namespace Krypton.Docking
             {
                 if (DockableWorkspaceControl != null)
                 {
-                    DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
+                    var args = new DockableWorkspaceCellEventArgs(DockableWorkspaceControl, this, cell);
                     dockingManager.RaiseDockableWorkspaceCellRemoved(args);
                 }
             }
@@ -575,7 +575,7 @@ namespace Krypton.Docking
             {
                 if (e.Page != null)
                 {
-                    CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
+                    var args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
                     dockingManager.RaisePageWorkspaceRequest(args);
 
                     // Pass back the result of the event

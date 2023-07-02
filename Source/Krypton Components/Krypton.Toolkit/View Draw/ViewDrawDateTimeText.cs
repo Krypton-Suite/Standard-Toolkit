@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
             /// <returns>User readable name of the instance.</returns>
             public override string ToString()
             {
-                StringBuilder ret = new();
+                StringBuilder ret = new StringBuilder();
                 foreach (FormatFragment fmt in _fragments)
                 {
                     ret.Append(fmt.GetDisplay(DateTime));
@@ -406,7 +406,7 @@ namespace Krypton.Toolkit
                                 if (!HasActiveFragment)
                                 {
                                     // Use evnet to show that we are overflowing
-                                    CancelEventArgs cea = new();
+                                    CancelEventArgs cea = new CancelEventArgs();
                                     _timeText.OnAutoShiftOverflow(cea);
 
                                     // Event might be cancelled so check we want to overflow
@@ -452,7 +452,7 @@ namespace Krypton.Toolkit
                                 if (!HasActiveFragment)
                                 {
                                     // Use evnet to show that we are overflowing
-                                    CancelEventArgs cea = new();
+                                    CancelEventArgs cea = new CancelEventArgs();
                                     _timeText.OnAutoShiftOverflow(cea);
 
                                     // Event might be cancelled so check we want to overflow
@@ -549,7 +549,8 @@ namespace Krypton.Toolkit
                                 totalWidth = rect.Width;
                             }
 
-                            Rectangle drawText = new(rect.X + lastTotalWidth, rect.Y, totalWidth - lastTotalWidth, rect.Height);
+                            Rectangle drawText = new Rectangle(rect.X + lastTotalWidth, rect.Y,
+                                totalWidth - lastTotalWidth, rect.Height);
                             if (drawText.Width > 0)
                             {
                                 // If we need to draw a focus indication?
@@ -566,7 +567,7 @@ namespace Krypton.Toolkit
                                         }
                                         else
                                         {
-                                            using (SolidBrush fillBrush = new(foreColor))
+                                            using (SolidBrush fillBrush = new SolidBrush(foreColor))
                                             {
                                                 context.Graphics.FillRectangle(fillBrush, drawText);
                                             }
@@ -647,7 +648,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Update format with details of the ranges to measure
-                StringFormat measureFormat = new(StringFormatFlags.FitBlackBox);
+                StringFormat measureFormat = new StringFormat(StringFormatFlags.FitBlackBox);
                 measureFormat.SetMeasurableCharacterRanges(charRanges);
 
                 // Perform measuring using the output of the last fragment (last frag must be the whole output string)
@@ -662,7 +663,7 @@ namespace Krypton.Toolkit
 
             private FormatFragmentList ParseFormatToFragments(string format)
             {
-                FormatFragmentList fragList = new();
+                FormatFragmentList fragList = new FormatFragmentList();
 
                 // Grab the string used for formatting
                 var length = format.Length;
@@ -851,7 +852,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="dt">DateTime to format.</param>
             /// <returns>Display string.</returns>
-            public virtual string GetDisplay(DateTime dt) => FragFormat.Length == 1 ? dt.ToString("\\" + FragFormat) : dt.ToString(FragFormat);
+            public virtual string GetDisplay(DateTime dt) => FragFormat.Length == 1 ? dt.ToString($"\\{FragFormat}") : dt.ToString(FragFormat);
 
             /// <summary>
             /// Increment the current fragment value.
@@ -903,7 +904,7 @@ namespace Krypton.Toolkit
             /// Output a text representation of the fragment.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString() => base.ToString() + " (" + _fragFormat + ")";
+            public override string ToString() => $"{base.ToString()} ({_fragFormat})";
 
             #endregion
 
@@ -1261,7 +1262,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly RectangleF _measureRect = new(0, 0, 1000, 1000);
+        private static readonly RectangleF _measureRect = new RectangleF(0, 0, 1000, 1000);
         private const TextFormatFlags MEASURE_FLAGS = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
         private const TextFormatFlags DRAW_LEFT_FLAGS = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
 
@@ -1644,7 +1645,7 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Ask the format handler to perform actual rendering of the text
-            using Clipping clipped = new(context.Graphics, ClientRectangle);
+            using Clipping clipped = new Clipping(context.Graphics, ClientRectangle);
             _formatHandler.Render(context, GetFont(), ClientRectangle,
                 GetTextColor(), GetBackColor(),
                 _dateTimePicker.Checked);

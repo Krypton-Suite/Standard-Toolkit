@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new(fileName);
+                StreamWriter writer = new StreamWriter(fileName);
 
                 writer.Write(exception.ToString());
 
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new(fileName);
+                StreamWriter writer = new StreamWriter(fileName);
 
                 writer.Write(exception.StackTrace);
 

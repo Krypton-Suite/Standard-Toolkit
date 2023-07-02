@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the background needs painting.
         /// </summary>
-        public event PaintEventHandler PaintBackground;
+        public event PaintEventHandler? PaintBackground;
         #endregion
 
         #region Identity
@@ -211,7 +211,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonScrollPort:" + Id;
+            $"ViewLayoutRibbonScrollPort:{Id}";
 
         #endregion
 
@@ -312,7 +312,7 @@ namespace Krypton.Ribbon
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
             {
-                KeyTipInfoList keyTips = new();
+                var keyTips = new KeyTipInfoList();
 
                 // Grab the list of key tips for all groups
                 keyTips.AddRange(groups.GetGroupKeyTips());
@@ -465,7 +465,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             Rectangle layoutRect = ClientRectangle;
-            Rectangle controlRect = new(Point.Empty, ClientSize);
+            var controlRect = new Rectangle(Point.Empty, ClientSize);
 
             // Reset the the view control layout offset to be zero again
             ViewLayoutControl.LayoutOffset = Point.Empty;
@@ -479,7 +479,7 @@ namespace Krypton.Ribbon
             // Ensure context has the correct control
             if (ViewLayoutControl.ChildControl is { IsDisposed: false })
             {
-                using CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl);
+                using var ccc = new CorrectContextControl(context, ViewLayoutControl.ChildControl);
                 _viewFiller.Layout(context);
             }
 
@@ -646,7 +646,7 @@ namespace Krypton.Ribbon
                     if (child == _viewFiller)
                     {
                         // New clipping region is at most our own client size
-                        using Region combineRegion = new(_viewClipRect);
+                        using var combineRegion = new Region(_viewClipRect);
                         // Remember the current clipping region
                         Region clipRegion = context.Graphics.Clip.Clone();
 

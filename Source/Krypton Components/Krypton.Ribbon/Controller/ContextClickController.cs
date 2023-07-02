@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the mouse is used to right click the target.
         /// </summary>
-        public event MouseEventHandler ContextClick;
+        public event MouseEventHandler? ContextClick;
         #endregion
 
         #region Identity

@@ -48,8 +48,8 @@ namespace Krypton.Ribbon
         private int _cacheTrackingIndex;
         private int _eventTrackingIndex;
         private readonly Timer _trackingEventTimer;
-        private KryptonContextMenu _dropMenu;
-        private EventHandler _finishDelegate;
+        private KryptonContextMenu? _dropMenu;
+        private EventHandler? _finishDelegate;
         #endregion
 
         #region Events
@@ -58,28 +58,28 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the ImageList property changes.")]
-        public event EventHandler ImageListChanged;
+        public event EventHandler? ImageListChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over an image.")]
-        public event EventHandler<ImageSelectEventArgs> TrackingImage;
+        public event EventHandler<ImageSelectEventArgs>? TrackingImage;
 
         /// <summary>
         /// Occurs when the user invokes the drop down menu.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user invokes the drop down menu.")]
-        public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
+        public event EventHandler<GalleryDropMenuEventArgs>? GalleryDropMenu;
         #endregion
 
         #region Identity
@@ -679,7 +679,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(240, 30);
+        protected override Size DefaultSize => new Size(240, 30);
 
         /// <summary>
         /// Process Windows-based messages.
@@ -778,7 +778,7 @@ namespace Krypton.Ribbon
         internal void ShownGalleryDropDown(Rectangle screenRect,
                                            KryptonContextMenuPositionH hPosition,
                                            KryptonContextMenuPositionV vPosition,
-                                           EventHandler finishDelegate,
+                                           EventHandler? finishDelegate,
                                            int actualLineItems)
         {
             // First time around create the context menu, otherwise just clear it down
@@ -790,7 +790,7 @@ namespace Krypton.Ribbon
             // If there are no ranges defined, just add a single entry showing all enties
             if (DropButtonRanges.Count == 0)
             {
-                KryptonContextMenuImageSelect imageSelect = new()
+                var imageSelect = new KryptonContextMenuImageSelect
                 {
                     ImageList = ImageList,
                     ImageIndexStart = 0,
@@ -813,7 +813,7 @@ namespace Krypton.Ribbon
                     // Only add a heading if the heading text is not empty
                     if (!string.IsNullOrEmpty(range.Heading))
                     {
-                        KryptonContextMenuHeading heading = new()
+                        var heading = new KryptonContextMenuHeading
                         {
                             Text = range.Heading
                         };
@@ -821,7 +821,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Add the image select for the range
-                    KryptonContextMenuImageSelect imageSelect = new()
+                    var imageSelect = new KryptonContextMenuImageSelect
                     {
                         ImageList = ImageList,
                         ImageIndexStart = Math.Max(0, range.ImageIndexStart),
@@ -834,7 +834,7 @@ namespace Krypton.Ribbon
             }
 
             // Give event handler a change to modify the menu
-            GalleryDropMenuEventArgs args = new(_dropMenu);
+            var args = new GalleryDropMenuEventArgs(_dropMenu);
             OnGalleryDropMenu(args);
 
             if (!args.Cancel && CommonHelper.ValidKryptonContextMenu(args.KryptonContextMenu))
@@ -873,15 +873,15 @@ namespace Krypton.Ribbon
                 TrackingIndex = -1;
 
                 // Unhook from events
-                _dropMenu.Closed -= OnDropMenuClosed;
+                _dropMenu.Closed -= OnDropMenuClosed!;
 
                 // Unhook from the image select events
                 foreach (KryptonContextMenuItemBase item in _dropMenu.Items)
                 {
                     if (item is KryptonContextMenuImageSelect itemSelect)
                     {
-                        itemSelect.SelectedIndexChanged -= OnDropImageSelect;
-                        itemSelect.TrackingImage -= OnDropImageTracking;
+                        itemSelect.SelectedIndexChanged -= OnDropImageSelect!;
+                        itemSelect.TrackingImage -= OnDropImageTracking!;
                     }
                 }
 

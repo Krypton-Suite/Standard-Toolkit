@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupClusterColorButtonImage:" + Id;
+            $@"ViewDrawRibbonGroupClusterColorButtonImage:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -107,7 +107,7 @@ namespace Krypton.Ribbon
                 if ((newImage != null) && (_compositeImage == null))
                 {
                     // Create a copy of the source image
-                    Bitmap copyBitmap = new(newImage);
+                    var copyBitmap = new Bitmap(newImage);
 
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
@@ -115,10 +115,10 @@ namespace Krypton.Ribbon
                         // If the color is not defined, i.e. it is empty then...
                         if (_selectedColor.Equals(Color.Empty))
                         {
-                            // Indicate the absense of a color by drawing a border around 
+                            // Indicate the absence of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using Pen borderPen = new(_emptyBorderColor);
+                            using var borderPen = new Pen(_emptyBorderColor);
                             g.DrawRectangle(borderPen, new Rectangle(_selectedRect.X,
                                 _selectedRect.Y,
                                 _selectedRect.Width - 1,
@@ -127,7 +127,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using SolidBrush colorBrush = new(_selectedColor);
+                            using var colorBrush = new SolidBrush(_selectedColor);
                             g.FillRectangle(colorBrush, _selectedRect);
                         }
                     }

@@ -60,8 +60,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the combobox
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the combobox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
 
             // Define back reference to view for the combo box definition
             GroupComboBox.ComboBoxView = this;
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
             GroupComboBox.ViewPaintDelegate = needPaint;
 
             // Hook into changes in the ribbon custom definition
-            GroupComboBox.PropertyChanged += OnComboBoxPropertyChanged;
+            GroupComboBox.PropertyChanged += OnComboBoxPropertyChanged!;
 
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
@@ -92,7 +92,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupComboBox:" + Id;
+            $@"ViewDrawRibbonGroupComboBox:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -105,12 +105,12 @@ namespace Krypton.Ribbon
                 if (GroupComboBox != null)
                 {
                     // Must unhook to prevent memory leaks
-                    GroupComboBox.MouseEnterControl -= OnMouseEnterControl;
-                    GroupComboBox.MouseLeaveControl -= OnMouseLeaveControl;
+                    GroupComboBox.MouseEnterControl -= OnMouseEnterControl!;
+                    GroupComboBox.MouseLeaveControl -= OnMouseLeaveControl!;
                     GroupComboBox.ViewPaintDelegate = null;
-                    GroupComboBox.PropertyChanged -= OnComboBoxPropertyChanged;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
-                    _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
+                    GroupComboBox.PropertyChanged -= OnComboBoxPropertyChanged!;
+                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction!;
+                    _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction!;
 
                     // Remove association with definition
                     GroupComboBox.ComboBoxView = null; 
@@ -126,7 +126,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning group combobox instance.
         /// </summary>
-        public KryptonRibbonGroupComboBox GroupComboBox { get; private set; }
+        public KryptonRibbonGroupComboBox? GroupComboBox { get; private set; }
 
         #endregion
 

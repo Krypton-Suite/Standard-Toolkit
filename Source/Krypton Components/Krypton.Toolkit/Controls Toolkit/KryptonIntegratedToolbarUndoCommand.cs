@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the undo button spec.")]
         public ButtonSpecAny? ToolBarUndoButton
         {
-            get => _undoButtonSpec ?? new();
+            get => _undoButtonSpec ?? new ButtonSpecAny();
             set { _undoButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarUndoCommand" /> class.</summary>
         public KryptonIntegratedToolbarUndoCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.Undo;
         }

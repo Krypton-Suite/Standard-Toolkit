@@ -52,10 +52,8 @@ namespace Krypton.Ribbon
             // Let base class perform standard drawing first
             base.RenderBefore(context);
 
-            Rectangle drawRect = new(ClientLocation.X, 
-                                               ClientLocation.Y + ClientWidth, 
-                                               ClientWidth, 
-                                               ClientHeight - (ClientWidth * 2));
+            var drawRect = new Rectangle(ClientLocation.X, ClientLocation.Y + ClientWidth, ClientWidth,
+                ClientHeight - (ClientWidth * 2));
 
             context.Renderer.RenderRibbon.DrawRibbonClusterEdge(_ribbon.RibbonShape, context, drawRect, _palette, State);
         }

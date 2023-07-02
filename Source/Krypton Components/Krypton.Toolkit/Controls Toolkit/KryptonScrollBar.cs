@@ -11,6 +11,8 @@
 #endregion
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -71,7 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The progress timer for moving the thumb.
         /// </summary>
-        private readonly System.Windows.Forms.Timer _progressTimer = new();
+        private readonly System.Windows.Forms.Timer _progressTimer = new Timer();
 
         private Color _borderColor = Color.FromArgb(93, 140, 201);
         private Color _disabledBorderColor = Color.Gray;
@@ -141,7 +143,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Is raised, when the scrollbar was scrolled.")]
-        public event ScrollEventHandler Scroll;
+        public event ScrollEventHandler? Scroll;
         #endregion
 
         #region Public
@@ -588,8 +590,7 @@ namespace Krypton.Toolkit
             }
 
             // draw border
-            using Pen pen = new(
-                Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor);
+            using Pen pen = new Pen(Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor);
             e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
         }
 

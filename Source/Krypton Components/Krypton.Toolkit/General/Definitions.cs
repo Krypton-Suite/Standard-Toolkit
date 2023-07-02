@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a button spec property has changed.
         /// </summary>
-        event PropertyChangedEventHandler ButtonSpecPropertyChanged;
+        event PropertyChangedEventHandler? ButtonSpecPropertyChanged;
 
         /// <summary>
         /// Gets the button image.
@@ -175,17 +175,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Raises the Dispose event.
         /// </summary>
-        event EventHandler Dispose;
+        event EventHandler? Dispose;
 
         /// <summary>
         /// Raises the Closing event.
         /// </summary>
-        event CancelEventHandler Closing;
+        event CancelEventHandler? Closing;
 
         /// <summary>
         /// Raises the Close event.
         /// </summary>
-        event EventHandler<CloseReasonEventArgs> Close;
+        event EventHandler<CloseReasonEventArgs>? Close;
 
         /// <summary>
         /// Fires the Closing event.
@@ -419,12 +419,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the command needs executing.
         /// </summary>
-        event EventHandler Execute;
+        event EventHandler? Execute;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets and sets the enabled state of the command.

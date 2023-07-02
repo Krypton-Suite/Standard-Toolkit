@@ -39,21 +39,21 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time wants to add a group.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddGroup;
+        public event EventHandler? DesignTimeAddGroup;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity

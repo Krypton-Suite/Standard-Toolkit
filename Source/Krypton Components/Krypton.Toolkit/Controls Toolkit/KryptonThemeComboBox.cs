@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         {
             get;
 
-        } = new();
+        } = new KryptonManager();
 
         #endregion
 

@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the quick print button spec.")]
         public ButtonSpecAny? ToolBarQuickPrintButton
         {
-            get => _quickPrintButtonSpec ?? new();
+            get => _quickPrintButtonSpec ?? new ButtonSpecAny();
             set { _quickPrintButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarQuickPrintCommand" /> class.</summary>
         public KryptonIntegratedToolbarQuickPrintCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.QuickPrint;
         }

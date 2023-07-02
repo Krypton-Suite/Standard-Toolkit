@@ -137,14 +137,14 @@ namespace Krypton.Docking
             // Override default settings in the base
             ContextMenus.ShowContextMenu = false;
             ShowMaximizeButton = false;
-            Size = new(200, 200);
+            Size = new Size(200, 200);
 
             // Create lookup for per-cell cached state
-            _lookupCellState = new();
+            _lookupCellState = new CellToCachedState();
 
             // Create delegates so processing happens sync'd with the message queue
-            _visibleUpdate = OnVisibleUpdate;
-            _focusUpdate = OnFocusUpdate;
+            _visibleUpdate = OnVisibleUpdate!;
+            _focusUpdate = OnFocusUpdate!;
             _awaitingFocusUpdate = false;
             AutoHiddenHost = false;
             _closeTooltip = "Close";
@@ -289,15 +289,14 @@ namespace Krypton.Docking
             else
             {
                 // Use event to try and get a newly created page for use
-                RecreateLoadingPageEventArgs args = new(uniqueName);
+                var args = new RecreateLoadingPageEventArgs(uniqueName);
                 OnRecreateLoadingPage(args);
                 if (!args.Cancel)
                 {
                     page = args.Page;
 
                     // Add recreated page to the looking dictionary
-                    if (page.UniqueName != null
-                        && (page != null)
+                    if (page?.UniqueName != null
                         && !existingPages.ContainsKey(page.UniqueName))
                     {
                         existingPages.Add(page.UniqueName, page);
@@ -447,17 +446,17 @@ namespace Krypton.Docking
             }
 
             // Hook into cell specific events
-            cell.ShowContextMenu += OnCellShowContextMenu;
-            cell.SelectedPageChanged += OnCellSelectedPageChanged;
-            cell.PrimaryHeaderLeftClicked += OnCellPrimaryHeaderLeftClicked;
-            cell.PrimaryHeaderRightClicked += OnCellPrimaryHeaderRightClicked;
-            cell.PrimaryHeaderDoubleClicked += OnCellPrimaryHeaderDoubleClicked;
-            cell.TabDoubleClicked += OnCellTabDoubleClicked;
-            cell.TabVisibleCountChanged += OnCellTabVisibleCountChanged;
+            cell.ShowContextMenu += OnCellShowContextMenu!;
+            cell.SelectedPageChanged += OnCellSelectedPageChanged!;
+            cell.PrimaryHeaderLeftClicked += OnCellPrimaryHeaderLeftClicked!;
+            cell.PrimaryHeaderRightClicked += OnCellPrimaryHeaderRightClicked!;
+            cell.PrimaryHeaderDoubleClicked += OnCellPrimaryHeaderDoubleClicked!;
+            cell.TabDoubleClicked += OnCellTabDoubleClicked!;
+            cell.TabVisibleCountChanged += OnCellTabVisibleCountChanged!;
             cell.Pages.Inserting += OnCellPagesInserting;
 
             // Create and store per-cell cached state
-            CachedCellState cellState = new()
+            var cellState = new CachedCellState
             {
                 Cell = cell
             };
@@ -478,7 +477,7 @@ namespace Krypton.Docking
             {
                 for (var i = cell.Pages.Count - 1; i >= 0; i--)
                 {
-                    OnCellPageInserting(new(cell.Pages[i], i));
+                    OnCellPageInserting(new KryptonPageEventArgs(cell.Pages[i], i));
                 }
             }
         }
@@ -495,13 +494,13 @@ namespace Krypton.Docking
             FocusMonitorControl(cell, false);
 
             // Unhook from events so the cell can be garbage collected
-            cell.ShowContextMenu -= OnCellShowContextMenu;
-            cell.SelectedPageChanged -= OnCellSelectedPageChanged;
-            cell.PrimaryHeaderLeftClicked -= OnCellPrimaryHeaderLeftClicked;
-            cell.PrimaryHeaderRightClicked -= OnCellPrimaryHeaderRightClicked;
-            cell.PrimaryHeaderDoubleClicked -= OnCellPrimaryHeaderDoubleClicked;
-            cell.TabDoubleClicked -= OnCellTabDoubleClicked;
-            cell.TabVisibleCountChanged -= OnCellTabVisibleCountChanged;
+            cell.ShowContextMenu -= OnCellShowContextMenu!;
+            cell.SelectedPageChanged -= OnCellSelectedPageChanged!;
+            cell.PrimaryHeaderLeftClicked -= OnCellPrimaryHeaderLeftClicked!;
+            cell.PrimaryHeaderRightClicked -= OnCellPrimaryHeaderRightClicked!;
+            cell.PrimaryHeaderDoubleClicked -= OnCellPrimaryHeaderDoubleClicked!;
+            cell.TabDoubleClicked -= OnCellTabDoubleClicked!;
+            cell.TabVisibleCountChanged -= OnCellTabVisibleCountChanged!;
             cell.Pages.Inserting -= OnCellPagesInserting;
 
             // Remove the per-cell cached state
@@ -523,13 +522,13 @@ namespace Krypton.Docking
                 // First time around we need to create the pin button spec
                 if (cellState.DropDownButtonSpec == null)
                 {
-                    cellState.DropDownButtonSpec = new()
+                    cellState.DropDownButtonSpec = new ButtonSpecNavigator
                     {
                         Type = PaletteButtonSpecStyle.DropDown,
                         ToolTipTitle = DropDownTooltip,
-                        KryptonContextMenu = new()
+                        KryptonContextMenu = new KryptonContextMenu()
                     };
-                    cellState.DropDownButtonSpec.KryptonContextMenu.Opening += OnCellDropDownOpening;
+                    cellState.DropDownButtonSpec.KryptonContextMenu.Opening += OnCellDropDownOpening!;
                     cell.Button.ButtonSpecs.Add(cellState.DropDownButtonSpec);
                 }
 
@@ -543,12 +542,12 @@ namespace Krypton.Docking
                 // First time around we need to create the pin button spec
                 if (cellState.PinButtonSpec == null)
                 {
-                    cellState.PinButtonSpec = new()
+                    cellState.PinButtonSpec = new ButtonSpecNavigator
                     {
                         Type = (AutoHiddenHost ? PaletteButtonSpecStyle.PinHorizontal : PaletteButtonSpecStyle.PinVertical),
                         ToolTipTitle = PinTooltip
                     };
-                    cellState.PinButtonSpec.Click += OnCellAutoHiddenAction;
+                    cellState.PinButtonSpec.Click += OnCellAutoHiddenAction!;
                     cell.Button.ButtonSpecs.Add(cellState.PinButtonSpec);
                 }
 
@@ -569,12 +568,12 @@ namespace Krypton.Docking
                 // First time around we need to create the close button spec
                 if (cellState.CloseButtonSpec == null)
                 {
-                    cellState.CloseButtonSpec = new()
+                    cellState.CloseButtonSpec = new ButtonSpecNavigator
                     {
                         Type = PaletteButtonSpecStyle.Close,
                         ToolTipTitle = CloseTooltip
                     };
-                    cellState.CloseButtonSpec.Click += OnCellCloseAction;
+                    cellState.CloseButtonSpec.Click += OnCellCloseAction!;
                     cell.Button.ButtonSpecs.Add(cellState.CloseButtonSpec);
                 }
 
@@ -652,7 +651,7 @@ namespace Krypton.Docking
                         {
                             _lookupCellState[cell].FocusState = true;
                             cell.Header.HeaderStylePrimary = HeaderStyle.DockActive;
-                            OnCellGainsFocus(new(cell));
+                            OnCellGainsFocus(new WorkspaceCellEventArgs(cell));
                         }
                     }
                     else
@@ -662,7 +661,7 @@ namespace Krypton.Docking
                         {
                             _lookupCellState[cell].FocusState = false;
                             cell.Header.HeaderStylePrimary = HeaderStyle.DockInactive;
-                            OnCellLosesFocus(new(cell));
+                            OnCellLosesFocus(new WorkspaceCellEventArgs(cell));
                         }
                     }
 
@@ -730,10 +729,10 @@ namespace Krypton.Docking
         private void OnCellShowContextMenu(object sender, ShowContextMenuArgs e)
         {
             // Make sure we have a menu for displaying
-            e.KryptonContextMenu ??= new();
+            e.KryptonContextMenu ??= new KryptonContextMenu();
 
             // Use event to allow customization of the context menu
-            CancelDropDownEventArgs args = new(e.KryptonContextMenu, e.Item)
+            var args = new CancelDropDownEventArgs(e.KryptonContextMenu, e.Item)
             {
                 Cancel = e.Cancel
             };
@@ -764,8 +763,8 @@ namespace Krypton.Docking
                     cell.SelectedPage.SelectNextControl(cell.SelectedPage, true, true, true, false);
 
                     // Create and populate a context menu with the drop down set of options
-                    KryptonContextMenu kcm = new();
-                    CancelDropDownEventArgs args = new(kcm, cell.SelectedPage);
+                    var kcm = new KryptonContextMenu();
+                    var args = new CancelDropDownEventArgs(kcm, cell.SelectedPage);
                     OnPageDropDownClicked(args);
 
                     // Do we need to show a context menu
@@ -796,7 +795,7 @@ namespace Krypton.Docking
 
                 if (uniqueNames.Count > 0)
                 {
-                    OnPagesDoubleClicked(new(uniqueNames.ToArray()));
+                    OnPagesDoubleClicked(new UniqueNamesEventArgs(uniqueNames.ToArray()));
                 }
             }
         }
@@ -805,7 +804,7 @@ namespace Krypton.Docking
         {
             if (e.Item != null)
             {
-                OnPagesDoubleClicked(new(new[] { e.Item.UniqueName }));
+                OnPagesDoubleClicked(new UniqueNamesEventArgs(new[] { e.Item.UniqueName }));
             }
         }
 
@@ -892,7 +891,7 @@ namespace Krypton.Docking
                 {
                     if (cellState.Cell?.SelectedPage != null)
                     {
-                        OnPageCloseClicked(new(cellState.Cell.SelectedPage.UniqueName));
+                        OnPageCloseClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
                     }
 
                     break;
@@ -910,7 +909,7 @@ namespace Krypton.Docking
                 {
                     if (cellState.Cell?.SelectedPage != null)
                     {
-                        OnPageAutoHiddenClicked(new(cellState.Cell.SelectedPage.UniqueName));
+                        OnPageAutoHiddenClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
                     }
 
                     break;
@@ -932,7 +931,7 @@ namespace Krypton.Docking
                     {
                         if (cellState.DropDownButtonSpec != null)
                         {
-                            OnPageDropDownClicked(new(cellState.DropDownButtonSpec.KryptonContextMenu,
+                            OnPageDropDownClicked(new CancelDropDownEventArgs(cellState.DropDownButtonSpec.KryptonContextMenu,
                                 cellState.Cell.SelectedPage));
                         }
                     }
@@ -945,7 +944,7 @@ namespace Krypton.Docking
         private void OnCellPagesInserting(object sender, TypedCollectionEventArgs<KryptonPage> e)
         {
             // Generate event so the docking element can decide on extra actions to be taken
-            OnCellPageInserting(new(e.Item, e.Index));
+            OnCellPageInserting(new KryptonPageEventArgs(e.Item, e.Index));
         }
 
         private void UpdateTooltips()

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
         // Return the class name and instance identifier
-        public override string ToString() => "ViewDrawEmptyContent:" + Id;
+        public override string ToString() => $"ViewDrawEmptyContent:{Id}";
         #endregion
 
         #region Layout

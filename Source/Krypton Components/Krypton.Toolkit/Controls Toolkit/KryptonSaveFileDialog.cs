@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
     {
-        private readonly SaveFileDialog _internalSaveFileDialog = new();// { AutoUpgradeEnabled = true };
+        private readonly SaveFileDialog _internalSaveFileDialog = new SaveFileDialog();// { AutoUpgradeEnabled = true };
 
         /// <inheritdoc />
         protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalSaveFileDialog.ShowDialog(owner);
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
         }
 
         /// <inheritdoc />
-        public override event CancelEventHandler FileOk
+        public override event CancelEventHandler? FileOk
         {
             add => _internalSaveFileDialog.FileOk += value;
             remove => _internalSaveFileDialog.FileOk -= value;

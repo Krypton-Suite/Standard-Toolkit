@@ -51,49 +51,49 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the dialog box launcher button is clicked.")]
-        public event EventHandler DialogBoxLauncherClick;
+        public event EventHandler? DialogBoxLauncherClick;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time wants to add a triple.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddTriple;
+        public event EventHandler? DesignTimeAddTriple;
 
         /// <summary>
         /// Occurs when the design time wants to add a lines.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddLines;
+        public event EventHandler? DesignTimeAddLines;
 
         /// <summary>
         /// Occurs when the design time wants to add a separator.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddSeparator;
+        public event EventHandler? DesignTimeAddSeparator;
 
         /// <summary>
         /// Occurs when the design time wants to add a gallery.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddGallery;
+        public event EventHandler? DesignTimeAddGallery;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -490,7 +490,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.Actionoccurred();
+            Ribbon?.ActionOccurred();
 
             DialogBoxLauncherClick?.Invoke(this, e);
         }

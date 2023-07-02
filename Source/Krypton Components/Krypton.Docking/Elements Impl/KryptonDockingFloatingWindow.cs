@@ -275,8 +275,8 @@ namespace Krypton.Docking
         private void OnDockingFloatspaceDisposed(object sender, EventArgs e)
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
-            KryptonDockingFloatspace floatspaceElement = (KryptonDockingFloatspace)sender;
-            floatspaceElement.Disposed -= OnDockingFloatspaceDisposed;
+            var floatspaceElement = (KryptonDockingFloatspace)sender;
+            floatspaceElement.Disposed -= OnDockingFloatspaceDisposed!;
 
             // Kill the floatspace window
             if (!FloatingWindow.IsDisposed)
@@ -288,14 +288,14 @@ namespace Krypton.Docking
         private void OnFloatingWindowDisposed(object sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
-            FloatingWindow.Disposed -= OnFloatingWindowDisposed;
+            FloatingWindow.Disposed -= OnFloatingWindowDisposed!;
 
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Generate event so the floating window customization can be reversed.
-                FloatingWindowEventArgs floatingWindowArgs = new(FloatingWindow, this);
+                var floatingWindowArgs = new FloatingWindowEventArgs(FloatingWindow, this);
                 dockingManager.RaiseFloatingWindowRemoved(floatingWindowArgs);
             }
 

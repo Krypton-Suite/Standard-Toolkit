@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonRecentDocs:" + Id;
+            $@"ViewDrawRibbonRecentDocs:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

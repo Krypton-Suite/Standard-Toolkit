@@ -36,17 +36,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the button is pressed.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the button is released.
         /// </summary>
-        public event EventHandler MouseReleased;
+        public event EventHandler? MouseReleased;
 
         /// <summary>
         /// Occurs when a change in button state requires a repaint.
         /// </summary>
-        public event NeedPaintHandler NeedPaint;
+        public event NeedPaintHandler? NeedPaint;
         #endregion
 
         #region Identity

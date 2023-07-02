@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler AutoSizeChanged;
+        public new event EventHandler? AutoSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ControlAdded property changes.
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event ControlEventHandler ControlAdded;
+        public new event ControlEventHandler? ControlAdded;
 
         /// <summary>
         /// Occurs when the value of the ControlRemoved property changes.
@@ -85,21 +85,21 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event ControlEventHandler ControlRemoved;
+        public new event ControlEventHandler? ControlRemoved;
 
         /// <summary>
         /// Occurs when the splitter control is moved.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the splitter is done being moved.")]
-        public event SplitterEventHandler SplitterMoved;
+        public event SplitterEventHandler? SplitterMoved;
 
         /// <summary>
         /// Occurs when the splitter control is in the process of moving.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the splitter is being moved.")]
-        public event SplitterCancelEventHandler SplitterMoving;
+        public event SplitterCancelEventHandler? SplitterMoving;
         #endregion
 
         #region Identity
@@ -189,8 +189,8 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel1.Name = value + ".Panel1";
-                Panel2.Name = value + ".Panel2";
+                Panel1.Name = $"{value}.Panel1";
+                Panel2.Name = $"{value}.Panel2";
             }
         }
 
@@ -595,7 +595,7 @@ namespace Krypton.Toolkit
                     // Limit check against the orientation direction
                     if (Orientation == Orientation.Vertical)
                     {
-                        // Enfore the minimum size of the second second
+                        // Enforce the minimum size of the second second
                         if ((value + SplitterWidth) > (Width - Panel2MinSize))
                         {
                             value = Width - Panel2MinSize - SplitterWidth;
@@ -609,7 +609,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        // Enfore the minimum size of the second second
+                        // Enforce the minimum size of the second second
                         if ((value + SplitterWidth) > (Height - Panel2MinSize))
                         {
                             value = Height - Panel2MinSize - SplitterWidth;
@@ -890,7 +890,7 @@ namespace Krypton.Toolkit
             }
 
             // Fire the event that indicates the splitter is being moved
-            SplitterCancelEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterCancelEventArgs e = new SplitterCancelEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoving(e);
 
             // Tell caller if the movement should be cancelled or not
@@ -916,7 +916,7 @@ namespace Krypton.Toolkit
             }
 
             // Fire the event that indicates the splitter has finished being moved
-            SplitterEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterEventArgs e = new SplitterEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoved(e);
         }
 
@@ -1076,7 +1076,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(150, 150);
+        protected override Size DefaultSize => new Size(150, 150);
 
         /// <summary>
         /// Raises the Initialized event.
@@ -1251,7 +1251,7 @@ namespace Krypton.Toolkit
                                     // Find actual pixel width of first panel but limited to maximum allowed
                                     var panel1Width = Math.Min(SplitterDistance, panelMax);
 
-                                    // Enfore the minimum panel1 width
+                                    // Enforce the minimum panel1 width
                                     panel1Width = Math.Max(Panel1MinSize, panel1Width);
 
                                     // Size the panels
@@ -1321,7 +1321,7 @@ namespace Krypton.Toolkit
                                     // Find actual pixel height of first panel but limited to maximum allowed
                                     var panel1Height = Math.Min(SplitterDistance, panel1Max);
 
-                                    // Enfore the minimum panel1 height
+                                    // Enforce the minimum panel1 height
                                     panel1Height = Math.Max(Panel1MinSize, panel1Height);
 
                                     // Size the panels

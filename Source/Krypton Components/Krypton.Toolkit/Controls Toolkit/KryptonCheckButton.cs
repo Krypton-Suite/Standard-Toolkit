@@ -40,14 +40,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changing")]
         [Description(@"Occurs whenever the Checked property is about to change.")]
-        public event CancelEventHandler CheckedChanging;
+        public event CancelEventHandler? CheckedChanging;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
         #endregion
 
         #region Identity
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                 if (value != ViewDrawButton.Checked)
                 {
                     // Generate a pre-change event allowing it to be cancelled
-                    CancelEventArgs ce = new();
+                    CancelEventArgs ce = new CancelEventArgs();
                     OnCheckedChanging(ce);
 
                     // If the change is allowed to occur

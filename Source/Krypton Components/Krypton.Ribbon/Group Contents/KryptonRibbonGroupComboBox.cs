@@ -37,156 +37,156 @@ namespace Krypton.Ribbon
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyPressEventHandler KeyPress;
+        public event KeyPressEventHandler? KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is released while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyUp;
+        public event KeyEventHandler? KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler? KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
         [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
         [Category(@"Key")]
-        public event PreviewKeyDownEventHandler PreviewKeyDown;
+        public event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         /// <summary>
         /// Occurs when the drop-down portion of the KryptonComboBox is shown.
         /// </summary>
         [Description(@"Occurs when the drop-down portion of the KryptonComboBox is shown.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDown;
+        public event EventHandler? DropDown;
 
         /// <summary>
         /// Indicates that the drop-down portion of the KryptonComboBox has closed.
         /// </summary>
         [Description(@"Indicates that the drop-down portion of the KryptonComboBox has closed.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDownClosed;
+        public event EventHandler? DropDownClosed;
 
         /// <summary>
         /// Occurs when the value of the DropDownStyle property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DropDownStyle property changed.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDownStyleChanged;
+        public event EventHandler? DropDownStyleChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when an item is chosen from the drop-down list and the drop-down list is closed.
         /// </summary>
         [Description(@"Occurs when an item is chosen from the drop-down list and the drop-down list is closed.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectionChangeCommitted;
+        public event EventHandler? SelectionChangeCommitted;
 
         /// <summary>
         /// Occurs when the value of the DataSource property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DataSource property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler DataSourceChanged;
+        public event EventHandler? DataSourceChanged;
 
         /// <summary>
         /// Occurs when the value of the DisplayMember property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DisplayMember property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler DisplayMemberChanged;
+        public event EventHandler? DisplayMemberChanged;
 
         /// <summary>
         /// Occurs when the list format has changed.
         /// </summary>
         [Description(@"Occurs when the list format has changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler Format;
+        public event EventHandler? Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormatInfo property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormatInfoChanged;
+        public event EventHandler? FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormatString property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormatStringChanged;
+        public event EventHandler? FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormattingEnabled property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormattingEnabledChanged;
+        public event EventHandler? FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changed.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedValue property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler SelectedValueChanged;
+        public event EventHandler? SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the ValueMember property changed.
         /// </summary>
         [Description(@"Occurs when the value of the ValueMember property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler ValueMemberChanged;
+        public event EventHandler? ValueMemberChanged;
 
         /// <summary>
         /// Occurs when the KryptonComboBox text has changed.
         /// </summary>
         [Description(@"Occurs when the KryptonComboBox text has changed.")]
         [Category(@"Behavior")]
-        public event EventHandler TextUpdate;
+        public event EventHandler? TextUpdate;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity
@@ -922,7 +922,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase ComboBoxView { get; set; }
+        public ViewBase? ComboBoxView { get; set; }
 
         #endregion
 
@@ -1123,7 +1123,7 @@ namespace Krypton.Ribbon
 
         internal KryptonComboBox LastComboBox { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e)
         {

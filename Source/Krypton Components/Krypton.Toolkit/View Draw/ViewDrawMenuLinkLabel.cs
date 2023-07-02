@@ -73,7 +73,8 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the link label controller
-            MenuLinkLabelController mllc = new(provider.ProviderViewManager, _drawContent, this, provider.ProviderNeedPaintDelegate);
+            MenuLinkLabelController mllc = new MenuLinkLabelController(provider.ProviderViewManager, _drawContent, this,
+                provider.ProviderNeedPaintDelegate);
             mllc.Click += OnClick;
             _drawContent.MouseController = mllc;
             _drawContent.KeyController = mllc;
@@ -98,7 +99,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuLinkLabel:" + Id;
+            $"ViewDrawMenuLinkLabel:{Id}";
 
         #endregion
 

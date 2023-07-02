@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = value + ".Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 

@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuImageSelectItem:" + Id;
+            $"ViewDrawMenuImageSelectItem:{Id}";
 
         #endregion
 
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
                 if (_layout.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    CancelEventArgs cea = new CancelEventArgs();
                     _layout.Closing(cea);
 
                     if (!cea.Cancel)

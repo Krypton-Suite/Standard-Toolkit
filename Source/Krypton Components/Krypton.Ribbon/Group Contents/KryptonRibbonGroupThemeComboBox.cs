@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
         {
             get;
 
-        } = new();
+        } = new KryptonManager();
 
         #endregion
 

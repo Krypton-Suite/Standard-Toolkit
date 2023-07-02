@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the open button spec.")]
         public ButtonSpecAny? ToolBarOpenButton
         {
-            get => _openButtonSpec ?? new();
+            get => _openButtonSpec ?? new ButtonSpecAny();
             set { _openButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarOpenCommand" /> class.</summary>
         public KryptonIntegratedToolbarOpenCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.Open;
         }

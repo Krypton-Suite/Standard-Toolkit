@@ -12,6 +12,8 @@
 
 // ReSharper disable MemberCanBeInternal
 
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Docking
 {
     /// <summary>
@@ -117,14 +119,14 @@ namespace Krypton.Docking
             _checkMakeHidden = OnCheckMakeHidden!;
 
             // We need to a timer to automate sliding in and out
-            _slideTimer = new()
+            _slideTimer = new Timer
             {
                 Interval = SLIDE_INTERVAL
             };
             _slideTimer.Tick += OnSlideTimerTick!;
 
             // Timer used to delay between notification of need to slide inwards and performing actual slide
-            _dismissTimer = new()
+            _dismissTimer = new Timer
             {
                 Interval = DISMISS_INTERVAL
             };
@@ -132,7 +134,7 @@ namespace Krypton.Docking
             _dismissRunning = false;
 
             // Create inner panel that holds the actual dockspace and separator
-            _dockspaceSlide = new()
+            _dockspaceSlide = new KryptonDockspaceSlide
             {
                 Dock = DockStyle.Fill,
                 AutoHiddenHost = true
@@ -141,12 +143,12 @@ namespace Krypton.Docking
             _dockspaceSlide.PageAutoHiddenClicked += OnDockspacePageAutoHiddenClicked!;
             _dockspaceSlide.PageDropDownClicked += OnDockspacePageDropDownClicked!;
 
-            SeparatorControl = new(edge, true);
+            SeparatorControl = new KryptonDockspaceSeparator(edge, true);
             SeparatorControl.SplitterMoving += OnDockspaceSeparatorMoving!;
             SeparatorControl.SplitterMoved += OnDockspaceSeparatorMoved!;
             SeparatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect!;
 
-            _inner = new();
+            _inner = new KryptonPanel();
             _inner.Controls.AddRange(new Control[] { _dockspaceSlide, SeparatorControl });
             Controls.Add(_inner);
 
@@ -154,10 +156,10 @@ namespace Krypton.Docking
             Visible = false;
 
             // Add a Button that is not showing and used to push focus away from the dockspace
-            _dummyTarget = new()
+            _dummyTarget = new Button
             {
-                Location = new(-200, -200),
-                Size = new(100, 100)
+                Location = new Point(-200, -200),
+                Size = new Size(100, 100)
             };
             Controls.Add(_dummyTarget);
 
@@ -338,11 +340,8 @@ namespace Krypton.Docking
             KryptonWorkspaceCell? cell = DockspaceControl.FirstVisibleCell();
             if (cell == null)
             {
-                cell = new();
-                if (DockspaceControl.Root.Children != null)
-                {
-                    DockspaceControl.Root.Children.Add(cell);
-                }
+                cell = new KryptonWorkspaceCell();
+                DockspaceControl.Root.Children?.Add(cell);
             }
 
             // Replace any existing page with the new one
@@ -366,7 +365,7 @@ namespace Krypton.Docking
 
             // Switch to new state and start animation timer
             _state = DockingAutoHiddenShowState.SlidingOut;
-            AutoHiddenShowingStateEventArgs args = new(Page, _state);
+            var args = new AutoHiddenShowingStateEventArgs(Page, _state);
             _slideTimer?.Start();
 
             // Are we requested to set focus to the sliding in dockspace?
@@ -430,7 +429,7 @@ namespace Krypton.Docking
                         // Update the page with the new size to use in the future
                         if (Page != null)
                         {
-                            Page.AutoHiddenSlideSize = new(Page.AutoHiddenSlideSize.Width + width, Page.AutoHiddenSlideSize.Height);
+                            Page.AutoHiddenSlideSize = new Size(Page.AutoHiddenSlideSize.Width + width, Page.AutoHiddenSlideSize.Height);
                         }
 
                         break;
@@ -443,7 +442,7 @@ namespace Krypton.Docking
                         // Update the page with the new size to use in the future
                         if (Page != null)
                         {
-                            Page.AutoHiddenSlideSize = new(Page.AutoHiddenSlideSize.Width - width, Page.AutoHiddenSlideSize.Height);
+                            Page.AutoHiddenSlideSize = new Size(Page.AutoHiddenSlideSize.Width - width, Page.AutoHiddenSlideSize.Height);
                         }
 
                         break;
@@ -455,7 +454,7 @@ namespace Krypton.Docking
                         // Update the page with the new size to use in the future
                         if (Page != null)
                         {
-                            Page.AutoHiddenSlideSize = new(Page.AutoHiddenSlideSize.Width, Page.AutoHiddenSlideSize.Height + height);
+                            Page.AutoHiddenSlideSize = new Size(Page.AutoHiddenSlideSize.Width, Page.AutoHiddenSlideSize.Height + height);
                         }
 
                         break;
@@ -468,7 +467,7 @@ namespace Krypton.Docking
                         // Update the page with the new size to use in the future
                         if (Page != null)
                         {
-                            Page.AutoHiddenSlideSize = new(Page.AutoHiddenSlideSize.Width, Page.AutoHiddenSlideSize.Height - height);
+                            Page.AutoHiddenSlideSize = new Size(Page.AutoHiddenSlideSize.Width, Page.AutoHiddenSlideSize.Height - height);
                         }
 
                         break;
@@ -558,7 +557,7 @@ namespace Krypton.Docking
                             _mouseTrackWindow = msg.HWnd;
 
                             // This structure needs to know its own size in bytes
-                            PI.TRACKMOUSEEVENTS tme = new()
+                            var tme = new PI.TRACKMOUSEEVENTS
                             {
                                 cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
                                 dwHoverTime = 100,
@@ -607,7 +606,7 @@ namespace Krypton.Docking
                 {
                     // Set state so timer processing does not perform any slide action
                     _state = DockingAutoHiddenShowState.Hidden;
-                    AutoHiddenShowingStateEventArgs args = new(Page, _state);
+                    var args = new AutoHiddenShowingStateEventArgs(Page, _state);
 
                     // Remove cached references
                     Page = null;
@@ -645,7 +644,7 @@ namespace Krypton.Docking
             {
                 // Switch to sliding inwards by changing state and starting slide timer
                 _state = DockingAutoHiddenShowState.SlidingIn;
-                AutoHiddenShowingStateEventArgs args = new(Page, _state);
+                var args = new AutoHiddenShowingStateEventArgs(Page, _state);
                 _slideTimer?.Start();
 
                 // If the dockspace has the focus we need to push focus elsewhere
@@ -667,7 +666,7 @@ namespace Krypton.Docking
             {
                 Size dockspacePreferred = Page.AutoHiddenSlideSize;
                 Size separatorPreferred = SeparatorControl.GetPreferredSize(_control.Size);
-                Size slideSize = new(separatorPreferred.Width + dockspacePreferred.Width,
+                var slideSize = new Size(separatorPreferred.Width + dockspacePreferred.Width,
                     separatorPreferred.Height + dockspacePreferred.Height);
 
                 // Find the maximum allowed size based on the owning control client area reduced by a sensible minimum
@@ -702,20 +701,20 @@ namespace Krypton.Docking
                 switch (_edge)
                 {
                     case DockingEdge.Left:
-                        _startRect = new(_panel.Width, _panel.Top, 0, _panel.Height);
-                        _endRect = new(_panel.Width, _panel.Height, slideSize.Width, _panel.Height);
+                        _startRect = new Rectangle(_panel.Width, _panel.Top, 0, _panel.Height);
+                        _endRect = new Rectangle(_panel.Width, _panel.Height, slideSize.Width, _panel.Height);
                         break;
                     case DockingEdge.Right:
-                        _startRect = new(_panel.Left, _panel.Top, 0, _panel.Height);
-                        _endRect = new(_panel.Left - slideSize.Width, _panel.Height, slideSize.Width, _panel.Height);
+                        _startRect = new Rectangle(_panel.Left, _panel.Top, 0, _panel.Height);
+                        _endRect = new Rectangle(_panel.Left - slideSize.Width, _panel.Height, slideSize.Width, _panel.Height);
                         break;
                     case DockingEdge.Top:
-                        _startRect = new(_panel.Left, _panel.Height, _panel.Width, 0);
-                        _endRect = new(_panel.Left, _panel.Height, _panel.Width, slideSize.Height);
+                        _startRect = new Rectangle(_panel.Left, _panel.Height, _panel.Width, 0);
+                        _endRect = new Rectangle(_panel.Left, _panel.Height, _panel.Width, slideSize.Height);
                         break;
                     case DockingEdge.Bottom:
-                        _startRect = new(_panel.Left, _panel.Top, _panel.Width, 0);
-                        _endRect = new(_panel.Left, _panel.Top - slideSize.Height, _panel.Width, slideSize.Height);
+                        _startRect = new Rectangle(_panel.Left, _panel.Top, _panel.Width, 0);
+                        _endRect = new Rectangle(_panel.Left, _panel.Top - slideSize.Height, _panel.Width, slideSize.Height);
                         break;
                 }
             }
@@ -804,7 +803,7 @@ namespace Krypton.Docking
                         {
                             // When finished we no longer need the timer and enter the showing state
                             _state = DockingAutoHiddenShowState.Showing;
-                            AutoHiddenShowingStateEventArgs args = new(Page, _state);
+                            var args = new AutoHiddenShowingStateEventArgs(Page, _state);
                             OnAutoHiddenShowingStateChanged(args);
                             _slideTimer?.Stop();
                         }

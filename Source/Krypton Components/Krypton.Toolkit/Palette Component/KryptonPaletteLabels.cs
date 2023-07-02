@@ -47,7 +47,8 @@ namespace Krypton.Toolkit
             LabelCustom3 = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectContent? redirectCommon = new(redirector, LabelCommon.StateDisabled, LabelCommon.StateNormal);
+            PaletteRedirectContent redirectCommon =
+                new PaletteRedirectContent(redirector, LabelCommon.StateDisabled, LabelCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             LabelNormalControl.SetRedirector(redirectCommon);

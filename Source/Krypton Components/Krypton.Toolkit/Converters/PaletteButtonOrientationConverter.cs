@@ -36,12 +36,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(PaletteButtonOrientation.Inherit, KryptonLanguageManager.ButtonOrientationStrings.Inherit),
-            new(PaletteButtonOrientation.Auto, KryptonLanguageManager.ButtonOrientationStrings.Auto),
-            new(PaletteButtonOrientation.FixedTop, KryptonLanguageManager.ButtonOrientationStrings.FixedTop),
-            new(PaletteButtonOrientation.FixedBottom, KryptonLanguageManager.ButtonOrientationStrings.FixedBottom),
-            new(PaletteButtonOrientation.FixedLeft, KryptonLanguageManager.ButtonOrientationStrings.FixedLeft),
-            new(PaletteButtonOrientation.FixedRight, KryptonLanguageManager.ButtonOrientationStrings.FixedRight)
+            new Pair(PaletteButtonOrientation.Inherit, KryptonLanguageManager.ButtonOrientationStrings.Inherit),
+            new Pair(PaletteButtonOrientation.Auto, KryptonLanguageManager.ButtonOrientationStrings.Auto),
+            new Pair(PaletteButtonOrientation.FixedTop, KryptonLanguageManager.ButtonOrientationStrings.FixedTop),
+            new Pair(PaletteButtonOrientation.FixedBottom, KryptonLanguageManager.ButtonOrientationStrings.FixedBottom),
+            new Pair(PaletteButtonOrientation.FixedLeft, KryptonLanguageManager.ButtonOrientationStrings.FixedLeft),
+            new Pair(PaletteButtonOrientation.FixedRight, KryptonLanguageManager.ButtonOrientationStrings.FixedRight)
         };
 
         #endregion

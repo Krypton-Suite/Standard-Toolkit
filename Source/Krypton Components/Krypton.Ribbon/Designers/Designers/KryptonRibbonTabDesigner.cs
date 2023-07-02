@@ -73,8 +73,8 @@ namespace Krypton.Ribbon
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
 
             // We need to know when we are being removed/changed
-            _changeService.ComponentRemoving += OnComponentRemoving;
-            _changeService.ComponentChanged += OnComponentChanged;
+            _changeService.ComponentRemoving += OnComponentRemoving!;
+            _changeService.ComponentChanged += OnComponentChanged!;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonTab.Groups);
                 return compound;
             }

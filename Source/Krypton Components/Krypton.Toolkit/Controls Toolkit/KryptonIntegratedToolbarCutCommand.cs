@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the cut button spec.")]
         public ButtonSpecAny? ToolBarCutButton
         {
-            get => _cutButtonSpec ?? new();
+            get => _cutButtonSpec ?? new ButtonSpecAny();
             set { _cutButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarCutCommand" /> class.</summary>
         public KryptonIntegratedToolbarCutCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.Cut;
         }

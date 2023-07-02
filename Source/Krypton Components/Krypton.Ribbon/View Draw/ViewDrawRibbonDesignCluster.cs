@@ -66,7 +66,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonDesignCluster:" + Id;
+            $@"ViewDrawRibbonDesignCluster:{Id}";
 
         #endregion
 
@@ -108,8 +108,8 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuButton = new("Add Cluster Button", null, OnAddButton);
-                ToolStripMenuItem menuColorButton = new("Add Cluster Color Button", null, OnAddColorButton);
+                var menuButton = new ToolStripMenuItem("Add Cluster Button", null, OnAddButton);
+                var menuColorButton = new ToolStripMenuItem("Add Cluster Color Button", null, OnAddColorButton);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;

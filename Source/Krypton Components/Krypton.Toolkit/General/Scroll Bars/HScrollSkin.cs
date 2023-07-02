@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             _win.Top = 0;
             _win.Left = 0;
             _win.SendToBack();
-            Name = "skin" + _win.Name;
+            Name = $"skin{_win.Name}";
         }
 
         #endregion
@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
                 {
                     ListView listView1 = (ListView)_win;
 
-                    WIN32ScrollBars.ScrollInfo si = new();
+                    WIN32ScrollBars.ScrollInfo si = new WIN32ScrollBars.ScrollInfo();
                     si.cbSize = Marshal.SizeOf(si);
                     si.fMask = (int)PI.SIF_.ALL;
                     if (PI.GetScrollInfo(listView1.Handle, (int)PI.SB_.HORZ, ref si))

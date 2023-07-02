@@ -85,14 +85,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the SelectedColor property changes value.")]
-        public event EventHandler<ColorEventArgs> SelectedColorChanged;
+        public event EventHandler<ColorEventArgs>? SelectedColorChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over a color.")]
-        public event EventHandler<ColorEventArgs> TrackingColor;
+        public event EventHandler<ColorEventArgs>? TrackingColor;
         #endregion
 
         #region Identity
@@ -275,7 +275,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colors">An array of color arrays, each of which must be the same length.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void SetCustomColors(Color[][] colors)
+        public void SetCustomColors(Color[]?[]? colors)
         {
             // Cannot accept an empty argument
             if ((colors == null) || (colors.Length == 0))
@@ -296,12 +296,12 @@ namespace Krypton.Toolkit
                     // Cache length of first child array
                     if (i == 0)
                     {
-                        rows = colors[i].Length;
+                        rows = colors[i]!.Length;
                     }
                     else
                     {
                         // All other child arrays must be the same length
-                        if (colors[i].Length != rows)
+                        if (colors[i]!.Length != rows)
                         {
                             throw new ArgumentOutOfRangeException(nameof(colors), "Each child color array must be the same length.");
                         }
@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            Colors = colors;
+            Colors = colors!;
         }
 
         /// <summary>
@@ -317,20 +317,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="color">Color to find.</param>
         /// <returns>True if found; otherwise false.</returns>
-        public bool ContainsColor(Color color)
+        public bool ContainsColor([DisallowNull] Color color)
         {
             if ((Colors != null) && (color != null))
             {
-                foreach (var column in Colors)
-                {
-                    foreach (Color row in column)
-                    {
-                        if (color.Equals(row))
-                        {
-                            return true;
-                        }
-                    }
-                }
+                return Colors.Any(column => column.Contains(color));
             }
 
             return false;

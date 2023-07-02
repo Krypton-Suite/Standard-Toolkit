@@ -731,9 +731,9 @@ namespace Krypton.Ribbon
             CAPTION_TEXT_GAPS = (int)(FactorDpiX * 10);        // 4 below and 6 above
             MIN_SELF_HEIGHT = (int)(FactorDpiY * 28);          // Min height to show application button and the mini bar and context tabs
             // Remember incoming references
-            _ribbon = ribbon!;
-            _compositionArea = compositionArea!;
-            _needPaintDelegate = needPaintDelegate!;
+            _ribbon = ribbon;
+            _compositionArea = compositionArea;
+            _needPaintDelegate = needPaintDelegate;
             _needIntegratedDelegate = OnIntegratedNeedPaint;
 
             // Create a special redirector for overriding the border setting
@@ -781,7 +781,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonCaptionArea:" + Id;
+            $"ViewDrawRibbonCaptionArea:{Id}";
 
         #endregion
 
@@ -1046,10 +1046,12 @@ namespace Krypton.Ribbon
                 {
                     // Search the context title elements for a match
                     foreach (ViewBase child in ContextTitles)
+                    {
                         if ((child is ViewDrawRibbonContextTitle) && child.ClientRectangle.Contains(formPt))
                         {
                             return false;
                         }
+                    }
                 }
             }
 
@@ -1067,7 +1069,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Enforce the minimum height
-            Size preferredSize = base.GetPreferredSize(context!);
+            Size preferredSize = base.GetPreferredSize(context);
             preferredSize.Height = Math.Max(_calculatedHeight, preferredSize.Height);
 
             return preferredSize;
@@ -1110,11 +1112,11 @@ namespace Krypton.Ribbon
                 Target1 = _captionAppButton.AppButton,
                 Target2 = _otherAppButton.AppButton
             };
-            _appButtonController.NeedPaint += OnAppButtonNeedPaint;
+            _appButtonController.NeedPaint += OnAppButtonNeedPaint!;
             _captionAppButton.MouseController = _appButtonController;
             _otherAppButton.MouseController = _appButtonController;
             _appTabController = new AppTabController(_ribbon);
-            _appTabController.NeedPaint += OnAppButtonNeedPaint;
+            _appTabController.NeedPaint += OnAppButtonNeedPaint!;
 
             // When not showing the app button we show this spacer instead
             _spaceInsteadOfAppButton = new ViewLayoutSeparator(0)

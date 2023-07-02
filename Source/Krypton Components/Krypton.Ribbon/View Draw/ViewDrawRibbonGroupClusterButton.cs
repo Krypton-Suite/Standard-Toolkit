@@ -80,7 +80,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupClusterButton:" + Id;
+            $@"ViewDrawRibbonGroupClusterButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -366,7 +366,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            var contentLayout = new ViewLayoutDocker();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupClusterButtonImage(_ribbon, GroupClusterButton);
@@ -377,7 +377,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep1 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
+            var imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };

@@ -297,7 +297,7 @@ namespace Krypton.Navigator
                         if (control)
                         {
                             // Are we allowed to perform a Ctrl+Tab change in selection
-                            CtrlTabCancelEventArgs ce = new(!shift);
+                            var ce = new CtrlTabCancelEventArgs(!shift);
                             Navigator.OnCtrlTabStart(ce);
 
                             if (!ce.Cancel)

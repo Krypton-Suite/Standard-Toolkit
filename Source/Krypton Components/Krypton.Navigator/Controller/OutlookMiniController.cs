@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when a click portion is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -394,7 +394,7 @@ namespace Krypton.Navigator
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(EventArgs e) => Click(_target, e);
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(_target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -402,10 +402,7 @@ namespace Krypton.Navigator
         /// <param name="needLayout">Does the palette change require a layout.</param>
         protected virtual void OnNeedPaint(bool needLayout)
         {
-            if (_needPaint != null)
-            {
-                _needPaint(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
-            }
+            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
         }
 
         #endregion

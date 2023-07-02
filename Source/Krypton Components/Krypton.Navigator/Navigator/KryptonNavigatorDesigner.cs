@@ -63,12 +63,12 @@ namespace Krypton.Navigator
                 }
 
                 // Monitor navigator events
-                Navigator.GetViewManager()!.MouseDownProcessed += OnNavigatorMouseUp!;
+                Navigator.GetViewManager()!.MouseDownProcessed += OnNavigatorMouseUp;
                 Navigator.GetViewManager()!.DoubleClickProcessed += OnNavigatorDoubleClick;
                 Navigator.Pages.Inserted += OnPageInserted;
                 Navigator.Pages.Removed += OnPageRemoved;
-                Navigator.Pages.Cleared += OnPagesCleared!;
-                Navigator!.SelectedPageChanged += OnSelectedPageChanged!;
+                Navigator.Pages.Cleared += OnPagesCleared;
+                Navigator!.SelectedPageChanged += OnSelectedPageChanged;
             }
 
             // Get access to the services
@@ -77,7 +77,7 @@ namespace Krypton.Navigator
             _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving!;
+            _changeService.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
 
                     // Add the navigator specific list
@@ -136,9 +136,9 @@ namespace Krypton.Navigator
                 if (_verbs == null)
                 {
                     // Cache verb instances so enabled state can be updated in future
-                    _verbAddPage = new DesignerVerb(@"Add Page", OnAddPage!);
-                    _verbRemovePage = new DesignerVerb(@"Remove Page", OnRemovePage!);
-                    _verbClearPages = new DesignerVerb(@"Clear Pages", OnClearPages!);
+                    _verbAddPage = new DesignerVerb(@"Add Page", OnAddPage);
+                    _verbRemovePage = new DesignerVerb(@"Remove Page", OnRemovePage);
+                    _verbClearPages = new DesignerVerb(@"Clear Pages", OnClearPages);
                     _verbs = new DesignerVerbCollection(new[] { _verbAddPage, _verbRemovePage, _verbClearPages });
 
                     // Set correct initial state of the verbs
@@ -157,7 +157,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a new compound array
-                ArrayList compound = new();
+                var compound = new ArrayList();
 
                 // Add all the navigator components
                 if (Navigator != null)
@@ -239,16 +239,16 @@ namespace Krypton.Navigator
                     // Unhook from navigator events
                     if (Navigator != null)
                     {
-                        Navigator.GetViewManager()!.MouseUpProcessed -= OnNavigatorMouseUp!;
+                        Navigator.GetViewManager()!.MouseUpProcessed -= OnNavigatorMouseUp;
                         Navigator.GetViewManager()!.DoubleClickProcessed -= OnNavigatorDoubleClick;
                         Navigator.Pages.Inserted -= OnPageInserted;
                         Navigator.Pages.Removed -= OnPageRemoved;
-                        Navigator.Pages.Cleared -= OnPagesCleared!;
-                        Navigator.SelectedPageChanged -= OnSelectedPageChanged!;
+                        Navigator.Pages.Cleared -= OnPagesCleared;
+                        Navigator.SelectedPageChanged -= OnSelectedPageChanged;
                     }
 
                     // Unhook from designer events
-                    _changeService.ComponentRemoving -= OnComponentRemoving!;
+                    _changeService.ComponentRemoving -= OnComponentRemoving;
                 }
             }
             finally
@@ -272,10 +272,7 @@ namespace Krypton.Navigator
             // tracking element is informed that the mouse has left the control
             if (!ret && _lastHitTest)
             {
-                if (Navigator != null)
-                {
-                    Navigator.DesignerMouseLeave();
-                }
+                Navigator?.DesignerMouseLeave();
             }
 
             // Cache the last answer recovered
@@ -289,10 +286,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected override void OnMouseLeave()
         {
-            if (Navigator != null)
-            {
-                Navigator.DesignerMouseLeave();
-            }
+            Navigator?.DesignerMouseLeave();
             base.OnMouseLeave();
         }
 
@@ -525,22 +519,19 @@ namespace Krypton.Navigator
             if (e.Button == MouseButtons.Left)
             {
                 // Get any component associated with the current mouse position
-                if (Navigator != null)
+                Component? component = Navigator?.DesignerComponentFromPoint(new Point(e.X, e.Y));
+
+                if (component != null)
                 {
-                    Component? component = Navigator.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                    // Force the layout to be update for any change in selection
+                    Navigator.PerformLayout();
 
-                    if (component != null)
+                    // Select the component
+                    var selectionList = new ArrayList
                     {
-                        // Force the layout to be update for any change in selection
-                        Navigator.PerformLayout();
-
-                        // Select the component
-                        ArrayList selectionList = new()
-                        {
-                            component
-                        };
-                        _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
-                    }
+                        component
+                    };
+                    _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
                 }
             }
         }
@@ -548,22 +539,16 @@ namespace Krypton.Navigator
         private void OnNavigatorDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            if (Navigator != null)
+            Component? component = Navigator?.DesignerComponentFromPoint(pt);
+
+            // We are only interested in the button spec components and not the tab/check buttons
+            if (component != null && component is not System.Windows.Forms.Control)
             {
-                Component? component = Navigator.DesignerComponentFromPoint(pt);
+                // Get the designer for the component
+                IDesigner? designer = _designerHost.GetDesigner(component);
 
-                // We are only interested in the button spec components and not the tab/check buttons
-                if ((component != null) && component is not System.Windows.Forms.Control)
-                {
-                    // Get the designer for the component
-                    IDesigner? designer = _designerHost.GetDesigner(component);
-
-                    // Request code for the default event be generated
-                    if (designer != null)
-                    {
-                        designer.DoDefaultAction();
-                    }
-                }
+                // Request code for the default event be generated
+                designer?.DoDefaultAction();
             }
         }
 

@@ -224,7 +224,8 @@ namespace Krypton.Toolkit
 
             IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using KryptonMultilineStringEditorForm kmse = new(input, null, useRichTextBox, headerText, windowTitle);
+            using KryptonMultilineStringEditorForm kmse =
+                new KryptonMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
@@ -239,13 +240,14 @@ namespace Krypton.Toolkit
 
             IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using KryptonMultilineStringEditorForm kmse = new(null, input, useRichTextBox, headerText, windowTitle);
+            using KryptonMultilineStringEditorForm kmse =
+                new KryptonMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
             if (kmse._useRichTextBox)
             {
-                collection = new();
+                collection = new StringCollection();
 
                 string[] tmp = kmse.krtbContents.Lines;
 
@@ -253,7 +255,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                collection = new();
+                collection = new StringCollection();
 
                 string[] tmp = kmse.ktxtStringCollection.Lines;
 

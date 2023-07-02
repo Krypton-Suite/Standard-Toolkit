@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the control has been fully initialized.")]
-        public event EventHandler Initialized;
+        public event EventHandler? Initialized;
         #endregion
 
         #region Identity

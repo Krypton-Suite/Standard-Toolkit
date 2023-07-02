@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonAppButton:" + Id;
+            $@"ViewDrawRibbonAppButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // New clipping region is at most our own client size
-            using Region combineRegion = new(_clipRect);
+            using var combineRegion = new Region(_clipRect);
             // Remember the current clipping region
             Region clipRegion = context.Graphics.Clip.Clone();
 
@@ -174,7 +174,8 @@ namespace Krypton.Ribbon
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
                     localImage.Height * FactorDpiY);
 
-                Rectangle imageRect = new(ClientLocation.X + (int)(7 * FactorDpiX), ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
+                var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
+                    ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
 
                 if (_ribbon.Enabled)
                 {
@@ -183,7 +184,7 @@ namespace Krypton.Ribbon
                 else
                 {
                     // Use a color matrix to convert to black and white
-                    using ImageAttributes attribs = new();
+                    using var attribs = new ImageAttributes();
                     attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 
                     context.Graphics.DrawImage(localImage,

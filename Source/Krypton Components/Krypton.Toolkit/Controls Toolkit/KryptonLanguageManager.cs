@@ -17,11 +17,6 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     public class KryptonLanguageManager : Component
     {
-        #region Instance Fields
-
-
-        #endregion
-
         #region Public
 
         /// <summary>Gets the global color strings.</summary>
@@ -407,110 +402,112 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the color strings.</summary>
         /// <value>The color strings.</value>
-        public static GlobalColorStrings ColorStrings { get; } = new();
+        public static GlobalColorStrings ColorStrings { get; } = new GlobalColorStrings();
 
         /// <summary>Gets the spec style strings.</summary>
         /// <value>The spec style strings.</value>
-        public static ButtonStyleStrings ButtonStyles { get; } = new();
+        public static ButtonStyleStrings ButtonStyles { get; } = new ButtonStyleStrings();
 
-        public static CustomToolkitStrings CustomToolkitStrings { get; } = new();
+        public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
 
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
         public static GeneralToolkitStrings GeneralToolkitStrings
-        { get; } = new();
+        { get; } = new GeneralToolkitStrings();
 
         /// <summary>Gets the grid view style strings.</summary>
         /// <value>The grid view style strings.</value>
-        public static DataGridViewStyleStrings DataGridViewStyles { get; } = new();
+        public static DataGridViewStyleStrings DataGridViewStyles { get; } = new DataGridViewStyleStrings();
 
         /// <summary>Gets the style strings.</summary>
         /// <value>The style strings.</value>
-        public static GridStyleStrings GridStyles { get; } = new();
+        public static GridStyleStrings GridStyles { get; } = new GridStyleStrings();
 
         /// <summary>Gets the group collapsed target strings.</summary>
         /// <value>The group collapsed target strings.</value>
-        public static HeaderGroupCollapsedTargetStrings GroupCollapsedTargetStrings { get; } = new();
+        public static HeaderGroupCollapsedTargetStrings GroupCollapsedTargetStrings { get; } =
+            new HeaderGroupCollapsedTargetStrings();
 
         /// <summary>Gets the header styles.</summary>
         /// <value>The header styles.</value>
-        public static HeaderStyleStrings HeaderStyles { get; } = new();
+        public static HeaderStyleStrings HeaderStyles { get; } = new HeaderStyleStrings();
 
         /// <summary>Gets the input control styles.</summary>
         /// <value>The input control styles.</value>
-        public static InputControlStyleStrings InputControlStyles { get; } = new();
+        public static InputControlStyleStrings InputControlStyles { get; } = new InputControlStyleStrings();
 
         /// <summary>Gets the tool bar strings.</summary>
         /// <value>The tool bar strings.</value>
-        public static IntegratedToolBarStrings ToolBarStrings { get; } = new();
+        public static IntegratedToolBarStrings ToolBarStrings { get; } = new IntegratedToolBarStrings();
 
         /// <summary>Gets the link behavior strings.</summary>
         /// <value>The link behavior strings.</value>
-        public static KryptonLinkBehaviorStrings LinkBehaviorStrings { get; } = new();
+        public static KryptonLinkBehaviorStrings LinkBehaviorStrings { get; } = new KryptonLinkBehaviorStrings();
 
         /// <summary>Gets the krypton label style strings.</summary>
         /// <value>The krypton label style strings.</value>
-        public static LabelStyleStrings KryptonLabelStyleStrings { get; } = new();
+        public static LabelStyleStrings KryptonLabelStyleStrings { get; } = new LabelStyleStrings();
 
         /// <summary>Gets the back style strings.</summary>
         /// <value>The back style strings.</value>
-        public static PaletteBackStyleStrings BackStyleStrings { get; } = new();
+        public static PaletteBackStyleStrings BackStyleStrings { get; } = new PaletteBackStyleStrings();
 
         /// <summary>Gets the border style strings.</summary>
         /// <value>The border style strings.</value>
-        public static PaletteBorderStyleStrings BorderStyleStrings { get; } = new();
+        public static PaletteBorderStyleStrings BorderStyleStrings { get; } = new PaletteBorderStyleStrings();
 
         /// <summary>Gets the button orientation strings.</summary>
         /// <value>The button orientation strings.</value>
-        public static PaletteButtonOrientationStrings ButtonOrientationStrings { get; } = new();
+        public static PaletteButtonOrientationStrings ButtonOrientationStrings { get; } =
+            new PaletteButtonOrientationStrings();
 
         /// <summary>Gets the button spec styles.</summary>
         /// <value>The button spec styles.</value>
-        public static PaletteButtonSpecStyleStrings ButtonSpecStyles { get; } = new();
+        public static PaletteButtonSpecStyleStrings ButtonSpecStyles { get; } = new PaletteButtonSpecStyleStrings();
 
         /// <summary>Gets the button style strings.</summary>
         /// <value>The button style strings.</value>
-        public static PaletteButtonStyleStrings PaletteButtonStyles { get; } = new();
+        public static PaletteButtonStyleStrings PaletteButtonStyles { get; } = new PaletteButtonStyleStrings();
 
         /// <summary>Gets the content style strings.</summary>
         /// <value>The content style strings.</value>
-        public static PaletteContentStyleStrings ContentStyleStrings { get; } = new();
+        public static PaletteContentStyleStrings ContentStyleStrings { get; } = new PaletteContentStyleStrings();
 
         /// <summary>Gets the image effect strings.</summary>
         /// <value>The image effect strings.</value>
-        public static PaletteImageEffectStrings ImageEffectStrings { get; } = new();
+        public static PaletteImageEffectStrings ImageEffectStrings { get; } = new PaletteImageEffectStrings();
 
         /// <summary>Gets the image style strings.</summary>
         /// <value>The image style strings.</value>
-        public static PaletteImageStyleStrings ImageStyleStrings { get; } = new();
+        public static PaletteImageStyleStrings ImageStyleStrings { get; } = new PaletteImageStyleStrings();
 
         /// <summary>Gets the mode strings.</summary>
         /// <value>The mode strings.</value>
-        public static PaletteModeStrings ModeStrings { get; } = new();
+        public static PaletteModeStrings ModeStrings { get; } = new PaletteModeStrings();
 
         /// <summary>Gets the text trim strings.</summary>
         /// <value>The text trim strings.</value>
-        public static PaletteTextTrimStrings TextTrimStrings { get; } = new();
+        public static PaletteTextTrimStrings TextTrimStrings { get; } = new PaletteTextTrimStrings();
 
         /// <summary>Gets the placement mode strings.</summary>
         /// <value>The placement mode strings.</value>
-        public static PlacementModeStrings PlacementModeStrings { get; } = new();
+        public static PlacementModeStrings PlacementModeStrings { get; } = new PlacementModeStrings();
 
         /// <summary>Gets the separator styles.</summary>
         /// <value>The separator styles.</value>
-        public static SeparatorStyleStrings SeparatorStyles { get; } = new();
+        public static SeparatorStyleStrings SeparatorStyles { get; } = new SeparatorStyleStrings();
 
         /// <summary>Gets the tab border styles.</summary>
         /// <value>The tab border styles.</value>
-        public static TabBorderStyleStrings TabBorderStyles { get; } = new();
+        public static TabBorderStyleStrings TabBorderStyles { get; } = new TabBorderStyleStrings();
 
         /// <summary>Gets the tab styles.</summary>
         /// <value>The tab styles.</value>
-        public static TabStyleStrings TabStyles { get; } = new();
+        public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
 
         /// <summary>Gets the scroll bar strings.</summary>
         /// <value>The scroll bar strings.</value>
-        public static KryptonScrollBarStrings ScrollBarStrings { get; } = new();
+        public static KryptonScrollBarStrings ScrollBarStrings { get; } = new KryptonScrollBarStrings();
 
         #endregion
 
@@ -613,12 +610,6 @@ namespace Krypton.Toolkit
 
             ResetKryptonScrollBarStrings();
         }
-
-        #endregion
-
-        #region Protected
-
-
 
         #endregion
     }

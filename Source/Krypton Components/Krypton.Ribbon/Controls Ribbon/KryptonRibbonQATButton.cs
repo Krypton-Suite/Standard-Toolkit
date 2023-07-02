@@ -44,12 +44,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the quick access toolbar button has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -513,7 +513,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.Actionoccurred();
+            Ribbon?.ActionOccurred();
 
             Click?.Invoke(this, e);
 

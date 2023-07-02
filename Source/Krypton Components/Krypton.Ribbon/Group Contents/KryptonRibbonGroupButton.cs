@@ -43,7 +43,7 @@ namespace Krypton.Ribbon
         private GroupButtonType _buttonType;
         private ContextMenuStrip? _contextMenuStrip;
         private KryptonContextMenu? _kryptonContextMenu;
-        private EventHandler _kcmFinishDelegate;
+        private EventHandler? _kcmFinishDelegate;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
@@ -56,28 +56,28 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the button is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the drop down button type is pressed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the drop down button type is pressed.")]
-        public event EventHandler<ContextMenuArgs> DropDown;
+        public event EventHandler<ContextMenuArgs>? DropDown;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -648,7 +648,7 @@ namespace Krypton.Ribbon
                     {
                         if (KryptonContextMenu != null)
                         {
-                            ContextMenuArgs contextArgs = new(KryptonContextMenu);
+                            var contextArgs = new ContextMenuArgs(KryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
@@ -657,7 +657,7 @@ namespace Krypton.Ribbon
                             // If user did not cancel and there is still a krypton context menu strip to show
                             if (contextArgs is { Cancel: false, KryptonContextMenu: { } })
                             {
-                                Rectangle screenRect = Rectangle.Empty;
+                                var screenRect = Rectangle.Empty;
 
                                 // Convert the view for the button into screen coordinates
                                 if ((Ribbon != null) && (ButtonView != null))
@@ -681,7 +681,7 @@ namespace Krypton.Ribbon
                         }
                         else if (ContextMenuStrip != null)
                         {
-                            ContextMenuArgs contextArgs = new(ContextMenuStrip);
+                            var contextArgs = new ContextMenuArgs(ContextMenuStrip);
 
                             // Generate an event giving a chance for the context menu strip to be
                             // shown to be provided/modified or the action even to be cancelled
@@ -690,7 +690,7 @@ namespace Krypton.Ribbon
                             // If user did not cancel and there is still a context menu strip to show
                             if (contextArgs is { Cancel: false, ContextMenuStrip: { } })
                             {
-                                Rectangle screenRect = Rectangle.Empty;
+                                var screenRect = Rectangle.Empty;
 
                                 // Convert the view for the button into screen coordinates
                                 if ((Ribbon != null) && (ButtonView != null))

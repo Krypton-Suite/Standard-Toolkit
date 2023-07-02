@@ -48,21 +48,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the control has been fully initialized.")]
-        public event EventHandler Initialized;
+        public event EventHandler? Initialized;
 
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the Palette property is changed.")]
-        public event EventHandler PaletteChanged;
+        public event EventHandler? PaletteChanged;
 
         /// <summary>
         /// Occurs when the Global palette changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
-        public event EventHandler GlobalPaletteChanged;
+        public event EventHandler? GlobalPaletteChanged;
         #endregion
 
         #region Identity
@@ -144,16 +144,16 @@ namespace Krypton.Toolkit
                 // Unhook from any current menu strip
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening!;
-                    base.ContextMenuStrip.Closed -= OnContextMenuClosed!;
+                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed -= OnContextMenuClosed;
                     base.ContextMenuStrip = null;
                 }
 
                 // Must unhook from the palette paint event
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= OnNeedPaint!;
-                    _palette.ButtonSpecChanged -= OnButtonSpecChanged!;
+                    _palette.PalettePaint -= OnNeedPaint;
+                    _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 }
 
                 UnattachGlobalEvents();
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
                 // Unhook from any current menu strip
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening!;
-                    base.ContextMenuStrip.Closed -= OnContextMenuClosed!;
+                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed -= OnContextMenuClosed;
                 }
 
                 // Let parent handle actual storage
@@ -257,8 +257,8 @@ namespace Krypton.Toolkit
                 // Hook into the strip being shown (so we can set the correct renderer)
                 if (base.ContextMenuStrip != null)
                 {
-                    base.ContextMenuStrip.Opening += OnContextMenuStripOpening!;
-                    base.ContextMenuStrip.Closed += OnContextMenuClosed!;
+                    base.ContextMenuStrip.Opening += OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed += OnContextMenuClosed;
                 }
             }
         }
@@ -279,16 +279,16 @@ namespace Krypton.Toolkit
                 {
                     if (_kryptonContextMenu != null)
                     {
-                        _kryptonContextMenu.Closed -= OnContextMenuClosed!;
-                        _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed!;
+                        _kryptonContextMenu.Closed -= OnContextMenuClosed;
+                        _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed;
                     }
 
                     _kryptonContextMenu = value;
 
                     if (_kryptonContextMenu != null)
                     {
-                        _kryptonContextMenu.Closed += OnContextMenuClosed!;
-                        _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed!;
+                        _kryptonContextMenu.Closed += OnContextMenuClosed;
+                        _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed;
                     }
                 }
             }
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)(long)m.LParam) == -1)
@@ -780,12 +780,12 @@ namespace Krypton.Toolkit
         {
             if (attach)
             {
-                KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged!;
+                KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
                 SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
             }
             else
             {
-                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged!;
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
                 SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
             }
         }
@@ -796,7 +796,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(100, 100);
+        protected override Size DefaultSize => new Size(100, 100);
 
         /// <summary>
         /// Raises the RightToLeftChanged event.

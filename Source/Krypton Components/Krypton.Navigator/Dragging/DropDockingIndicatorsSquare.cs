@@ -49,11 +49,8 @@ namespace Krypton.Navigator
             _dragData = new RenderDragDockingData(showLeft, showRight, showTop, showBottom, showMiddle);
 
             // Ask the renderer to measure the sizing of the indicators that are Displayed
-            if (_renderer != null)
-            {
-                _renderer.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop,
-                    PaletteDragFeedback.Square);
-            }
+            _renderer?.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop,
+                PaletteDragFeedback.Square);
 
             // Setup window so that it is transparent to the Silver color and does not have any borders etc...
             BackColor = Color.Silver;
@@ -70,7 +67,7 @@ namespace Krypton.Navigator
             StartPosition = FormStartPosition.Manual;
             Text = @"DropIndicators";
             TransparencyKey = Color.Silver;
-            Paint += DropIndicators_Paint!;
+            Paint += DropIndicators_Paint;
         }
         #endregion
 
@@ -178,17 +175,14 @@ namespace Krypton.Navigator
         #region Implementation
         private void DropIndicators_Paint(object sender, PaintEventArgs e)
         {
-            using RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer);
-            if (_renderer != null)
-            {
-                _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Square);
-            }
+            using var context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer);
+            _renderer?.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Square);
         }
 
         private void DrawPath(Graphics g, Color baseColor, GraphicsPath path)
         {
             // Draw a smooth outline around the circle
-            using Pen outline = new(baseColor);
+            using var outline = new Pen(baseColor);
             g.DrawPath(outline, path);
         }
         #endregion

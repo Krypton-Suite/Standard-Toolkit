@@ -148,7 +148,7 @@ namespace Krypton.Ribbon
             {
                 // Grab the list of key tips from the popup group
                 Ribbon.KeyTipMode = KeyTipMode.PopupQATOverflow;
-                KeyTipInfoList keyTipList = new();
+                var keyTipList = new KeyTipInfoList();
                 keyTipList.AddRange(popupOverflow.ViewQATContents.GetQATKeyTips(null));
 
                 // Update key tips with those appropriate for this tab

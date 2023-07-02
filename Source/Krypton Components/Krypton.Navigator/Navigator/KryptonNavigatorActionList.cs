@@ -551,7 +551,7 @@ namespace Krypton.Navigator
         /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_navigator != null)
@@ -750,9 +750,9 @@ namespace Krypton.Navigator
             _headerSecondaryText = (headerSecondaryVisible ? "Hide secondary header" : "Show secondary header");
 
             // Create the two verbs for toggling the header visibility
-            _headerBarVisible = new DesignerVerb(_headerBarText, OnVisibleClick!);
-            _headerPrimaryVisible = new DesignerVerb(_headerPrimaryText, OnVisibleClick!);
-            _headerSecondaryVisible = new DesignerVerb(_headerSecondaryText, OnVisibleClick!);
+            _headerBarVisible = new DesignerVerb(_headerBarText, OnVisibleClick);
+            _headerPrimaryVisible = new DesignerVerb(_headerPrimaryText, OnVisibleClick);
+            _headerSecondaryVisible = new DesignerVerb(_headerSecondaryText, OnVisibleClick);
 
             actions.Add(new DesignerActionHeaderItem("Header"));
 

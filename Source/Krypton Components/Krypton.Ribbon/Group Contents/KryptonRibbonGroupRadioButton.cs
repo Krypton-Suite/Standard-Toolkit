@@ -45,21 +45,21 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the radio button is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         [Description(@"Occurs when the design time context menu is requested.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity

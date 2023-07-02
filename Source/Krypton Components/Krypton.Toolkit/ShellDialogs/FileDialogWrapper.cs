@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Occurs when the user clicks on the Open or Save button on a file dialog box.</summary>
         [Description("Occurs when the user clicks on the Open or Save button on a file dialog box.")]
-        public abstract event CancelEventHandler FileOk;
+        public abstract event CancelEventHandler? FileOk;
 
         /// <summary>Gets the custom places collection for this <see cref="T:System.Windows.Forms.FileDialog" /> instance.</summary>
         /// <returns>The custom places collection for this <see cref="T:System.Windows.Forms.FileDialog" /> instance.</returns>

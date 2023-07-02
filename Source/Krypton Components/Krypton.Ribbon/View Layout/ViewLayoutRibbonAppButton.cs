@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonAppButton:" + Id;
+            $"ViewLayoutRibbonAppButton:{Id}";
 
         #endregion
 
@@ -130,7 +130,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void UpdateSeparatorSize()
         {
-            Size separatorSize = new(APPBUTTON_GAP, APPBUTTON_GAP);
+            var separatorSize = new Size(APPBUTTON_GAP, APPBUTTON_GAP);
 
             // Do we need to add on extra sizing to the separator?
             if (OwnerForm != null)

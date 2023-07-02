@@ -1414,7 +1414,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
         {
-            Image retImage;
+            Image? retImage;
 
             // Get the state specific image
             if (!checkState)
@@ -1470,7 +1470,7 @@ namespace Krypton.Toolkit
         public override Image? GetDropDownButtonImage(PaletteState state)
         {
             // Grab state specific image
-            Image retImage = state switch
+            Image? retImage = state switch
             {
                 PaletteState.Disabled => Images.DropDownButton.Disabled,
                 PaletteState.Normal => Images.DropDownButton.Normal,
@@ -1492,7 +1492,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetContextMenuCheckedImage()
         {
-            Image retImage = Images.ContextMenu.Checked;
+            Image? retImage = Images.ContextMenu.Checked;
 
             // If nothing found then use the base palette
             return retImage ?? _redirector.GetContextMenuCheckedImage();
@@ -1504,7 +1504,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetContextMenuIndeterminateImage()
         {
-            Image retImage = Images.ContextMenu.Indeterminate;
+            Image? retImage = Images.ContextMenu.Indeterminate;
 
             // If nothing found then use the base palette
             return retImage ?? _redirector.GetContextMenuIndeterminateImage();
@@ -1516,7 +1516,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetContextMenuSubMenuImage()
         {
-            Image retImage = Images.ContextMenu.SubMenu;
+            Image? retImage = Images.ContextMenu.SubMenu;
 
             // If nothing found then use the base palette
             return retImage ?? _redirector.GetContextMenuSubMenuImage();
@@ -1530,7 +1530,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
         {
-            Image retImage = null;
+            Image? retImage = null;
             KryptonPaletteImagesGalleryButton images = button switch
             {
                 PaletteRibbonGalleryButton.Up => Images.GalleryButtons.Up,
@@ -1552,7 +1552,7 @@ namespace Krypton.Toolkit
             retImage ??= images.Common;
 
             // If nothing found then use the base palette
-            return retImage ?? _redirector.GetGalleryButtonImage(button, state);
+            return retImage ?? _redirector?.GetGalleryButtonImage(button, state);
         }
         #endregion
 
@@ -1990,7 +1990,7 @@ namespace Krypton.Toolkit
             {
                 if (!silent)
                 {
-                    KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
+                    KryptonMessageBox.Show($"Reset failed.\n\n Error:{ex.Message}",
                                     "Palette Reset",
                                     KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
@@ -2032,7 +2032,7 @@ namespace Krypton.Toolkit
             {
                 if (!silent)
                 {
-                    KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
+                    KryptonMessageBox.Show($"Reset failed.\n\n Error:{ex.Message}",
                                     "Populate Values",
                                     KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
@@ -2053,7 +2053,7 @@ namespace Krypton.Toolkit
         {
             if (UseKryptonFileDialogs)
             {
-                using KryptonOpenFileDialog kofd = new()
+                using KryptonOpenFileDialog kofd = new KryptonOpenFileDialog
                 {
                     CheckFileExists = true,
                     CheckPathExists = true,
@@ -2078,7 +2078,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using OpenFileDialog dialog = new()
+                using OpenFileDialog dialog = new OpenFileDialog
                 {
                     // Palette files are just XML documents
                     CheckFileExists = true,
@@ -2204,7 +2204,7 @@ namespace Krypton.Toolkit
             {
                 if (!silent)
                 {
-                    KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
+                    KryptonMessageBox.Show($@"Import has failed.\n\n Error:{ex.Message}",
                                     @"Palette Import",
                                     KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
@@ -2258,7 +2258,7 @@ namespace Krypton.Toolkit
             {
                 if (!silent)
                 {
-                    KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
+                    KryptonMessageBox.Show($@"Import has failed.\n\n Error:{ex.Message}",
                                     @"Palette Import",
                                     KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
@@ -2282,7 +2282,7 @@ namespace Krypton.Toolkit
         {
             if (UseKryptonFileDialogs)
             {
-                using KryptonSaveFileDialog ksfd = new()
+                using KryptonSaveFileDialog ksfd = new KryptonSaveFileDialog
                 {
                     OverwritePrompt = true,
                     DefaultExt = @"xml",
@@ -2299,7 +2299,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using SaveFileDialog dialog = new()
+                using SaveFileDialog dialog = new SaveFileDialog
                 {
                     // Palette files are just xml documents
                     OverwritePrompt = true,
@@ -2424,7 +2424,7 @@ namespace Krypton.Toolkit
             {
                 if (!silent)
                 {
-                    KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
+                    KryptonMessageBox.Show($@"Export has failed.\n\n Error:{ex.Message}",
                                     @"Palette Export",
                                     KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
@@ -2480,7 +2480,7 @@ namespace Krypton.Toolkit
             {
                 if (!silent)
                 {
-                    KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
+                    KryptonMessageBox.Show($@"Export has failed.\n\n Error:{ex.Message}",
                                     @"Palette Export",
                                     KryptonMessageBoxButtons.OK,
                                     KryptonMessageBoxIcon.Error);
@@ -2950,7 +2950,7 @@ namespace Krypton.Toolkit
             }
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new();
+            XmlDocument doc = new XmlDocument();
 
             // Attempt to load as a valid xml document
             doc.Load(filename);
@@ -2967,7 +2967,7 @@ namespace Krypton.Toolkit
             Stream stream = (Stream)parameter;
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new();
+            XmlDocument doc = new XmlDocument();
 
             // Attempt to load from the provided stream
             doc.Load(stream);
@@ -2984,7 +2984,7 @@ namespace Krypton.Toolkit
             var byteArray = (byte[])parameter;
 
             // Create a memory based stream
-            MemoryStream ms = new(byteArray);
+            MemoryStream ms = new MemoryStream(byteArray);
 
             // Perform import from the memory stream
             ImportFromStream(ms);
@@ -3031,8 +3031,7 @@ namespace Krypton.Toolkit
 
                 if (version < CURRENT_PALETTE_VERSION)
                 {
-                    throw new ArgumentException("Version '" + version + "' number is incompatible, only version " + CURRENT_PALETTE_VERSION +
-                                                " or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                    throw new ArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
                 }
 
                 // Grab the properties and images elements
@@ -3051,7 +3050,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Cache the images from the images element
-                ImageReverseDictionary imageCache = new();
+                ImageReverseDictionary imageCache = new ImageReverseDictionary();
 
                 // Use reflection to import the palette hierarchy
                 ImportImagesFromElement(images, imageCache);
@@ -3073,7 +3072,7 @@ namespace Krypton.Toolkit
             var filename = (string)parameters[0];
             var ignoreDefaults = (bool)parameters[1];
 
-            FileInfo info = new(filename);
+            FileInfo info = new FileInfo(filename);
 
             // Check the target directory actually exists
             if (info.Directory != null && !info.Directory.Exists)
@@ -3117,7 +3116,7 @@ namespace Krypton.Toolkit
             var ignoreDefaults = (bool)parameters[0];
 
             // Create a memory based stream
-            MemoryStream ms = new();
+            MemoryStream ms = new MemoryStream();
 
             // Perform export into the memory stream
             ExportToStream(new object[] { ms, ignoreDefaults });
@@ -3140,7 +3139,7 @@ namespace Krypton.Toolkit
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
                 // Create a new xml document for storing the palette settings
-                XmlDocument doc = new();
+                XmlDocument doc = new XmlDocument();
 
                 // Add the standard xml version number
                 doc.AppendChild(doc.CreateProcessingInstruction("xml", @"version=""1.0"""));
@@ -3154,7 +3153,8 @@ namespace Krypton.Toolkit
                 // having a version number the loading of older version is easier
                 XmlElement root = doc.CreateElement("KryptonPalette");
                 root.SetAttribute(nameof(Version), CURRENT_PALETTE_VERSION.ToString());
-                root.SetAttribute("Generated", DateTime.Now.ToLongDateString() + ", @" + DateTime.Now.ToShortTimeString());
+                root.SetAttribute("Generated",
+                    $"{DateTime.Now.ToLongDateString()}, @{DateTime.Now.ToShortTimeString()}");
                 doc.AppendChild(root);
 
                 // Add two children, one for storing actual palette values the other for cached images
@@ -3164,7 +3164,7 @@ namespace Krypton.Toolkit
                 root.AppendChild(images);
 
                 // Cache any images that are found during object export
-                ImageDictionary imageCache = new();
+                ImageDictionary imageCache = new ImageDictionary();
 
                 // Use reflection to export the palette hierarchy
                 ExportObjectToElement(doc, props, imageCache, this, ignoreDefaults);
@@ -3201,75 +3201,72 @@ namespace Krypton.Toolkit
                             // Cast attribute to the correct type
 
                             // Check if there is an element matching the property
-                            if (element != null)
+                            XmlElement? childElement = element?.SelectSingleNode(prop.Name) as XmlElement;
+
+                            // Can only import if a matching XML element is found
+                            if (childElement != null)
                             {
-                                XmlElement? childElement = element.SelectSingleNode(prop.Name) as XmlElement;
-
-                                // Can only import if a matching XML element is found
-                                if (childElement != null)
+                                // Should we navigate down inside the property?
+                                if (persistAttribute.Navigate)
                                 {
-                                    // Should we navigate down inside the property?
-                                    if (persistAttribute.Navigate)
+                                    // If we can read the property value
+                                    if (prop.CanRead)
                                     {
-                                        // If we can read the property value
-                                        if (prop.CanRead)
-                                        {
-                                            // Grab the property object and recurse into it
-                                            var childObj = prop.GetValue(obj, null);
-                                            ImportObjectFromElement(childElement, imageCache, childObj);
-                                        }
+                                        // Grab the property object and recurse into it
+                                        var childObj = prop.GetValue(obj, null);
+                                        ImportObjectFromElement(childElement, imageCache, childObj);
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    // The xml element must have a type and value in order to recreate it
+                                    if (childElement.HasAttribute(nameof(Type)) &&
+                                        childElement.HasAttribute(@"Value"))
                                     {
-                                        // The xml element must have a type and value in order to recreate it
-                                        if (childElement.HasAttribute(nameof(Type)) &&
-                                            childElement.HasAttribute(@"Value"))
-                                        {
-                                            // Get the type/value attributes
-                                            var valueType = childElement.GetAttribute(nameof(Type));
-                                            var valueValue = childElement.GetAttribute(@"Value");
+                                        // Get the type/value attributes
+                                        var valueType = childElement.GetAttribute(nameof(Type));
+                                        var valueValue = childElement.GetAttribute(@"Value");
 
-                                            // We special case the loading of images
-                                            if (prop.PropertyType.Equals(typeof(Image)))
+                                        // We special case the loading of images
+                                        if (prop.PropertyType.Equals(typeof(Image)))
+                                        {
+                                            if (valueValue.Length == 0)
                                             {
-                                                if (valueValue.Length == 0)
-                                                {
-                                                    // An empty string represents a null image value
-                                                    prop.SetValue(obj, null, null);
-                                                }
-                                                else
-                                                {
-                                                    // Have we already encountered the image?
-                                                    if (imageCache.ContainsKey(valueValue))
-                                                    {
-                                                        // Push the image from the cache into the property
-                                                        prop.SetValue(obj, valueValue, null);
-                                                    }
-                                                    else
-                                                    {
-                                                        // Cannot find image to set to empty
-                                                        prop.SetValue(obj, null, null);
-                                                    }
-                                                }
+                                                // An empty string represents a null image value
+                                                prop.SetValue(obj, null, null);
                                             }
                                             else
                                             {
-                                                object? setValue = null;
-
-                                                // We ignore conversion of a Font of value (none) because instead
-                                                // of providing null it returns a default font value
-                                                if (valueType != nameof(Font) || valueValue != @"(none)")
+                                                // Have we already encountered the image?
+                                                if (imageCache.ContainsKey(valueValue))
                                                 {
-                                                    // We need the type converter to create a string representation
-                                                    TypeConverter converter = TypeDescriptor.GetConverter(StringToType(valueType));
-
-                                                    // Recreate the value using the converter
-                                                    setValue = converter.ConvertFromInvariantString(valueValue);
+                                                    // Push the image from the cache into the property
+                                                    prop.SetValue(obj, valueValue, null);
                                                 }
-
-                                                // Push the value into the actual property
-                                                prop.SetValue(obj, setValue, null);
+                                                else
+                                                {
+                                                    // Cannot find image to set to empty
+                                                    prop.SetValue(obj, null, null);
+                                                }
                                             }
+                                        }
+                                        else
+                                        {
+                                            object? setValue = null;
+
+                                            // We ignore conversion of a Font of value (none) because instead
+                                            // of providing null it returns a default font value
+                                            if (valueType != nameof(Font) || valueValue != @"(none)")
+                                            {
+                                                // We need the type converter to create a string representation
+                                                TypeConverter converter = TypeDescriptor.GetConverter(StringToType(valueType));
+
+                                                // Recreate the value using the converter
+                                                setValue = converter.ConvertFromInvariantString(valueValue);
+                                            }
+
+                                            // Push the value into the actual property
+                                            prop.SetValue(obj, setValue, null);
                                         }
                                     }
                                 }
@@ -3311,7 +3308,7 @@ namespace Krypton.Toolkit
                             var bytes = Convert.FromBase64String(cdata.Value);
 
                             // Convert the bytes back into an Image
-                            MemoryStream memory = new(bytes);
+                            MemoryStream memory = new MemoryStream(bytes);
                             Bitmap resurect;
                             try
                             {
@@ -3322,7 +3319,7 @@ namespace Krypton.Toolkit
                                 // Do the old way
                                 // SYSLIB0011: BinaryFormatter serialization is obsolete
 #pragma warning disable SYSLIB0011
-                                BinaryFormatter formatter = new();
+                                BinaryFormatter formatter = new BinaryFormatter();
                                 var old = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
                                 resurect = old is Bitmap bitmap ? bitmap : new Bitmap(old);
@@ -3464,7 +3461,7 @@ namespace Krypton.Toolkit
                                             else
                                             {
                                                 // Generate a placeholder string
-                                                var imageName = @"ImageCache" + (imageCache.Count + 1);
+                                                var imageName = $@"ImageCache{(imageCache.Count + 1)}";
 
                                                 // Add the actual image instance into the cache
                                                 imageCache.Add(image, imageName);
@@ -3498,7 +3495,7 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Convert the Image into base64 so it can be used in xml
-                    using MemoryStream memory = new();
+                    using MemoryStream memory = new MemoryStream();
 
                     var imageFormat = entry.Key.RawFormat;
 
@@ -3618,7 +3615,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static readonly Dictionary<Type, string> _typeTests = new()
+        private static readonly Dictionary<Type, string> _typeTests = new Dictionary<Type, string>
         {
             [typeof(int)] = @"Int", //nameof(Int32),
             [typeof(string)] = nameof(String),

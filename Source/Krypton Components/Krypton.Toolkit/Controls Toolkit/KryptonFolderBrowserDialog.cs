@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 #if NET60_OR_GREATER
         private readonly FolderBrowserDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
 #else
-        private readonly ShellBrowserDialogTFM _internalOpenFileDialog = new();
+        private readonly ShellBrowserDialogTFM _internalOpenFileDialog = new ShellBrowserDialogTFM();
 #endif
 
         /// <inheritdoc />

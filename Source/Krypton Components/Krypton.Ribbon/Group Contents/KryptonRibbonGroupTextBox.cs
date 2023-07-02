@@ -38,106 +38,106 @@ namespace Krypton.Ribbon
         /// </summary>
         [Description(@"Occurs when the value of the Text property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyPressEventHandler KeyPress;
+        public event KeyPressEventHandler? KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is released while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyUp;
+        public event KeyEventHandler? KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler? KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
         [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
         [Category(@"Key")]
-        public event PreviewKeyDownEventHandler PreviewKeyDown;
+        public event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         /// <summary>
         /// Occurs when the value of the AcceptsTab property changes.
         /// </summary>
         [Description(@"Occurs when the value of the AcceptsTab property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler AcceptsTabChanged;
+        public event EventHandler? AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
         [Description(@"Occurs when the value of the HideSelection property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler HideSelectionChanged;
+        public event EventHandler? HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the TextAlign property changes.
         /// </summary>
         [Description(@"Occurs when the value of the TextAlign property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler TextAlignChanged;
+        public event EventHandler? TextAlignChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Modified property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ModifiedChanged;
+        public event EventHandler? ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Multiline property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler MultilineChanged;
+        public event EventHandler? MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ReadOnly property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ReadOnlyChanged;
+        public event EventHandler? ReadOnlyChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity

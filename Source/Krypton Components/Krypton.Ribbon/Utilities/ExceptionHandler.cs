@@ -65,13 +65,11 @@ namespace Krypton.Ribbon
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new(fileName);
+                using var writer = new StreamWriter(fileName);
 
                 writer.Write(exc.ToString());
 
                 writer.Close();
-
-                writer.Dispose();
             }
             catch (Exception e)
             {
@@ -91,13 +89,11 @@ namespace Krypton.Ribbon
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new(fileName);
+                using var writer = new StreamWriter(fileName);
 
                 writer.Write(exc.StackTrace);
 
                 writer.Close();
-
-                writer.Dispose();
             }
             catch (Exception e)
             {

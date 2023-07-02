@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a new collection for both values
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 compound.AddRange(_ribbon.ButtonSpecs);
                 compound.AddRange(_ribbon.QATButtons);
@@ -117,7 +117,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
                     // Add the ribbon specific list
                     new KryptonRibbonActionList(this)
@@ -331,7 +331,7 @@ namespace Krypton.Ribbon
             if (component != null)
             {
                 // Select the component
-                ArrayList selectionList = new()
+                var selectionList = new ArrayList
                 {
                     component
                 };

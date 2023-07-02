@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the radio button has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
                 if (_menuRadioButton.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    var cea = new CancelEventArgs();
                     _menuRadioButton.Closing(cea);
 
                     if (!cea.Cancel)

@@ -113,10 +113,10 @@ namespace Krypton.Docking
                 if ((page is { } and not KryptonStorePage))
                 {
                     // Notify that we are storing a page, so handlers can ensure it will be unique to the auto hidden location
-                    OnStoringPage(new(page.UniqueName));
+                    OnStoringPage(new UniqueNameEventArgs(page.UniqueName));
 
                     // Replace the existing page with a placeholder that has the same unique name
-                    KryptonStorePage placeholder = new(uniqueName, "AutoHiddenGroup");
+                    var placeholder = new KryptonStorePage(uniqueName, "AutoHiddenGroup");
                     Pages.Insert(Pages.IndexOf(page), placeholder);
                     Pages.Remove(page);
                 }

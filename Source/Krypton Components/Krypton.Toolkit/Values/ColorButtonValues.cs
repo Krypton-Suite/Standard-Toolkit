@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Text property changes.
         /// </summary>
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
         #endregion
 
         #region Identity
@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
         /// Create the storage for the image states.
         /// </summary>
         /// <returns>Storage object.</returns>
-        protected virtual ButtonImageStates CreateImageStates() => new();
+        protected virtual ButtonImageStates CreateImageStates() => new ButtonImageStates();
 
         #endregion
 
@@ -364,7 +364,8 @@ namespace Krypton.Toolkit
                     // Create a copy of the source image
                     Size selectedRectSize = _selectedRect.Size;
                     Size imageSize = image.Size;
-                    Bitmap copyBitmap = new(image, Math.Max(selectedRectSize.Width, imageSize.Width), Math.Max(selectedRectSize.Height, imageSize.Height));
+                    Bitmap copyBitmap = new Bitmap(image, Math.Max(selectedRectSize.Width, imageSize.Width),
+                        Math.Max(selectedRectSize.Height, imageSize.Height));
 
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
@@ -376,13 +377,13 @@ namespace Krypton.Toolkit
                             // Indicate the absence of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using Pen borderPen = new(_emptyBorderColor);
+                            using Pen borderPen = new Pen(_emptyBorderColor);
                             DrawRoundedRectangle(g, borderPen, _selectedRect, _roundedCorners);
                         }
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using SolidBrush colorBrush = new(_selectedColor);
+                            using SolidBrush colorBrush = new SolidBrush(_selectedColor);
                             FillRoundedRectangle(g, colorBrush, _selectedRect, _roundedCorners);
                         }
                     }

@@ -21,13 +21,13 @@
 
 using Microsoft.Win32.SafeHandles;
 
-using static Krypton.Toolkit.FileDialogWrapper;
 // ReSharper disable CommentTypo
 // ReSharper disable UnusedType.Local
 // ReSharper disable MemberHidesStaticFromOuterClass
 // ReSharper disable EnumUnderlyingTypeIsInt
 // ReSharper disable UnusedParameter.Local
 // ReSharper disable UnusedVariable
+#pragma warning disable IDE0090
 
 #pragma warning disable 649
 
@@ -78,29 +78,29 @@ namespace Krypton.Toolkit
     {
         #region statics
 
-        internal static readonly IntPtr InvalidIntPtr = new(-1);
-        internal static readonly IntPtr LPSTR_TEXTCALLBACK = new(-1);
-        internal static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
+        internal static readonly IntPtr InvalidIntPtr = new IntPtr(-1);
+        internal static readonly IntPtr LPSTR_TEXTCALLBACK = new IntPtr(-1);
+        internal static readonly HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
 
         /// <summary>
         ///     Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
         /// </summary>
-        internal static readonly IntPtr HWND_TOPMOST = new(-1);
+        internal static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
 
         /// <summary>
         ///     Places the window above all non-topmost windows (that is, behind all topmost windows). This flag has no effect if the window is already a non-topmost window.
         /// </summary>
-        internal static readonly IntPtr HWND_NOTOPMOST = new(-2);
+        internal static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
 
         /// <summary>
         ///     Places the window at the top of the Z order.
         /// </summary>
-        internal static readonly IntPtr HWND_TOP = new(0);
+        internal static readonly IntPtr HWND_TOP = new IntPtr(0);
 
         /// <summary>
         ///     Places the window at the bottom of the Z order. If the hWnd parameter identifies a topmost window, the window loses its topmost status and is placed at the bottom of all other windows.
         /// </summary>
-        internal static readonly IntPtr HWND_BOTTOM = new(1);
+        internal static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
         internal const int BM_CLICK = 0x00F5;
         #endregion
@@ -2800,9 +2800,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MAKEHIWORD(int value) => (value & 0xFFFF) << 0x10;
 
-        internal static IntPtr MakeLParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
+        internal static IntPtr MakeLParam(int LoWord, int HiWord) =>
+            new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
 
-        internal static IntPtr MakeWParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
+        internal static IntPtr MakeWParam(int LoWord, int HiWord) =>
+            new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         /// <summary>
         /// Is the specified key currently pressed down.
@@ -3293,7 +3295,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal static MONITORINFO GetMonitorInfo(IntPtr hMonitor)
         {
-            MONITORINFO mi = new();
+            MONITORINFO mi = new MONITORINFO();
             if (!_GetMonitorInfo(hMonitor, mi))
             {
                 throw new Win32Exception();
@@ -3894,7 +3896,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// <returns>IntPtr</returns>
         internal static IntPtr GetNativeImage(Bitmap bitmap) => IntPtr.Zero;
 
-        internal static Guid BlurEffectGuid = new("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
+        internal static Guid BlurEffectGuid = new Guid("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
 
         [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4202,9 +4204,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 X = x;
                 Y = y;
             }
-            public static implicit operator Point(POINT p) => new(p.X, p.Y);
+            public static implicit operator Point(POINT p) => new Point(p.X, p.Y);
 
-            public static implicit operator POINT(Point p) => new(p.X, p.Y);
+            public static implicit operator POINT(Point p) => new POINT(p.X, p.Y);
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -4412,11 +4414,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
             /// <summary>
             /// </summary>            
-            public RECT rcMonitor = new();
+            public RECT rcMonitor = new RECT();
 
             /// <summary>
             /// </summary>            
-            public RECT rcWork = new();
+            public RECT rcWork = new RECT();
 
             /// <summary>
             /// </summary>            

@@ -38,47 +38,47 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
 
         /// <summary>
         /// Occurs when the mouse is used to right click the target.
         /// </summary>
-        public event MouseEventHandler RightClick;
+        public event MouseEventHandler? RightClick;
         
         /// <summary>
         /// Occurs when the mouse is used to left select the target.
         /// </summary>
-        public event MouseEventHandler MouseSelect;
+        public event MouseEventHandler? MouseSelect;
 
         /// <summary>
         /// Occurs when start of drag operation occurs.
         /// </summary>
-        public event EventHandler<DragStartEventCancelArgs> DragStart;
+        public event EventHandler<DragStartEventCancelArgs>? DragStart;
 
         /// <summary>
         /// Occurs when drag moves.
         /// </summary>
-        public event EventHandler<PointEventArgs> DragMove;
+        public event EventHandler<PointEventArgs>? DragMove;
 
         /// <summary>
         /// Occurs when drag ends.
         /// </summary>
-        public event EventHandler<PointEventArgs> DragEnd;
+        public event EventHandler<PointEventArgs>? DragEnd;
 
         /// <summary>
         /// Occurs when drag quits.
         /// </summary>
-        public event EventHandler DragQuit;
+        public event EventHandler? DragQuit;
 
         /// <summary>
         /// Occurs when the drag rectangle for the button is required.
         /// </summary>
-        public event EventHandler<ButtonDragRectangleEventArgs> ButtonDragRectangle;
+        public event EventHandler<ButtonDragRectangleEventArgs>? ButtonDragRectangle;
 
         /// <summary>
         /// Occurs when the dragging inside the button drag rectangle.
         /// </summary>
-        public event EventHandler<ButtonDragOffsetEventArgs> ButtonDragOffset;
+        public event EventHandler<ButtonDragOffsetEventArgs>? ButtonDragOffset;
         #endregion
 
         #region Identity
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
                             {
                                 _draggingAttempt = true;
                                 Point targetOrigin = Target.ClientLocation;
-                                Point offset = new(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
+                                var offset = new Point(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
                                 OnDragStart(MousePoint, offset, c);
                             }
                         }
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
 
                     if (!_dragging && !_dragRect.IsEmpty && _preDragOffset)
                     {
-                        ButtonDragOffsetEventArgs args = new(pt);
+                        var args = new ButtonDragOffsetEventArgs(pt);
                         OnButtonDragOffset(args);
                     }
                 }
@@ -294,8 +294,8 @@ namespace Krypton.Toolkit
                             Captured = true;
                             _draggingAttempt = false;
 
-                            // Use event to discover the rectangle that causes dragging to begin
-                            ButtonDragRectangleEventArgs args = new(pt);
+                                // Use event to discover the rectangle that causes dragging to begin
+                                var args = new ButtonDragRectangleEventArgs(pt);
                             OnButtonDragRectangle(args);
                             _dragRect = args.DragRect;
                             _preDragOffset = args.PreDragOffset;
@@ -833,7 +833,7 @@ namespace Krypton.Toolkit
         {
             // Convert point from client to screen coordinates
             mousePt = Target.OwningControl.PointToScreen(mousePt);
-            DragStartEventCancelArgs ce = new(mousePt, offset, c);
+            var ce = new DragStartEventCancelArgs(mousePt, offset, c);
 
             DragStart?.Invoke(this, ce);
 

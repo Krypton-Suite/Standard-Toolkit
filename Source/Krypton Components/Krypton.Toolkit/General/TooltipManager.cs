@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the showing tooltip is no longer required.
         /// </summary>
-        public event EventHandler CancelToolTip;
+        public event EventHandler? CancelToolTip;
         #endregion
 
         #region Identity

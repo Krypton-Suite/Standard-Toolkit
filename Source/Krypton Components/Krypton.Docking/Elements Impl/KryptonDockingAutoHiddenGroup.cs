@@ -544,8 +544,8 @@ namespace Krypton.Docking
 
             // Get the unique name of the page
             string uniqueName = xmlReader.GetAttribute(@"UN") ?? string.Empty;
-            string? boolStore = xmlReader.GetAttribute(@"S") ?? string.Empty;
-            string? boolVisible = xmlReader.GetAttribute(@"V") ?? string.Empty;
+            string boolStore = xmlReader.GetAttribute(@"S") ?? string.Empty;
+            string boolVisible = xmlReader.GetAttribute(@"V") ?? string.Empty;
 
             KryptonPage? page;
 
@@ -602,10 +602,7 @@ namespace Krypton.Docking
 
             // Generate event so custom data can be loaded and/or the page to be added can be modified
             var pageLoading = new DockPageLoadingEventArgs(manager, xmlReader, page);
-            if (manager != null)
-            {
-                manager.RaisePageLoading(pageLoading);
-            }
+            manager?.RaisePageLoading(pageLoading);
 
             // Read everything until we get the end of custom data marker
             while (!finished)

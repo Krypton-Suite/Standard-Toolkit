@@ -99,21 +99,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the Value property is changed on KryptonDateTimePicker.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs when the ValueNullable property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the ValueNullable property is changed on KryptonDateTimePicker.")]
-        public event EventHandler ValueNullableChanged;
+        public event EventHandler? ValueNullableChanged;
 
         /// <summary>
         /// Occurs when the Value property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the ActiveFragment property is changed on KryptonDateTimePicker.")]
-        public event EventHandler ActiveFragmentChanged;
+        public event EventHandler? ActiveFragmentChanged;
 
         /// <summary>
         /// Occurs when the drop down is shown.
@@ -134,35 +134,35 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised to indicate the month calendar date changed whilst dropped down.")]
-        public event EventHandler CloseUpMonthCalendarChanged;
+        public event EventHandler? CloseUpMonthCalendarChanged;
 
         /// <summary>
         /// Occurs when auto shifting to the next field but overflowing the end.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when auto shifting to the next field but overflowing the end.")]
-        public event CancelEventHandler AutoShiftOverflow;
+        public event CancelEventHandler? AutoShiftOverflow;
 
         /// <summary>
         /// Occurs when the Checked property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Checked property is changed on KryptonDateTimePicker.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the Format property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Format property is changed on KryptonDateTimePicker.")]
-        public event EventHandler FormatChanged;
+        public event EventHandler? FormatChanged;
 
         /// <summary>
         /// Occurs when the RightToLeftLayout property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the RightToLeftLayout property is changed on KryptonDateTimePicker.")]
-        public event EventHandler RightToLeftLayoutChanged;
+        public event EventHandler? RightToLeftLayoutChanged;
         #endregion
 
         #region Identity
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
 
             // Add a checkbox to the left of the text area
             Images = new CheckBoxImages(NeedPaintDelegate);
-            PaletteRedirectCheckBox? paletteCheckBoxImages = new(Redirector, Images);
+            PaletteRedirectCheckBox paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
             InternalViewDrawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages)
             {
                 CheckState = CheckState.Checked
@@ -235,7 +235,8 @@ namespace Krypton.Toolkit
             _layoutCheckBox.Visible = false;
 
             // Need a controller for handling check box mouse input
-            CheckBoxController controller = new(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
+            CheckBoxController controller =
+                new CheckBoxController(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
             controller.Click += OnCheckBoxClick;
             controller.Enabled = true;
             InternalViewDrawCheckBox.MouseController = controller;
@@ -1730,7 +1731,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !InRibbonDesignMode)
             {
                 // We treat positive numbers as moving upwards
-                KeyEventArgs kpea = new((e.Delta < 0) ? Keys.Down : Keys.Up);
+                KeyEventArgs kpea = new KeyEventArgs((e.Delta < 0) ? Keys.Down : Keys.Up);
 
                 // Simulate the up/down key the correct number of times
                 var detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
@@ -1967,7 +1968,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(240, PreferredHeight);
+        protected override Size DefaultSize => new Size(240, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -2101,7 +2102,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2157,7 +2158,7 @@ namespace Krypton.Toolkit
                 _dropDownMonthChanged = false;
 
                 // Create a new krypton context menu each time we drop the menu
-                DTPContextMenu kcm = new(RectangleToScreen(_buttonDropDown.ClientRectangle));
+                DTPContextMenu kcm = new DTPContextMenu(RectangleToScreen(_buttonDropDown.ClientRectangle));
 
                 // Add and setup a month calendar element
                 _kmc = new KryptonContextMenuMonthCalendar
@@ -2196,9 +2197,10 @@ namespace Krypton.Toolkit
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
-                DateTimePickerDropArgs dtpda = new(kcm,
-                                                                          DropDownAlign == LeftRightAlignment.Left ? KryptonContextMenuPositionH.Left : KryptonContextMenuPositionH.Right,
-                                                                          KryptonContextMenuPositionV.Below);
+                DateTimePickerDropArgs dtpda = new DateTimePickerDropArgs(kcm,
+                    DropDownAlign == LeftRightAlignment.Left
+                        ? KryptonContextMenuPositionH.Left
+                        : KryptonContextMenuPositionH.Right, KryptonContextMenuPositionV.Below);
                 // Let user examine and later values
                 OnDropDown(dtpda);
 
@@ -2251,8 +2253,8 @@ namespace Krypton.Toolkit
         private void OnMonthCalendarDateChanged(object sender, DateRangeEventArgs e)
         {
             // Use the newly selected date but the exising time
-            DateTime newDt = new(e.Start.Year, e.Start.Month, e.Start.Day,
-                                          _dateTime.Hour, _dateTime.Minute, _dateTime.Second, _dateTime.Millisecond);
+            DateTime newDt = new DateTime(e.Start.Year, e.Start.Month, e.Start.Day, _dateTime.Hour, _dateTime.Minute,
+                _dateTime.Second, _dateTime.Millisecond);
 
             // Range check in case the min/max have time portions and not just full days
             if (newDt > MaxDate)
@@ -2286,7 +2288,7 @@ namespace Krypton.Toolkit
             }
 
             // Generate the close up event and provide the menu so handlers can examine state that might have changed
-            DateTimePickerCloseArgs dtca = new(kcm);
+            DateTimePickerCloseArgs dtca = new DateTimePickerCloseArgs(kcm);
             OnCloseUp(dtca);
 
             // Notify that the month calendar changed value whilst the dropped down.

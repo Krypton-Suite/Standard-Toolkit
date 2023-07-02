@@ -45,7 +45,7 @@ namespace Krypton.Navigator
             if (destinationType == typeof(string))
             {
                 // Cast to correct type
-                ButtonSpecNavFixed? buttonSpec = (ButtonSpecNavFixed)value!;
+                ButtonSpecNavFixed buttonSpec = (ButtonSpecNavFixed)value!;
 
                 // Ask the button spec for the correct string
                 return buttonSpec.ToString();

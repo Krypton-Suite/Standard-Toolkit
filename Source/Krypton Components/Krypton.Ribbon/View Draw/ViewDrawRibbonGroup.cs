@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroup:" + Id;
+            $"ViewDrawRibbonGroup:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -190,7 +190,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(_layoutCollapsedMain);
 
                 // The keytip should be centered at the bottom of the view
-                Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
+                var screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
 
                 keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipGroup, screenPt,
                                               _layoutCollapsedMain.ClientRectangle, _collapsedController));
@@ -204,7 +204,7 @@ namespace Krypton.Ribbon
                     Rectangle viewRect = _ribbon.KeyTipToScreen(_viewNormalDialog);
 
                     // The keytip should be centered at the bottom of the view
-                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
+                    var screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
 
                     keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipDialogLauncher, screenPt,
                                                   _viewNormalDialog.ClientRectangle, _viewNormalDialog.DialogButtonController));
@@ -450,7 +450,7 @@ namespace Krypton.Ribbon
                     // Find the size of the group when collapsed
                     var collapsed = Collapsed;
                     Collapsed = true;
-                    GroupSizeWidth retCollapsed = new(GetPreferredSize(context).Width, null);
+                    var retCollapsed = new GroupSizeWidth(GetPreferredSize(context).Width, null);
                     Collapsed = collapsed;
 
                     // We never allow a collapsed state if that is smaller than the smallest valid permutation
@@ -613,8 +613,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the group
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 _layoutNormalMain.MouseController = controller;
             }
 
@@ -657,21 +657,21 @@ namespace Krypton.Ribbon
 
             // Add a mouse controller so we know when it has been pressed
             _collapsedController = new CollapsedGroupController(_ribbon, _layoutCollapsedMain, _needPaint);
-            _collapsedController.Click += OnCollapsedClick;
+            _collapsedController.Click += OnCollapsedClick!;
             _layoutCollapsedMain.MouseController = _collapsedController;
             _layoutCollapsedMain.SourceController = _collapsedController;
             _layoutCollapsedMain.KeyController = _collapsedController;
 
             // Reduce layout area to remove the group border
-            ViewLayoutRibbonPadding layoutCollapsedInsidePadding = new(COLLAPSED_PADDING);
+            var layoutCollapsedInsidePadding = new ViewLayoutRibbonPadding(COLLAPSED_PADDING);
             _layoutCollapsedMain.Add(layoutCollapsedInsidePadding, ViewDockStyle.Fill);
 
             // Position at top an area that is padded for containing the image
-            ViewLayoutDocker layoutCollapsedInside = new();
+            var layoutCollapsedInside = new ViewLayoutDocker();
             layoutCollapsedInsidePadding.Add(layoutCollapsedInside);
 
             // Create the layout for the second line of text
-            ViewLayoutRibbonRowCenter layoutCollapsedText2 = new();
+            var layoutCollapsedText2 = new ViewLayoutRibbonRowCenter();
             _viewCollapsedText2 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, false);
             layoutCollapsedText2.Add(_viewCollapsedText2);
             layoutCollapsedText2.Add(new ViewLayoutRibbonSeparator(2, 10, true));
@@ -688,7 +688,7 @@ namespace Krypton.Ribbon
             layoutCollapsedInside.Add(_layoutCollapsedImagePadding, ViewDockStyle.Top);
 
             // Finally we add the actual drawing element for the collapsed group image
-            ViewDrawRibbonGroupImage drawCollapsedImage = new(_ribbon, _ribbonGroup, this);
+            var drawCollapsedImage = new ViewDrawRibbonGroupImage(_ribbon, _ribbonGroup, this);
             _layoutCollapsedImagePadding.Add(drawCollapsedImage);
         }
 

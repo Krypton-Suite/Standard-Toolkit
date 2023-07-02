@@ -26,12 +26,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the background needs painting.
         /// </summary>
-        public event PaintEventHandler PaintBackground;
+        public event PaintEventHandler? PaintBackground;
 
         /// <summary>
         /// Occurs when the WM_NCHITTEST occurs.
         /// </summary>
-        public event EventHandler<ViewControlHitTestArgs> WndProcHitTest;
+        public event EventHandler<ViewControlHitTestArgs>? WndProcHitTest;
         #endregion
 
         #region Instance Fields
@@ -157,12 +157,8 @@ namespace Krypton.Toolkit
                 PaintBackground?.Invoke(this, e);
 
                 // Create a render context for drawing the view
-                using RenderContext context = new(GetViewManager(),
-                    this,
-                    RootInstance,
-                    e.Graphics,
-                    e.ClipRectangle,
-                    Renderer);
+                using RenderContext context = new RenderContext(GetViewManager(), this, RootInstance, e.Graphics,
+                    e.ClipRectangle, Renderer);
                 // Ask the view to paint itself
                 ViewLayoutControl.ChildView.Render(context);
             }
@@ -392,10 +388,10 @@ namespace Krypton.Toolkit
             if (m.Msg == PI.WM_.NCHITTEST)
             {
                 // Extract the screen point for the hit test
-                Point screenPoint = new((int)m.LParam.ToInt64());
+                Point screenPoint = new Point((int)m.LParam.ToInt64());
 
                 // Generate event so message can be processed
-                ViewControlHitTestArgs args = new(PointToClient(screenPoint));
+                ViewControlHitTestArgs args = new ViewControlHitTestArgs(PointToClient(screenPoint));
                 OnWndProcHitTest(args);
 
                 if (!args.Cancel)

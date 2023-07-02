@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _drawContent;
         private readonly ViewLayoutFill _layoutFill;
         private ScreenObscurer _obscurer;
-        private readonly EventHandler _removeObscurer;
+        private readonly EventHandler? _removeObscurer;
         private bool _forcedLayout;
         private bool _captionVisible;
         private readonly bool _ignoreLayout;
@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = value + ".Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 

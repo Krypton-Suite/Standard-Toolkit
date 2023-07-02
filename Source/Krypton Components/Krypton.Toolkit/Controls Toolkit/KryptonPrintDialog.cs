@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private PageSettings? PageSettings => Document is null ? PrinterSettings!.DefaultPageSettings : Document.DefaultPageSettings;
+        private PageSettings? PageSettings => Document is null ? PrinterSettings.DefaultPageSettings : Document.DefaultPageSettings;
 
         /// <summary>
         ///  Gets or sets the Drawing.Printing.PrinterSettings the
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
         [AllowNull]
         public PrinterSettings PrinterSettings
         {
-            get => settings ??= new();
+            get => settings ??= new PrinterSettings();
             set
             {
                 if (value != PrinterSettings)
@@ -398,7 +398,7 @@ namespace Krypton.Toolkit
             data.nMinPage = 0;
             data.nMaxPage = 9999;
             data.Flags = GetFlags();
-            data.nCopies = PrinterSettings!.Copies;
+            data.nCopies = PrinterSettings.Copies;
             data.hwndOwner = hwndOwner;
 
             // ReSharper disable once RedundantDelegateCreation

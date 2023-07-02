@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// <returns>A <see cref="T:System.ComponentModel.Design.DesignerActionItem">DesignerActionItem</see> array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             if (_scrollBar != null)
             {

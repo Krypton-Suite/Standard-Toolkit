@@ -23,22 +23,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a spec is about to be added/inserted to the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Inserting;
+        public event EventHandler<ButtonSpecEventArgs>? Inserting;
 
         /// <summary>
         /// Occurs when a spec has been added/inserted to the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Inserted;
+        public event EventHandler<ButtonSpecEventArgs>? Inserted;
 
         /// <summary>
         /// Occurs when a spec is about to be removed from the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Removing;
+        public event EventHandler<ButtonSpecEventArgs>? Removing;
 
         /// <summary>
         /// Occurs when a spec is removed from the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Removed;
+        public event EventHandler<ButtonSpecEventArgs>? Removed;
         #endregion
 
         #region Identity
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => Count + " Instances";
+        public override string ToString() => $"{Count} Instances";
 
         #endregion
 

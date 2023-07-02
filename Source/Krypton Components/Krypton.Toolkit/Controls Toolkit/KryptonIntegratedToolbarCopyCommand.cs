@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the copy button spec.")]
         public ButtonSpecAny? ToolBarCopyButton
         {
-            get => _copyButtonSpec ?? new();
+            get => _copyButtonSpec ?? new ButtonSpecAny();
             set { _copyButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarCopyCommand" /> class.</summary>
         public KryptonIntegratedToolbarCopyCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.Copy;
         }

@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler DoubleClick;
+        public new event EventHandler? DoubleClick;
 
         /// <summary>
         /// Occurs when the control is mouse double clicked with the mouse.
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler MouseDoubleClick;
+        public new event EventHandler? MouseDoubleClick;
 
         /// <summary>
         /// Occurs when the value of the ImeMode property is changed.
@@ -65,14 +65,14 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler ImeModeChanged;
+        public new event EventHandler? ImeModeChanged;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Misc")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
         #endregion
 
         #region Identity
@@ -629,7 +629,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Work out if this control needs to paint transparent areas.

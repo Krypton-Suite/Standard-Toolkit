@@ -58,7 +58,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonTabSep:" + Id;
+            $"ViewDrawRibbonTabSep:{Id}";
 
         #endregion
 
@@ -79,8 +79,9 @@ namespace Krypton.Ribbon
         {
             if (Draw)
             {
-                RectangleF rectF = new(ClientLocation.X, ClientLocation.Y - 0.5f, ClientWidth, ClientHeight + 1);
-                using LinearGradientBrush sepBrush = new(rectF, Color.Transparent, _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f);
+                var rectF = new RectangleF(ClientLocation.X, ClientLocation.Y - 0.5f, ClientWidth, ClientHeight + 1);
+                using var sepBrush = new LinearGradientBrush(rectF, Color.Transparent,
+                    _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f);
                 sepBrush.Blend = _fadeBlend;
 
                 switch (_palette.GetRibbonShape())
@@ -96,7 +97,7 @@ namespace Krypton.Ribbon
                     case PaletteRibbonShape.Office2010:
                         context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
 
-                        using (LinearGradientBrush sepLightBrush = new(rectF, Color.Transparent, _lighten1, 90f))
+                        using (var sepLightBrush = new LinearGradientBrush(rectF, Color.Transparent, _lighten1, 90f))
                         {
                             context.Graphics.FillRectangle(sepLightBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                         }

@@ -47,8 +47,8 @@ namespace Krypton.Ribbon
             Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
 
             // Use a controller to change state because of mouse movement
-            ViewHightlightController controller = new(this, needPaint);
-            controller.Click += OnClick;
+            var controller = new ViewHightlightController(this, needPaint);
+            controller.Click += OnClick!;
             MouseController = controller;
         }
 
@@ -58,7 +58,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonDesignBase:" + Id;
+            $@"ViewDrawRibbonDesignBase:{Id}";
 
         #endregion
 

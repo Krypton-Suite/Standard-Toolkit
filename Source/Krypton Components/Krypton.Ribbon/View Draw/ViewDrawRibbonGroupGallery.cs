@@ -64,8 +64,8 @@ namespace Krypton.Ribbon
             CreateLargeButtonView();
 
             // Hook into the gallery events
-            GroupGallery.MouseEnterControl += OnMouseEnterControl;
-            GroupGallery.MouseLeaveControl += OnMouseLeaveControl;
+            GroupGallery.MouseEnterControl += OnMouseEnterControl!;
+            GroupGallery.MouseLeaveControl += OnMouseLeaveControl!;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupGallery;
@@ -73,8 +73,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the gallery
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
@@ -84,8 +84,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the gallery for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
 
             // Define back reference to view for the gallery definition
             GroupGallery.GalleryView = this;
@@ -105,7 +105,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupGallery:" + Id;
+            $@"ViewDrawRibbonGroupGallery:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
                     ((int)GroupGallery.ItemSizeMinimum <= (int)GroupItemSize.Medium))
                 {
                     LastGallery.InternalPreferredItemSize = new Size(GroupGallery.MediumItemCount, 1);
-                    ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                    var mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -358,7 +358,7 @@ namespace Krypton.Ribbon
                     _currentSize = GroupItemSize.Small;
 
                     // Get the width of the large button view
-                    ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
+                    var smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -388,7 +388,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new ItemSizeWidth[] { new(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
+                return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
             }
         }
 
@@ -560,11 +560,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            var contentLayout = new ViewLayoutDocker();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupGalleryImage(_ribbon, GroupGallery);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
+            var largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeImage
             };

@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
                                               bool imageColumn)
         {
             // Add child items into columns of display views
-            ViewLayoutStack itemsColumns = new(true);
+            var itemsColumns = new ViewLayoutStack(true);
             Items.GenerateView(provider, this, this, itemsColumns, StandardStyle, ImageColumn);
             return itemsColumns;
         }

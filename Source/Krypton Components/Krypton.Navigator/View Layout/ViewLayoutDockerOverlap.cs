@@ -50,7 +50,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutDockerOverlap:" + Id;
+            $"ViewLayoutDockerOverlap:{Id}";
 
         #endregion
 

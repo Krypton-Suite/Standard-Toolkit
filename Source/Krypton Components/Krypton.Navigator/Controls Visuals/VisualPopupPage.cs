@@ -49,51 +49,47 @@ namespace Krypton.Navigator
             _navigator = navigator;
             _page = page;
 
-            // Always create the layout that positions the actual page
-            ViewLayoutPopupPage layoutPage = new(_navigator, _page);
+            // Always var the layout that positions the actual page
+            ViewLayoutPopupPage layoutPage = new ViewLayoutPopupPage(_navigator, _page);
 
             // Create the internal panel used for containing content
-            if (_navigator.StateNormal != null)
+            if (_navigator.StateNormal?.HeaderGroup != null)
             {
-                if (_navigator.StateNormal.HeaderGroup != null)
+                var drawGroup = new ViewDrawCanvas(_navigator.StateNormal.HeaderGroup.Back,
+                    _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top)
                 {
-                    ViewDrawCanvas drawGroup = new(_navigator.StateNormal.HeaderGroup.Back,
+
+                    // Add the layout inside the draw group
+                    layoutPage
+                };
+
+                // Do we need to add a border area around the page group
+                if (_navigator.PopupPages.Border > 0)
+                {
+                    // Grab the actual border values
+                    var border = _navigator.PopupPages.Border;
+
+                    // Put the page group inside a layout that has separators 
+                    // to pad out the sizing to the border size we need
+                    var layoutDocker = new ViewLayoutDocker
+                    {
+                        { drawGroup, ViewDockStyle.Fill },
+                        { new ViewLayoutSeparator(border), ViewDockStyle.Top },
+                        { new ViewLayoutSeparator(border), ViewDockStyle.Bottom },
+                        { new ViewLayoutSeparator(border), ViewDockStyle.Left },
+                        { new ViewLayoutSeparator(border), ViewDockStyle.Right }
+                    };
+
+                    // Create a new top level group that contains the layout
+                    drawGroup = new ViewDrawCanvas(_navigator.StateNormal.Back,
                         _navigator.StateNormal.HeaderGroup.Border,
                         VisualOrientation.Top)
                     {
-
-                        // Add the layout inside the draw group
-                        layoutPage
+                        layoutDocker
                     };
-
-                    // Do we need to add a border area around the page group
-                    if (_navigator.PopupPages.Border > 0)
-                    {
-                        // Grab the actual border values
-                        var border = _navigator.PopupPages.Border;
-
-                        // Put the page group inside a layout that has separators 
-                        // to pad out the sizing to the border size we need
-                        ViewLayoutDocker layoutDocker = new()
-                        {
-                            { drawGroup, ViewDockStyle.Fill },
-                            { new ViewLayoutSeparator(border), ViewDockStyle.Top },
-                            { new ViewLayoutSeparator(border), ViewDockStyle.Bottom },
-                            { new ViewLayoutSeparator(border), ViewDockStyle.Left },
-                            { new ViewLayoutSeparator(border), ViewDockStyle.Right }
-                        };
-
-                        // Create a new top level group that contains the layout
-                        drawGroup = new ViewDrawCanvas(_navigator.StateNormal.Back,
-                            _navigator.StateNormal.HeaderGroup.Border,
-                            VisualOrientation.Top)
-                        {
-                            layoutDocker
-                        };
-                    }
-
-                    ViewManager = new ViewManager(this, drawGroup);
                 }
+
+                ViewManager = new ViewManager(this, drawGroup);
             }
 
             // Borrow the child panel that contains all the pages from 
@@ -140,27 +136,24 @@ namespace Krypton.Navigator
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            if (_navigator.StateNormal != null)
+            if (_navigator.StateNormal?.HeaderGroup != null)
             {
-                if (_navigator.StateNormal.HeaderGroup != null)
+                if (Renderer != null)
                 {
-                    if (Renderer != null)
-                    {
-                        GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-                        borderRect.Inflate(-1, -1);
-                        GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-                        borderRect.Inflate(-1, -1);
-                        GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                    GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                    borderRect.Inflate(-1, -1);
+                    GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                    borderRect.Inflate(-1, -1);
+                    GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
 
-                        // Update the region of the popup to be the border path
-                        Region = new Region(borderPath1);
+                    // Update the region of the popup to be the border path
+                    Region = new Region(borderPath1);
 
-                        // Inform the shadow to use the same paths for drawing the shadow
-                        DefineShadowPaths(borderPath1, borderPath2, borderPath3);
-                    }
+                    // Inform the shadow to use the same paths for drawing the shadow
+                    DefineShadowPaths(borderPath1, borderPath2, borderPath3);
                 }
             }
         }
@@ -225,9 +218,7 @@ namespace Krypton.Navigator
 
             if (_page != null)
             {
-                PopupPageEventArgs e = new(_page,
-                    _navigator.Pages.IndexOf(_page),
-                    parentScreenRect);
+                var e = new PopupPageEventArgs(_page, _navigator.Pages.IndexOf(_page), parentScreenRect);
 
                 // Use event to allow the popup to be cancelled or the position altered
                 _navigator.OnDisplayPopupPage(e);

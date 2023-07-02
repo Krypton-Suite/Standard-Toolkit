@@ -138,24 +138,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the hint.</summary>
-        /// <value>The hint.</value>
-        [Obsolete("Deprecated - Use CueHint.CueHintText")]
-        public string CueHintText
-        {
-            get => _textBox.CueHint.CueHintText;
-
-            set
-            {
-                if (_textBox.CueHint.CueHintText != value)
-                {
-                    _service.OnComponentChanged(_textBox, null, _textBox.CueHint.CueHintText, value);
-
-                    _textBox.CueHint.CueHintText = value;
-                }
-            }
-        }
-
         // <summary>Gets or sets the text box font.</summary>
         /// <value>The text box font.</value>
         public Font? Font
@@ -200,7 +182,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_textBox != null)
@@ -215,7 +197,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(Multiline), nameof(Multiline), nameof(TextBox), @"Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(nameof(WordWrap), nameof(WordWrap), nameof(TextBox), @"Should words be wrapped over multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(nameof(UseSystemPasswordChar), nameof(UseSystemPasswordChar), nameof(TextBox), @"Should characters be Displayed in password characters."));
-                actions.Add(new DesignerActionPropertyItem(nameof(CueHintText), nameof(CueHintText), nameof(TextBox), @"Sets the hint string for the textbox."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }

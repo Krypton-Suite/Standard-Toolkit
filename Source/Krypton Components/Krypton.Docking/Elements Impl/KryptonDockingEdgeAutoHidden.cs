@@ -260,7 +260,7 @@ namespace Krypton.Docking
         private KryptonDockingAutoHiddenGroup CreateAndInsertAutoHiddenGroup(int index, string name)
         {
             // Create the new auto hidden group instance and add into our collection
-            KryptonDockingAutoHiddenGroup groupElement = new(name, Edge);
+            var groupElement = new KryptonDockingAutoHiddenGroup(name, Edge);
             groupElement.PageClicked += OnDockingAutoHiddenGroupClicked!;
             groupElement.PageHoverStart += OnDockingAutoHiddenGroupHoverStart!;
             groupElement.PageHoverEnd += OnDockingAutoHiddenGroupHoverEnd!;
@@ -275,9 +275,9 @@ namespace Krypton.Docking
                 // generate the events for allowing customization of the when there is a chance they will become displayed.
                 if (!_panelEventFired)
                 {
-                    AutoHiddenGroupPanelEventArgs panelArgs = new(_panel, this);
-                    DockspaceEventArgs dockspaceArgs = new(_slidePanel.DockspaceControl, null);
-                    DockspaceSeparatorEventArgs separatorArgs = new(_slidePanel.SeparatorControl, null);
+                    var panelArgs = new AutoHiddenGroupPanelEventArgs(_panel, this);
+                    var dockspaceArgs = new DockspaceEventArgs(_slidePanel.DockspaceControl, null);
+                    var separatorArgs = new DockspaceSeparatorEventArgs(_slidePanel.SeparatorControl, null);
                     dockingManager.RaiseAutoHiddenGroupPanelAdding(panelArgs);
                     dockingManager.RaiseDockspaceAdding(dockspaceArgs);
                     dockingManager.RaiseDockspaceSeparatorAdding(separatorArgs);
@@ -285,7 +285,7 @@ namespace Krypton.Docking
                 }
 
                 // Allow the auto hidden group to be customized by event handlers
-                AutoHiddenGroupEventArgs groupArgs = new(groupElement.AutoHiddenGroupControl, groupElement);
+                var groupArgs = new AutoHiddenGroupEventArgs(groupElement.AutoHiddenGroupControl, groupElement);
                 dockingManager.RaiseAutoHiddenGroupAdding(groupArgs);
             }
 
@@ -325,7 +325,7 @@ namespace Krypton.Docking
                 // Only generate the removed event if we have already fired the adding event.
                 if (_panelEventFired)
                 {
-                    AutoHiddenGroupPanelEventArgs panelArgs = new(_panel, this);
+                    var panelArgs = new AutoHiddenGroupPanelEventArgs(_panel, this);
                     dockingManager.RaiseAutoHiddenGroupPanelRemoved(panelArgs);
                 }
             }
@@ -355,8 +355,8 @@ namespace Krypton.Docking
                 // Only generate the removed event if we have already fired the adding event.
                 if (_panelEventFired)
                 {
-                    DockspaceEventArgs dockspaceArgs = new(_slidePanel.DockspaceControl, null);
-                    DockspaceSeparatorEventArgs separatorArgs = new(_slidePanel.SeparatorControl, null);
+                    var dockspaceArgs = new DockspaceEventArgs(_slidePanel.DockspaceControl, null);
+                    var separatorArgs = new DockspaceSeparatorEventArgs(_slidePanel.SeparatorControl, null);
                     dockingManager.RaiseDockspaceRemoved(dockspaceArgs);
                     dockingManager.RaiseDockspaceSeparatorRemoved(separatorArgs);
                 }
@@ -412,7 +412,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the movement rectangle to be modified by event handlers
-                AutoHiddenSeparatorResizeEventArgs autoHiddenSeparatorResizeRectArgs = new(separatorControl, dockspaceControl, page, FindMovementRect(e.MoveRect));
+                var autoHiddenSeparatorResizeRectArgs = new AutoHiddenSeparatorResizeEventArgs(separatorControl, dockspaceControl, page,
+                        FindMovementRect(e.MoveRect));
                 dockingManager.RaiseAutoHiddenSeparatorResize(autoHiddenSeparatorResizeRectArgs);
                 e.MoveRect = autoHiddenSeparatorResizeRectArgs.ResizeRect;
             }

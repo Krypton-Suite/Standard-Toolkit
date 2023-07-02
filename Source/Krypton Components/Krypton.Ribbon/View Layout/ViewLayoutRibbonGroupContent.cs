@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         #region Static Fields
 
         private const int EMPTY_WIDTH = 48;
-        private static readonly Padding _padding = new(1, 0, 1, 1);
+        private static readonly Padding _padding = new Padding(1, 0, 1, 1);
         #endregion
 
         #region Instance Fields
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGroupContent:" + Id;
+            $"ViewLayoutRibbonGroupContent:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -684,7 +684,7 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ContainerToView regenerate = new();
+            var regenerate = new ContainerToView();
 
             // Add a view element for each group item
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)

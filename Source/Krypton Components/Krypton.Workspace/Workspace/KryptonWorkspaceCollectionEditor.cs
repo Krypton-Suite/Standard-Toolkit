@@ -667,21 +667,21 @@ namespace Krypton.Workspace
                     if (PageItem != null)
                     {
                         PageItem.TextChanged += OnPageTextChanged;
-                        Text = "Page (" + PageItem.Text.ToString() + ")";
+                        Text = $"Page ({PageItem.Text})";
                     }
 
                     CellItem = item as KryptonWorkspaceCell;
                     if (CellItem != null)
                     {
                         CellItem.PropertyChanged += OnCellPropertyChanged;
-                        Text = "Cell (" + CellItem.StarSize.ToString() + ")";
+                        Text = $"Cell ({CellItem.StarSize})";
                     }
 
                     SequenceItem = item as KryptonWorkspaceSequence;
                     if (SequenceItem != null)
                     {
                         SequenceItem.PropertyChanged += OnSequencePropertyChanged;
-                        Text = SequenceItem.Orientation + " (" + SequenceItem.StarSize.ToString() + ")";
+                        Text = $"{SequenceItem.Orientation} ({SequenceItem.StarSize})";
                     }
                 }
                 #endregion
@@ -717,17 +717,17 @@ namespace Krypton.Workspace
                 #region Implementation
                 private void OnPageTextChanged(object sender, EventArgs e)
                 {
-                    Text = "Page (" + PageItem.Text.ToString() + ")";
+                    Text = $"Page ({PageItem.Text})";
                 }
 
                 private void OnCellPropertyChanged(object sender, PropertyChangedEventArgs e)
                 {
-                    Text = "Cell (" + CellItem.StarSize.ToString() + ")";
+                    Text = $"Cell ({CellItem.StarSize})";
                 }
 
                 private void OnSequencePropertyChanged(object sender, PropertyChangedEventArgs e)
                 {
-                    Text = SequenceItem.Orientation + " (" + SequenceItem.StarSize.ToString() + ")";
+                    Text = $"{SequenceItem.Orientation} ({SequenceItem.StarSize})";
                 }
                 #endregion
             }
@@ -1737,7 +1737,7 @@ namespace Krypton.Workspace
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new();
+                DictItemBase dictItems = new DictItemBase();
 
                 foreach (Component item in items)
                 {
@@ -1780,7 +1780,7 @@ namespace Krypton.Workspace
             private void AddMenuTreeNode(Component item, MenuTreeNode parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new(item);
+                MenuTreeNode node = new MenuTreeNode(item);
 
                 // Add to either root or parent node
                 if (parent != null)

@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the save as button spec.")]
         public ButtonSpecAny? ToolBarSaveAsButton
         {
-            get => _saveAsButtonSpec ?? new();
+            get => _saveAsButtonSpec ?? new ButtonSpecAny();
             set { _saveAsButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarSaveAsCommand" /> class.</summary>
         public KryptonIntegratedToolbarSaveAsCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.SaveAs;
         }

@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewButtonColumn()
             : base(new KryptonDataGridViewButtonCell())
         {
-            DataGridViewCellStyle style = new()
+            DataGridViewCellStyle style = new DataGridViewCellStyle
             {
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            StringBuilder builder = new StringBuilder(0x40);
             builder.Append(@"KryptonDataGridViewButtonColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);

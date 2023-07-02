@@ -36,12 +36,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(DataGridViewStyle.List, KryptonLanguageManager.DataGridViewStyles.List),
-            new(DataGridViewStyle.Sheet, KryptonLanguageManager.DataGridViewStyles.Sheet),
-            new(DataGridViewStyle.Custom1, KryptonLanguageManager.DataGridViewStyles.CustomOne),
-            new(DataGridViewStyle.Custom2, KryptonLanguageManager.DataGridViewStyles.CustomTwo),
-            new(DataGridViewStyle.Custom3, KryptonLanguageManager.DataGridViewStyles.CustomThree),
-            new(DataGridViewStyle.Mixed, KryptonLanguageManager.DataGridViewStyles.Mixed)
+            new Pair(DataGridViewStyle.List, KryptonLanguageManager.DataGridViewStyles.List),
+            new Pair(DataGridViewStyle.Sheet, KryptonLanguageManager.DataGridViewStyles.Sheet),
+            new Pair(DataGridViewStyle.Custom1, KryptonLanguageManager.DataGridViewStyles.CustomOne),
+            new Pair(DataGridViewStyle.Custom2, KryptonLanguageManager.DataGridViewStyles.CustomTwo),
+            new Pair(DataGridViewStyle.Custom3, KryptonLanguageManager.DataGridViewStyles.CustomThree),
+            new Pair(DataGridViewStyle.Mixed, KryptonLanguageManager.DataGridViewStyles.Mixed)
         };
 
         #endregion

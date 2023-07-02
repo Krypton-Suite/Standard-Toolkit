@@ -20,10 +20,10 @@ namespace Krypton.Toolkit
         #region Static Fields
         [ThreadStatic]
         private static KryptonDateTimePicker _paintingDateTime;
-        private static readonly DateTimeConverter _dtc = new();
+        private static readonly DateTimeConverter _dtc = new DateTimeConverter();
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDateTimePickerEditingControl);
         private static readonly Type _defaultValueType = typeof(DateTime);
-        private static readonly Size _sizeLarge = new(10000, 10000);
+        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields

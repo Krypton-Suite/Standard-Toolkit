@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the button is pressed.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity

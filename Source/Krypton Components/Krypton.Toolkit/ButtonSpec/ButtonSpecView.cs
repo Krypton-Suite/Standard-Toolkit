@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly PaletteRedirect? _redirector;
         private readonly PaletteTripleRedirect _palette;
-        private readonly EventHandler _finishDelegate;
+        private readonly EventHandler? _finishDelegate;
         private ButtonController? _controller;
         #endregion
 
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             _redirector = redirector;
             Manager = manager;
             ButtonSpec = buttonSpec;
-            _finishDelegate = OnFinishDelegate!;
+            _finishDelegate = OnFinishDelegate;
 
             // Create delegate for paint notifications
             NeedPaintHandler needPaint = OnNeedPaint;
@@ -82,13 +82,13 @@ namespace Krypton.Toolkit
             };
 
             // Create a controller for managing button behavior
-            ButtonSpecViewControllers controllers = CreateController(ViewButton, needPaint, OnClick!);
+            ButtonSpecViewControllers controllers = CreateController(ViewButton, needPaint, OnClick);
             ViewButton.MouseController = controllers.MouseController;
             ViewButton.SourceController = controllers.SourceController;
             ViewButton.KeyController = controllers.KeyController;
 
             // We need notifying whenever a button specification property changes
-            ButtonSpec.ButtonSpecPropertyChanged += OnPropertyChanged!;
+            ButtonSpec.ButtonSpecPropertyChanged += OnPropertyChanged;
 
             // Associate the button spec with the view that is drawing it
             ButtonSpec.SetView(ViewButton);
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
         public void Destruct()
         {
             // Unhook from events
-            ButtonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged!;
+            ButtonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged;
 
             // Remove buttonspec/view association
             ButtonSpec.SetView(null);
@@ -373,11 +373,11 @@ namespace Krypton.Toolkit
                         : Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
 
                     // Show the context menu just below the view itself
-                    ButtonSpec.KryptonContextMenu.Closed += OnKryptonContextMenuClosed!;
+                    ButtonSpec.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
                     if (!ButtonSpec.KryptonContextMenu.Show(ButtonSpec, pt))
                     {
                         // Menu not being shown, so clean up
-                        ButtonSpec.KryptonContextMenu.Closed -= OnKryptonContextMenuClosed!;
+                        ButtonSpec.KryptonContextMenu.Closed -= OnKryptonContextMenuClosed;
 
                         // Not showing a context menu, so remove the fixed view immediately
                         _finishDelegate?.Invoke(this, EventArgs.Empty);
@@ -412,7 +412,7 @@ namespace Krypton.Toolkit
         {
             // Unhook from context menu event so it could garbage collected in the future
             KryptonContextMenu kcm = (KryptonContextMenu)sender;
-            kcm.Closed -= OnKryptonContextMenuClosed!;
+            kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Remove the fixed button appearance
             OnFinishDelegate(sender, e);

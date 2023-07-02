@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonDesignGroupContainer:" + Id;
+            $@"ViewDrawRibbonDesignGroupContainer:{Id}";
 
         #endregion
 
@@ -110,10 +110,10 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuTriple = new("Add Triple", null, OnAddTriple);
-                ToolStripMenuItem menuLines = new("Add Lines", null, OnAddLines);
-                ToolStripMenuItem menuSeparator = new("Add Separator", null, OnAddSeparator);
-                ToolStripMenuItem menuGallery = new("Add Gallery", null, OnAddGallery);
+                var menuTriple = new ToolStripMenuItem("Add Triple", null, OnAddTriple);
+                var menuLines = new ToolStripMenuItem("Add Lines", null, OnAddLines);
+                var menuSeparator = new ToolStripMenuItem("Add Separator", null, OnAddSeparator);
+                var menuGallery = new ToolStripMenuItem("Add Gallery", null, OnAddGallery);
 
                 // Assign correct images
                 menuTriple.ImageIndex = 0;

@@ -45,8 +45,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon!;
-            _needPaint = needPaint!;
+            Ribbon = ribbon;
+            _needPaint = needPaint;
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
             // Create the extra button for customization/overflow
             if (showExtraButton)
             {
-                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon!, needPaint!);
+                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon, needPaint);
                 _extraButton.ClickAndFinish += OnExtraButtonClick;
             }
         }
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonQATContents:" + Id;
+            $"ViewLayoutRibbonQATContents:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -117,13 +117,13 @@ namespace Krypton.Ribbon
             // Then use the alphanumeric 0A - 0Z
             for (var i = 25; i >= 0; i--)
             {
-                keyTipsPool.Push("0" + (char)(65 + i));
+                keyTipsPool.Push($"0{(char)(65 + i)}");
             }
 
             // Then use the number 09 - 01
             for (var i = 1; i <= 9; i++)
             {
-                keyTipsPool.Push("0" + i.ToString());
+                keyTipsPool.Push($"0{i}");
             }
 
             // Start with the number 1 - 9
@@ -139,7 +139,7 @@ namespace Krypton.Ribbon
                 borders = ownerForm.RealWindowBorders;
             }
 
-            KeyTipInfoList keyTipList = new();
+            var keyTipList = new KeyTipInfoList();
 
             foreach (ViewBase child in this)
             {
@@ -153,8 +153,8 @@ namespace Krypton.Ribbon
                     Rectangle viewRect = ParentControl.RectangleToScreen(viewQAT.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
-                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left, 
-                                               viewRect.Bottom - 2 - borders.Top);
+                    var screenPt = new Point(viewRect.Left + (viewRect.Width / 2) - borders.Left,
+                        viewRect.Bottom - 2 - borders.Top);
 
                     // Create new key tip that invokes the qat controller
                     keyTipList.Add(new KeyTipInfo(viewQAT.Enabled, keyTipsPool.Pop(), screenPt, 
@@ -169,8 +169,8 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
-                                           viewRect.Bottom - 2 - borders.Top);
+                var screenPt = new Point(viewRect.Left + (viewRect.Width / 2) - borders.Left,
+                    viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button controller
                 keyTipList.Add(new KeyTipInfo(true, "00", screenPt, _extraButton.ClientRectangle, _extraButton.KeyTipTarget));
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
             SyncChildren(true);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             var x = ClientLocation.X;
             var right = ClientRectangle.Right;
@@ -520,7 +520,7 @@ namespace Krypton.Ribbon
             Clear();
 
             // Create a new lookup that reflects any changes in QAT buttons
-            QATButtonToView regenerate = new();
+            var regenerate = new QATButtonToView();
 
             // Get an array with all the buttons to be considered for display
             var qatButtons = QATButtons;
@@ -576,7 +576,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnExtraButtonClick(object sender, EventHandler finishDelegate)
+        private void OnExtraButtonClick(object sender, EventHandler? finishDelegate)
         {
             ViewDrawRibbonQATExtraButton button = (ViewDrawRibbonQATExtraButton)sender;
 

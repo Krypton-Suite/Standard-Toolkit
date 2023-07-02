@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Text property changes.
         /// </summary>
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
         #endregion
         
         #region Identity

@@ -51,21 +51,21 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the ImageList property changes.")]
-        public event EventHandler ImageListChanged;
+        public event EventHandler? ImageListChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over an image.")]
-        public event EventHandler<ImageSelectEventArgs> TrackingImage;
+        public event EventHandler<ImageSelectEventArgs>? TrackingImage;
 
         /// <summary>
         /// Occurs when the user invokes the drop down menu.
@@ -79,31 +79,31 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the control receives focus.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity

@@ -359,7 +359,7 @@ namespace Krypton.Docking
                         {
                             // Replace the existing page with a placeholder that has the same unique name
                             KryptonWorkspaceCell? cell = SpaceControl.CellForPage(page);
-                            KryptonStorePage placeholder = new(uniqueName, _storeName);
+                            var placeholder = new KryptonStorePage(uniqueName, _storeName);
                             if (cell != null)
                             {
                                 cell.Pages.Insert(cell.Pages.IndexOf(page), placeholder);
@@ -382,7 +382,7 @@ namespace Krypton.Docking
                                 if (page is { } and not KryptonStorePage)
                                 {
                                     // Replace the existing page with a placeholder that has the same unique name
-                                    KryptonStorePage placeholder = new(page.UniqueName, _storeName);
+                                    var placeholder = new KryptonStorePage(page.UniqueName, _storeName);
                                     cell.Pages.Insert(cell.Pages.IndexOf(page), placeholder);
                                     cell.Pages.Remove(page);
                                 }
@@ -470,10 +470,7 @@ namespace Krypton.Docking
                     if (storePage is KryptonStorePage)
                     {
                         KryptonWorkspaceCell? cell = SpaceControl!.CellForPage(storePage);
-                        if (cell != null)
-                        {
-                            cell.Pages.Insert(cell.Pages.IndexOf(storePage), page);
-                        }
+                        cell?.Pages.Insert(cell.Pages.IndexOf(storePage), page);
                     }
                 }
             }
@@ -951,7 +948,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockPageLoadingEventArgs args = new(dockingManager, e.XmlReader, e.Page);
+                var args = new DockPageLoadingEventArgs(dockingManager, e.XmlReader, e.Page);
                 dockingManager.RaisePageLoading(args);
             }
         }
@@ -961,7 +958,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockPageSavingEventArgs args = new(dockingManager, e.XmlWriter, e.Page);
+                var args = new DockPageSavingEventArgs(dockingManager, e.XmlWriter, e.Page);
                 dockingManager.RaisePageSaving(args);
             }
         }

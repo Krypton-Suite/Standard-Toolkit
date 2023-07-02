@@ -17,11 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonColorTable : ProfessionalColorTable
     {
-        #region Instance Fields
-
-        private PaletteBase _palette;
-        #endregion
-
         #region Identity
         /// <summary>
         /// Creates a new instance of the KryptonColorTable class.

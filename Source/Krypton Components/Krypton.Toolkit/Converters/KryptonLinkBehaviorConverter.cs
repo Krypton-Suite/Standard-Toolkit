@@ -33,9 +33,9 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(KryptonLinkBehavior.AlwaysUnderline, KryptonLanguageManager.LinkBehaviorStrings.AlwaysUnderline),
-            new(KryptonLinkBehavior.HoverUnderline, KryptonLanguageManager.LinkBehaviorStrings.HoverUnderline),
-            new(KryptonLinkBehavior.NeverUnderline, KryptonLanguageManager.LinkBehaviorStrings.NeverUnderline)
+            new Pair(KryptonLinkBehavior.AlwaysUnderline, KryptonLanguageManager.LinkBehaviorStrings.AlwaysUnderline),
+            new Pair(KryptonLinkBehavior.HoverUnderline, KryptonLanguageManager.LinkBehaviorStrings.HoverUnderline),
+            new Pair(KryptonLinkBehavior.NeverUnderline, KryptonLanguageManager.LinkBehaviorStrings.NeverUnderline)
         };
 
         #endregion

@@ -70,16 +70,16 @@ namespace Krypton.Docking
         private void OnPagesInserting(object sender, TypedCollectionEventArgs<KryptonPage> e)
         {
             // Generate event so the docking element can decide on extra actions to be taken
-            OnCellPageInserting(new(e.Item, e.Index));
+            OnCellPageInserting(new KryptonPageEventArgs(e.Item, e.Index));
         }
 
         private void OnShowContextMenu(object sender, ShowContextMenuArgs e)
         {
             // Make sure we have a menu for displaying
-            e.KryptonContextMenu ??= new();
+            e.KryptonContextMenu ??= new KryptonContextMenu();
 
             // Use event to allow customization of the context menu
-            CancelDropDownEventArgs args = new(e.KryptonContextMenu, e.Item)
+            var args = new CancelDropDownEventArgs(e.KryptonContextMenu, e.Item)
             {
                 Cancel = e.Cancel
             };

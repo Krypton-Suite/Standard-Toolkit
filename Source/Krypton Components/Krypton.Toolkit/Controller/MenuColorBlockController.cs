@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the color block has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -384,7 +384,7 @@ namespace Krypton.Toolkit
                 if (_menuColorBlock.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    var cea = new CancelEventArgs();
                     _menuColorBlock.Closing(cea);
 
                     if (!cea.Cancel)

@@ -371,7 +371,7 @@ namespace Krypton.Navigator
                         if (control)
                         {
                             // Are we allowed to perform a Ctrl+Tab change in selection
-                            CtrlTabCancelEventArgs ce = new(!shift);
+                            var ce = new CtrlTabCancelEventArgs(!shift);
                             Navigator.OnCtrlTabStart(ce);
 
                             if (!ce.Cancel)
@@ -612,7 +612,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage? page in Navigator.Pages)
             {
                 // Create the draw view element for the check button and provide page it represents
-                ViewDrawNavCheckButtonStack checkButton = new(Navigator, page, checkButtonOrient);
+                var checkButton = new ViewDrawNavCheckButtonStack(Navigator, page, checkButtonOrient);
 
                 // Provide the drag rectangle when requested for this button
                 checkButton.ButtonDragRectangle += OnCheckButtonDragRect;
@@ -628,7 +628,7 @@ namespace Krypton.Navigator
                 checkButton.Orientation = checkButtonOrient;
 
                 // Create the border edge for use next to the check button
-                ViewDrawBorderEdge buttonEdge = new(buttonEdgePalette, buttonEdgeOrient)
+                var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, buttonEdgeOrient)
                 {
                     Visible = page.LastVisibleSet
                 };
@@ -774,7 +774,7 @@ namespace Krypton.Navigator
             if (!Navigator.IsDisposed && _events)
             {
                 // Create the draw view element for the check button and provide page it represents
-                ViewDrawNavCheckButtonStack checkButton = new(Navigator, e.Item, ResolveButtonOrientation());
+                var checkButton = new ViewDrawNavCheckButtonStack(Navigator, e.Item, ResolveButtonOrientation());
 
                 // Provide the drag rectangle when requested for this button
                 checkButton.ButtonDragRectangle += OnCheckButtonDragRect;
@@ -793,7 +793,7 @@ namespace Krypton.Navigator
                                                                            Navigator.StateDisabled.BorderEdge);
 
                 // Create the border edge for use next to the check button
-                ViewDrawBorderEdge buttonEdge = new(buttonEdgePalette, Navigator.Stack.StackOrientation)
+                var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, Navigator.Stack.StackOrientation)
                 {
                     Visible = e.Item.LastVisibleSet
                 };
@@ -1006,7 +1006,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, false);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, false);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
@@ -1037,7 +1037,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, true);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, true);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);

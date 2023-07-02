@@ -23,7 +23,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         // TODO: This should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
-        private static readonly BiDictionary<string, PaletteMode> _supportedThemes = new(new Dictionary<string, PaletteMode>
+        private static readonly BiDictionary<string, PaletteMode> _supportedThemes =
+            new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
             {
                 { KryptonLanguageManager.ModeStrings.Professional, PaletteMode.ProfessionalSystem },
                 { KryptonLanguageManager.ModeStrings.Professional2003, PaletteMode.ProfessionalOffice2003 },
@@ -63,8 +64,14 @@ namespace Krypton.Toolkit
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlueDarkMode, PaletteMode.Microsoft365BlueDarkMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlueLightMode, PaletteMode.Microsoft365BlueLightMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365Silver, PaletteMode.Microsoft365Silver },
-                { KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode, PaletteMode.Microsoft365SilverDarkMode },
-                { KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode, PaletteMode.Microsoft365SilverLightMode },
+                {
+                    KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode,
+                    PaletteMode.Microsoft365SilverDarkMode
+                },
+                {
+                    KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode,
+                    PaletteMode.Microsoft365SilverLightMode
+                },
                 { KryptonLanguageManager.ModeStrings.Microsoft365White, PaletteMode.Microsoft365White },
                 { KryptonLanguageManager.ModeStrings.Microsoft365Black, PaletteMode.Microsoft365Black },
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlackDarkMode, PaletteMode.Microsoft365BlackDarkMode },
@@ -199,7 +206,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public static string? ReturnPaletteModeAsString(PaletteMode paletteMode)
         {
-            PaletteModeConverter modeConverter = new();
+            PaletteModeConverter modeConverter = new PaletteModeConverter();
 
             return modeConverter.ConvertToString(paletteMode);
         }

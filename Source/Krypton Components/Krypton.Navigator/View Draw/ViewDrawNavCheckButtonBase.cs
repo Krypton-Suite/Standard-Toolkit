@@ -41,12 +41,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the drag rectangle for the button is required.
         /// </summary>
-        public event EventHandler<ButtonDragRectangleEventArgs> ButtonDragRectangle;
+        public event EventHandler<ButtonDragRectangleEventArgs>? ButtonDragRectangle;
 
         /// <summary>
         /// Occurs when the drag offset for the button is changed.
         /// </summary>
-        public event EventHandler<ButtonDragOffsetEventArgs> ButtonDragOffset;
+        public event EventHandler<ButtonDragOffsetEventArgs>? ButtonDragOffset;
         #endregion
 
         #region Identity
@@ -189,7 +189,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawNavCheckButtonBase:" + Id;
+            $"ViewDrawNavCheckButtonBase:{Id}";
 
         #endregion
 
@@ -403,8 +403,8 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create two decorators in order to support tooltips and hover events
-            ToolTipController? toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
-            ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
+            var toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
+            var hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
             return hoverController;
         }
         #endregion
@@ -473,7 +473,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            ShowContextMenuArgs scma = new(_page, Navigator.Pages.IndexOf(_page));
+            var scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu

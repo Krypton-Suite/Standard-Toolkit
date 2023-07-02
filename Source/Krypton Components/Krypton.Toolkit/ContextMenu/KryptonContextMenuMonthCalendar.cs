@@ -75,21 +75,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the selected date changes.")]
-        public event DateRangeEventHandler DateChanged;
+        public event DateRangeEventHandler? DateChanged;
 
         /// <summary>
         /// Occurs when the selected start date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected start date changes.")]
-        public event EventHandler SelectionStartChanged;
+        public event EventHandler? SelectionStartChanged;
 
         /// <summary>
         /// Occurs when the selected end date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected end date changes.")]
-        public event EventHandler SelectionEndChanged;
+        public event EventHandler? SelectionEndChanged;
         #endregion
 
         #region Identity
@@ -651,7 +651,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new(SelectionStart, SelectionEnd);
+            get => new SelectionRange(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 

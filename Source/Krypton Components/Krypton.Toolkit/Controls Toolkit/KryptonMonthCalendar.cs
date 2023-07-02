@@ -73,91 +73,91 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the selected date changes.")]
-        public event DateRangeEventHandler DateChanged;
+        public event DateRangeEventHandler? DateChanged;
 
         /// <summary>
         /// Occurs when the selected start date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected start date changes.")]
-        public event EventHandler SelectionStartChanged;
+        public event EventHandler? SelectionStartChanged;
 
         /// <summary>
         /// Occurs when the selected end date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected end date changes.")]
-        public event EventHandler SelectionEndChanged;
+        public event EventHandler? SelectionEndChanged;
 
         /// <summary>
         /// Occurs when the control is clicked.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler Click;
+        public new event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the control is double clicked.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler DoubleClick;
+        public new event EventHandler? DoubleClick;
 
         /// <summary>
         /// Occurs when the text value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler TextChanged;
+        public new event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the foreground color value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the font value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler FontChanged;
+        public new event EventHandler? FontChanged;
 
         /// <summary>
         /// Occurs when the background image value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the background image layout value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the background color value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the padding value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
 
         /// <summary>
         /// Occurs when the control needs to paint.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event PaintEventHandler Paint;
+        public new event PaintEventHandler? Paint;
         #endregion
 
         #region Identity
@@ -719,7 +719,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new(SelectionStart, SelectionEnd);
+            get => new SelectionRange(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 
@@ -1710,7 +1710,7 @@ namespace Krypton.Toolkit
 
         private void AdjustSize(ref int width, ref int height)
         {
-            using ViewLayoutContext context = new(this, Renderer);
+            using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
             // Ask back/border the size it requires
             Size backBorderSize = _drawDocker.GetNonChildSize(context);
 

@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                ArrayList compound = new ArrayList(base.AssociatedComponents);
 
                 if (_contextMenuItems != null)
                 {

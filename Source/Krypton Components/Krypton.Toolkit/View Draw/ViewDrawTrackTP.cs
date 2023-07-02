@@ -39,13 +39,13 @@ namespace Krypton.Toolkit
             Add(ViewDrawTrackPosition);
 
             // Use controller for the entire track area
-            TrackBarController tbController = new(this);
+            TrackBarController tbController = new TrackBarController(this);
             drawTrackBar.MouseController = tbController;
             drawTrackBar.KeyController = tbController;
             drawTrackBar.SourceController = tbController;
 
             // Use controller for dragging the position indicator
-            TrackPositionController tpController = new(this);
+            TrackPositionController tpController = new TrackPositionController(this);
             ViewDrawTrackPosition.MouseController = tpController;
         }
 
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawTP:" + Id;
+            $"ViewDrawTP:{Id}";
 
         #endregion
 

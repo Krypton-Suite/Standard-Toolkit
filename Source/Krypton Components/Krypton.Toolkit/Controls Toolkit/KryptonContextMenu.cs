@@ -38,28 +38,28 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when context menu is opening but not Displayed as yet.")]
-        public event CancelEventHandler Opening;
+        public event CancelEventHandler? Opening;
 
         /// <summary>
         /// Occurs when the context menu is opened.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the context menu is fully opened for display.")]
-        public event EventHandler Opened;
+        public event EventHandler? Opened;
 
         /// <summary>
         /// Occurs when the context menu is about to close.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the context menu is about to close.")]
-        public event CancelEventHandler Closing;
+        public event CancelEventHandler? Closing;
 
         /// <summary>
         /// Occurs when the context menu has been closed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the context menu has been closed.")]
-        public event ToolStripDropDownClosedEventHandler Closed;
+        public event ToolStripDropDownClosedEventHandler? Closed;
         #endregion
 
         #region Identity
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
                 Caller = caller;
 
                 // Give event handler a change to cancel the open request
-                CancelEventArgs cea = new();
+                CancelEventArgs cea = new CancelEventArgs();
                 OnOpening(cea);
 
                 if (!cea.Cancel)
@@ -438,7 +438,8 @@ namespace Krypton.Toolkit
                                                               KryptonContextMenuCollection items,
                                                               bool enabled,
                                                               bool keyboardActivated) =>
-            new (kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
+            new VisualContextMenu(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled,
+                keyboardActivated);
 
         /// <summary>
         /// Raises the Opening event.

@@ -62,28 +62,28 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the control has been fully initialized.")]
-        public event EventHandler Initialized;
+        public event EventHandler? Initialized;
 
         /// <summary>
         /// Occurs when the drop down portion of a bread crumb is pressed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the drop down portion of a bread crumb is pressed.")]
-        public event EventHandler<BreadCrumbMenuArgs> CrumbDropDown;
+        public event EventHandler<BreadCrumbMenuArgs>? CrumbDropDown;
 
         /// <summary>
         /// Occurs when the drop down portion of the overflow button is pressed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the drop down portion of the overflow button is pressed.")]
-        public event EventHandler<ContextPositionMenuArgs> OverflowDropDown;
+        public event EventHandler<ContextPositionMenuArgs>? OverflowDropDown;
 
         /// <summary>
         /// Occurs when the value of the SelectedItem property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the SelectedItem property changes.")]
-        public event EventHandler SelectedItemChanged;
+        public event EventHandler? SelectedItemChanged;
         #endregion
 
         #region Identity
@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(200, 28);
+        protected override Size DefaultSize => new Size(200, 28);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -694,7 +694,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

@@ -37,6 +37,6 @@ namespace Krypton.Toolkit
 
         public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
 
-        public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new(16, 16);
+        public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new Size(16, 16);
     }
 }

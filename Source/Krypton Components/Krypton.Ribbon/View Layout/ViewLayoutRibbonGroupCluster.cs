@@ -76,7 +76,7 @@ namespace Krypton.Ribbon
             _endSepVisible = false;
 
             // Create palette used to supply a width to a border edge view
-            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
+            var borderEdgeRedirect = new PaletteBorderEdgeRedirect(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
             _paletteBorderEdge = new PaletteBorderEdge(borderEdgeRedirect, needPaint);
             _lastShape = PaletteRibbonShape.Office2007;
 
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController? controller = new(this, needPaint);
+                var controller = new ViewHightlightController(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -105,7 +105,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGroupCluster:" + Id;
+            $"ViewLayoutRibbonGroupCluster:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -502,8 +502,8 @@ namespace Krypton.Ribbon
             Add(_startSep);
 
             // Create new lookups which are up to date
-            ItemToView regenView = new();
-            ViewToEdge regenEdge = new();
+            var regenView = new ItemToView();
+            var regenEdge = new ViewToEdge();
 
             // Cache the first and last visible children
             ViewBase? viewFirst = null;

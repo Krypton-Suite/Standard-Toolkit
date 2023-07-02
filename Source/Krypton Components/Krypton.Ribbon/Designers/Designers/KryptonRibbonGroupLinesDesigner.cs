@@ -126,8 +126,8 @@ namespace Krypton.Ribbon
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
 
             // We need to know when we are being removed/changed
-            _changeService.ComponentRemoving += OnComponentRemoving;
-            _changeService.ComponentChanged += OnComponentChanged;
+            _changeService.ComponentRemoving += OnComponentRemoving!;
+            _changeService.ComponentChanged += OnComponentChanged!;
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonLines.Items);
                 return compound;
             }
@@ -1113,9 +1113,9 @@ namespace Krypton.Ribbon
                     if (group != _ribbonLines.RibbonGroup)
                     {
                         // Create menu item for the group
-                        ToolStripMenuItem groupMenuItem = new()
+                        var groupMenuItem = new ToolStripMenuItem
                         {
-                            Text = group.TextLine1 + " " + group.TextLine2,
+                            Text = $"{group.TextLine1} {group.TextLine2}",
                             Tag = group
                         };
 

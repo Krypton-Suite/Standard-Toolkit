@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the KryptonCommand property changes.")]
-        public event EventHandler KryptonCommandChanged;
+        public event EventHandler? KryptonCommandChanged;
         #endregion
 
         #region Identity
@@ -487,7 +487,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Work out if this control needs to paint transparent areas.

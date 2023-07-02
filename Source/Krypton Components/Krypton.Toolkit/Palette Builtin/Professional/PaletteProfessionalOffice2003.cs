@@ -276,43 +276,43 @@ namespace Krypton.Toolkit
 
         #region Padding
 
-        private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
-        private static readonly Padding _contentPaddingHeader1 = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingHeader2 = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingHeader3 = new(2, 1, 2, 1);
-        private static readonly Padding _contentPaddingCalendar = new(2);
-        private static readonly Padding _contentPaddingHeaderForm = new(10, 6, 3, 1); // 10 is from the RealWindowFrameSize +1
-        private static readonly Padding _contentPaddingLabel = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingLabel2 = new(8, 2, 8, 2);
-        private static readonly Padding _contentPaddingButtonCalendar = new(0);
-        private static readonly Padding _contentPaddingButtonInputControl = new(1);
-        private static readonly Padding _contentPaddingButton12 = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingButton3 = new(1, 1, 1, 1);
-        private static readonly Padding _contentPaddingButton4 = new(4, 3, 4, 3);
-        private static readonly Padding _contentPaddingButton5 = new(3, 3, 3, 2);
-        private static readonly Padding _contentPaddingButton6 = new(3);
-        private static readonly Padding _contentPaddingButton7 = new(1, 1, 3, 1);
-        private static readonly Padding _contentPaddingButtonForm = new(5, 5, 5, 5);
-        private static readonly Padding _contentPaddingButtonGallery = new(1, 0, 1, 0);
-        private static readonly Padding _contentPaddingToolTip = new(2, 2, 2, 2);
-        private static readonly Padding _contentPaddingSuperTip = new(4, 4, 4, 4);
-        private static readonly Padding _contentPaddingKeyTip = new(1, -1, 0, -2);
-        private static readonly Padding _contentPaddingContextMenuHeading = new(8, 2, 8, 0);
-        private static readonly Padding _contentPaddingContextMenuImage = new(1);
-        private static readonly Padding _contentPaddingContextMenuItemText = new(9, 1, 7, 0);
-        private static readonly Padding _contentPaddingContextMenuItemTextAlt = new(7, 1, 6, 0);
-        private static readonly Padding _contentPaddingContextMenuItemShortcutText = new(3, 1, 4, 0);
-        private static readonly Padding _metricPaddingInputControl = new(0, 1, 0, 1);
-        private static readonly Padding _metricPaddingRibbon = new(0, 1, 1, 1);
-        private static readonly Padding _metricPaddingRibbonAppButton = new(3, 0, 3, 0);
-        private static readonly Padding _metricPaddingHeader = new(0, 3, 1, 3);
-        private static readonly Padding _metricPaddingHeaderForm = new(0, 3, 0, -3); // Move the Maximised Form buttons down a bit
-        private static readonly Padding _metricPaddingBarInside = new(3, 3, 3, 3);
-        private static readonly Padding _metricPaddingBarTabs = new(0, 0, 0, 0);
-        private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
-        private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
-        private static readonly Padding _metricPaddingContextMenuItemHighlight = new(1, 0, 1, 0);
-        private static readonly Padding _metricPaddingContextMenuItemsCollection = new(0, 1, 0, 1);
+        private static readonly Padding _contentPaddingGrid = new Padding(2, 1, 2, 1);
+        private static readonly Padding _contentPaddingHeader1 = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingHeader2 = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingHeader3 = new Padding(2, 1, 2, 1);
+        private static readonly Padding _contentPaddingCalendar = new Padding(2);
+        private static readonly Padding _contentPaddingHeaderForm = new Padding(10, 6, 3, 1); // 10 is from the RealWindowFrameSize +1
+        private static readonly Padding _contentPaddingLabel = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
+        private static readonly Padding _contentPaddingButtonCalendar = new Padding(0);
+        private static readonly Padding _contentPaddingButtonInputControl = new Padding(1);
+        private static readonly Padding _contentPaddingButton12 = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingButton3 = new Padding(1, 1, 1, 1);
+        private static readonly Padding _contentPaddingButton4 = new Padding(4, 3, 4, 3);
+        private static readonly Padding _contentPaddingButton5 = new Padding(3, 3, 3, 2);
+        private static readonly Padding _contentPaddingButton6 = new Padding(3);
+        private static readonly Padding _contentPaddingButton7 = new Padding(1, 1, 3, 1);
+        private static readonly Padding _contentPaddingButtonForm = new Padding(5, 5, 5, 5);
+        private static readonly Padding _contentPaddingButtonGallery = new Padding(1, 0, 1, 0);
+        private static readonly Padding _contentPaddingToolTip = new Padding(2, 2, 2, 2);
+        private static readonly Padding _contentPaddingSuperTip = new Padding(4, 4, 4, 4);
+        private static readonly Padding _contentPaddingKeyTip = new Padding(1, -1, 0, -2);
+        private static readonly Padding _contentPaddingContextMenuHeading = new Padding(8, 2, 8, 0);
+        private static readonly Padding _contentPaddingContextMenuImage = new Padding(1);
+        private static readonly Padding _contentPaddingContextMenuItemText = new Padding(9, 1, 7, 0);
+        private static readonly Padding _contentPaddingContextMenuItemTextAlt = new Padding(7, 1, 6, 0);
+        private static readonly Padding _contentPaddingContextMenuItemShortcutText = new Padding(3, 1, 4, 0);
+        private static readonly Padding _metricPaddingInputControl = new Padding(0, 1, 0, 1);
+        private static readonly Padding _metricPaddingRibbon = new Padding(0, 1, 1, 1);
+        private static readonly Padding _metricPaddingRibbonAppButton = new Padding(3, 0, 3, 0);
+        private static readonly Padding _metricPaddingHeader = new Padding(0, 3, 1, 3);
+        private static readonly Padding _metricPaddingHeaderForm = new Padding(0, 3, 0, -3); // Move the Maximised Form buttons down a bit
+        private static readonly Padding _metricPaddingBarInside = new Padding(3, 3, 3, 3);
+        private static readonly Padding _metricPaddingBarTabs = new Padding(0, 0, 0, 0);
+        private static readonly Padding _metricPaddingBarOutside = new Padding(0, 0, 0, 3);
+        private static readonly Padding _metricPaddingPageButtons = new Padding(1, 3, 1, 3);
+        private static readonly Padding _metricPaddingContextMenuItemHighlight = new Padding(1, 0, 1, 0);
+        private static readonly Padding _metricPaddingContextMenuItemsCollection = new Padding(0, 1, 0, 1);
 
         #endregion
 
@@ -4585,7 +4585,7 @@ namespace Krypton.Toolkit
         internal virtual KryptonProfessionalKCT GenerateColorTable(bool useSystemColors)
         {
             // Create the color table to use as the base for getting krypton colors
-            KryptonColorTable kct = new(this)
+            KryptonColorTable kct = new KryptonColorTable(this)
             {
 
                 // Always turn off the use of any theme specific colors
@@ -4951,14 +4951,14 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using (SolidBrush fill = new(color))
+            using (SolidBrush fill = new SolidBrush(color))
             {
-                g.FillPolygon(fill, new Point[] { new(2, 3), new(4, 6), new(7, 3) });
+                g.FillPolygon(fill, new Point[] { new Point(2, 3), new Point(4, 6), new Point(7, 3) });
             }
 
             // Draw semi-transparent outline around the arrow
-            using Pen outline = new(Color.FromArgb(128, color));
-            g.DrawLines(outline, new Point[] { new(1, 3), new(4, 6), new(7, 3) });
+            using Pen outline = new Pen(Color.FromArgb(128, color));
+            g.DrawLines(outline, new Point[] { new Point(1, 3), new Point(4, 6), new Point(7, 3) });
 
             return image;
         }
@@ -4971,8 +4971,8 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using SolidBrush fill = new(color);
-            g.FillPolygon(fill, new Point[] { new(3, 6), new(6, 2), new(9, 6) });
+            using SolidBrush fill = new SolidBrush(color);
+            g.FillPolygon(fill, new Point[] { new Point(3, 6), new Point(6, 2), new Point(9, 6) });
 
             return image;
         }
@@ -4985,8 +4985,8 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using SolidBrush fill = new(color);
-            g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
+            using SolidBrush fill = new SolidBrush(color);
+            g.FillPolygon(fill, new Point[] { new Point(4, 3), new Point(6, 6), new Point(9, 3) });
 
             return image;
         }
@@ -4999,13 +4999,13 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using (SolidBrush fill = new(color))
+            using (SolidBrush fill = new SolidBrush(color))
             {
-                g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
+                g.FillPolygon(fill, new Point[] { new Point(4, 3), new Point(6, 6), new Point(9, 3) });
             }
 
             // Draw the line above the arrow
-            using Pen pen = new(color);
+            using Pen pen = new Pen(color);
             g.DrawLine(pen, 4, 1, 8, 1);
 
             return image;

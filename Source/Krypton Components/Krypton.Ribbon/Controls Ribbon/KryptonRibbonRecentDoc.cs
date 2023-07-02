@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the recent document item is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity

@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the today button is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Instance Fields
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             ButtonValues = this;
 
             // Define a controller so the button can be clicked
-            ButtonController controller = new(this, needPaintHandler);
+            ButtonController controller = new ButtonController(this, needPaintHandler);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawToday:" + Id;
+            $"ViewDrawToday:{Id}";
 
         #endregion
 
@@ -91,7 +91,8 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText() => KryptonLanguageManager.GeneralToolkitStrings.Today + " " + _calendar.TodayDate.ToString(_calendar.TodayFormat);
+        public string GetShortText() =>
+            $"{KryptonLanguageManager.GeneralToolkitStrings.Today} {_calendar.TodayDate.ToString(_calendar.TodayFormat)}";
 
         /// <summary>
         /// Gets the content long text.

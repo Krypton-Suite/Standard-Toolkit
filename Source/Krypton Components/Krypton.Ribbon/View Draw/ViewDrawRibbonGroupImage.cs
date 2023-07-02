@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupImage:" + Id;
+            $@"ViewDrawRibbonGroupImage:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -189,9 +189,7 @@ namespace Krypton.Ribbon
             if (_ribbonGroup.Image != null)
             {
                 // Determine the rectangle for the fixed size of image drawing
-                Rectangle drawRect = new(new Point(ClientLocation.X + IMAGE_OFFSET_X,
-                                                             ClientLocation.Y + _offsetY),
-                                                   _imageSize);
+                var drawRect = new Rectangle(new Point(ClientLocation.X + IMAGE_OFFSET_X, ClientLocation.Y + _offsetY), _imageSize);
 
                 context.Graphics.DrawImage(_ribbonGroup.Image, drawRect);
             }

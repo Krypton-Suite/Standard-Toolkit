@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
             var solidW = clientRectangle.Width + blur * 2;
             var solidH = clientRectangle.Height + blur * 2;
             var blurOffset = _shadowValues.ExtraWidth - blur;
-            Bitmap bitmap = new(w, h);
+            Bitmap bitmap = new Bitmap(w, h);
             bitmap.MakeTransparent();
             using Graphics g = Graphics.FromImage(bitmap);
             // fill background
@@ -195,8 +195,8 @@ namespace Krypton.Toolkit
             // four dir gradient
             if (blurOffset > 0)
             {
-                using (LinearGradientBrush brush = new(new PointF(0, 0), new PointF(blurOffset, 0),
-                    Color.Transparent, _shadowValues.Colour))
+                using (LinearGradientBrush brush = new LinearGradientBrush(new PointF(0, 0), new PointF(blurOffset, 0),
+                           Color.Transparent, _shadowValues.Colour))
                 {
                     // Left
                     g.FillRectangle(brush, 0, blurOffset, blurOffset, solidH);
@@ -219,11 +219,11 @@ namespace Krypton.Toolkit
 
 
                 // four corner
-                using (GraphicsPath gp = new())
-                using (Matrix matrix = new())
+                using (GraphicsPath gp = new GraphicsPath())
+                using (Matrix matrix = new Matrix())
                 {
                     gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                    using (PathGradientBrush pgb = new(gp)
+                    using (PathGradientBrush pgb = new PathGradientBrush(gp)
                     {
                         CenterColor = _shadowValues.Colour,
                         SurroundColors = new[] { Color.Transparent },
@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
     /// </summary>
     internal static class FlashWindowExListener
     {
-        private static readonly Dictionary<IntPtr, Form> _forms = new();
+        private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
         private static readonly IntPtr _hHook;
         // Keep the HookProc delegate alive manually, such as using a class member as shown below,
         // otherwise the garbage collector will clean up the hook delegate eventually,

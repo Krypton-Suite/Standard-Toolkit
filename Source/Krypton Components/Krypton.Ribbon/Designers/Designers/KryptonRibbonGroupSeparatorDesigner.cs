@@ -378,14 +378,14 @@ namespace Krypton.Ribbon
                     if (group != _ribbonSeparator.RibbonGroup)
                     {
                         // Create menu item for the group
-                        ToolStripMenuItem groupMenuItem = new()
+                        var groupMenuItem = new ToolStripMenuItem
                         {
-                            Text = group.TextLine1 + " " + group.TextLine2,
+                            Text = $"{group.TextLine1} {group.TextLine2}",
                             Tag = group
                         };
 
                         // Hook into selection of the menu item
-                        groupMenuItem.Click += OnMoveToGroup;
+                        groupMenuItem.Click += OnMoveToGroup!;
 
                         // Add to end of the list of options
                         _moveToGroupMenu.DropDownItems.Add(groupMenuItem);

@@ -86,7 +86,7 @@ namespace Krypton.Ribbon
         /// <returns>Screen position.</returns>
         public Point GetLeftScreenPosition()
         {
-            Point ret = new(FirstTab.ClientLocation.X - 1, FirstTab.ClientLocation.Y);
+            var ret = new Point(FirstTab.ClientLocation.X - 1, FirstTab.ClientLocation.Y);
 
             if (FirstTab.OwningControl != null)
             {
@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
         /// <returns>Screen position.</returns>
         public Point GetRightScreenPosition()
         {
-            Point ret = new(_lastTab.ClientRectangle.Right + 1, _lastTab.ClientLocation.Y);
+            var ret = new Point(_lastTab.ClientRectangle.Right + 1, _lastTab.ClientLocation.Y);
 
             if (_lastTab.OwningControl != null)
             {

@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the button has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -62,8 +62,8 @@ namespace Krypton.Ribbon
             _separator = new ViewLayoutRibbonSeparator(GAP_LENGTH, true);
 
             // Create button controller for clicking the button
-            RepeatButtonController rbc = new(ribbon, _button, needPaintDelegate);
-            rbc.Click += OnButtonClick;
+            var rbc = new RepeatButtonController(ribbon, _button, needPaintDelegate);
+            rbc.Click += OnButtonClick!;
             _button.MouseController = rbc;
 
             // Add as child elements
@@ -77,7 +77,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonScroller:" + Id;
+            $"ViewLayoutRibbonScroller:{Id}";
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Always return the same minimum size
-            new (SCROLLER_LENGTH + GAP_LENGTH, SCROLLER_LENGTH + GAP_LENGTH);
+            new Size(SCROLLER_LENGTH + GAP_LENGTH, SCROLLER_LENGTH + GAP_LENGTH);
 
         /// <summary>
         /// Perform a layout of the elements.

@@ -81,7 +81,8 @@ namespace Krypton.Toolkit
             AllowButtonSpecToolTips = false;
 
             // Use a controller that can work against all the displayed months
-            MonthCalendarController controller = new(monthCalendar, viewManager, this, _needPaintDelegate);
+            MonthCalendarController controller =
+                new MonthCalendarController(monthCalendar, viewManager, this, _needPaintDelegate);
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -130,7 +131,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutMonths:" + Id;
+            $"ViewLayoutMonths:{Id}";
 
         #endregion
 
@@ -630,7 +631,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private DateTime JustDay(DateTime dt) => new (dt.Year, dt.Month, dt.Day);
+        private DateTime JustDay(DateTime dt) => new DateTime(dt.Year, dt.Month, dt.Day);
 
         private void OnTodayClick(object sender, EventArgs e)
         {
@@ -648,7 +649,7 @@ namespace Krypton.Toolkit
             if (CloseOnTodayClick && Provider is { ProviderCanCloseMenu: true })
             {
                 // Ask the original context menu definition, if we can close
-                CancelEventArgs cea = new();
+                CancelEventArgs cea = new CancelEventArgs();
                 Provider.OnClosing(cea);
 
                 if (!cea.Cancel)
@@ -753,7 +754,7 @@ namespace Krypton.Toolkit
                     // Bring the selection into the display range
                     DateTime endMonth = _displayMonth.AddMonths(months - 1);
                     DateTime oldSelEndDate = _oldSelectionEnd.Date;
-                    DateTime oldSelEndMonth = new(oldSelEndDate.Year, oldSelEndDate.Month, 1);
+                    DateTime oldSelEndMonth = new DateTime(oldSelEndDate.Year, oldSelEndDate.Month, 1);
                     if (oldSelEndMonth >= endMonth)
                     {
                         _displayMonth = oldSelEndMonth.AddMonths(-(months - 1));
@@ -812,7 +813,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(_redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(_redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -888,7 +889,7 @@ namespace Krypton.Toolkit
             Size shortNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
             Size shortDisabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
 
-            _shortText = "A" + _dayOfWeekMeasure;
+            _shortText = $"A{_dayOfWeekMeasure}";
 
             // Find sizes required for the different 
             Size fullNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);

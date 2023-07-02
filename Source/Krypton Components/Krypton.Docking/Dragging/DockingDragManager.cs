@@ -10,6 +10,8 @@
  */
 #endregion
 
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Docking
 {
     /// <summary>
@@ -40,7 +42,7 @@ namespace Krypton.Docking
             _offset = Point.Empty;
 
             // Use timer to ensure we do not update the display too quickly which then causes tearing
-            _moveTimer = new()
+            _moveTimer = new Timer
             {
                 Interval = 10
             };

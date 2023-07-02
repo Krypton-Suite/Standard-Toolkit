@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewLayoutRibbonQATMini:" + Id;
+            $@"ViewLayoutRibbonQATMini:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo instances.</returns>
         public KeyTipInfo[] GetQATKeyTips()
         {
-            KeyTipInfoList keyTipList = new();
+            var keyTipList = new KeyTipInfoList();
 
             // Add all the entries for the contents
             keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
@@ -147,8 +147,8 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _borderContents.ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
-                                           viewRect.Bottom - 2 - borders.Top);
+                var screenPt = new Point(viewRect.Left + (viewRect.Width / 2) - borders.Left,
+                    viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button controller
                 keyTipList.Add(new KeyTipInfo(true, "00", screenPt, 
@@ -245,7 +245,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return base.GetPreferredSize(context!);
+            return base.GetPreferredSize(context);
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnExtraButtonClick(object sender, EventHandler finishDelegate)
+        private void OnExtraButtonClick(object sender, EventHandler? finishDelegate)
         {
             ViewDrawRibbonQATExtraButton button = (ViewDrawRibbonQATExtraButton)sender;
 

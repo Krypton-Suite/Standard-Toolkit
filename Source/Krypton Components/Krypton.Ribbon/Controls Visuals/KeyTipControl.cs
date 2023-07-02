@@ -218,7 +218,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An PaintEventArgs containing the event data.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            using (ViewLayoutContext layoutContext = new(this, _ribbon.Renderer))
+            using (var layoutContext = new ViewLayoutContext(this, _ribbon.Renderer))
             {
                 foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
                 {
@@ -255,7 +255,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            using (RenderContext renderContext = new(this, e.Graphics, e.ClipRectangle, _ribbon.Renderer))
+            using (var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, _ribbon.Renderer))
             {
                 foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
                 {

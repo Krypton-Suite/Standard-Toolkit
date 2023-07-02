@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
                 if (service != null)
                 {
                     // Create the custom control used to edit value
-                    PaletteDrawBordersSelector selector = new()
+                    PaletteDrawBordersSelector selector = new PaletteDrawBordersSelector
                     {
 
                         // Populate selector with starting value

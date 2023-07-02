@@ -19,13 +19,14 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     {
-        private static readonly Size _contentSize = new(-4, -7);
+        // TODO: Needs to be scaled
+        private static readonly Size _contentSize = new Size(-4, -7);
 
         #region Instance Fields
         private readonly Size _viewSize; // = new(13, 22);
         private readonly KryptonRibbon _ribbon;
         private IDisposable? _mementoBack;
-        private readonly EventHandler _finishDelegate;
+        private readonly EventHandler? _finishDelegate;
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the quick access toolbar button has been clicked.
         /// </summary>
-        public event ClickAndFinishHandler ClickAndFinish;
+        public event ClickAndFinishHandler? ClickAndFinish;
         #endregion
 
         #region Identity
@@ -51,11 +52,11 @@ namespace Krypton.Ribbon
             _ribbon = ribbon;
 
             // Create delegate used to process end of click action
-            _finishDelegate = ClickFinished;
+            _finishDelegate = ClickFinished!;
 
             // Attach a controller to this element for the pressing of the button
-            QATExtraButtonController controller = new(ribbon, this, needPaint);
-            controller.Click += OnClick;
+            var controller = new QATExtraButtonController(ribbon, this, needPaint);
+            controller.Click += OnClick!;
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -68,7 +69,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonQATExtraButton:" + Id;
+            $@"ViewDrawRibbonQATExtraButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

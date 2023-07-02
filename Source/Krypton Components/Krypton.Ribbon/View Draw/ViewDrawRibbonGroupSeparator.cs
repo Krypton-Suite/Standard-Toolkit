@@ -55,8 +55,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
             _ribbonSeparator.SeparatorView = this;
 
             // Hook into changes in the ribbon separator definition
-            _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged;
+            _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged!;
 
             _preferredSize2007 = new Size((int)(4 * FactorDpiX), (int)(4 * FactorDpiY));
             _preferredSize2010 = new Size((int)(7 * FactorDpiX), (int)(4 * FactorDpiY));
@@ -80,7 +80,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupSeparator:" + Id;
+            $@"ViewDrawRibbonGroupSeparator:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -186,7 +186,7 @@ namespace Krypton.Ribbon
             }
 
             // Return the one possible size allowed
-            return new ItemSizeWidth[] { new(GroupItemSize.Large, _preferredSize.Width) };
+            return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, _preferredSize.Width) };
         }
 
         /// <summary>

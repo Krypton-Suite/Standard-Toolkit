@@ -395,12 +395,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalListBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalListBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -521,7 +521,7 @@ namespace Krypton.Toolkit
             /// Creates a new instance of the item collection.
             /// </summary>
             /// <returns>A ListBox.ObjectCollection that represents the new item collection.</returns>
-            protected override ObjectCollection CreateItemCollection() => new(this);
+            protected override ObjectCollection CreateItemCollection() => new ObjectCollection(this);
 
             /// <summary>
             /// Raises the KeyPress event.
@@ -569,7 +569,8 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using ViewLayoutContext context = new(_viewManager, this, _kryptonCheckedListBox, _kryptonCheckedListBox.Renderer);
+                using ViewLayoutContext context = new ViewLayoutContext(_viewManager, this, _kryptonCheckedListBox,
+                    _kryptonCheckedListBox.Renderer);
                 ViewDrawPanel.Layout(context);
             }
 
@@ -644,7 +645,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // Find the item under the mouse
-                            Point mousePoint = new((int)m.LParam.ToInt64());
+                            Point mousePoint = new Point((int)m.LParam.ToInt64());
                             var mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
@@ -812,7 +813,7 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new();
+                PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -838,13 +839,15 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new(this, _kryptonCheckedListBox.Renderer))
+                                using (ViewLayoutContext context =
+                                       new ViewLayoutContext(this, _kryptonCheckedListBox.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                using (RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g,
+                                           realRect, _kryptonCheckedListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
@@ -857,7 +860,8 @@ namespace Krypton.Toolkit
 
                                 if (Items.Count == 0)
                                 {
-                                    using RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer);
+                                    using RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g,
+                                        realRect, _kryptonCheckedListBox.Renderer);
                                     ViewDrawPanel.Render(context);
                                 }
                             }
@@ -870,7 +874,8 @@ namespace Krypton.Toolkit
                             if (Items.Count == 0)
                             {
                                 using Graphics g = Graphics.FromHdc(hdc);
-                                using RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer);
+                                using RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g,
+                                    realRect, _kryptonCheckedListBox.Renderer);
                                 ViewDrawPanel.Render(context);
                             }
                         }
@@ -921,7 +926,7 @@ namespace Krypton.Toolkit
                     {
                         CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
                         CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                        ItemCheckEventArgs ice = new(selectedIndex, newCheckValue, checkedState);
+                        ItemCheckEventArgs ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
                         _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                     }
                     _lastSelected = selectedIndex;
@@ -970,42 +975,42 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the property of a control is bound to a data value.")]
         [Category(@"Property Changed")]
-        public event EventHandler Format;
+        public event EventHandler? Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormatInfo property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormatInfoChanged;
+        public event EventHandler? FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormatString property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormatStringChanged;
+        public event EventHandler? FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormattingEnabled property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormattingEnabledChanged;
+        public event EventHandler? FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedValue property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler SelectedValueChanged;
+        public event EventHandler? SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
@@ -1019,49 +1024,49 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event PaintEventHandler Paint;
+        public new event PaintEventHandler? Paint;
 
         /// <summary>
         /// Occurs when the value of the TextChanged property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler TextChanged;
+        public new event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -1069,7 +1074,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -1077,7 +1082,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
         #endregion
 
         #region Identity
@@ -1786,7 +1791,7 @@ namespace Krypton.Toolkit
             if (value != checkedState)
             {
                 // Give developers a chance to see and alter the change
-                ItemCheckEventArgs ice = new(index, value, checkedState);
+                ItemCheckEventArgs ice = new ItemCheckEventArgs(index, value, checkedState);
                 OnItemCheck(ice);
 
                 // If a change is still occurring
@@ -2186,7 +2191,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(120, 96);
+        protected override Size DefaultSize => new Size(120, 96);
 
         #endregion
 
@@ -2303,7 +2308,7 @@ namespace Krypton.Toolkit
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
                         // Ask the view element to layout in given space, needs this before a render call
-                        using (ViewLayoutContext context = new(this, Renderer))
+                        using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
                         {
                             context.DisplayRectangle = e.Bounds;
                             _listBox.ViewDrawPanel.Layout(context);
@@ -2311,7 +2316,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Ask the view element to actually draw
-                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        using (RenderContext context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             _listBox.ViewDrawPanel.Render(context);
                             _layoutDocker.Render(context);
@@ -2339,7 +2344,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using ViewLayoutContext context = new(this, Renderer);
+            using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
             Size size = _layoutDocker.GetPreferredSize(context);
             e.ItemWidth = size.Width;
             e.ItemHeight = size.Height;

@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupTextBox.ItemSizeCurrent;
 
             // Hook into the textbox events
-            GroupTextBox.MouseEnterControl += OnMouseEnterControl;
-            GroupTextBox.MouseLeaveControl += OnMouseLeaveControl;
+            GroupTextBox.MouseEnterControl += OnMouseEnterControl!;
+            GroupTextBox.MouseLeaveControl += OnMouseLeaveControl!;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupTextBox;
@@ -60,8 +60,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the textbox
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the textbox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
 
             // Define back reference to view for the text box definition
             GroupTextBox.TextBoxView = this;
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
             GroupTextBox.ViewPaintDelegate = needPaint;
 
             // Hook into changes in the ribbon custom definition
-            GroupTextBox.PropertyChanged += OnTextBoxPropertyChanged;
+            GroupTextBox.PropertyChanged += OnTextBoxPropertyChanged!;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
 
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupTextBox:" + Id;
+            $@"ViewDrawRibbonGroupTextBox:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

@@ -96,11 +96,10 @@ namespace Krypton.Docking
                         if (result == PI.HT.CAPTION)
                         {
                             // Extract screen position of the mouse from the message LPARAM
-                            Point screenPos = new(PI.LOWORD(m.LParam),
-                                                        PI.HIWORD(m.LParam));
+                            var screenPos = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // Find the mouse offset relative to the top left of the window
-                            Point offset = new(screenPos.X - Location.X, screenPos.Y - Location.Y);
+                            var offset = new Point(screenPos.X - Location.X, screenPos.Y - Location.Y);
 
                             // Do not intercept message if inside the max/close buttons
                             if (!HitTestMaxButton(offset) && !HitTestCloseButton(offset))
@@ -110,7 +109,7 @@ namespace Krypton.Docking
                                 Activate();
 
                                 // Use event to notify the request to drag the window
-                                OnWindowCaptionDragging(new(screenPos, offset));
+                                OnWindowCaptionDragging(new ScreenAndOffsetEventArgs(screenPos, offset));
 
                                 // Eat the message!
                                 return;
@@ -179,7 +178,7 @@ namespace Krypton.Docking
             var uniqueNames = VisibleCloseableUniqueNames();
             if (uniqueNames.Any())
             {
-                OnWindowCloseClicked(new(uniqueNames));
+                OnWindowCloseClicked(new UniqueNamesEventArgs(uniqueNames));
             }
 
             base.OnClosing(e);
@@ -238,7 +237,7 @@ namespace Krypton.Docking
         {
             e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged!;
             var childMinSize = e.Cell.GetMinSize();
-            MinimumSize = new(Math.Max(MinimumSize.Width, childMinSize.Width) + 20,
+            MinimumSize = new Size(Math.Max(MinimumSize.Width, childMinSize.Width) + 20,
                 Math.Max(MinimumSize.Height, childMinSize.Height) + 20);
             ClientSize = MinimumSize;
         }
@@ -250,35 +249,29 @@ namespace Krypton.Docking
 
         private void OnLayoutWorkspace(object sender, EventArgs e)
         {
-            if (FloatspaceControl != null)
-            {
-                FloatspaceControl.PerformNeedPaint(true);
-            }
+            FloatspaceControl?.PerformNeedPaint(true);
         }
 
         private void UpdateCellSettings()
         {
-            if (FloatspaceControl != null)
+            KryptonWorkspaceCell? cell = FloatspaceControl?.FirstVisibleCell();
+            if (cell != null)
             {
-                KryptonWorkspaceCell? cell = FloatspaceControl.FirstVisibleCell();
-                if (cell != null)
+                // If there is only a single cell inside the floating window
+                if (FloatspaceControl.CellVisibleCount <= 1)
                 {
-                    // If there is only a single cell inside the floating window
-                    if (FloatspaceControl.CellVisibleCount <= 1)
+                    // Cell display mode depends on the number of tabs in the cell
+                    cell.NavigatorMode = cell.Pages.VisibleCount == 1 ? NavigatorMode.HeaderGroup : NavigatorMode.HeaderGroupTab;
+                }
+                else
+                {
+                    do
                     {
-                        // Cell display mode depends on the number of tabs in the cell
-                        cell.NavigatorMode = cell.Pages.VisibleCount == 1 ? NavigatorMode.HeaderGroup : NavigatorMode.HeaderGroupTab;
+                        // With multiple cells we always need the tabs showing
+                        cell.NavigatorMode = NavigatorMode.HeaderGroupTab;
+                        cell = FloatspaceControl.NextVisibleCell(cell);
                     }
-                    else
-                    {
-                        do
-                        {
-                            // With multiple cells we always need the tabs showing
-                            cell.NavigatorMode = NavigatorMode.HeaderGroupTab;
-                            cell = FloatspaceControl.NextVisibleCell(cell);
-                        }
-                        while (cell != null);
-                    }
+                    while (cell != null);
                 }
             }
 

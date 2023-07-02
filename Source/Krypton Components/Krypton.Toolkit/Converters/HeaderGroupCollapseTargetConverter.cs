@@ -33,9 +33,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(HeaderGroupCollapsedTarget.CollapsedToPrimary, KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToPrimary),
-            new(HeaderGroupCollapsedTarget.CollapsedToSecondary, KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToSecondary),
-            new(HeaderGroupCollapsedTarget.CollapsedToBoth, KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToBoth)
+            new Pair(HeaderGroupCollapsedTarget.CollapsedToPrimary,
+                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToPrimary),
+            new Pair(HeaderGroupCollapsedTarget.CollapsedToSecondary,
+                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToSecondary),
+            new Pair(HeaderGroupCollapsedTarget.CollapsedToBoth,
+                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToBoth)
         };
 
         #endregion

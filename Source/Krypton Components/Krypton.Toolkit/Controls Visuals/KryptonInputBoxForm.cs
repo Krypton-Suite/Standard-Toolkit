@@ -100,7 +100,8 @@ namespace Krypton.Toolkit
             IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
             // Show input box window as a modal dialog and then dispose of it afterwards
-            using KryptonInputBoxForm ib = new(prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
+            using KryptonInputBoxForm ib = new KryptonInputBoxForm(prompt, caption, defaultResponse, cueText, cueColour,
+                cueTypeface, usePasswordOption);
             ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return ib.ShowDialog(showOwner) == DialogResult.OK ? ib.InputResponse : string.Empty;

@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Text property changes.
         /// </summary>
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
         #endregion
 
         #region Identity
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         /// Create the storage for the image states.
         /// </summary>
         /// <returns>Storage object.</returns>
-        protected virtual ButtonImageStates CreateImageStates() => new();
+        protected virtual ButtonImageStates CreateImageStates() => new ButtonImageStates();
 
         #endregion
 

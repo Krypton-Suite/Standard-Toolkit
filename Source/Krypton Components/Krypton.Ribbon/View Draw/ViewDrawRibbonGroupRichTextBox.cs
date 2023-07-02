@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupRichTextBox.ItemSizeCurrent;
 
             // Hook into the richtextbox events
-            GroupRichTextBox.MouseEnterControl += OnMouseEnterControl;
-            GroupRichTextBox.MouseLeaveControl += OnMouseLeaveControl;
+            GroupRichTextBox.MouseEnterControl += OnMouseEnterControl!;
+            GroupRichTextBox.MouseLeaveControl += OnMouseLeaveControl!;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupRichTextBox;
@@ -60,8 +60,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the textbox
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the richtextbox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
 
             // Define back reference to view for the rich text box definition
             GroupRichTextBox.RichTextBoxView = this;
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
             GroupRichTextBox.ViewPaintDelegate = needPaint;
 
             // Hook into changes in the ribbon custom definition
-            GroupRichTextBox.PropertyChanged += OnRichTextBoxPropertyChanged;
+            GroupRichTextBox.PropertyChanged += OnRichTextBoxPropertyChanged!;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
 
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupRichTextBox:" + Id;
+            $@"ViewDrawRibbonGroupRichTextBox:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

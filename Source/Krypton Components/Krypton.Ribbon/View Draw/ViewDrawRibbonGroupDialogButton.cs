@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
             _ribbonGroup = ribbonGroup;
 
             // Attach a controller to this element for the pressing of the button
-            DialogLauncherButtonController controller = new(ribbon, this, needPaint);
+            var controller = new DialogLauncherButtonController(ribbon, this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupButton:" + Id;
+            $@"ViewDrawRibbonGroupButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

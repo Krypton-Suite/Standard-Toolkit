@@ -41,37 +41,37 @@ namespace Krypton.Ribbon
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when the value of the Value property changes.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the value of the Value property changes.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity

@@ -39,14 +39,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the value of the Value property changes.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs when either a mouse or keyboard action moves the scroll box.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when either a mouse or keyboard action moves the scroll box.")]
-        public event EventHandler Scroll;
+        public event EventHandler? Scroll;
         #endregion
 
         #region Identity
@@ -508,7 +508,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(150, 35);
+        protected override Size DefaultSize => new Size(150, 35);
 
         /// <summary>
         /// Raises the HandleCreated event.

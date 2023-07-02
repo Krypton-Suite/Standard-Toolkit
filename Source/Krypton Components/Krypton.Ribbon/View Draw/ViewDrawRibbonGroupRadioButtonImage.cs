@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
             _large = large;
 
             // Use redirector to get the radio button images and redirect to parent palette
-            PaletteRedirectRadioButton redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.RadioButton);
+            var redirectImages = new PaletteRedirectRadioButton(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.RadioButton);
 
             // Create drawing element
             _drawRadioButton = new ViewDrawRadioButton(redirectImages);
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupRadioButtonImage:" + Id;
+            $@"ViewDrawRibbonGroupRadioButtonImage:{Id}";
 
         #endregion
 
@@ -127,7 +127,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Get the size of the radio button when it is drawn
-            Rectangle radioButtonRect = new(Point.Empty, _drawRadioButton.GetPreferredSize(context));
+            var radioButtonRect = new Rectangle(Point.Empty, _drawRadioButton.GetPreferredSize(context));
 
             // Decide on correct position within our rectangle
             if (_large)

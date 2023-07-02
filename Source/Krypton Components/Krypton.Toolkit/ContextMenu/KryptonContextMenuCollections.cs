@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
 
         private ViewLayoutStack AddColumn(ViewLayoutStack columns)
         {
-            ViewLayoutStack column = new(false);
+            var column = new ViewLayoutStack(false);
             columns.Add(column);
             return column;
         }
@@ -275,7 +275,7 @@ namespace Krypton.Toolkit
                                    bool imageColumn)
         {
             // Create a pile specific to organising menu items
-            ViewLayoutMenuItemsPile menuItemPile = new(provider, items, standardStyle, imageColumn);
+            var menuItemPile = new ViewLayoutMenuItemsPile(provider, items, standardStyle, imageColumn);
 
             // The pile is the root item for the new column
             columns.Add(menuItemPile);

@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                ArrayList compound = new ArrayList(base.AssociatedComponents);
 
                 if (_contextMenu != null)
                 {
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                DesignerActionListCollection actionLists = new DesignerActionListCollection
                 {
                     // Add the palette specific list
                     new KryptonContextMenuActionList(this)

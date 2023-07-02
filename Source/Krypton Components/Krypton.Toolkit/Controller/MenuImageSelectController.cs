@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
                 case Keys.Space:
                     if (_layout.ItemEnabled)
                     {
-                        Point pt = new(int.MaxValue, int.MaxValue);
+                        var pt = new Point(int.MaxValue, int.MaxValue);
                         OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
                         UpdateTargetState(pt);
                     }
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
             if (c is { IsDisposed: false })
             {
                 // Ensure control is inside a visible top level form
-                Form f = c.FindForm();
+                Form? f = c.FindForm();
                 if (f is { Visible: true })
                 {
                     UpdateTargetState(c.PointToClient(Control.MousePosition));

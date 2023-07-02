@@ -51,7 +51,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupsBorderSynch:" + Id;
+            $@"ViewDrawRibbonGroupsBorderSynch:{Id}";
 
         #endregion
 
@@ -204,12 +204,12 @@ namespace Krypton.Ribbon
             Clear();
 
             // Create a new lookup that reflects any changes in tabs
-            TabToView regenerate = new();
+            var regenerate = new TabToView();
 
             // Make sure we have a view element to match each tab
             foreach (KryptonRibbonTab tab in Ribbon.RibbonTabs)
             {
-                ViewLayoutRibbonScrollPort view = null;
+                ViewLayoutRibbonScrollPort? view = null;
 
                 // Get the currently cached view for the tab
                 if (_tabToView.ContainsKey(tab))
@@ -220,7 +220,7 @@ namespace Krypton.Ribbon
                 // If a new tab, create a view for it now
                 if (view == null)
                 {
-                    ViewLayoutRibbonGroups groups = new(Ribbon, tab, NeedPaintDelegate);
+                    var groups = new ViewLayoutRibbonGroups(Ribbon, tab, NeedPaintDelegate);
                     view = new ViewLayoutRibbonScrollPort(Ribbon, Orientation.Horizontal, groups, false, SCROLL_SPEED, NeedPaintDelegate)
                     {
                         TransparentBackground = true

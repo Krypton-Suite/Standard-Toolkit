@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private static KryptonComboBox _paintingComboBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
-        private static readonly Size _sizeLarge = new(10000, 10000);
+        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -69,8 +69,7 @@ namespace Krypton.Toolkit
         /// Returns a standard textual representation of the cell.
         /// </summary>
         public override string ToString() =>
-            "KryptonDataGridViewComboBoxCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
+            $"KryptonDataGridViewComboBoxCell {{ ColumnIndex={ColumnIndex.ToString(CultureInfo.CurrentCulture)}, RowIndex={RowIndex.ToString(CultureInfo.CurrentCulture)} }}";
 
         #endregion
 

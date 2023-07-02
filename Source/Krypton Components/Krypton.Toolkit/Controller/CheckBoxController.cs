@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the check box has been selected.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity

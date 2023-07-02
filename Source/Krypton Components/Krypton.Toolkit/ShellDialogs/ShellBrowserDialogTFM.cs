@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
 {
     internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
     {
-        private readonly OpenFileDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
+        private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();// { AutoUpgradeEnabled = true };
         private static readonly Type _ofd = typeof(OpenFileDialog);
 
         [Flags]

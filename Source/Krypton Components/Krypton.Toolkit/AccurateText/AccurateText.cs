@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             }
 
             // Create the format object used when measuring and drawing
-            StringFormat format = new() { FormatFlags = StringFormatFlags.NoClip };
+            var format = new StringFormat { FormatFlags = StringFormatFlags.NoClip };
 
             // Ensure that text reflects reversed RTL setting
             if (rtl == RightToLeft.Yes)
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
             text = text.Replace("\t", @"    ");
 
             // Perform actual measure of the text
-            using GraphicsTextHint graphicsHint = new(g, hint);
+            using var graphicsHint = new GraphicsTextHint(g, hint);
             SizeF textSize = Size.Empty;
 
             try
@@ -357,7 +357,7 @@ namespace Krypton.Toolkit
             {
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new()
+                var bmi = new PI.BITMAPINFO
                 {
                     biWidth = bounds.Width,
                     biHeight = -(bounds.Height + (GLOW_EXTRA_HEIGHT * 2)),
@@ -384,18 +384,19 @@ namespace Krypton.Toolkit
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
-                                                                                                      VisualStyleElement.Window.Caption.Inactive);
+                var renderer = new VisualStyleRenderer(state == PaletteState.Normal
+                    ? VisualStyleElement.Window.Caption.Active
+                    : VisualStyleElement.Window.Caption.Inactive);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new()
+                var textBounds = new PI.RECT
                 {
                     left = 0,
                     top = 0,
                     right = bounds.Right - bounds.Left,
                     bottom = bounds.Bottom - bounds.Top + (GLOW_EXTRA_HEIGHT * 2)
                 };
-                PI.DTTOPTS dttOpts = new()
+                var dttOpts = new PI.DTTOPTS
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,
@@ -463,7 +464,7 @@ namespace Krypton.Toolkit
             {
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new()
+                var bmi = new PI.BITMAPINFO
                 {
                     biWidth = bounds.Width,
                     biHeight = -bounds.Height,
@@ -489,18 +490,19 @@ namespace Krypton.Toolkit
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
-                                                                                                      VisualStyleElement.Window.Caption.Inactive);
+                var renderer = new VisualStyleRenderer(state == PaletteState.Normal
+                    ? VisualStyleElement.Window.Caption.Active
+                    : VisualStyleElement.Window.Caption.Inactive);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new()
+                var textBounds = new PI.RECT
                 {
                     left = 0,
                     top = 0,
                     right = bounds.Right - bounds.Left,
                     bottom = bounds.Bottom - bounds.Top
                 };
-                PI.DTTOPTS dttOpts = new()
+                var dttOpts = new PI.DTTOPTS
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_TEXTCOLOR,
@@ -551,7 +553,7 @@ namespace Krypton.Toolkit
 
         private static StringFormat FlagsToStringFormat(TextFormatFlags flags)
         {
-            StringFormat sf = new();
+            var sf = new StringFormat();
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
@@ -644,7 +646,7 @@ namespace Krypton.Toolkit
 
         private static TextFormatFlags StringFormatToFlags(StringFormat sf)
         {
-            TextFormatFlags flags = new();
+            var flags = new TextFormatFlags();
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 

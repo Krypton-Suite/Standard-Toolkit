@@ -56,14 +56,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the component is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs whenever a button specification property has changed.
         /// </summary>
         [Category(@"ButtonSpec")]
         [Description(@"Occurs when a button specification property has changed.")]
-        public event PropertyChangedEventHandler ButtonSpecPropertyChanged;
+        public event PropertyChangedEventHandler? ButtonSpecPropertyChanged;
         #endregion
 
         #region Identity
@@ -777,7 +777,7 @@ namespace Krypton.Toolkit
 
                     if (_command != null)
                     {
-                        _command.PropertyChanged += OnCommandPropertyChanged!;
+                        _command.PropertyChanged += OnCommandPropertyChanged;
                     }
                 }
             }

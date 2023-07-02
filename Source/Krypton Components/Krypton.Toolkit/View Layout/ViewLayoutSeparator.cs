@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutSeparator:" + Id;
+            $"ViewLayoutSeparator:{Id}";
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public Size SeparatorSize
         {
-            get => new(_width, _height);
+            get => new Size(_width, _height);
 
             set
             {
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Always return the same minimum size
-            new (_width, _height);
+            new Size(_width, _height);
 
         /// <summary>
         /// Perform a layout of the elements.

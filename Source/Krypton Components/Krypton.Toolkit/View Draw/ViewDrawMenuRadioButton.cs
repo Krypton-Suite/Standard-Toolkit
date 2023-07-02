@@ -85,7 +85,8 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the radio button controller
-            MenuRadioButtonController mrbc = new(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
+            MenuRadioButtonController mrbc = new MenuRadioButtonController(provider.ProviderViewManager, _innerDocker,
+                this, provider.ProviderNeedPaintDelegate);
             mrbc.Click += OnClick;
             _innerDocker.MouseController = mrbc;
             _innerDocker.KeyController = mrbc;
@@ -110,7 +111,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuRadioButton:" + Id;
+            $"ViewDrawMenuRadioButton:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.

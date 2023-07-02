@@ -39,15 +39,15 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private readonly Pair[] _pairs =
         {
-            new(HeaderStyle.Primary, KryptonLanguageManager.HeaderStyles.Primary),
-            new(HeaderStyle.Secondary, KryptonLanguageManager.HeaderStyles.Secondary),
-            new(HeaderStyle.DockInactive, KryptonLanguageManager.HeaderStyles.DockInactive),
-            new(HeaderStyle.DockActive, KryptonLanguageManager.HeaderStyles.DockActive),
-            new(HeaderStyle.Form, KryptonLanguageManager.HeaderStyles.Form),
-            new(HeaderStyle.Calendar, KryptonLanguageManager.HeaderStyles.Calendar),
-            new(HeaderStyle.Custom1, KryptonLanguageManager.HeaderStyles.CustomOne),
-            new(HeaderStyle.Custom2, KryptonLanguageManager.HeaderStyles.CustomTwo),
-            new(HeaderStyle.Custom3, KryptonLanguageManager.HeaderStyles.CustomThree)
+            new Pair(HeaderStyle.Primary, KryptonLanguageManager.HeaderStyles.Primary),
+            new Pair(HeaderStyle.Secondary, KryptonLanguageManager.HeaderStyles.Secondary),
+            new Pair(HeaderStyle.DockInactive, KryptonLanguageManager.HeaderStyles.DockInactive),
+            new Pair(HeaderStyle.DockActive, KryptonLanguageManager.HeaderStyles.DockActive),
+            new Pair(HeaderStyle.Form, KryptonLanguageManager.HeaderStyles.Form),
+            new Pair(HeaderStyle.Calendar, KryptonLanguageManager.HeaderStyles.Calendar),
+            new Pair(HeaderStyle.Custom1, KryptonLanguageManager.HeaderStyles.CustomOne),
+            new Pair(HeaderStyle.Custom2, KryptonLanguageManager.HeaderStyles.CustomTwo),
+            new Pair(HeaderStyle.Custom3, KryptonLanguageManager.HeaderStyles.CustomThree)
         };
 
         #endregion

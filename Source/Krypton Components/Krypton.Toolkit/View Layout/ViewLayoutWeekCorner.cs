@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutWeekCorner:" + Id;
+            $"ViewLayoutWeekCorner:{Id}";
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Start with size needed to draw a week number
-            Size retSize = new(_months.SizeDay.Width, _months.SizeDays.Height);
+            Size retSize = new Size(_months.SizeDay.Width, _months.SizeDays.Height);
 
             // Add the width of the vertical border
             retSize.Width += _palette.GetBorderWidth(State);

@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the redo button spec.")]
         public ButtonSpecAny? ToolBarRedoButton
         {
-            get => _redoButtonSpec ?? new();
+            get => _redoButtonSpec ?? new ButtonSpecAny();
             set { _redoButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarRedoCommand" /> class.</summary>
         public KryptonIntegratedToolbarRedoCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.Redo;
         }

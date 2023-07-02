@@ -28,37 +28,37 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when an item is about to be added/inserted to the collection.
         /// </summary>
-        public event TypedHandler<T> Inserting;
+        public event TypedHandler<T>? Inserting;
 
         /// <summary>
         /// Occurs when an item has been added/inserted to the collection.
         /// </summary>
-        public event TypedHandler<T> Inserted;
+        public event TypedHandler<T>? Inserted;
 
         /// <summary>
         /// Occurs when an item is about to be removed from the collection.
         /// </summary>
-        public event TypedHandler<T> Removing;
+        public event TypedHandler<T>? Removing;
 
         /// <summary>
         /// Occurs when an item is removed from the collection.
         /// </summary>
-        public event TypedHandler<T> Removed;
+        public event TypedHandler<T>? Removed;
 
         /// <summary>
         /// Occurs when an items are about to be removed from the collection.
         /// </summary>
-        public event EventHandler Clearing;
+        public event EventHandler? Clearing;
 
         /// <summary>
         /// Occurs when an items have been removed from the collection.
         /// </summary>
-        public event EventHandler Cleared;
+        public event EventHandler? Cleared;
 
         /// <summary>
         /// Occurs when items have been reordered inside the collection.
         /// </summary>
-        public event EventHandler Reordered;
+        public event EventHandler? Reordered;
         #endregion
 
         #region Identity
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => Count + " TypedCollection";
+        public override string ToString() => $"{Count} TypedCollection";
 
         #endregion
 
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
         public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _list.IndexOf(item!);
+            return _list.IndexOf(item);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
             OnRemoving(new TypedCollectionEventArgs<T>(item, index));
 
             // Remove from the internal list
-            var ret = _list.Remove(item!);
+            var ret = _list.Remove(item);
 
             // Generate after event
             OnRemoved(new TypedCollectionEventArgs<T>(item, index));

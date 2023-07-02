@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
 
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             if (_propertyGrid != null)
             {

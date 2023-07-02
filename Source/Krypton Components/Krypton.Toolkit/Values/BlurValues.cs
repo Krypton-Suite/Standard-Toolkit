@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
         #region Events
 #pragma warning disable 1591
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler BlurWhenFocusLostChanged;
+        public event EventHandler? BlurWhenFocusLostChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler OpacityChanged;
+        public event EventHandler? OpacityChanged;
 #pragma warning restore 1591
         #endregion
 

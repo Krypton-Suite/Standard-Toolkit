@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupCustomControl.ItemSizeCurrent;
 
             // Hook into the custom control events
-            GroupCustomControl.MouseEnterControl += OnMouseEnterControl;
-            GroupCustomControl.MouseLeaveControl += OnMouseLeaveControl;
+            GroupCustomControl.MouseEnterControl += OnMouseEnterControl!;
+            GroupCustomControl.MouseLeaveControl += OnMouseLeaveControl!;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupCustomControl;
@@ -60,8 +60,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the custom control for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
 
             // Provide back reference to the custom control definition
             GroupCustomControl.CustomControlView = this;
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupCustom:" + Id;
+            $@"ViewDrawRibbonGroupCustom:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

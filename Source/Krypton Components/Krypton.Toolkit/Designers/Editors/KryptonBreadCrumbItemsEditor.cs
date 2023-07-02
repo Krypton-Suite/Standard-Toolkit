@@ -800,7 +800,7 @@ namespace Krypton.Toolkit
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new();
+                DictItemBase dictItems = new DictItemBase();
 
                 foreach (KryptonBreadCrumbItem item in items)
                 {
@@ -825,7 +825,7 @@ namespace Krypton.Toolkit
             private void AddMenuTreeNode(KryptonBreadCrumbItem item, MenuTreeNode parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new(item);
+                MenuTreeNode node = new MenuTreeNode(item);
 
                 // Add to either root or parent node
                 if (parent != null)

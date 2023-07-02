@@ -142,7 +142,7 @@ namespace Krypton.Docking
                         if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
                         {
                             // Use event to indicate the page is becoming docked and allow it to be cancelled
-                            CancelUniqueNameEventArgs args = new(page.UniqueName, false);
+                            var args = new CancelUniqueNameEventArgs(page.UniqueName, false);
                             manager?.RaisePageDockedRequest(args);
 
                             if (!args.Cancel)
@@ -158,10 +158,7 @@ namespace Krypton.Docking
                 if (transferPages.Count > 0)
                 {
                     // Convert the incoming pages into store pages for restoring later
-                    if (manager != null)
-                    {
-                        manager.PropogateAction(DockingPropogateAction.StorePages, transferUniqueNames.ToArray());
-                    }
+                    manager?.PropogateAction(DockingPropogateAction.StorePages, transferUniqueNames.ToArray());
 
                     // Create a new dockspace at the start of the list so it is closest to the control edge
                     if (dockedEdge != null)

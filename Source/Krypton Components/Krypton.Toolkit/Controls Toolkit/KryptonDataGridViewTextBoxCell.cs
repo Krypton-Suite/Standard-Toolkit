@@ -328,6 +328,6 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Set of extra icons to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; } = new();
+        public List<IconSpec> IconSpecs { get; } = new List<IconSpec>();
     }
 }

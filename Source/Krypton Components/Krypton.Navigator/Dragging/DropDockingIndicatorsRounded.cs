@@ -55,7 +55,7 @@ namespace Krypton.Navigator
             _showRect = new Rectangle(Point.Empty, _dragData.DockWindowSize);
 
             // Any old title will do as it will not be shown
-            CreateParams cp = new()
+            var cp = new CreateParams
             {
                 Caption = nameof(DropDockingIndicatorsRounded),
 
@@ -151,7 +151,7 @@ namespace Krypton.Navigator
         public int ScreenMouseMove(Point screenPoint)
         {
             // Convert from screen to client coordinates
-            Point pt = new(screenPoint.X - _showRect.X, screenPoint.Y - _showRect.Y);
+            var pt = new Point(screenPoint.X - _showRect.X, screenPoint.Y - _showRect.Y);
 
             // Remember the current active value
             var activeBefore = _dragData.ActiveFlags;
@@ -216,17 +216,14 @@ namespace Krypton.Navigator
             if (rect is { Width: > 0, Height: > 0 })
             {
                 // Draw onto a bitmap that is then used as the window display
-                Bitmap memoryBitmap = new(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+                var memoryBitmap = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                 using Graphics g = Graphics.FromImage(memoryBitmap);
                 // Perform actual painting onto the bitmap
-                Rectangle area = new(0, 0, rect.Width, rect.Height);
-                using (RenderContext context = new(null, g, area, _renderer))
+                var area = new Rectangle(0, 0, rect.Width, rect.Height);
+                using (var context = new RenderContext(null, g, area, _renderer))
                 {
-                    if (_renderer != null)
-                    {
-                        _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop,
-                            PaletteDragFeedback.Rounded);
-                    }
+                    _renderer?.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop,
+                        PaletteDragFeedback.Rounded);
                 }
 
                 // Get hold of the screen DC
@@ -247,12 +244,12 @@ namespace Krypton.Navigator
                 ulwsize.cy = rect.Height;
 
                 // New window position
-                PI.POINT topPos = new(rect.Left, rect.Top);
+                var topPos = new PI.POINT(rect.Left, rect.Top);
                 // Offset into memory bitmap is always zero
-                PI.POINT pointSource = new(0, 0);
+                var pointSource = new PI.POINT(0, 0);
 
                 // We want to make the entire bitmap opaque 
-                PI.BLENDFUNCTION blend = new()
+                var blend = new PI.BLENDFUNCTION
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,

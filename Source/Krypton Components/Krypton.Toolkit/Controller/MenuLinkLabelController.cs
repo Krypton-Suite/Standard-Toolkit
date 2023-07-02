@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the link label has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -395,7 +395,7 @@ namespace Krypton.Toolkit
                 if (_menuLinkLabel.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    var cea = new CancelEventArgs();
                     _menuLinkLabel.Closing(cea);
 
                     if (!cea.Cancel)

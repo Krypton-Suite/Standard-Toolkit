@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the page setup button spec.")]
         public ButtonSpecAny? ToolBarPageSetupButton
         {
-            get => _pageSetupButtonSpec ?? new();
+            get => _pageSetupButtonSpec ?? new ButtonSpecAny();
             set { _pageSetupButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarPageSetupCommand" /> class.</summary>
         public KryptonIntegratedToolbarPageSetupCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.PageSetup;
         }

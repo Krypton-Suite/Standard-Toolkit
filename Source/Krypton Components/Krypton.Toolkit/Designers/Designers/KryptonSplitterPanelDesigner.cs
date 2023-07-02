@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
             var drawText = Control.Name;
 
             // Use a fixed font for the drawing
-            using Font f = new("Arial", 8f);
+            using Font f = new Font("Arial", 8f);
             try
             {
                 // Measure the size of the text

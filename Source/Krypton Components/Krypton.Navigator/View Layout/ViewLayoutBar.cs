@@ -40,7 +40,7 @@ namespace Krypton.Navigator
 
         #region Instance Fields
 
-        private IPaletteMetric _paletteMetric;
+        private IPaletteMetric? _paletteMetric;
         private PaletteMetricInt _metricGap;
         private List<LineDetails> _lineDetails;
         private Size[] _childSizes;
@@ -51,11 +51,11 @@ namespace Krypton.Navigator
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the ViewLayoutBar class.
+        /// Initialise a new instance of the ViewLayoutBar class.
         /// </summary>
         /// <param name="itemSizing">Method used to calculate item size.</param>
         /// <param name="itemAlignment">Method used to align items within lines.</param>
-        /// <param name="barMultiline">Multline showing of items.</param>
+        /// <param name="barMultiline">Multiline showing of items.</param>
         /// <param name="itemMinimumSize">Maximum allowed item size.</param>
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
@@ -77,13 +77,13 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Initialize a new instance of the ViewLayoutBar class.
+        /// Initialise a new instance of the ViewLayoutBar class.
         /// </summary>
         /// <param name="paletteMetric">Palette source for metric values.</param>
         /// <param name="metricGap">Metric for gap between each child item.</param>
         /// <param name="itemSizing">Method used to calculate item size.</param>
         /// <param name="itemAlignment">Method used to align items within lines.</param>
-        /// <param name="barMultiline">Multline showing of items.</param>
+        /// <param name="barMultiline">Multiline showing of items.</param>
         /// <param name="itemMinimumSize">Maximum allowed item size.</param>
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
@@ -106,13 +106,13 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Initialize a new instance of the ViewLayoutBar class.
+        /// Initialise a new instance of the ViewLayoutBar class.
         /// </summary>
         /// <param name="paletteMetric">Palette source for metric values.</param>
         /// <param name="metricGap">Metric for gap between each child item.</param>
         /// <param name="itemSizing">Method used to calculate item size.</param>
         /// <param name="itemAlignment">Method used to align items within lines.</param>
-        /// <param name="barMultiline">Multline showing of items.</param>
+        /// <param name="barMultiline">Multiline showing of items.</param>
         /// <param name="itemMinimumSize">Maximum allowed item size.</param>
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
@@ -152,7 +152,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutBar:" + Id;
+            $"ViewLayoutBar:{Id}";
 
         #endregion
 
@@ -275,8 +275,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Updates the metrics source and metric to use.
         /// </summary>
-        /// <param name="paletteMetric">Source for aquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric paletteMetric)
+        /// <param name="paletteMetric">Source for acquiring metrics.</param>
+        public void SetMetrics(IPaletteMetric? paletteMetric)
         {
             _paletteMetric = paletteMetric;
         }
@@ -307,7 +307,7 @@ namespace Krypton.Navigator
             _maximumItem = Size.Empty;
 
             // Keep track of the total preferred size
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Nothing to calculate if there are no children
             if (Count > 0)
@@ -347,7 +347,7 @@ namespace Krypton.Navigator
                         // Ask child for it's own preferred size
                         _childSizes[i] = child.GetPreferredSize(context);
 
-                        // Enfore the minimum and maximum sizes
+                        // Enforce the minimum and maximum sizes
                         if (ItemVertical)
                         {
                             _childSizes[i].Width = Math.Max(Math.Min(_childSizes[i].Width, ItemMaximumSize.Height), ItemMinimumSize.Height);
@@ -510,7 +510,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for reducing?
+                                // Are there any items available for reducing?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to shrink each item by?
@@ -563,7 +563,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for expanding?
+                                // Are there any items available for expanding?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to expand each item by?
@@ -671,7 +671,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for reducing?
+                                // Are there any items available for reducing?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to shrink each item by?
@@ -724,7 +724,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for reducing?
+                                // Are there any items available for reducing?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to expand each item by?
@@ -800,7 +800,7 @@ namespace Krypton.Navigator
                 }
             }
 
-            // Enfore the minimum height of the bar
+            // Enforce the minimum height of the bar
             if (BarVertical)
             {
                 preferredSize.Width = Math.Max(preferredSize.Width, BarMinimumHeight);

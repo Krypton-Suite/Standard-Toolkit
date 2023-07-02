@@ -58,12 +58,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalMaskedTextBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalMaskedTextBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new();
+                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
                                 PI.GetClientRect(Handle, out PI.RECT rect);
 
                                 // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new(BackColor))
+                                using (SolidBrush backBrush = new SolidBrush(BackColor))
                                 {
                                     g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
                                 }
@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
                                     g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new()
+                                    StringFormat stringFormat = new StringFormat
                                     {
                                         LineAlignment = StringAlignment.Center,
                                         FormatFlags = StringFormatFlags.NoWrap,
@@ -222,14 +222,14 @@ namespace Krypton.Toolkit
                                     var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
                                     try
                                     {
-                                        using SolidBrush foreBrush = new(ForeColor);
+                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawText, Font, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
                                             stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using SolidBrush foreBrush = new(ForeColor);
+                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
                                             stringFormat);
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
                         if (_kryptonMaskedTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -335,56 +335,56 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the value of the HideSelection property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler HideSelectionChanged;
+        public event EventHandler? HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the TextAlign property changes.
         /// </summary>
         [Description(@"Occurs when the value of the TextAlign property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler TextAlignChanged;
+        public event EventHandler? TextAlignChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Modified property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ModifiedChanged;
+        public event EventHandler? ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ReadOnly property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ReadOnlyChanged;
+        public event EventHandler? ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the value of the Mask property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Mask property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler MaskChanged;
+        public event EventHandler? MaskChanged;
 
         /// <summary>
         /// Occurs when the value of the IsOverwriteMode property changes.
         /// </summary>
         [Description(@"Occurs when the value of the IsOverwriteMode property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler IsOverwriteModeChanged;
+        public event EventHandler? IsOverwriteModeChanged;
 
         /// <summary>
         /// Occurs when the input character or text does not comply with the mask specification.
         /// </summary>
         [Description(@"Occurs when the input character or text does not comply with the mask specification.")]
         [Category(@"Behavior")]
-        public event MaskInputRejectedEventHandler MaskInputRejected;
+        public event MaskInputRejectedEventHandler? MaskInputRejected;
 
         /// <summary>
         /// Occurs when the validating type object has completed parsing the input text.
         /// </summary>
         [Description(@"Occurs when the validating type object has completed parsing the input text.")]
         [Category(@"Focus")]
-        public event TypeValidationEventHandler TypeValidationCompleted;
+        public event TypeValidationEventHandler? TypeValidationCompleted;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -392,7 +392,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -400,35 +400,35 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
         #endregion
 
         #region Identity
@@ -465,25 +465,25 @@ namespace Krypton.Toolkit
 
             // Create the internal text box used for containing content
             _maskedTextBox = new InternalMaskedTextBox(this);
-            _maskedTextBox.TrackMouseEnter += OnMaskedTextBoxMouseChange!;
-            _maskedTextBox.TrackMouseLeave += OnMaskedTextBoxMouseChange!;
-            _maskedTextBox.TextAlignChanged += OnMaskedTextBoxTextAlignChanged!;
-            _maskedTextBox.TextChanged += OnMaskedTextBoxTextChanged!;
-            _maskedTextBox.HideSelectionChanged += OnMaskedTextBoxHideSelectionChanged!;
-            _maskedTextBox.ModifiedChanged += OnMaskedTextBoxModifiedChanged!;
-            _maskedTextBox.ReadOnlyChanged += OnMaskedTextBoxReadOnlyChanged!;
-            _maskedTextBox.MaskChanged += OnMaskedMaskChanged!;
-            _maskedTextBox.IsOverwriteModeChanged += OnMaskedIsOverwriteModeChanged!;
-            _maskedTextBox.MaskInputRejected += OnMaskedMaskInputRejected!;
-            _maskedTextBox.TypeValidationCompleted += OnMaskedTypeValidationCompleted!;
-            _maskedTextBox.GotFocus += OnMaskedTextBoxGotFocus!;
-            _maskedTextBox.LostFocus += OnMaskedTextBoxLostFocus!;
-            _maskedTextBox.KeyDown += OnMaskedTextBoxKeyDown!;
-            _maskedTextBox.KeyUp += OnMaskedTextBoxKeyUp!;
-            _maskedTextBox.KeyPress += OnMaskedTextBoxKeyPress!;
-            _maskedTextBox.PreviewKeyDown += OnMaskedTextBoxPreviewKeyDown!;
-            _maskedTextBox.Validating += OnMaskedTextBoxValidating!;
-            _maskedTextBox.Validated += OnMaskedTextBoxValidated!;
+            _maskedTextBox.TrackMouseEnter += OnMaskedTextBoxMouseChange;
+            _maskedTextBox.TrackMouseLeave += OnMaskedTextBoxMouseChange;
+            _maskedTextBox.TextAlignChanged += OnMaskedTextBoxTextAlignChanged;
+            _maskedTextBox.TextChanged += OnMaskedTextBoxTextChanged;
+            _maskedTextBox.HideSelectionChanged += OnMaskedTextBoxHideSelectionChanged;
+            _maskedTextBox.ModifiedChanged += OnMaskedTextBoxModifiedChanged;
+            _maskedTextBox.ReadOnlyChanged += OnMaskedTextBoxReadOnlyChanged;
+            _maskedTextBox.MaskChanged += OnMaskedMaskChanged;
+            _maskedTextBox.IsOverwriteModeChanged += OnMaskedIsOverwriteModeChanged;
+            _maskedTextBox.MaskInputRejected += OnMaskedMaskInputRejected;
+            _maskedTextBox.TypeValidationCompleted += OnMaskedTypeValidationCompleted;
+            _maskedTextBox.GotFocus += OnMaskedTextBoxGotFocus;
+            _maskedTextBox.LostFocus += OnMaskedTextBoxLostFocus;
+            _maskedTextBox.KeyDown += OnMaskedTextBoxKeyDown;
+            _maskedTextBox.KeyUp += OnMaskedTextBoxKeyUp;
+            _maskedTextBox.KeyPress += OnMaskedTextBoxKeyPress;
+            _maskedTextBox.PreviewKeyDown += OnMaskedTextBoxPreviewKeyDown;
+            _maskedTextBox.Validating += OnMaskedTextBoxValidating;
+            _maskedTextBox.Validated += OnMaskedTextBoxValidated;
 
             // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_maskedTextBox);
@@ -514,8 +514,8 @@ namespace Krypton.Toolkit
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(ToolTipValues);
-            ToolTipManager.ShowToolTip += OnShowToolTip!;
-            ToolTipManager.CancelToolTip += OnCancelToolTip!;
+            ToolTipManager.ShowToolTip += OnShowToolTip;
+            ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
 
             // Add text box to the controls collection
@@ -1681,7 +1681,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(100, PreferredHeight);
+        protected override Size DefaultSize => new Size(100, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -1894,7 +1894,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1925,7 +1925,7 @@ namespace Krypton.Toolkit
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
                         _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                     }
                 }
@@ -1943,7 +1943,7 @@ namespace Krypton.Toolkit
         {
             // Unhook events from the specific instance that generated event
             VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;

@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonAppMenu:" + Id;
+            $@"ViewDrawRibbonAppMenu:{Id}";
 
         #endregion
 
@@ -68,7 +68,8 @@ namespace Krypton.Ribbon
             if (screenRect.Contains(_fixedScreenRect) && (screenRect.Y == _fixedScreenRect.Y))
             {
                 // Position the element appropriately
-                using (ViewLayoutContext layoutContext = new(renderContext.Control, renderContext.Renderer))
+                using (var layoutContext =
+                       new ViewLayoutContext(renderContext.Control, renderContext.Renderer))
                 {
                     layoutContext.DisplayRectangle = renderContext.TopControl.RectangleToClient(_fixedScreenRect);
                     _fixedElement.Layout(layoutContext);

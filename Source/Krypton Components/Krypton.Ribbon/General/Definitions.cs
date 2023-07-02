@@ -23,12 +23,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the quick access toolbar button has been clicked.
         /// </summary>
-        event EventHandler Click;
+        event EventHandler? Click;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Provides a back reference to the owning ribbon control instance.
@@ -480,6 +480,6 @@ namespace Krypton.Ribbon
     /// </summary>
     /// <param name="sender">Event source.</param>
     /// <param name="clickFinished">Delegate for finish notification.</param>
-    public delegate void ClickAndFinishHandler(object sender, EventHandler clickFinished);
+    public delegate void ClickAndFinishHandler(object sender, EventHandler? clickFinished);
     #endregion
 }

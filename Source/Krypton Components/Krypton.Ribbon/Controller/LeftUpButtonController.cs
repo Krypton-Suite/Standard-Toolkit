@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity

@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Description(@"Access to the paste button spec.")]
         public ButtonSpecAny? ToolBarPasteButton
         {
-            get => _pasteButtonSpec ?? new();
+            get => _pasteButtonSpec ?? new ButtonSpecAny();
             set { _pasteButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
         }
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonIntegratedToolbarPasteCommand" /> class.</summary>
         public KryptonIntegratedToolbarPasteCommand()
         {
-            _imageStates = new();
+            _imageStates = new ButtonImageStates();
 
             Text = KryptonLanguageManager.ToolBarStrings.Paste;
         }

@@ -23,7 +23,7 @@ namespace Krypton.Docking
     public class KryptonDockingControl : DockingElementOpenCollection
     {
         #region Static Fields
-        private static readonly Size _minimumInner = new(100, 100);
+        private static readonly Size _minimumInner = new Size(100, 100);
         #endregion
 
         #region Instance Fields
@@ -248,7 +248,8 @@ namespace Krypton.Docking
                                 }
 
                                 // If there is inner space available
-                                Rectangle innerRect = new(tl.Width, tl.Height, br.Width - tl.Width, br.Height - tl.Height);
+                                var innerRect = new Rectangle(tl.Width, tl.Height, br.Width - tl.Width,
+                                    br.Height - tl.Height);
                                 if (innerRect is { Width: > 0, Height: > 0 })
                                 {
                                     Rectangle innerScreenRect = Control.RectangleToScreen(innerRect);
@@ -484,12 +485,12 @@ namespace Krypton.Docking
             var length = Math.Min(area.Width / divisor, Math.Min(area.Height / divisor, maxLength));
 
             // Find the left, right, top, bottom, center rectangles
-            return new Rectangle[]{ new(area.X, area.Y, length, area.Height),
-                                    new(area.Right - length, area.Y, length, area.Height),
-                                    new(area.X, area.Y, area.Width, length),
-                                    new(area.X, area.Bottom - length, area.Width, length),
-                                    new(area.X + length, area.Y + length,
-                                                  area.Width - (length * 2), area.Height - (length * 2))};
+            return new Rectangle[]{
+                new Rectangle(area.X, area.Y, length, area.Height),
+                new Rectangle(area.Right - length, area.Y, length, area.Height),
+                new Rectangle(area.X, area.Y, area.Width, length),
+                new Rectangle(area.X, area.Bottom - length, area.Width, length),
+                new Rectangle(area.X + length, area.Y + length, area.Width - (length * 2), area.Height - (length * 2))};
         }
 
         private void DebugOutput(string title)

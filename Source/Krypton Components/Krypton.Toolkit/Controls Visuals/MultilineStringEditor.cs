@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         {
             base.OnPaint(e);
             // Paint the sizing grip.
-            using (Bitmap gripImage = new(0x10, 0x10))
+            using (Bitmap gripImage = new Bitmap(0x10, 0x10))
             {
                 using (Graphics g = Graphics.FromImage(gripImage))
                 {
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
         private bool OnNcHitTest(ref Message m)
         {
             Point clientLocation = PointToClient(Cursor.Position);
-            GripBounds gripBounds = new(ClientRectangle);
+            GripBounds gripBounds = new GripBounds(ClientRectangle);
             if (gripBounds.BottomRight.Contains(clientLocation))
             {
                 m.Result = (IntPtr)PI.HT.BOTTOMRIGHT;

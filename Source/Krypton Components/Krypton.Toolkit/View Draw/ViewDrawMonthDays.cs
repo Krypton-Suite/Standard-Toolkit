@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         private const int WEEKS = 6;
         private const int WEEKDAYS = 7;
         private const int DAYS = 42;
-        private static readonly TimeSpan TIMESPAN_1DAY = new(1, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
         #endregion
 
         #region Instance Fields
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMonthDays:" + Id;
+            $"ViewDrawMonthDays:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -236,8 +236,10 @@ namespace Krypton.Toolkit
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle layoutRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle layoutRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle layoutRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
+                _months.SizeDays.Height);
+            Rectangle layoutRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
 
             // Layout each week as a row
             DateTime todayDate = _calendar.TodayDate;
@@ -369,8 +371,10 @@ namespace Krypton.Toolkit
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle drawRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle drawRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle drawRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
+                _months.SizeDays.Height);
+            Rectangle drawRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
 
             // Draw each week as a row
             DateTime todayDate = _calendar.TodayDate;

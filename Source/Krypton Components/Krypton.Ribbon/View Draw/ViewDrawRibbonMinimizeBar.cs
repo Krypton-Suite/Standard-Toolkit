@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonMinimizeBar:" + Id;
+            $"ViewDrawRibbonMinimizeBar:{Id}";
 
         #endregion
 
@@ -56,8 +56,8 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            using Pen darkPen = new(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal)),
-                lightPen = new(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal));
+            using var darkPen = new Pen(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal));
+            using var lightPen = new Pen(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal));
             context.Graphics.DrawLine(darkPen, ClientRectangle.Left, ClientRectangle.Bottom - 2, ClientRectangle.Right - 1, ClientRectangle.Bottom - 2);
             context.Graphics.DrawLine(lightPen, ClientRectangle.Left, ClientRectangle.Bottom - 1, ClientRectangle.Right - 1, ClientRectangle.Bottom - 1);
         }

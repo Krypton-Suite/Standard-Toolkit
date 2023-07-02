@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             GridCustom3 = new KryptonPaletteGrid(redirector, GridStyle.Custom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectGrids? redirectCommon = new(redirector, GridCommon);
+            PaletteRedirectGrids redirectCommon = new PaletteRedirectGrids(redirector, GridCommon);
 
             // Ensure the specific styles inherit to the common grid style
             GridList.SetRedirector(redirectCommon);

@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a button spec change occurs.
         /// </summary>
-        public event EventHandler ButtonSpecChanged;
+        public event EventHandler? ButtonSpecChanged;
         #endregion
 
         #region Identity

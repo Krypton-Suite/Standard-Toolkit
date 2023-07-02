@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonGroup.Items);
                 return compound;
             }
@@ -620,7 +620,7 @@ namespace Krypton.Ribbon
                 // Update sub menu options available for the 'Move To Tab'
                 UpdateMoveToTab();
 
-                // Update menu items state from versb
+                // Update menu items state from verbs
                 _toggleHelpersMenu.Checked = _ribbonGroup.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonGroup.Visible;
                 _collapsableMenu.Checked = _ribbonGroup.AllowCollapsed;
@@ -651,18 +651,18 @@ namespace Krypton.Ribbon
                 // Create a new item per tab in the ribbon control
                 foreach (KryptonRibbonTab tab in _ribbonGroup.Ribbon.RibbonTabs)
                 {
-                    // Cannot move to ourself, so ignore outself
+                    // Cannot move to ourself, so ignore ourself
                     if (tab != _ribbonGroup.RibbonTab)
                     {
                         // Create menu item for the tab
-                        ToolStripMenuItem tabMenuItem = new()
+                        var tabMenuItem = new ToolStripMenuItem
                         {
                             Text = tab.Text,
                             Tag = tab
                         };
 
                         // Hook into selection of the menu item
-                        tabMenuItem.Click += OnMoveToTab;
+                        tabMenuItem.Click += OnMoveToTab!;
 
                         // Add to end of the list of options
                         _moveToTabMenu.DropDownItems.Add(tabMenuItem);
@@ -676,10 +676,10 @@ namespace Krypton.Ribbon
             if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Cast to correct type
-                ToolStripMenuItem tabMenuItem = (ToolStripMenuItem)sender;
+                var tabMenuItem = (ToolStripMenuItem)sender;
 
                 // Get access to the destination tab
-                KryptonRibbonTab destination = (KryptonRibbonTab)tabMenuItem.Tag;
+                var destination = (KryptonRibbonTab)tabMenuItem.Tag;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveTabTo");

@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupDomainUpDown.ItemSizeCurrent;
 
             // Hook into the domain up-down events
-            GroupDomainUpDown.MouseEnterControl += OnMouseEnterControl;
-            GroupDomainUpDown.MouseLeaveControl += OnMouseLeaveControl;
+            GroupDomainUpDown.MouseEnterControl += OnMouseEnterControl!;
+            GroupDomainUpDown.MouseLeaveControl += OnMouseLeaveControl!;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupDomainUpDown;
@@ -60,8 +60,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the domain up-down
-                ContextClickController controller = new();
-                controller.ContextClick += OnContextClick;
+                var controller = new ContextClickController();
+                controller.ContextClick += OnContextClick!;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the domain up-down for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
 
             // Define back reference to view for the domain up-down definition
             GroupDomainUpDown.DomainUpDownView = this;
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupDomainUpDown:" + Id;
+            $@"ViewDrawRibbonGroupDomainUpDown:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.

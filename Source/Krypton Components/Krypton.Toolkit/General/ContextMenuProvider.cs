@@ -28,17 +28,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Raises the Dispose event.
         /// </summary>
-        public event EventHandler Dispose;
+        public event EventHandler? Dispose;
 
         /// <summary>
         /// Raises the Closing event.
         /// </summary>
-        public event CancelEventHandler Closing;
+        public event CancelEventHandler? Closing;
 
         /// <summary>
         /// Raises the Close event.
         /// </summary>
-        public event EventHandler<CloseReasonEventArgs> Close;
+        public event EventHandler<CloseReasonEventArgs>? Close;
         #endregion
 
         #region Identity

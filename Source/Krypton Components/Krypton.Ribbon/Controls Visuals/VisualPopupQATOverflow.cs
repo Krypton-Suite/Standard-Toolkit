@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupQATOverflow([DisallowNull] KryptonRibbon ribbon,
                                       ViewLayoutRibbonQATContents contents,
-                                      IRenderer renderer)
+                                      IRenderer? renderer)
             : base(renderer, true)
         {
             Debug.Assert(ribbon != null);
@@ -172,12 +172,12 @@ namespace Krypton.Ribbon
         /// <param name="parentScreenRect">Screen rectangle of the parent.</param>
         /// <param name="finishDelegate">Delegate fired when popup dismissed.</param>
         public void ShowCalculatingSize(Rectangle parentScreenRect,
-                                        EventHandler finishDelegate)
+                                        EventHandler? finishDelegate)
         {
             Size popupSize;
 
             // Find the size the quick access toolbar requests to be
-            using (ViewLayoutContext context = new(this, Renderer))
+            using (var context = new ViewLayoutContext(this, Renderer))
             {
                 popupSize = _viewQAT.GetPreferredSize(context);
             }

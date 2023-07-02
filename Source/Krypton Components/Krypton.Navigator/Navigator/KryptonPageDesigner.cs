@@ -54,7 +54,7 @@ namespace Krypton.Navigator
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving!;
+            _changeService.ComponentRemoving += OnComponentRemoving;
 
             // Lock the component from user size/location change
             PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
@@ -86,7 +86,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
 
                     // Add the navigator specific list
@@ -108,7 +108,7 @@ namespace Krypton.Navigator
                 if (_verbs == null)
                 {
                     // Cache verb instances so enabled state can be updated in future
-                    _verbEditFlags = new DesignerVerb(@"Edit Flags", OnEditFlags!);
+                    _verbEditFlags = new DesignerVerb(@"Edit Flags", OnEditFlags);
                     _verbs = new DesignerVerbCollection(new[] { _verbEditFlags });
                 }
 
@@ -212,7 +212,7 @@ namespace Krypton.Navigator
         #region Implementation
         private void OnEditFlags(object sender, EventArgs e)
         {
-            KryptonPageFormEditFlags editFlags = new(_page);
+            var editFlags = new KryptonPageFormEditFlags(_page);
             editFlags.ShowDialog();
         }
 
@@ -256,7 +256,7 @@ namespace Krypton.Navigator
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using Pen borderPen = new(SystemColors.ControlDarkDark);
+            using var borderPen = new Pen(SystemColors.ControlDarkDark);
             // Always draw the border dashed
             borderPen.DashStyle = DashStyle.Dash;
 

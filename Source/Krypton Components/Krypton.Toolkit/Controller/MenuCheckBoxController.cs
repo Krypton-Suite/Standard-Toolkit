@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the check box has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
                 if (_menuCheckBox.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    var cea = new CancelEventArgs();
                     _menuCheckBox.Closing(cea);
 
                     if (!cea.Cancel)

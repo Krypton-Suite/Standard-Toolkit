@@ -48,15 +48,13 @@ namespace Krypton.Toolkit
 
         public TFirst this[TSecond second] => GetBySecond(second)!;
 
-        [return: MaybeNull]
-        public TSecond GetByFirst(TFirst first)
+        public TSecond? GetByFirst(TFirst first)
         {
             _firstToSecond.TryGetValue(first, out var second);
             return second;
         }
 
-        [return: MaybeNull]
-        public TFirst GetBySecond(TSecond second)
+        public TFirst? GetBySecond(TSecond second)
         {
             _secondToFirst.TryGetValue(second, out var first);
             return first;

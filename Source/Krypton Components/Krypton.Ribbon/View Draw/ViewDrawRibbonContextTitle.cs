@@ -27,10 +27,10 @@ namespace Krypton.Ribbon
         private ContextTabSet _context;
         private readonly IPaletteRibbonBack _inherit;
         private readonly ContextToContent _contentProvider;
-        private IDisposable _mementoBack;
-        private IDisposable _mementoContentText;
-        private IDisposable _mementoContentShadow1;
-        private IDisposable _mementoContentShadow2;
+        private IDisposable? _mementoBack;
+        private IDisposable? _mementoContentText;
+        private IDisposable? _mementoContentShadow1;
+        private IDisposable? _mementoContentShadow2;
         private Rectangle _textRect;
         private readonly int TEXT_SIDE_GAP; // = 4;
         private readonly int TEXT_SIDE_GAP_COMPOSITION; // = 2;
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonContextTitle:" + Id;
+            $@"ViewDrawRibbonContextTitle:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -155,7 +155,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // We always extend an extra pixel downwards to draw over the containers border
-            Rectangle adjustRect = new(ClientRectangle.X, ClientRectangle.Y, ClientWidth, ClientHeight + 1);
+            var adjustRect = new Rectangle(ClientRectangle.X, ClientRectangle.Y, ClientWidth, ClientHeight + 1);
 
             // Get the client rect of the parent
             Rectangle parentRect = Parent.ClientRectangle;
@@ -207,8 +207,8 @@ namespace Krypton.Ribbon
             // Office 2010 draws a shadow effect of the text
             if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
             {
-                Rectangle shadowTextRect1 = new(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
-                Rectangle shadowTextRect2 = new(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                var shadowTextRect1 = new Rectangle(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                var shadowTextRect2 = new Rectangle(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 
@@ -254,8 +254,8 @@ namespace Krypton.Ribbon
                 // Use renderer to draw the tab background
                 _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
 
-                Rectangle shadowTextRect1 = new(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
-                Rectangle shadowTextRect2 = new(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                var shadowTextRect1 = new Rectangle(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                var shadowTextRect2 = new Rectangle(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 
@@ -417,8 +417,8 @@ namespace Krypton.Ribbon
         {
             // Convert the clipping rectangle from floating to int version
             RectangleF rectClipF = context.Graphics.ClipBounds;
-            Rectangle rectClip = new((int)rectClipF.X, (int)rectClipF.Y,
-                                               (int)rectClipF.Width, (int)rectClipF.Height);
+            var rectClip = new Rectangle((int)rectClipF.X, (int)rectClipF.Y, (int)rectClipF.Width,
+                (int)rectClipF.Height);
 
             // No point drawing unless some of the client fits into the clipping area
             if (rectClip.IntersectsWith(ClientRectangle))
@@ -427,7 +427,7 @@ namespace Krypton.Ribbon
                 IntPtr gDC = context.Graphics.GetHdc();
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new();
+                var bmi = new PI.BITMAPINFO();
                 bmi.biSize = (uint)Marshal.SizeOf(bmi);
                 bmi.biWidth = ClientWidth;
                 bmi.biHeight = -ClientHeight;
@@ -442,13 +442,11 @@ namespace Krypton.Ribbon
                 // To call the renderer we need to convert from Win32 HDC to Graphics object
                 using (Graphics bitmapG = Graphics.FromHdc(mDC))
                 {
-                    Rectangle renderClientRect = new(0, 0, ClientWidth, ClientHeight);
+                    var renderClientRect = new Rectangle(0, 0, ClientWidth, ClientHeight);
 
                     // Create new render context that uses the bitmap graphics instance
-                    using (RenderContext bitmapContext = new(context.Control,
-                                                                           bitmapG,
-                                                                           renderClientRect,
-                                                                           context.Renderer))
+                    using (var bitmapContext = new RenderContext(context.Control,
+                               bitmapG, renderClientRect, context.Renderer))
                     {
                         // Finally we get the renderer to draw the background for the bitmap
                         _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, bitmapContext, renderClientRect, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
@@ -460,17 +458,17 @@ namespace Krypton.Ribbon
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new(VisualStyleElement.Window.Caption.Active);
+                var renderer = new VisualStyleRenderer(VisualStyleElement.Window.Caption.Active);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new()
+                var textBounds = new PI.RECT
                 {
                     left = TEXT_SIDE_GAP_COMPOSITION,
                     top = 0,
                     right = ClientWidth - (TEXT_SIDE_GAP_COMPOSITION * 2),
                     bottom = ClientHeight
                 };
-                PI.DTTOPTS dttOpts = new()
+                var dttOpts = new PI.DTTOPTS
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,
