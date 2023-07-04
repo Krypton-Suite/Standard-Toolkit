@@ -90,17 +90,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForm", "TestForm\TestFo
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6} = {F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dictionary-en-gb", "dictionary-en-gb", "{CAB40818-55B1-4E1D-AD8E-C94642EA5124}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\dictionary-en-gb\index.aff = ..\..\dictionary-en-gb\index.aff
-		..\..\dictionary-en-gb\index.d.ts = ..\..\dictionary-en-gb\index.d.ts
-		..\..\dictionary-en-gb\index.dic = ..\..\dictionary-en-gb\index.dic
-		..\..\dictionary-en-gb\index.js = ..\..\dictionary-en-gb\index.js
-		..\..\dictionary-en-gb\license.txt = ..\..\dictionary-en-gb\license.txt
-		..\..\dictionary-en-gb\package.json = ..\..\dictionary-en-gb\package.json
-		..\..\dictionary-en-gb\readme.md = ..\..\dictionary-en-gb\readme.md
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -191,7 +180,6 @@ Global
 		{B1BEF7ED-96F3-4BA3-AD05-428987BC2491} = {511519DD-C887-40E5-8961-658AE4CA5D46}
 		{6C07B04E-D571-4E73-B760-180EA9DD6CC5} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
 		{802E9C3A-7D20-452F-B36E-83FBB2897EFD} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
-		{CAB40818-55B1-4E1D-AD8E-C94642EA5124} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}

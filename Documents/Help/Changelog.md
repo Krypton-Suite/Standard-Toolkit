@@ -3,6 +3,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#1039](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1039), `KryptonContextMenu` cannot hover over menu item if it has child items
+* Resolved [#1034](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1034), Krypton Context Menu Exception
 * New `KryptonLanguageManager.Strings` is now `KryptonLanguageManager.GeneralToolkitStrings`
 * New `ShowSplitOption` for `KryptonButton`, allows a krypton/context menu to be shown
 * Implemented [#1023](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023), Please remove "sealed" from `KryptonWrapLabel` and `KryptonLinkWrapLabel`
