@@ -23,12 +23,12 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonBack _ribbonAppButton;
         private readonly PaletteRibbonBack _ribbonGroupBackArea;
         private readonly PaletteRibbonBack _ribbonGroupNormalBorder;
-        private readonly PaletteRibbonDouble _ribbonGroupNormalTitle;
+        private readonly PaletteRibbonDouble? _ribbonGroupNormalTitle;
         private readonly PaletteRibbonBack _ribbonGroupCollapsedBorder;
-        private readonly PaletteRibbonBack _ribbonGroupCollapsedBack;
-        private readonly PaletteRibbonBack _ribbonGroupCollapsedFrameBorder;
-        private readonly PaletteRibbonBack _ribbonGroupCollapsedFrameBack;
-        private readonly PaletteRibbonText _ribbonGroupCollapsedText;
+        private readonly PaletteRibbonBack? _ribbonGroupCollapsedBack;
+        private readonly PaletteRibbonBack? _ribbonGroupCollapsedFrameBorder;
+        private readonly PaletteRibbonBack? _ribbonGroupCollapsedFrameBack;
+        private readonly PaletteRibbonText? _ribbonGroupCollapsedText;
         #endregion
 
         #region Identity
@@ -157,7 +157,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon group normal title appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonDouble RibbonGroupNormalTitle => _ribbonGroupNormalTitle;
+        public virtual PaletteRibbonDouble? RibbonGroupNormalTitle => _ribbonGroupNormalTitle;
 
         private bool ShouldSerializeRibbonGroupNormalTitle() => !_ribbonGroupNormalTitle.IsDefault;
 
@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon group collapsed background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonGroupCollapsedBack => _ribbonGroupCollapsedBack;
+        public virtual PaletteRibbonBack? RibbonGroupCollapsedBack => _ribbonGroupCollapsedBack;
 
         private bool ShouldSerializeRibbonGroupCollapsedBack() => !_ribbonGroupCollapsedBack.IsDefault;
 
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon group collapsed frame border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBorder => _ribbonGroupCollapsedFrameBorder;
+        public virtual PaletteRibbonBack? RibbonGroupCollapsedFrameBorder => _ribbonGroupCollapsedFrameBorder;
 
         private bool ShouldSerializeRibbonGroupCollapsedFrameBorder() => !_ribbonGroupCollapsedFrameBorder.IsDefault;
 
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon group collapsed frame background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBack => _ribbonGroupCollapsedFrameBack;
+        public virtual PaletteRibbonBack? RibbonGroupCollapsedFrameBack => _ribbonGroupCollapsedFrameBack;
 
         private bool ShouldSerializeRibbonGroupCollapsedFrameBack() => !_ribbonGroupCollapsedFrameBack.IsDefault;
 
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon group collapsed text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonText RibbonGroupCollapsedText => _ribbonGroupCollapsedText;
+        public virtual PaletteRibbonText? RibbonGroupCollapsedText => _ribbonGroupCollapsedText;
 
         private bool ShouldSerializeRibbonGroupCollapsedText() => !_ribbonGroupCollapsedText.IsDefault;
 

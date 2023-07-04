@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -27,7 +28,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private readonly System.Windows.Forms.Timer _animationTimer;
-        private IPaletteMetric _paletteMetrics;
+        private IPaletteMetric? _paletteMetrics;
         private PaletteMetricPadding _metricPadding;
         private PaletteMetricInt _metricOvers;
         private RightToLeft _rightToLeft;
@@ -42,7 +43,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when animation has moved another step.
         /// </summary>
-        public event EventHandler AnimateStep;
+        public event EventHandler? AnimateStep;
         #endregion
 
         #region Identity
@@ -301,7 +302,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool CanScrollNext
         {
-            get 
+            get
             {
                 var limit = 0;
                 var offset = 0;
@@ -468,7 +469,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -643,7 +644,7 @@ namespace Krypton.Toolkit
 
         private RelativePositionAlign AlignmentRTL
         {
-            get 
+            get
             {
                 // Do we need to reverse the alignment or account for right to left?
                 if (Horizontal && (_rightToLeft == RightToLeft.Yes))
@@ -663,7 +664,7 @@ namespace Krypton.Toolkit
 
         private RelativePositionAlign CounterAlignmentRTL
         {
-            get 
+            get
             {
                 // Do we need to reverse the alignment or account for right to left?
                 if (!Horizontal && (_rightToLeft == RightToLeft.Yes) && _rightToLeftLayout)
@@ -846,7 +847,7 @@ namespace Krypton.Toolkit
                 _animationTimer.Start();
             }
         }
-        
+
         private Point OffsetForChildRect(Rectangle rect)
         {
             // Begin by using the current offset
@@ -854,7 +855,7 @@ namespace Krypton.Toolkit
 
             // Find how far to over position the viewport
             var overs = 0;
-            
+
             // We might not be provided with metrics, so only use if reference provided
             if (_paletteMetrics != null)
             {
@@ -989,12 +990,15 @@ namespace Krypton.Toolkit
                 _animationTimer.Stop();
             }
 
-            // Enfore limits against the offset
+            // Enforce limits against the offset
             _offset.X = Math.Min(Math.Max(_offset.X, _limit.X), 0);
             _offset.Y = Math.Min(Math.Max(_offset.Y, _limit.Y), 0);
 
             // Request the layout and paint to reflect change
-            AnimateStep?.Invoke(this, EventArgs.Empty);
+            if (AnimateStep != null)
+            {
+                AnimateStep.Invoke(this, EventArgs.Empty);
+            }
         }
         #endregion
     }

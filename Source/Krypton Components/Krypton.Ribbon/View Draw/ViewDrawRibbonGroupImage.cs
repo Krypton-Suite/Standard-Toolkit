@@ -136,8 +136,8 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            IPaletteRibbonBack paletteBorder;
-            IPaletteRibbonBack paletteBack;
+            IPaletteRibbonBack? paletteBorder;
+            IPaletteRibbonBack? paletteBack;
 
             // Are we a group inside a context tab?
             if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))

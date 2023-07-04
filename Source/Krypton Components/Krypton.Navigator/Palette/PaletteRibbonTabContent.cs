@@ -18,8 +18,8 @@ namespace Krypton.Navigator
     public class PaletteRibbonTabContent : Storage
     {
         #region Instance Fields
-        private readonly PaletteRibbonDouble _paletteTabDraw;
-        private readonly PaletteNavContent _paletteContent;
+        private readonly PaletteRibbonDouble? _paletteTabDraw;
+        private readonly PaletteNavContent? _paletteContent;
         #endregion
 
         #region Identity
@@ -30,10 +30,10 @@ namespace Krypton.Navigator
         /// <param name="paletteText">Source for inheriting palette ribbon text.</param>
         /// <param name="paletteContent">Source for inheriting palette content.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonTabContent([DisallowNull] IPaletteRibbonBack paletteBack,
-            [DisallowNull] IPaletteRibbonText paletteText,
-                                       [DisallowNull] IPaletteContent paletteContent,
-                                       NeedPaintHandler needPaint)
+        public PaletteRibbonTabContent(IPaletteRibbonBack paletteBack,
+                                                IPaletteRibbonText paletteText,
+                                                IPaletteContent paletteContent,
+                                                NeedPaintHandler needPaint)
         {
             Debug.Assert(paletteBack != null);
             Debug.Assert(paletteText != null);
@@ -43,8 +43,15 @@ namespace Krypton.Navigator
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _paletteTabDraw = new PaletteRibbonDouble(paletteBack, paletteText, needPaint);
-            _paletteContent = new PaletteNavContent(paletteContent, needPaint);
+            if (paletteBack != null && paletteText != null)
+            {
+                _paletteTabDraw = new PaletteRibbonDouble(paletteBack, paletteText, needPaint);
+            }
+
+            if (paletteContent != null)
+            {
+                _paletteContent = new PaletteNavContent(paletteContent, needPaint);
+            }
         }
         #endregion
 
@@ -53,7 +60,7 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (TabDraw.IsDefault && Content.IsDefault);
+        public override bool IsDefault => Content != null && TabDraw != null && (TabDraw.IsDefault && Content.IsDefault);
 
         #endregion
 
@@ -64,8 +71,15 @@ namespace Krypton.Navigator
         /// <param name="state">The palette state to populate with.</param>
         public void PopulateFromBase(PaletteState state)
         {
-            _paletteTabDraw.PopulateFromBase(state);
-            _paletteContent.PopulateFromBase(state);
+            if (_paletteTabDraw != null)
+            {
+                _paletteTabDraw.PopulateFromBase(state);
+            }
+
+            if (_paletteContent != null)
+            {
+                _paletteContent.PopulateFromBase(state);
+            }
         }
         #endregion
 
@@ -73,12 +87,19 @@ namespace Krypton.Navigator
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteRibbonBack paletteBack,
-                               IPaletteRibbonText paletteText,
+        public void SetInherit(IPaletteRibbonBack? paletteBack,
+                               IPaletteRibbonText? paletteText,
                                IPaletteContent? paletteContent)
         {
-            _paletteTabDraw.SetInherit(paletteBack, paletteText);
-            _paletteContent.SetInherit(paletteContent);
+            if (_paletteTabDraw != null)
+            {
+                _paletteTabDraw.SetInherit(paletteBack, paletteText);
+            }
+
+            if (_paletteContent != null)
+            {
+                _paletteContent.SetInherit(paletteContent);
+            }
         }
         #endregion
 
@@ -89,9 +110,9 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining tab drawing appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonDouble TabDraw => _paletteTabDraw;
+        public virtual PaletteRibbonDouble? TabDraw => _paletteTabDraw;
 
-        private bool ShouldSerializeTabDraw() => !_paletteTabDraw.IsDefault;
+        private bool ShouldSerializeTabDraw() => _paletteTabDraw != null && !_paletteTabDraw.IsDefault;
 
         #endregion
 
@@ -102,9 +123,9 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining tab content appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteNavContent Content => _paletteContent;
+        public virtual PaletteNavContent? Content => _paletteContent;
 
-        private bool ShouldSerializeContent() => !_paletteContent.IsDefault;
+        private bool ShouldSerializeContent() => _paletteContent != null && !_paletteContent.IsDefault;
 
         #endregion
     }

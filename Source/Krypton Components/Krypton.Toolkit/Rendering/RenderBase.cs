@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
         /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Memento with cached information.</returns>
-        public abstract IDisposable LayoutContent(ViewLayoutContext context,
+        public abstract IDisposable? LayoutContent(ViewLayoutContext context,
                                                   Rectangle availableRect,
                                                   IPaletteContent palette,
                                                   IContentValues values,
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         public abstract void DrawContent(RenderContext context,
                                          Rectangle displayRect,
                                          IPaletteContent palette,
-                                         IDisposable memento,
+                                         IDisposable? memento,
                                          VisualOrientation orientation,
                                          PaletteState state,
                                          bool composition,
@@ -453,7 +453,7 @@ namespace Krypton.Toolkit
                                                    RenderContext context,
                                                    Rectangle rect,
                                                    PaletteState state,
-                                                   IPaletteRibbonBack palette,
+                                                   IPaletteRibbonBack? palette,
                                                    VisualOrientation orientation,
                                                    bool composition,
                                                    IDisposable? memento);

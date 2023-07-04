@@ -38,13 +38,16 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorHeader([DisallowNull] KryptonNavigator navigator,
+        public NavigatorHeader(KryptonNavigator navigator,
                                NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
-            
+
             // Remember back reference
-            _navigator = navigator;
+            if (navigator != null)
+            {
+                _navigator = navigator;
+            }
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -59,8 +62,11 @@ namespace Krypton.Navigator
             _headerVisiblePrimary = true;
             _headerVisibleSecondary = true;
             _headerVisibleBar = true;
-            HeaderValuesPrimary = new HeaderGroupMappingPrimary(_navigator, needPaint);
-            HeaderValuesSecondary = new HeaderGroupMappingSecondary(_navigator, needPaint);
+            if (_navigator != null)
+            {
+                HeaderValuesPrimary = new HeaderGroupMappingPrimary(_navigator, needPaint);
+                HeaderValuesSecondary = new HeaderGroupMappingSecondary(_navigator, needPaint);
+            }
         }
         #endregion
 

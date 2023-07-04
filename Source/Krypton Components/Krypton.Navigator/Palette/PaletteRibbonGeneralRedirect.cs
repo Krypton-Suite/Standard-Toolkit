@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonGeneralNavRedirect([DisallowNull] PaletteRedirect redirect,
+        public PaletteRibbonGeneralNavRedirect(PaletteRedirect redirect,
                                                NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -39,7 +39,10 @@ namespace Krypton.Navigator
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _inherit = new PaletteRibbonGeneralInheritRedirect(redirect);
+            if (redirect != null)
+            {
+                _inherit = new PaletteRibbonGeneralInheritRedirect(redirect);
+            }
 
             // Set default values
             _textFont = null;

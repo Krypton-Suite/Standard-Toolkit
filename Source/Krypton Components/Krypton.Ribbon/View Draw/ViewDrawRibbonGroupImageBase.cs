@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// Base class for drawing an image in the specified size and state.
     /// </summary>
     internal abstract class ViewDrawRibbonGroupImageBase : ViewLeaf
-                                              
+
     {
         #region Identity
         /// <summary>
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
             Ribbon = ribbon;
-        }        
+        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             if (DrawImage != null)
             {
@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected abstract Image DrawImage { get; }
+        protected abstract Image? DrawImage { get; }
         #endregion
     }
 }

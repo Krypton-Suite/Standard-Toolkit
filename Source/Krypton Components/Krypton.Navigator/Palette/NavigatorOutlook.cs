@@ -11,6 +11,7 @@
 #endregion
 
 // ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable InconsistentNaming
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -43,20 +44,23 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorOutlook([DisallowNull] KryptonNavigator navigator,
+        public NavigatorOutlook(KryptonNavigator navigator,
                                 NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
-            
+
             // Remember back reference
-            _navigator = navigator;
+            if (navigator != null)
+            {
+                _navigator = navigator;
 
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+                // Store the provided paint notification delegate
+                NeedPaint = needPaint;
 
-            // Create compound objects
-            Full = new NavigatorOutlookFull(navigator, needPaint);
-            Mini = new NavigatorOutlookMini(navigator, needPaint);
+                // Create compound objects
+                Full = new NavigatorOutlookFull(navigator, needPaint);
+                Mini = new NavigatorOutlookMini(navigator, needPaint);
+            }
 
             // Default values
             _checkButtonStyle = ButtonStyle.NavigatorStack;

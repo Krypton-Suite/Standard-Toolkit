@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// <param name="calendar">Reference to calendar provider.</param>
         /// <param name="months">Reference to months instance.</param>
         /// <param name="palette">Reference to border palette.</param>
-        public ViewLayoutWeekCorner(IKryptonMonthCalendar calendar, 
+        public ViewLayoutWeekCorner(IKryptonMonthCalendar calendar,
                                     ViewLayoutMonths months,
                                     PaletteBorder palette)
         {
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -66,20 +66,23 @@ namespace Krypton.Toolkit
 
             return retSize;
         }
-        
+
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
-    
-            // Put back the original display value now we have finished
-            context.DisplayRectangle = ClientRectangle;
+            if (context != null)
+            {
+                ClientRectangle = context.DisplayRectangle;
+
+                // Put back the original display value now we have finished
+                context.DisplayRectangle = ClientRectangle;
+            }
         }
         #endregion
 
@@ -88,7 +91,7 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore([DisallowNull] RenderContext context) => Debug.Assert(context != null);
+        public override void RenderBefore(RenderContext context) => Debug.Assert(context != null);
 
         #endregion
     }

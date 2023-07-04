@@ -23,18 +23,26 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigator(PaletteNavigatorRedirect? redirect,
+        public PaletteNavigator(PaletteNavigatorRedirect redirect,
                                 NeedPaintHandler needPaint)
             : base(redirect, needPaint)
         {
             // Create the palette storage
             PalettePage = new PalettePage(redirect.PalettePage, needPaint);
-            HeaderGroup = new PaletteNavigatorHeaderGroup(redirect.HeaderGroup, redirect.HeaderGroup.HeaderPrimary, redirect.HeaderGroup.HeaderSecondary, redirect.HeaderGroup.HeaderBar, redirect.HeaderGroup.HeaderOverflow, needPaint);
+            if (redirect.HeaderGroup != null)
+            {
+                HeaderGroup = new PaletteNavigatorHeaderGroup(redirect.HeaderGroup, redirect.HeaderGroup.HeaderPrimary,
+                    redirect.HeaderGroup.HeaderSecondary, redirect.HeaderGroup.HeaderBar,
+                    redirect.HeaderGroup.HeaderOverflow, needPaint);
+            }
             CheckButton = new PaletteTriple(redirect.CheckButton, needPaint);
             OverflowButton = new PaletteTriple(redirect.OverflowButton, needPaint);
             MiniButton = new PaletteTriple(redirect.MiniButton, needPaint);
             BorderEdge = new PaletteBorderEdge(redirect.BorderEdge, needPaint);
-            Separator = new PaletteSeparatorPadding(redirect.Separator, redirect.Separator, needPaint);
+            if (redirect.Separator != null)
+            {
+                Separator = new PaletteSeparatorPadding(redirect.Separator, redirect.Separator, needPaint);
+            }
             Tab = new PaletteTabTriple(redirect.Tab, needPaint);
             RibbonTab = new PaletteRibbonTabContent(redirect.RibbonTab.TabDraw, redirect.RibbonTab.TabDraw, redirect.RibbonTab.Content, needPaint);
         }
@@ -45,7 +53,10 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault &&
+        public override bool IsDefault => Separator != null &&
+                                          HeaderGroup != null &&
+                                          PalettePage != null &&
+                                          (base.IsDefault &&
                                            PalettePage.IsDefault &&
                                            HeaderGroup.IsDefault &&
                                            CheckButton.IsDefault &&
@@ -67,15 +78,29 @@ namespace Krypton.Navigator
         {
             // Setup inheritance references for storage objects
             base.SetInherit(inheritNavigator);
-            PalettePage.SetInherit(inheritNavigator.PalettePage);
-            HeaderGroup.SetInherit(inheritNavigator.HeaderGroup);
-            CheckButton.SetInherit(inheritNavigator.CheckButton);
-            OverflowButton.SetInherit(inheritNavigator.OverflowButton);
-            MiniButton.SetInherit(inheritNavigator.MiniButton);
-            BorderEdge.SetInherit(inheritNavigator.BorderEdge);
-            Separator.SetInherit(inheritNavigator.Separator);
-            Tab.SetInherit(inheritNavigator.Tab);
-            RibbonTab.SetInherit(inheritNavigator.RibbonTab.TabDraw, inheritNavigator.RibbonTab.TabDraw, inheritNavigator.RibbonTab.Content);
+            if (inheritNavigator != null)
+            {
+                if (PalettePage != null)
+                {
+                    PalettePage.SetInherit(inheritNavigator.PalettePage);
+                }
+
+                if (HeaderGroup != null)
+                {
+                    HeaderGroup.SetInherit(inheritNavigator.HeaderGroup);
+                }
+                CheckButton.SetInherit(inheritNavigator.CheckButton);
+                OverflowButton.SetInherit(inheritNavigator.OverflowButton);
+                MiniButton.SetInherit(inheritNavigator.MiniButton);
+                BorderEdge.SetInherit(inheritNavigator.BorderEdge);
+                if (Separator != null)
+                {
+                    Separator.SetInherit(inheritNavigator.Separator);
+                }
+                Tab.SetInherit(inheritNavigator.Tab);
+                RibbonTab.SetInherit(inheritNavigator.RibbonTab.TabDraw, inheritNavigator.RibbonTab.TabDraw,
+                    inheritNavigator.RibbonTab.Content);
+            }
         }
         #endregion
 
@@ -179,7 +204,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorHeaderGroup? HeaderGroup { get; }
 
-        private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
+        private bool ShouldSerializeHeaderGroup() => HeaderGroup != null && !HeaderGroup.IsDefault;
 
         #endregion
 
@@ -190,9 +215,20 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining page appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack Page => PalettePage.Back;
+        public PaletteBack Page
+        {
+            get
+            {
+                if (PalettePage != null)
+                {
+                    return PalettePage.Back;
+                }
 
-        private bool ShouldSerializePage() => !PalettePage.Back.IsDefault;
+                return Back;
+            }
+        }
+
+        private bool ShouldSerializePage() => PalettePage != null && !PalettePage.Back.IsDefault;
 
         #endregion
 
@@ -218,7 +254,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? Separator { get; }
 
-        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+        private bool ShouldSerializeSeparator() => Separator != null && !Separator.IsDefault;
 
         #endregion
 

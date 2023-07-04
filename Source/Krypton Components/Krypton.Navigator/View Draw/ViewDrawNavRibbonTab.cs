@@ -41,13 +41,13 @@ namespace Krypton.Navigator
 
         private readonly PageButtonController? _buttonController;
         private readonly IPaletteRibbonGeneral _paletteGeneral;
-        private readonly PaletteRibbonTabContentInheritOverride _overrideStateNormal;
-        private readonly PaletteRibbonTabContentInheritOverride _overrideStateTracking;
-        private readonly PaletteRibbonTabContentInheritOverride _overrideStatePressed;
-        private readonly PaletteRibbonTabContentInheritOverride _overrideStateSelected;
-        private IPaletteRibbonText _currentText;
-        private IPaletteRibbonBack _currentBack;
-        private IPaletteContent _currentContent;
+        private readonly PaletteRibbonTabContentInheritOverride? _overrideStateNormal;
+        private readonly PaletteRibbonTabContentInheritOverride? _overrideStateTracking;
+        private readonly PaletteRibbonTabContentInheritOverride? _overrideStatePressed;
+        private readonly PaletteRibbonTabContentInheritOverride? _overrideStateSelected;
+        private IPaletteRibbonText? _currentText;
+        private IPaletteRibbonBack? _currentBack;
+        private IPaletteContent? _currentContent;
         private readonly RibbonTabToContent _contentProvider;
         private VisualOrientation _borderBackOrient;
         private NeedPaintHandler? _needPaint;

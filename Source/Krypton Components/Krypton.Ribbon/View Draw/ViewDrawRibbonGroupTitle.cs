@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly RibbonGroupTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private Rectangle _displayRect;
         private int _dirtyPaletteLayout;
         private PaletteState _cacheState;
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon group palette to use.
         /// </summary>
-        public IPaletteRibbonText PaletteRibbonGroup
+        public IPaletteRibbonText? PaletteRibbonGroup
         {
             get => _contentProvider.PaletteRibbonGroup;
             set => _contentProvider.PaletteRibbonGroup = value;

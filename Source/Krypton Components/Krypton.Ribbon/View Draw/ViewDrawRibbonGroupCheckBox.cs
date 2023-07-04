@@ -30,15 +30,15 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText2;
         private GroupCheckBoxController? _viewLargeController;
-        private readonly EventHandler _finishDelegateLarge;
+        private readonly EventHandler? _finishDelegateLarge;
         private ViewLayoutRibbonCheckBox _viewMediumSmall;
         private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
         private ViewDrawRibbonGroupCheckBoxImage _viewMediumSmallImage;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText1;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText2;
         private GroupCheckBoxController? _viewMediumSmallController;
-        private readonly EventHandler _finishDelegateMediumSmall;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly EventHandler? _finishDelegateMediumSmall;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupCheckBox.Enabled, GroupCheckBox.KeyTip, 
+                keyTipList.Add(new KeyTipInfo(GroupCheckBox.Enabled, GroupCheckBox.KeyTip,
                                               screenPt, this[0].ClientRectangle, controller));
             }
         }
@@ -347,8 +347,11 @@ namespace Krypton.Ribbon
             _viewLarge.KeyController = _viewLargeController;
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, 
-                                                               _viewLarge, _viewLarge.MouseController);
+            if (_ribbon.TabsArea.ButtonSpecManager != null && _ribbon.TabsArea.ButtonSpecManager.ToolTipManager != null)
+            {
+                _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+                    _viewLarge, _viewLarge.MouseController);
+            }
         }
 
         private void CreateMediumSmallCheckBoxView()
@@ -385,8 +388,12 @@ namespace Krypton.Ribbon
             _viewMediumSmall.KeyController = _viewMediumSmallController;
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
-                                                                     _viewMediumSmall, _viewMediumSmall.MouseController);
+            if (_ribbon.TabsArea.ButtonSpecManager != null && _ribbon.TabsArea.ButtonSpecManager.ToolTipManager != null)
+            {
+                _viewMediumSmall.MouseController = new ToolTipController(
+                    _ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+                    _viewMediumSmall, _viewMediumSmall.MouseController);
+            }
         }
 
         private void DefineRootView(ViewBase view)
@@ -457,12 +464,18 @@ namespace Krypton.Ribbon
 
         private void OnLargeCheckBoxClick(object sender, EventArgs e)
         {
-            GroupCheckBox.PerformClick(_finishDelegateLarge);
+            if (_finishDelegateLarge != null)
+            {
+                GroupCheckBox.PerformClick(_finishDelegateLarge);
+            }
         }
 
         private void OnMediumSmallCheckBoxClick(object sender, EventArgs e)
         {
-            GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
+            if (_finishDelegateMediumSmall != null)
+            {
+                GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
+            }
         }
 
         private void OnContextClick(object sender, MouseEventArgs e)
@@ -473,19 +486,25 @@ namespace Krypton.Ribbon
         private void ActionFinishedLarge(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.Actionoccurred();
+            _ribbon.Actionoccurred();
 
             // Remove the fixed pressed appearance
-            _viewLargeController.RemoveFixed();
+            if (_viewLargeController != null)
+            {
+                _viewLargeController.RemoveFixed();
+            }
         }
 
         private void ActionFinishedMediumSmall(object sender, EventArgs e)
         {
             // Remove any popups that result from an action occuring
-            _ribbon?.Actionoccurred();
+            _ribbon.Actionoccurred();
 
             // Remove the fixed pressed appearance
-            _viewMediumSmallController.RemoveFixed();
+            if (_viewMediumSmallController != null)
+            {
+                _viewMediumSmallController.RemoveFixed();
+            }
         }
 
         private void OnCheckBoxPropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -71,7 +71,10 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnClick(object sender, EventArgs e)
         {
-            Ribbon.SelectedTab.OnDesignTimeAddGroup();
+            if (Ribbon.SelectedTab != null)
+            {
+                Ribbon.SelectedTab.OnDesignTimeAddGroup();
+            }
         }
         #endregion
     }

@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
                                                    RenderContext context,
                                                    Rectangle rect,
                                                    PaletteState state,
-                                                   IPaletteRibbonBack palette,
+                                                   IPaletteRibbonBack? palette,
                                                    VisualOrientation orientation,
                                                    bool composition,
                                                    IDisposable? memento)

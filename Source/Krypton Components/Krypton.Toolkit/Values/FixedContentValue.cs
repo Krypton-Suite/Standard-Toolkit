@@ -33,9 +33,9 @@ namespace Krypton.Toolkit
         /// <param name="longText">Initial long text value.</param>
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial image transparent color value.</param>
-        public FixedContentValue(string shortText, 
-                                 string longText,
-                                 Image image,
+        public FixedContentValue(string shortText,
+                                 string? longText,
+                                 Image? image,
                                  Color imageTransparentColor)
         {
             ShortText = shortText;

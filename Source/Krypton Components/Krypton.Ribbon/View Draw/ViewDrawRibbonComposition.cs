@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                                IKryptonComposition
     {
         #region Instance Fields
-        private readonly int CONSTANT_COMPOSITION_HEIGHT;
+        private readonly int _constantCompositionHeight;
         private readonly KryptonRibbon _ribbon;
         private VisualForm _ownerForm;
         private readonly NeedPaintHandler _needPaint;
@@ -34,13 +34,13 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaint">Delegate for requested a paint.</param>
-        public ViewDrawRibbonComposition([DisallowNull] KryptonRibbon ribbon,
-                                         [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonComposition(KryptonRibbon ribbon,
+                                         NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
-            CONSTANT_COMPOSITION_HEIGHT = (int)(30 * FactorDpiY);
+            _constantCompositionHeight = (int)(30 * FactorDpiY);
 
             _ribbon = ribbon;
             _needPaint = needPaint;
@@ -66,17 +66,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the pixel height of the composition extension into the client area.
         /// </summary>
-        public int CompHeight 
+        public int CompHeight
         {
-            get 
+            get
             {
                 if (_ribbon is { RibbonShape: PaletteRibbonShape.Office2010, MainPanel.Visible: true })
                 {
-                    return _ribbon.TabsArea.ClientHeight + CONSTANT_COMPOSITION_HEIGHT;
+                    return _ribbon.TabsArea.ClientHeight + _constantCompositionHeight;
                 }
                 else
                 {
-                    return CONSTANT_COMPOSITION_HEIGHT;
+                    return _constantCompositionHeight;
                 }
             }
         }
@@ -117,8 +117,8 @@ namespace Krypton.Ribbon
         {
             get => _ownerForm;
 
-            set 
-            { 
+            set
+            {
                 _ownerForm = value;
                 CompRightBorder.CompOwnerForm = value;
             }
@@ -142,13 +142,13 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) => new (0, CONSTANT_COMPOSITION_HEIGHT);
+        public override Size GetPreferredSize(ViewLayoutContext context) => new(0, _constantCompositionHeight);
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
 
             // Use the entire height of the control and not just the composition height
             contextRect.Height = context.TopControl.Height;
-            
+
             // Make bigger by the left and right borders, so that the application button is shifted
             // to match up with the client area of the actual ribbon control in the client area
             Padding realBorders = _ownerForm.RealWindowBorders;
@@ -181,7 +181,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore([DisallowNull] RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             Debug.Assert(_ownerForm != null);
 

@@ -1239,13 +1239,19 @@ namespace Krypton.Ribbon
                             _compoRightInjected = true;
                         }
 
-                        _kryptonForm.InjectViewElement(_contextTiles, ViewDockStyle.Fill);
+                        if (_contextTiles != null)
+                        {
+                            _kryptonForm.InjectViewElement(_contextTiles, ViewDockStyle.Fill);
+                        }
                     }
                     else
                     {
                         _captionAppButton.OwnerForm = null;
                         _captionQAT.OwnerForm = null;
-                        _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        if (_contextTiles != null)
+                        {
+                            _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        }
 
                         // At runtime under vista we do not remove the compo right border
                         if (_ribbon.InDesignMode ||
@@ -1321,8 +1327,8 @@ namespace Krypton.Ribbon
         private void OnWindowActiveChanged(object sender, EventArgs e)
         {
             if (_kryptonForm is { ApplyCustomChrome: true, ApplyComposition: true })
-                // When integrated into composition we need to repaint whenever the
-                // owning form changes active status, as we are drawing the caption
+            // When integrated into composition we need to repaint whenever the
+            // owning form changes active status, as we are drawing the caption
             {
                 PerformNeedPaint(true);
             }

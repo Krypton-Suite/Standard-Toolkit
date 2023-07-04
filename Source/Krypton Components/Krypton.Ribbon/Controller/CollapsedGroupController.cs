@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
                                               IRibbonKeyTipTarget
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private bool _mouseOver;
         private readonly NeedPaintHandler _needPaint;
         private readonly ViewLayoutDocker _target;
@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control instance.</param>
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
-        public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
+        public CollapsedGroupController([DisallowNull] KryptonRibbon? ribbon,
             [DisallowNull]ViewLayoutDocker target,
             [DisallowNull]NeedPaintHandler needPaint)
         {

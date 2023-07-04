@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -73,18 +73,21 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Get the preferred size of the child
-                    Size childSize = child.GetPreferredSize(context);
+                    if (context != null)
+                    {
+                        Size childSize = child.GetPreferredSize(context);
 
-                    // Depending on orientation, add up child sizes
-                    if (Horizontal)
-                    {
-                        preferredSize.Height = Math.Max(preferredSize.Height, childSize.Height);
-                        preferredSize.Width += childSize.Width;
-                    }
-                    else
-                    {
-                        preferredSize.Height += childSize.Height;
-                        preferredSize.Width = Math.Max(preferredSize.Width, childSize.Width);
+                        // Depending on orientation, add up child sizes
+                        if (Horizontal)
+                        {
+                            preferredSize.Height = Math.Max(preferredSize.Height, childSize.Height);
+                            preferredSize.Width += childSize.Width;
+                        }
+                        else
+                        {
+                            preferredSize.Height += childSize.Height;
+                            preferredSize.Width = Math.Max(preferredSize.Width, childSize.Width);
+                        }
                     }
                 }
             }
@@ -96,83 +99,86 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
-
-            // Maximum space available for the next child
-            Rectangle childRectangle = ClientRectangle;
-
-            // Find the last visible child
-            ViewBase lastVisible = null;
-            foreach(ViewBase child in Reverse())
+            if (context != null)
             {
-                if (child.Visible)
+                ClientRectangle = context.DisplayRectangle;
+
+                // Maximum space available for the next child
+                Rectangle childRectangle = ClientRectangle;
+
+                // Find the last visible child
+                ViewBase? lastVisible = null;
+                foreach (ViewBase child in Reverse())
                 {
-                    lastVisible = child;
-                    break;
-                }
-            }
-
-            // Position each entry, with last entry filling remaining of space
-            foreach (ViewBase child in this)
-            {
-                if (child.Visible)
-                {
-                    // Provide the total space currently available
-                    context.DisplayRectangle = childRectangle;
-
-                    // Get the preferred size of the child
-                    Size childSize = child.GetPreferredSize(context);
-
-                    if (Horizontal)
+                    if (child.Visible)
                     {
-                        // Ask child to fill the available height
-                        childSize.Height = childRectangle.Height;
-
-                        if ((child == lastVisible) && FillLastChild)
-                        {
-                            // This child takes all remainder width
-                            childSize.Width = childRectangle.Width;
-                        }
-                        else
-                        {
-                            // Reduce remainder space to exclude this child
-                            childRectangle.X += childSize.Width;
-                            childRectangle.Width -= childSize.Width;
-                        }
+                        lastVisible = child;
+                        break;
                     }
-                    else
-                    {
-                        // Ask child to fill the available width
-                        childSize.Width = childRectangle.Width;
+                }
 
-                        if ((child == lastVisible) && FillLastChild)
+                // Position each entry, with last entry filling remaining of space
+                foreach (ViewBase child in this)
+                {
+                    if (child.Visible)
+                    {
+                        // Provide the total space currently available
+                        context.DisplayRectangle = childRectangle;
+
+                        // Get the preferred size of the child
+                        Size childSize = child.GetPreferredSize(context);
+
+                        if (Horizontal)
                         {
-                            // This child takes all remainder height
+                            // Ask child to fill the available height
                             childSize.Height = childRectangle.Height;
+
+                            if ((child == lastVisible) && FillLastChild)
+                            {
+                                // This child takes all remainder width
+                                childSize.Width = childRectangle.Width;
+                            }
+                            else
+                            {
+                                // Reduce remainder space to exclude this child
+                                childRectangle.X += childSize.Width;
+                                childRectangle.Width -= childSize.Width;
+                            }
                         }
                         else
                         {
-                            // Reduce remainder space to exclude this child
-                            childRectangle.Y += childSize.Height;
-                            childRectangle.Height -= childSize.Height;
+                            // Ask child to fill the available width
+                            childSize.Width = childRectangle.Width;
+
+                            if ((child == lastVisible) && FillLastChild)
+                            {
+                                // This child takes all remainder height
+                                childSize.Height = childRectangle.Height;
+                            }
+                            else
+                            {
+                                // Reduce remainder space to exclude this child
+                                childRectangle.Y += childSize.Height;
+                                childRectangle.Height -= childSize.Height;
+                            }
                         }
+
+                        // Use the update child size as the actual space for layout
+                        context.DisplayRectangle = new Rectangle(context.DisplayRectangle.Location, childSize);
+
+                        // Layout child in the provided space
+                        child.Layout(context);
                     }
-
-                    // Use the update child size as the actual space for layout
-                    context.DisplayRectangle = new Rectangle(context.DisplayRectangle.Location, childSize);
-
-                    // Layout child in the provided space
-                    child.Layout(context);
                 }
-            }
 
-            // Put back the original display value now we have finished
-            context.DisplayRectangle = ClientRectangle;
+                // Put back the original display value now we have finished
+                context.DisplayRectangle = ClientRectangle;
+            }
         }
         #endregion
     }

@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbonGroupTriple _ribbonTriple;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private readonly Padding _preferredPaddingL; // = new(1, 3, 1, 3);
         private readonly Padding _layoutPaddingL; // = new(1);
         private readonly Padding _outerPaddingL; // = new(0, 2, 0, 2);
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// <param name="currentSize">Size the view should use.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroupTriple(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupTriple ribbonTriple,
+                                                           KryptonRibbonGroupTriple ribbonTriple,
                                                GroupItemSize currentSize,
                                                NeedPaintHandler needPaint)
             : base(ribbon, needPaint)

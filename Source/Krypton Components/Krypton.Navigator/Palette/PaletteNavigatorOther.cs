@@ -23,8 +23,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorOther(PaletteNavigatorRedirect? redirect,
-                                     NeedPaintHandler needPaint) 
+        public PaletteNavigatorOther(PaletteNavigatorRedirect redirect,
+                                     NeedPaintHandler needPaint)
         {
             // Create the palette storage
             CheckButton = new PaletteTriple(redirect.CheckButton, needPaint);

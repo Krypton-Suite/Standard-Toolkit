@@ -22,9 +22,9 @@ namespace Krypton.Ribbon
         #region Instance Fields
         // Storage
         private readonly PaletteRibbonBack _ribbonAppButton;
-        private readonly PaletteRibbonBack _ribbonAppMenuInner;
-        private readonly PaletteRibbonBack _ribbonAppMenuOuter;
-        private readonly PaletteRibbonBack _ribbonAppMenuDocs;
+        private readonly PaletteRibbonBack? _ribbonAppMenuInner;
+        private readonly PaletteRibbonBack? _ribbonAppMenuOuter;
+        private readonly PaletteRibbonBack? _ribbonAppMenuDocs;
         private readonly PaletteRibbonText _ribbonAppMenuDocsTitle;
         private readonly PaletteRibbonText _ribbonAppMenuDocsEntry;
         private readonly PaletteRibbonGeneral _ribbonGeneral;
@@ -37,15 +37,15 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonBack _ribbonGroupCollapsedFrameBorder;
         private readonly PaletteRibbonText _ribbonGroupCollapsedText;
         private readonly PaletteRibbonBack _ribbonGroupNormalBorder;
-        private readonly PaletteRibbonDouble _ribbonGroupNormalTitle;
+        private readonly PaletteRibbonDouble? _ribbonGroupNormalTitle;
         private readonly PaletteRibbonImages _ribbonImages;
         private readonly PaletteRibbonText _ribbonGroupRadioButtonText;
         private readonly PaletteRibbonText _ribbonGroupLabelText;
-        private readonly PaletteRibbonDouble _ribbonTab;
-        private readonly PaletteRibbonBack _ribbonQATFullbar;
-        private readonly PaletteRibbonBack _ribbonQATMinibarActive;
-        private readonly PaletteRibbonBack _ribbonQATMinibarInactive;
-        private readonly PaletteRibbonBack _ribbonQATOverflow;
+        private readonly PaletteRibbonDouble? _ribbonTab;
+        private readonly PaletteRibbonBack? _ribbonQATFullbar;
+        private readonly PaletteRibbonBack? _ribbonQATMinibarActive;
+        private readonly PaletteRibbonBack? _ribbonQATMinibarInactive;
+        private readonly PaletteRibbonBack? _ribbonQATOverflow;
 
         // Redirection
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppButtonInherit;
@@ -64,10 +64,10 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonBackInheritRedirect _ribbonGroupCollapsedFrameBorderInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonGroupCollapsedTextInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonGroupNormalBorderInherit;
-        private readonly PaletteRibbonDoubleInheritRedirect _ribbonGroupNormalTitleInherit;
+        private readonly PaletteRibbonDoubleInheritRedirect? _ribbonGroupNormalTitleInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonGroupRadioButtonTextInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonGroupLabelTextInherit;
-        private readonly PaletteRibbonDoubleInheritRedirect _ribbonTabInherit;
+        private readonly PaletteRibbonDoubleInheritRedirect? _ribbonTabInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonQATFullbarInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonQATMinibarInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonQATOverflowInherit;
@@ -250,7 +250,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining application button menu outer appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonAppMenuOuter => _ribbonAppMenuOuter;
+        public virtual PaletteRibbonBack? RibbonAppMenuOuter => _ribbonAppMenuOuter;
 
         private bool ShouldSerializeRibbonAppMenuOuter() => !_ribbonAppMenuOuter.IsDefault;
 
@@ -263,7 +263,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining application button menu inner appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonAppMenuInner => _ribbonAppMenuInner;
+        public virtual PaletteRibbonBack? RibbonAppMenuInner => _ribbonAppMenuInner;
 
         private bool ShouldSerializeRibbonAppMenuInner() => !_ribbonAppMenuInner.IsDefault;
 
@@ -276,7 +276,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining application button menu recent docs appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonAppMenuDocs => _ribbonAppMenuDocs;
+        public virtual PaletteRibbonBack? RibbonAppMenuDocs => _ribbonAppMenuDocs;
 
         private bool ShouldSerializeRibbonAppMenuDocs() => !_ribbonAppMenuDocs.IsDefault;
 
@@ -445,7 +445,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon group normal title appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonDouble RibbonGroupNormalTitle => _ribbonGroupNormalTitle;
+        public virtual PaletteRibbonDouble? RibbonGroupNormalTitle => _ribbonGroupNormalTitle;
 
         private bool ShouldSerializeRibbonGroupNormalTitle() => !_ribbonGroupNormalTitle.IsDefault;
 
@@ -497,7 +497,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonDouble RibbonTab => _ribbonTab;
+        public virtual PaletteRibbonDouble? RibbonTab => _ribbonTab;
 
         private bool ShouldSerializeRibbonTab() => !_ribbonTab.IsDefault;
 
@@ -510,7 +510,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon quick access toolbar in full mode.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonQATFullbar => _ribbonQATFullbar;
+        public virtual PaletteRibbonBack? RibbonQATFullbar => _ribbonQATFullbar;
 
         private bool ShouldSerializeRibbonQATFullbar() => !_ribbonQATFullbar.IsDefault;
 
@@ -523,7 +523,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon quick access toolbar in mini mode when form active.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonQATMinibarActive => _ribbonQATMinibarActive;
+        public virtual PaletteRibbonBack? RibbonQATMinibarActive => _ribbonQATMinibarActive;
 
         private bool ShouldSerializeRibbonQATMinibarActive() => !_ribbonQATMinibarActive.IsDefault;
 
@@ -536,7 +536,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon quick access toolbar in mini mode when form inactive.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonQATMinibarInactive => _ribbonQATMinibarInactive;
+        public virtual PaletteRibbonBack? RibbonQATMinibarInactive => _ribbonQATMinibarInactive;
 
         private bool ShouldSerializeRibbonQATMinibarInactive() => !_ribbonQATMinibarInactive.IsDefault;
 
@@ -549,7 +549,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Overrides for defining ribbon quick access toolbar overflow.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonQATOverflow => _ribbonQATOverflow;
+        public virtual PaletteRibbonBack? RibbonQATOverflow => _ribbonQATOverflow;
 
         private bool ShouldSerializeRibbonQATOverflow() => !_ribbonQATOverflow.IsDefault;
 

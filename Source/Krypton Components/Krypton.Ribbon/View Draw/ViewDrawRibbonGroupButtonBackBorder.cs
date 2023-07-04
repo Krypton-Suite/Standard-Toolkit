@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly Size _viewSize; // = new(22, 22);
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private IDisposable? _mementoBack;
         private readonly IPaletteBack _paletteBack;
         private readonly PaletteBackInheritForced _paletteBackDraw;
@@ -35,17 +35,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the button is left clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the button is right clicked.
         /// </summary>
-        public event MouseEventHandler ContextClick;
+        public event MouseEventHandler? ContextClick;
 
         /// <summary>
         /// Occurs when the drop down button is clicked.
         /// </summary>
-        public event EventHandler DropDown;
+        public event EventHandler? DropDown;
         #endregion
 
         #region Identity
@@ -58,10 +58,10 @@ namespace Krypton.Ribbon
         /// <param name="paletteBorder">Palette to use for the border.</param>
         /// <param name="constantBorder">Should the border be a constant normal state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupButtonBackBorder([DisallowNull] KryptonRibbon ribbon,
-                                                   [DisallowNull] KryptonRibbonGroupItem groupItem,
-                                                   [DisallowNull] IPaletteBack paletteBack,
-                                                   [DisallowNull] IPaletteBorder paletteBorder,
+        public ViewDrawRibbonGroupButtonBackBorder(KryptonRibbon ribbon,
+                                                   KryptonRibbonGroupItem groupItem,
+                                                   IPaletteBack paletteBack,
+                                                   IPaletteBorder paletteBorder,
                                                    bool constantBorder,
                                                    NeedPaintHandler needPaint)
         {
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -474,202 +474,205 @@ namespace Krypton.Ribbon
         private void DrawHorizontalSplit(RenderContext context, PaletteState drawState)
         {
             // We need the rectangle that represents just the split area
-            Rectangle splitRectangle = Controller.SplitRectangle;
-            Rectangle beforeSplitRect = new(ClientLocation, new Size(splitRectangle.X - ClientLocation.X, ClientHeight));
-            Rectangle splitterRect = new(splitRectangle.Location, new Size(1, ClientHeight));
-            Rectangle afterSplitRect = new(splitRectangle.X, ClientLocation.Y, splitRectangle.Width, ClientHeight);
-
-            var splitWithFading = SplitWithFading(drawState);
-            switch (drawState)
+            if (Controller != null)
             {
-                case PaletteState.Normal:
-                    // Draw the entire border around the button
-                    if (ConstantBorder)
-                    {
-                        DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Normal);
-                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
-                    }
-                    break;
-                case PaletteState.Tracking:
-                    // Draw the background for the click and split areas
-                    if (Controller.MouseInSplit)
-                    {
-                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
-                        {
-                            if (splitWithFading)
-                            {
-                                if (DrawNonTrackingAreas)
-                                {
-                                    DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
-                                }
-                            }
-                            else
-                            {
-                                DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
-                            }
-                        }
+                Rectangle splitRectangle = Controller.SplitRectangle;
+                Rectangle beforeSplitRect = new(ClientLocation, new Size(splitRectangle.X - ClientLocation.X, ClientHeight));
+                Rectangle splitterRect = new(splitRectangle.Location, new Size(1, ClientHeight));
+                Rectangle afterSplitRect = new(splitRectangle.X, ClientLocation.Y, splitRectangle.Width, ClientHeight);
 
-                        Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height);
-                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect1))
-                        {
-                            DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
-                        }
-
-                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
-                        {
-                            if (splitWithFading)
-                            {
-                                if (DrawNonTrackingAreas)
-                                {
-                                    DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
-                                }
-                            }
-                            else
-                            {
-                                DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
-                        {
-                            DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
-                        }
-
-                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
-                        {
-                            if (splitWithFading)
-                            {
-                                if (DrawNonTrackingAreas)
-                                {
-                                    DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
-                                }
-                            }
-                            else
-                            {
-                                DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
-                            }
-                        }
-                    }
-
-                    // Draw the single pixel splitter line
-                    using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
-                    {
-                        DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Tracking);
-                    }
-
-                    // Draw the entire border around the button
-                    if (ConstantBorder)
-                    {
-                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
-                    }
-
-                    // If the border is not constant, drawn it now
-                    if (!ConstantBorder)
-                    {
+                var splitWithFading = SplitWithFading(drawState);
+                switch (drawState)
+                {
+                    case PaletteState.Normal:
                         // Draw the entire border around the button
-                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Tracking);
-                    }
-                    break;
-                case PaletteState.Pressed:
-                    // Draw the background for the click and split areas
-                    if (Controller.MouseInSplit)
-                    {
-                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
+                        if (ConstantBorder)
                         {
-                            if (splitWithFading)
-                            {
-                                if (DrawNonTrackingAreas)
-                                {
-                                    DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Pressed);
-                                }
-                            }
-                            else
-                            {
-                                DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
-                            }
+                            DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Normal);
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
                         }
-
-                        Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height);
-                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect1))
-                        {
-                            DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
-                        }
-
-                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
-                        {
-                            if (splitWithFading)
-                            {
-                                if (DrawNonTrackingAreas)
-                                {
-                                    DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
-                                }
-                            }
-                            else
-                            {
-                                DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
-                        {
-                            DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
-                        }
-
-                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
-                        {
-                            if (splitWithFading)
-                            {
-                                if (DrawNonTrackingAreas)
-                                {
-                                    DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
-                                }
-                            }
-                            else
-                            {
-                                DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
-                            }
-                        }
-                    }
-
-                    // Draw the single pixel splitter line
-                    using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
-                    {
-                        DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Pressed);
-                    }
-
-                    // Draw the entire border around the button
-                    if (ConstantBorder)
-                    {
-                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
-                    }
-
-                    // If the border is not constant, drawn it now
-                    if (!ConstantBorder)
-                    {
-                        // Draw the entire border around the button
-                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Tracking);
-
-                        // Draw the border for the click and split areas
+                        break;
+                    case PaletteState.Tracking:
+                        // Draw the background for the click and split areas
                         if (Controller.MouseInSplit)
                         {
-                            using Clipping clipToSplitter = new(context.Graphics, afterSplitRect);
-                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
+                            using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
+                            {
+                                if (splitWithFading)
+                                {
+                                    if (DrawNonTrackingAreas)
+                                    {
+                                        DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
+                                }
+                            }
+
+                            Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height);
+                            using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect1))
+                            {
+                                DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
+                            }
+
+                            using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
+                            {
+                                if (splitWithFading)
+                                {
+                                    if (DrawNonTrackingAreas)
+                                    {
+                                        DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
+                                }
+                            }
                         }
                         else
                         {
-                            using Clipping clipToSplitter = new(context.Graphics, beforeSplitRect);
-                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
+                            using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
+                            {
+                                DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
+                            }
+
+                            using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
+                            {
+                                if (splitWithFading)
+                                {
+                                    if (DrawNonTrackingAreas)
+                                    {
+                                        DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
+                                }
+                            }
                         }
-                    }
-                    break;
-                default:
-                    // Should never happen
-                    Debug.Assert(false);
-                    break;
+
+                        // Draw the single pixel splitter line
+                        using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
+                        {
+                            DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Tracking);
+                        }
+
+                        // Draw the entire border around the button
+                        if (ConstantBorder)
+                        {
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
+                        }
+
+                        // If the border is not constant, drawn it now
+                        if (!ConstantBorder)
+                        {
+                            // Draw the entire border around the button
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Tracking);
+                        }
+                        break;
+                    case PaletteState.Pressed:
+                        // Draw the background for the click and split areas
+                        if (Controller.MouseInSplit)
+                        {
+                            using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
+                            {
+                                if (splitWithFading)
+                                {
+                                    if (DrawNonTrackingAreas)
+                                    {
+                                        DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Pressed);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
+                                }
+                            }
+
+                            Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height);
+                            using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect1))
+                            {
+                                DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
+                            }
+
+                            using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
+                            {
+                                if (splitWithFading)
+                                {
+                                    if (DrawNonTrackingAreas)
+                                    {
+                                        DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
+                            {
+                                DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
+                            }
+
+                            using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
+                            {
+                                if (splitWithFading)
+                                {
+                                    if (DrawNonTrackingAreas)
+                                    {
+                                        DrawBackground(_paletteBackLight, context, ClientRectangle, PaletteState.Tracking);
+                                    }
+                                }
+                                else
+                                {
+                                    DrawBackground(_paletteBackDraw, context, ClientRectangle, PaletteState.Normal);
+                                }
+                            }
+                        }
+
+                        // Draw the single pixel splitter line
+                        using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
+                        {
+                            DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Pressed);
+                        }
+
+                        // Draw the entire border around the button
+                        if (ConstantBorder)
+                        {
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
+                        }
+
+                        // If the border is not constant, drawn it now
+                        if (!ConstantBorder)
+                        {
+                            // Draw the entire border around the button
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Tracking);
+
+                            // Draw the border for the click and split areas
+                            if (Controller.MouseInSplit)
+                            {
+                                using Clipping clipToSplitter = new(context.Graphics, afterSplitRect);
+                                DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
+                            }
+                            else
+                            {
+                                using Clipping clipToSplitter = new(context.Graphics, beforeSplitRect);
+                                DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
+                            }
+                        }
+                        break;
+                    default:
+                        // Should never happen
+                        Debug.Assert(false);
+                        break;
+                }
             }
         }
 
@@ -682,16 +685,19 @@ namespace Krypton.Ribbon
             if (paletteBack.GetBackDraw(state) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state);
-                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, state, VisualOrientation.Top);
+                if (context.Renderer != null)
+                {
+                    using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state);
+                    Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, state, VisualOrientation.Top);
 
-                // Apply the padding depending on the orientation
-                Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, rect, borderPadding);
+                    // Apply the padding depending on the orientation
+                    Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, rect, borderPadding);
 
-                // Render the background inside the border path
-                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
-                    paletteBack, VisualOrientation.Top,
-                    state, _mementoBack);
+                    // Render the background inside the border path
+                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
+                        paletteBack, VisualOrientation.Top,
+                        state, _mementoBack);
+                }
             }
         }
 
@@ -703,15 +709,18 @@ namespace Krypton.Ribbon
             // Do we need to draw the border?
             if (paletteBorder.GetBorderDraw(state) == InheritBool.True)
             {
-                context.Renderer.RenderStandardBorder.DrawBorder(context, rect, paletteBorder,
-                    VisualOrientation.Top, state);
+                if (context.Renderer != null)
+                {
+                    context.Renderer.RenderStandardBorder.DrawBorder(context, rect, paletteBorder,
+                        VisualOrientation.Top, state);
+                }
             }
         }
 
         private bool SplitWithFading(PaletteState drawState)
         {
             var palette = _ribbon.GetRedirector();
-            return palette.GetMetricBool(drawState, PaletteMetricBool.SplitWithFading) == InheritBool.True;
+            return palette != null && palette.GetMetricBool(drawState, PaletteMetricBool.SplitWithFading) == InheritBool.True;
         }
 
         private void ActionFinished(object sender, EventArgs e)
@@ -733,22 +742,34 @@ namespace Krypton.Ribbon
             }
 
             // Remove the fixed pressed appearance
-            Controller.RemoveFixed();
+            if (Controller != null)
+            {
+                Controller.RemoveFixed();
+            }
         }
 
         private void OnClick(object sender, EventArgs e)
         {
-            Click?.Invoke(this, e);
+            if (Click != null)
+            {
+                Click.Invoke(this, e);
+            }
         }
 
         private void OnContextClick(object sender, MouseEventArgs e)
         {
-            ContextClick?.Invoke(this, e);
+            if (ContextClick != null)
+            {
+                ContextClick.Invoke(this, e);
+            }
         }
 
         private void OnDropDown(object sender, EventArgs e)
         {
-            DropDown?.Invoke(this, e);
+            if (DropDown != null)
+            {
+                DropDown.Invoke(this, e);
+            }
         }
         #endregion
     }

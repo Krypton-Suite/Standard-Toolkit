@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupClusterButton _ribbonButton;
         private readonly RibbonGroupNormalDisabledTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private int _heightExtra;
         private Size _preferredSize;
         private Rectangle _displayRect;

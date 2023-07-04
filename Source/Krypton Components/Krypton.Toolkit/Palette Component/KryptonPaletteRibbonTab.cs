@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteRibbonTab : Storage
     {
         #region Instance Fields
-        private readonly PaletteRibbonDoubleInheritRedirect _stateInherit;
+        private readonly PaletteRibbonDoubleInheritRedirect? _stateInherit;
 
         #endregion
 
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common ribbon tab appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteRibbonDouble StateCommon { get; }
+        public PaletteRibbonDouble? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 

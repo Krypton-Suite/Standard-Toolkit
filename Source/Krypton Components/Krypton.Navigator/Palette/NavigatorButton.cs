@@ -11,6 +11,7 @@
 #endregion
 
 // ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable InconsistentNaming
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -46,47 +47,69 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorButton([DisallowNull] KryptonNavigator navigator,
+        public NavigatorButton(KryptonNavigator navigator,
                                NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
 
             // Remember back reference
-            _navigator = navigator;
+            if (navigator != null)
+            {
+                _navigator = navigator;
+            }
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
+
             // Create collection for use defined and fixed buttons
-            ButtonSpecs = new NavigatorButtonSpecCollection(navigator);
-            FixedSpecs = new NavFixedButtonSpecCollection(navigator);
+            if (navigator != null)
+            {
+                ButtonSpecs = new NavigatorButtonSpecCollection(navigator);
+                FixedSpecs = new NavFixedButtonSpecCollection(navigator);
+            }
 
             // Create the fixed buttons
-            PreviousButton = new ButtonSpecNavPrevious(_navigator);
-            NextButton = new ButtonSpecNavNext(_navigator);
-            ContextButton = new ButtonSpecNavContext(_navigator);
-            CloseButton = new ButtonSpecNavClose(_navigator);
-            FormCloseButton = new ButtonSpecNavFormClose(_navigator);
-            FormMaximizeButton = new ButtonSpecNavFormMaximize(_navigator);
-            FormMinimizeButton = new ButtonSpecNavFormMinimize(_navigator);
-
-            // Hook into the click events for the buttons
-            PreviousButton.Click += OnPreviousClick!;
-            NextButton.Click += OnNextClick!;
-            ContextButton.Click += OnContextClick!;
-            CloseButton.Click += OnCloseClick!;
-            FormCloseButton.Click += OnCloseButtonClick!;
-            FormMinimizeButton.Click += OnMinimizeButtonClick!;
-            FormMaximizeButton.Click += OnMaximizeButtonClick!;
-
-            // Add fixed buttons into the display collection
-            if (_navigator.Owner != null && !_navigator.ControlKryptonFormFeatures)
+            if (_navigator != null)
             {
-                FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton, FormMinimizeButton, FormMaximizeButton, FormCloseButton });
-            }
-            else
-            {
-                FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
+                PreviousButton = new ButtonSpecNavPrevious(_navigator);
+                NextButton = new ButtonSpecNavNext(_navigator);
+                ContextButton = new ButtonSpecNavContext(_navigator);
+                CloseButton = new ButtonSpecNavClose(_navigator);
+                FormCloseButton = new ButtonSpecNavFormClose(_navigator);
+                FormMaximizeButton = new ButtonSpecNavFormMaximize(_navigator);
+                FormMinimizeButton = new ButtonSpecNavFormMinimize(_navigator);
+
+                // Hook into the click events for the buttons
+                PreviousButton.Click += OnPreviousClick;
+                NextButton.Click += OnNextClick;
+                ContextButton.Click += OnContextClick;
+                CloseButton.Click += OnCloseClick;
+                FormCloseButton.Click += OnCloseButtonClick;
+                FormMinimizeButton.Click += OnMinimizeButtonClick;
+                FormMaximizeButton.Click += OnMaximizeButtonClick;
+
+                // Add fixed buttons into the display collection
+                if (_navigator.Owner != null && !_navigator.ControlKryptonFormFeatures)
+                {
+                    if (FixedSpecs != null)
+                    {
+                        FixedSpecs.AddRange(new ButtonSpecNavFixed[]
+                        {
+                            PreviousButton, NextButton, ContextButton, CloseButton, FormMinimizeButton,
+                            FormMaximizeButton,
+                            FormCloseButton
+});
+                    }
+                }
+                else
+                {
+                    if (FixedSpecs != null)
+                    {
+                        FixedSpecs.AddRange(new ButtonSpecNavFixed[]
+                            {PreviousButton, NextButton, ContextButton, CloseButton});
+                    }
+                }
             }
 
             // Default fields

@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonButton">Reference to ribbon group button definition.</param>
         /// <param name="large">Show the large image.</param>
         public ViewDrawRibbonGroupButtonImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupButton ribbonButton,
+                                                         KryptonRibbonGroupButton ribbonButton,
                                               bool large)
             : base(ribbon)
         {
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage
+        protected override Image? DrawImage
         {
             get
             {

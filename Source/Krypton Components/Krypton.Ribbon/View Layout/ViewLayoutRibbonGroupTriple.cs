@@ -28,8 +28,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupTriple _ribbonTriple;
-        private ViewDrawRibbonDesignGroupTriple _viewAddItem;
-        private readonly NeedPaintHandler _needPaint;
+        private ViewDrawRibbonDesignGroupTriple? _viewAddItem;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         private ItemToView _itemToView;
         private readonly ViewToSize _smallCache;
@@ -46,9 +46,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTriple">Reference to triple definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupTriple([DisallowNull] KryptonRibbon ribbon,
-                                           [DisallowNull] KryptonRibbonGroupTriple ribbonTriple,
-                                           [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroupTriple(KryptonRibbon ribbon,
+                                           KryptonRibbonGroupTriple ribbonTriple,
+                                           NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonTriple != null);
@@ -465,7 +465,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -666,8 +666,8 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignHelperMode && (Count < 3))
             {
                 // Create the design time 'Add Tab' first time it is needed
-                _viewAddItem ??= new ViewDrawRibbonDesignGroupTriple(_ribbon, 
-                        _ribbonTriple, 
+                _viewAddItem ??= new ViewDrawRibbonDesignGroupTriple(_ribbon,
+                        _ribbonTriple,
                         _currentSize,
                         _needPaint);
 

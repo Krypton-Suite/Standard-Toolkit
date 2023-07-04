@@ -193,7 +193,7 @@ namespace Krypton.Ribbon
                 return;
             }
 
-            IPaletteRibbonBack palette;
+            IPaletteRibbonBack? palette;
             PaletteState state = PaletteState.Normal;
             Rectangle drawRect = ClientRectangle;
 

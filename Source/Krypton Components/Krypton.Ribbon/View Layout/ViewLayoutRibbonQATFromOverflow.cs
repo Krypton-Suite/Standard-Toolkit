@@ -33,16 +33,16 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
         /// <param name="contents">Source for finding buttons that are overflowing.</param>
-        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control parentControl,
+        public ViewLayoutRibbonQATFromOverflow(Control parentControl,
                                                KryptonRibbon ribbon,
                                                NeedPaintHandler needPaint,
                                                bool showExtraButton,
-                                               [DisallowNull] ViewLayoutRibbonQATContents contents)
+                                               ViewLayoutRibbonQATContents contents)
             : base(ribbon, needPaint, showExtraButton)
         {
             Debug.Assert(parentControl != null);
             Debug.Assert(contents != null);
-            
+
             _contents = contents;
             ParentControl = parentControl;
         }
@@ -52,9 +52,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Returns a collection of all the quick access toolbar definitions.
         /// </summary>
-        public override IQuickAccessToolbarButton[] QATButtons 
-        { 
-            get 
+        public override IQuickAccessToolbarButton[] QATButtons
+        {
+            get
             {
                 var qatOverflow = new List<IQuickAccessToolbarButton>();
 
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
                     // If the button requests to be shown...
                     if (qatButton.GetVisible())
                     {
-                        ViewBase qatView = _contents.ViewForButton(qatButton);
+                        ViewBase? qatView = _contents.ViewForButton(qatButton);
 
                         //...but the view is not displayed, then show on overflow
                         if (qatView is { Visible: false })

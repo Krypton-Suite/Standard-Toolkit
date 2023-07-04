@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
             // Make sure we have a view element to match each tab
             foreach (KryptonRibbonTab tab in Ribbon.RibbonTabs)
             {
-                ViewLayoutRibbonScrollPort view = null;
+                ViewLayoutRibbonScrollPort? view = null;
 
                 // Get the currently cached view for the tab
                 if (_tabToView.ContainsKey(tab))

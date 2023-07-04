@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonDropArrow class.
         /// </summary>
         /// <param name="ribbon">Reference to owning control instance.</param>
-        public ViewDrawRibbonDropArrow([DisallowNull] KryptonRibbon ribbon)
+        public ViewDrawRibbonDropArrow(KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -71,14 +71,17 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             // Use renderer to draw the drop arrow in the provided space
-            context.Renderer.RenderGlyph.DrawRibbonDropArrow(_ribbon.RibbonShape, 
-                                                             context, 
-                                                             ClientRectangle, 
-                                                             _ribbon.StateCommon.RibbonGeneral, 
-                                                             State);
+            if (context.Renderer != null)
+            {
+                context.Renderer.RenderGlyph.DrawRibbonDropArrow(_ribbon.RibbonShape,
+                    context,
+                    ClientRectangle,
+                    _ribbon.StateCommon.RibbonGeneral,
+                    State);
+            }
         }
         #endregion
     }

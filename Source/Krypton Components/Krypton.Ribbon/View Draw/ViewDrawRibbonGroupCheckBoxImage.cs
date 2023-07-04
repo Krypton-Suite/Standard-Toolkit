@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonCheckBox">Reference to ribbon group check box definition.</param>
         /// <param name="large">Show the large image.</param>
         public ViewDrawRibbonGroupCheckBoxImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupCheckBox ribbonCheckBox,
+                                                            KryptonRibbonGroupCheckBox ribbonCheckBox,
                                                 bool large)
         {
             Debug.Assert(ribbonCheckBox != null);
@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
             _large = large;
 
             // Use redirector to get the check box images and redirect to parent palette
-            PaletteRedirectCheckBox? redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
+            PaletteRedirectCheckBox redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
 
             // Create drawing element
             _drawCheckBox = new ViewDrawCheckBox(redirectImages);

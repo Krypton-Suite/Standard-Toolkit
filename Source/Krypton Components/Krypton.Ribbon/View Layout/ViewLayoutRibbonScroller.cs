@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the button has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -89,8 +89,8 @@ namespace Krypton.Ribbon
         {
             get => _orientation;
 
-            set 
-            { 
+            set
+            {
                 _orientation = value;
                 _button.Orientation = value;
             }
@@ -104,13 +104,13 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Always return the same minimum size
-            new (SCROLLER_LENGTH + GAP_LENGTH, SCROLLER_LENGTH + GAP_LENGTH);
+            new(SCROLLER_LENGTH + GAP_LENGTH, SCROLLER_LENGTH + GAP_LENGTH);
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
             context.DisplayRectangle = ClientRectangle;
         }
         #endregion
-        
+
         #region Implementation
         private Rectangle AdjustRectForTabs(Rectangle rect)
         {
@@ -171,7 +171,10 @@ namespace Krypton.Ribbon
 
         private void OnButtonClick(object sender, MouseEventArgs e)
         {
-            Click?.Invoke(this, EventArgs.Empty);
+            if (Click != null)
+            {
+                Click.Invoke(this, EventArgs.Empty);
+            }
         }
         #endregion
     }

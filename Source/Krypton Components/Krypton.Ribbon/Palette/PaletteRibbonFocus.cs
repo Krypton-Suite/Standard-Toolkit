@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly PaletteRibbonDouble _ribbonTab;
-        private readonly PaletteRibbonDoubleInheritRedirect _ribbonTabInherit;
+        private readonly PaletteRibbonDoubleInheritRedirect? _ribbonTabInherit;
         #endregion
 
         #region Identity

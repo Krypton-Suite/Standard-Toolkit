@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Padding _smallImagePadding; // = new(3);
         private readonly KryptonRibbon _ribbon;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         private PaletteBackInheritForced _backForced;
         private PaletteBorderInheritForced _borderForced;
         private ViewDrawRibbonGroupButtonBackBorder _viewMediumSmall;
@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonButton">Reference to source button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupClusterColorButton([DisallowNull] KryptonRibbon ribbon,
-                                                     [DisallowNull] KryptonRibbonGroupClusterColorButton ribbonButton,
-                                                     [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupClusterColorButton(KryptonRibbon ribbon,
+                                                     KryptonRibbonGroupClusterColorButton ribbonButton,
+                                                     NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonButton != null);
@@ -132,10 +132,10 @@ namespace Krypton.Ribbon
         {
             get => _borderForced.BorderIgnoreNormal;
 
-            set 
+            set
             {
                 _backForced.BorderIgnoreNormal = value;
-                _borderForced.BorderIgnoreNormal = value; 
+                _borderForced.BorderIgnoreNormal = value;
             }
         }
         #endregion
@@ -247,7 +247,7 @@ namespace Krypton.Ribbon
                 // Determine the screen position of the key tip dependant on item location
                 Point screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
 
-                keyTipList.Add(new KeyTipInfo(GroupClusterColorButton.Enabled, GroupClusterColorButton.KeyTip, screenPt, 
+                keyTipList.Add(new KeyTipInfo(GroupClusterColorButton.Enabled, GroupClusterColorButton.KeyTip, screenPt,
                                               this[0].ClientRectangle, _viewMediumSmall.Controller));
             }
         }
@@ -287,7 +287,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -350,13 +350,21 @@ namespace Krypton.Ribbon
         {
             // Override the palette provided values
             _backForced = new PaletteBackInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBack);
-            _borderForced = new PaletteBorderInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder);
+            if (_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder != null)
+            {
+                _borderForced =
+                    new PaletteBorderInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder);
+            }
 
             // Create the background and border view
-            _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupClusterColorButton, _backForced, _borderForced, true, _needPaint)
+            if (_needPaint != null)
             {
-                SplitVertical = false
-            };
+                _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupClusterColorButton,
+                    _backForced, _borderForced, true, _needPaint)
+                {
+                    SplitVertical = false
+                };
+            }
             _viewMediumSmall.Click += OnSmallButtonClick;
             _viewMediumSmall.DropDown += OnSmallButtonDropDown;
 
@@ -399,8 +407,12 @@ namespace Krypton.Ribbon
             _viewMediumSmall.Add(contentLayout);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
-                                                                     _viewMediumSmall, _viewMediumSmall.MouseController);
+            if (_ribbon.TabsArea.ButtonSpecManager != null && _ribbon.TabsArea.ButtonSpecManager.ToolTipManager != null)
+            {
+                _viewMediumSmall.MouseController = new ToolTipController(
+                    _ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+                    _viewMediumSmall, _viewMediumSmall.MouseController);
+            }
 
             // Provide back reference to the button definition
             GroupClusterColorButton.ClusterColorButtonView = _viewMediumSmall;

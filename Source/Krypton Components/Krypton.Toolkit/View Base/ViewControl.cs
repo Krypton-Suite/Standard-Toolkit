@@ -26,12 +26,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the background needs painting.
         /// </summary>
-        public event PaintEventHandler PaintBackground;
+        public event PaintEventHandler? PaintBackground;
 
         /// <summary>
         /// Occurs when the WM_NCHITTEST occurs.
         /// </summary>
-        public event EventHandler<ViewControlHitTestArgs> WndProcHitTest;
+        public event EventHandler<ViewControlHitTestArgs>? WndProcHitTest;
         #endregion
 
         #region Instance Fields
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewControl class.
         /// </summary>
         /// <param name="rootControl">Top level visual control.</param>
-        public ViewControl([DisallowNull] VisualControl rootControl)
+        public ViewControl(VisualControl rootControl)
         {
             Debug.Assert(rootControl != null);
 
@@ -141,10 +141,10 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
 
                 // Do we need to paint the background as the foreground of the parent
@@ -154,7 +154,10 @@ namespace Krypton.Toolkit
                 }
 
                 // Give handles a change to draw the background
-                PaintBackground?.Invoke(this, e);
+                if (PaintBackground != null)
+                {
+                    PaintBackground.Invoke(this, e);
+                }
 
                 // Create a render context for drawing the view
                 using RenderContext context = new(GetViewManager(),
@@ -164,7 +167,10 @@ namespace Krypton.Toolkit
                     e.ClipRectangle,
                     Renderer);
                 // Ask the view to paint itself
-                ViewLayoutControl.ChildView.Render(context);
+                if (ViewLayoutControl.ChildView != null)
+                {
+                    ViewLayoutControl.ChildView.Render(context);
+                }
             }
         }
 
@@ -175,7 +181,7 @@ namespace Krypton.Toolkit
         protected override void OnDoubleClick(EventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 // Use the root controls view manager to process the event
@@ -193,7 +199,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 if (GetViewManager() != null)
@@ -202,7 +208,8 @@ namespace Krypton.Toolkit
                     Point rootPoint = RootInstance.PointToClient(PointToScreen(new Point(e.X, e.Y)));
 
                     // Use the root controls view manager to process the event
-                    GetViewManager().MouseMove(new MouseEventArgs(e.Button,
+                    GetViewManager()
+                        ?.MouseMove(new MouseEventArgs(e.Button,
                                                                   e.Clicks,
                                                                   rootPoint.X,
                                                                   rootPoint.Y,
@@ -222,7 +229,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseDown(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 if (GetViewManager() != null)
@@ -231,7 +238,7 @@ namespace Krypton.Toolkit
                     Point rootPoint = RootInstance.PointToClient(PointToScreen(new Point(e.X, e.Y)));
 
                     // Use the root controls view manager to process the event
-                    GetViewManager().MouseDown(new MouseEventArgs(e.Button,
+                    GetViewManager()?.MouseDown(new MouseEventArgs(e.Button,
                                                                   e.Clicks,
                                                                   rootPoint.X,
                                                                   rootPoint.Y,
@@ -261,7 +268,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 if (GetViewManager() != null)
@@ -270,7 +277,7 @@ namespace Krypton.Toolkit
                     Point rootPoint = RootInstance.PointToClient(PointToScreen(new Point(e.X, e.Y)));
 
                     // Use the root controls view manager to process the event
-                    GetViewManager().MouseUp(new MouseEventArgs(e.Button,
+                    GetViewManager()?.MouseUp(new MouseEventArgs(e.Button,
                                                                 e.Clicks,
                                                                 rootPoint.X,
                                                                 rootPoint.Y,
@@ -290,7 +297,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseLeave(EventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 // Use the root controls view manager to process the event
@@ -308,7 +315,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyDown(KeyEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyDown(e);
@@ -325,7 +332,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyPress(e);
@@ -342,7 +349,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyUp(KeyEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (RootInstance != null && !IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyUp(e);
@@ -358,7 +365,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -474,7 +481,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void PaintTransparentBackground(PaintEventArgs e)
+        private void PaintTransparentBackground(PaintEventArgs? e)
         {
             // Get the parent control for transparent drawing purposes
             Control parent = Parent;
@@ -495,7 +502,13 @@ namespace Krypton.Toolkit
 
                 try
                 {
-                    _miPTB.Invoke(this, new object[] { e, ClientRectangle, null });
+                    if (_miPTB != null)
+                    {
+                        if (e != null)
+                        {
+                            _miPTB.Invoke(this, new object[] { e, ClientRectangle, null });
+                        }
+                    }
                 }
                 catch
                 {

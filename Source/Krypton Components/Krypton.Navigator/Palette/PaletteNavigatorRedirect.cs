@@ -31,9 +31,9 @@ namespace Krypton.Navigator
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorRedirect(KryptonNavigator navigator,
-                                        PaletteRedirect? redirect,
+                                        PaletteRedirect redirect,
                                         NeedPaintHandler needPaint)
-            : this(navigator, redirect, redirect, redirect, 
+            : this(navigator, redirect, redirect, redirect,
                               redirect, redirect, redirect,
                               redirect, redirect, redirect,
                               redirect, redirect, redirect,
@@ -63,23 +63,23 @@ namespace Krypton.Navigator
         /// <param name="redirectNavigatorRibbonTab">inheritance redirection for ribbon tab.</param>
         /// <param name="redirectNavigatorRibbonGeneral">inheritance redirection for ribbon general.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorRedirect(KryptonNavigator? navigator,
-                                        PaletteRedirect? redirectNavigator,
-                                        PaletteRedirect? redirectNavigatorPage,
-                                        PaletteRedirect? redirectNavigatorHeaderGroup,
-                                        PaletteRedirect? redirectNavigatorHeaderPrimary,
-                                        PaletteRedirect? redirectNavigatorHeaderSecondary,
-                                        PaletteRedirect? redirectNavigatorHeaderBar,
-                                        PaletteRedirect? redirectNavigatorHeaderOverflow,
-                                        PaletteRedirect? redirectNavigatorCheckButton,
-                                        PaletteRedirect? redirectNavigatorOverflowButton,
-                                        PaletteRedirect? redirectNavigatorMiniButton,
-                                        PaletteRedirect? redirectNavigatorBar,
-                                        PaletteRedirect? redirectNavigatorBorderEdge,
-                                        PaletteRedirect? redirectNavigatorSeparator,
-                                        PaletteRedirect? redirectNavigatorTab,
-                                        PaletteRedirect? redirectNavigatorRibbonTab,
-                                        PaletteRedirect? redirectNavigatorRibbonGeneral,
+        public PaletteNavigatorRedirect(KryptonNavigator navigator,
+                                        PaletteRedirect redirectNavigator,
+                                        PaletteRedirect redirectNavigatorPage,
+                                        PaletteRedirect redirectNavigatorHeaderGroup,
+                                        PaletteRedirect redirectNavigatorHeaderPrimary,
+                                        PaletteRedirect redirectNavigatorHeaderSecondary,
+                                        PaletteRedirect redirectNavigatorHeaderBar,
+                                        PaletteRedirect redirectNavigatorHeaderOverflow,
+                                        PaletteRedirect redirectNavigatorCheckButton,
+                                        PaletteRedirect redirectNavigatorOverflowButton,
+                                        PaletteRedirect redirectNavigatorMiniButton,
+                                        PaletteRedirect redirectNavigatorBar,
+                                        PaletteRedirect redirectNavigatorBorderEdge,
+                                        PaletteRedirect redirectNavigatorSeparator,
+                                        PaletteRedirect redirectNavigatorTab,
+                                        PaletteRedirect redirectNavigatorRibbonTab,
+                                        PaletteRedirect redirectNavigatorRibbonGeneral,
                                         NeedPaintHandler needPaint)
             : base(redirectNavigator, PaletteBackStyle.PanelClient,
                    PaletteBorderStyle.ControlClient, needPaint)
@@ -122,11 +122,15 @@ namespace Krypton.Navigator
         #endregion
 
         #region IsDefault
+
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault &&
+        public override bool IsDefault => PalettePage != null &&
+                                          HeaderGroup != null &&
+                                          Separator != null &&
+                                          (base.IsDefault &&
                                            PalettePage.IsDefault &&
                                            HeaderGroup.IsDefault &&
                                            CheckButton.IsDefault &&
@@ -255,7 +259,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorHeaderGroupRedirect? HeaderGroup { get; }
 
-        private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
+        private bool ShouldSerializeHeaderGroup() => HeaderGroup != null && !HeaderGroup.IsDefault;
 
         #endregion
 
@@ -266,9 +270,20 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining page appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack Page => PalettePage.Back;
+        public PaletteBack Page
+        {
+            get
+            {
+                if (PalettePage != null)
+                {
+                    return PalettePage.Back;
+                }
 
-        private bool ShouldSerializePage() => !PalettePage.Back.IsDefault;
+                return Back;
+            }
+        }
+
+        private bool ShouldSerializePage() => PalettePage != null && !PalettePage.Back.IsDefault;
 
         #endregion
 
@@ -307,7 +322,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPaddingRedirect? Separator { get; }
 
-        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+        private bool ShouldSerializeSeparator() => Separator != null && !Separator.IsDefault;
 
         #endregion
 

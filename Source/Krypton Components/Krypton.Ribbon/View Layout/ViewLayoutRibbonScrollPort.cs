@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
             /// Initialize a new instance of the ViewControl class.
             /// </summary>
             /// <param name="ribbon">Top level ribbon control.</param>
-            public RibbonViewControl([DisallowNull] KryptonRibbon ribbon)
+            public RibbonViewControl(KryptonRibbon ribbon)
                 : base(ribbon)
             {
                 Debug.Assert(ribbon != null);
@@ -71,21 +71,21 @@ namespace Krypton.Ribbon
                 Control c = _ribbon.GetControllerControl(this);
 
                 // Grab the view manager handling the focus view
-                ViewBase focusView = null;
+                ViewBase? focusView = null;
                 switch (c)
                 {
                     case VisualPopupGroup popGroup:
-                    {
-                        ViewRibbonPopupGroupManager manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
-                        focusView = manager.FocusView;
-                        break;
-                    }
+                        {
+                            ViewRibbonPopupGroupManager manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
+                            focusView = manager.FocusView;
+                            break;
+                        }
                     case VisualPopupMinimized minimized:
-                    {
-                        ViewRibbonMinimizedManager manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
-                        focusView = manager.FocusView;
-                        break;
-                    }
+                        {
+                            ViewRibbonMinimizedManager manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
+                            focusView = manager.FocusView;
+                            break;
+                        }
                 }
 
                 // When in keyboard mode...
@@ -127,7 +127,7 @@ namespace Krypton.Ribbon
         private readonly ViewBase _viewFiller;
         private readonly ViewLayoutRibbonScroller _nearScroller;
         private readonly ViewLayoutRibbonScroller _farScroller;
-        private readonly ViewLayoutRibbonTabs _ribbonTabs;
+        private readonly ViewLayoutRibbonTabs? _ribbonTabs;
         private readonly RibbonViewControl _viewControlContent;
         private Rectangle _viewClipRect;
         private int _scrollOffset;
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the background needs painting.
         /// </summary>
-        public event PaintEventHandler PaintBackground;
+        public event PaintEventHandler? PaintBackground;
         #endregion
 
         #region Identity
@@ -151,12 +151,12 @@ namespace Krypton.Ribbon
         /// <param name="insetForTabs">Should scoller be inset for use in tabs area.</param>
         /// <param name="scrollSpeed">Scrolling speed.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout requests.</param>
-        public ViewLayoutRibbonScrollPort([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonScrollPort(KryptonRibbon ribbon,
                                           Orientation orientation,
-                                          [DisallowNull] ViewBase viewFiller,
+                                          ViewBase viewFiller,
                                           bool insetForTabs,
                                           int scrollSpeed,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+                                          NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(viewFiller != null);
@@ -342,7 +342,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -368,7 +368,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -395,7 +395,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -422,7 +422,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -454,7 +454,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -473,154 +473,161 @@ namespace Krypton.Ribbon
             // Ask the view control the size it would like to be, this is the requested filler
             // size of the control. If it wants more than we can give then scroll buttons are
             // needed, otherwise we can give it the requested size and any extra available.
-            _ribbon.GetViewManager().DoNotLayoutControls = true;
-            ViewLayoutControl.GetPreferredSize(context);
-
-            // Ensure context has the correct control
-            if (ViewLayoutControl.ChildControl is { IsDisposed: false })
+            if (_ribbon != null)
             {
-                using CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl);
-                _viewFiller.Layout(context);
-            }
-
-            _ribbon.GetViewManager().DoNotLayoutControls = false;
-            Size fillerSize = _viewFiller.ClientSize;
-
-            // Limit check the scroll offset
-            _scrollOffset = Math.Max(_scrollOffset, 0);
-
-            // Did it fit fully into our space?
-            if (((Orientation == Orientation.Horizontal) && (fillerSize.Width <= ClientWidth)) ||
-                ((Orientation == Orientation.Vertical) && (fillerSize.Height <= ClientHeight)))
-            {
-                // Filler rectangle is used for clipping
-                _viewClipRect = controlRect;
-
-                // Default back to left hand scroll position
-                _scrollOffset = 0;
-
-                // Then make the scrollers invisible and nothing more to do
-                _nearScroller.Visible = false;
-                _farScroller.Visible = false;
-
-                // We need to layout again but this time we do layout the actual children
-                ViewLayoutControl.Layout(context);
-            }
-            else
-            {
-                // We only need the near scroller if we are not at the left scroll position
-                if (_scrollOffset > 0)
-                {
-                    _nearScroller.Visible = true;
-
-                    // Find size requirements of the near scroller
-                    Size nearSize = _nearScroller.GetPreferredSize(context);
-
-                    // Find layout position of the near scroller
-                    if (Orientation == Orientation.Horizontal)
-                    {
-                        context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Y, nearSize.Width, layoutRect.Height);
-                        layoutRect.Width -= nearSize.Width;
-                        layoutRect.X += nearSize.Width;
-                        controlRect.Width -= nearSize.Width;
-                        controlRect.X += nearSize.Width;
-                    }
-                    else
-                    {
-                        context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Y, layoutRect.Width, nearSize.Height);
-                        layoutRect.Height -= nearSize.Height;
-                        layoutRect.Y += nearSize.Height;
-                        controlRect.Height -= nearSize.Height;
-                        controlRect.Y += nearSize.Height;
-                    }
-
-                    _nearScroller.Layout(context);
-                }
-                else
-                {
-                    _nearScroller.Visible = false;
-                }
-
-                // Work out the maximum scroll offset needed to show all of the filler
-                var maxOffset = Orientation == Orientation.Horizontal
-                    ? fillerSize.Width - layoutRect.Width
-                    : fillerSize.Height - layoutRect.Height;
-
-                // We only need the far scroller if we are not at the right scroll position
-                if (_scrollOffset < maxOffset)
-                {
-                    _farScroller.Visible = true;
-
-                    // Find size requirements of the near scroller
-                    Size farSize = _nearScroller.GetPreferredSize(context);
-
-                    // Find layout position of the far scroller
-                    if (Orientation == Orientation.Horizontal)
-                    {
-                        context.DisplayRectangle = new Rectangle(layoutRect.Right - farSize.Width, layoutRect.Y, farSize.Width, layoutRect.Height);
-                        layoutRect.Width -= farSize.Width;
-                        controlRect.Width -= farSize.Width;
-                    }
-                    else
-                    {
-                        context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Bottom - farSize.Height, layoutRect.Width, farSize.Height);
-                        layoutRect.Height -= farSize.Height;
-                        controlRect.Height -= farSize.Height;
-                    }
-
-                    _farScroller.Layout(context);
-                }
-                else
-                {
-                    _farScroller.Visible = false;
-                }
-
-                // Calculate the maximum offset again with all scrollers positioned
-                if (Orientation == Orientation.Horizontal)
-                {
-                    maxOffset = fillerSize.Width - layoutRect.Width;
-                }
-                else
-                {
-                    maxOffset = fillerSize.Height - layoutRect.Height;
-                }
-
-                // Limit check the current offset
-                _scrollOffset = Math.Min(_scrollOffset, maxOffset);
-
-                // Filler rectangle is used for clipping
-                _viewClipRect = controlRect;
-
-                // Apply the offset to the display of the view filler
-                ViewLayoutControl.LayoutOffset = Orientation == Orientation.Horizontal
-                    ? new Point(-_scrollOffset, 0)
-                    : new Point(0, -_scrollOffset);
-
-                // Position the filler in the remaining space
-                context.DisplayRectangle = layoutRect;
+                _ribbon.GetViewManager().DoNotLayoutControls = true;
                 ViewLayoutControl.GetPreferredSize(context);
-                ViewLayoutControl.Layout(context);
-            }
 
-            // Put back the original display value now we have finished
-            context.DisplayRectangle = ClientRectangle;
-
-            // If we are the scroller for the tab headers
-            if (_ribbon.InKeyboardMode 
-                && (_viewFiller is ViewLayoutRibbonTabs layoutTabs)
-                )
-            {
-                // If we have a selected tab, then ensure it is visible
-                if (_ribbon.SelectedTab != null)
+                // Ensure context has the correct control
+                if (ViewLayoutControl.ChildControl is { IsDisposed: false })
                 {
-                    // Cast to correct type
-                    ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+                    using CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl);
+                    _viewFiller.Layout(context);
+                }
 
-                    // If a scroll change is required to bring it into view
-                    if (ScrollIntoView(viewTab.ClientRectangle, false))
+                _ribbon.GetViewManager().DoNotLayoutControls = false;
+                Size fillerSize = _viewFiller.ClientSize;
+
+                // Limit check the scroll offset
+                _scrollOffset = Math.Max(_scrollOffset, 0);
+
+                // Did it fit fully into our space?
+                if (((Orientation == Orientation.Horizontal) && (fillerSize.Width <= ClientWidth)) ||
+                    ((Orientation == Orientation.Vertical) && (fillerSize.Height <= ClientHeight)))
+                {
+                    // Filler rectangle is used for clipping
+                    _viewClipRect = controlRect;
+
+                    // Default back to left hand scroll position
+                    _scrollOffset = 0;
+
+                    // Then make the scrollers invisible and nothing more to do
+                    _nearScroller.Visible = false;
+                    _farScroller.Visible = false;
+
+                    // We need to layout again but this time we do layout the actual children
+                    ViewLayoutControl.Layout(context);
+                }
+                else
+                {
+                    // We only need the near scroller if we are not at the left scroll position
+                    if (_scrollOffset > 0)
                     {
-                        // Call ourself again to take change into account
-                        Layout(context);
+                        _nearScroller.Visible = true;
+
+                        // Find size requirements of the near scroller
+                        Size nearSize = _nearScroller.GetPreferredSize(context);
+
+                        // Find layout position of the near scroller
+                        if (Orientation == Orientation.Horizontal)
+                        {
+                            context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Y, nearSize.Width,
+                                layoutRect.Height);
+                            layoutRect.Width -= nearSize.Width;
+                            layoutRect.X += nearSize.Width;
+                            controlRect.Width -= nearSize.Width;
+                            controlRect.X += nearSize.Width;
+                        }
+                        else
+                        {
+                            context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Y, layoutRect.Width,
+                                nearSize.Height);
+                            layoutRect.Height -= nearSize.Height;
+                            layoutRect.Y += nearSize.Height;
+                            controlRect.Height -= nearSize.Height;
+                            controlRect.Y += nearSize.Height;
+                        }
+
+                        _nearScroller.Layout(context);
+                    }
+                    else
+                    {
+                        _nearScroller.Visible = false;
+                    }
+
+                    // Work out the maximum scroll offset needed to show all of the filler
+                    var maxOffset = Orientation == Orientation.Horizontal
+                        ? fillerSize.Width - layoutRect.Width
+                        : fillerSize.Height - layoutRect.Height;
+
+                    // We only need the far scroller if we are not at the right scroll position
+                    if (_scrollOffset < maxOffset)
+                    {
+                        _farScroller.Visible = true;
+
+                        // Find size requirements of the near scroller
+                        Size farSize = _nearScroller.GetPreferredSize(context);
+
+                        // Find layout position of the far scroller
+                        if (Orientation == Orientation.Horizontal)
+                        {
+                            context.DisplayRectangle = new Rectangle(layoutRect.Right - farSize.Width, layoutRect.Y,
+                                farSize.Width, layoutRect.Height);
+                            layoutRect.Width -= farSize.Width;
+                            controlRect.Width -= farSize.Width;
+                        }
+                        else
+                        {
+                            context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Bottom - farSize.Height,
+                                layoutRect.Width, farSize.Height);
+                            layoutRect.Height -= farSize.Height;
+                            controlRect.Height -= farSize.Height;
+                        }
+
+                        _farScroller.Layout(context);
+                    }
+                    else
+                    {
+                        _farScroller.Visible = false;
+                    }
+
+                    // Calculate the maximum offset again with all scrollers positioned
+                    if (Orientation == Orientation.Horizontal)
+                    {
+                        maxOffset = fillerSize.Width - layoutRect.Width;
+                    }
+                    else
+                    {
+                        maxOffset = fillerSize.Height - layoutRect.Height;
+                    }
+
+                    // Limit check the current offset
+                    _scrollOffset = Math.Min(_scrollOffset, maxOffset);
+
+                    // Filler rectangle is used for clipping
+                    _viewClipRect = controlRect;
+
+                    // Apply the offset to the display of the view filler
+                    ViewLayoutControl.LayoutOffset = Orientation == Orientation.Horizontal
+                        ? new Point(-_scrollOffset, 0)
+                        : new Point(0, -_scrollOffset);
+
+                    // Position the filler in the remaining space
+                    context.DisplayRectangle = layoutRect;
+                    ViewLayoutControl.GetPreferredSize(context);
+                    ViewLayoutControl.Layout(context);
+                }
+
+                // Put back the original display value now we have finished
+                context.DisplayRectangle = ClientRectangle;
+
+                // If we are the scroller for the tab headers
+                if (_ribbon.InKeyboardMode
+                    && (_viewFiller is ViewLayoutRibbonTabs layoutTabs)
+                   )
+                {
+                    // If we have a selected tab, then ensure it is visible
+                    if (_ribbon.SelectedTab != null)
+                    {
+                        // Cast to correct type
+                        ViewBase? viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+
+                        // If a scroll change is required to bring it into view
+                        if (viewTab != null && ScrollIntoView(viewTab.ClientRectangle, false))
+                        {
+                            // Call ourself again to take change into account
+                            Layout(context);
+                        }
                     }
                 }
             }
@@ -632,7 +639,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render([DisallowNull] RenderContext context)
+        public override void Render(RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -772,7 +779,10 @@ namespace Krypton.Ribbon
 
         private void OnViewControlPaintBackground(object sender, PaintEventArgs e)
         {
-            PaintBackground?.Invoke(sender, e);
+            if (PaintBackground != null)
+            {
+                PaintBackground.Invoke(sender, e);
+            }
         }
         #endregion
     }

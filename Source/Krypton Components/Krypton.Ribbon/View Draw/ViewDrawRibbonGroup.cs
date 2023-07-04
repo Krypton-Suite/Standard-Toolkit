@@ -21,22 +21,22 @@ namespace Krypton.Ribbon
                                          IRibbonViewGroupSize
     {
         #region Instance Fields
-        private readonly int MINIMUM_GROUP_WIDTH; // = 32;
-        private readonly int NORMAL_BORDER_TOPLEFT2007; // = 2;
-        private readonly int NORMAL_BORDER_RIGHT2007; // = 4;
-        private readonly int NORMAL_BORDER_TOP2010; // = 3;
-        private readonly int NORMAL_BORDER_LEFT2010; // = 3;
-        private readonly int NORMAL_BORDER_RIGHT2010; // = 6;
-        private readonly int TOTAL_LEFT_RIGHT_BORDERS_2007; // = 7;
-        private readonly int TOTAL_LEFT_RIGHT_BORDERS_2010; // = 10;
-        private readonly int VERT_OFFSET_2007; // = 0;
-        private readonly int VERT_OFFSET_2010; // = 2;
-        private readonly Padding COLLAPSED_PADDING; // = new(2);
-        private readonly Padding COLLAPSED_IMAGE_PADDING_2007; // = new(3, 3, 3, 4);
-        private readonly Padding COLLAPSED_IMAGE_PADDING_2010; // = new(3, 1, 5, 5);
-        private readonly KryptonRibbon _ribbon;
+        private readonly int _minimumGroupWidth; // = 32;
+        private readonly int _normalBorderTopleft2007; // = 2;
+        private readonly int _normalBorderRight2007; // = 4;
+        private readonly int _normalBorderTop2010; // = 3;
+        private readonly int _normalBorderLeft2010; // = 3;
+        private readonly int _normalBorderRight2010; // = 6;
+        private readonly int _totalLeftRightBorders2007; // = 7;
+        private readonly int _totalLeftRightBorders2010; // = 10;
+        private readonly int _vertOffset2007; // = 0;
+        private readonly int _vertOffset2010; // = 2;
+        private readonly Padding _collapsedPadding; // = new(2);
+        private readonly Padding _collapsedImagePadding2007; // = new(3, 3, 3, 4);
+        private readonly Padding _collapsedImagePadding2010; // = new(3, 1, 5, 5);
+        private readonly KryptonRibbon? _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private VisualPopupGroup _popupGroup;
+        private VisualPopupGroup? _popupGroup;
         private ViewLayoutDocker _layoutCollapsedMain;
         private ViewDrawRibbonGroupText _viewCollapsedText1;
         private ViewDrawRibbonGroupText _viewCollapsedText2;
@@ -50,13 +50,13 @@ namespace Krypton.Ribbon
         private ViewLayoutRibbonGroupButton _viewNormalDialog;
         private ViewLayoutDocker _layoutNormalTitle;
         private ViewDrawRibbonGroupTitle _viewNormalTitle;
-        private PaletteRibbonContextBack _paletteContextBackArea;
-        private PaletteRibbonContextBack _paletteContextBorder;
+        private PaletteRibbonContextBack? _paletteContextBackArea;
+        private PaletteRibbonContextBack? _paletteContextBorder;
         private PaletteRibbonShape _lastRibbonShape;
-        private readonly NeedPaintHandler _needPaint;
-        private IDisposable _mementoRibbonBackArea;
-        private IDisposable _mementoRibbonBackBorder;
-        private IDisposable _mementoRibbonBack2;
+        private readonly NeedPaintHandler? _needPaint;
+        private IDisposable? _mementoRibbonBackArea;
+        private IDisposable? _mementoRibbonBackBorder;
+        private IDisposable? _mementoRibbonBack2;
         private IDisposable? _mementoStandardBack;
         private Control _container;
         private bool _collapsed;
@@ -70,9 +70,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroup([DisallowNull] KryptonRibbon ribbon,
-                                   [DisallowNull] KryptonRibbonGroup ribbonGroup,
-                                   [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroup(KryptonRibbon ribbon,
+                                   KryptonRibbonGroup ribbonGroup,
+                                   NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
@@ -90,26 +90,29 @@ namespace Krypton.Ribbon
             CreateCollapsedView();
 
             // We are always created in the normal state
-            Add(_layoutNormalMain);
+            if (_layoutNormalMain != null)
+            {
+                Add(_layoutNormalMain);
+            }
 
             // Set back reference to the actual group definition
             _ribbonGroup.GroupView = this;
 
             // Hook into changes in the ribbon button definition
             _ribbonGroup.PropertyChanged += OnGroupPropertyChanged;
-            MINIMUM_GROUP_WIDTH = (int)(32 * FactorDpiX);
-            NORMAL_BORDER_TOPLEFT2007 = (int)(2 * FactorDpiY);
-            NORMAL_BORDER_RIGHT2007 = (int)(4 * FactorDpiX);
-            NORMAL_BORDER_TOP2010 = (int)(3 * FactorDpiY);
-            NORMAL_BORDER_LEFT2010 = (int)(3 * FactorDpiX);
-            NORMAL_BORDER_RIGHT2010 = (int)(6 * FactorDpiX);
-            TOTAL_LEFT_RIGHT_BORDERS_2007 = (int)(7 * FactorDpiX);
-            TOTAL_LEFT_RIGHT_BORDERS_2010 = (int)(10 * FactorDpiX);
-            VERT_OFFSET_2007 = (int)(0 * FactorDpiY);
-            VERT_OFFSET_2010 = (int)(2 * FactorDpiY);
-            COLLAPSED_PADDING = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
-            COLLAPSED_IMAGE_PADDING_2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(4 * FactorDpiY));
-            COLLAPSED_IMAGE_PADDING_2010 = new Padding((int)(3 * FactorDpiX), (int)(1 * FactorDpiY), (int)(5 * FactorDpiX), (int)(5 * FactorDpiY));
+            _minimumGroupWidth = (int)(32 * FactorDpiX);
+            _normalBorderTopleft2007 = (int)(2 * FactorDpiY);
+            _normalBorderRight2007 = (int)(4 * FactorDpiX);
+            _normalBorderTop2010 = (int)(3 * FactorDpiY);
+            _normalBorderLeft2010 = (int)(3 * FactorDpiX);
+            _normalBorderRight2010 = (int)(6 * FactorDpiX);
+            _totalLeftRightBorders2007 = (int)(7 * FactorDpiX);
+            _totalLeftRightBorders2010 = (int)(10 * FactorDpiX);
+            _vertOffset2007 = (int)(0 * FactorDpiY);
+            _vertOffset2010 = (int)(2 * FactorDpiY);
+            _collapsedPadding = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
+            _collapsedImagePadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(4 * FactorDpiY));
+            _collapsedImagePadding2010 = new Padding((int)(3 * FactorDpiX), (int)(1 * FactorDpiY), (int)(5 * FactorDpiX), (int)(5 * FactorDpiY));
         }
 
         /// <summary>
@@ -187,13 +190,16 @@ namespace Krypton.Ribbon
             if (Collapsed)
             {
                 // Get the screen location of the collapsed view
-                Rectangle viewRect = _ribbon.KeyTipToScreen(_layoutCollapsedMain);
+                if (_ribbon != null)
+                {
+                    Rectangle viewRect = _ribbon.KeyTipToScreen(_layoutCollapsedMain);
 
-                // The keytip should be centered at the bottom of the view
-                Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
+                    // The keytip should be centered at the bottom of the view
+                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
 
-                keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipGroup, screenPt,
-                                              _layoutCollapsedMain.ClientRectangle, _collapsedController));
+                    keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipGroup, screenPt,
+                        _layoutCollapsedMain.ClientRectangle, _collapsedController));
+                }
             }
             else
             {
@@ -201,13 +207,16 @@ namespace Krypton.Ribbon
                 if (_ribbonGroup.DialogBoxLauncher)
                 {
                     // Get the screen location of the dialog button view
-                    Rectangle viewRect = _ribbon.KeyTipToScreen(_viewNormalDialog);
+                    if (_ribbon != null)
+                    {
+                        Rectangle viewRect = _ribbon.KeyTipToScreen(_viewNormalDialog);
 
-                    // The keytip should be centered at the bottom of the view
-                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
+                        // The keytip should be centered at the bottom of the view
+                        Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
 
-                    keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipDialogLauncher, screenPt,
-                                                  _viewNormalDialog.ClientRectangle, _viewNormalDialog.DialogButtonController));
+                        keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipDialogLauncher, screenPt,
+                            _viewNormalDialog.ClientRectangle, _viewNormalDialog.DialogButtonController));
+                    }
                 }
 
                 // Populate with key tips for the content of the group
@@ -223,7 +232,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetFirstFocusItem();
+            ViewBase? view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetFirstFocusItem();
 
             return view;
         }
@@ -236,7 +245,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetLastFocusItem();
+            ViewBase? view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetLastFocusItem();
 
             return view;
         }
@@ -251,7 +260,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (Collapsed)
             {
@@ -282,7 +291,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (Collapsed)
             {
@@ -378,7 +387,7 @@ namespace Krypton.Ribbon
             }
 
             // We only enforce min/max when not using the design helpers
-            if (!_ribbon.InDesignHelperMode)
+            if (_ribbon != null && !_ribbon.InDesignHelperMode)
             {
                 // If all permutations are above the maximum
                 if (firstUnderMax == -1)
@@ -442,10 +451,10 @@ namespace Krypton.Ribbon
 
             // Does the group allow itself to become collapsed?
             // (at design time we are never allowed to be collapsed)
-            if (_ribbonGroup.AllowCollapsed && !_ribbon.InDesignHelperMode)
+            if (_ribbon != null && _ribbonGroup.AllowCollapsed && !_ribbon.InDesignHelperMode)
             {
                 // We never allow a collapsed state if that is bigger than the smallest valid permutation
-                if (smallestWidth > MINIMUM_GROUP_WIDTH)
+                if (smallestWidth > _minimumGroupWidth)
                 {
                     // Find the size of the group when collapsed
                     var collapsed = Collapsed;
@@ -468,7 +477,7 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Solution size.</param>
-        public void SetSolutionSize(ItemSizeWidth[] size)
+        public void SetSolutionSize(ItemSizeWidth[]? size)
         {
             // Should we become collapsed?
             Collapsed = size == null;
@@ -485,8 +494,11 @@ namespace Krypton.Ribbon
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Size preferredSize = base.GetPreferredSize(context);
-            preferredSize.Width = Math.Max(preferredSize.Width, MINIMUM_GROUP_WIDTH);
-            preferredSize.Height = _ribbon.CalculatedValues.GroupHeight;
+            preferredSize.Width = Math.Max(preferredSize.Width, _minimumGroupWidth);
+            if (_ribbon != null)
+            {
+                preferredSize.Height = _ribbon.CalculatedValues.GroupHeight;
+            }
             return preferredSize;
         }
 
@@ -494,7 +506,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -502,7 +514,10 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Update the title element with the height of the group title area
-            _viewNormalTitle.Height = _ribbon.CalculatedValues.GroupTitleHeight;
+            if (_ribbon != null)
+            {
+                _viewNormalTitle.Height = _ribbon.CalculatedValues.GroupTitleHeight;
+            }
 
             // We only show the dialog box launcher button if group says we need one
             _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher;
@@ -566,7 +581,10 @@ namespace Krypton.Ribbon
 
                 if (needLayout)
                 {
-                    _ribbon.PerformLayout();
+                    if (_ribbon != null)
+                    {
+                        _ribbon.PerformLayout();
+                    }
                 }
             }
         }
@@ -583,21 +601,21 @@ namespace Krypton.Ribbon
                     {
                         default:
                         case PaletteRibbonShape.Office2007:
-                            _totalBorders = TOTAL_LEFT_RIGHT_BORDERS_2007;
-                            _layoutNormalMain.VertOffset = VERT_OFFSET_2007;
-                            _layoutNormalSepTop.SeparatorSize = new Size(NORMAL_BORDER_TOPLEFT2007, NORMAL_BORDER_TOPLEFT2007);
-                            _layoutNormalSepLeft.SeparatorSize = new Size(NORMAL_BORDER_TOPLEFT2007, NORMAL_BORDER_TOPLEFT2007);
-                            _layoutNormalSepRight.SeparatorSize = new Size(NORMAL_BORDER_RIGHT2007, NORMAL_BORDER_RIGHT2007);
-                            _layoutCollapsedImagePadding.PreferredPadding = COLLAPSED_IMAGE_PADDING_2007;
+                            _totalBorders = _totalLeftRightBorders2007;
+                            _layoutNormalMain.VertOffset = _vertOffset2007;
+                            _layoutNormalSepTop.SeparatorSize = new Size(_normalBorderTopleft2007, _normalBorderTopleft2007);
+                            _layoutNormalSepLeft.SeparatorSize = new Size(_normalBorderTopleft2007, _normalBorderTopleft2007);
+                            _layoutNormalSepRight.SeparatorSize = new Size(_normalBorderRight2007, _normalBorderRight2007);
+                            _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2007;
                             _lastRibbonShape = PaletteRibbonShape.Office2007;
                             break;
                         case PaletteRibbonShape.Office2010:
-                            _totalBorders = TOTAL_LEFT_RIGHT_BORDERS_2010;
-                            _layoutNormalMain.VertOffset = VERT_OFFSET_2010;
-                            _layoutNormalSepTop.SeparatorSize = new Size(NORMAL_BORDER_TOP2010, NORMAL_BORDER_TOP2010);
-                            _layoutNormalSepLeft.SeparatorSize = new Size(NORMAL_BORDER_LEFT2010, NORMAL_BORDER_LEFT2010);
-                            _layoutNormalSepRight.SeparatorSize = new Size(NORMAL_BORDER_RIGHT2010, NORMAL_BORDER_RIGHT2010);
-                            _layoutCollapsedImagePadding.PreferredPadding = COLLAPSED_IMAGE_PADDING_2010;
+                            _totalBorders = _totalLeftRightBorders2010;
+                            _layoutNormalMain.VertOffset = _vertOffset2010;
+                            _layoutNormalSepTop.SeparatorSize = new Size(_normalBorderTop2010, _normalBorderTop2010);
+                            _layoutNormalSepLeft.SeparatorSize = new Size(_normalBorderLeft2010, _normalBorderLeft2010);
+                            _layoutNormalSepRight.SeparatorSize = new Size(_normalBorderRight2010, _normalBorderRight2010);
+                            _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
                             _lastRibbonShape = PaletteRibbonShape.Office2010;
                             break;
                     }
@@ -610,7 +628,7 @@ namespace Krypton.Ribbon
             // Create a layout for the main area
             _layoutNormalMain = new ViewLayoutRibbonTitle();
 
-            if (_ribbon.InDesignMode)
+            if (_ribbon != null && _ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the group
                 ContextClickController controller = new();
@@ -620,34 +638,37 @@ namespace Krypton.Ribbon
 
             // Create layout elements
             _layoutNormalTitle = new ViewLayoutDocker();
-            _layoutNormalContent = new ViewLayoutRibbonGroupContent(_ribbon, _ribbonGroup, _needPaint);
-            _layoutNormalSepTop = new ViewLayoutRibbonSeparator(NORMAL_BORDER_TOPLEFT2007, true);
-            _layoutNormalSepLeft = new ViewLayoutRibbonSeparator(NORMAL_BORDER_TOPLEFT2007, true);
-            _layoutNormalSepRight = new ViewLayoutRibbonSeparator(NORMAL_BORDER_RIGHT2007, true);
+            if (_ribbon != null)
+            {
+                _layoutNormalContent = new ViewLayoutRibbonGroupContent(_ribbon, _ribbonGroup, _needPaint);
+                _layoutNormalSepTop = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
+                _layoutNormalSepLeft = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
+                _layoutNormalSepRight = new ViewLayoutRibbonSeparator(_normalBorderRight2007, true);
 
-            // Add layout elements to correct areas of the normal group
-            _layoutNormalMain.Add(_layoutNormalTitle, ViewDockStyle.Bottom);
-            _layoutNormalMain.Add(_layoutNormalSepTop, ViewDockStyle.Top);
-            _layoutNormalMain.Add(_layoutNormalSepLeft, ViewDockStyle.Left);
-            _layoutNormalMain.Add(_layoutNormalSepRight, ViewDockStyle.Right);
-            _layoutNormalMain.Add(_layoutNormalContent, ViewDockStyle.Fill);
+                // Add layout elements to correct areas of the normal group
+                _layoutNormalMain.Add(_layoutNormalTitle, ViewDockStyle.Bottom);
+                _layoutNormalMain.Add(_layoutNormalSepTop, ViewDockStyle.Top);
+                _layoutNormalMain.Add(_layoutNormalSepLeft, ViewDockStyle.Left);
+                _layoutNormalMain.Add(_layoutNormalSepRight, ViewDockStyle.Right);
+                _layoutNormalMain.Add(_layoutNormalContent, ViewDockStyle.Fill);
 
-            // Create and add the title string that fills remainder title area
-            _viewNormalTitle = new ViewDrawRibbonGroupTitle(_ribbon, _ribbonGroup);
-            _layoutNormalTitle.Add(_viewNormalTitle, ViewDockStyle.Fill);
+                // Create and add the title string that fills remainder title area
+                _viewNormalTitle = new ViewDrawRibbonGroupTitle(_ribbon, _ribbonGroup);
+                _layoutNormalTitle.Add(_viewNormalTitle, ViewDockStyle.Fill);
 
-            // Add the dialog box launcher button to the right side of title area
-            _viewNormalDialog = new ViewLayoutRibbonGroupButton(_ribbon, _ribbonGroup, _needPaint);
-            _layoutNormalContent.DialogView = _viewNormalDialog;
-            _layoutNormalTitle.Add(_viewNormalDialog, ViewDockStyle.Right);
+                // Add the dialog box launcher button to the right side of title area
+                _viewNormalDialog = new ViewLayoutRibbonGroupButton(_ribbon, _ribbonGroup, _needPaint);
+                _layoutNormalContent.DialogView = _viewNormalDialog;
+                _layoutNormalTitle.Add(_viewNormalDialog, ViewDockStyle.Right);
 
-            // Use this class to return the context color for any null values
-            _paletteContextBackArea = new PaletteRibbonContextBack(_ribbon);
-            _paletteContextBorder = new PaletteRibbonContextBack(_ribbon);
+                // Use this class to return the context color for any null values
+                _paletteContextBackArea = new PaletteRibbonContextBack(_ribbon);
+                _paletteContextBorder = new PaletteRibbonContextBack(_ribbon);
+            }
 
             // All values are equal to a default of Office 2007 shape
             _lastRibbonShape = PaletteRibbonShape.Office2007;
-            _totalBorders = TOTAL_LEFT_RIGHT_BORDERS_2007;
+            _totalBorders = _totalLeftRightBorders2007;
         }
 
         private void CreateCollapsedView()
@@ -656,40 +677,43 @@ namespace Krypton.Ribbon
             _layoutCollapsedMain = new ViewLayoutDocker();
 
             // Add a mouse controller so we know when it has been pressed
-            _collapsedController = new CollapsedGroupController(_ribbon, _layoutCollapsedMain, _needPaint);
-            _collapsedController.Click += OnCollapsedClick;
-            _layoutCollapsedMain.MouseController = _collapsedController;
-            _layoutCollapsedMain.SourceController = _collapsedController;
-            _layoutCollapsedMain.KeyController = _collapsedController;
+            if (_ribbon != null)
+            {
+                _collapsedController = new CollapsedGroupController(_ribbon, _layoutCollapsedMain, _needPaint);
+                _collapsedController.Click += OnCollapsedClick;
+                _layoutCollapsedMain.MouseController = _collapsedController;
+                _layoutCollapsedMain.SourceController = _collapsedController;
+                _layoutCollapsedMain.KeyController = _collapsedController;
 
-            // Reduce layout area to remove the group border
-            ViewLayoutRibbonPadding layoutCollapsedInsidePadding = new(COLLAPSED_PADDING);
-            _layoutCollapsedMain.Add(layoutCollapsedInsidePadding, ViewDockStyle.Fill);
+                // Reduce layout area to remove the group border
+                ViewLayoutRibbonPadding layoutCollapsedInsidePadding = new(_collapsedPadding);
+                _layoutCollapsedMain.Add(layoutCollapsedInsidePadding, ViewDockStyle.Fill);
 
-            // Position at top an area that is padded for containing the image
-            ViewLayoutDocker layoutCollapsedInside = new();
-            layoutCollapsedInsidePadding.Add(layoutCollapsedInside);
+                // Position at top an area that is padded for containing the image
+                ViewLayoutDocker layoutCollapsedInside = new();
+                layoutCollapsedInsidePadding.Add(layoutCollapsedInside);
 
-            // Create the layout for the second line of text
-            ViewLayoutRibbonRowCenter layoutCollapsedText2 = new();
-            _viewCollapsedText2 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, false);
-            layoutCollapsedText2.Add(_viewCollapsedText2);
-            layoutCollapsedText2.Add(new ViewLayoutRibbonSeparator(2, 10, true));
-            layoutCollapsedText2.Add(new ViewDrawRibbonDropArrow(_ribbon));
-            layoutCollapsedText2.Add(new ViewLayoutRibbonSeparator(2, 10, true));
-            layoutCollapsedInside.Add(layoutCollapsedText2, ViewDockStyle.Top);
+                // Create the layout for the second line of text
+                ViewLayoutRibbonRowCenter layoutCollapsedText2 = new();
+                _viewCollapsedText2 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, false);
+                layoutCollapsedText2.Add(_viewCollapsedText2);
+                layoutCollapsedText2.Add(new ViewLayoutRibbonSeparator(2, 10, true));
+                layoutCollapsedText2.Add(new ViewDrawRibbonDropArrow(_ribbon));
+                layoutCollapsedText2.Add(new ViewLayoutRibbonSeparator(2, 10, true));
+                layoutCollapsedInside.Add(layoutCollapsedText2, ViewDockStyle.Top);
 
-            // Add the first line of text
-            _viewCollapsedText1 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, true);
-            layoutCollapsedInside.Add(_viewCollapsedText1, ViewDockStyle.Top);
+                // Add the first line of text
+                _viewCollapsedText1 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, true);
+                layoutCollapsedInside.Add(_viewCollapsedText1, ViewDockStyle.Top);
 
-            // Add group image frame
-            _layoutCollapsedImagePadding = new ViewLayoutRibbonCenterPadding(COLLAPSED_IMAGE_PADDING_2007);
-            layoutCollapsedInside.Add(_layoutCollapsedImagePadding, ViewDockStyle.Top);
+                // Add group image frame
+                _layoutCollapsedImagePadding = new ViewLayoutRibbonCenterPadding(_collapsedImagePadding2007);
+                layoutCollapsedInside.Add(_layoutCollapsedImagePadding, ViewDockStyle.Top);
 
-            // Finally we add the actual drawing element for the collapsed group image
-            ViewDrawRibbonGroupImage drawCollapsedImage = new(_ribbon, _ribbonGroup, this);
-            _layoutCollapsedImagePadding.Add(drawCollapsedImage);
+                // Finally we add the actual drawing element for the collapsed group image
+                ViewDrawRibbonGroupImage drawCollapsedImage = new(_ribbon, _ribbonGroup, this);
+                _layoutCollapsedImagePadding.Add(drawCollapsedImage);
+            }
         }
 
         private void RenderNormalBefore(RenderContext context)
@@ -698,11 +722,11 @@ namespace Krypton.Ribbon
 
             IPaletteRibbonBack paletteBackArea;
             IPaletteRibbonBack paletteBorder;
-            IPaletteRibbonBack paletteTitle;
+            IPaletteRibbonBack? paletteTitle;
 
             // Are we a group inside a context tab?
             PaletteState elementState;
-            if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
+            if (_ribbon != null && !string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
             {
                 elementState = Tracking ? PaletteState.ContextTracking : PaletteState.ContextNormal;
             }
@@ -711,86 +735,101 @@ namespace Krypton.Ribbon
                 elementState = Tracking ? PaletteState.Tracking : PaletteState.Normal;
             }
 
-            // Decide on the palette to use
-            switch (elementState)
+            if (_ribbon != null)
             {
-                case PaletteState.ContextNormal:
-                    paletteBackArea = _ribbon.StateContextNormal.RibbonGroupArea;
-                    paletteBorder = _ribbon.StateContextNormal.RibbonGroupNormalBorder;
-                    paletteTitle = _ribbon.StateContextNormal.RibbonGroupNormalTitle;
-                    break;
-                case PaletteState.ContextTracking:
-                    paletteBackArea = _ribbon.StateContextTracking.RibbonGroupArea;
-                    paletteBorder = _ribbon.StateContextTracking.RibbonGroupNormalBorder;
-                    paletteTitle = _ribbon.StateContextTracking.RibbonGroupNormalTitle;
-                    break;
-                case PaletteState.Tracking:
-                    paletteBackArea = _ribbon.StateTracking.RibbonGroupArea;
-                    paletteBorder = _ribbon.StateTracking.RibbonGroupNormalBorder;
-                    paletteTitle = _ribbon.StateTracking.RibbonGroupNormalTitle;
-                    break;
-                case PaletteState.Normal:
-                default:
-                    paletteBackArea = _ribbon.StateNormal.RibbonGroupArea;
-                    paletteBorder = _ribbon.StateNormal.RibbonGroupNormalBorder;
-                    paletteTitle = _ribbon.StateNormal.RibbonGroupNormalTitle;
-                    break;
+                // Decide on the palette to use
+                switch (elementState)
+                {
+                    case PaletteState.ContextNormal:
+                        paletteBackArea = _ribbon.StateContextNormal.RibbonGroupArea;
+                        paletteBorder = _ribbon.StateContextNormal.RibbonGroupNormalBorder;
+                        paletteTitle = _ribbon.StateContextNormal.RibbonGroupNormalTitle;
+                        break;
+                    case PaletteState.ContextTracking:
+                        paletteBackArea = _ribbon.StateContextTracking.RibbonGroupArea;
+                        paletteBorder = _ribbon.StateContextTracking.RibbonGroupNormalBorder;
+                        paletteTitle = _ribbon.StateContextTracking.RibbonGroupNormalTitle;
+                        break;
+                    case PaletteState.Tracking:
+                        paletteBackArea = _ribbon.StateTracking.RibbonGroupArea;
+                        paletteBorder = _ribbon.StateTracking.RibbonGroupNormalBorder;
+                        paletteTitle = _ribbon.StateTracking.RibbonGroupNormalTitle;
+                        break;
+                    case PaletteState.Normal:
+                    default:
+                        paletteBackArea = _ribbon.StateNormal.RibbonGroupArea;
+                        paletteBorder = _ribbon.StateNormal.RibbonGroupNormalBorder;
+                        paletteTitle = _ribbon.StateNormal.RibbonGroupNormalTitle;
+                        break;
+                }
+
+                ElementState = elementState;
+
+                // Indicate the showing of the group inside a popup by adding focus override
+                if (_ribbonGroup.ShowingAsPopup)
+                {
+                    elementState |= PaletteState.FocusOverride;
+                }
+
+                if (Tracking)
+                {
+                    _paletteContextBackArea.SetInherit(paletteBackArea);
+                    if (context.Renderer != null)
+                    {
+                        _mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+                            context,
+                            drawRect, elementState, _paletteContextBackArea, VisualOrientation.Top, false,
+                            _mementoRibbonBackArea);
+                    }
+                }
+
+                // Draw the group border
+                _paletteContextBorder.SetInherit(paletteBorder);
+                if (context.Renderer != null)
+                {
+                    _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+                        context,
+                        drawRect, elementState, _paletteContextBorder, VisualOrientation.Top, false,
+                        _mementoRibbonBackBorder);
+
+                    // Reduce the drawing rectangle to just the title area
+                    Rectangle titleRect = drawRect;
+                    titleRect.X++;
+                    titleRect.Width -= 2;
+                    titleRect.Y = titleRect.Bottom - _viewNormalTitle.Height;
+                    titleRect.Height = _viewNormalTitle.Height - 1;
+
+                    if (paletteBackArea.GetRibbonBackColorStyle(State) ==
+                        PaletteRibbonColorStyle.RibbonGroupNormalBorderTrackingLight)
+                    {
+                        // Redraw the title area inside the light border area
+                        titleRect.X++;
+                        titleRect.Width -= 2;
+                        titleRect.Height--;
+                    }
+
+                    // Draw the group title
+                    _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context,
+                        titleRect, State, paletteTitle, VisualOrientation.Top, false, _mementoRibbonBack2);
+                }
             }
-
-            ElementState = elementState;
-
-            // Indicate the showing of the group inside a popup by adding focus override
-            if (_ribbonGroup.ShowingAsPopup)
-            {
-                elementState |= PaletteState.FocusOverride;
-            }
-
-            if (Tracking)
-            {
-                _paletteContextBackArea.SetInherit(paletteBackArea);
-                _mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context,
-                    drawRect, elementState, _paletteContextBackArea, VisualOrientation.Top, false,
-                    _mementoRibbonBackArea);
-            }
-
-            // Draw the group border
-            _paletteContextBorder.SetInherit(paletteBorder);
-            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, elementState, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
-
-            // Reduce the drawing rectangle to just the title area
-            Rectangle titleRect = drawRect;
-            titleRect.X++;
-            titleRect.Width -= 2;
-            titleRect.Y = titleRect.Bottom - _viewNormalTitle.Height;
-            titleRect.Height = _viewNormalTitle.Height - 1;
-
-            if (paletteBackArea.GetRibbonBackColorStyle(State) == PaletteRibbonColorStyle.RibbonGroupNormalBorderTrackingLight)
-            {
-                // Redraw the title area inside the light border area
-                titleRect.X++;
-                titleRect.Width -= 2;
-                titleRect.Height--;
-            }
-
-            // Draw the group title
-            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, titleRect, State, paletteTitle, VisualOrientation.Top, false, _mementoRibbonBack2);
         }
 
         private void RenderCollapsedBefore(RenderContext context)
         {
             Rectangle drawRect = ClientRectangle;
 
-            IPaletteRibbonBack paletteBack;
+            IPaletteRibbonBack? paletteBack;
             IPaletteRibbonBack paletteBorder;
 
-            if (_collapsedController.HasFocus)
+            if (_collapsedController != null && _collapsedController.HasFocus)
             {
                 ElementState = PaletteState.Tracking;
             }
             else
             {
                 // Are we a group inside a context tab?
-                if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
+                if (_ribbon != null && !string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
                 {
                     ElementState = Tracking ? PaletteState.ContextTracking : PaletteState.ContextNormal;
                 }
@@ -800,38 +839,47 @@ namespace Krypton.Ribbon
                 }
             }
 
-            // Decide on the palette to use
-            switch (State)
+            if (_ribbon != null)
             {
-                case PaletteState.ContextNormal:
-                    paletteBack = _ribbon.StateContextNormal.RibbonGroupCollapsedBack;
-                    paletteBorder = _ribbon.StateContextNormal.RibbonGroupCollapsedBorder;
-                    break;
-                case PaletteState.ContextTracking:
-                    paletteBack = _ribbon.StateContextTracking.RibbonGroupCollapsedBack;
-                    paletteBorder = _ribbon.StateContextTracking.RibbonGroupCollapsedBorder;
-                    break;
-                case PaletteState.Tracking:
-                    paletteBack = _ribbon.StateTracking.RibbonGroupCollapsedBack;
-                    paletteBorder = _ribbon.StateTracking.RibbonGroupCollapsedBorder;
-                    break;
-                case PaletteState.Normal:
-                default:
-                    paletteBack = _ribbon.StateNormal.RibbonGroupCollapsedBack;
-                    paletteBorder = _ribbon.StateNormal.RibbonGroupCollapsedBorder;
-                    break;
+                // Decide on the palette to use
+                switch (State)
+                {
+                    case PaletteState.ContextNormal:
+                        paletteBack = _ribbon.StateContextNormal.RibbonGroupCollapsedBack;
+                        paletteBorder = _ribbon.StateContextNormal.RibbonGroupCollapsedBorder;
+                        break;
+                    case PaletteState.ContextTracking:
+                        paletteBack = _ribbon.StateContextTracking.RibbonGroupCollapsedBack;
+                        paletteBorder = _ribbon.StateContextTracking.RibbonGroupCollapsedBorder;
+                        break;
+                    case PaletteState.Tracking:
+                        paletteBack = _ribbon.StateTracking.RibbonGroupCollapsedBack;
+                        paletteBorder = _ribbon.StateTracking.RibbonGroupCollapsedBorder;
+                        break;
+                    case PaletteState.Normal:
+                    default:
+                        paletteBack = _ribbon.StateNormal.RibbonGroupCollapsedBack;
+                        paletteBorder = _ribbon.StateNormal.RibbonGroupCollapsedBorder;
+                        break;
+                }
+
+                // Draw the group border
+                _paletteContextBorder.SetInherit(paletteBorder);
+                if (context.Renderer != null)
+                {
+                    _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+                        context,
+                        drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+                    //_mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackArea);
+
+                    Rectangle backRect = drawRect;
+                    backRect.Inflate(-2, -2);
+
+                    // Draw the inside background
+                    _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context,
+                        backRect, State, paletteBack, VisualOrientation.Top, false, _mementoRibbonBack2);
+                }
             }
-
-            // Draw the group border
-            _paletteContextBorder.SetInherit(paletteBorder);
-            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
-            //_mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackArea);
-
-            Rectangle backRect = drawRect;
-            backRect.Inflate(-2, -2);
-
-            // Draw the inside background
-            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, false, _mementoRibbonBack2);
         }
 
         private void RenderCollapsedPressedBefore(RenderContext context)
@@ -841,30 +889,43 @@ namespace Krypton.Ribbon
                 default:
                 case PaletteRibbonShape.Office2007:
                     {
-                        IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBack;
-                        IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBorder;
-
-                        // Do we need to draw the background?
-                        if (paletteBack.GetBackDraw(PaletteState.Pressed) == InheritBool.True)
+                        if (_ribbon != null)
                         {
-                            // Get the border path which the background is clipped to drawing within
-                            using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, PaletteState.Pressed);
-                            Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, PaletteState.Pressed, VisualOrientation.Top);
+                            IPaletteBack? paletteBack = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBack;
+                            IPaletteBorder? paletteBorder = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBorder;
 
-                            // Apply the padding depending on the orientation
-                            Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
+                            // Do we need to draw the background?
+                            if (paletteBack.GetBackDraw(PaletteState.Pressed) == InheritBool.True)
+                            {
+                                // Get the border path which the background is clipped to drawing within
+                                if (context.Renderer != null)
+                                {
+                                    if (paletteBorder != null)
+                                    {
+                                        using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, PaletteState.Pressed);
+                                        Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, PaletteState.Pressed, VisualOrientation.Top);
 
-                            // Render the background inside the border path
-                            _mementoStandardBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
-                                paletteBack, VisualOrientation.Top,
-                                PaletteState.Pressed, _mementoStandardBack);
-                        }
+                                        // Apply the padding depending on the orientation
+                                        Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
-                        // Do we need to draw the border?
-                        if (paletteBorder.GetBorderDraw(PaletteState.Pressed) == InheritBool.True)
-                        {
-                            context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder,
-                                VisualOrientation.Top, PaletteState.Pressed);
+                                        // Render the background inside the border path
+                                        _mementoStandardBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
+                                            paletteBack, VisualOrientation.Top,
+                                            PaletteState.Pressed, _mementoStandardBack);
+                                    }
+                                }
+                            }
+
+                            // Do we need to draw the border?
+                            if (paletteBorder != null && paletteBorder.GetBorderDraw(PaletteState.Pressed) == InheritBool.True)
+                            {
+                                if (context.Renderer != null)
+                                {
+                                    context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle,
+                                        paletteBorder,
+                                        VisualOrientation.Top, PaletteState.Pressed);
+                                }
+                            }
                         }
                     }
                     break;
@@ -872,26 +933,36 @@ namespace Krypton.Ribbon
                     {
                         Rectangle drawRect = ClientRectangle;
 
-                        IPaletteRibbonBack paletteBack = _ribbon.StatePressed.RibbonGroupCollapsedBack;
-                        IPaletteRibbonBack paletteBorder = _ribbon.StatePressed.RibbonGroupCollapsedBorder;
-
-                        PaletteState state = PaletteState.Pressed;
-
-                        // Are we a group inside a context tab?
-                        if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
+                        if (_ribbon != null)
                         {
-                            state = PaletteState.ContextPressed;
+                            IPaletteRibbonBack? paletteBack = _ribbon.StatePressed.RibbonGroupCollapsedBack;
+                            IPaletteRibbonBack paletteBorder = _ribbon.StatePressed.RibbonGroupCollapsedBorder;
+
+                            PaletteState state = PaletteState.Pressed;
+
+                            // Are we a group inside a context tab?
+                            if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
+                            {
+                                state = PaletteState.ContextPressed;
+                            }
+
+                            // Draw the group border
+                            _paletteContextBorder.SetInherit(paletteBorder);
+                            if (context.Renderer != null)
+                            {
+                                _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+                                    context, drawRect, state, _paletteContextBorder, VisualOrientation.Top, false,
+                                    _mementoRibbonBackBorder);
+
+                                Rectangle backRect = drawRect;
+                                backRect.Inflate(-2, -2);
+
+                                // Draw the inside background
+                                _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+                                    context, backRect, state, paletteBack, VisualOrientation.Top, false,
+                                    _mementoRibbonBack2);
+                            }
                         }
-
-                        // Draw the group border
-                        _paletteContextBorder.SetInherit(paletteBorder);
-                        _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
-
-                        Rectangle backRect = drawRect;
-                        backRect.Inflate(-2, -2);
-
-                        // Draw the inside background
-                        _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, state, paletteBack, VisualOrientation.Top, false, _mementoRibbonBack2);
                     }
                     break;
             }
@@ -927,7 +998,7 @@ namespace Krypton.Ribbon
         private void OnCollapsedClick(object sender, MouseEventArgs e)
         {
             // We do not operate the collapsed button at design time
-            if (!_ribbon.InDesignMode)
+            if (_ribbon != null && !_ribbon.InDesignMode)
             {
                 // We are pressed until the popup window is removed
                 Pressed = true;
@@ -985,7 +1056,8 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((_ribbonGroup.RibbonTab != null) &&
+                if (_ribbon != null &&
+                    (_ribbonGroup.RibbonTab != null) &&
                     (_ribbon.SelectedTab == _ribbonGroup.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -999,7 +1071,8 @@ namespace Krypton.Ribbon
                 if (_ribbonGroup.Visible)
                 {
                     // ...and on the currently selected tab then...
-                    if ((_ribbonGroup.RibbonTab != null) &&
+                    if (_ribbon != null &&
+                        (_ribbonGroup.RibbonTab != null) &&
                         (_ribbon.SelectedTab == _ribbonGroup.RibbonTab))
                     {
                         // ...repaint it right now

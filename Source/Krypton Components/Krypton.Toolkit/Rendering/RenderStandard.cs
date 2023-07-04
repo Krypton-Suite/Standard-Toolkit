@@ -1075,7 +1075,7 @@ namespace Krypton.Toolkit
                                                   { Size.Empty, Size.Empty, Size.Empty } };
 
             // Create a memento for storing calculations
-            using StandardContentMemento memento = new();
+            using StandardContentMemento? memento = new();
             // Cache the size of a spacing gap
             var spacingGap = palette.GetContentAdjacentGap(state);
 
@@ -1138,7 +1138,7 @@ namespace Krypton.Toolkit
         /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Memento with cached information.</returns>
-        public override IDisposable LayoutContent([DisallowNull] ViewLayoutContext context,
+        public override IDisposable? LayoutContent([DisallowNull] ViewLayoutContext context,
                                                   Rectangle availableRect,
                                                   [DisallowNull] IPaletteContent palette,
                                                   [DisallowNull] IContentValues values,
@@ -1205,7 +1205,7 @@ namespace Krypton.Toolkit
                                                   { Size.Empty, Size.Empty, Size.Empty } };
 
             // Create a memento to return to caller
-            StandardContentMemento memento = new();
+            StandardContentMemento? memento = new();
 
             // Cache the size of a spacing gap
             var spacingGap = palette.GetContentAdjacentGap(state);
@@ -1299,7 +1299,7 @@ namespace Krypton.Toolkit
         public override void DrawContent([DisallowNull] RenderContext context,
                                          Rectangle displayRect,
                                          [DisallowNull] IPaletteContent palette,
-                                         [DisallowNull] IDisposable memento,
+                                         [DisallowNull] IDisposable? memento,
                                          VisualOrientation orientation,
                                          PaletteState state,
                                          bool composition,
@@ -2038,7 +2038,7 @@ namespace Krypton.Toolkit
                                                    RenderContext context,
                                                    Rectangle rect,
                                                    PaletteState state,
-                                                   IPaletteRibbonBack palette,
+                                                   IPaletteRibbonBack? palette,
                                                    VisualOrientation orientation,
                                                    bool composition,
                                                    IDisposable? memento)
@@ -5684,7 +5684,7 @@ namespace Krypton.Toolkit
             return c as KryptonForm;
         }
 
-        private static void AllocateImageSpace([DisallowNull] StandardContentMemento memento,
+        private static void AllocateImageSpace([DisallowNull] StandardContentMemento? memento,
             [DisallowNull] IPaletteContent? paletteContent,
             [DisallowNull] IContentValues contentValues,
                                                PaletteState state,
@@ -5741,7 +5741,7 @@ namespace Krypton.Toolkit
 
         private static void AllocateShortTextSpace(ViewLayoutContext context,
                                                    Graphics? g,
-                                                   StandardContentMemento memento,
+                                                   StandardContentMemento? memento,
                                                    [DisallowNull] IPaletteContent? paletteContent,
                                                    IContentValues contentValues,
                                                    PaletteState state,
@@ -5828,7 +5828,7 @@ namespace Krypton.Toolkit
 
         private static void AllocateLongTextSpace(ViewLayoutContext context,
                                                   Graphics? g,
-                                                  [DisallowNull] StandardContentMemento memento,
+                                                  [DisallowNull] StandardContentMemento? memento,
                                                   [DisallowNull] IPaletteContent? paletteContent,
                                                   IContentValues contentValues,
                                                   PaletteState state,
@@ -6146,7 +6146,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void PositionAlignContent([DisallowNull] StandardContentMemento memento,
+        private static void PositionAlignContent([DisallowNull] StandardContentMemento? memento,
             [DisallowNull] IPaletteContent paletteContent,
                                                  PaletteState state,
                                                  RightToLeft rtl,
@@ -7121,7 +7121,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupAreaBorder1And2(RenderContext context,
                                                                      Rectangle rect,
                                                                      PaletteState state,
-                                                                     IPaletteRibbonBack palette,
+                                                                     IPaletteRibbonBack? palette,
                                                                      bool limited,
                                                                      bool fading,
                                                                      IDisposable? memento)
@@ -7251,7 +7251,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupAreaBorder3And4(RenderContext context,
                                                                      Rectangle rect,
                                                                      PaletteState state,
-                                                                     IPaletteRibbonBack palette,
+                                                                     IPaletteRibbonBack? palette,
                                                                      IDisposable memento,
                                                                      bool gradientTop)
         {
@@ -7332,7 +7332,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupAreaBorderContext(RenderContext context,
                                                                        Rectangle rect,
                                                                        PaletteState state,
-                                                                       IPaletteRibbonBack palette,
+                                                                       IPaletteRibbonBack? palette,
                                                                        IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -7448,7 +7448,7 @@ namespace Krypton.Toolkit
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
-                                                                IPaletteRibbonBack palette,
+                                                                IPaletteRibbonBack? palette,
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento)
         {
@@ -7926,7 +7926,7 @@ namespace Krypton.Toolkit
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
-                                                                IPaletteRibbonBack palette,
+                                                                IPaletteRibbonBack? palette,
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento,
                                                                 bool standard)
@@ -8204,7 +8204,7 @@ namespace Krypton.Toolkit
                                                              RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             IPaletteRibbonBack palette,
+                                                             IPaletteRibbonBack? palette,
                                                              VisualOrientation orientation,
                                                              IDisposable memento)
         {
@@ -8496,7 +8496,7 @@ namespace Krypton.Toolkit
                                                            RenderContext context,
                                                            Rectangle rect,
                                                            PaletteState state,
-                                                           IPaletteRibbonBack palette,
+                                                           IPaletteRibbonBack? palette,
                                                            VisualOrientation orientation,
                                                            IDisposable memento)
         {
@@ -8814,7 +8814,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonTabSelected2007(RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
-                                                                IPaletteRibbonBack palette,
+                                                                IPaletteRibbonBack? palette,
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento)
         {
@@ -9110,7 +9110,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonTabSelected2010(RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
-                                                                IPaletteRibbonBack palette,
+                                                                IPaletteRibbonBack? palette,
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento,
                                                                 bool standard)
@@ -9479,7 +9479,7 @@ namespace Krypton.Toolkit
                                                                    RenderContext context,
                                                                    Rectangle rect,
                                                                    PaletteState state,
-                                                                   IPaletteRibbonBack palette,
+                                                                   IPaletteRibbonBack? palette,
                                                                    VisualOrientation orientation,
                                                                    IDisposable memento)
         {
@@ -9792,7 +9792,7 @@ namespace Krypton.Toolkit
                                                              RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             IPaletteRibbonBack palette,
+                                                             IPaletteRibbonBack? palette,
                                                              VisualOrientation orientation,
                                                              IDisposable memento,
                                                              bool alternate)
@@ -10573,7 +10573,7 @@ namespace Krypton.Toolkit
                                                                  RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
-                                                                 IPaletteRibbonBack palette,
+                                                                 IPaletteRibbonBack? palette,
                                                                  IDisposable memento,
                                                                  bool pressed,
                                                                  bool tracking,
@@ -10658,7 +10658,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable? DrawRibbonGroupNormalBorder(RenderContext context,
                                                                   Rectangle rect,
                                                                   PaletteState state,
-                                                                  IPaletteRibbonBack palette,
+                                                                  IPaletteRibbonBack? palette,
                                                                   bool tracking,
                                                                   bool lightInside,
                                                                   IDisposable? memento)
@@ -10774,7 +10774,7 @@ namespace Krypton.Toolkit
                                                                      RenderContext context,
                                                                      Rectangle rect,
                                                                      PaletteState state,
-                                                                     IPaletteRibbonBack palette,
+                                                                     IPaletteRibbonBack? palette,
                                                                      IDisposable memento,
                                                                      bool pressed,
                                                                      bool tracking,
@@ -10859,7 +10859,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupNormalTitle(RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
-                                                                 IPaletteRibbonBack palette,
+                                                                 IPaletteRibbonBack? palette,
                                                                  IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -10918,7 +10918,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupCollapsedBorder(RenderContext context,
                                                                      Rectangle rect,
                                                                      PaletteState state,
-                                                                     IPaletteRibbonBack palette,
+                                                                     IPaletteRibbonBack? palette,
                                                                      IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11002,7 +11002,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupCollapsedFrameBorder(RenderContext context,
                                                                           Rectangle rect,
                                                                           PaletteState state,
-                                                                          IPaletteRibbonBack palette,
+                                                                          IPaletteRibbonBack? palette,
                                                                           IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11067,7 +11067,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupGradientOne(RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
-                                                                 IPaletteRibbonBack palette,
+                                                                 IPaletteRibbonBack? palette,
                                                                  IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11118,7 +11118,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonGroupGradientTwo(RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
-                                                                 IPaletteRibbonBack palette,
+                                                                 IPaletteRibbonBack? palette,
                                                                  float percent,
                                                                  IDisposable memento)
         {
@@ -11178,7 +11178,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonQATMinibarSingle(RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
-                                                                 IPaletteRibbonBack palette,
+                                                                 IPaletteRibbonBack? palette,
                                                                  bool composition,
                                                                  IDisposable memento)
         {
@@ -11304,7 +11304,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonQATMinibarDouble(RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
-                                                                 IPaletteRibbonBack palette,
+                                                                 IPaletteRibbonBack? palette,
                                                                  bool composition,
                                                                  IDisposable memento)
         {
@@ -11426,7 +11426,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonLinear(RenderContext context,
                                                        Rectangle rect,
                                                        PaletteState state,
-                                                       IPaletteRibbonBack palette,
+                                                       IPaletteRibbonBack? palette,
                                                        IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11472,7 +11472,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonLinearBorder(RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             IPaletteRibbonBack palette,
+                                                             IPaletteRibbonBack? palette,
                                                              IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11532,7 +11532,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonAppMenuInner(RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             IPaletteRibbonBack palette,
+                                                             IPaletteRibbonBack? palette,
                                                              IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11582,7 +11582,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonAppMenuOuter(RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             IPaletteRibbonBack palette,
+                                                             IPaletteRibbonBack? palette,
                                                              IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11643,7 +11643,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonQATFullbarRound(RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
-                                                                IPaletteRibbonBack palette,
+                                                                IPaletteRibbonBack? palette,
                                                                 IDisposable memento)
         {
             // We never draw the top line
@@ -11729,7 +11729,7 @@ namespace Krypton.Toolkit
         protected virtual IDisposable DrawRibbonQATFullbarSquare(RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
-                                                                 IPaletteRibbonBack palette,
+                                                                 IPaletteRibbonBack? palette,
                                                                  IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11787,7 +11787,7 @@ namespace Krypton.Toolkit
                                                             RenderContext context,
                                                             Rectangle rect,
                                                             PaletteState state,
-                                                            IPaletteRibbonBack palette,
+                                                            IPaletteRibbonBack? palette,
                                                             IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })

@@ -18,24 +18,24 @@ namespace Krypton.Navigator
     public class PaletteRedirectRibbonTabContent : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteRibbonBack _disabledBack;
-        private IPaletteRibbonBack _normalBack;
-        private IPaletteRibbonBack _pressedBack;
-        private IPaletteRibbonBack _trackingBack;
-        private IPaletteRibbonBack _selectedBack;
-        private IPaletteRibbonBack _focusOverrideBack;
-        private IPaletteRibbonText _disabledText;
-        private IPaletteRibbonText _normalText;
-        private IPaletteRibbonText _pressedText;
-        private IPaletteRibbonText _trackingText;
-        private IPaletteRibbonText _selectedText;
-        private IPaletteRibbonText _focusOverrideText;
-        private IPaletteContent _disabledContent;
-        private IPaletteContent _normalContent;
-        private IPaletteContent _pressedContent;
-        private IPaletteContent _trackingContent;
-        private IPaletteContent _selectedContent;
-        private IPaletteContent _focusOverrideContent;
+        private IPaletteRibbonBack? _disabledBack;
+        private IPaletteRibbonBack? _normalBack;
+        private IPaletteRibbonBack? _pressedBack;
+        private IPaletteRibbonBack? _trackingBack;
+        private IPaletteRibbonBack? _selectedBack;
+        private IPaletteRibbonBack? _focusOverrideBack;
+        private IPaletteRibbonText? _disabledText;
+        private IPaletteRibbonText? _normalText;
+        private IPaletteRibbonText? _pressedText;
+        private IPaletteRibbonText? _trackingText;
+        private IPaletteRibbonText? _selectedText;
+        private IPaletteRibbonText? _focusOverrideText;
+        private IPaletteContent? _disabledContent;
+        private IPaletteContent? _normalContent;
+        private IPaletteContent? _pressedContent;
+        private IPaletteContent? _trackingContent;
+        private IPaletteContent? _selectedContent;
+        private IPaletteContent? _focusOverrideContent;
         #endregion
 
         #region Identity
@@ -74,24 +74,24 @@ namespace Krypton.Navigator
         /// <param name="selectedContent">Redirection for content selected states requests.</param>
         /// <param name="focusOverrideContent">Redirection for content focus override state requests.</param>
         public PaletteRedirectRibbonTabContent(PaletteBase? target,
-                                               IPaletteRibbonBack disabledBack,
-                                               IPaletteRibbonBack normalBack,
-                                               IPaletteRibbonBack pressedBack,
-                                               IPaletteRibbonBack trackingBack,
-                                               IPaletteRibbonBack selectedBack,
-                                               IPaletteRibbonBack focusOverrideBack,
-                                               IPaletteRibbonText disabledText,
-                                               IPaletteRibbonText normalText,
-                                               IPaletteRibbonText pressedText,
-                                               IPaletteRibbonText trackingText,
-                                               IPaletteRibbonText selectedText,
-                                               IPaletteRibbonText focusOverrideText,
-                                               IPaletteContent disabledContent,
-                                               IPaletteContent normalContent,
-                                               IPaletteContent pressedContent,
-                                               IPaletteContent trackingContent,
-                                               IPaletteContent selectedContent,
-                                               IPaletteContent focusOverrideContent)
+                                               IPaletteRibbonBack? disabledBack,
+                                               IPaletteRibbonBack? normalBack,
+                                               IPaletteRibbonBack? pressedBack,
+                                               IPaletteRibbonBack? trackingBack,
+                                               IPaletteRibbonBack? selectedBack,
+                                               IPaletteRibbonBack? focusOverrideBack,
+                                               IPaletteRibbonText? disabledText,
+                                               IPaletteRibbonText? normalText,
+                                               IPaletteRibbonText? pressedText,
+                                               IPaletteRibbonText? trackingText,
+                                               IPaletteRibbonText? selectedText,
+                                               IPaletteRibbonText? focusOverrideText,
+                                               IPaletteContent? disabledContent,
+                                               IPaletteContent? normalContent,
+                                               IPaletteContent? pressedContent,
+                                               IPaletteContent? trackingContent,
+                                               IPaletteContent? selectedContent,
+                                               IPaletteContent? focusOverrideContent)
             : base(target)
         {
             // Remember state specific inheritance
@@ -285,7 +285,7 @@ namespace Krypton.Navigator
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentDraw(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentDraw(state) ?? Target.GetContentDraw(style, state);
         }
@@ -298,7 +298,7 @@ namespace Krypton.Navigator
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentDrawFocus(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentDrawFocus(state) ?? Target.GetContentDrawFocus(style, state);
         }
@@ -311,7 +311,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentImageH(state) ?? Target.GetContentImageH(style, state);
         }
@@ -324,7 +324,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentImageV(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentImageV(state) ?? Target.GetContentImageV(style, state);
         }
@@ -337,7 +337,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteImageEffect value.</returns>
         public override PaletteImageEffect GetContentImageEffect(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentImageEffect(state) ?? Target.GetContentImageEffect(style, state);
         }
@@ -350,7 +350,7 @@ namespace Krypton.Navigator
         /// <returns>Font value.</returns>
         public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextFont(state) ?? Target.GetContentShortTextFont(style, state);
         }
@@ -363,7 +363,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextHint value.</returns>
         public override PaletteTextHint GetContentShortTextHint(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextHint(state) ?? Target.GetContentShortTextHint(style, state);
         }
@@ -376,7 +376,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextPrefix value.</returns>
         public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextPrefix(state) ?? Target.GetContentShortTextPrefix(style, state);
         }
@@ -389,7 +389,7 @@ namespace Krypton.Navigator
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentShortTextMultiLine(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextMultiLine(state) ?? Target.GetContentShortTextMultiLine(style, state);
         }
@@ -402,7 +402,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextTrim value.</returns>
         public override PaletteTextTrim GetContentShortTextTrim(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextTrim(state) ?? Target.GetContentShortTextTrim(style, state);
         }
@@ -415,7 +415,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextH(state) ?? Target.GetContentShortTextH(style, state);
         }
@@ -428,7 +428,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextV(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextV(state) ?? Target.GetContentShortTextV(style, state);
         }
@@ -441,7 +441,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextMultiLineH(state) ?? Target.GetContentShortTextMultiLineH(style, state);
         }
@@ -454,7 +454,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextColor1(state) ?? Target.GetContentShortTextColor1(style, state);
         }
@@ -467,7 +467,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor2(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextColor2(state) ?? Target.GetContentShortTextColor2(style, state);
         }
@@ -480,7 +480,7 @@ namespace Krypton.Navigator
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetContentShortTextColorStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextColorStyle(state) ?? Target.GetContentShortTextColorStyle(style, state);
         }
@@ -493,7 +493,7 @@ namespace Krypton.Navigator
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetContentShortTextColorAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextColorAlign(state) ?? Target.GetContentShortTextColorAlign(style, state);
         }
@@ -506,7 +506,7 @@ namespace Krypton.Navigator
         /// <returns>Angle used for color drawing.</returns>
         public override float GetContentShortTextColorAngle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextColorAngle(state) ?? Target.GetContentShortTextColorAngle(style, state);
         }
@@ -519,7 +519,7 @@ namespace Krypton.Navigator
         /// <returns>Image instance.</returns>
         public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextImage(state) ?? Target.GetContentShortTextImage(style, state);
         }
@@ -532,7 +532,7 @@ namespace Krypton.Navigator
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetContentShortTextImageStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextImageStyle(state) ?? Target.GetContentShortTextImageStyle(style, state);
         }
@@ -545,7 +545,7 @@ namespace Krypton.Navigator
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetContentShortTextImageAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentShortTextImageAlign(state) ?? Target.GetContentShortTextImageAlign(style, state);
         }
@@ -558,7 +558,7 @@ namespace Krypton.Navigator
         /// <returns>Font value.</returns>
         public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextFont(state) ?? Target.GetContentLongTextFont(style, state);
         }
@@ -571,7 +571,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextHint value.</returns>
         public override PaletteTextHint GetContentLongTextHint(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextHint(state) ?? Target.GetContentLongTextHint(style, state);
         }
@@ -584,7 +584,7 @@ namespace Krypton.Navigator
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentLongTextMultiLine(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextMultiLine(state) ?? Target.GetContentLongTextMultiLine(style, state);
         }
@@ -597,7 +597,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextTrim value.</returns>
         public override PaletteTextTrim GetContentLongTextTrim(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextTrim(state) ?? Target.GetContentLongTextTrim(style, state);
         }
@@ -610,7 +610,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextPrefix value.</returns>
         public override PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextPrefix(state) ?? Target.GetContentLongTextPrefix(style, state);
         }
@@ -623,7 +623,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextH(state) ?? Target.GetContentLongTextH(style, state);
         }
@@ -636,7 +636,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextV(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextV(state) ?? Target.GetContentLongTextV(style, state);
         }
@@ -649,7 +649,7 @@ namespace Krypton.Navigator
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextMultiLineH(state) ?? Target.GetContentLongTextMultiLineH(style, state);
         }
@@ -662,7 +662,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextColor1(state) ?? Target.GetContentLongTextColor1(style, state);
         }
@@ -675,7 +675,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor2(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextColor2(state) ?? Target.GetContentLongTextColor2(style, state);
         }
@@ -688,7 +688,7 @@ namespace Krypton.Navigator
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetContentLongTextColorStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextColorStyle(state) ?? Target.GetContentLongTextColorStyle(style, state);
         }
@@ -701,7 +701,7 @@ namespace Krypton.Navigator
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetContentLongTextColorAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextColorAlign(state) ?? Target.GetContentLongTextColorAlign(style, state);
         }
@@ -714,7 +714,7 @@ namespace Krypton.Navigator
         /// <returns>Image instance.</returns>
         public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextImage(state) ?? Target.GetContentLongTextImage(style, state);
         }
@@ -727,7 +727,7 @@ namespace Krypton.Navigator
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetContentLongTextImageStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextImageStyle(state) ?? Target.GetContentLongTextImageStyle(style, state);
         }
@@ -740,7 +740,7 @@ namespace Krypton.Navigator
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetContentLongTextImageAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentLongTextImageAlign(state) ?? Target.GetContentLongTextImageAlign(style, state);
         }
@@ -753,7 +753,7 @@ namespace Krypton.Navigator
         /// <returns>Padding value.</returns>
         public override Padding GetContentPadding(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentPadding(state) ?? Target.GetContentPadding(style, state);
         }
@@ -766,7 +766,7 @@ namespace Krypton.Navigator
         /// <returns>Integer value.</returns>
         public override int GetContentAdjacentGap(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteContent inherit = GetContentInherit(state);
+            IPaletteContent? inherit = GetContentInherit(state);
 
             return inherit?.GetContentAdjacentGap(state) ?? Target.GetContentAdjacentGap(style, state);
         }

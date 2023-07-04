@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteMetric">Palette source for metric values.</param>
         /// <param name="metricInt">Metric used to get spacer size.</param>
-        public ViewLayoutMetricSpacer([DisallowNull] IPaletteMetric paletteMetric,
+        public ViewLayoutMetricSpacer(IPaletteMetric paletteMetric,
                                       PaletteMetricInt metricInt)
         {
             Debug.Assert(paletteMetric != null);
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

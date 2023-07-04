@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private readonly Padding _padding; // = new(1, 0, 0, 0);
         #endregion
 
@@ -53,8 +53,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGroup">Associated ribbon group.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroupContainer(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroup ribbonGroup,
-                                                  NeedPaintHandler needPaint)
+                                                               KryptonRibbonGroup ribbonGroup,
+                                                               NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
         {
             Debug.Assert(ribbonGroup != null);

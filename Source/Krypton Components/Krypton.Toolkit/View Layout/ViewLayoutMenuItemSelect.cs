@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="itemSelect">Reference to owning instance.</param>
         /// <param name="provider">Provider of context menu information.</param>
-        public ViewLayoutMenuItemSelect([DisallowNull] KryptonContextMenuImageSelect itemSelect,
-                                        [DisallowNull] IContextMenuProvider provider)
+        public ViewLayoutMenuItemSelect(KryptonContextMenuImageSelect itemSelect,
+                                        IContextMenuProvider provider)
         {
             Debug.Assert(itemSelect != null);
             Debug.Assert(provider != null);
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

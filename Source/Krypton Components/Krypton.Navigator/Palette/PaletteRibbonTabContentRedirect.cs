@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly PaletteNavContent _content;
-        private readonly PaletteRibbonDoubleRedirect _drawRedirect;
+        private readonly PaletteRibbonDoubleRedirect? _drawRedirect;
         private readonly PaletteContentInheritRedirect _contentInherit;
         #endregion
 
@@ -75,7 +75,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining tab drawing appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonDoubleRedirect TabDraw => _drawRedirect;
+        public virtual PaletteRibbonDoubleRedirect? TabDraw => _drawRedirect;
 
         private bool ShouldSerializeTabDraw() => !_drawRedirect.IsDefault;
 

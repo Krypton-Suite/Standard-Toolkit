@@ -31,14 +31,17 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected HeaderGroupMappingBase([DisallowNull] KryptonNavigator navigator,
+        protected HeaderGroupMappingBase(KryptonNavigator navigator,
                                       NeedPaintHandler needPaint)
             : base(needPaint)
         {
             Debug.Assert(navigator != null);
 
             // Remember back reference to owning control
-            _navigator = navigator;
+            if (navigator != null)
+            {
+                _navigator = navigator;
+            }
 
             // Set initial values to the default
             _mapImage = GetMapImageDefault();

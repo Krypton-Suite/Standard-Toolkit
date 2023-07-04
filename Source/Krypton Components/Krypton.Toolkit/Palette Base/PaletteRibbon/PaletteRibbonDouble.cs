@@ -20,8 +20,8 @@ namespace Krypton.Toolkit
                                        IPaletteRibbonText
     {
         #region Instance Fields
-        private IPaletteRibbonBack _inheritBack;
-        private IPaletteRibbonText _inheritText;
+        private IPaletteRibbonBack? _inheritBack;
+        private IPaletteRibbonText? _inheritText;
         private Color _backColor1;
         private Color _backColor2;
         private Color _backColor3;
@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// <param name="inheritBack">Source for inheriting background values.</param>
         /// <param name="inheritText">Source for inheriting text values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonDouble([DisallowNull] IPaletteRibbonBack inheritBack,
-                                   [DisallowNull] IPaletteRibbonText inheritText,
+        public PaletteRibbonDouble([DisallowNull] IPaletteRibbonBack? inheritBack,
+                                   [DisallowNull] IPaletteRibbonText? inheritText,
                                    NeedPaintHandler needPaint) 
         {
             Debug.Assert(inheritBack != null);
@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteRibbonBack inheritBack,
-                               IPaletteRibbonText inheritText)
+        public void SetInherit(IPaletteRibbonBack? inheritBack,
+                               IPaletteRibbonText? inheritText)
         {
             _inheritBack = inheritBack;
             _inheritText = inheritText;

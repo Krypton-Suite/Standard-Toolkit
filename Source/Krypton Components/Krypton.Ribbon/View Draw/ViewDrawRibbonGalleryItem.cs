@@ -23,8 +23,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonGallery _gallery;
         private readonly GalleryItemController _controller;
-        private ImageList _imageList;
-        private Image _image;
+        private ImageList? _imageList;
+        private Image? _image;
         private int _imageIndex;
         #endregion
 
@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render([DisallowNull] RenderContext context)
+        public override void Render(RenderContext context)
         {
             Debug.Assert(context != null);
 

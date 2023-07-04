@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonQATMini(KryptonRibbon ribbon,
                                        NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
             keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
 
             // If we have the extra button and it is in overflow appearance
-            if (_extraButton is {Overflow : true })
+            if (_extraButton is { Overflow: true })
             {
                 // If integrated into the caption area then get the caption area height
                 Padding borders = Padding.Empty;
@@ -151,8 +151,8 @@ namespace Krypton.Ribbon
                                            viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button controller
-                keyTipList.Add(new KeyTipInfo(true, "00", screenPt, 
-                                              _extraButton.ClientRectangle, 
+                keyTipList.Add(new KeyTipInfo(true, "00", screenPt,
+                                              _extraButton.ClientRectangle,
                                               _extraButton.KeyTipTarget));
             }
 
@@ -226,13 +226,13 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // Scan to see if there are any visible quick access toolbar buttons
             var visibleQATButtons = _ribbon.QATButtons.Cast<IQuickAccessToolbarButton>().Any(static qatButton => qatButton.GetVisible());
-            
+
             // Only show the border if there are some visible contents
             _border.Visible = visibleQATButtons;
 
@@ -245,7 +245,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return base.GetPreferredSize(context!);
+            return base.GetPreferredSize(context);
         }
 
         /// <summary>

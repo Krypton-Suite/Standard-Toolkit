@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
         /// <param name="animateChange">Animate changes in the viewport.</param>
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewLayoutScrollViewport([DisallowNull] VisualControl rootControl,
-            [DisallowNull] ViewBase viewportFiller,
+        public ViewLayoutScrollViewport(VisualControl rootControl,
+            ViewBase viewportFiller,
                                         PaletteBorderEdge paletteBorderEdge,
                                         IPaletteMetric paletteMetrics,
                                         PaletteMetricPadding metricPadding,
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
                                         RelativePositionAlign alignment,
                                         bool animateChange,
                                         bool vertical,
-                                        [DisallowNull] NeedPaintHandler needPaintDelegate)
+                                        NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(rootControl != null);
             Debug.Assert(viewportFiller != null);
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool VerticalViewport
         {
-            set 
+            set
             {
                 if (_viewportVertical != value)
                 {
@@ -450,11 +450,20 @@ namespace Krypton.Toolkit
                 NeedPaint(true);
 
                 // Make sure the child control is redraw to keep in sync with new scroll position
-                ViewControl.ChildControl.Refresh();
+                if (ViewControl.ChildControl != null)
+                {
+                    ViewControl.ChildControl.Refresh();
+                }
             }
         }
 
-        private void OnAnimateStep(object sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
+        private void OnAnimateStep(object sender, EventArgs e)
+        {
+            if (AnimateStep != null)
+            {
+                AnimateStep.Invoke(sender, e);
+            }
+        }
 
         #endregion
     }

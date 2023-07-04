@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         /// <param name="ribbonTabText">Source for ribbon tab settings.</param>
         public RibbonTabToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral,
-                                  [DisallowNull] IPaletteRibbonText ribbonTabText)
+                                  [DisallowNull] IPaletteRibbonText? ribbonTabText)
             : base(ribbonGeneral)
         {
             Debug.Assert(ribbonTabText != null);
@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon tab palette to use.
         /// </summary>
-        public IPaletteRibbonText PaletteRibbonText { get; set; }
+        public IPaletteRibbonText? PaletteRibbonText { get; set; }
 
         #endregion
 

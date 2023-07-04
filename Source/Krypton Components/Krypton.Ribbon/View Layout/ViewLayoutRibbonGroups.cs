@@ -48,9 +48,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTab">RibbonTab to organize groups.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] KryptonRibbonTab ribbonTab,
-                                      [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroups(KryptonRibbon ribbon,
+                                      KryptonRibbonTab ribbonTab,
+                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonTab != null);
@@ -123,14 +123,20 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // Parent element should be a view layout
-            ViewLayoutControl layoutControl = (ViewLayoutControl)Parent;
+            if (Parent != null)
+            {
+                ViewLayoutControl? layoutControl = (ViewLayoutControl)Parent;
 
-            // Get the location of the child control it contains
-            Point layoutLocation = layoutControl.ChildControl.Location;
+                // Get the location of the child control it contains
+                if (layoutControl.ChildControl != null)
+                {
+                    Point layoutLocation = layoutControl.ChildControl.Location;
 
-            // Adjust the incoming point for the location of the child control
-            pt.X -= layoutLocation.X;
-            pt.Y -= layoutLocation.Y;
+                    // Adjust the incoming point for the location of the child control
+                    pt.X -= layoutLocation.X;
+                    pt.Y -= layoutLocation.Y;
+                }
+            }
 
             // Search the child collection for matching group elements
             foreach (ViewBase child in this)
@@ -296,14 +302,19 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonGroups();
 
             // Find best size for groups to fill available space
-            return new Size(AdjustGroupStateToMatchSpace(context), _ribbon.CalculatedValues.GroupHeight);
+            if (_ribbon != null)
+            {
+                return new Size(AdjustGroupStateToMatchSpace(context), _ribbon.CalculatedValues.GroupHeight);
+            }
+
+            return base.GetPreferredSize(context);
         }
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -329,21 +340,24 @@ namespace Krypton.Ribbon
                         // Cache preferred size of the child
 
                         // If a group then pull in the cached value
-                        Size childSize = child is ViewDrawRibbonGroup
-                            ? new Size(_groupWidths[j++], _ribbon.CalculatedValues.GroupHeight)
-                            : this[i].GetPreferredSize(context);
-
-                        // Only interested in items with some width
-                        if (childSize.Width > 0)
+                        if (_ribbon != null)
                         {
-                            // Define display rectangle for the group
-                            context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
+                            Size childSize = child is ViewDrawRibbonGroup
+                                ? new Size(_groupWidths[j++], _ribbon.CalculatedValues.GroupHeight)
+                                : this[i].GetPreferredSize(context);
 
-                            // Position the element
-                            this[i].Layout(context);
+                            // Only interested in items with some width
+                            if (childSize.Width > 0)
+                            {
+                                // Define display rectangle for the group
+                                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
 
-                            // Move across to next position
-                            x += childSize.Width;
+                                // Position the element
+                                this[i].Layout(context);
+
+                                // Move across to next position
+                                x += childSize.Width;
+                            }
                         }
                     }
                 }
@@ -388,7 +402,7 @@ namespace Krypton.Ribbon
             // Make sure we have a view element to match each group
             foreach (KryptonRibbonGroup ribGroup in _ribbonTab.Groups)
             {
-                ViewDrawRibbonGroup view = null;
+                ViewDrawRibbonGroup? view = null;
 
                 // Get the currently cached view for the group
                 if (_groupToView.ContainsKey(ribGroup))
@@ -397,10 +411,16 @@ namespace Krypton.Ribbon
                 }
 
                 // If a new group, create a view for it now
-                view ??= new ViewDrawRibbonGroup(_ribbon, ribGroup, _needPaint);
+                if (_ribbon != null)
+                {
+                    view ??= new ViewDrawRibbonGroup(_ribbon, ribGroup, _needPaint);
+                }
 
                 // Add to the lookup for future reference
-                regenerate.Add(ribGroup, view);
+                if (view != null)
+                {
+                    regenerate.Add(ribGroup, view);
+                }
             }
 
             if (_groupSepCache.Count < _ribbonTab.Groups.Count)
@@ -427,7 +447,7 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroup ribbonGroup = _ribbonTab.Groups[i];
 
                 // Only make the separator visible if the group is and not the first sep
-                var groupVisible = _ribbon.InDesignHelperMode || ribbonGroup.Visible;
+                var groupVisible = _ribbon != null && (_ribbon.InDesignHelperMode || ribbonGroup.Visible);
                 _groupSepCache[i].Visible = groupVisible && !ignoreSep;
                 regenerate[ribbonGroup].Visible = groupVisible;
 
@@ -553,8 +573,11 @@ namespace Krypton.Ribbon
                 _groupWidths = new int[listGroups.Count];
                 for (var i = 0; i < listGroups.Count; i++)
                 {
-                    _groupWidths[i] = listWidths[i][bestIndexes[i]].Width;
-                    listGroups[i].SetSolutionSize(listWidths[i][bestIndexes[i]].Sizing);
+                    if (bestIndexes != null)
+                    {
+                        _groupWidths[i] = listWidths[i][bestIndexes[i]].Width;
+                        listGroups[i].SetSolutionSize(listWidths[i][bestIndexes[i]].Sizing);
+                    }
                 }
             }
             else

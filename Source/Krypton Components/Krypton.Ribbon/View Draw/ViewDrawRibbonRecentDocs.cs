@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly RibbonRecentDocsTitleToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         #endregion
 
         #region Identity

@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         protected override IDisposable DrawRibbonTabSelected2010(RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
-                                                                IPaletteRibbonBack palette,
+                                                                IPaletteRibbonBack? palette,
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento,
                                                                 bool standard)
@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
-                                                                IPaletteRibbonBack palette,
+                                                                IPaletteRibbonBack? palette,
                                                                 VisualOrientation orientation,
                                                                 IDisposable memento,
                                                                 bool standard)

@@ -27,10 +27,10 @@ namespace Krypton.Navigator
         /// <param name="inheritHeaderBar">Source for inheriting bar header defaulted values.</param>
         /// <param name="inheritHeaderOverflow">Source for inheriting overflow header defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorHeaderGroup(PaletteHeaderGroupRedirect? inheritHeaderGroup,
+        public PaletteNavigatorHeaderGroup(PaletteHeaderGroupRedirect inheritHeaderGroup,
                                            PaletteHeaderPaddingRedirect inheritHeaderPrimary,
                                            PaletteHeaderPaddingRedirect inheritHeaderSecondary,
-                                           [DisallowNull] PaletteHeaderPaddingRedirect inheritHeaderBar,
+                                           PaletteHeaderPaddingRedirect inheritHeaderBar,
                                            PaletteHeaderPaddingRedirect inheritHeaderOverflow,
                                            NeedPaintHandler needPaint)
             : base(inheritHeaderGroup, inheritHeaderPrimary,
@@ -39,7 +39,10 @@ namespace Krypton.Navigator
             Debug.Assert(inheritHeaderBar != null);
 
             // Create the palette storage
-            HeaderBar = new PaletteTripleMetric(inheritHeaderBar, needPaint);
+            if (inheritHeaderBar != null)
+            {
+                HeaderBar = new PaletteTripleMetric(inheritHeaderBar, needPaint);
+            }
             HeaderOverflow = new PaletteTripleMetric(inheritHeaderOverflow, needPaint);
         }
         #endregion
@@ -63,8 +66,11 @@ namespace Krypton.Navigator
         public void SetInherit(PaletteNavigatorHeaderGroup? inheritHeaderGroup)
         {
             base.SetInherit(inheritHeaderGroup);
-            HeaderBar.SetInherit(inheritHeaderGroup.HeaderBar);
-            HeaderOverflow.SetInherit(inheritHeaderGroup.HeaderOverflow);
+            if (inheritHeaderGroup != null)
+            {
+                HeaderBar.SetInherit(inheritHeaderGroup.HeaderBar);
+                HeaderOverflow.SetInherit(inheritHeaderGroup.HeaderOverflow);
+            }
         }
         #endregion
 

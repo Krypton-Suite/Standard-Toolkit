@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly Padding _smallImagePadding; // = new(3, 3, 3, 3);
         private readonly KryptonRibbon _ribbon;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         private ViewDrawRibbonGroupButtonBackBorder _viewLarge;
         private ViewLayoutRibbonRowCenter _viewLargeCenter;
         private ViewDrawRibbonGroupButtonImage _viewLargeImage;
@@ -343,13 +343,16 @@ namespace Krypton.Ribbon
         private void CreateLargeButtonView()
         {
             // Create the background and border view
-            _viewLarge = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupButton,
-                                                                 _ribbon.StateCommon.RibbonGroupButton.PaletteBack,
-                                                                 _ribbon.StateCommon.RibbonGroupButton.PaletteBorder,
-                                                                 false, _needPaint)
+            if (_ribbon.StateCommon.RibbonGroupButton.PaletteBorder != null)
             {
-                SplitVertical = true
-            };
+                _viewLarge = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupButton,
+                    _ribbon.StateCommon.RibbonGroupButton.PaletteBack,
+                    _ribbon.StateCommon.RibbonGroupButton.PaletteBorder,
+                    false, _needPaint)
+                {
+                    SplitVertical = true
+                };
+            }
             _viewLarge.Click += OnLargeButtonClick;
             _viewLarge.DropDown += OnLargeButtonDropDown;
 
@@ -392,20 +395,26 @@ namespace Krypton.Ribbon
             _viewLarge.Add(contentLayout);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
-                                                               _viewLarge, _viewLarge.MouseController);
+            if (_ribbon.TabsArea.ButtonSpecManager != null && _ribbon.TabsArea.ButtonSpecManager.ToolTipManager != null)
+            {
+                _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+                    _viewLarge, _viewLarge.MouseController);
+            }
         }
 
         private void CreateMediumSmallButtonView()
         {
             // Create the background and border view
-            _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupButton,
-                                                                       _ribbon.StateCommon.RibbonGroupButton.PaletteBack,
-                                                                       _ribbon.StateCommon.RibbonGroupButton.PaletteBorder,
-                                                                       false, _needPaint)
+            if (_ribbon.StateCommon.RibbonGroupButton.PaletteBorder != null)
             {
-                SplitVertical = false
-            };
+                _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupButton,
+                    _ribbon.StateCommon.RibbonGroupButton.PaletteBack,
+                    _ribbon.StateCommon.RibbonGroupButton.PaletteBorder,
+                    false, _needPaint)
+                {
+                    SplitVertical = false
+                };
+            }
             _viewMediumSmall.Click += OnMediumSmallButtonClick;
             _viewMediumSmall.DropDown += OnMediumSmallButtonDropDown;
 
@@ -447,8 +456,12 @@ namespace Krypton.Ribbon
             _viewMediumSmall.Add(contentLayout);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
-                                                                     _viewMediumSmall, _viewMediumSmall.MouseController);
+            if (_ribbon.TabsArea.ButtonSpecManager != null && _ribbon.TabsArea.ButtonSpecManager.ToolTipManager != null)
+            {
+                _viewMediumSmall.MouseController = new ToolTipController(
+                    _ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+                    _viewMediumSmall, _viewMediumSmall.MouseController);
+            }
         }
 
         private void DefineRootView(ViewBase view)

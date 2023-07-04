@@ -20,12 +20,12 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private readonly IPaletteRibbonBack _primaryBack;
-        private readonly IPaletteRibbonBack _backupBack;
-        private readonly IPaletteRibbonText _primaryText;
-        private readonly IPaletteRibbonText _backupText;
+        private readonly IPaletteRibbonBack? _primaryBack;
+        private readonly IPaletteRibbonBack? _backupBack;
+        private readonly IPaletteRibbonText? _primaryText;
+        private readonly IPaletteRibbonText? _backupText;
         private readonly IPaletteContent _primaryContent;
-        private readonly IPaletteContent _backupContent;
+        private readonly IPaletteContent? _backupContent;
         #endregion
 
         #region Identity
@@ -39,12 +39,12 @@ namespace Krypton.Navigator
         /// <param name="backupText">Backup inheritance text.</param>
         /// <param name="backupContent">Backup inheritance content.</param>
         /// <param name="state">Palette state to override.</param>
-        public PaletteRibbonTabContentInheritOverride([DisallowNull] IPaletteRibbonBack primaryBack,
-                                                      [DisallowNull] IPaletteRibbonText primaryText,
+        public PaletteRibbonTabContentInheritOverride([DisallowNull] IPaletteRibbonBack? primaryBack,
+                                                      [DisallowNull] IPaletteRibbonText? primaryText,
                                                       [DisallowNull] IPaletteContent primaryContent,
-                                                      [DisallowNull] IPaletteRibbonBack backupBack,
-                                                      [DisallowNull] IPaletteRibbonText backupText,
-                                                      [DisallowNull] IPaletteContent backupContent,
+                                                      [DisallowNull] IPaletteRibbonBack? backupBack,
+                                                      [DisallowNull] IPaletteRibbonText? backupText,
+                                                      [DisallowNull] IPaletteContent? backupContent,
                                                       PaletteState state)
         {
             Debug.Assert(primaryBack != null);
@@ -279,14 +279,22 @@ namespace Krypton.Navigator
 
                 if (ret == InheritBool.Inherit)
                 {
-                    ret = _backupContent.GetContentDraw(state);
+                    if (_backupContent != null)
+                    {
+                        ret = _backupContent.GetContentDraw(state);
+                    }
                 }
 
                 return ret;
             }
             else
             {
-                return _backupContent.GetContentDraw(state);
+                if (_backupContent != null)
+                {
+                    return _backupContent.GetContentDraw(state);
+                }
+
+                return InheritBool.Inherit;
             }
         }
 
@@ -303,14 +311,22 @@ namespace Krypton.Navigator
 
                 if (ret == InheritBool.Inherit)
                 {
-                    ret = _backupContent.GetContentDrawFocus(state);
+                    if (_backupContent != null)
+                    {
+                        ret = _backupContent.GetContentDrawFocus(state);
+                    }
                 }
 
                 return ret;
             }
             else
             {
-                return _backupContent.GetContentDrawFocus(state);
+                if (_backupContent != null)
+                {
+                    return _backupContent.GetContentDrawFocus(state);
+                }
+
+                return InheritBool.Inherit;
             }
         }
 
@@ -1273,8 +1289,15 @@ namespace Krypton.Navigator
         /// Gets the style appropriate for this content.
         /// </summary>
         /// <returns>Content style.</returns>
-        public virtual PaletteContentStyle GetContentStyle() =>
-            Apply ? _primaryContent.GetContentStyle() : _backupContent.GetContentStyle();
+        public virtual PaletteContentStyle GetContentStyle()
+        {
+            if (_backupContent != null)
+            {
+                return Apply ? _primaryContent.GetContentStyle() : _backupContent.GetContentStyle();
+            }
+
+            return _primaryContent.GetContentStyle();
+        }
 
         #endregion
     }

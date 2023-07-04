@@ -1466,7 +1466,7 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Find the correct layout for the header content
-                                    using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
+                                    using IDisposable? memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
                                         _contentInherit, _shortTextValue,
                                         VisualOrientation.Top, state, false, false);
                                     // Perform actual drawing of the content

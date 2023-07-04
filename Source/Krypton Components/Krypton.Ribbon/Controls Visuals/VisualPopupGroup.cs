@@ -36,9 +36,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupGroup([DisallowNull] KryptonRibbon ribbon,
-                                [DisallowNull] KryptonRibbonGroup ribbonGroup,
-                                IRenderer renderer)
+        public VisualPopupGroup(KryptonRibbon ribbon,
+                                KryptonRibbonGroup ribbonGroup,
+                                IRenderer? renderer)
             : base(renderer, true)
         {
             Debug.Assert(ribbon != null);
@@ -81,7 +81,10 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Ensure the manager believes the mouse has left the area
-                ViewManager.MouseLeave(EventArgs.Empty);
+                if (ViewManager != null)
+                {
+                    ViewManager.MouseLeave(EventArgs.Empty);
+                }
 
                 // Do we need to restore the previous focus from the ribbon
                 if (RestorePreviousFocus)
@@ -116,7 +119,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view for the popup group.
         /// </summary>
-        public ViewDrawRibbonGroup ViewGroup { get; }
+        public ViewDrawRibbonGroup? ViewGroup { get; }
 
         #endregion
 
@@ -135,7 +138,13 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetFirstFocusItem()
         {
-            ViewPopupManager.FocusView = ViewGroup.GetFirstFocusItem();
+            if (ViewPopupManager != null)
+            {
+                if (ViewGroup != null)
+                {
+                    ViewPopupManager.FocusView = ViewGroup.GetFirstFocusItem();
+                }
+            }
             PerformNeedPaint(false);
         }
         #endregion
@@ -147,7 +156,13 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetLastFocusItem()
         {
-            ViewPopupManager.FocusView = ViewGroup.GetLastFocusItem();
+            if (ViewPopupManager != null)
+            {
+                if (ViewGroup != null)
+                {
+                    ViewPopupManager.FocusView = ViewGroup.GetLastFocusItem();
+                }
+            }
             PerformNeedPaint(false);
         }
         #endregion
@@ -160,17 +175,26 @@ namespace Krypton.Ribbon
         {
             // Find the next item in sequence
             var matched = false;
-            ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager.FocusView, ref matched);
+            if (ViewPopupManager != null)
+            {
+                if (ViewGroup != null)
+                {
+                    if (ViewPopupManager.FocusView != null)
+                    {
+                        ViewBase? view = ViewGroup.GetNextFocusItem(ViewPopupManager.FocusView, ref matched);
 
-            // Rotate around to the first item
-            if (view == null)
-            {
-                SetFirstFocusItem();
-            }
-            else
-            {
-                ViewPopupManager.FocusView = view;
-                PerformNeedPaint(false);
+                        // Rotate around to the first item
+                        if (view == null)
+                        {
+                            SetFirstFocusItem();
+                        }
+                        else
+                        {
+                            ViewPopupManager.FocusView = view;
+                            PerformNeedPaint(false);
+                        }
+                    }
+                }
             }
         }
         #endregion
@@ -183,17 +207,26 @@ namespace Krypton.Ribbon
         {
             // Find the previous item in sequence
             var matched = false;
-            ViewBase view = ViewGroup.GetPreviousFocusItem(ViewPopupManager.FocusView, ref matched);
+            if (ViewPopupManager != null)
+            {
+                if (ViewGroup != null)
+                {
+                    if (ViewPopupManager.FocusView != null)
+                    {
+                        ViewBase? view = ViewGroup.GetPreviousFocusItem(ViewPopupManager.FocusView, ref matched);
 
-            // Rotate around to the last item
-            if (view == null)
-            {
-                SetLastFocusItem();
-            }
-            else
-            {
-                ViewPopupManager.FocusView = view;
-                PerformNeedPaint(false);
+                        // Rotate around to the last item
+                        if (view == null)
+                        {
+                            SetLastFocusItem();
+                        }
+                        else
+                        {
+                            ViewPopupManager.FocusView = view;
+                            PerformNeedPaint(false);
+                        }
+                    }
+                }
             }
         }
         #endregion        
@@ -217,21 +250,24 @@ namespace Krypton.Ribbon
 
             try
             {
-                // Find the size the group requests to be
-                Size popupSize;
-                using (ViewLayoutContext context = new(this, Renderer))
+                if (ViewGroup != null)
                 {
-                    popupSize = ViewGroup.GetPreferredSize(context);
+                    // Find the size the group requests to be
+                    Size popupSize;
+                    using (ViewLayoutContext context = new(this, Renderer))
+                    {
+                        popupSize = ViewGroup.GetPreferredSize(context);
+                    }
+
+                    // Override the height to enforce the correct group height
+                    popupSize.Height = _ribbon.CalculatedValues.GroupHeight;
+
+                    // Mark the group as showing as a popup
+                    _ribbonGroup.ShowingAsPopup = true;
+
+                    // Request we be shown below the parent screen rect
+                    Show(CalculateBelowPopupRect(parentScreenRect, popupSize));
                 }
-
-                // Override the height to enforce the correct group height
-                popupSize.Height = _ribbon.CalculatedValues.GroupHeight;
-
-                // Mark the group as showing as a popup
-                _ribbonGroup.ShowingAsPopup = true;
-
-                // Request we be shown below the parent screen rect
-                Show(CalculateBelowPopupRect(parentScreenRect, popupSize));
             }
             finally
             {
@@ -309,7 +345,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the popup group specific view manager.
         /// </summary>
-        protected ViewRibbonPopupGroupManager ViewPopupManager => ViewManager as ViewRibbonPopupGroupManager;
+        protected ViewRibbonPopupGroupManager? ViewPopupManager => ViewManager as ViewRibbonPopupGroupManager;
 
         /// <summary>
         /// Gets the creation parameters.
@@ -319,7 +355,7 @@ namespace Krypton.Ribbon
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.Style |= (int) PI.WS_.CLIPCHILDREN;
+                cp.Style |= (int)PI.WS_.CLIPCHILDREN;
                 return cp;
             }
         }
@@ -366,7 +402,7 @@ namespace Krypton.Ribbon
         protected override bool ProcessDialogKey(Keys keyData)
         {
             // Grab the view manager handling the focus view
-            ViewBase focusView = ((ViewRibbonPopupGroupManager)GetViewManager()).FocusView;
+            ViewBase? focusView = ((ViewRibbonPopupGroupManager)GetViewManager()).FocusView;
 
             // When in keyboard mode...
             if (focusView != null)

@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateContextCheckedNormal;
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateContextCheckedTracking;
         private PaletteRibbonDoubleInheritOverride _overrideCurrent;
-        private readonly PaletteRibbonContextDouble _paletteContextCurrent;
+        private readonly PaletteRibbonContextDouble? _paletteContextCurrent;
         private readonly RibbonTabToContent _contentProvider;
         private readonly NeedPaintHandler _needPaint;
         private IDisposable[]? _mementos;

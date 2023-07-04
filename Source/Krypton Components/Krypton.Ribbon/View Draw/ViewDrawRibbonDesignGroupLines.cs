@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbonGroupLines _ribbonLines;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private readonly Padding _padding; // = new(0, 2, 2, 4);
         #endregion
 
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         /// <param name="currentSize">Size the view should use.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroupLines(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupLines ribbonLines,
+                                                         KryptonRibbonGroupLines ribbonLines,
                                               GroupItemSize currentSize,
                                               NeedPaintHandler needPaint)
             : base(ribbon, needPaint)

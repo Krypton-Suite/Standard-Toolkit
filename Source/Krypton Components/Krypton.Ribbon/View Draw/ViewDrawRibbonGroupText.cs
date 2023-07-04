@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly RibbonGroupTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _firstText;
         private int _heightExtra;
         private Size _preferredSize;
@@ -41,8 +41,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonGroup">Ribbon group to display title for.</param>
         /// <param name="firstText">Should show the first group text.</param>
-        public ViewDrawRibbonGroupText([DisallowNull] KryptonRibbon ribbon,
-                                       [DisallowNull] KryptonRibbonGroup ribbonGroup,
+        public ViewDrawRibbonGroupText(KryptonRibbon ribbon,
+                                       KryptonRibbonGroup ribbonGroup,
                                        bool firstText)
         {
             Debug.Assert(ribbon != null);
@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
             // Use a class to convert from ribbon group to content interface
             _contentProvider = new RibbonGroupTextToContent(ribbon.StateCommon.RibbonGeneral,
                                                             ribbon.StateNormal.RibbonGroupCollapsedText);
-        }        
+        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -121,9 +121,13 @@ namespace Krypton.Ribbon
             if (_ribbon.DirtyPaletteCounter != _dirtyPaletteSize)
             {
                 // Ask the renderer for the contents preferred size
-                _preferredSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _contentProvider, this,
-                                                                                                VisualOrientation.Top,
-                                                                                                PaletteState.Normal, false, false);
+                if (context.Renderer != null)
+                {
+                    _preferredSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context,
+                        _contentProvider, this,
+                        VisualOrientation.Top,
+                        PaletteState.Normal, false, false);
+                }
 
                 // Subtract the extra space used to ensure it draws
                 _heightExtra = (_ribbon.CalculatedValues.DrawFontHeight - _ribbon.CalculatedValues.RawFontHeight) * 2;
@@ -140,7 +144,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -172,10 +176,13 @@ namespace Krypton.Ribbon
                 drawRect.Y -= _heightExtra / 2;
 
                 // Use the renderer to layout the text
-                _memento = context.Renderer.RenderStandardContent.LayoutContent(context, drawRect,
-                                                                                _contentProvider, this,
-                                                                                VisualOrientation.Top,
-                                                                                PaletteState.Normal, false, false);
+                if (context.Renderer != null)
+                {
+                    _memento = context.Renderer.RenderStandardContent.LayoutContent(context, drawRect,
+                        _contentProvider, this,
+                        VisualOrientation.Top,
+                        PaletteState.Normal, false, false);
+                }
                 // Cache values that are needed to decide if layout is needed
                 _displayRect = ClientRectangle;
                 _dirtyPaletteLayout = _ribbon.DirtyPaletteCounter;
@@ -188,7 +195,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             Rectangle drawRect = ClientRectangle;
 
@@ -199,10 +206,13 @@ namespace Krypton.Ribbon
             // Use renderer to draw the text content
             if (_memento != null)
             {
-                context.Renderer.RenderStandardContent.DrawContent(context, drawRect,
-                    _contentProvider, _memento,
-                    VisualOrientation.Top,
-                    PaletteState.Normal, false, false, true);
+                if (context.Renderer != null)
+                {
+                    context.Renderer.RenderStandardContent.DrawContent(context, drawRect,
+                        _contentProvider, _memento,
+                        VisualOrientation.Top,
+                        PaletteState.Normal, false, false, true);
+                }
             }
         }
         #endregion

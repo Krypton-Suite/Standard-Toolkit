@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonButton">Reference to ribbon group button definition.</param>
         public ViewDrawRibbonGroupClusterButtonImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupClusterButton ribbonButton)
+                                                                   KryptonRibbonGroupClusterButton ribbonButton)
             : base(ribbon)
         {
             Debug.Assert(ribbonButton != null);
@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage => _ribbonButton.KryptonCommand != null ? _ribbonButton.KryptonCommand.ImageSmall : _ribbonButton.ImageSmall;
+        protected override Image? DrawImage => _ribbonButton.KryptonCommand != null ? _ribbonButton.KryptonCommand.ImageSmall : _ribbonButton.ImageSmall;
 
         #endregion
     }

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             _width = width;
             _height = height;
         }
-        
+
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
@@ -77,18 +77,21 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Always return the same minimum size
-            new (_width, _height);
+            new(_width, _height);
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            if (context != null)
+            {
+                ClientRectangle = context.DisplayRectangle;
+            }
         }
         #endregion
     }

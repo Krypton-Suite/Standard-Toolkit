@@ -27,8 +27,8 @@ namespace Krypton.Navigator
         /// <param name="ribbonTabText">Source for ribbon tab settings.</param>
         /// <param name="content">Source for content settings.</param>
         public RibbonTabToContent([DisallowNull] IPaletteRibbonGeneral ribbonGeneral,
-                                  [DisallowNull] IPaletteRibbonText ribbonTabText,
-                                  [DisallowNull] IPaletteContent content)
+                                  [DisallowNull] IPaletteRibbonText? ribbonTabText,
+                                  [DisallowNull] IPaletteContent? content)
         {
             Debug.Assert(ribbonGeneral != null);
             Debug.Assert(ribbonTabText != null);
@@ -44,7 +44,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the ribbon tab text palette to use.
         /// </summary>
-        public IPaletteRibbonText PaletteRibbonText { get; set; }
+        public IPaletteRibbonText? PaletteRibbonText { get; set; }
 
         #endregion
 

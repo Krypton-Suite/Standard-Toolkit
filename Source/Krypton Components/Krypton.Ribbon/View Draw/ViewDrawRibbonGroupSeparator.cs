@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         private readonly Size _preferredSize2010; // = new(7, 4);
         private readonly KryptonRibbon _ribbon;
         private KryptonRibbonGroupSeparator _ribbonSeparator;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         private Size _preferredSize;
         private PaletteRibbonShape _lastShape;
         #endregion
@@ -37,9 +37,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonSeparator">Reference to group separator definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupSeparator([DisallowNull] KryptonRibbon ribbon,
-                                            [DisallowNull] KryptonRibbonGroupSeparator ribbonSeparator,
-                                            [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupSeparator(KryptonRibbon ribbon,
+                                            KryptonRibbonGroupSeparator ribbonSeparator,
+                                            NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonSeparator != null);
@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
 
             _preferredSize2007 = new Size((int)(4 * FactorDpiX), (int)(4 * FactorDpiY));
             _preferredSize2010 = new Size((int)(7 * FactorDpiX), (int)(4 * FactorDpiY));
-            
+
             // Default the preferred size
             _lastShape = PaletteRibbonShape.Office2007;
             _preferredSize = _preferredSize2007;
@@ -216,7 +216,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -230,13 +230,16 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
-            context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape, 
-                                                                  context, 
-                                                                  ClientRectangle, 
-                                                                  _ribbon.StateCommon.RibbonGeneral, 
-                                                                  State);
+            if (context.Renderer != null)
+            {
+                context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape,
+                    context,
+                    ClientRectangle,
+                    _ribbon.StateCommon.RibbonGeneral,
+                    State);
+            }
         }
         #endregion
 

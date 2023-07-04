@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private readonly Padding _padding; // = new(1, 2, 0, 2);
         #endregion
 
@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbonCluster">Reference to cluster definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignCluster(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupCluster ribbonCluster,
-                                           NeedPaintHandler needPaint)
+                                                     KryptonRibbonGroupCluster ribbonCluster,
+                                                     NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
         {
             Debug.Assert(ribbonCluster != null);
