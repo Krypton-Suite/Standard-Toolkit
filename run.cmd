@@ -1,6 +1,6 @@
 :: Last updated: Sunday 23rd April, 2023 @ 10:00
 
-::@echo off
+@echo off
 
 title Krypton Toolkit Build System
 
