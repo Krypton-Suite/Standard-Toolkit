@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private IContextMenuTarget? _target;
+        private IContextMenuTarget _target;
         private IContextMenuTarget? _targetSubMenu;
         private System.Windows.Forms.Timer _itemDelayTimer;
         #endregion
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Set the provided target as the current target and it is already showing a sub menu
         /// </summary>
-        public void SetTargetSubMenu(IContextMenuTarget? target)
+        public void SetTargetSubMenu(IContextMenuTarget target)
         {
             // Kill any running timer
             _itemDelayTimer?.Stop();
@@ -560,7 +560,7 @@ namespace Krypton.Toolkit
             return bottomLeftTarget;
         }
 
-        private IContextMenuTarget FindDownTarget(TargetList targets, IContextMenuTarget? current)
+        private IContextMenuTarget FindDownTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item below the current one
             IContextMenuTarget newTarget = FindDownTarget(targets, current.ClientRectangle);
@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindUpTarget(TargetList targets, IContextMenuTarget? current)
+        private IContextMenuTarget FindUpTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item above the current one
             IContextMenuTarget newTarget = FindUpTarget(targets, current.ClientRectangle);
@@ -685,7 +685,7 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindRightTarget(TargetList targets, IContextMenuTarget? current)
+        private IContextMenuTarget FindRightTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item after the current one
             IContextMenuTarget newTarget = FindRightTarget(targets, current.ClientRectangle);
@@ -749,7 +749,7 @@ namespace Krypton.Toolkit
         }
 
         private IContextMenuTarget FindLeftTarget(TargetList targets,
-                                                  IContextMenuTarget? current,
+                                                  IContextMenuTarget current,
                                                   bool wrap,
                                                   ref bool hitEdge)
         {

@@ -512,10 +512,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (ViewManager != null)
-                {
-                    ViewManager.MouseMove(e, new Point(e.X, e.Y));
-                }
+                ViewManager?.MouseMove(e, new Point(e.X, e.Y));
             }
 
             // Let base class fire events
@@ -532,10 +529,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (ViewManager != null)
-                {
-                    ViewManager.MouseDown(e, new Point(e.X, e.Y));
-                }
+                ViewManager?.MouseDown(e, new Point(e.X, e.Y));
             }
 
             // Do not call base class! Prevent capture of the mouse
@@ -551,10 +545,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (ViewManager != null)
-                {
-                    ViewManager.MouseUp(e, new Point(e.X, e.Y));
-                }
+                ViewManager?.MouseUp(e, new Point(e.X, e.Y));
             }
 
             // Do not call base class! Prevent capture of the mouse
@@ -570,10 +561,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (ViewManager != null)
-                {
-                    ViewManager.MouseLeave(e);
-                }
+                ViewManager?.MouseLeave(e);
             }
 
             // Let base class fire events
@@ -590,10 +578,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (ViewManager != null)
-                {
-                    ViewManager.DoubleClick(PointToClient(MousePosition));
-                }
+                ViewManager?.DoubleClick(PointToClient(MousePosition));
             }
 
             // Let base class fire events

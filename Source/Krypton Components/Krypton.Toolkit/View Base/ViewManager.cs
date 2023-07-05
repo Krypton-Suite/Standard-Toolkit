@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Renderer provider.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if it contains transparent painting.</returns>
-        public bool EvalTransparentPaint(IRenderer renderer)
+        public bool EvalTransparentPaint([DisallowNull] IRenderer renderer)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(Root != null);
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the view.
         /// </summary>
         /// <param name="renderer">Renderer provider.</param>
-        public virtual void Layout(IRenderer renderer)
+        public virtual void Layout([DisallowNull] IRenderer renderer)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(Root != null);
@@ -303,7 +303,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">View context for layout operation.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Layout(ViewLayoutContext context)
+        public virtual void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             Debug.Assert(context.Renderer != null);
@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Renderer provider.</param>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Paint(IRenderer renderer, PaintEventArgs e)
+        public virtual void Paint([DisallowNull] IRenderer renderer, PaintEventArgs e)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(e != null);
@@ -391,7 +391,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Renderer context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Paint(RenderContext context)
+        public virtual void Paint([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
             Debug.Assert(Root != null);
@@ -439,7 +439,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseMove(MouseEventArgs e, Point rawPt)
+        public virtual void MouseMove([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -464,7 +464,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseDown(MouseEventArgs e, Point rawPt)
+        public virtual void MouseDown([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -495,7 +495,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseUp(MouseEventArgs e, Point rawPt)
+        public virtual void MouseUp([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -526,7 +526,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseLeave(EventArgs e)
+        public virtual void MouseLeave([DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 

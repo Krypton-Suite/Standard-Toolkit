@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _imageContent;
         private readonly ViewDrawMenuItemContent _textContent;
         private readonly FixedContentValue _fixedImage;
-        private VisualContextMenu? _contextMenu;
+        private VisualContextMenu _contextMenu;
         private readonly ViewDrawMenuItemContent _shortcutContent;
         private readonly ViewDrawMenuItemContent _subMenuContent;
         private readonly FixedContentValue _fixedTextExtraText;
@@ -390,10 +390,7 @@ namespace Krypton.Toolkit
             if ((_contextMenu == null) || _contextMenu.IsDisposed)
             {
                 // No need for the sub menu timer anymore, we are showing
-                if (KeyController != null)
-                {
-                    _provider.ProviderViewManager.SetTargetSubMenu((IContextMenuTarget)KeyController);
-                }
+                _provider.ProviderViewManager.SetTargetSubMenu((IContextMenuTarget)KeyController);
 
                 // Only show a sub menu if there is one to be shown!
                 if (HasSubMenu)
@@ -405,26 +402,23 @@ namespace Krypton.Toolkit
                     _contextMenu.Disposed += OnContextMenuDisposed;
 
                     // Get the screen rectangle for the drawing element
-                    if (OwningControl != null)
-                    {
-                        Rectangle menuDrawRect = OwningControl.RectangleToScreen(ClientRectangle);
+                    Rectangle menuDrawRect = OwningControl.RectangleToScreen(ClientRectangle);
 
-                        // Should this menu item be shown at a fixed screen rectangle?
-                        if (_provider.ProviderShowSubMenuFixed(KryptonContextMenuItem))
-                        {
-                            // Request the menu be shown at fixed screen rectangle
-                            _contextMenu.ShowFixed(_provider.ProviderShowSubMenuFixedRect(KryptonContextMenuItem),
-                                _provider.ProviderShowHorz,
-                                _provider.ProviderShowVert);
-                        }
-                        else
-                        {
-                            // Request the menu be shown immediately
-                            _contextMenu.Show(menuDrawRect,
-                                _provider.ProviderShowHorz,
-                                _provider.ProviderShowVert,
-                                true, false);
-                        }
+                    // Should this menu item be shown at a fixed screen rectangle?
+                    if (_provider.ProviderShowSubMenuFixed(KryptonContextMenuItem))
+                    {
+                        // Request the menu be shown at fixed screen rectangle
+                        _contextMenu.ShowFixed(_provider.ProviderShowSubMenuFixedRect(KryptonContextMenuItem),
+                                               _provider.ProviderShowHorz,
+                                               _provider.ProviderShowVert);
+                    }
+                    else
+                    {
+                        // Request the menu be shown immediately
+                        _contextMenu.Show(menuDrawRect,
+                                          _provider.ProviderShowHorz,
+                                          _provider.ProviderShowVert,
+                                          true, false);
                     }
                 }
             }
