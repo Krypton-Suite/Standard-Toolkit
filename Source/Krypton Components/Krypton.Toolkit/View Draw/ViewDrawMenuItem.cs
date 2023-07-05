@@ -402,23 +402,26 @@ namespace Krypton.Toolkit
                     _contextMenu.Disposed += OnContextMenuDisposed;
 
                     // Get the screen rectangle for the drawing element
-                    Rectangle menuDrawRect = OwningControl.RectangleToScreen(ClientRectangle);
+                    if (OwningControl != null)
+                    {
+                        Rectangle menuDrawRect = OwningControl.RectangleToScreen(ClientRectangle);
 
-                    // Should this menu item be shown at a fixed screen rectangle?
-                    if (_provider.ProviderShowSubMenuFixed(KryptonContextMenuItem))
-                    {
-                        // Request the menu be shown at fixed screen rectangle
-                        _contextMenu.ShowFixed(_provider.ProviderShowSubMenuFixedRect(KryptonContextMenuItem),
-                                               _provider.ProviderShowHorz,
-                                               _provider.ProviderShowVert);
-                    }
-                    else
-                    {
-                        // Request the menu be shown immediately
-                        _contextMenu.Show(menuDrawRect,
-                                          _provider.ProviderShowHorz,
-                                          _provider.ProviderShowVert,
-                                          true, false);
+                        // Should this menu item be shown at a fixed screen rectangle?
+                        if (_provider.ProviderShowSubMenuFixed(KryptonContextMenuItem))
+                        {
+                            // Request the menu be shown at fixed screen rectangle
+                            _contextMenu.ShowFixed(_provider.ProviderShowSubMenuFixedRect(KryptonContextMenuItem),
+                                _provider.ProviderShowHorz,
+                                _provider.ProviderShowVert);
+                        }
+                        else
+                        {
+                            // Request the menu be shown immediately
+                            _contextMenu.Show(menuDrawRect,
+                                _provider.ProviderShowHorz,
+                                _provider.ProviderShowVert,
+                                true, false);
+                        }
                     }
                 }
             }
