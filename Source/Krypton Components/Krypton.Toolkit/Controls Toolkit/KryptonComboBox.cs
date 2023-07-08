@@ -290,11 +290,11 @@ namespace Krypton.Toolkit
                             rect.bottom -= borderSize.Height;
 
                             // Create rectangle that represents the drop down button
-                            Rectangle dropRect = new Rectangle(rect.right + 2, rect.top, dropDownWidth - 2,
+                            var dropRect = new Rectangle(rect.right + 2, rect.top, dropDownWidth - 2,
                                 rect.bottom - rect.top);
 
                             // Extract the point in client coordinates
-                            Point clientPoint = new Point((int)m.LParam);
+                            var clientPoint = new Point((int)m.LParam);
                             var mouseTracking = dropRect.Contains(clientPoint);
                             if (mouseTracking != _mouseTracking)
                             {
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
                             {
                                 PI.SendMessage(Handle, PI.CB_SETCUEBANNER, IntPtr.Zero, _kryptonComboBox.CueHint.CueHintText);
                             }
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            var ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
                                 PaletteInputControlTripleStates states = _kryptonComboBox.GetComboBoxTripleState();
 
                                 // Drawn entire client area in the background color
-                                using SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
+                                using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
                                 g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
 
                                 // Get the constant used to crack open the display
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Draw text using font defined by the control
-                                    Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                    var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
                                         rect.bottom - rect.top);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
                                     // Find correct text color
@@ -455,7 +455,7 @@ namespace Krypton.Toolkit
                         if (_kryptonComboBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -545,8 +545,7 @@ namespace Krypton.Toolkit
                 _viewButton.ElementState = state;
 
                 // Position the button element inside the available drop down button area
-                using (ViewLayoutContext layoutContext =
-                       new ViewLayoutContext(_kryptonComboBox, _kryptonComboBox.Renderer))
+                using (var layoutContext = new ViewLayoutContext(_kryptonComboBox, _kryptonComboBox.Renderer))
                 {
                     // Define the available area for layout
                     layoutContext.DisplayRectangle = drawRect;
@@ -556,14 +555,13 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill background with the solid background color
-                using (SolidBrush backBrush = new SolidBrush(BackColor))
+                using (var backBrush = new SolidBrush(BackColor))
                 {
                     g.FillRectangle(backBrush, drawRect);
                 }
 
                 // Ask the element to draw now
-                using (RenderContext renderContext =
-                       new RenderContext(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
+                using (var renderContext = new RenderContext(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
                 {
                     // Ask the button element to draw itself
                     _viewButton.Render(renderContext);
@@ -703,7 +701,7 @@ namespace Krypton.Toolkit
                         // Mouse is over the control
                         if (!MouseOver)
                         {
-                            PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
+                            var tme = new PI.TRACKMOUSEEVENTS
                             {
 
                                 // This structure needs to know its own size in bytes
@@ -730,7 +728,7 @@ namespace Krypton.Toolkit
                         if (_kryptonComboBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -2289,7 +2287,7 @@ namespace Krypton.Toolkit
         {
             HoveredSelectionChanged?.Invoke(this, e);
             // See if there is a tooltip to display for the new selection.
-            ToolTipNeededEventArgs args = new ToolTipNeededEventArgs(e.Index, e.Item);
+            var args = new ToolTipNeededEventArgs(e.Index, e.Item);
             OnToolTipNeeded(args);
             if (!args.IsEmpty)
             {
@@ -2820,8 +2818,7 @@ namespace Krypton.Toolkit
                             {
                                 _hoverIndex = e.Index;
                                 // Raise the Hover event
-                                HoveredSelectionChangedEventArgs ev =
-                                    new HoveredSelectionChangedEventArgs(e.Bounds, e.Index, Items[e.Index]);
+                                var ev = new HoveredSelectionChangedEventArgs(e.Bounds, e.Index, Items[e.Index]);
                                 OnHoverSelectionChanged(ev);
                             }
                         }
@@ -2850,7 +2847,7 @@ namespace Krypton.Toolkit
                                 // Easier to draw using a graphics instance than a DC!
                                 using Graphics g = Graphics.FromHdc(_screenDC);
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                                using (var context = new ViewLayoutContext(this, Renderer))
                                 {
                                     context.DisplayRectangle = drawBounds;
                                     _drawPanel.Layout(context);
@@ -2858,7 +2855,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Ask the view element to actually draw
-                                using (RenderContext context = new RenderContext(this, g, drawBounds, Renderer))
+                                using (var context = new RenderContext(this, g, drawBounds, Renderer))
                                 {
                                     _drawPanel.Render(context);
                                     _drawButton.Render(context);
@@ -2888,7 +2885,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
+            using var context = new ViewLayoutContext(this, Renderer);
             Size size = _drawButton.GetPreferredSize(context);
             e.ItemWidth = size.Width;
             e.ItemHeight = size.Height;
@@ -3070,7 +3067,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -3129,7 +3126,7 @@ namespace Krypton.Toolkit
                 return _toolTip;
             }
 
-            PaletteRedirect redirector = new PaletteRedirect(KryptonManager.CurrentGlobalPalette);
+            var redirector = new PaletteRedirect(KryptonManager.CurrentGlobalPalette);
             _toolTip = new VisualPopupToolTip(redirector,
                 new ButtonSpecToContent(redirector, _toolTipSpec), KryptonManager
                     .CurrentGlobalPalette.GetRenderer(),
@@ -3145,7 +3142,7 @@ namespace Krypton.Toolkit
             VisualPopupToolTip tip = GetToolTip();
             // Needed to make Krypton update the tooltip data with the data of the spec.
             tip.PerformNeedPaint(true);
-            Point point = new Point(location.X + DropDownWidth, location.Y);
+            var point = new Point(location.X + DropDownWidth, location.Y);
             tip.ShowCalculatingSize(PointToScreen(point));
         }
 

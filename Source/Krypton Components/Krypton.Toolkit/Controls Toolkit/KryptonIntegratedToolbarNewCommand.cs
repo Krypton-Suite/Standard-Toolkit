@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the new button.</summary>
         /// <value>The new button.</value>
         [DefaultValue(null), Description(@"Access to the new button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarNewButton
         {
             get => _newButtonSpec ?? new ButtonSpecAny();

@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the copy button.</summary>
         /// <value>The copy button.</value>
         [DefaultValue(null), Description(@"Access to the copy button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarCopyButton
         {
             get => _copyButtonSpec ?? new ButtonSpecAny();

@@ -668,7 +668,7 @@ namespace Krypton.Toolkit
                     // A data cell cannot become tracking or pressed
                     if ((rowIndex < 0) || (columnIndex < 0))
                     {
-                        Point cellIndex = new Point(columnIndex, rowIndex);
+                        var cellIndex = new Point(columnIndex, rowIndex);
 
                         // If the user has pressed down on this cell
                         if (cellIndex.Equals(_cellDown))
@@ -1181,14 +1181,14 @@ namespace Krypton.Toolkit
             var rtl = RightToLeftInternal;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
-            Rectangle tempCellBounds = new Rectangle(0, 0, e.CellBounds.Width, e.CellBounds.Height);
-            using (Bitmap tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
+            var tempCellBounds = new Rectangle(0, 0, e.CellBounds.Width, e.CellBounds.Height);
+            using (var tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
             {
                 using (Graphics tempG = Graphics.FromImage(tempBitmap))
                 {
-                    using (RenderContext renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer))
+                    using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer))
                     {
-                        // Force the border to have a specificed maximum border edge
+                        // Force the border to have a specified maximum border edge
                         _borderForced.SetInherit(paletteBorder);
                         _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
 
@@ -1238,7 +1238,7 @@ namespace Krypton.Toolkit
                                         // Draw icon and update the remainder cell bounds left over
                                         var iconWidth = spec.Icon.Width + 5;
                                         var width = tempCellBounds.Width - iconWidth;
-                                        Rectangle iconBounds = new Rectangle(
+                                        var iconBounds = new Rectangle(
                                             tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
                                                 ? 5
                                                 : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
@@ -1254,7 +1254,7 @@ namespace Krypton.Toolkit
                             case { RowIndex: >= 0, ColumnIndex: -1 }:
                             {
                                 // By default there is no glyph needed for the row
-                                GridRowGlyph glpyh = GridRowGlyph.None;
+                                GridRowGlyph glyph = GridRowGlyph.None;
 
                                 // Find the correct glyph that should be drawn
                                 if (CurrentCellAddress.Y == e.RowIndex)
@@ -1263,40 +1263,40 @@ namespace Krypton.Toolkit
                                     {
                                         if (IsCurrentRowDirty && ShowEditingIcon)
                                         {
-                                            glpyh = GridRowGlyph.Pencil;
+                                            glyph = GridRowGlyph.Pencil;
                                         }
                                         else if (NewRowIndex == e.RowIndex)
                                         {
-                                            glpyh = GridRowGlyph.ArrowStar;
+                                            glyph = GridRowGlyph.ArrowStar;
                                         }
                                         else
                                         {
-                                            glpyh = GridRowGlyph.Arrow;
+                                            glyph = GridRowGlyph.Arrow;
                                         }
                                     }
                                     else if (IsCurrentCellDirty && ShowEditingIcon)
                                     {
-                                        glpyh = GridRowGlyph.Pencil;
+                                        glyph = GridRowGlyph.Pencil;
                                     }
                                     else if (NewRowIndex == e.RowIndex)
                                     {
-                                        glpyh = GridRowGlyph.ArrowStar;
+                                        glyph = GridRowGlyph.ArrowStar;
                                     }
                                     else
                                     {
-                                        glpyh = GridRowGlyph.Arrow;
+                                        glyph = GridRowGlyph.Arrow;
                                     }
                                 }
                                 else if (NewRowIndex == e.RowIndex)
                                 {
-                                    glpyh = GridRowGlyph.Star;
+                                    glyph = GridRowGlyph.Star;
                                 }
 
                                 // Do we need to draw an image?
-                                if (glpyh != GridRowGlyph.None)
+                                if (glyph != GridRowGlyph.None)
                                 {
                                     // Draw the row glyph and update the remainder cell bounds left over
-                                    tempCellBounds = Renderer.RenderGlyph.DrawGridRowGlyph(renderContext, glpyh, tempCellBounds, paletteContent, state, rtl);
+                                    tempCellBounds = Renderer.RenderGlyph.DrawGridRowGlyph(renderContext, glyph, tempCellBounds, paletteContent, state, rtl);
                                 }
 
                                 // Is there an error icon associated with the row that needs showing
@@ -1306,8 +1306,8 @@ namespace Krypton.Toolkit
                                     Rectangle beforeCellBounds = tempCellBounds;
                                     tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
 
-                                    // Calculate the icon rectangle
-                                    Rectangle iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
+                                        // Calculate the icon rectangle
+                                        var iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
                                         beforeCellBounds.Width - tempCellBounds.Width, tempCellBounds.Height);
 
                                     // Cache the icon area
@@ -1347,7 +1347,7 @@ namespace Krypton.Toolkit
                                         // Draw icon and update the remainder cell bounds left over
                                         var iconWidth = spec.Icon.Width + 5;
                                         var width = tempCellBounds.Width - iconWidth;
-                                        Rectangle iconBounds = new Rectangle(
+                                        var iconBounds = new Rectangle(
                                             tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
                                                 ? 5
                                                 : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
@@ -1386,7 +1386,7 @@ namespace Krypton.Toolkit
                                     var sCount = 1;
                                     while (sindx >= 0)
                                     {
-                                        Rectangle hl_rect = new Rectangle
+                                        var hl_rect = new Rectangle
                                         {
                                             Y = e.CellBounds.Y + 2,
                                             Height = e.CellBounds.Height - 5
@@ -1420,7 +1420,7 @@ namespace Krypton.Toolkit
                                         //    hl_rect.Width = s2.Width - 6;
                                         //}
 
-                                        SolidBrush hl_brush =
+                                        var hl_brush =
                                             (e.State & DataGridViewElementStates.Selected) !=
                                             DataGridViewElementStates.None
                                                 ? new SolidBrush(Color.DarkGoldenrod)
@@ -1446,7 +1446,7 @@ namespace Krypton.Toolkit
                                     // Use the display value of the header cell
                                     _shortTextValue.ShortText = e.FormattedValue.ToString();
 
-                                    using ViewLayoutContext layoutContext = new ViewLayoutContext(this, Renderer);
+                                    using var layoutContext = new ViewLayoutContext(this, Renderer);
                                     // If a column header cell...
                                     if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
                                     {
@@ -1556,7 +1556,7 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using RenderContext context = new RenderContext(this, graphics, clipBounds, Renderer);
+                        using var context = new RenderContext(this, graphics, clipBounds, Renderer);
                         ViewManager.Paint(context);
                     }
 
@@ -2494,7 +2494,7 @@ namespace Krypton.Toolkit
         {
             if (toolTipText.Length > 0x120)
             {
-                StringBuilder builder = new StringBuilder(toolTipText.Substring(0, 0x100), 0x103);
+                var builder = new StringBuilder(toolTipText.Substring(0, 0x100), 0x103);
                 builder.Append(@"...");
                 return builder.ToString();
             }
@@ -2661,7 +2661,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)(long)m.LParam) == -1)

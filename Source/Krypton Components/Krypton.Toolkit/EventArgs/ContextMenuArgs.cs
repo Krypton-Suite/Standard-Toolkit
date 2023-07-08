@@ -49,8 +49,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="cms">Context menu strip that can be customized.</param>
         /// <param name="kcm">KryptonContextMenu that can be customized.</param>
-        public ContextMenuArgs(ContextMenuStrip cms,
-                               KryptonContextMenu kcm)
+        public ContextMenuArgs(ContextMenuStrip? cms,
+                               KryptonContextMenu? kcm)
         {
             ContextMenuStrip = cms;
             KryptonContextMenu = kcm;

@@ -2053,7 +2053,7 @@ namespace Krypton.Toolkit
         {
             if (UseKryptonFileDialogs)
             {
-                using KryptonOpenFileDialog kofd = new KryptonOpenFileDialog
+                using var kofd = new KryptonOpenFileDialog
                 {
                     CheckFileExists = true,
                     CheckPathExists = true,
@@ -2078,7 +2078,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using OpenFileDialog dialog = new OpenFileDialog
+                using var dialog = new OpenFileDialog
                 {
                     // Palette files are just XML documents
                     CheckFileExists = true,
@@ -2282,7 +2282,7 @@ namespace Krypton.Toolkit
         {
             if (UseKryptonFileDialogs)
             {
-                using KryptonSaveFileDialog ksfd = new KryptonSaveFileDialog
+                using var ksfd = new KryptonSaveFileDialog
                 {
                     OverwritePrompt = true,
                     DefaultExt = @"xml",
@@ -2299,7 +2299,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using SaveFileDialog dialog = new SaveFileDialog
+                using var dialog = new SaveFileDialog
                 {
                     // Palette files are just xml documents
                     OverwritePrompt = true,
@@ -2950,7 +2950,7 @@ namespace Krypton.Toolkit
             }
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
 
             // Attempt to load as a valid xml document
             doc.Load(filename);
@@ -2964,10 +2964,10 @@ namespace Krypton.Toolkit
         private object ImportFromStream(object parameter)
         {
             // Cast to correct type
-            Stream stream = (Stream)parameter;
+            var stream = (Stream)parameter;
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
 
             // Attempt to load from the provided stream
             doc.Load(stream);
@@ -2984,7 +2984,7 @@ namespace Krypton.Toolkit
             var byteArray = (byte[])parameter;
 
             // Create a memory based stream
-            MemoryStream ms = new MemoryStream(byteArray);
+            using var ms = new MemoryStream(byteArray);
 
             // Perform import from the memory stream
             ImportFromStream(ms);
@@ -3050,7 +3050,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Cache the images from the images element
-                ImageReverseDictionary imageCache = new ImageReverseDictionary();
+                var imageCache = new ImageReverseDictionary();
 
                 // Use reflection to import the palette hierarchy
                 ImportImagesFromElement(images, imageCache);
@@ -3072,7 +3072,7 @@ namespace Krypton.Toolkit
             var filename = (string)parameters[0];
             var ignoreDefaults = (bool)parameters[1];
 
-            FileInfo info = new FileInfo(filename);
+            var info = new FileInfo(filename);
 
             // Check the target directory actually exists
             if (info.Directory != null && !info.Directory.Exists)
@@ -3116,7 +3116,7 @@ namespace Krypton.Toolkit
             var ignoreDefaults = (bool)parameters[0];
 
             // Create a memory based stream
-            MemoryStream ms = new MemoryStream();
+            using var ms = new MemoryStream();
 
             // Perform export into the memory stream
             ExportToStream(new object[] { ms, ignoreDefaults });
@@ -3139,7 +3139,7 @@ namespace Krypton.Toolkit
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
                 // Create a new xml document for storing the palette settings
-                XmlDocument doc = new XmlDocument();
+                var doc = new XmlDocument();
 
                 // Add the standard xml version number
                 doc.AppendChild(doc.CreateProcessingInstruction("xml", @"version=""1.0"""));
@@ -3164,7 +3164,7 @@ namespace Krypton.Toolkit
                 root.AppendChild(images);
 
                 // Cache any images that are found during object export
-                ImageDictionary imageCache = new ImageDictionary();
+                var imageCache = new ImageDictionary();
 
                 // Use reflection to export the palette hierarchy
                 ExportObjectToElement(doc, props, imageCache, this, ignoreDefaults);
@@ -3308,7 +3308,7 @@ namespace Krypton.Toolkit
                             var bytes = Convert.FromBase64String(cdata.Value);
 
                             // Convert the bytes back into an Image
-                            MemoryStream memory = new MemoryStream(bytes);
+                            using var memory = new MemoryStream(bytes);
                             Bitmap resurect;
                             try
                             {
@@ -3319,7 +3319,7 @@ namespace Krypton.Toolkit
                                 // Do the old way
                                 // SYSLIB0011: BinaryFormatter serialization is obsolete
 #pragma warning disable SYSLIB0011
-                                BinaryFormatter formatter = new BinaryFormatter();
+                                var formatter = new BinaryFormatter();
                                 var old = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
                                 resurect = old is Bitmap bitmap ? bitmap : new Bitmap(old);
@@ -3495,7 +3495,7 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Convert the Image into base64 so it can be used in xml
-                    using MemoryStream memory = new MemoryStream();
+                    using var memory = new MemoryStream();
 
                     var imageFormat = entry.Key.RawFormat;
 

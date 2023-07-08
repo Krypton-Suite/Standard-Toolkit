@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append("KryptonDataGridViewDateTimePickerColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);

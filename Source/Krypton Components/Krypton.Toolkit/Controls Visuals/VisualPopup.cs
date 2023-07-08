@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             {
                 // Get the window handle of the window under this screen point
                 Point screenPt = PointToScreen(pt);
-                PI.POINT screenPIPt = new PI.POINT
+                var screenPIPt = new PI.POINT
                 {
                     X = screenPt.X,
                     Y = screenPt.Y
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
                 // Assuming we got back a valid window handle
                 if (hWnd != IntPtr.Zero)
                 {
-                    StringBuilder className = new StringBuilder(256);
+                    var className = new StringBuilder(256);
                     var length = PI.GetClassName(hWnd, className, className.Capacity);
 
                     // If we got back a valid name

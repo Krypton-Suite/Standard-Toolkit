@@ -826,7 +826,7 @@ namespace Krypton.Toolkit
 
             int internalBorder = BORDER_SIZE;
 
-            Rectangle focusRectangle = new Rectangle(internalBorder, internalBorder,
+            var focusRectangle = new Rectangle(internalBorder, internalBorder,
                 bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
 
             PaletteBase? palette = KryptonManager.CurrentGlobalPalette;
@@ -1115,13 +1115,17 @@ namespace Krypton.Toolkit
 
         private static void PaintArrow(Graphics graphics, Rectangle rectangle)
         {
-            Point midPoint = new Point(Convert.ToInt32(rectangle.Left + rectangle.Width / 2),
+            var midPoint = new Point(Convert.ToInt32(rectangle.Left + rectangle.Width / 2),
                 Convert.ToInt32(rectangle.Top + rectangle.Height / 2));
 
             midPoint.X += (rectangle.Width % 2);
 
-            Point[] arrow = new Point[] { new Point(midPoint.X - 2, midPoint.Y - 1),
-                new Point(midPoint.X + 3, midPoint.Y - 1), new Point(midPoint.X, midPoint.Y + 2) };
+            var arrow = new Point[] 
+            { 
+                new Point(midPoint.X - 2, midPoint.Y - 1),
+                new Point(midPoint.X + 3, midPoint.Y - 1), 
+                new Point(midPoint.X, midPoint.Y + 2)
+            };
 
             graphics.FillPolygon(SystemBrushes.ControlText, arrow);
         }

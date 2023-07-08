@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonLinkLabelActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonLinkLabel _linkLabel;
+        private readonly KryptonLinkLabel? _linkLabel;
         private readonly IComponentChangeService _service;
         private string _action;
         #endregion
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_linkLabel != null)

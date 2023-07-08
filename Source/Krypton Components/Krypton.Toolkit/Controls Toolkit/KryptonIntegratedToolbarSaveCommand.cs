@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the save button.</summary>
         /// <value>The save button.</value>
         [DefaultValue(null), Description(@"Access to the save button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarSaveButton
         {
             get => _saveButtonSpec ?? new ButtonSpecAny();

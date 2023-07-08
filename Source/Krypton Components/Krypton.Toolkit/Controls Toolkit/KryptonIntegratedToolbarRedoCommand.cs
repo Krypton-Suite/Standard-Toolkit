@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the redo button.</summary>
         /// <value>The redo button.</value>
         [DefaultValue(null), Description(@"Access to the redo button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarRedoButton
         {
             get => _redoButtonSpec ?? new ButtonSpecAny();

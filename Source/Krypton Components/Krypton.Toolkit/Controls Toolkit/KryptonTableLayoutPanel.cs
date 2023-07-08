@@ -312,8 +312,8 @@ namespace Krypton.Toolkit
                     // Only interested in overriding the behavior when we have a krypton context menu...
                     if (KryptonContextMenu != null)
                     {
-                        // Extract the screen mouse position (if might not actually be provided)
-                        Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            // Extract the screen mouse position (if might not actually be provided)
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                         // If keyboard activated, the menu position is centered
                         if (((int)(long)m.LParam) == -1)

@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonButtonActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonButton _button;
+        private readonly KryptonButton? _button;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection? actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_button != null)

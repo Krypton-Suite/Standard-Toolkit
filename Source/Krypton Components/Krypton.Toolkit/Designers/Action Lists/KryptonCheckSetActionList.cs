@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonCheckSetActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCheckSet _set;
+        private readonly KryptonCheckSet? _set;
         #endregion
 
         #region Identity
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_set != null)

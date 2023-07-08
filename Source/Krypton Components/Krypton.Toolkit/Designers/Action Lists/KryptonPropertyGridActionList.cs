@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonPropertyGrid _propertyGrid;
+        private readonly KryptonPropertyGrid? _propertyGrid;
 
         private readonly IComponentChangeService _service;
 
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
 
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             if (_propertyGrid != null)
             {

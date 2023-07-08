@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             if (destinationType == typeof(string))
             {
                 // Convert object to expected style
-                PaletteDrawBorders borders = (PaletteDrawBorders)value;
+                var borders = (PaletteDrawBorders)value;
 
                 // If the inherit flag is set that that is the only flag of interest
                 if (borders.HasFlag(PaletteDrawBorders.Inherit))
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Append the names of each border we want
-                    StringBuilder sb = new StringBuilder();
+                    var sb = new StringBuilder();
 
                     if (borders.HasFlag(PaletteDrawBorders.Top))
                     {

@@ -822,7 +822,7 @@ namespace Krypton.Toolkit
             }
 
             // Package up the context menu and positioning values we will use later
-            ContextPositionMenuArgs cpma = new ContextPositionMenuArgs(ContextMenuStrip,
+            var cpma = new ContextPositionMenuArgs(ContextMenuStrip,
                 KryptonContextMenu, GetPositionH(), GetPositionV());
             // Let use examine and later values
             OnDropDown(cpma);

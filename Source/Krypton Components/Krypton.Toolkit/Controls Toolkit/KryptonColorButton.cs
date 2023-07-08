@@ -1191,7 +1191,7 @@ namespace Krypton.Toolkit
             }
 
             // Package up the context menu and positioning values we will use later
-            ContextPositionMenuArgs cpma = new ContextPositionMenuArgs(null,
+            var cpma = new ContextPositionMenuArgs(null,
                 _kryptonContextMenu, GetPositionH(), GetPositionV());
             // Let use examine and later values
             OnDropDown(cpma);
@@ -1480,14 +1480,14 @@ namespace Krypton.Toolkit
         private void OnClickMoreColors(object sender, EventArgs e)
         {
             // Give user a chance to cancel showing the Krypton more colors dialog
-            CancelEventArgs cea = new CancelEventArgs();
+            var cea = new CancelEventArgs();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
                 // Use a Krypton color dialog for the selection of custom colors
-                KryptonColorDialog cd = new KryptonColorDialog
+                var cd = new KryptonColorDialog
                 {
                     Color = SelectedColor,
                     FullOpen = _allowFullOpen

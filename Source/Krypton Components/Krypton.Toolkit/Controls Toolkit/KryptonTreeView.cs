@@ -155,8 +155,7 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using ViewLayoutContext context =
-                    new ViewLayoutContext(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer);
+                using var context = new ViewLayoutContext(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer);
                 ViewDrawPanel.Layout(context);
             }
 
@@ -227,7 +226,7 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -253,14 +252,13 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context =
-                                       new ViewLayoutContext(this, _kryptonTreeView.Renderer))
+                                using (var context = new ViewLayoutContext(this, _kryptonTreeView.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new RenderContext(this, _kryptonTreeView, g, realRect,
+                                using (var context = new RenderContext(this, _kryptonTreeView, g, realRect,
                                            _kryptonTreeView.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
@@ -532,24 +530,22 @@ namespace Krypton.Toolkit
 
             // Create the palette storage
             _redirectImages = new PaletteRedirectTreeView(Redirector, PlusMinusImages, CheckBoxImages);
-            PaletteBackInheritRedirect backInherit =
-                new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.InputControlStandalone);
-            PaletteBorderInheritRedirect borderInherit =
-                new PaletteBorderInheritRedirect(Redirector, PaletteBorderStyle.InputControlStandalone);
-            PaletteBackColor1 commonBack = new PaletteBackColor1(backInherit, NeedPaintDelegate);
-            PaletteBorder commonBorder = new PaletteBorder(borderInherit, NeedPaintDelegate);
+            var backInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.InputControlStandalone);
+            var borderInherit = new PaletteBorderInheritRedirect(Redirector, PaletteBorderStyle.InputControlStandalone);
+            var commonBack = new PaletteBackColor1(backInherit, NeedPaintDelegate);
+            var commonBorder = new PaletteBorder(borderInherit, NeedPaintDelegate);
             StateCommon = new PaletteTreeStateRedirect(Redirector, commonBack, backInherit, commonBorder, borderInherit, NeedPaintDelegate);
 
-            PaletteBackColor1 disabledBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            PaletteBorder disabledBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var disabledBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
+            var disabledBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
             StateDisabled = new PaletteTreeState(StateCommon, disabledBack, disabledBorder, NeedPaintDelegate);
 
-            PaletteBackColor1 normalBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            PaletteBorder normalBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var normalBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
+            var normalBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
             StateNormal = new PaletteTreeState(StateCommon, normalBack, normalBorder, NeedPaintDelegate);
 
-            PaletteBackColor1 activeBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            PaletteBorder activeBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var activeBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
+            var activeBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
             StateActive = new PaletteDouble(StateCommon, activeBack, activeBorder, NeedPaintDelegate);
 
             OverrideFocus = new PaletteTreeNodeTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
@@ -574,7 +570,7 @@ namespace Krypton.Toolkit
             {
                 _drawCheckBox
             };
-            ViewLayoutSeparator layoutCheckBoxAfter = new ViewLayoutSeparator(3, 0);
+            var layoutCheckBoxAfter = new ViewLayoutSeparator(3, 0);
             _layoutCheckBoxStack = new ViewLayoutStack(true)
             {
                 layoutCheckBox,
@@ -583,8 +579,8 @@ namespace Krypton.Toolkit
 
             // Stack used to layout the location of the node image
             _layoutImage = new ViewLayoutSeparator(0, 0);
-            ViewLayoutSeparator layoutImageAfter = new ViewLayoutSeparator(3, 0);
-            ViewLayoutCenter layoutImageCenter = new ViewLayoutCenter(_layoutImage);
+            var layoutImageAfter = new ViewLayoutSeparator(3, 0);
+            var layoutImageCenter = new ViewLayoutCenter(_layoutImage);
             _layoutImageStack = new ViewLayoutStack(true)
             {
                 layoutImageCenter,
@@ -650,7 +646,7 @@ namespace Krypton.Toolkit
             };
 
             // Create inner view for placing inside the drawing docker
-            ViewLayoutDocker drawDockerInner = new ViewLayoutDocker
+            var drawDockerInner = new ViewLayoutDocker
             {
                 { _layoutFill, ViewDockStyle.Fill }
             };
@@ -1924,7 +1920,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UpdateContentFromNode(TreeNode node)
+        private void UpdateContentFromNode(TreeNode? node)
         {
             _overrideNormalNode.TreeNode = node;
 
@@ -2123,7 +2119,7 @@ namespace Krypton.Toolkit
 
                 // Create indent rectangle and adjust bounds for remainder
                 var nodeIndent = NodeIndent(e.Node) + 2;
-                Rectangle indentBounds = new Rectangle(bounds.X + nodeIndent - indent, bounds.Y, indent, bounds.Height);
+                var indentBounds = new Rectangle(bounds.X + nodeIndent - indent, bounds.Y, indent, bounds.Height);
                 bounds.X += nodeIndent;
                 bounds.Width -= nodeIndent;
 
@@ -2141,7 +2137,7 @@ namespace Krypton.Toolkit
 
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
-                        using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                        using (var context = new ViewLayoutContext(this, Renderer))
                         {
                             context.DisplayRectangle = e.Bounds;
                             _treeView.ViewDrawPanel.Layout(context);
@@ -2168,7 +2164,7 @@ namespace Krypton.Toolkit
                             _layoutDocker.Layout(context);
                         }
 
-                        using (RenderContext context = new RenderContext(this, g, e.Bounds, Renderer))
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             _treeView.ViewDrawPanel.Render(context);
                         }
@@ -2177,7 +2173,8 @@ namespace Krypton.Toolkit
                         if (indentBounds.X >= 0)
                         {
                             // Do we draw lines between nodes?
-                            if (ShowLines && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
+                            if (ShowLines
+                                && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
                             {
                                 // Find center points
                                 var hCenter = indentBounds.X + (indentBounds.Width / 2) - 1;
@@ -2203,7 +2200,7 @@ namespace Krypton.Toolkit
 
                                 // Draw the horizontal and vertical lines
                                 Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                                using Pen linePen = new Pen(lineColor);
+                                using var linePen = new Pen(lineColor);
                                 linePen.DashStyle = DashStyle.Dot;
                                 linePen.DashOffset = indent % 2;
                                 g.DrawLine(linePen, hCenter, top, hCenter, bottom);
@@ -2233,7 +2230,7 @@ namespace Krypton.Toolkit
                             }
                         }
 
-                        using (RenderContext context = new RenderContext(this, g, bounds, Renderer))
+                        using (var context = new RenderContext(this, g, bounds, Renderer))
                         {
                             _layoutDocker.Render(context);
                         }

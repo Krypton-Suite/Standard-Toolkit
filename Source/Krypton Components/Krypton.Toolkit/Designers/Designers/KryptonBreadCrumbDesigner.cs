@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonBreadCrumb _breadCrumb;
+        private KryptonBreadCrumb? _breadCrumb;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 if (_breadCrumb != null)
                 {
@@ -85,9 +85,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the bread crumb specific list
                     new KryptonBreadCrumbActionList(this)
                 };
@@ -164,7 +163,7 @@ namespace Krypton.Toolkit
             if ((_breadCrumb != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _breadCrumb.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _breadCrumb.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -172,7 +171,7 @@ namespace Krypton.Toolkit
                     _breadCrumb.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    var selectionList = new ArrayList
                     {
                         component
                     };
@@ -184,7 +183,7 @@ namespace Krypton.Toolkit
         private void OnBreadCrumbDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _breadCrumb?.DesignerComponentFromPoint(pt);
+            Component? component = _breadCrumb?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
@@ -202,7 +201,7 @@ namespace Krypton.Toolkit
             if ((_breadCrumb != null) && (e.Component == _breadCrumb))
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                IDesignerHost? host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _breadCrumb.ButtonSpecs.Count - 1; i >= 0; i--)
@@ -217,7 +216,7 @@ namespace Krypton.Toolkit
                     _breadCrumb.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host.DestroyComponent(spec);
+                    host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
                     _changeService.OnComponentChanged(_breadCrumb, null, null, null);

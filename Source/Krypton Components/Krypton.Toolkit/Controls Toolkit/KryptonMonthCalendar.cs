@@ -1710,7 +1710,7 @@ namespace Krypton.Toolkit
 
         private void AdjustSize(ref int width, ref int height)
         {
-            using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
+            using var context = new ViewLayoutContext(this, Renderer);
             // Ask back/border the size it requires
             Size backBorderSize = _drawDocker.GetNonChildSize(context);
 

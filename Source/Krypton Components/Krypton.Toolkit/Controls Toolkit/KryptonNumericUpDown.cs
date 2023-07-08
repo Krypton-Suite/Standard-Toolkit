@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                         if (_kryptonNumericUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -320,9 +320,8 @@ namespace Krypton.Toolkit
                         // Mouse is over the control
                         if (!MouseOver)
                         {
-                            PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
+                            var tme = new PI.TRACKMOUSEEVENTS
                             {
-
                                 // This structure needs to know its own size in bytes
                                 cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
                                 dwHoverTime = 100,
@@ -345,7 +344,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            var ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -362,7 +361,7 @@ namespace Krypton.Toolkit
                                 PaletteInputControlTripleStates states = NumericUpDown.GetTripleState();
 
                                 // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state)))
+                                using (var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state)))
                                 {
                                     g.FillRectangle(backBrush,
                                         new Rectangle(rect.left, rect.top, rect.right - rect.left,
@@ -428,7 +427,7 @@ namespace Krypton.Toolkit
                         if (NumericUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -561,14 +560,14 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            var ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
-                            Rectangle clientRect = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                            var clientRect = new Rectangle(rect.left, rect.top, rect.right - rect.left,
                                 rect.bottom - rect.top);
 
                             try
@@ -588,8 +587,7 @@ namespace Krypton.Toolkit
                                         // Easier to draw using a graphics instance than a DC!
                                         using Graphics g = Graphics.FromHdc(_screenDC);
                                         // Drawn entire client area in the background color
-                                        using (SolidBrush backBrush =
-                                               new SolidBrush(NumericUpDown.NumericUpDown.BackColor))
+                                        using (var backBrush = new SolidBrush(NumericUpDown.NumericUpDown.BackColor))
                                         {
                                             g.FillRectangle(backBrush, clientRect);
                                         }
@@ -650,14 +648,13 @@ namespace Krypton.Toolkit
                 _palette.SetStyles(NumericUpDown.UpDownButtonStyle);
 
                 // Find button rectangles
-                Rectangle upRect = new Rectangle(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
-                Rectangle downRect = new Rectangle(clientRect.X, upRect.Bottom, clientRect.Width,
+                var upRect = new Rectangle(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
+                var downRect = new Rectangle(clientRect.X, upRect.Bottom, clientRect.Width,
                     clientRect.Bottom - upRect.Bottom);
 
                 // Position and draw the up/down buttons
-                using ViewLayoutContext layoutContext = new ViewLayoutContext(NumericUpDown, NumericUpDown.Renderer);
-                using RenderContext renderContext =
-                    new RenderContext(NumericUpDown, g, clientRect, NumericUpDown.Renderer);
+                using var layoutContext = new ViewLayoutContext(NumericUpDown, NumericUpDown.Renderer);
+                using var renderContext = new RenderContext(NumericUpDown, g, clientRect, NumericUpDown.Renderer);
                 // Up button
                 layoutContext.DisplayRectangle = upRect;
                 _viewButton.ElementState = ButtonElementState(upRect);
@@ -2097,7 +2094,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
