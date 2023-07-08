@@ -26,13 +26,13 @@ namespace Krypton.Toolkit
 
         private readonly ViewDrawDocker _drawHeader;
         private readonly PaletteBorderInheritForced _borderForced;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawToday _drawToday;
         private readonly ButtonSpecRemapByContentView? _remapPalette;
         private readonly ViewDrawEmptyContent _emptyContent;
         private readonly PaletteTripleRedirect _palette;
         private readonly ToolTipManager _toolTipManager;
-        private CultureInfo _lastCultureInfo;
+        private CultureInfo? _lastCultureInfo;
         private DateTime _displayMonth;
         private string _dayOfWeekMeasure;
         private string _dayMeasure;
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             AllowButtonSpecToolTips = false;
 
             // Use a controller that can work against all the displayed months
-            MonthCalendarController controller =
+            var controller =
                 new MonthCalendarController(monthCalendar, viewManager, this, _needPaintDelegate);
             MouseController = controller;
             SourceController = controller;
@@ -626,7 +626,7 @@ namespace Krypton.Toolkit
 
         internal DayOfWeek DisplayDayOfWeek { get; private set; }
 
-        internal string[] DayNames { get; private set; }
+        internal string[]? DayNames { get; private set; }
 
         #endregion
 
@@ -649,7 +649,7 @@ namespace Krypton.Toolkit
             if (CloseOnTodayClick && Provider is { ProviderCanCloseMenu: true })
             {
                 // Ask the original context menu definition, if we can close
-                CancelEventArgs cea = new CancelEventArgs();
+                var cea = new CancelEventArgs();
                 Provider.OnClosing(cea);
 
                 if (!cea.Cancel)
@@ -754,7 +754,7 @@ namespace Krypton.Toolkit
                     // Bring the selection into the display range
                     DateTime endMonth = _displayMonth.AddMonths(months - 1);
                     DateTime oldSelEndDate = _oldSelectionEnd.Date;
-                    DateTime oldSelEndMonth = new DateTime(oldSelEndDate.Year, oldSelEndDate.Month, 1);
+                    var oldSelEndMonth = new DateTime(oldSelEndDate.Year, oldSelEndDate.Month, 1);
                     if (oldSelEndMonth >= endMonth)
                     {
                         _displayMonth = oldSelEndMonth.AddMonths(-(months - 1));
@@ -772,7 +772,7 @@ namespace Krypton.Toolkit
             // Inform each view which month it should be drawing
             for (var i = 1; i < Count; i++)
             {
-                ViewDrawMonth viewMonth = (ViewDrawMonth)this[i];
+                var viewMonth = (ViewDrawMonth)this[i];
                 viewMonth.Enabled = Enabled;
                 viewMonth.Month = currentMonth;
                 viewMonth.FirstMonth = i == 1;
@@ -789,7 +789,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = Calendar.CalendarControl.FindForm();
+                Form? topForm = Calendar.CalendarControl.FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -799,7 +799,7 @@ namespace Krypton.Toolkit
                 if (!Calendar.InDesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
                     bool shadow = true;
 
@@ -813,7 +813,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(_redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(_redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

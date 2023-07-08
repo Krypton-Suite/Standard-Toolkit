@@ -35,9 +35,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the panel specific list
                     new KryptonPanelActionList(this)
                 };
@@ -66,7 +65,7 @@ namespace Krypton.Toolkit
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using Pen borderPen = new Pen(SystemColors.ControlDarkDark);
+            using var borderPen = new Pen(SystemColors.ControlDarkDark);
             // Always draw the border dashed
             borderPen.DashStyle = DashStyle.Dash;
 

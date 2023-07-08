@@ -27,13 +27,13 @@ namespace Krypton.Toolkit
             : base.GetEditStyle(context);
 
 
-        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
         {
-            IWindowsFormsEditorService svc = (IWindowsFormsEditorService)provider?.GetService(typeof(IWindowsFormsEditorService));
+            IWindowsFormsEditorService? svc = (IWindowsFormsEditorService)provider?.GetService(typeof(IWindowsFormsEditorService));
             if (svc != null)
             {
-                UserControl ctrl = new UserControl();
-                ListBox clb = new ListBox { Dock = DockStyle.Fill };
+                var ctrl = new UserControl();
+                var clb = new ListBox { Dock = DockStyle.Fill };
                 clb.Items.Add(ComboBoxStyle.DropDown);
                 clb.Items.Add(ComboBoxStyle.DropDownList);
                 clb.SelectedIndexChanged += delegate

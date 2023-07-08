@@ -236,9 +236,9 @@ namespace Krypton.Toolkit
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle layoutRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
+            var layoutRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
                 _months.SizeDays.Height);
-            Rectangle layoutRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
+            var layoutRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
                 _months.SizeDays.Height);
 
             // Layout each week as a row
@@ -371,9 +371,9 @@ namespace Krypton.Toolkit
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle drawRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
+            var drawRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
                 _months.SizeDays.Height);
-            Rectangle drawRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
+            var drawRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
                 _months.SizeDays.Height);
 
             // Draw each week as a row

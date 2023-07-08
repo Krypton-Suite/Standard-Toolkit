@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
             var visited = new HashSet<IntPtr> { hWnd };
             try
             {
-                Form activeForm = Form.ActiveForm;
+                Form? activeForm = Form.ActiveForm;
                 if (activeForm != null)
                 {
                     visited.Add(activeForm.Handle);
@@ -108,14 +108,14 @@ namespace Krypton.Toolkit
                 visited.Add(_visualBlur.Handle);
 
 
-                PI.RECT thisRect = new PI.RECT();
+                var thisRect = new PI.RECT();
                 PI.GetWindowRect(hWnd, ref thisRect);
 
                 while ((hWnd = PI.GetWindow(hWnd, PI.GetWindowType.GW_HWNDPREV)) != IntPtr.Zero
                        && !visited.Contains(hWnd))
                 {
                     visited.Add(hWnd);
-                    PI.RECT testRect = new PI.RECT();
+                    var testRect = new PI.RECT();
                     if (PI.IsWindowVisible(hWnd)
                         && PI.GetWindowRect(hWnd, ref testRect)
                         && PI.IntersectRect(out _, ref thisRect, ref testRect)
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
 
         private static Bitmap TakeSnapshot(Rectangle targetRectangle)
         {
-            Bitmap bmp = new Bitmap(targetRectangle.Width, targetRectangle.Height);
+            var bmp = new Bitmap(targetRectangle.Width, targetRectangle.Height);
             Graphics g = Graphics.FromImage(bmp);
             g.CopyFromScreen(targetRectangle.Left, targetRectangle.Top, 0, 0, bmp.Size);
             return bmp;

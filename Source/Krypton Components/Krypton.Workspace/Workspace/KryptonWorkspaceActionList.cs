@@ -15,7 +15,7 @@ namespace Krypton.Workspace
     internal class KryptonWorkspaceActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonWorkspace _workspace;
+        private readonly KryptonWorkspace? _workspace;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -129,7 +129,7 @@ namespace Krypton.Workspace
         /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_workspace != null)

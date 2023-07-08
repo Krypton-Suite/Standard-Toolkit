@@ -185,23 +185,23 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Create new lookup that only contains entries for current child items
-            ViewDockStyleLookup newChildDocking = new ViewDockStyleLookup();
+            var newChildDocking = new ViewDockStyleLookup();
 
             // Remember the original display rectangle provided
             Rectangle originalRect = context.DisplayRectangle;
             Rectangle displayRect = context.DisplayRectangle;
 
             // Accumulate the size that must be provided by docking edges and then filler
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Track the minimize size needed to satisfy the docking edges only
-            Size minimumSize = Size.Empty;
+            var minimumSize = Size.Empty;
 
-            PaletteDrawBorders leftEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders rightEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders topEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders bottomEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
+            var leftEdges = PaletteDrawBorders.All;
+            var rightEdges = PaletteDrawBorders.All;
+            var topEdges = PaletteDrawBorders.All;
+            var bottomEdges = PaletteDrawBorders.All;
+            var fillEdges = PaletteDrawBorders.All;
 
             // Check for edge docking children
             foreach (ViewBase child in Reverse())
@@ -235,8 +235,8 @@ namespace Krypton.Toolkit
                             {
                                 minimumSize.Width = childSize.Width;
                             }
-
                             break;
+
                         case ViewDockStyle.Bottom:
                             preferredSize.Height += childSize.Height;
                             displayRect.Height -= childSize.Height;
@@ -245,8 +245,8 @@ namespace Krypton.Toolkit
                             {
                                 minimumSize.Width = childSize.Width;
                             }
-
                             break;
+
                         case ViewDockStyle.Left:
                             preferredSize.Width += childSize.Width;
                             displayRect.X += childSize.Width;
@@ -256,8 +256,8 @@ namespace Krypton.Toolkit
                             {
                                 minimumSize.Height = childSize.Height;
                             }
-
                             break;
+
                         case ViewDockStyle.Right:
                             preferredSize.Width += childSize.Width;
                             displayRect.Width -= childSize.Width;
@@ -266,7 +266,6 @@ namespace Krypton.Toolkit
                             {
                                 minimumSize.Height = childSize.Height;
                             }
-
                             break;
                     }
                 }
@@ -314,6 +313,7 @@ namespace Krypton.Toolkit
                     preferredSize.Width += Padding.Horizontal;
                     preferredSize.Height += Padding.Vertical;
                     break;
+
                 case VisualOrientation.Left:
                 case VisualOrientation.Right:
                     preferredSize.Width += Padding.Vertical;
@@ -348,18 +348,21 @@ namespace Krypton.Toolkit
                     fillerRect.Width -= Padding.Horizontal;
                     fillerRect.Height -= Padding.Vertical;
                     break;
+
                 case VisualOrientation.Bottom:
                     fillerRect.X += Padding.Right;
                     fillerRect.Y += Padding.Bottom;
                     fillerRect.Width -= Padding.Horizontal;
                     fillerRect.Height -= Padding.Vertical;
                     break;
+
                 case VisualOrientation.Left:
                     fillerRect.X += Padding.Top;
                     fillerRect.Y += Padding.Right;
                     fillerRect.Width -= Padding.Vertical;
                     fillerRect.Height -= Padding.Horizontal;
                     break;
+
                 case VisualOrientation.Right:
                     fillerRect.X += Padding.Bottom;
                     fillerRect.Y += Padding.Left;
@@ -369,11 +372,11 @@ namespace Krypton.Toolkit
             }
 
             // By default all the children need to draw all their borders
-            PaletteDrawBorders leftEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders rightEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders topEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders bottomEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
+            var leftEdges = PaletteDrawBorders.All;
+            var rightEdges = PaletteDrawBorders.All;
+            var topEdges = PaletteDrawBorders.All;
+            var bottomEdges = PaletteDrawBorders.All;
+            var fillEdges = PaletteDrawBorders.All;
             
             // Position all except the filler
             foreach (ViewBase child in Reverse()
@@ -397,15 +400,18 @@ namespace Krypton.Toolkit
                         fillerRect.Height -= childSize.Height;
                         fillerRect.Y += childSize.Height;
                         break;
+
                     case ViewDockStyle.Bottom:
                         context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Bottom - childSize.Height, fillerRect.Width, childSize.Height);
                         fillerRect.Height -= childSize.Height;
                         break;
+
                     case ViewDockStyle.Left:
                         context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, childSize.Width, fillerRect.Height);
                         fillerRect.Width -= childSize.Width;
                         fillerRect.X += childSize.Width;
                         break;
+
                     case ViewDockStyle.Right:
                         context.DisplayRectangle = new Rectangle(fillerRect.Right - childSize.Width, fillerRect.Y, childSize.Width, fillerRect.Height);
                         fillerRect.Width -= childSize.Width;

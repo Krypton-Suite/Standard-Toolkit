@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public static string? ReturnPaletteModeAsString(PaletteMode paletteMode)
         {
-            PaletteModeConverter modeConverter = new PaletteModeConverter();
+            var modeConverter = new PaletteModeConverter();
 
             return modeConverter.ConvertToString(paletteMode);
         }

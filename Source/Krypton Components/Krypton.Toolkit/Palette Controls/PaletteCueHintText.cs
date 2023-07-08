@@ -163,9 +163,8 @@ namespace Krypton.Toolkit
                 layoutRectangle.Height -= padding.Top + padding.Bottom;
             }
 
-
             using Font font = GetContentShortTextNewFont(PaletteState.Normal);
-            using SolidBrush foreBrush = new SolidBrush(GetContentShortTextColor1(PaletteState.Normal));
+            using var foreBrush = new SolidBrush(GetContentShortTextColor1(PaletteState.Normal));
             var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
             g.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
         }

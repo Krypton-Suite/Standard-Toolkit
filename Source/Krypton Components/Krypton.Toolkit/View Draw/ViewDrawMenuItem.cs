@@ -66,14 +66,14 @@ namespace Krypton.Toolkit
             KryptonContextMenuItem.SetPaletteRedirect(provider);
 
             // Create a stack of horizontal items inside the item
-            ViewLayoutDocker docker = new ViewLayoutDocker();
+            var docker = new ViewLayoutDocker();
 
             // Decide on the enabled state of the display
             ItemEnabled = provider.ProviderEnabled && ResolveEnabled;
             PaletteContextMenuItemState menuItemState = ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled;
 
             // Calculate the image to show inside in the image column
-            Image itemColumnImage = ResolveImage;
+            Image? itemColumnImage = ResolveImage;
             Color itemImageTransparent = ResolveImageTransparentColor;
 
             // If no image found then...
@@ -149,8 +149,7 @@ namespace Krypton.Toolkit
             Add(docker);
 
             // Add a controller for handing mouse and keyboard events
-            MenuItemController mic =
-                new MenuItemController(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
+            var mic = new MenuItemController(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
             MouseController = mic;
             KeyController = mic;
 

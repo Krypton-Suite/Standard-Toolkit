@@ -15,8 +15,8 @@ namespace Krypton.Workspace
     internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonWorkspaceSequence _sequence;
-        private IComponentChangeService _changeService;
+        private KryptonWorkspaceSequence? _sequence;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Identity
@@ -58,7 +58,7 @@ namespace Krypton.Workspace
             get
             {
                 // Create a new compound array
-                ArrayList compound = new ArrayList();
+                var compound = new ArrayList();
 
                 // Add the list of collection items
                 compound.AddRange(_sequence.Children);

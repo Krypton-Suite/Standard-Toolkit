@@ -59,14 +59,14 @@ namespace Krypton.Toolkit
             public virtual void DrawBorder(Graphics? g, Rectangle rect)
             {
                 // Drawing with anti aliasing to create smoother appearance
-                using AntiAlias aa = new AntiAlias(g);
+                using var aa = new AntiAlias(g);
                 Rectangle backRectI = rect;
                 backRectI.Inflate(1, 1);
 
                 // Finally draw the border around the menu item
-                using LinearGradientBrush borderBrush = new LinearGradientBrush(backRectI, Border1, Border2, 90f);
+                using var borderBrush = new LinearGradientBrush(backRectI, Border1, Border2, 90f);
                 // Convert the brush to a pen for DrawPath call
-                using Pen borderPen = new Pen(borderBrush);
+                using var borderPen = new Pen(borderBrush);
                 // Create border path around the entire item
                 using GraphicsPath borderPath = CreateBorderPath(rect, _cutItemMenu);
                 g.DrawPath(borderPen, borderPath);
@@ -124,9 +124,9 @@ namespace Krypton.Toolkit
 
             public override void DrawBack(Graphics? g, Rectangle rect)
             {
-                Rectangle inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
-                Rectangle insetB = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
-                Rectangle insetC = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4);
+                var inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+                var insetB = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
+                var insetC = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4);
 
                 using LinearGradientBrush insideBrush1 = new LinearGradientBrush(rect, Back1B, Back1, 90f),
                     insideBrush2 = new LinearGradientBrush(insetB, Back2B, Back2, 90f);
@@ -136,23 +136,23 @@ namespace Krypton.Toolkit
                 g.FillRectangle(insideBrush1, inset);
                 using GraphicsPath borderPath = CreateBorderPath(insetC, _cutInnerItemMenu),
                     clipPath = CreateBorderPath(insetB, _cutInnerItemMenu);
-                using (Pen insidePen = new Pen(insideBrush2))
+                using (var insidePen = new Pen(insideBrush2))
                 {
                     g.DrawPath(insidePen, borderPath);
                 }
 
                 g.FillPath(insideBrush2, borderPath);
 
-                using (Clipping clipping = new Clipping(g, clipPath))
+                using (var clipping = new Clipping(g, clipPath))
                 {
-                    using (GraphicsPath ellipsePath = new GraphicsPath())
+                    using (var ellipsePath = new GraphicsPath())
                     {
-                        RectangleF ellipseRect = new RectangleF(-(rect.Width / 2), rect.Bottom - 9, rect.Width * 2, 18);
-                        PointF ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
+                        var ellipseRect = new RectangleF(-(rect.Width / 2), rect.Bottom - 9, rect.Width * 2, 18);
+                        var ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
                             ellipseRect.Top + (ellipseRect.Height / 2));
                         ellipsePath.AddEllipse(ellipseRect);
 
-                        using (PathGradientBrush insideLighten = new PathGradientBrush(ellipsePath))
+                        using (var insideLighten = new PathGradientBrush(ellipsePath))
                         {
                             insideLighten.CenterPoint = ellipseCenter;
                             insideLighten.CenterColor = Color.White;
@@ -207,10 +207,10 @@ namespace Krypton.Toolkit
 
             public override void DrawBack(Graphics? g, Rectangle rect)
             {
-                Rectangle rect2 = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 1);
-                Rectangle rect3 = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 3);
+                var rect2 = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 1);
+                var rect3 = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 3);
 
-                using AntiAlias aa = new AntiAlias(g);
+                using var aa = new AntiAlias(g);
                 using GraphicsPath path1 = CreateBorderPath(rect, _cutItemMenu),
                     path2 = CreateBorderPath(rect2, _cutItemMenu),
                     path3 = CreateBorderPath(rect3, _cutItemMenu);
@@ -244,20 +244,20 @@ namespace Krypton.Toolkit
 
             public override void DrawBack(Graphics? g, Rectangle rect)
             {
-                Rectangle inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+                var inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
 
-                using LinearGradientBrush insideBrush = new LinearGradientBrush(rect, Back2, Back1, 90f);
+                using var insideBrush = new LinearGradientBrush(rect, Back2, Back1, 90f);
                 insideBrush.SetSigmaBellShape(0.5f);
                 g.FillRectangle(insideBrush, inset);
 
                 using GraphicsPath borderPath = CreateBorderPath(inset, _cutInnerItemMenu);
-                using GraphicsPath ellipsePath = new GraphicsPath();
-                RectangleF ellipseRect = new RectangleF(rect.Left, rect.Bottom - 8, rect.Width, 8);
-                PointF ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
+                using var ellipsePath = new GraphicsPath();
+                var ellipseRect = new RectangleF(rect.Left, rect.Bottom - 8, rect.Width, 8);
+                var ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
                     ellipseRect.Top + (ellipseRect.Height / 2));
                 ellipsePath.AddEllipse(ellipseRect);
 
-                using PathGradientBrush insideLighten = new PathGradientBrush(ellipsePath);
+                using var insideLighten = new PathGradientBrush(ellipsePath);
                 insideLighten.CenterPoint = ellipseCenter;
                 insideLighten.CenterColor = Color.FromArgb(96, Color.White);
                 insideLighten.SurroundColors = new[] { Color.Transparent };
@@ -402,7 +402,7 @@ namespace Krypton.Toolkit
                 };
 
                 // Draw the actual arrow using a gradient
-                using LinearGradientBrush arrowBrush = new LinearGradientBrush(boundsF, color1, color2, angle);
+                using var arrowBrush = new LinearGradientBrush(boundsF, color1, color2, angle);
                 e.Graphics.FillPath(arrowBrush, arrowPath);
             }
         }
@@ -416,7 +416,7 @@ namespace Krypton.Toolkit
         protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
         {
             // Cast to correct type
-            ToolStripButton button = (ToolStripButton)e.Item;
+            var button = (ToolStripButton)e.Item;
 
             if (button.Selected || button.Pressed || button.Checked)
             {
@@ -468,17 +468,17 @@ namespace Krypton.Toolkit
             }
 
             // Drawing with anti aliasing to create smoother appearance
-            using AntiAlias aa = new AntiAlias(e.Graphics);
+            using var aa = new AntiAlias(e.Graphics);
             // Create border path for the check box
             using GraphicsPath borderPath = CreateBorderPath(checkBox, _cutItemMenu);
             // Fill the background in a solid color
-            using (SolidBrush fillBrush = new SolidBrush(KCT.CheckBackground))
+            using (var fillBrush = new SolidBrush(KCT.CheckBackground))
             {
                 e.Graphics.FillPath(fillBrush, borderPath);
             }
 
             // Draw the border around the check box
-            using (Pen borderPen = new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 1.05f, 1.52f, 2.75f)))
+            using (var borderPen = new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 1.05f, 1.52f, 2.75f)))
             {
                 e.Graphics.DrawPath(borderPen, borderPath);
             }
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
             // If there is not an image, then we can draw the tick, square etc...
             if (e.Item.Image == null)
             {
-                CheckState checkState = CheckState.Unchecked;
+                var checkState = CheckState.Unchecked;
 
                 // Extract the check state from the item
                 if (e.Item is ToolStripMenuItem item)
@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
                         using (GraphicsPath tickPath = CreateTickPath(checkBox))
                         {
                             // Draw the tick with a thickish brush
-                            using (Pen tickPen =
+                            using (var tickPen =
                                    new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f),
                                        _contextCheckTickThickness))
                             {
@@ -515,7 +515,7 @@ namespace Krypton.Toolkit
                         using (GraphicsPath tickPath = CreateIndeterminatePath(checkBox))
                         {
                             // Draw the tick with a thickish brush
-                            using (SolidBrush tickBrush =
+                            using (var tickBrush =
                                    new SolidBrush(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f)))
                             {
                                 e.Graphics.FillPath(tickBrush, tickPath);
@@ -590,7 +590,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    using GraphicsTextHint clearTypeGridFit =
+                    using var clearTypeGridFit =
                         new GraphicsTextHint(e.Graphics, TextRenderingHint.ClearTypeGridFit);
                     base.OnRenderItemText(e);
                 }
@@ -620,7 +620,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        using ImageAttributes attribs = new ImageAttributes();
+                        using var attribs = new ImageAttributes();
                         attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 
                         // Draw using the disabled matrix to make it look disabled
@@ -730,7 +730,7 @@ namespace Krypton.Toolkit
             if (e.Item.Selected || e.Item.Pressed)
             {
                 // Cast to correct type
-                ToolStripSplitButton splitButton = (ToolStripSplitButton)e.Item;
+                var splitButton = (ToolStripSplitButton)e.Item;
 
                 // Draw the border and background
                 RenderToolSplitButtonBackground(e.Graphics, splitButton, e.ToolStrip);
@@ -803,7 +803,7 @@ namespace Krypton.Toolkit
             // Cannot paint a zero sized area
             if (e.ToolStripContentPanel is { Width: > 0, Height: > 0 })
             {
-                using LinearGradientBrush backBrush = new LinearGradientBrush(e.ToolStripContentPanel.ClientRectangle,
+                using var backBrush = new LinearGradientBrush(e.ToolStripContentPanel.ClientRectangle,
                     KCT.ToolStripContentPanelGradientEnd, KCT.ToolStripContentPanelGradientBegin, 90f);
                 e.Graphics.FillRectangle(backBrush, e.ToolStripContentPanel.ClientRectangle);
             }
@@ -831,9 +831,9 @@ namespace Krypton.Toolkit
                     using GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, _cutContextMenu),
                         clipPath = CreateClipBorderPath(e.AffectedBounds, _cutContextMenu);
                     // Clip all drawing to within the border path
-                    using Clipping clipping = new Clipping(e.Graphics, clipPath);
+                    using var clipping = new Clipping(e.Graphics, clipPath);
                     // Create the background brush
-                    using SolidBrush backBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
+                    using var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
                     e.Graphics.FillPath(backBrush, borderPath);
                     break;
                 }
@@ -846,7 +846,7 @@ namespace Krypton.Toolkit
                     }
 
                     // We do not paint the top two pixel lines, as they are drawn by the status strip border render method
-                    RectangleF backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
+                    var backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
 
                     // Cannot paint a zero sized area
                     if (backRect is { Width: > 0, Height: > 0 })
@@ -859,7 +859,7 @@ namespace Krypton.Toolkit
                         //    backBrush.Blend = _stripBlend;
                         //    e.Graphics.FillRectangle(backBrush, backRect);
                         //}
-                        using SolidBrush backBrush = new SolidBrush(KCT.StatusStripGradientEnd);
+                        using var backBrush = new SolidBrush(KCT.StatusStripGradientEnd);
                         e.Graphics.FillRectangle(backBrush, backRect);
                     }
 
@@ -884,12 +884,12 @@ namespace Krypton.Toolkit
                     }
 
                     // Cannot paint a zero sized area
-                    RectangleF backRect = new RectangleF(0, 0, e.ToolStrip.Width, e.ToolStrip.Height);
+                    var backRect = new RectangleF(0, 0, e.ToolStrip.Width, e.ToolStrip.Height);
                     if (backRect is { Width: > 0, Height: > 0 })
                     {
                         if (e.ToolStrip.Orientation == Orientation.Horizontal)
                         {
-                            using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
+                            using (var backBrush = new LinearGradientBrush(backRect,
                                        KCT.ToolStripGradientBegin, KCT.ToolStripGradientEnd, 90f))
                             {
                                 backBrush.Blend = _stripBlend;
@@ -906,7 +906,7 @@ namespace Krypton.Toolkit
                         }
                         else
                         {
-                            using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
+                            using (var backBrush = new LinearGradientBrush(backRect,
                                        KCT.ToolStripGradientBegin, KCT.ToolStripGradientEnd, 0f))
                             {
                                 backBrush.Blend = _stripBlend;
@@ -943,7 +943,7 @@ namespace Krypton.Toolkit
                     // If there is a connected area to be drawn
                     if (!e.ConnectedArea.IsEmpty)
                     {
-                        using SolidBrush excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
+                        using var excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
                         e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
                     }
 
@@ -955,9 +955,9 @@ namespace Krypton.Toolkit
                     using Pen borderPen = new Pen(KCT.MenuBorder),
                         insidePen = new Pen(KCT.ToolStripDropDownBackground);
                     // Clip all drawing to within the border path
-                    using Clipping clipping = new Clipping(e.Graphics, clipPath);
+                    using var clipping = new Clipping(e.Graphics, clipPath);
                     // Drawing with anti aliasing to create smoother appearance
-                    using (AntiAlias aa = new AntiAlias(e.Graphics))
+                    using (var aa = new AntiAlias(e.Graphics))
                     {
                         // Draw the inside area first
                         e.Graphics.DrawPath(insidePen, insidePath);
@@ -1015,7 +1015,7 @@ namespace Krypton.Toolkit
                     marginRect.X += _marginInset / 2;
                 }
 
-                using Pen marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
+                using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
                 if (!rtl)
                 {
                     e.Graphics.DrawLine(marginPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
@@ -1155,7 +1155,7 @@ namespace Krypton.Toolkit
                                                GradientItemColors colorsSplit)
         {
             // Create entire area and just the drop button area rectangles
-            Rectangle backRect = new Rectangle(Point.Empty, splitButton.Bounds.Size);
+            var backRect = new Rectangle(Point.Empty, splitButton.Bounds.Size);
             Rectangle backRectDrop = splitButton.DropDownButtonBounds;
 
             // Cannot paint zero sized areas
@@ -1193,12 +1193,12 @@ namespace Krypton.Toolkit
                 colorsDrop.DrawBack(g, backRectDrop);
 
                 // Draw the split line between the areas
-                using (LinearGradientBrush splitBrush = new LinearGradientBrush(
+                using (var splitBrush = new LinearGradientBrush(
                            new Rectangle(backRect.X + splitOffset, backRect.Top, 1, backRect.Height + 1),
                            colorsSplit.Border1, colorsSplit.Border2, 90f))
                 {
                     // Convert the brush to a pen for DrawPath call
-                    using (Pen splitPen = new Pen(splitBrush))
+                    using (var splitPen = new Pen(splitBrush))
                     {
                         g.DrawLine(splitPen, backRect.X + splitOffset, backRect.Top + 1, backRect.X + splitOffset, backRect.Bottom - 1);
                     }
@@ -1212,22 +1212,22 @@ namespace Krypton.Toolkit
         private void DrawContextMenuHeader(Graphics? g, ToolStripItem item)
         {
             // Get the rectangle that is the items area
-            Rectangle itemRect = new Rectangle(Point.Empty, item.Bounds.Size);
+            var itemRect = new Rectangle(Point.Empty, item.Bounds.Size);
 
             // Create border and clipping paths
             using GraphicsPath borderPath = CreateBorderPath(itemRect, _cutHeaderMenu),
                 insidePath = CreateInsideBorderPath(itemRect, _cutHeaderMenu),
                 clipPath = CreateClipBorderPath(itemRect, _cutHeaderMenu);
             // Clip all drawing to within the border path
-            using Clipping clipping = new Clipping(g, clipPath);
+            using var clipping = new Clipping(g, clipPath);
             // Draw the entire background area first
-            using (SolidBrush backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
+            using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
             {
                 g.FillPath(backBrush, borderPath);
             }
 
             // Draw the border
-            using (Pen borderPen = new Pen(KCT.MenuBorder))
+            using (var borderPen = new Pen(KCT.MenuBorder))
             {
                 g.DrawPath(borderPen, borderPath);
             }
@@ -1284,7 +1284,7 @@ namespace Krypton.Toolkit
                                                  GradientItemColors colors)
         {
             // Do we need to draw with separator on the opposite edge?
-            Rectangle backRect = new Rectangle(2, 0, item.Bounds.Width - 3, item.Bounds.Height);
+            var backRect = new Rectangle(2, 0, item.Bounds.Width - 3, item.Bounds.Height);
 
             // Perform actual drawing into the background
             colors.DrawItem(g, backRect);
@@ -1310,7 +1310,7 @@ namespace Krypton.Toolkit
                 var t = rect.Y;
                 var b = rect.Bottom;
 
-                using Pen marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
+                using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
                 marginPen.DashPattern = new float[] { 2, 2 };
                 g.DrawLine(marginPen, l, t, l, b);
             }
@@ -1320,7 +1320,7 @@ namespace Krypton.Toolkit
                 var l = rect.X + (rtl ? 0 : horizontalInset);
                 var r = rect.Right - (rtl ? horizontalInset : 0);
 
-                using Pen marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
+                using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
                 marginPen.DashPattern = new float[] { 2, 2 };
                 g.DrawLine(marginPen, l, y, r, y);
             }
@@ -1334,7 +1334,7 @@ namespace Krypton.Toolkit
                                             int horizontalInset,
                                             bool rtl)
         {
-            RectangleF boundsF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+            var boundsF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
             if (vertical)
             {
@@ -1439,7 +1439,7 @@ namespace Krypton.Toolkit
             pts.Add(new PointF(l, y0));
 
             // Create path using a simple set of lines that cut the corner
-            GraphicsPath path = new GraphicsPath();
+            var path = new GraphicsPath();
 
             // Add a line between each set of points
             for (var i = 1; i < pts.Count; i++)
@@ -1460,7 +1460,7 @@ namespace Krypton.Toolkit
             rect.Height--;
 
             // Create path using a simple set of lines that cut the corner
-            GraphicsPath path = new GraphicsPath();
+            var path = new GraphicsPath();
             path.AddLine(rect.Left + cut, rect.Top, rect.Right - cut, rect.Top);
             path.AddLine(rect.Right - cut, rect.Top, rect.Right, rect.Top + cut);
             path.AddLine(rect.Right, rect.Top + cut, rect.Right, rect.Bottom - cut);
@@ -1540,7 +1540,7 @@ namespace Krypton.Toolkit
             }
 
             // Create triangle using a series of lines
-            GraphicsPath path = new GraphicsPath();
+            var path = new GraphicsPath();
 
             switch (direction)
             {
@@ -1575,7 +1575,7 @@ namespace Krypton.Toolkit
             var x = rect.X + rect.Width / 2;
             var y = rect.Y + rect.Height / 2;
 
-            GraphicsPath path = new GraphicsPath();
+            var path = new GraphicsPath();
             path.AddLine(x - 4, y, x - 2, y + 4);
             path.AddLine(x - 2, y + 4, x + 3, y - 5);
             return path;
@@ -1587,7 +1587,7 @@ namespace Krypton.Toolkit
             var x = rect.X + rect.Width / 2;
             var y = rect.Y + rect.Height / 2;
 
-            GraphicsPath path = new GraphicsPath();
+            var path = new GraphicsPath();
             path.AddLine(x - 3, y, x, y - 3);
             path.AddLine(x, y - 3, x + 3, y);
             path.AddLine(x + 3, y, x, y + 3);

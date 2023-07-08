@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
                 // Do the old image way
                 // SYSLIB0011: BinaryFormatter serialization is obsolete
 #pragma warning disable SYSLIB0011
-                BinaryFormatter formatter = new BinaryFormatter();
+                var formatter = new BinaryFormatter();
                 var img = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
                 return new Bitmap(img);

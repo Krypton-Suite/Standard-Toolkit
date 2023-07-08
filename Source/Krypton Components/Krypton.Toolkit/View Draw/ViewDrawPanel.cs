@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
                 if (_paletteBack.GetBackDraw(State) == InheritBool.True)
                 {
                     // Render the background
-                    using GraphicsPath panelPath = new GraphicsPath();
+                    using var panelPath = new GraphicsPath();
                     var rectF = ClientRectangleF;
                     // Now workaround https://github.com/Krypton-Suite/Standard-Toolkit/issues/308
                     rectF.Offset(-0.25f, -0.25f);

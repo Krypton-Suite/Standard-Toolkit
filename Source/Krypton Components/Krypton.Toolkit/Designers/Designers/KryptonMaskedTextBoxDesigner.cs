@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonMaskedTextBox _maskedTextBox;
+        private KryptonMaskedTextBox? _maskedTextBox;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// Gets the collection of components associated with the component managed by the designer.
         /// </summary>
         public override ICollection AssociatedComponents =>
-            _maskedTextBox != null ? _maskedTextBox.ButtonSpecs : base.AssociatedComponents;
+            _maskedTextBox?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
                 SelectionRules rules = base.SelectionRules;
 
                 // Get access to the actual control instance
-                KryptonMaskedTextBox maskedTextBox = (KryptonMaskedTextBox)Component;
+                var maskedTextBox = (KryptonMaskedTextBox)Component;
 
                 // With multiline and autosize we prevent the user changing the height
                 if (maskedTextBox.AutoSize)
@@ -95,9 +95,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the label specific list
                     new KryptonMaskedTextBoxActionList(this)
                 };
@@ -153,7 +152,7 @@ namespace Krypton.Toolkit
             if ((_maskedTextBox != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _maskedTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _maskedTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -161,7 +160,7 @@ namespace Krypton.Toolkit
                     _maskedTextBox.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    var selectionList = new ArrayList
                     {
                         component
                     };
@@ -173,7 +172,7 @@ namespace Krypton.Toolkit
         private void OnMaskedTextBoxDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _maskedTextBox.DesignerComponentFromPoint(pt);
+            Component? component = _maskedTextBox.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
@@ -191,7 +190,7 @@ namespace Krypton.Toolkit
             if (e.Component == _maskedTextBox)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _maskedTextBox.ButtonSpecs.Count - 1; i >= 0; i--)

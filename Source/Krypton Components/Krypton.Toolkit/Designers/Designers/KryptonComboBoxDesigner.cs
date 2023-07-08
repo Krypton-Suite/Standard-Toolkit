@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonComboBox _comboBox;
+        private KryptonComboBox? _comboBox;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// Gets the collection of components associated with the component managed by the designer.
         /// </summary>
         public override ICollection AssociatedComponents =>
-            _comboBox != null ? _comboBox.ButtonSpecs : base.AssociatedComponents;
+            _comboBox?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -86,9 +86,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the label specific list
                     new KryptonComboBoxActionList(this)
                 };
@@ -144,15 +143,15 @@ namespace Krypton.Toolkit
             if (e.Button == MouseButtons.Left)
             {
                 // Get any component associated with the current mouse position
-                Component component = _comboBox?.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _comboBox?.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
                     // Force the layout to be update for any change in selection
-                    _comboBox.PerformLayout();
+                    _comboBox!.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    var selectionList = new ArrayList
                     {
                         component
                     };
@@ -164,7 +163,7 @@ namespace Krypton.Toolkit
         private void OnComboBoxDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _comboBox?.DesignerComponentFromPoint(pt);
+            Component? component = _comboBox?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {

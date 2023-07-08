@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Find the first day of the year
-                DateTime yearDay = new DateTime(value.Year, 1, 1);
+                var yearDay = new DateTime(value.Year, 1, 1);
                 _weekDay = _firstDay;
 
                 // Move forewards until we hit the starting day of the year
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle layoutRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
+            var layoutRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
                 _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
@@ -207,7 +207,7 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle drawRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
+            var drawRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
                 _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;

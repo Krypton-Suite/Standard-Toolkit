@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public PaletteMode LinkPaletteType1(string themeName)
         {
-            PaletteMode paletteMode = new PaletteMode();
+            var paletteMode = new PaletteMode();
 
             switch (themeName)
             {
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
 
             if (!string.IsNullOrWhiteSpace(customThemePath))
             {
-                KryptonCustomPaletteBase palette = new KryptonCustomPaletteBase();
+                var palette = new KryptonCustomPaletteBase();
 
                 palette.Import(customThemePath);
 

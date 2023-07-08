@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
             /// <returns>User readable name of the instance.</returns>
             public override string ToString()
             {
-                StringBuilder ret = new StringBuilder();
+                var ret = new StringBuilder();
                 foreach (FormatFragment fmt in _fragments)
                 {
                     ret.Append(fmt.GetDisplay(DateTime));
@@ -405,8 +405,8 @@ namespace Krypton.Toolkit
                                 // Rotate around the end of the fragments
                                 if (!HasActiveFragment)
                                 {
-                                    // Use evnet to show that we are overflowing
-                                    CancelEventArgs cea = new CancelEventArgs();
+                                    // Use event to show that we are overflowing
+                                    var cea = new CancelEventArgs();
                                     _timeText.OnAutoShiftOverflow(cea);
 
                                     // Event might be cancelled so check we want to overflow
@@ -451,8 +451,8 @@ namespace Krypton.Toolkit
                                 // Rotate around the end of the fragments
                                 if (!HasActiveFragment)
                                 {
-                                    // Use evnet to show that we are overflowing
-                                    CancelEventArgs cea = new CancelEventArgs();
+                                    // Use event to show that we are overflowing
+                                    var cea = new CancelEventArgs();
                                     _timeText.OnAutoShiftOverflow(cea);
 
                                     // Event might be cancelled so check we want to overflow
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
                                 totalWidth = rect.Width;
                             }
 
-                            Rectangle drawText = new Rectangle(rect.X + lastTotalWidth, rect.Y,
+                            var drawText = new Rectangle(rect.X + lastTotalWidth, rect.Y,
                                 totalWidth - lastTotalWidth, rect.Height);
                             if (drawText.Width > 0)
                             {
@@ -567,7 +567,7 @@ namespace Krypton.Toolkit
                                         }
                                         else
                                         {
-                                            using (SolidBrush fillBrush = new SolidBrush(foreColor))
+                                            using (var fillBrush = new SolidBrush(foreColor))
                                             {
                                                 context.Graphics.FillRectangle(fillBrush, drawText);
                                             }
@@ -648,7 +648,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Update format with details of the ranges to measure
-                StringFormat measureFormat = new StringFormat(StringFormatFlags.FitBlackBox);
+                var measureFormat = new StringFormat(StringFormatFlags.FitBlackBox);
                 measureFormat.SetMeasurableCharacterRanges(charRanges);
 
                 // Perform measuring using the output of the last fragment (last frag must be the whole output string)
@@ -663,7 +663,7 @@ namespace Krypton.Toolkit
 
             private FormatFragmentList ParseFormatToFragments(string format)
             {
-                FormatFragmentList fragList = new FormatFragmentList();
+                var fragList = new FormatFragmentList();
 
                 // Grab the string used for formatting
                 var length = format.Length;
@@ -1645,7 +1645,7 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Ask the format handler to perform actual rendering of the text
-            using Clipping clipped = new Clipping(context.Graphics, ClientRectangle);
+            using var clipped = new Clipping(context.Graphics, ClientRectangle);
             _formatHandler.Render(context, GetFont(), ClientRectangle,
                 GetTextColor(), GetBackColor(),
                 _dateTimePicker.Checked);

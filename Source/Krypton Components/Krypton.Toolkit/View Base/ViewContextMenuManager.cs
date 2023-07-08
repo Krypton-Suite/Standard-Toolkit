@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private IContextMenuTarget _target;
         private IContextMenuTarget? _targetSubMenu;
-        private System.Windows.Forms.Timer _itemDelayTimer;
+        private System.Windows.Forms.Timer? _itemDelayTimer;
         #endregion
 
         #region Identity
@@ -426,14 +426,14 @@ namespace Krypton.Toolkit
         #region Implementation
         private TargetList ConstructKeyboardTargets(ViewBase root)
         {
-            TargetList targets = new TargetList();
+            var targets = new TargetList();
             FindKeyboardTargets(root, targets);
             return targets;
         }
 
         private void FindKeyboardTargets(ViewBase parent, TargetList targets)
         {
-            IContextMenuTarget target = null;
+            IContextMenuTarget? target = null;
 
             // Any target interface will be implemented on a controller instance
             if (parent.KeyController != null)
@@ -458,10 +458,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IContextMenuTarget FindTopLeftTarget(TargetList targets)
+        private IContextMenuTarget? FindTopLeftTarget(TargetList targets)
         {
             // Best match found so far
-            IContextMenuTarget topLeftTarget = null;
+            IContextMenuTarget? topLeftTarget = null;
             Rectangle topLeftRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
@@ -492,10 +492,10 @@ namespace Krypton.Toolkit
             return topLeftTarget;
         }
 
-        private IContextMenuTarget FindTopRightTarget(TargetList targets)
+        private IContextMenuTarget? FindTopRightTarget(TargetList targets)
         {
             // Best match found so far
-            IContextMenuTarget topRightTarget = null;
+            IContextMenuTarget? topRightTarget = null;
             Rectangle topRightRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
@@ -526,10 +526,10 @@ namespace Krypton.Toolkit
             return topRightTarget;
         }
 
-        private IContextMenuTarget FindBottomLeftTarget(TargetList targets)
+        private IContextMenuTarget? FindBottomLeftTarget(TargetList targets)
         {
             // Best match found so far
-            IContextMenuTarget bottomLeftTarget = null;
+            IContextMenuTarget? bottomLeftTarget = null;
             Rectangle bottomLeftRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
@@ -560,10 +560,10 @@ namespace Krypton.Toolkit
             return bottomLeftTarget;
         }
 
-        private IContextMenuTarget FindDownTarget(TargetList targets, IContextMenuTarget current)
+        private IContextMenuTarget? FindDownTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item below the current one
-            IContextMenuTarget newTarget = FindDownTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindDownTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the bottom of the display
             if (newTarget == null)
@@ -580,14 +580,14 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindDownTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindDownTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the bottom edge always
             currentRect.Y = currentRect.Bottom;
             currentRect.Height = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
+            IContextMenuTarget? nextTarget = null;
             Rectangle nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
@@ -623,10 +623,10 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindUpTarget(TargetList targets, IContextMenuTarget current)
+        private IContextMenuTarget? FindUpTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item above the current one
-            IContextMenuTarget newTarget = FindUpTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindUpTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the top of the display
             if (newTarget == null)
@@ -643,13 +643,13 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindUpTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindUpTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the top edge always
             currentRect.Height = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
+            IContextMenuTarget? nextTarget = null;
             Rectangle nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
@@ -685,10 +685,10 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindRightTarget(TargetList targets, IContextMenuTarget current)
+        private IContextMenuTarget? FindRightTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item after the current one
-            IContextMenuTarget newTarget = FindRightTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindRightTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the right side of the display
             if (newTarget == null)
@@ -705,14 +705,14 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindRightTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindRightTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the right edge always
             currentRect.X = currentRect.Right;
             currentRect.Width = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
+            IContextMenuTarget? nextTarget = null;
             Rectangle nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
@@ -748,13 +748,13 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindLeftTarget(TargetList targets,
+        private IContextMenuTarget? FindLeftTarget(TargetList targets,
                                                   IContextMenuTarget current,
                                                   bool wrap,
                                                   ref bool hitEdge)
         {
             // Find the item left of the current one
-            IContextMenuTarget newTarget = FindLeftTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindLeftTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the left edge of the display
             if (newTarget == null)
@@ -778,13 +778,13 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindLeftTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindLeftTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the left edge always
             currentRect.Width = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
+            IContextMenuTarget? nextTarget = null;
             Rectangle nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best

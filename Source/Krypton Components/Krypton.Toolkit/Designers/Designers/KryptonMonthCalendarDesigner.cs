@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonMonthCalendar _monthCalendar;
+        private KryptonMonthCalendar? _monthCalendar;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a new collection for both values
-                    ArrayList compound = new ArrayList(baseComponents);
+                    var compound = new ArrayList(baseComponents);
 
                     // Add all the button specs to the end
                     compound.AddRange(_monthCalendar.ButtonSpecs);
@@ -95,9 +95,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the bread crumb specific list
                     new KryptonMonthCalendarActionList(this)
                 };
@@ -186,7 +185,7 @@ namespace Krypton.Toolkit
             if ((_monthCalendar != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _monthCalendar.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _monthCalendar.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -194,7 +193,7 @@ namespace Krypton.Toolkit
                     _monthCalendar.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    ArrayList? selectionList = new ArrayList
                     {
                         component
                     };

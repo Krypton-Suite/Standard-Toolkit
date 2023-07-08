@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
             var drawText = Control.Name;
 
             // Use a fixed font for the drawing
-            using Font f = new Font("Arial", 8f);
+            using var f = new Font("Arial", 8f);
             try
             {
                 // Measure the size of the text
@@ -234,7 +234,10 @@ namespace Krypton.Toolkit
                     Color.Black,
                     TextFormatFlags.GlyphOverhangPadding);
             }
-            catch { }
+            catch
+            {
+                // TODO: Call krypton logging
+            }
         }
         #endregion
     }

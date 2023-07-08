@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonHeaderGroup _headerGroup;
+        private KryptonHeaderGroup? _headerGroup;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a new collection for both values
-                    ArrayList compound = new ArrayList(baseComponents);
+                    var compound = new ArrayList(baseComponents);
 
                     // Add all the button specs to the end
                     compound.AddRange(_headerGroup.ButtonSpecs);
@@ -145,9 +145,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the header group specific list
                     new KryptonHeaderGroupActionList(this)
                 };
@@ -205,7 +204,7 @@ namespace Krypton.Toolkit
             if ((_headerGroup != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _headerGroup.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _headerGroup.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -213,7 +212,7 @@ namespace Krypton.Toolkit
                     _headerGroup.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    var selectionList = new ArrayList
                     {
                         component
                     };
@@ -225,7 +224,7 @@ namespace Krypton.Toolkit
         private void OnHeaderGroupDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _headerGroup.DesignerComponentFromPoint(pt);
+            Component? component = _headerGroup.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
@@ -243,7 +242,7 @@ namespace Krypton.Toolkit
             if (e.Component == _headerGroup)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _headerGroup.ButtonSpecs.Count - 1; i >= 0; i--)

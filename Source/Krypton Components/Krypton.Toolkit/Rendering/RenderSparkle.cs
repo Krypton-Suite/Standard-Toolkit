@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
             var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using Pen darkPen = new Pen(c1);
+            using var darkPen = new Pen(c1);
             context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
             context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
             context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
             var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using Pen darkPen = new Pen(c1);
+            using var darkPen = new Pen(c1);
             context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
             context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
             context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
             var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using Pen darkPen = new Pen(c1);
+            using var darkPen = new Pen(c1);
             context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
             context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
             context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
@@ -301,7 +301,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonSparkleRenderer renderer = new KryptonSparkleRenderer(colorPalette.ColorTable)
+            var renderer = new KryptonSparkleRenderer(colorPalette.ColorTable)
             {
 
                 // Setup the need to use rounded corners
@@ -350,16 +350,16 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    Rectangle borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    var borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.FillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
-                    LinearGradientBrush borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
+                    var borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
                     cache.BorderPen = new Pen(borderBrush);
 
-                    LinearGradientBrush underlineBrush =
+                    var underlineBrush =
                         new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
                     {
                         Blend = _ribbonGroup7Blend

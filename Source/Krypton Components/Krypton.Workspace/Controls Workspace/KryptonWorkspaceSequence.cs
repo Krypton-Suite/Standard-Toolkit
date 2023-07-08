@@ -362,7 +362,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                Size maxSize = new Size(int.MaxValue, int.MaxValue);
+                var maxSize = new Size(int.MaxValue, int.MaxValue);
 
                 // Search all children for the smallest defined maximum
                 if (Children != null)
@@ -373,7 +373,7 @@ namespace Krypton.Workspace
                         if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                         {
                             // Sequence maximum is the smallest min value of the children
-                            Size itemMax = item.WorkspaceMaxSize;
+                            var itemMax = item.WorkspaceMaxSize;
                             if (itemMax.Width > 0)
                             {
                                 maxSize.Width = Math.Min(maxSize.Width, itemMax.Width);
@@ -553,14 +553,19 @@ namespace Krypton.Workspace
                     switch (xmlReader.Name)
                     {
                         case "WS":
-                            KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence();
+                        {
+                            var sequence = new KryptonWorkspaceSequence();
                             sequence.LoadFromXml(workspace, xmlReader, existingPages);
                             Children?.Add(sequence);
+                        }
                             break;
+
                         case "WC":
-                            KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+                        {
+                            var cell = new KryptonWorkspaceCell();
                             cell.LoadFromXml(workspace, xmlReader, existingPages);
                             Children?.Add(cell);
+                        }
                             break;
                         default:
                             throw new ArgumentException("Unknown element was encountered.");

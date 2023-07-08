@@ -435,9 +435,9 @@ namespace Krypton.Toolkit
                 }
                 if (_win.GetType() == typeof(ListView))
                 {
-                    ListView listView1 = (ListView)_win;
+                    var listView1 = (ListView)_win;
 
-                    WIN32ScrollBars.ScrollInfo si = new WIN32ScrollBars.ScrollInfo();
+                    var si = new WIN32ScrollBars.ScrollInfo();
                     si.cbSize = Marshal.SizeOf(si);
                     si.fMask = (int)PI.SIF_.ALL;
                     if (PI.GetScrollInfo(listView1.Handle, (int)PI.SB_.HORZ, ref si))

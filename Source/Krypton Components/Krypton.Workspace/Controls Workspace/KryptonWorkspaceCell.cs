@@ -477,7 +477,7 @@ namespace Krypton.Workspace
                         var finished = xmlReader.IsEmptyElement;
 
                         // Generate event so custom data can be loaded and/or the page to be added can be modified
-                        PageLoadingEventArgs plea = new PageLoadingEventArgs(workspace, page, xmlReader);
+                        var plea = new PageLoadingEventArgs(workspace, page, xmlReader);
                         workspace.OnPageLoading(plea);
                         page = plea.Page;
 

@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             TabCustom3 = new KryptonPaletteTabButton(redirector, PaletteBackStyle.TabCustom3, PaletteBorderStyle.TabCustom3, PaletteContentStyle.TabCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTriple redirectCommon = new PaletteRedirectTriple(redirector, TabCommon.StateDisabled,
+            var redirectCommon = new PaletteRedirectTriple(redirector, TabCommon.StateDisabled,
                 TabCommon.StateNormal, TabCommon.StatePressed, TabCommon.StateTracking, TabCommon.StateSelected,
                 TabCommon.OverrideFocus);
             // Inform the button style to use the new redirector

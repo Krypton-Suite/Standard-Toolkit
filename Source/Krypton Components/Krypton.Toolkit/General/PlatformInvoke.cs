@@ -3295,7 +3295,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal static MONITORINFO GetMonitorInfo(IntPtr hMonitor)
         {
-            MONITORINFO mi = new MONITORINFO();
+            var mi = new MONITORINFO();
             if (!_GetMonitorInfo(hMonitor, mi))
             {
                 throw new Win32Exception();

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonDomainUpDown _domainUpDown;
+        private KryptonDomainUpDown? _domainUpDown;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// Gets the collection of components associated with the component managed by the designer.
         /// </summary>
         public override ICollection AssociatedComponents =>
-            _domainUpDown != null ? _domainUpDown.ButtonSpecs : base.AssociatedComponents;
+            _domainUpDown?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -89,9 +89,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the label specific list
                     new KryptonDomainUpDownActionList(this)
                 };
@@ -147,7 +146,7 @@ namespace Krypton.Toolkit
             if ((_domainUpDown != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _domainUpDown.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _domainUpDown.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -155,7 +154,7 @@ namespace Krypton.Toolkit
                     _domainUpDown.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    var selectionList = new ArrayList
                     {
                         component
                     };
@@ -167,7 +166,7 @@ namespace Krypton.Toolkit
         private void OnDomainUpDownDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _domainUpDown?.DesignerComponentFromPoint(pt);
+            Component? component = _domainUpDown?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
@@ -185,7 +184,7 @@ namespace Krypton.Toolkit
             if ((_domainUpDown != null) && (e.Component == _domainUpDown))
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _domainUpDown.ButtonSpecs.Count - 1; i >= 0; i--)

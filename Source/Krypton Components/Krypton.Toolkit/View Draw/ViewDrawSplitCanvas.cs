@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
                             Orientation, State);
 
                     // Create a new region the same as the existing clipping region
-                    Region combineRegion = new Region(borderPath);
+                    var combineRegion = new Region(borderPath);
 
                     // Reduce clipping region down by our border path
                     combineRegion.Intersect(_clipRegion);
@@ -571,58 +571,66 @@ namespace Krypton.Toolkit
                     switch (State)
                     {
                         case PaletteState.Tracking:
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
-                            {
-                                if (SplitWithFading)
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack, PaletteBorder, PaletteState.Tracking);
-                                }
-                                else
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack, PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Tracking);
-                                }
-                            }
-
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
-                            {
-                                if (SplitWithFading)
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight, PaletteBorder, PaletteState.Tracking);
-                                }
-                                else
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw, PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Normal);
-                                }
-                            }
-                            break;
-                        case PaletteState.Pressed:
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
-                            {
-                                if (SplitWithFading)
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
-                                                   PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking);
-                                }
-                                else
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
-                                                   PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Normal);
-                                }
-                            }
-
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
+                        {
+                            using (var clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
                             {
                                 if (SplitWithFading)
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack,
-                                                  PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed);
+                                        PaletteBorder, PaletteState.Tracking);
                                 }
                                 else
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack,
-                                                   PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Pressed);
+                                        PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Tracking);
                                 }
                             }
+
+                            using (var clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
+                            {
+                                if (SplitWithFading)
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
+                                        PaletteBorder, PaletteState.Tracking);
+                                }
+                                else
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Normal);
+                                }
+                            }
+                        }
+                            break;
+                        case PaletteState.Pressed:
+                        {
+                            using (var clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
+                            {
+                                if (SplitWithFading)
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking);
+                                }
+                                else
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Normal);
+                                }
+                            }
+
+                            using (var clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
+                            {
+                                if (SplitWithFading)
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed);
+                                }
+                                else
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Pressed);
+                                }
+                            }
+                        }
                             break;
                         default:
                             DrawBackground(context, rect, PaletteBack, PaletteBorder, State);
@@ -652,14 +660,15 @@ namespace Krypton.Toolkit
                             DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
                             break;
                         case PaletteState.Pressed:
+                        {
                             DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
 
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics,
+                            using (var clipToSplitter = new Clipping(context.Graphics,
                                        mouseInSplit ? _splitRectangle : NonSplitRectangle))
                             {
                                 DrawBorder(context, rect, PaletteBorder, PaletteState.Pressed);
                             }
-
+                        }
                             break;
                         default:
                             DrawBorder(context, rect, PaletteBorder, State);
