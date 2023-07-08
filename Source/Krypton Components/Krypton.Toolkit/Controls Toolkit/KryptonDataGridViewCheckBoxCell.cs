@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
                 var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
-                using ViewLayoutContext viewContent = new ViewLayoutContext(kDGV, kDGV.Renderer);
+                using var viewContent = new ViewLayoutContext(kDGV, kDGV.Renderer);
                 Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
                     kDGV.Redirector,
                     kDGV.Enabled,
@@ -171,11 +171,11 @@ namespace Krypton.Toolkit
                     var tracking = mouseCell && MouseInContentBoundsInternal;
                     var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
-                    using RenderContext renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
                     Size checkBoxSize;
 
                     // Find out the requested size of the check box drawing
-                    using (ViewLayoutContext viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                    using (var viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer))
                     {
                         checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
                             kDgv.Redirector,

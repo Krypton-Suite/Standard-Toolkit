@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the cut button.</summary>
         /// <value>The cut button.</value>
         [DefaultValue(null), Description(@"Access to the cut button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarCutButton
         {
             get => _cutButtonSpec ?? new ButtonSpecAny();

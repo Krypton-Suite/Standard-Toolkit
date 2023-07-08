@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     {
 #if NET60_OR_GREATER
-        private readonly FolderBrowserDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
+        private readonly FolderBrowserDialog _internalOpenFileDialog = new FolderBrowserDialog();// { AutoUpgradeEnabled = true };
 #else
         private readonly ShellBrowserDialogTFM _internalOpenFileDialog = new ShellBrowserDialogTFM();
 #endif

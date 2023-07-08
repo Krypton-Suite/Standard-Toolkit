@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonCheckBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCheckBox _checkBox;
+        private readonly KryptonCheckBox? _checkBox;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_checkBox != null)

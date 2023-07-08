@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
                             // KeyPress events occur for the current popup.
                             if (!CurrentPopup.ContainsFocus)
                             {
-                                PI.MSG msg = new PI.MSG
+                                var msg = new PI.MSG
                                 {
                                     hwnd = m.HWnd,
                                     message = m.Msg,
@@ -576,7 +576,7 @@ namespace Krypton.Toolkit
         private bool ProcessNonClientMouseDown(ref Message m)
         {
             // Extract the x and y mouse position from message
-            Point screenPt = new Point(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
+            var screenPt = new Point(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
 
             // Ask the popup if this message causes the entire stack to be killed
             if (CurrentPopup.DoesCurrentMouseDownEndAllTracking(m, ScreenPtToClientPt(screenPt)))
@@ -661,7 +661,7 @@ namespace Krypton.Toolkit
             Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(m);
 
             // Convert from a class to a structure
-            PI.POINT screenPIPt = new PI.POINT
+            var screenPIPt = new PI.POINT
             {
                 X = screenPt.X,
                 Y = screenPt.Y
@@ -697,7 +697,7 @@ namespace Krypton.Toolkit
 
         private Point ScreenPtToClientPt(Point pt, IntPtr handle)
         {
-            PI.POINTC clientPt = new PI.POINTC
+            var clientPt = new PI.POINTC
             {
                 x = pt.X,
                 y = pt.Y
@@ -716,7 +716,7 @@ namespace Krypton.Toolkit
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
-            PI.POINTC zeroPIPt = new PI.POINTC
+            var zeroPIPt = new PI.POINTC
             {
                 x = 0,
                 y = 0

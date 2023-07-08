@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Set the tree node to use for sourcing values.
         /// </summary>
-        public TreeNode TreeNode { get; set; }
+        public TreeNode? TreeNode { get; set; }
 
         #endregion
 

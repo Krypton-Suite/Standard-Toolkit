@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the page setup button.</summary>
         /// <value>The page setup button.</value>
         [DefaultValue(null), Description(@"Access to the page setup button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarPageSetupButton
         {
             get => _pageSetupButtonSpec ?? new ButtonSpecAny();

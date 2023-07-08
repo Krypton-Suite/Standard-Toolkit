@@ -570,7 +570,7 @@ namespace Krypton.Toolkit
 #pragma warning restore CA2208 // Instantiate argument exceptions correctly
                 };
 
-                using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                using (var context = new ViewLayoutContext(this, Renderer))
                 {
                     context.DisplayRectangle = e.Bounds;
                     ViewDrawPanel.Layout(context);
@@ -591,12 +591,12 @@ namespace Krypton.Toolkit
 
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
-                        using (RenderContext context = new RenderContext(this, g, e.Bounds, Renderer))
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             ViewDrawPanel.Render(context);
                         }
 
-                        using (RenderContext context = new RenderContext(this, g, bounds, Renderer))
+                        using (var context = new RenderContext(this, g, bounds, Renderer))
                         {
                             layoutDocker.Render(context);
                         }
@@ -708,7 +708,7 @@ namespace Krypton.Toolkit
                     if (KryptonContextMenu != null)
                     {
                         // Extract the screen mouse position (if might not actually be provided)
-                        Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                        var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                         // If keyboard activated, the menu position is centered
                         if (((int)(long)m.LParam) == -1)

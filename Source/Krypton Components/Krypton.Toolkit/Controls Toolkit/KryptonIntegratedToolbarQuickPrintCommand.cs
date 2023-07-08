@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the quick print button.</summary>
         /// <value>The quick print button.</value>
         [DefaultValue(null), Description(@"Access to the quick print button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarQuickPrintButton
         {
             get => _quickPrintButtonSpec ?? new ButtonSpecAny();

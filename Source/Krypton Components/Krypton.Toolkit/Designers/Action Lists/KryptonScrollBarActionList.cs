@@ -16,8 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonScrollBar _scrollBar;
-
+        private readonly KryptonScrollBar? _scrollBar;
         private readonly IComponentChangeService _service;
 
         #endregion
@@ -104,7 +103,7 @@ namespace Krypton.Toolkit
         /// <returns>A <see cref="T:System.ComponentModel.Design.DesignerActionItem">DesignerActionItem</see> array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             if (_scrollBar != null)
             {

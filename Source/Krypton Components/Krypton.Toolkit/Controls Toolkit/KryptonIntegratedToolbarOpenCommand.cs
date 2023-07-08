@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the open button.</summary>
         /// <value>The open button.</value>
         [DefaultValue(null), Description(@"Access to the open button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarOpenButton
         {
             get => _openButtonSpec ?? new ButtonSpecAny();

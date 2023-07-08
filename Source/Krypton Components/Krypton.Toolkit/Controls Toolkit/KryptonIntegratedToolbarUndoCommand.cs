@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the undo button.</summary>
         /// <value>The undo button.</value>
         [DefaultValue(null), Description(@"Access to the undo button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarUndoButton
         {
             get => _undoButtonSpec ?? new ButtonSpecAny();

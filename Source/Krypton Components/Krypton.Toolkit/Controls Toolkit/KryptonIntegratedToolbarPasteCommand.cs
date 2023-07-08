@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the paste button.</summary>
         /// <value>The paste button.</value>
         [DefaultValue(null), Description(@"Access to the paste button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarPasteButton
         {
             get => _pasteButtonSpec ?? new ButtonSpecAny();

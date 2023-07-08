@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
                 Caller = caller;
 
                 // Give event handler a change to cancel the open request
-                CancelEventArgs cea = new CancelEventArgs();
+                var cea = new CancelEventArgs();
                 OnOpening(cea);
 
                 if (!cea.Cancel)
@@ -470,7 +470,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
-        internal VisualContextMenu VisualContextMenu { get; private set; }
+        internal VisualContextMenu? VisualContextMenu { get; private set; }
 
         #endregion
 

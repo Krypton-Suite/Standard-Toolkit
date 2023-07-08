@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using RenderContext context = new RenderContext(this, null, ClientRectangle, Renderer);
+            using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
             GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
@@ -422,13 +422,13 @@ namespace Krypton.Toolkit
             items.GenerateView(_provider, this, _viewColumns, true, true);
 
             // Create the control panel canvas
-            ViewDrawCanvas mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back,
+            var mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back,
                 _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
             {
                 _viewColumns
             };
 
-            ViewLayoutDocker layoutDocker = new ViewLayoutDocker();
+            var layoutDocker = new ViewLayoutDocker();
             Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
             try
             {
                 // Find the preferred size which fits exactly the calculated contents size
-                using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
+                using var context = new ViewLayoutContext(this, Renderer);
                 return ViewManager.Root.GetPreferredSize(context);
             }
             finally

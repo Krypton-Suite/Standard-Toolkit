@@ -43,6 +43,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the print button.</summary>
         /// <value>The print button.</value>
         [DefaultValue(null), Description(@"Access to the print button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarPrintButton
         {
             get => _printButtonSpec ?? new ButtonSpecAny();

@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
                 fmtRange.rc = rectToPrint;
                 fmtRange.rcPage = rectPage;
 
-                IntPtr wparam = new IntPtr(1);
+                var wparam = new IntPtr(1);
 
                 //Get the pointer to the FORMATRANGE structure in memory
                 IntPtr lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
                         if (_kryptonRichTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
                             && (_kryptonRichTextBox.TextLength == 0)
                         )
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            var ps = new PI.PAINTSTRUCT();
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
                             using (Graphics g = Graphics.FromHdc(hdc))
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
                                 var states = _kryptonRichTextBox.GetTripleState();
 
                                 // Drawn entire client area in the background color
-                                using SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
+                                using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
                                 // Go perform the drawing of the CueHint
                                 _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, rect, backBrush);
                             }
@@ -2240,7 +2240,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

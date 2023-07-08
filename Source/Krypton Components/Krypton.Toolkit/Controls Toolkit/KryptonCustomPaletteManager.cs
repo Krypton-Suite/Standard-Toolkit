@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
 
         public static void LoadExternalPalette(PaletteBase palette)
         {
-            KryptonCustomPaletteManager pm = new KryptonCustomPaletteManager();
+            var pm = new KryptonCustomPaletteManager();
 
             try
             {

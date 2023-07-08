@@ -17,7 +17,7 @@ namespace Krypton.Toolkit.Designers.Action_Lists
     internal class KryptonListViewActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonListView _listView;
+        private readonly KryptonListView? _listView;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit.Designers.Action_Lists
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_listView != null)

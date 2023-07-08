@@ -74,16 +74,13 @@ namespace Krypton.Toolkit
 
         private void OnAddLanguageManager(object sender, EventArgs e)
         {
-            if (_manager != null)
+            if (_manager is { LanguageManager: null })
             {
-                if (_manager.LanguageManager == null)
-                {
-                    _manager.LanguageManager = new KryptonLanguageManager();
+                _manager.LanguageManager = new KryptonLanguageManager();
 
-                    KryptonLanguageManager languageManager = new KryptonLanguageManager();
+                var languageManager = new KryptonLanguageManager();
 
-                    _service.OnComponentChanged(_manager, null, null, languageManager);
-                }
+                _service.OnComponentChanged(_manager, null, null, languageManager);
             }
         }
 
@@ -107,7 +104,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a component instance at design time
             if (_manager != null)

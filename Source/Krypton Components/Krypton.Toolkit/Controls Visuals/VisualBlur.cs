@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             // Update form properties so we do not have a border and do not show
             // in the task bar. We draw the background in Magenta and set that as
             // the transparency key so it is a see through window.
-            CreateParams cp = new CreateParams
+            var cp = new CreateParams
             {
                 // Define the screen position/size
                 X = -2,
@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
 
         internal static Rectangle GetTargetRectangle(Point clientLocation, Rectangle windowBounds)
         {
-            Rectangle rect = new Rectangle(0, 0, windowBounds.Width, windowBounds.Height);
+            var rect = new Rectangle(0, 0, windowBounds.Width, windowBounds.Height);
             rect.Offset(clientLocation);
             return rect;
         }
@@ -147,10 +147,10 @@ namespace Krypton.Toolkit
                 hOldBitmap = PI.SelectObject(memDc, hBitmap);
 
                 // Set parameters for layered window update.
-                PI.SIZE newSize = new PI.SIZE(_blurredForm.Width, _blurredForm.Height);
-                PI.POINT sourceLocation = new PI.POINT(0, 0);
-                PI.POINT newLocation = new PI.POINT(TargetRect.Left, TargetRect.Top);
-                PI.BLENDFUNCTION blend = new PI.BLENDFUNCTION
+                var newSize = new PI.SIZE(_blurredForm.Width, _blurredForm.Height);
+                var sourceLocation = new PI.POINT(0, 0);
+                var newLocation = new PI.POINT(TargetRect.Left, TargetRect.Top);
+                var blend = new PI.BLENDFUNCTION
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,

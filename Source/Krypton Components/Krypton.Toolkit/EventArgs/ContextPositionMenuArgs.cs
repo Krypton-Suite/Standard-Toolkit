@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
         /// <param name="kcm">KryptonContextMenu that can be customized.</param>
         /// <param name="positionH">Relative horizontal position of the KryptonContextMenu.</param>
         /// <param name="positionV">Relative vertical position of the KryptonContextMenu.</param>
-        public ContextPositionMenuArgs(ContextMenuStrip cms,
-                                       KryptonContextMenu kcm,
+        public ContextPositionMenuArgs(ContextMenuStrip? cms,
+                                       KryptonContextMenu? kcm,
                                        KryptonContextMenuPositionH positionH,
                                        KryptonContextMenuPositionV positionV)
             : base(cms, kcm)

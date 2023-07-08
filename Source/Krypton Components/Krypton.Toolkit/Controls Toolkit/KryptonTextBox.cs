@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            var ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -153,12 +153,12 @@ namespace Krypton.Toolkit
                             )
                             {
                                 // Go perform the drawing of the CueHint
-                                using SolidBrush backBrush = new SolidBrush(BackColor);
+                                using var backBrush = new SolidBrush(BackColor);
                                 _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect, backBrush);
                             }
                             else
                             {
-                                using (SolidBrush backBrush = new SolidBrush(BackColor))
+                                using (var backBrush = new SolidBrush(BackColor))
                                 {
                                     // Draw entire client area in the background color
                                     g.FillRectangle(backBrush,
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
                                                 PaletteState.Disabled));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new StringFormat
+                                    var stringFormat = new StringFormat
                                     {
                                         Trimming = StringTrimming.None,
                                         LineAlignment = StringAlignment.Near
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
+                                        using var foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString, Font, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left,
                                                 rect.bottom - rect.top),
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
+                                        using var foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent?
                                                 .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
@@ -261,7 +261,7 @@ namespace Krypton.Toolkit
                         if (_kryptonTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -1971,7 +1971,7 @@ namespace Krypton.Toolkit
                             // Create a helper object to provide tooltip values
                             if (Redirector != null)
                             {
-                                ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                                var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                                 // Is there actually anything to show for the tooltip
                                 if (buttonSpecMapping.HasContent)

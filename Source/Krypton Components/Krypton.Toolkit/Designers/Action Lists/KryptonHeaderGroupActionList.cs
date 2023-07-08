@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonHeaderGroupActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonHeaderGroup _headerGroup;
+        private readonly KryptonHeaderGroup? _headerGroup;
         private readonly IComponentChangeService _service;
         private DesignerVerb _visible1;
         private DesignerVerb _visible2;
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_headerGroup != null)

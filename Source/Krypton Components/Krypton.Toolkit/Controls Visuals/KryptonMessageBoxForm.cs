@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
-            Size maxButtonSize = new Size(button1Size.Width + GAP, button1Size.Height);
+            var maxButtonSize = new Size(button1Size.Width + GAP, button1Size.Height);
 
             // If Button2 is visible
             if (_button2.Enabled)

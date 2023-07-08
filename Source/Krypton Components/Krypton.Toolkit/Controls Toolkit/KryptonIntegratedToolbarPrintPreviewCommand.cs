@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the print preview button.</summary>
         /// <value>The print preview button.</value>
         [DefaultValue(null), Description(@"Access to the print preview button spec.")]
+        [AllowNull]
         public ButtonSpecAny? ToolBarPrintPreviewButton
         {
             get => _printPreviewButtonSpec ?? new ButtonSpecAny();

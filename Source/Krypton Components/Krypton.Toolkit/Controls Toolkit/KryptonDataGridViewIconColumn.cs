@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the icon to display.
         /// </summary>
-        public Image Icon
+        public Image? Icon
         {
             get;
             set;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// </returns>
         public object Clone()
         {
-            IconSpec spec = new IconSpec
+            var spec = new IconSpec
             {
                 Icon = Icon?.Clone() as Image,
                 Alignment = Alignment

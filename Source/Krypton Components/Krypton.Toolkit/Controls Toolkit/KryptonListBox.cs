@@ -166,8 +166,7 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using ViewLayoutContext context =
-                    new ViewLayoutContext(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer);
+                using var context = new ViewLayoutContext(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer);
                 ViewDrawPanel.Layout(context);
             }
 
@@ -211,7 +210,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // Find the item under the mouse
-                            Point mousePoint = new Point((int)m.LParam.ToInt64());
+                            var mousePoint = new Point((int)m.LParam.ToInt64());
                             var mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
@@ -256,7 +255,7 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -282,13 +281,13 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new ViewLayoutContext(this, _kryptonListBox.Renderer))
+                                using (var context = new ViewLayoutContext(this, _kryptonListBox.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new RenderContext(this, _kryptonListBox, g, realRect,
+                                using (var context = new RenderContext(this, _kryptonListBox, g, realRect,
                                            _kryptonListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
@@ -302,7 +301,7 @@ namespace Krypton.Toolkit
 
                                 if (Items.Count == 0)
                                 {
-                                    using RenderContext context = new RenderContext(this, _kryptonListBox, g, realRect,
+                                    using var context = new RenderContext(this, _kryptonListBox, g, realRect,
                                         _kryptonListBox.Renderer);
                                     ViewDrawPanel.Render(context);
                                 }
@@ -315,7 +314,7 @@ namespace Krypton.Toolkit
                             if (Items.Count == 0)
                             {
                                 using Graphics g = Graphics.FromHdc(hdc);
-                                using RenderContext context = new RenderContext(this, _kryptonListBox, g, realRect,
+                                using var context = new RenderContext(this, _kryptonListBox, g, realRect,
                                     _kryptonListBox.Renderer);
                                 ViewDrawPanel.Render(context);
                             }
@@ -1642,7 +1641,7 @@ namespace Krypton.Toolkit
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
                         // Ask the view element to layout in given space, needs this before a render call
-                        using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                        using (var context = new ViewLayoutContext(this, Renderer))
                         {
                             context.DisplayRectangle = e.Bounds;
                             _listBox.ViewDrawPanel.Layout(context);
@@ -1650,7 +1649,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Ask the view element to actually draw
-                        using (RenderContext context = new RenderContext(this, g, e.Bounds, Renderer))
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             _listBox.ViewDrawPanel.Render(context);
                             _drawButton.Render(context);
@@ -1678,7 +1677,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
+            using var context = new ViewLayoutContext(this, Renderer);
             Size size = _drawButton.GetPreferredSize(context);
             e.ItemWidth = size.Width;
             e.ItemHeight = size.Height;

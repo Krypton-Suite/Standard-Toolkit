@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the help button.</summary>
         /// <value>The help button.</value>
         [DefaultValue(null), Description(@"Access to the help button spec.")]
+        [AllowNull]
         public ButtonSpecAny? HelpButton
         {
             get => _helpButtonSpec ?? new ButtonSpecAny();
