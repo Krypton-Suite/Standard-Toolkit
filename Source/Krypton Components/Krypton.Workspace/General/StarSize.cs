@@ -71,8 +71,8 @@ namespace Krypton.Workspace
                 }
 
                 // Parse both halfs, exceptions are thrown if a problem occurs
-                StarNumber width = new StarNumber(parts[0]);
-                StarNumber height = new StarNumber(parts[1]);
+                var width = new StarNumber(parts[0]);
+                var height = new StarNumber(parts[1]);
             
                 // No errors, so use the values
                 StarWidth.Value = width.Value;

@@ -35,9 +35,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the color button specific list
                     new KryptonColorButtonActionList(this)
                 };

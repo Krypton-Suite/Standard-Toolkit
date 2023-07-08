@@ -416,12 +416,12 @@ namespace Krypton.Toolkit
         public static object? PerformOperation(Operation op, object parameter)
         {
             // Create a modal window for showing feedback
-            using ModalWaitDialog wait = new ModalWaitDialog();
+            using var wait = new ModalWaitDialog();
             // Create the object that runs the operation in a separate thread
-            OperationThread opThread = new OperationThread(op, parameter);
+            var opThread = new OperationThread(op, parameter);
 
             // Create the actual thread and provide thread entry point
-            Thread thread = new Thread(opThread.Run);
+            var thread = new Thread(opThread.Run);
 
             // Kick off the thread action
             thread.Start();
@@ -825,7 +825,7 @@ namespace Krypton.Toolkit
         /// <returns>GraphicsPath instance.</returns>
         public static GraphicsPath RoundedRectanglePath(Rectangle rect, int rounding)
         {
-            GraphicsPath roundedPath = new GraphicsPath();
+            var roundedPath = new GraphicsPath();
 
             // Only use a rounding that will fit inside the rect
             rounding = Math.Min(rounding, Math.Min(rect.Width / 2, rect.Height / 2) - rounding);
@@ -839,7 +839,7 @@ namespace Krypton.Toolkit
             else
             {
                 // We create the path using a floating point rectangle
-                RectangleF rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+                var rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // The border is made of up a quarter of a circle arc, in each corner
                 var arcLength = rounding * 2;
@@ -1174,7 +1174,7 @@ namespace Krypton.Toolkit
         /// <returns>Border sizing.</returns>
         public static Padding GetWindowBorders(CreateParams cp)
         {
-            PI.RECT rect = new PI.RECT
+            var rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
                 left = 0,
@@ -1227,7 +1227,7 @@ namespace Krypton.Toolkit
         {
             // Grab the actual current size of the window, this is more accurate than using
             // the 'this.Size' which is out of date when performing a resize of the window.
-            PI.RECT windowRect = new PI.RECT();
+            var windowRect = new PI.RECT();
             PI.GetWindowRect(handle, ref windowRect);
 
             // Create rectangle that encloses the entire window
@@ -1421,7 +1421,7 @@ namespace Krypton.Toolkit
         public static void LogOutput(string str)
         {
             // TODO: Make this thread aware !
-            FileInfo fi = new FileInfo(Application.ExecutablePath);
+            var fi = new FileInfo(Application.ExecutablePath);
             using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
             writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
             writer.WriteLine(str);
@@ -1525,7 +1525,7 @@ namespace Krypton.Toolkit
         public static Point ClientMouseMessageToScreenPt(Message m)
         {
             // Extract the x and y mouse position from message
-            PI.POINTC clientPt = new PI.POINTC
+            var clientPt = new PI.POINTC
             {
                 x = PI.LOWORD((int)m.LParam),
                 y = PI.HIWORD((int)m.LParam)
@@ -1544,7 +1544,7 @@ namespace Krypton.Toolkit
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
-            PI.POINTC zeroPIPt = new PI.POINTC
+            var zeroPIPt = new PI.POINTC
             {
                 x = 0,
                 y = 0

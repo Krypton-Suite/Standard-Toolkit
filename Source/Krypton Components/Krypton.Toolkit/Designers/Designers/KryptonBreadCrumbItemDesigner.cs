@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonBreadCrumbItemDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonBreadCrumbItem _crumbItem;
+        private KryptonBreadCrumbItem? _crumbItem;
         private IComponentChangeService _changeService;
         #endregion
 
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 if (_crumbItem != null)
                 {

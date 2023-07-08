@@ -800,9 +800,9 @@ namespace Krypton.Toolkit
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new DictItemBase();
+                var dictItems = new DictItemBase();
 
-                foreach (KryptonBreadCrumbItem item in items)
+                foreach (KryptonBreadCrumbItem item in items.Cast<KryptonBreadCrumbItem>())
                 {
                     AddItemsToDictionary(dictItems, item);
                 }
@@ -822,10 +822,10 @@ namespace Krypton.Toolkit
                 }
             }
 
-            private void AddMenuTreeNode(KryptonBreadCrumbItem item, MenuTreeNode parent)
+            private void AddMenuTreeNode(KryptonBreadCrumbItem item, MenuTreeNode? parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new MenuTreeNode(item);
+                var node = new MenuTreeNode(item);
 
                 // Add to either root or parent node
                 if (parent != null)

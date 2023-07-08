@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
                 PaintBackground?.Invoke(this, e);
 
                 // Create a render context for drawing the view
-                using RenderContext context = new RenderContext(GetViewManager(), this, RootInstance, e.Graphics,
+                using var context = new RenderContext(GetViewManager(), this, RootInstance, e.Graphics,
                     e.ClipRectangle, Renderer);
                 // Ask the view to paint itself
                 ViewLayoutControl.ChildView.Render(context);
@@ -192,13 +192,14 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
+                ViewManager? viewManager = GetViewManager();
+                if (viewManager != null)
                 {
                     // Convert from control to parent control coordinates
                     Point rootPoint = RootInstance.PointToClient(PointToScreen(new Point(e.X, e.Y)));
 
                     // Use the root controls view manager to process the event
-                    GetViewManager().MouseMove(new MouseEventArgs(e.Button,
+                    viewManager.MouseMove(new MouseEventArgs(e.Button,
                                                                   e.Clicks,
                                                                   rootPoint.X,
                                                                   rootPoint.Y,
@@ -221,13 +222,14 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
+                ViewManager? viewManager = GetViewManager();
+                if (viewManager != null)
                 {
                     // Convert from control to parent control coordinates
                     Point rootPoint = RootInstance.PointToClient(PointToScreen(new Point(e.X, e.Y)));
 
                     // Use the root controls view manager to process the event
-                    GetViewManager().MouseDown(new MouseEventArgs(e.Button,
+                    viewManager.MouseDown(new MouseEventArgs(e.Button,
                                                                   e.Clicks,
                                                                   rootPoint.X,
                                                                   rootPoint.Y,
@@ -260,13 +262,14 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
-                if (GetViewManager() != null)
+                ViewManager? viewManager = GetViewManager();
+                if (viewManager != null)
                 {
                     // Convert from control to parent control coordinates
                     Point rootPoint = RootInstance.PointToClient(PointToScreen(new Point(e.X, e.Y)));
 
                     // Use the root controls view manager to process the event
-                    GetViewManager().MouseUp(new MouseEventArgs(e.Button,
+                    viewManager.MouseUp(new MouseEventArgs(e.Button,
                                                                 e.Clicks,
                                                                 rootPoint.X,
                                                                 rootPoint.Y,
@@ -388,10 +391,10 @@ namespace Krypton.Toolkit
             if (m.Msg == PI.WM_.NCHITTEST)
             {
                 // Extract the screen point for the hit test
-                Point screenPoint = new Point((int)m.LParam.ToInt64());
+                var screenPoint = new Point((int)m.LParam.ToInt64());
 
                 // Generate event so message can be processed
-                ViewControlHitTestArgs args = new ViewControlHitTestArgs(PointToClient(screenPoint));
+                var args = new ViewControlHitTestArgs(PointToClient(screenPoint));
                 OnWndProcHitTest(args);
 
                 if (!args.Cancel)
@@ -473,7 +476,7 @@ namespace Krypton.Toolkit
         private void PaintTransparentBackground(PaintEventArgs e)
         {
             // Get the parent control for transparent drawing purposes
-            Control parent = Parent;
+            Control? parent = Parent;
 
             // Do we have a parent control and we need to paint background?
             if (parent != null)
@@ -491,7 +494,7 @@ namespace Krypton.Toolkit
 
                 try
                 {
-                    _miPTB.Invoke(this, new object[] { e, ClientRectangle, null });
+                    _ = _miPTB.Invoke(this, new object[] { e, ClientRectangle, null });
                 }
                 catch
                 {

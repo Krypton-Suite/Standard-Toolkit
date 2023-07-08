@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonTextBox _textBox;
+        private KryptonTextBox? _textBox;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// Gets the collection of components associated with the component managed by the designer.
         /// </summary>
         public override ICollection AssociatedComponents =>
-            _textBox != null ? _textBox.ButtonSpecs : base.AssociatedComponents;
+            _textBox?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
                 SelectionRules rules = base.SelectionRules;
 
                 // Get access to the actual control instance
-                KryptonTextBox textBox = (KryptonTextBox)Component;
+                var textBox = (KryptonTextBox)Component;
 
                 // With multiline or autosize we prevent the user changing the height
                 if (textBox is { Multiline: false, AutoSize: true })
@@ -95,9 +95,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the label specific list
                     new KryptonTextBoxActionList(this)
                 };
@@ -161,7 +160,7 @@ namespace Krypton.Toolkit
                     _textBox.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    var selectionList = new ArrayList
                     {
                         component
                     };

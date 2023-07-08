@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             _blockSize = colorColumns.BlockSize;
 
             // Use context menu specific version of the radio button controller
-            MenuColorBlockController mcbc = new MenuColorBlockController(provider.ProviderViewManager, this, this,
+            var mcbc = new MenuColorBlockController(provider.ProviderViewManager, this, this,
                 provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
             MouseController = mcbc;
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
             }
 
             // Draw ourself in the designated color
-            using SolidBrush brush = new SolidBrush(Color);
+            using var brush = new SolidBrush(Color);
             context.Graphics.FillRectangle(brush, drawRect);
         }
 

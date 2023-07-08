@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonContextMenuDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonContextMenu _contextMenu;
+        private KryptonContextMenu? _contextMenu;
         private IComponentChangeService _changeService;
         #endregion
 
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 if (_contextMenu != null)
                 {
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
                     // Add the palette specific list
                     new KryptonContextMenuActionList(this)

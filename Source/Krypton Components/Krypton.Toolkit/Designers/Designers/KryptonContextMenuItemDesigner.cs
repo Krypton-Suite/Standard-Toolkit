@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonContextMenuItemDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonContextMenuItem _contextMenuItem;
+        private KryptonContextMenuItem? _contextMenuItem;
         private IComponentChangeService _changeService;
         #endregion
 
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 if (_contextMenuItem != null)
                 {

@@ -39,13 +39,13 @@ namespace Krypton.Toolkit
             Add(ViewDrawTrackPosition);
 
             // Use controller for the entire track area
-            TrackBarController tbController = new TrackBarController(this);
+            var tbController = new TrackBarController(this);
             drawTrackBar.MouseController = tbController;
             drawTrackBar.KeyController = tbController;
             drawTrackBar.SourceController = tbController;
 
             // Use controller for dragging the position indicator
-            TrackPositionController tpController = new TrackPositionController(this);
+            var tpController = new TrackPositionController(this);
             ViewDrawTrackPosition.MouseController = tpController;
         }
 

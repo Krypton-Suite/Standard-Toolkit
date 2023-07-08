@@ -15,7 +15,7 @@ namespace Krypton.Workspace
     internal class KryptonWorkspaceDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonWorkspace _workspace;
+        private KryptonWorkspace? _workspace;
         private IComponentChangeService _changeService;
         #endregion
 
@@ -53,7 +53,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                ArrayList compound = new ArrayList();
+                var compound = new ArrayList();
 
                 if (_workspace != null)
                 {
@@ -72,9 +72,8 @@ namespace Krypton.Workspace
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the navigator specific list
                     new KryptonWorkspaceActionList(this)
                 };

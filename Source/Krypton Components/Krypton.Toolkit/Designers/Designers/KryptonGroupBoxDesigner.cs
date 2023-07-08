@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonGroupBoxDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonGroupBox _groupBox;
+        private KryptonGroupBox? _groupBox;
         private IDesignerHost _designerHost;
         #endregion
 
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
                     // Add the group box specific list
                     new KryptonGroupBoxActionList(this)

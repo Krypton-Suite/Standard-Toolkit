@@ -853,10 +853,10 @@ namespace Krypton.Toolkit
                 _propertyGrid1.SelectedObject = ((MenuTreeNode)node)?.PropertyObject;
             }
 
-            private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode parent)
+            private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode? parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new MenuTreeNode(item);
+                var node = new MenuTreeNode(item);
 
                 // Add to either root or parent node
                 if (parent != null)
@@ -1018,11 +1018,11 @@ namespace Krypton.Toolkit
 
                 if (ItemInsideCollection(item, parent))
                 {
-                    KryptonContextMenuCollection temp = new KryptonContextMenuCollection();
+                    var temp = new KryptonContextMenuCollection();
                     return temp.RestrictTypes.Any(t => t.Equals(addType));
                 }
 
-                KryptonContextMenuItemCollection temp1 = new KryptonContextMenuItemCollection();
+                var temp1 = new KryptonContextMenuItemCollection();
                 if (temp1.RestrictTypes.Any(t => t.Equals(addType)))
                 {
                     return true;
@@ -1030,7 +1030,7 @@ namespace Krypton.Toolkit
 
                 if (item is KryptonContextMenuItem)
                 {
-                    KryptonContextMenuCollection temp2 = new KryptonContextMenuCollection();
+                    var temp2 = new KryptonContextMenuCollection();
                     return temp2.RestrictTypes.Any(t => t.Equals(addType));
                 }
 
@@ -1040,14 +1040,14 @@ namespace Krypton.Toolkit
             private bool ValidInCollection(KryptonContextMenuItemBase item)
             {
                 Type addType = item.GetType();
-                KryptonContextMenuCollection temp = new KryptonContextMenuCollection();
+                var temp = new KryptonContextMenuCollection();
                 return temp.RestrictTypes.Any(t => t.Equals(addType));
             }
 
             private bool ValidInItemCollection(KryptonContextMenuItemBase item)
             {
                 Type addType = item.GetType();
-                KryptonContextMenuItemCollection temp = new KryptonContextMenuItemCollection();
+                var temp = new KryptonContextMenuItemCollection();
                 return temp.RestrictTypes.Any(t => t.Equals(addType));
             }
 
@@ -1059,9 +1059,9 @@ namespace Krypton.Toolkit
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new DictItemBase();
+                var dictItems = new DictItemBase();
 
-                foreach (KryptonContextMenuItemBase item in items)
+                foreach (KryptonContextMenuItemBase item in items.Cast<KryptonContextMenuItemBase>())
                 {
                     AddItemsToDictionary(dictItems, item);
                 }
@@ -1078,24 +1078,19 @@ namespace Krypton.Toolkit
                 {
                     // Add children of an items collection
                     case KryptonContextMenuItems items:
+                        foreach (KryptonContextMenuItemBase childItem in items.Items)
                         {
-                            foreach (KryptonContextMenuItemBase childItem in items.Items)
-                            {
-                                AddItemsToDictionary(dictItems, childItem);
-                            }
-
-                            break;
+                            AddItemsToDictionary(dictItems, childItem);
                         }
+                        break;
+
                     // Add children of an item
                     case KryptonContextMenuItem item:
+                        foreach (KryptonContextMenuItemBase childItem in item.Items)
                         {
-                            foreach (KryptonContextMenuItemBase childItem in item.Items)
-                            {
-                                AddItemsToDictionary(dictItems, childItem);
-                            }
-
-                            break;
+                            AddItemsToDictionary(dictItems, childItem);
                         }
+                        break;
                 }
             }
 
@@ -1117,7 +1112,7 @@ namespace Krypton.Toolkit
                     context.Container?.Remove(item);
                 }
 
-                IComponentChangeService changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                IComponentChangeService? changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
                 if (changeService != null)
                 {
                     // Mark components as changed when not added or removed

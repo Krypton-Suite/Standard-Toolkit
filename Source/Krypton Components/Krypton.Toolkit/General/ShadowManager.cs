@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
             var solidW = clientRectangle.Width + blur * 2;
             var solidH = clientRectangle.Height + blur * 2;
             var blurOffset = _shadowValues.ExtraWidth - blur;
-            Bitmap bitmap = new Bitmap(w, h);
+            var bitmap = new Bitmap(w, h);
             bitmap.MakeTransparent();
             using Graphics g = Graphics.FromImage(bitmap);
             // fill background
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
             // four dir gradient
             if (blurOffset > 0)
             {
-                using (LinearGradientBrush brush = new LinearGradientBrush(new PointF(0, 0), new PointF(blurOffset, 0),
+                using (var brush = new LinearGradientBrush(new PointF(0, 0), new PointF(blurOffset, 0),
                            Color.Transparent, _shadowValues.Colour))
                 {
                     // Left
@@ -219,11 +219,11 @@ namespace Krypton.Toolkit
 
 
                 // four corner
-                using (GraphicsPath gp = new GraphicsPath())
-                using (Matrix matrix = new Matrix())
+                using (var gp = new GraphicsPath())
+                using (var matrix = new Matrix())
                 {
                     gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                    using (PathGradientBrush pgb = new PathGradientBrush(gp)
+                    using (var pgb = new PathGradientBrush(gp)
                     {
                         CenterColor = _shadowValues.Colour,
                         SurroundColors = new[] { Color.Transparent },
@@ -316,7 +316,6 @@ namespace Krypton.Toolkit
             {
                 Mi();
             }
-
         }
     }
 

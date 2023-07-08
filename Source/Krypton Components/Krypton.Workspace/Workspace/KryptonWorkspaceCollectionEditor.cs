@@ -695,12 +695,12 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
                 /// </summary>
-                public KryptonPage PageItem { get; }
+                public KryptonPage? PageItem { get; }
 
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
                 /// </summary>
-                public KryptonWorkspaceCell CellItem { get; }
+                public KryptonWorkspaceCell? CellItem { get; }
 
                 /// <summary>
                 /// Gets access to the associated workspace sequence item.
@@ -1695,7 +1695,7 @@ namespace Krypton.Workspace
 
             private void UpdateButtons()
             {
-                MenuTreeNode node = (MenuTreeNode)_treeView.SelectedNode;
+                var node = (MenuTreeNode)_treeView.SelectedNode;
                 var isNone = (node == null);
                 var isPage = node?.PageItem != null;
                 var isCell = node?.CellItem != null;
@@ -1718,7 +1718,7 @@ namespace Krypton.Workspace
                 }
                 else
                 {
-                    MenuTreeNode menuNode = (MenuTreeNode)node;
+                    var menuNode = (MenuTreeNode)node;
 
                     if (menuNode.PageItem != null)
                     {
@@ -1737,7 +1737,7 @@ namespace Krypton.Workspace
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new DictItemBase();
+                var dictItems = new DictItemBase();
 
                 foreach (Component item in items)
                 {
@@ -1756,31 +1756,27 @@ namespace Krypton.Workspace
                 {
                     // Add pages from a cell
                     case KryptonWorkspaceCell cell:
-                    {
                         foreach (Component item in cell.Pages)
                         {
                             AddItemsToDictionary(dictItems, item);
                         }
 
                         break;
-                    }
                     // Add children from a sequence
                     case KryptonWorkspaceSequence sequence:
-                    {
                         foreach (Component item in sequence.Children)
                         {
                             AddItemsToDictionary(dictItems, item);
                         }
 
                         break;
-                    }
                 }
             }
 
-            private void AddMenuTreeNode(Component item, MenuTreeNode parent)
+            private void AddMenuTreeNode(Component item, MenuTreeNode? parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new MenuTreeNode(item);
+                var node = new MenuTreeNode(item);
 
                 // Add to either root or parent node
                 if (parent != null)
@@ -1796,24 +1792,20 @@ namespace Krypton.Workspace
                 {
                     // Add pages from a cell
                     case KryptonWorkspaceCell cell:
-                    {
                         foreach (Component page in cell.Pages)
                         {
                             AddMenuTreeNode(page, node);
                         }
 
                         break;
-                    }
                     // Add children from a sequence
                     case KryptonWorkspaceSequence sequence:
-                    {
                         foreach (Component child in sequence.Children)
                         {
                             AddMenuTreeNode(child, node);
                         }
 
                         break;
-                    }
                 }
             }
 
@@ -1841,7 +1833,7 @@ namespace Krypton.Workspace
                     }
                 }
 
-                IComponentChangeService changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                IComponentChangeService? changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
                 if (changeService != null)
                 {
                     // Mark components as changed when not added or removed

@@ -956,7 +956,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Use image attributes class to modify image drawing for effects
-                ImageAttributes attribs = new ImageAttributes();
+                var attribs = new ImageAttributes();
 
                 switch (effect)
                 {
@@ -1002,7 +1002,7 @@ namespace Krypton.Toolkit
                     // Create remapping for the transparent color
                     if (remapTransparent != Color.Empty)
                     {
-                        ColorMap remap = new ColorMap
+                        var remap = new ColorMap
                         {
                             OldColor = remapTransparent,
                             NewColor = Color.Transparent
@@ -1013,7 +1013,7 @@ namespace Krypton.Toolkit
                     // Create remapping from source to target colors
                     if ((remapColor != Color.Empty) && (remapNew != Color.Empty))
                     {
-                        ColorMap remap = new ColorMap
+                        var remap = new ColorMap
                         {
                             OldColor = remapColor,
                             NewColor = remapNew

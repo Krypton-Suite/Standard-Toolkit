@@ -66,14 +66,14 @@ namespace Krypton.Toolkit
                             if ((fiM != null) && (fiR != null) && (fiC != null))
                             {
 #pragma warning disable IDE0019 // Use pattern matching
-                                ToolStripMenuItem? m = fiM.GetValue(mcs) as ToolStripMenuItem;
-                                ToolStripMenuItem? r = fiR.GetValue(mcs) as ToolStripMenuItem;
-                                ToolStripMenuItem? c = fiC.GetValue(mcs) as ToolStripMenuItem;
+                                var m = fiM.GetValue(mcs) as ToolStripMenuItem;
+                                var r = fiR.GetValue(mcs) as ToolStripMenuItem;
+                                var c = fiC.GetValue(mcs) as ToolStripMenuItem;
 #pragma warning restore IDE0019 // Use pattern matching
                                 if ((m != null) && (r != null) && (c != null))
                                 {
                                     // Compare the event provided image with the internal cached ones to discover the type of pendant button we are drawing
-                                    PaletteButtonSpecStyle specStyle = PaletteButtonSpecStyle.Generic;
+                                    var specStyle = PaletteButtonSpecStyle.Generic;
                                     if (m.Image == e.Image)
                                     {
                                         specStyle = PaletteButtonSpecStyle.PendantMin;
@@ -97,9 +97,9 @@ namespace Krypton.Toolkit
                                         // Finally we actually have an image to draw!
                                         if (paletteImage != null)
                                         {
-                                            using ImageAttributes attribs = new ImageAttributes();
+                                            using var attribs = new ImageAttributes();
                                             // Setup mapping to make required color transparent
-                                            ColorMap remap = new ColorMap
+                                            var remap = new ColorMap
                                             {
                                                 OldColor = transparentColor,
                                                 NewColor = Color.Transparent

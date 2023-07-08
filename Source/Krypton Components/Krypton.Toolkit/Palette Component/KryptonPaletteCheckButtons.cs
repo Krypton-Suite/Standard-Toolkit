@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             ButtonCustom3 = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCustom3, PaletteBorderStyle.ButtonCustom3, PaletteContentStyle.ButtonCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTriple redirectCommon = new PaletteRedirectTriple(redirector, ButtonCommon.StateDisabled,
+            var redirectCommon = new PaletteRedirectTriple(redirector, ButtonCommon.StateDisabled,
                 ButtonCommon.StateNormal, ButtonCommon.StatePressed, ButtonCommon.StateTracking,
                 ButtonCommon.StateCheckedNormal, ButtonCommon.StateCheckedPressed, ButtonCommon.StateCheckedTracking,
                 ButtonCommon.OverrideFocus, ButtonCommon.OverrideDefault);

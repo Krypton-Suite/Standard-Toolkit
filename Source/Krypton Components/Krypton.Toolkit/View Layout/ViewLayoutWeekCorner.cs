@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Start with size needed to draw a week number
-            Size retSize = new Size(_months.SizeDay.Width, _months.SizeDays.Height);
+            var retSize = new Size(_months.SizeDay.Width, _months.SizeDays.Height);
 
             // Add the width of the vertical border
             retSize.Width += _palette.GetBorderWidth(State);

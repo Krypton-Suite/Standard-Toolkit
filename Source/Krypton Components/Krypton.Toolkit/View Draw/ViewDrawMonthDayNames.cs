@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Layout the 7 day names
-            Rectangle layoutRect = new Rectangle(ClientLocation, _months.SizeDays);
+            var layoutRect = new Rectangle(ClientLocation, _months.SizeDays);
             for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
             {
                 // Define text to be drawn
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Draw the 7 day names
-            Rectangle drawRect = new Rectangle(ClientLocation, _months.SizeDays);
+            var drawRect = new Rectangle(ClientLocation, _months.SizeDays);
             for(int i=0, day=(int)_months.DisplayDayOfWeek; i<7; i++, day++)
             {
                 // Draw using memento cached from the layout call

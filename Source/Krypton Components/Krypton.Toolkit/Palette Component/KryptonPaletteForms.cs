@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             FormCustom3 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom3, PaletteBorderStyle.FormCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectDouble redirectCommon =
+            var redirectCommon =
                 new PaletteRedirectDouble(redirector, FormCommon.StateInactive, FormCommon.StateActive);
 
             // Inform the form style to use the new redirector

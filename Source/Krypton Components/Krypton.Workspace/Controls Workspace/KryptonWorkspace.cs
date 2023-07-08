@@ -1339,7 +1339,7 @@ namespace Krypton.Workspace
             if (createCellIfNoPages || (pages.Count > 0))
             {
                 // Create a new cell with entire list of pages as the only workspace item
-                KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+                var cell = new KryptonWorkspaceCell();
                 cell.Pages.AddRange(pages.ToArray());
                 Root.Children.Add(cell);
 
@@ -1459,7 +1459,7 @@ namespace Krypton.Workspace
                     while (cells.Count > 0)
                     {
                         // Add a maximum of sequenceItems to the sequence
-                        KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence(sequenceDirection);
+                        var sequence = new KryptonWorkspaceSequence(sequenceDirection);
                         for (var j = 0; j < sequenceItems; j++)
                         {
                             // If no cells then do we need to create a cell?
@@ -1597,13 +1597,13 @@ namespace Krypton.Workspace
                     while (pages.Count > 0)
                     {
                         // Add a maximum of sequenceItems to the sequence
-                        KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence(sequenceDirection);
+                        var sequence = new KryptonWorkspaceSequence(sequenceDirection);
                         for (var j = 0; j < sequenceItems; j++)
                         {
                             // If no pages then do we need to create a cell?
                             if (createCellIfNoPages || (pages.Count > 0))
                             {
-                                KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+                                var cell = new KryptonWorkspaceCell();
 
                                 // Add the first cell in the list to the cell
                                 if (pages.Count > 0)
@@ -1686,7 +1686,7 @@ namespace Krypton.Workspace
         /// <returns>List of drag targets.</returns>
         public virtual DragTargetList GenerateDragTargets(PageDragEndData? dragEndData, KryptonPageFlags allowFlags)
         {
-            DragTargetList targets = new DragTargetList();
+            var targets = new DragTargetList();
 
             var visibleCells = 0;
             var numPages = 0;
@@ -1763,7 +1763,7 @@ namespace Krypton.Workspace
         public byte[] SaveLayoutToArray(Encoding encoding)
         {
             // Save into the file stream
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             SaveLayoutToStream(ms, encoding);
             ms.Close();
 
@@ -1862,7 +1862,7 @@ namespace Krypton.Workspace
         /// <param name="buffer">Array of source bytes.</param>
         public void LoadLayoutFromArray(byte[] buffer)
         {
-            MemoryStream ms = new MemoryStream(buffer);
+            var ms = new MemoryStream(buffer);
             LoadLayoutFromStream(ms);
             ms.Close();
         }
@@ -1945,7 +1945,7 @@ namespace Krypton.Workspace
                     throw new ArgumentException(@"Can only load Version 1 and upwards of KryptonWorkspace persisted data.");
                 }
 
-                ScreenObscurer obscurer = new ScreenObscurer();
+                var obscurer = new ScreenObscurer();
 
                 try
                 {
@@ -2201,7 +2201,7 @@ namespace Krypton.Workspace
             else
             {
                 // Use event to try and get a newly created page for use
-                RecreateLoadingPageEventArgs args = new RecreateLoadingPageEventArgs(uniqueName);
+                var args = new RecreateLoadingPageEventArgs(uniqueName);
                 OnRecreateLoadingPage(args);
                 if (!args.Cancel)
                 {
@@ -2555,11 +2555,11 @@ namespace Krypton.Workspace
                 }
 
                 // Lists for the layout processing to populate with instances still needed
-                SeparatorList separators = new SeparatorList();
-                ControlList controls = new ControlList();
+                var separators = new SeparatorList();
+                var controls = new ControlList();
 
                 // Layout child controls according to the need for a maximized cell or not
-                using (ViewLayoutContext layoutContext = new ViewLayoutContext(this, Renderer))
+                using (var layoutContext = new ViewLayoutContext(this, Renderer))
                 {
                     if (MaximizedCell != null)
                     {
@@ -3297,7 +3297,7 @@ namespace Krypton.Workspace
                         };
 
                         // Need a controller that operates the movement
-                        SeparatorController separatorController = new SeparatorController(viewSeparator, viewSeparator,
+                        var separatorController = new SeparatorController(viewSeparator, viewSeparator,
                             true, true, _separatorNeedPaint);
                         viewSeparator.Source = viewSeparator;
                         viewSeparator.MouseController = separatorController;
@@ -3628,7 +3628,7 @@ namespace Krypton.Workspace
         private CellList CopyToCellList()
         {
             // Make a list of all the pages in workspace without removing any
-            CellList cells = new CellList();
+            var cells = new CellList();
             KryptonWorkspaceCell? cell = FirstCell();
             while (cell != null)
             {
@@ -3653,7 +3653,7 @@ namespace Krypton.Workspace
         private PageList CopyToPageList()
         {
             // Make list of all pages inside all cells
-            PageList pages = new PageList();
+            var pages = new PageList();
             KryptonWorkspaceCell? cell = FirstCell();
             while (cell != null)
             {
@@ -3667,7 +3667,7 @@ namespace Krypton.Workspace
         private KryptonPageCollection CopyToPageCollection()
         {
             // Make list of all pages inside all cells
-            KryptonPageCollection pages = new KryptonPageCollection();
+            var pages = new KryptonPageCollection();
             KryptonWorkspaceCell? cell = FirstCell();
             while (cell != null)
             {
@@ -3685,7 +3685,7 @@ namespace Krypton.Workspace
         private PageList ClearToPageList()
         {
             // Remove all pages from all cells add then to a list
-            PageList pages = new PageList();
+            var pages = new PageList();
             KryptonWorkspaceCell? cell = FirstCell();
             while (cell != null)
             {
@@ -4035,7 +4035,7 @@ namespace Krypton.Workspace
                 var index = parentSequence.Children.IndexOf(cell);
 
                 // Create a new cell and move the context page into it
-                KryptonWorkspaceCell newCell = new KryptonWorkspaceCell();
+                var newCell = new KryptonWorkspaceCell();
                 cell.Pages.Remove(page);
                 newCell.Pages.Add(page);
 
@@ -4051,9 +4051,8 @@ namespace Krypton.Workspace
                 else
                 {
                     // Split is in opposite direction so create a new sequence to replace the existing cell
-                    KryptonWorkspaceSequence newSequence = new KryptonWorkspaceSequence(orientation)
+                    var newSequence = new KryptonWorkspaceSequence(orientation)
                     {
-
                         // Put the same size into the sequence as was in the original cell
                         StarSize = cell.StarSize
                     };
@@ -4129,7 +4128,7 @@ namespace Krypton.Workspace
 
         private static UniqueNameToPage BuildUniqueNameDictionary(KryptonPageCollection pages)
         {
-            UniqueNameToPage dict = new UniqueNameToPage();
+            var dict = new UniqueNameToPage();
 
             // Add each page that has a non-null unique name but only add the same unique name once
             foreach (KryptonPage page in pages)

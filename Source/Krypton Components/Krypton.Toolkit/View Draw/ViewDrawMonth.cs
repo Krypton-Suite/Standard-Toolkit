@@ -104,9 +104,9 @@ namespace Krypton.Toolkit
                                                        _calendar.GetToolStripDelegate, needPaintDelegate);
 
             // Create stacks for holding display items
-            ViewLayoutStack namesStack = new ViewLayoutStack(true);
-            ViewLayoutStack weeksStack = new ViewLayoutStack(true);
-            ViewLayoutStack daysStack = new ViewLayoutStack(false);
+            var namesStack = new ViewLayoutStack(true);
+            var weeksStack = new ViewLayoutStack(true);
+            var daysStack = new ViewLayoutStack(false);
             _numberStack = new ViewLayoutStack(false);
             weeksStack.Add(_numberStack);
             weeksStack.Add(daysStack);
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
             _borderEdge = new PaletteBorderEdge(_borderEdgeRedirect, null);
             _drawBorderEdge = new ViewDrawBorderEdge(_borderEdge, Orientation.Vertical);
             _drawWeekNumbers = new ViewDrawWeekNumbers(_calendar, _months);
-            ViewLayoutDocker borderLeftDock = new ViewLayoutDocker
+            var borderLeftDock = new ViewLayoutDocker
             {
                 { _drawWeekNumbers, ViewDockStyle.Left },
                 { new ViewLayoutSeparator(0, 4), ViewDockStyle.Top },
@@ -134,11 +134,10 @@ namespace Krypton.Toolkit
             _numberStack.Add(borderLeftDock);
 
             // Add border between day names and individual days
-            PaletteBorderEdgeRedirect borderEdgeRedirect =
-                new PaletteBorderEdgeRedirect(_calendar.StateNormal.Header.Border, null);
-            PaletteBorderEdge borderEdge = new PaletteBorderEdge(borderEdgeRedirect, null);
-            ViewDrawBorderEdge drawBorderEdge = new ViewDrawBorderEdge(borderEdge, Orientation.Horizontal);
-            ViewLayoutDocker borderTopDock = new ViewLayoutDocker
+            var borderEdgeRedirect = new PaletteBorderEdgeRedirect(_calendar.StateNormal.Header.Border, null);
+            var borderEdge = new PaletteBorderEdge(borderEdgeRedirect, null);
+            var drawBorderEdge = new ViewDrawBorderEdge(borderEdge, Orientation.Horizontal);
+            var borderTopDock = new ViewLayoutDocker
             {
                 { new ViewLayoutSeparator(4, 1), ViewDockStyle.Left },
                 { drawBorderEdge, ViewDockStyle.Fill },

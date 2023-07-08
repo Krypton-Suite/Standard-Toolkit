@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
             Color borderColour = paletteBack.GetBackColor1(state), lightColour = CommonHelper.MergeColors(borderColour, BORDER_PERCENT, Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using SolidBrush drawBrush = new SolidBrush(lightColour);
+            using var drawBrush = new SolidBrush(lightColour);
             context.Graphics.FillRectangle(drawBrush, displayRect);
         }
         #endregion
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(colourPalette));
             }
 
-            KryptoMicrosoft365Renderer renderer = new KryptoMicrosoft365Renderer(colourPalette.ColorTable)
+            var renderer = new KryptoMicrosoft365Renderer(colourPalette.ColorTable)
             {
                 RoundedEdges = colourPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };

@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             var enabled = provider.ProviderEnabled;
 
             // Always assume there is a first row of colors
-            ViewLayoutStack fillStack = new ViewLayoutStack(false)
+            var fillStack = new ViewLayoutStack(false)
             {
                 CreateColumns(provider, colorColumns, colors, 0, 1, enabled)
             };
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
                                               bool enabled)
         {
             // Create a horizontal stack of columns
-            ViewLayoutStack columns = new ViewLayoutStack(true)
+            var columns = new ViewLayoutStack(true)
             {
                 FillLastChild = false
             };
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Add container for the column, this draws the background
-                ViewDrawMenuColorColumn colorColumn =
+                var colorColumn =
                     new ViewDrawMenuColorColumn(provider, colorColumns, colors[i], start, end, enabled);
                 columns.Add(colorColumn);
             }

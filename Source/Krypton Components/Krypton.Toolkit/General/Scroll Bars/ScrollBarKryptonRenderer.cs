@@ -321,12 +321,12 @@ namespace Krypton.Toolkit
             }
 
             // get grip image
-            using Image gripImage = GetGripNomalBitmap();
+            using Image gripImage = GetGripNormalBitmap();
             // adjust rectangle and rotate grip image if necessary
             Rectangle r = AdjustThumbGrip(rect, orientation, gripImage);
 
             // adjust alpha channel of grip image
-            using ImageAttributes attr = new ImageAttributes();
+            using var attr = new ImageAttributes();
             attr.SetColorMatrix(
                 new ColorMatrix(new[]
                 {
@@ -345,14 +345,13 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Draws the GripNomal Bitmap.
+        /// Draws the GripNormal Bitmap.
         /// </summary>
-        public static Bitmap GetGripNomalBitmap()
+        public static Bitmap GetGripNormalBitmap()
         {
-            Bitmap btm = new Bitmap(8, 8);
+            var btm = new Bitmap(8, 8);
             btm.SetResolution(72, 72);
             Graphics g = Graphics.FromImage(btm);
-            Rectangle rect = new Rectangle(0, 0, 8, 8);
 
             g.DrawLine(new Pen(gripColours[1]), new Point(0, 0), new Point(8, 0));//dark
             g.DrawLine(new Pen(gripColours[0]), new Point(1, 1), new Point(7, 1));//light
@@ -367,11 +366,11 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Draws the GripNomal Bitmap.
+        /// Draws the GetScrollBarArrowDownBitmap
         /// </summary>
         public static Image GetScrollBarArrowDownBitmap()
         {
-            Bitmap img = new Bitmap(9, 5, PixelFormat.Format32bppArgb);
+            var img = new Bitmap(9, 5, PixelFormat.Format32bppArgb);
             img.SetResolution(72, 72);
             Graphics g = Graphics.FromImage(img);
 
@@ -383,7 +382,6 @@ namespace Krypton.Toolkit
 
             g.DrawLine(new Pen(gripColours[0]), new Point(3, 0), new Point(5, 0));//light
             g.DrawLine(new Pen(gripColours[0]), new Point(4, 0), new Point(4, 1));//light
-
 
             return img;
         }
@@ -437,28 +435,28 @@ namespace Krypton.Toolkit
         /// <param name="rect">The rectangle in which to paint.</param>
         private static void DrawBackgroundVertical(Graphics g, Rectangle rect)
         {
-            using (Pen p = new Pen(backgroundColours[0]))
+            using (var p = new Pen(backgroundColours[0]))
             {
                 g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Bottom - 1);
                 g.DrawLine(p, rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 1);
             }
 
-            using (Pen p = new Pen(backgroundColours[1]))
+            using (var p = new Pen(backgroundColours[1]))
             {
                 g.DrawLine(p, rect.Left + 2, rect.Top + 1, rect.Left + 2, rect.Bottom - 1);
             }
 
-            Rectangle firstRect = new Rectangle(rect.Left + 3, rect.Top, 8, rect.Height);
+            var firstRect = new Rectangle(rect.Left + 3, rect.Top, 8, rect.Height);
 
-            Rectangle secondRect = new Rectangle(firstRect.Right - 1, firstRect.Top, 7, firstRect.Height);
+            var secondRect = new Rectangle(firstRect.Right - 1, firstRect.Top, 7, firstRect.Height);
 
-            using (LinearGradientBrush brush = new LinearGradientBrush(firstRect, backgroundColours[2],
+            using (var brush = new LinearGradientBrush(firstRect, backgroundColours[2],
                        backgroundColours[3], LinearGradientMode.Horizontal))
             {
                 g.FillRectangle(brush, firstRect);
             }
 
-            using (LinearGradientBrush brush = new LinearGradientBrush(secondRect, backgroundColours[3],
+            using (var brush = new LinearGradientBrush(secondRect, backgroundColours[3],
                        backgroundColours[4], LinearGradientMode.Horizontal))
             {
                 g.FillRectangle(brush, secondRect);
@@ -472,28 +470,28 @@ namespace Krypton.Toolkit
         /// <param name="rect">The rectangle in which to paint.</param>
         private static void DrawBackgroundHorizontal(Graphics g, Rectangle rect)
         {
-            using (Pen p = new Pen(backgroundColours[0]))
+            using (var p = new Pen(backgroundColours[0]))
             {
                 g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Right - 1, rect.Top + 1);
                 g.DrawLine(p, rect.Left + 1, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 2);
             }
 
-            using (Pen p = new Pen(backgroundColours[1]))
+            using (var p = new Pen(backgroundColours[1]))
             {
                 g.DrawLine(p, rect.Left + 1, rect.Top + 2, rect.Right - 1, rect.Top + 2);
             }
 
-            Rectangle firstRect = new Rectangle(rect.Left, rect.Top + 3, rect.Width, 8);
+            var firstRect = new Rectangle(rect.Left, rect.Top + 3, rect.Width, 8);
 
-            Rectangle secondRect = new Rectangle(firstRect.Left, firstRect.Bottom - 1, firstRect.Width, 7);
+            var secondRect = new Rectangle(firstRect.Left, firstRect.Bottom - 1, firstRect.Width, 7);
 
-            using (LinearGradientBrush brush = new LinearGradientBrush(firstRect, backgroundColours[2],
+            using (var brush = new LinearGradientBrush(firstRect, backgroundColours[2],
                        backgroundColours[3], LinearGradientMode.Vertical))
             {
                 g.FillRectangle(brush, firstRect);
             }
 
-            using (LinearGradientBrush brush = new LinearGradientBrush(secondRect, backgroundColours[3],
+            using (var brush = new LinearGradientBrush(secondRect, backgroundColours[3],
                        backgroundColours[4], LinearGradientMode.Vertical))
             {
                 g.FillRectangle(brush, secondRect);
@@ -507,9 +505,9 @@ namespace Krypton.Toolkit
         /// <param name="rect">The rectangle in which to paint.</param>
         private static void DrawTrackVertical(Graphics g, Rectangle rect)
         {
-            Rectangle innerRect = new Rectangle(rect.Left + 1, rect.Top, 15, rect.Height);
+            var innerRect = new Rectangle(rect.Left + 1, rect.Top, 15, rect.Height);
 
-            using LinearGradientBrush brush = new LinearGradientBrush(innerRect, trackColours[0], trackColours[1],
+            using var brush = new LinearGradientBrush(innerRect, trackColours[0], trackColours[1],
                 LinearGradientMode.Horizontal);
             g.FillRectangle(brush, innerRect);
         }
@@ -521,9 +519,9 @@ namespace Krypton.Toolkit
         /// <param name="rect">The rectangle in which to paint.</param>
         private static void DrawTrackHorizontal(Graphics g, Rectangle rect)
         {
-            Rectangle innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, 15);
+            var innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, 15);
 
-            using LinearGradientBrush brush = new LinearGradientBrush(innerRect, trackColours[0], trackColours[1],
+            using var brush = new LinearGradientBrush(innerRect, trackColours[0], trackColours[1],
                 LinearGradientMode.Vertical);
             g.FillRectangle(brush, innerRect);
         }
@@ -590,7 +588,7 @@ namespace Krypton.Toolkit
             r.Height++;
 
             // draw left gradient
-            using (LinearGradientBrush brush = new LinearGradientBrush(r, thumbColours[index, 1],
+            using (var brush = new LinearGradientBrush(r, thumbColours[index, 1],
                        thumbColours[index, 2], LinearGradientMode.Horizontal))
             {
                 g.FillRectangle(brush, r);
@@ -601,7 +599,7 @@ namespace Krypton.Toolkit
             // draw right gradient
             if (index == 0)
             {
-                using LinearGradientBrush brush = new LinearGradientBrush(r, thumbColours[index, 4],
+                using var brush = new LinearGradientBrush(r, thumbColours[index, 4],
                     thumbColours[index, 5], LinearGradientMode.Horizontal);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
@@ -618,21 +616,21 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using (LinearGradientBrush brush = new LinearGradientBrush(r, thumbColours[index, 4],
+                using (var brush = new LinearGradientBrush(r, thumbColours[index, 4],
                            thumbColours[index, 5], LinearGradientMode.Horizontal))
                 {
                     g.FillRectangle(brush, r);
                 }
 
                 // draw left line
-                using (Pen p = new Pen(thumbColours[index, 7]))
+                using (var p = new Pen(thumbColours[index, 7]))
                 {
                     g.DrawLine(p, innerRect.X, innerRect.Y, innerRect.X, innerRect.Bottom);
                 }
             }
 
             // draw right line
-            using (Pen p = new Pen(thumbColours[index, 3]))
+            using (var p = new Pen(thumbColours[index, 3]))
             {
                 g.DrawLine(p, innerRect.Right, innerRect.Y, innerRect.Right, innerRect.Bottom);
             }
@@ -640,7 +638,7 @@ namespace Krypton.Toolkit
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             // draw border
-            using (Pen p = new Pen(thumbColours[index, 0]))
+            using (var p = new Pen(thumbColours[index, 0]))
             {
                 using (GraphicsPath path = CreateRoundPath(rect, 2f, 2f))
                 {
@@ -677,7 +675,7 @@ namespace Krypton.Toolkit
             r.Width++;
 
             // draw left gradient
-            using (LinearGradientBrush brush = new LinearGradientBrush(r, thumbColours[index, 1],
+            using (var brush = new LinearGradientBrush(r, thumbColours[index, 1],
                        thumbColours[index, 2], LinearGradientMode.Vertical))
             {
                 g.FillRectangle(brush, r);
@@ -688,7 +686,7 @@ namespace Krypton.Toolkit
             // draw right gradient
             if (index == 0)
             {
-                using LinearGradientBrush brush = new LinearGradientBrush(r, thumbColours[index, 4],
+                using var brush = new LinearGradientBrush(r, thumbColours[index, 4],
                     thumbColours[index, 5], LinearGradientMode.Vertical);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
@@ -705,21 +703,21 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using (LinearGradientBrush brush = new LinearGradientBrush(r, thumbColours[index, 4],
+                using (var brush = new LinearGradientBrush(r, thumbColours[index, 4],
                            thumbColours[index, 5], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, r);
                 }
 
                 // draw left line
-                using (Pen p = new Pen(thumbColours[index, 7]))
+                using (var p = new Pen(thumbColours[index, 7]))
                 {
                     g.DrawLine(p, innerRect.X, innerRect.Y, innerRect.Right, innerRect.Y);
                 }
             }
 
             // draw right line
-            using (Pen p = new Pen(thumbColours[index, 3]))
+            using (var p = new Pen(thumbColours[index, 3]))
             {
                 g.DrawLine(p, innerRect.X, innerRect.Bottom, innerRect.Right, innerRect.Bottom);
             }
@@ -727,7 +725,7 @@ namespace Krypton.Toolkit
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             // draw border
-            using (Pen p = new Pen(thumbColours[index, 0]))
+            using (var p = new Pen(thumbColours[index, 0]))
             {
                 using (GraphicsPath path = CreateRoundPath(rect, 2f, 2f))
                 {
@@ -774,14 +772,7 @@ namespace Krypton.Toolkit
            bool arrowUp)
         {
             using Image arrowImage = GetArrowDownButtonImage(state);
-            if (arrowUp)
-            {
-                arrowImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            }
-            else
-            {
-                arrowImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
-            }
+            arrowImage.RotateFlip(arrowUp ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
 
             g.DrawImage(arrowImage, rect);
         }
@@ -794,8 +785,8 @@ namespace Krypton.Toolkit
         private static Image GetArrowDownButtonImage(
            ScrollBarArrowButtonState state)
         {
-            Rectangle rect = new Rectangle(0, 0, 15, 17);
-            Bitmap bitmap = new Bitmap(15, 17, PixelFormat.Format32bppArgb);
+            var rect = new Rectangle(0, 0, 15, 17);
+            var bitmap = new Bitmap(15, 17, PixelFormat.Format32bppArgb);
             bitmap.SetResolution(72f, 72f);
 
             using Graphics g = Graphics.FromImage(bitmap);
@@ -808,27 +799,18 @@ namespace Krypton.Toolkit
             {
                 case ScrollBarArrowButtonState.UpHot:
                 case ScrollBarArrowButtonState.DownHot:
-                {
                     index = 1;
-
                     break;
-                }
 
                 case ScrollBarArrowButtonState.UpActive:
                 case ScrollBarArrowButtonState.DownActive:
-                {
                     index = 0;
-
                     break;
-                }
 
                 case ScrollBarArrowButtonState.UpPressed:
                 case ScrollBarArrowButtonState.DownPressed:
-                {
                     index = 2;
-
                     break;
-                }
             }
 
             if (index != -1)
@@ -842,10 +824,10 @@ namespace Krypton.Toolkit
 
                 rect.Inflate(0, -1);
 
-                using (LinearGradientBrush brush = new LinearGradientBrush(rect, arrowBorderColours[2],
+                using (var brush = new LinearGradientBrush(rect, arrowBorderColours[2],
                            arrowBorderColours[1], LinearGradientMode.Vertical))
                 {
-                    ColorBlend blend = new ColorBlend(3)
+                    var blend = new ColorBlend(3)
                     {
                         Positions = new[] { 0f, .5f, 1f },
                         Colors = new[] {
@@ -856,7 +838,7 @@ namespace Krypton.Toolkit
 
                     brush.InterpolationColors = blend;
 
-                    using (Pen p = new Pen(brush))
+                    using (var p = new Pen(brush))
                     {
                         g.DrawLine(p, rect.X, rect.Y, rect.X, rect.Bottom - 1);
                         g.DrawLine(p, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
@@ -870,7 +852,7 @@ namespace Krypton.Toolkit
                 upper.Y++;
                 upper.Height = 7;
 
-                using (LinearGradientBrush brush = new LinearGradientBrush(upper, arrowColours[index, 2],
+                using (var brush = new LinearGradientBrush(upper, arrowColours[index, 2],
                            arrowColours[index, 3], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, upper);
@@ -879,7 +861,7 @@ namespace Krypton.Toolkit
                 upper.Inflate(-1, 0);
                 upper.Height = 6;
 
-                using (LinearGradientBrush brush = new LinearGradientBrush(upper, arrowColours[index, 0],
+                using (var brush = new LinearGradientBrush(upper, arrowColours[index, 0],
                            arrowColours[index, 1], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, upper);
@@ -890,7 +872,7 @@ namespace Krypton.Toolkit
                 lower.Y = 8;
                 lower.Height = 8;
 
-                using (LinearGradientBrush brush = new LinearGradientBrush(lower, arrowColours[index, 6],
+                using (var brush = new LinearGradientBrush(lower, arrowColours[index, 6],
                            arrowColours[index, 7], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, lower);
@@ -898,14 +880,14 @@ namespace Krypton.Toolkit
 
                 lower.Inflate(-1, 0);
 
-                using (LinearGradientBrush brush = new LinearGradientBrush(lower, arrowColours[index, 4],
+                using (var brush = new LinearGradientBrush(lower, arrowColours[index, 4],
                            arrowColours[index, 5], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, lower);
                 }
             }
 
-            using Image arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone();
+            using var arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone();
             if (state is ScrollBarArrowButtonState.DownDisabled or ScrollBarArrowButtonState.UpDisabled)
             {
                 ControlPaint.DrawImageDisabled(
@@ -936,10 +918,10 @@ namespace Krypton.Toolkit
            float radiusY)
         {
             // create new graphics path object
-            GraphicsPath path = new GraphicsPath();
+            var path = new GraphicsPath();
 
             // calculate radius of edges
-            PointF d = new PointF(Math.Min(radiusX * 2, r.Width), Math.Min(radiusY * 2, r.Height));
+            var d = new PointF(Math.Min(radiusX * 2, r.Width), Math.Min(radiusY * 2, r.Height));
 
             // make sure radius is valid
             d.X = Math.Max(1, d.X);

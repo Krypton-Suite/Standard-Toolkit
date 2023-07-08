@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
             SeparatorCustom3 = new KryptonPaletteSeparator(redirector, PaletteBackStyle.SeparatorCustom3, PaletteBorderStyle.SeparatorCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectDouble redirectCommon = new PaletteRedirectDouble(redirector, SeparatorCommon.StateDisabled,
+            var redirectCommon = new PaletteRedirectDouble(redirector, SeparatorCommon.StateDisabled,
                 SeparatorCommon.StateNormal, SeparatorCommon.StatePressed, SeparatorCommon.StateTracking);
 
             // Inform the button style to use the new redirector

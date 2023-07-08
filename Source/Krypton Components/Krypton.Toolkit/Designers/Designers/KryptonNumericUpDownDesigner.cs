@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonNumericUpDown _numericUpDown;
+        private KryptonNumericUpDown? _numericUpDown;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// Gets the collection of components associated with the component managed by the designer.
         /// </summary>
         public override ICollection AssociatedComponents =>
-            _numericUpDown != null ? _numericUpDown.ButtonSpecs : base.AssociatedComponents;
+            _numericUpDown?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -89,9 +89,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the label specific list
                     new KryptonNumericUpDownActionList(this)
                 };
@@ -147,7 +146,7 @@ namespace Krypton.Toolkit
             if ((_numericUpDown != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _numericUpDown.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _numericUpDown.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -155,7 +154,7 @@ namespace Krypton.Toolkit
                     _numericUpDown.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    ArrayList? selectionList = new ArrayList
                     {
                         component
                     };
