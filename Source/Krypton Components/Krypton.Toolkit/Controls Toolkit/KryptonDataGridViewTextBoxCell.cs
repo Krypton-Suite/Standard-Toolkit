@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewTextBoxCell cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
+            var cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
             foreach (IconSpec sp in IconSpecs)
             {
                 cloned.IconSpecs.Add(sp.Clone() as IconSpec);

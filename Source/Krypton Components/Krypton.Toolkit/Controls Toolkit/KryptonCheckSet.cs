@@ -467,7 +467,7 @@ namespace Krypton.Toolkit
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                KryptonCheckButton checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = (KryptonCheckButton)sender;
 
                 // Prevent the checked button becoming unchecked unless AllowUncheck is defined
                 e.Cancel = checkedButton.Checked && !AllowUncheck;
@@ -480,7 +480,7 @@ namespace Krypton.Toolkit
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                KryptonCheckButton checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = (KryptonCheckButton)sender;
 
                 if (checkedButton.Checked)
                 {

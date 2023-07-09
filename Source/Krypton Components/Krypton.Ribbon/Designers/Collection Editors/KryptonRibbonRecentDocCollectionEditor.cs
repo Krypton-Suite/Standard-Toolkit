@@ -28,9 +28,6 @@ namespace Krypton.Ribbon
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes()
-        {
-            return new[] { typeof(KryptonRibbonRecentDoc) };
-        }
+        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonRibbonRecentDoc) };
     }
 }

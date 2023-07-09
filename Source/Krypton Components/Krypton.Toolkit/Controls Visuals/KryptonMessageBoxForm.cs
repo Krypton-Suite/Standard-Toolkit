@@ -911,7 +911,7 @@ namespace Krypton.Toolkit
                     if (IgnoreAltF4)
                     {
                         // Extract the keys being pressed
-                        Keys keys = (Keys)(int)m.WParam.ToInt64();
+                        var keys = (Keys)(int)m.WParam.ToInt64();
 
                         // If the user standard combination ALT + F4
                         if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))

@@ -195,18 +195,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group radio button visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group radio button hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group radio button entry.
@@ -259,7 +253,7 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if checking this radio button should unheck others in the same group.
+        /// Gets or sets a value indicating if checking this radio button should uncheck others in the same group.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates if checking this radio button should uncheck others in the same group.")]
@@ -295,10 +289,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
@@ -382,19 +373,13 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a check box.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(null);
-        }
+        public void PerformClick() => PerformClick(null);
 
         /// <summary>
         /// Generates a Click event for a radio button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler finishDelegate)
-        {
-            OnClick(finishDelegate);
-        }
+        public void PerformClick(EventHandler? finishDelegate) => OnClick(finishDelegate);
 
         /// <summary>
         /// Internal design time properties.
@@ -411,7 +396,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler finishDelegate)
+        protected virtual void OnClick(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -455,26 +440,17 @@ namespace Krypton.Ribbon
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -509,7 +485,7 @@ namespace Krypton.Ribbon
                 if (RibbonContainer?.RibbonGroup != null)
                 {
                     // Process each container inside the group
-                    foreach (IRibbonGroupContainer container in RibbonContainer.RibbonGroup.Items)
+                    foreach (var container in RibbonContainer.RibbonGroup.Items)
                     {
                         AutoUpdateContainer(container);
                     }
@@ -517,10 +493,10 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void AutoUpdateContainer(IRibbonGroupContainer Container)
+        private void AutoUpdateContainer(IRibbonGroupContainer iContainer)
         {
             // Process each component inside the container
-            foreach (Component component in Container.GetChildComponents())
+            foreach (Component component in iContainer.GetChildComponents())
             {
                 switch (component)
                 {

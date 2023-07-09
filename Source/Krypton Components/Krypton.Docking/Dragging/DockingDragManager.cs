@@ -184,11 +184,9 @@ namespace Krypton.Docking
         /// <summary>
         /// Processes the WM_MOUSEMOVE from the floating window.
         /// </summary>
-        public void OnMOUSEMOVE()
-        {
+        public void OnMOUSEMOVE() =>
             // Update feedback to reflect the current mouse position
             DragMove(Control.MousePosition);
-        }
 
         /// <summary>
         /// Processes the WM_LBUTTONUP from the floating window.
@@ -223,7 +221,7 @@ namespace Krypton.Docking
                 case PI.WM_.KEYDOWN:
                     {
                         // Extract the keys being pressed
-                        Keys keys = (Keys)(int)m.WParam.ToInt64();
+                        var keys = (Keys)(int)m.WParam.ToInt64();
 
                         // Pressing escape ends dragging
                         if (keys == Keys.Escape)

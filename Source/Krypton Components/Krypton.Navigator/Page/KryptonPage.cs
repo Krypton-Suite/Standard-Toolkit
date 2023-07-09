@@ -51,7 +51,7 @@ namespace Krypton.Navigator
         private string? _textDescription;
         private string _toolTipTitle;
         private string _toolTipBody;
-        private string? _uniqueName;
+        private string _uniqueName;
         private Bitmap? _imageSmall;
         private Bitmap? _imageMedium;
         private Bitmap? _imageLarge;
@@ -150,7 +150,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="text">Initial text.</param>
         /// <param name="uniqueName">Initial unique name.</param>
-        public KryptonPage(string text, string? uniqueName)
+        public KryptonPage(string text, string uniqueName)
             : this(text, null, uniqueName)
         {
         }
@@ -165,7 +165,7 @@ namespace Krypton.Navigator
         /// <remarks>
         /// If Min Size not set in the Embedded control, then will default to 150, 50
         /// </remarks>
-        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName)
+        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName)
             : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
 
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
         /// <param name="minSize">Min Size of dragged docked control, if not set by Embedded</param>
-        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName, Size minSize)
+        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName, Size minSize)
         {
             // Default properties
             Text = text;
@@ -452,10 +452,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextTitle property to its default value.
         /// </summary>
-        public void ResetTextTitle()
-        {
-            TextTitle = null;
-        }
+        public void ResetTextTitle() => TextTitle = null;
 
         /// <summary>
         /// Gets and sets the description text for the page.
@@ -511,10 +508,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ImageSmall property to its default value.
         /// </summary>
-        public void ResetImageSmall()
-        {
-            ImageSmall = null;
-        }
+        public void ResetImageSmall() => ImageSmall = null;
 
         /// <summary>
         /// Gets and sets the medium image for the page.
@@ -541,10 +535,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ImageMedium property to its default value.
         /// </summary>
-        public void ResetImageMedium()
-        {
-            ImageMedium = null;
-        }
+        public void ResetImageMedium() => ImageMedium = null;
 
         /// <summary>
         /// Gets and sets the large image for the page.
@@ -571,10 +562,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ImageLarge property to its default value.
         /// </summary>
-        public void ResetImageLarge()
-        {
-            ImageLarge = null;
-        }
+        public void ResetImageLarge() => ImageLarge = null;
 
         /// <summary>
         /// Gets and sets the page tooltip image.
@@ -602,10 +590,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ToolTipImage property to its default value.
         /// </summary>
-        public void ResetToolTipImage()
-        {
-            ToolTipImage = null;
-        }
+        public void ResetToolTipImage() => ToolTipImage = null;
 
         /// <summary>
         /// Gets and sets the tooltip image transparent color.
@@ -732,10 +717,7 @@ namespace Krypton.Navigator
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
 
         /// <summary>
@@ -743,7 +725,8 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The unique name of the page.")]
-        public virtual string? UniqueName
+        [DisallowNull]
+        public virtual string UniqueName
         {
             [DebuggerStepThrough]
             get => _uniqueName;
@@ -761,11 +744,9 @@ namespace Krypton.Navigator
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawPanel.FixedState = state;
-        }
 
         /// <summary>
         /// Gets and sets the preferred size for the page when inside an auto hidden slide panel.
@@ -1345,74 +1326,51 @@ namespace Krypton.Navigator
         /// Raises the DockChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnDockChanged(EventArgs e)
-        {
-            DockChanged?.Invoke(this, e);
-        }
+        protected override void OnDockChanged(EventArgs e) => DockChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LocationChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnLocationChanged(EventArgs e)
-        {
-            LocationChanged?.Invoke(this, e);
-        }
+        protected override void OnLocationChanged(EventArgs e) => LocationChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnTabIndexChanged(EventArgs e)
-        {
-            TabIndexChanged?.Invoke(this, e);
-        }
+        protected override void OnTabIndexChanged(EventArgs e) => TabIndexChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabStopChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnTabStopChanged(EventArgs e)
-        {
+        protected override void OnTabStopChanged(EventArgs e) =>
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023#issuecomment-1588810368
             TabStopChanged?.Invoke(this, e);
-        }
 
         /// <summary>
         /// Raises the AppearancePropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
-        protected virtual void OnAppearancePropertyChanged(string propertyName)
-        {
-            AppearancePropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnAppearancePropertyChanged(string propertyName) => AppearancePropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
         /// Raises the FlagsChanged event.
         /// </summary>
         /// <param name="changed">Set of flags that have changed.</param>
-        protected virtual void OnFlagsChanged(KryptonPageFlags changed)
-        {
-            FlagsChanged?.Invoke(this, new KryptonPageFlagsEventArgs(changed));
-        }
+        protected virtual void OnFlagsChanged(KryptonPageFlags changed) => FlagsChanged?.Invoke(this, new KryptonPageFlagsEventArgs(changed));
 
         /// <summary>
         /// Raises the AutoHiddenSlideSizeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e)
-        {
-            AutoHiddenSlideSizeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e) => AutoHiddenSlideSizeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Load event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLoad(EventArgs e)
-        {
-            Load?.Invoke(this, e);
-        }
+        protected virtual void OnLoad(EventArgs e) => Load?.Invoke(this, e);
 
         /// <summary>
         /// Processes the need for a repaint for the disabled palette values.
@@ -1444,13 +1402,11 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
         #endregion
     }
 }

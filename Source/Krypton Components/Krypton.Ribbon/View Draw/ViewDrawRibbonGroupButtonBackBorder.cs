@@ -740,20 +740,11 @@ namespace Krypton.Ribbon
             Controller.RemoveFixed();
         }
 
-        private void OnClick(object sender, EventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        private void OnClick(object sender, EventArgs e) => Click?.Invoke(this, e);
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            ContextClick?.Invoke(this, e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => ContextClick?.Invoke(this, e);
 
-        private void OnDropDown(object sender, EventArgs e)
-        {
-            DropDown?.Invoke(this, e);
-        }
+        private void OnDropDown(object sender, EventArgs e) => DropDown?.Invoke(this, e);
         #endregion
     }
 }

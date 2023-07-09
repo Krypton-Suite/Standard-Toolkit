@@ -151,18 +151,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon tab visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon tab hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the ribbon quick access toolbar entry.
@@ -233,10 +227,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Gets and sets the tooltip label style for the quick access button.
@@ -299,10 +290,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
 
         /// <summary>
@@ -364,10 +352,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
         #endregion
 
         #region IQuickAccessToolbarButton
@@ -376,10 +361,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning instance.</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void SetRibbon(KryptonRibbon? ribbon)
-        {
-            Ribbon = ribbon;
-        }
+        public void SetRibbon(KryptonRibbon? ribbon) => Ribbon = ribbon;
 
         /// <summary>
         /// Gets the entry image.
@@ -421,10 +403,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="visible"></param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void SetVisible(bool visible)
-        {
-            Visible = visible;
-        }
+        public void SetVisible(bool visible) => Visible = visible;
 
         /// <summary>
         /// Gets the tooltip label style.
@@ -463,10 +442,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(EventArgs.Empty);
         #endregion
 
         #region Protected
@@ -525,10 +501,7 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
 

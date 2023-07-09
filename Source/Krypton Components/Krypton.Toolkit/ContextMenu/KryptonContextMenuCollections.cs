@@ -45,11 +45,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public bool ProcessShortcut(Keys keyData)
-        {
+        public bool ProcessShortcut(Keys keyData) =>
             // Ask each individual item if it has a shortcut to be processed
-            return this.Any(item => item.ProcessShortcut(keyData));
-        }
+            this.Any(item => item.ProcessShortcut(keyData));
         #endregion
 
         #region Internal
@@ -217,11 +215,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public bool ProcessShortcut(Keys keyData)
-        {
+        public bool ProcessShortcut(Keys keyData) =>
             // Ask each individual item if it has a shortcut to be processed
-            return this.Any(item => item.ProcessShortcut(keyData));
-        }
+            this.Any(item => item.ProcessShortcut(keyData));
         #endregion
 
         #region Internal

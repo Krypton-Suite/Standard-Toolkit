@@ -144,9 +144,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public virtual void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
+        public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
-            int countToUse = Math.Min(Count, uniqueNames?.Length ?? 0);
+            var countToUse = Math.Min(Count, uniqueNames?.Length ?? 0);
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
             for (var i = countToUse - 1; i >= 0; i--)
@@ -298,7 +298,7 @@ namespace Krypton.Docking
         public virtual DockingLocation FindPageLocation(string uniqueName)
         {
             // Default to not finding the page
-            DockingLocation location = DockingLocation.None;
+            var location = DockingLocation.None;
 
             // Search all child docking elements
             for (var i = 0; i < Count; i++)

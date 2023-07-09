@@ -310,10 +310,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Rectangle to invalidate.</param>
-        public void PerformNeedPaint(bool needLayout, Rectangle invalidRect)
-        {
-            OnNeedPaint(needLayout, invalidRect);
-        }
+        public void PerformNeedPaint(bool needLayout, Rectangle invalidRect) => OnNeedPaint(needLayout, invalidRect);
         #endregion
 
         #region Layout
@@ -548,10 +545,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -875,7 +869,7 @@ namespace Krypton.Ribbon
                         IPaletteRibbonBack paletteBack = _ribbon.StatePressed.RibbonGroupCollapsedBack;
                         IPaletteRibbonBack paletteBorder = _ribbon.StatePressed.RibbonGroupCollapsedBorder;
 
-                        PaletteState state = PaletteState.Pressed;
+                        var state = PaletteState.Pressed;
 
                         // Are we a group inside a context tab?
                         if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
@@ -1009,10 +1003,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonGroup.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
         #endregion
     }
 }

@@ -350,10 +350,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetHeaderStyle()
-        {
-            HeaderStyle = HeaderStyle.Primary;
-        }
+        private void ResetHeaderStyle() => HeaderStyle = HeaderStyle.Primary;
 
         private bool ShouldSerializeHeaderStyle() => HeaderStyle != HeaderStyle.Primary;
 
@@ -401,11 +398,9 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawDocker.FixedState = state;
-        }
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -547,9 +542,9 @@ namespace Krypton.Toolkit
                 if (!DesignMode)
                 {
                     IContentValues sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
@@ -606,7 +601,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

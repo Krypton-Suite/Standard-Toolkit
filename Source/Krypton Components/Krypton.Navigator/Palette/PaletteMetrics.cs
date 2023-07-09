@@ -79,10 +79,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the PageButtonSpecInset property to its default value.
         /// </summary>
-        public void ResetPageButtonSpecInset()
-        {
-            PageButtonSpecInset = -1;
-        }
+        public void ResetPageButtonSpecInset() => PageButtonSpecInset = -1;
         #endregion
 
         #region PageButtonSpecPadding
@@ -110,10 +107,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the PageButtonSpecPadding property to its default value.
         /// </summary>
-        public void ResetPageButtonSpecPadding()
-        {
-            PageButtonSpecPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetPageButtonSpecPadding() => PageButtonSpecPadding = CommonHelper.InheritPadding;
 
         private bool ShouldSerializePageButtonSpecPadding() => !PageButtonSpecPadding.Equals(CommonHelper.InheritPadding);
 

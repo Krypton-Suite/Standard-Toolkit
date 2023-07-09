@@ -108,51 +108,42 @@ namespace Krypton.Navigator
 			set => _mapImage = value;
 		}
 
-		/// <summary>
-		/// Resets the MapImage property to its default value.
-		/// </summary>
-		public void ResetMapImage()
-		{
-			MapImage = MapKryptonPageImage.ToolTip;
-		}
-		#endregion
+        /// <summary>
+        /// Resets the MapImage property to its default value.
+        /// </summary>
+        public void ResetMapImage() => MapImage = MapKryptonPageImage.ToolTip;
+        #endregion
 
-		#region MapText
-		/// <summary>
-		/// Gets and sets the mapping used for the tooltip text.
-		/// </summary>
-		[Category(@"Visuals")]
+        #region MapText
+        /// <summary>
+        /// Gets and sets the mapping used for the tooltip text.
+        /// </summary>
+        [Category(@"Visuals")]
 		[Description(@"Mapping used for the tooltip text.")]
 		[RefreshProperties(RefreshProperties.All)]
 		//[DefaultValue(typeof(MapKryptonPageText), "ToolTipTitle")]
 		public MapKryptonPageText MapText { get; set; }
 
-		/// <summary>
-		/// Resets the MapText property to its default value.
-		/// </summary>
-		public void ResetMapText()
-		{
-			MapText = MapKryptonPageText.ToolTipTitle;
-		}
-		#endregion
+        /// <summary>
+        /// Resets the MapText property to its default value.
+        /// </summary>
+        public void ResetMapText() => MapText = MapKryptonPageText.ToolTipTitle;
+        #endregion
 
-		#region MapExtraText
-		/// <summary>
-		/// Gets and sets the mapping used for the tooltip description.
-		/// </summary>
-		[Category(@"Visuals")]
+        #region MapExtraText
+        /// <summary>
+        /// Gets and sets the mapping used for the tooltip description.
+        /// </summary>
+        [Category(@"Visuals")]
 		[Description(@"Mapping used for the tooltip description.")]
 		[RefreshProperties(RefreshProperties.All)]
 		//[DefaultValue(typeof(MapKryptonPageText), "ToolTipBody")]
 		public MapKryptonPageText MapExtraText { get; set; }
 
-		/// <summary>
-		/// Resets the MapExtraText property to its default value.
-		/// </summary>
-		public void ResetMapExtraText()
-		{
-			MapExtraText = MapKryptonPageText.ToolTipBody;
-		}
-		#endregion
-	}
+        /// <summary>
+        /// Resets the MapExtraText property to its default value.
+        /// </summary>
+        public void ResetMapExtraText() => MapExtraText = MapKryptonPageText.ToolTipBody;
+        #endregion
+    }
 }

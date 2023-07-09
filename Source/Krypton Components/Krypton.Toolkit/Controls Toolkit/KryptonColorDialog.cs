@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
                 && _commonDialogHandler.EmbeddingDone
             )
             {
-                PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS))!;
+                var pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS))!;
                 if (!pos.flags.HasFlag(PI.SWP_.NOSIZE)
                     && (pos.hwnd == hWnd)
                     )

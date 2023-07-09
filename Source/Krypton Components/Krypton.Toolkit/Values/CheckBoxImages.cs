@@ -115,10 +115,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Common property to its default value.
         /// </summary>
-        public void ResetCommon()
-        {
-            Common = null;
-        }
+        public void ResetCommon() => Common = null;
         #endregion
 
         #region UncheckedDisabled
@@ -147,10 +144,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedDisabled property to its default value.
         /// </summary>
-        public void ResetUncheckedDisabled()
-        {
-            UncheckedDisabled = null;
-        }
+        public void ResetUncheckedDisabled() => UncheckedDisabled = null;
         #endregion
 
         #region UncheckedNormal
@@ -179,10 +173,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedNormal property to its default value.
         /// </summary>
-        public void ResetUncheckedNormal()
-        {
-            UncheckedNormal = null;
-        }
+        public void ResetUncheckedNormal() => UncheckedNormal = null;
         #endregion
 
         #region UncheckedTracking
@@ -211,10 +202,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedTracking property to its default value.
         /// </summary>
-        public void ResetUncheckedTracking()
-        {
-            UncheckedTracking = null;
-        }
+        public void ResetUncheckedTracking() => UncheckedTracking = null;
         #endregion
 
         #region UncheckedPressed
@@ -243,10 +231,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedPressed property to its default value.
         /// </summary>
-        public void ResetUncheckedPressed()
-        {
-            UncheckedPressed = null;
-        }
+        public void ResetUncheckedPressed() => UncheckedPressed = null;
         #endregion
 
         #region CheckedDisabled
@@ -275,10 +260,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedDisabled property to its default value.
         /// </summary>
-        public void ResetCheckedDisabled()
-        {
-            CheckedDisabled = null;
-        }
+        public void ResetCheckedDisabled() => CheckedDisabled = null;
         #endregion
 
         #region CheckedNormal
@@ -307,10 +289,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedNormal property to its default value.
         /// </summary>
-        public void ResetCheckedNormal()
-        {
-            CheckedNormal = null;
-        }
+        public void ResetCheckedNormal() => CheckedNormal = null;
         #endregion
 
         #region CheckedTracking
@@ -339,10 +318,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedTracking property to its default value.
         /// </summary>
-        public void ResetCheckedTracking()
-        {
-            CheckedTracking = null;
-        }
+        public void ResetCheckedTracking() => CheckedTracking = null;
         #endregion
 
         #region CheckedPressed
@@ -371,10 +347,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedPressed property to its default value.
         /// </summary>
-        public void ResetCheckedPressed()
-        {
-            CheckedPressed = null;
-        }
+        public void ResetCheckedPressed() => CheckedPressed = null;
         #endregion
 
         #region IndeterminateDisabled
@@ -403,10 +376,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminateDisabled property to its default value.
         /// </summary>
-        public void ResetIndeterminateDisabled()
-        {
-            IndeterminateDisabled = null;
-        }
+        public void ResetIndeterminateDisabled() => IndeterminateDisabled = null;
         #endregion
 
         #region IndeterminateNormal
@@ -435,10 +405,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminateNormal property to its default value.
         /// </summary>
-        public void ResetIndeterminateNormal()
-        {
-            IndeterminateNormal = null;
-        }
+        public void ResetIndeterminateNormal() => IndeterminateNormal = null;
         #endregion
 
         #region IndeterminateTracking
@@ -467,10 +434,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminateTracking property to its default value.
         /// </summary>
-        public void ResetIndeterminateTracking()
-        {
-            IndeterminateTracking = null;
-        }
+        public void ResetIndeterminateTracking() => IndeterminateTracking = null;
         #endregion
 
         #region IndeterminatePressed
@@ -499,10 +463,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminatePressed property to its default value.
         /// </summary>
-        public void ResetIndeterminatePressed()
-        {
-            IndeterminatePressed = null;
-        }
+        public void ResetIndeterminatePressed() => IndeterminatePressed = null;
         #endregion
     }
 }

@@ -141,19 +141,13 @@ namespace Krypton.Docking
         /// Raises the WindowCloseClicked event.
         /// </summary>
         /// <param name="e">An UniqueNamesEventArgs that contains the event data.</param>
-        protected virtual void OnWindowCloseClicked(UniqueNamesEventArgs e)
-        {
-            WindowCloseClicked?.Invoke(this, e);
-        }
+        protected virtual void OnWindowCloseClicked(UniqueNamesEventArgs e) => WindowCloseClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the WindowCaptionDragging event.
         /// </summary>
         /// <param name="e">An ScreenAndOffsetEventArgs that contains the event data.</param>
-        protected virtual void OnWindowCaptionDragging(ScreenAndOffsetEventArgs e)
-        {
-            WindowCaptionDragging?.Invoke(this, e);
-        }
+        protected virtual void OnWindowCaptionDragging(ScreenAndOffsetEventArgs e) => WindowCaptionDragging?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Load event.
@@ -217,21 +211,15 @@ namespace Krypton.Docking
         private void OnFloatspaceCellCountChanged(object sender, EventArgs e)
         {
             // When all the cells (and so pages) have been removed we kill ourself
-            if (FloatspaceControl != null && FloatspaceControl.CellCount == 0)
+            if (FloatspaceControl is { CellCount: 0 })
             {
                 FloatspaceControl.Dispose();
             }
         }
 
-        private void OnFloatspaceCellVisibleCountChanged(object sender, EventArgs e)
-        {
-            UpdateCellSettings();
-        }
+        private void OnFloatspaceCellVisibleCountChanged(object sender, EventArgs e) => UpdateCellSettings();
 
-        private void OnTabVisibleCountChanged(object sender, EventArgs e)
-        {
-            UpdateCellSettings();
-        }
+        private void OnTabVisibleCountChanged(object sender, EventArgs e) => UpdateCellSettings();
 
         private void OnFloatspaceCellAdding(object sender, WorkspaceCellEventArgs e)
         {
@@ -242,15 +230,9 @@ namespace Krypton.Docking
             ClientSize = MinimumSize;
         }
 
-        private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e)
-        {
-            e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged!;
-        }
+        private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e) => e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged!;
 
-        private void OnLayoutWorkspace(object sender, EventArgs e)
-        {
-            FloatspaceControl?.PerformNeedPaint(true);
-        }
+        private void OnLayoutWorkspace(object sender, EventArgs e) => FloatspaceControl?.PerformNeedPaint(true);
 
         private void UpdateCellSettings()
         {
@@ -258,7 +240,7 @@ namespace Krypton.Docking
             if (cell != null)
             {
                 // If there is only a single cell inside the floating window
-                if (FloatspaceControl.CellVisibleCount <= 1)
+                if (FloatspaceControl!.CellVisibleCount <= 1)
                 {
                     // Cell display mode depends on the number of tabs in the cell
                     cell.NavigatorMode = cell.Pages.VisibleCount == 1 ? NavigatorMode.HeaderGroup : NavigatorMode.HeaderGroupTab;

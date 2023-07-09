@@ -58,9 +58,9 @@ namespace Krypton.Workspace
     public interface IWorkspaceItem
     {
         /// <summary>
-        /// Occures when a property changes that affects workspace layout.
+        /// Occurs when a property changes that affects workspace layout.
         /// </summary>
-        event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.

@@ -849,24 +849,19 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Notify a change in the application button image.
         /// </summary>
-        public void AppButtonChanged()
-        {
+        public void AppButtonChanged() =>
             // Requests a repaint to show the change.
             OnAppButtonNeedPaint(this, new NeedLayoutEventArgs(false));
-        }
         #endregion
 
         #region AppButtonChanged
         /// <summary>
         /// Update the visible state of the caption area based on integration, app button, contexts and qat location.
         /// </summary>
-        public void UpdateVisible()
-        {
-            Visible = !_integrated &&
+        public void UpdateVisible() => Visible = !_integrated &&
                       (_ribbon.RibbonAppButton.AppButtonVisible ||
                        (_ribbon.QATLocation == QATLocation.Above) ||
                        (_ribbon.RibbonContexts.Count > 0));
-        }
         #endregion
 
         #region VisibleQAT
@@ -1016,11 +1011,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Redecide if the custom chrome and integration can occur.
         /// </summary>
-        public void PerformFormChromeCheck()
-        {
+        public void PerformFormChromeCheck() =>
             // Update decision about integrating or providing caption functionality
             OnFormChromeCheck(null, EventArgs.Empty);
-        }
         #endregion
 
         #region DoesClientMouseDownEndAllTracking
@@ -1090,10 +1083,7 @@ namespace Krypton.Ribbon
         /// Fires a request to have painting/layout performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected void PerformNeedPaint(bool needLayout)
-        {
-            _needPaintDelegate(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected void PerformNeedPaint(bool needLayout) => _needPaintDelegate(this, new NeedLayoutEventArgs(needLayout));
         #endregion
 
         #region Implementation
@@ -1147,13 +1137,11 @@ namespace Krypton.Ribbon
             base.SetPalettes(_redirectCaption.PaletteBack, _redirectCaption.PaletteBorder!);
         }
 
-        private void SetupParentMonitoring()
-        {
+        private void SetupParentMonitoring() =>
             // We have to know when the parent of the ribbon changes so we can then hook
             // into monitoring the top level custom chrome control. We need information this
             // decide if we integrate with top chrome or show this control instead.
             _ribbon.ParentChanged += OnRibbonParentChanged;
-        }
 
         private void OnRibbonParentChanged(object sender, EventArgs e)
         {
@@ -1169,7 +1157,7 @@ namespace Krypton.Ribbon
             if (_ribbon is { IsDisposed: false, Disposing: false })
             {
                 // Find the new owning level form we are hosted inside
-                Form? ownerForm = _ribbon.Parent as Form;
+                var ownerForm = _ribbon.Parent as Form;
 
                 // Should always be inside a form, but you never know!
                 // We only care if the owner form is a KryptonForm instance

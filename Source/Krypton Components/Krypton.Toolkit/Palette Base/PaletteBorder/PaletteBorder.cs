@@ -120,10 +120,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteBorder inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(IPaletteBorder inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase

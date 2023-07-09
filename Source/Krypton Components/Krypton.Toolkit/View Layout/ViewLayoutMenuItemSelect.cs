@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
             // Ensure that the correct number of children are created
             SyncChildren();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find size of the first item, if there is one
             if (Count > 0)
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
             for (var i = 0; i < _imageIndexCount; i++)
             {
                 var imageIndex = i + _imageIndexStart;
-                ViewDrawMenuImageSelectItem item = (ViewDrawMenuImageSelectItem)this[i];
+                var item = (ViewDrawMenuImageSelectItem)this[i];
                 item.ImageList = _imageList;
                 item.ImageIndex = imageIndex;
                 item.Checked = _selectedIndex == imageIndex;

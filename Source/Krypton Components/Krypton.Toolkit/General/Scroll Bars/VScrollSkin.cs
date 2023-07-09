@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
                 _win = e.Control;
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     dgv.Scroll += dgv_Scroll;
 
                     foreach (Control control in dgv.Controls)
@@ -219,10 +219,10 @@ namespace Krypton.Toolkit
         {
             if (_win.GetType() == typeof(ListView))
             {
-                ListView listView1 = (ListView)_win;
+                var listView1 = (ListView)_win;
 
-                IntPtr min = IntPtr.Zero;
-                IntPtr max = IntPtr.Zero;
+                var min = IntPtr.Zero;
+                var max = IntPtr.Zero;
                 PI.GetScrollRange(listView1.Handle, PI.SB_.VERT, ref min, ref max);
 
                 var nMax = max.ToInt32();
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
             {
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     if (GetDGVScrollbar(ref dgv, out VSB))
                     {
                         foreach (Control control in dgv.Controls)
@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
         {
             if (_win.GetType() == typeof(ListView))
             {
-                ListView listView1 = (ListView)_win;
+                var listView1 = (ListView)_win;
 
                 var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
                 var nShouldBeAt = (int)e.NewValue;
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
             {
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     if (GetDGHScrollbar(ref dgv, out HSC))
                     {
                         foreach (Control control in dgv.Controls)
@@ -427,7 +427,7 @@ namespace Krypton.Toolkit
 
         private void VerticalScrollBar_VisibleChanged(object sender, EventArgs e)
         {
-            VScrollBar vscroll = (VScrollBar)sender;
+            var vscroll = (VScrollBar)sender;
             if (vscroll.Visible)
             {
                 _vScrollBar1.Visible = true;
@@ -440,7 +440,7 @@ namespace Krypton.Toolkit
 
         private void HorizontalScrollBar_VisibleChanged(object sender, EventArgs e)
         {
-            HScrollBar hscroll = (HScrollBar)sender;
+            var hscroll = (HScrollBar)sender;
             if (hscroll.Visible)
             {
                 _hScrollBar1.Visible = true;
@@ -457,7 +457,7 @@ namespace Krypton.Toolkit
 
         private void dgv_Scroll(object sender, ScrollEventArgs e)
         {
-            DataGridView dgv = (DataGridView)_win;
+            var dgv = (DataGridView)_win;
             if (GetDGVScrollbar(ref dgv, out VSB))
             {
                 if (VSB.Visible == true)

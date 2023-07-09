@@ -478,10 +478,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -538,10 +535,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -844,12 +838,9 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
-        
+
         #endregion
 
         #region Protected
@@ -1254,7 +1245,7 @@ namespace Krypton.Toolkit
                             case { RowIndex: >= 0, ColumnIndex: -1 }:
                             {
                                 // By default there is no glyph needed for the row
-                                GridRowGlyph glyph = GridRowGlyph.None;
+                                var glyph = GridRowGlyph.None;
 
                                 // Find the correct glyph that should be drawn
                                 if (CurrentCellAddress.Y == e.RowIndex)
@@ -2338,7 +2329,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
@@ -2631,13 +2622,11 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 

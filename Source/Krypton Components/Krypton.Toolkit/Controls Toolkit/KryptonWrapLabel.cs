@@ -440,7 +440,7 @@ namespace Krypton.Toolkit
             Font? font;
             Color textColor;
             PaletteTextHint hint;
-            PaletteState ps = PaletteState.Normal;
+            var ps = PaletteState.Normal;
 
             // Get values from correct enabled/disabled state
             if (Enabled)
@@ -541,7 +541,7 @@ namespace Krypton.Toolkit
             Font? font;
             Color textColor;
             PaletteTextHint hint;
-            PaletteState ps = PaletteState.Normal;
+            var ps = PaletteState.Normal;
 
             // Get values from correct enabled/disabled state
             if (Enabled)
@@ -854,13 +854,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 

@@ -34,12 +34,12 @@ namespace Krypton.Toolkit
             if ((context?.Instance != null) && (provider != null))
             {
                 // Must use the editor service for showing dialogs
-                IWindowsFormsEditorService? editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                var editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
 
                 if (editorService != null)
                 {
                     // Cast the value to the correct type
-                    KryptonCheckSet checkSet = (KryptonCheckSet)context.Instance;
+                    var checkSet = (KryptonCheckSet)context.Instance;
 
                     // Create the dialog used to edit the set of KryptonCheckButtons
                     var dialog = new KryptonCheckButtonCollectionForm(checkSet);

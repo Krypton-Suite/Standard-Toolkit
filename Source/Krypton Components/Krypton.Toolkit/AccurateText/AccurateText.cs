@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
                             case true when composition:
                             {
                                 //Check if correct in all cases
-                                SolidBrush? tmpBrush = brush as SolidBrush;
+                                var tmpBrush = brush as SolidBrush;
                                 Color tmpColor = tmpBrush?.Color ?? SystemColors.ActiveCaptionText;
 
                                 DrawCompositionText(g, memento.Text, memento.Font, rect, state,
@@ -352,10 +352,10 @@ namespace Krypton.Toolkit
                                                       bool copyBackground)
         {
             // Get the hDC for the graphics instance and create a memory DC
-            IntPtr gDC = g?.GetHdc() ?? IntPtr.Zero;
+            var gDC = g?.GetHdc() ?? IntPtr.Zero;
             try
             {
-                IntPtr mDC = PI.CreateCompatibleDC(gDC);
+                var mDC = PI.CreateCompatibleDC(gDC);
 
                 var bmi = new PI.BITMAPINFO
                 {
@@ -369,7 +369,7 @@ namespace Krypton.Toolkit
 
 
                 // Create a device independent bitmap and select into the memory DC
-                IntPtr hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
+                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
                 PI.SelectObject(mDC, hDIB);
 
                 if (copyBackground)
@@ -380,7 +380,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the font for use when drawing
-                IntPtr hFont = font.ToHfont();
+                var hFont = font.ToHfont();
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
@@ -459,10 +459,10 @@ namespace Krypton.Toolkit
                                                       StringFormat sf)
         {
             // Get the hDC for the graphics instance and create a memory DC
-            IntPtr gDC = g?.GetHdc() ?? IntPtr.Zero;
+            var gDC = g?.GetHdc() ?? IntPtr.Zero;
             try
             {
-                IntPtr mDC = PI.CreateCompatibleDC(gDC);
+                var mDC = PI.CreateCompatibleDC(gDC);
 
                 var bmi = new PI.BITMAPINFO
                 {
@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
                 bmi.biSize = (uint)Marshal.SizeOf(bmi);
 
                 // Create a device independent bitmap and select into the memory DC
-                IntPtr hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
+                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
                 PI.SelectObject(mDC, hDIB);
 
                 if (copyBackground)
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the font for use when drawing
-                IntPtr hFont = font.ToHfont();
+                var hFont = font.ToHfont();
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state

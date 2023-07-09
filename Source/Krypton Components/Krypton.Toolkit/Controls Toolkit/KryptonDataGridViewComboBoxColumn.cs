@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewComboBoxColumn cloned = base.Clone() as KryptonDataGridViewComboBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn;
 
             cloned.Items.AddRange(Items);
 

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    IntPtr hSystemMenu = PI.GetSystemMenu(KryptonForm.Handle, false);
+                    var hSystemMenu = PI.GetSystemMenu(KryptonForm.Handle, false);
                     if (hSystemMenu != IntPtr.Zero)
                     {
                         PI.EnableMenuItem(hSystemMenu, PI.SC_.CLOSE, _enabled ? PI.MF_.ENABLED : PI.MF_.DISABLED);
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                 if (!KryptonForm.InertForm)
                 {
                     // Only if the mouse is still within the button bounds do we perform action
-                    MouseEventArgs mea = (MouseEventArgs)e;
+                    var mea = (MouseEventArgs)e;
                     if (GetView()!.ClientRectangle.Contains(mea.Location))
                     {
                         PropertyInfo pi = typeof(Form).GetProperty(nameof(CloseReason),
@@ -118,8 +118,8 @@ namespace Krypton.Toolkit
 
                         // Convert screen position to LPARAM format of WM_SYSCOMMAND message
                         Point screenPos = Control.MousePosition;
-                        IntPtr lParam = (IntPtr)(PI.MAKELOWORD(screenPos.X) |
-                                                 PI.MAKEHIWORD(screenPos.Y));
+                        var lParam = (IntPtr)(PI.MAKELOWORD(screenPos.X) |
+                                              PI.MAKEHIWORD(screenPos.Y));
 
                         // Request the form be closed down
                         KryptonForm.SendSysCommand(PI.SC_.CLOSE, lParam);

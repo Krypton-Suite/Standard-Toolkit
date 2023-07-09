@@ -66,10 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the Color1 property to its default value.
         /// </summary>
-        public void ResetColor1()
-        {
-            Color1 = Color.Empty;
-        }
+        public void ResetColor1() => Color1 = Color.Empty;
         #endregion
 
         #region Color2
@@ -86,10 +83,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the Color2 property to its default value.
         /// </summary>
-        public void ResetColor2()
-        {
-            Color2 = Color.Empty;
-        }
+        public void ResetColor2() => Color2 = Color.Empty;
         #endregion
 
         #region Color3
@@ -106,10 +100,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the Color3 property to its default value.
         /// </summary>
-        public void ResetColor3()
-        {
-            Color3 = Color.Empty;
-        }
+        public void ResetColor3() => Color3 = Color.Empty;
         #endregion
 
         #region Color4
@@ -126,10 +117,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the Color4 property to its default value.
         /// </summary>
-        public void ResetColor4()
-        {
-            Color4 = Color.Empty;
-        }
+        public void ResetColor4() => Color4 = Color.Empty;
         #endregion
 
         #region Color5
@@ -146,10 +134,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the Color5 property to its default value.
         /// </summary>
-        public void ResetColor5()
-        {
-            Color5 = Color.Empty;
-        }
+        public void ResetColor5() => Color5 = Color.Empty;
         #endregion
 
         /*

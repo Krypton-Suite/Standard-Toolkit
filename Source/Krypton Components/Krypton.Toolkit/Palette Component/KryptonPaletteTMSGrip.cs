@@ -73,10 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the GripDark property to its default value.
         /// </summary>
-        public void ResetGripDark()
-        {
-            GripDark = Color.Empty;
-        }
+        public void ResetGripDark() => GripDark = Color.Empty;
         #endregion
 
         #region GripLight
@@ -101,10 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the GripLight property to its default value.
         /// </summary>
-        public void ResetGripLight()
-        {
-            GripLight = Color.Empty;
-        }
+        public void ResetGripLight() => GripLight = Color.Empty;
         #endregion
     }
 }

@@ -212,12 +212,10 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void Show(ViewLayoutRibbonTabsArea tabsArea, 
-                         ViewDrawPanel drawMinimizedPanel)
-        {
+        public void Show(ViewLayoutRibbonTabsArea tabsArea,
+                         ViewDrawPanel drawMinimizedPanel) =>
             // Show at the calculated position
             Show(CalculatePopupRect(tabsArea, drawMinimizedPanel));
-        }
 
         /// <summary>
         /// Update the displayed position to reflect a change in selected tab.

@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // As a composite we have no preferred size ourself
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             foreach (ViewBase child in this)
             {

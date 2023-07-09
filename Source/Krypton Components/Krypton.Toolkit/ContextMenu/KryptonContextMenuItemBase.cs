@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         [Bindable(true)]
-        public object? Tag { get; set; }
+        public object Tag { get; set; }
 
         /// <summary>
         /// Gets and sets if the item is visible in the context menu.

@@ -97,10 +97,7 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="mouse">Current mouse position in client area.</param>
         /// <param name="splitter">Current position of the splitter.</param>
-        public void SeparatorMoved(Point mouse, Point splitter)
-        {
-            _workspace.SeparatorMoved(this, mouse, splitter);
-        }
+        public void SeparatorMoved(Point mouse, Point splitter) => _workspace.SeparatorMoved(this, mouse, splitter);
 
         /// <summary>
         /// Indicates the separator has not been moved.

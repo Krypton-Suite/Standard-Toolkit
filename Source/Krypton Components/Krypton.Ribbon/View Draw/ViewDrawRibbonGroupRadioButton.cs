@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupRadioButtonText _viewMediumSmallText2;
         private GroupRadioButtonController? _viewMediumSmallController;
         private readonly EventHandler? _finishDelegateMediumSmall;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -58,9 +58,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupRadioButton = ribbonRadioButton;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            GroupRadioButton = ribbonRadioButton!;
+            _needPaint = needPaint!;
             _currentSize = GroupRadioButton.ItemSizeCurrent;
 
             // Create delegate used to process end of click action
@@ -101,14 +101,14 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (GroupRadioButton != null)
+                if (GroupRadioButton != null!)
                 {
                     // Must unhook to prevent memory leaks
                     GroupRadioButton.PropertyChanged -= OnRadioButtonPropertyChanged;
 
                     // Remove association with definition
-                    GroupRadioButton.RadioButtonView = null;
-                    GroupRadioButton = null;
+                    GroupRadioButton.RadioButtonView = null!;
+                    GroupRadioButton = null!;
                 }
             }
 
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
                 // Get the screen location of the radio button
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
-                Point screenPt = Point.Empty;
+                var screenPt = Point.Empty;
                 GroupRadioButtonController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
@@ -234,18 +234,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -289,10 +283,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -424,10 +415,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage.Checked = GroupRadioButton.Checked;
         }
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupRadioButton.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupRadioButton.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -445,37 +433,28 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeRadioButtonClick(object sender, EventArgs e)
-        {
-            GroupRadioButton.PerformClick(_finishDelegateLarge);
-        }
+        private void OnLargeRadioButtonClick(object sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateLarge);
 
-        private void OnMediumSmallRadioButtonClick(object sender, EventArgs e)
-        {
-            GroupRadioButton.PerformClick(_finishDelegateMediumSmall);
-        }
+        private void OnMediumSmallRadioButtonClick(object sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateMediumSmall);
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupRadioButton.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupRadioButton.OnDesignTimeContextMenu(e);
 
         private void ActionFinishedLarge(object sender, EventArgs e)
         {
-            // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            // Remove any popups that result from an action occurring
+            _ribbon.ActionOccurred();
 
             // Remove the fixed pressed appearance
-            _viewLargeController.RemoveFixed();
+            _viewLargeController?.RemoveFixed();
         }
 
         private void ActionFinishedMediumSmall(object sender, EventArgs e)
         {
-            // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            // Remove any popups that result from an action occurring
+            _ribbon.ActionOccurred();
 
             // Remove the fixed pressed appearance
-            _viewMediumSmallController.RemoveFixed();
+            _viewMediumSmallController?.RemoveFixed();
         }
 
         private void OnRadioButtonPropertyChanged(object sender, PropertyChangedEventArgs e)

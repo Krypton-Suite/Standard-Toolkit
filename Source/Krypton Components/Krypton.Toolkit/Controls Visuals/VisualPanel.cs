@@ -345,10 +345,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -405,10 +402,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -1176,13 +1170,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 

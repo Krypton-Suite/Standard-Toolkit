@@ -210,7 +210,7 @@ namespace Krypton.Ribbon
             for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
                 ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
-                ContextTitleController viewController = (ContextTitleController)viewContext.MouseController;
+                var viewController = (ContextTitleController)viewContext.MouseController;
                 viewContext.ContextTabSet = ViewLayoutRibbonTabs.ContextTabSets[i];
                 viewController.ContextTabSet = viewContext.ContextTabSet;
                 Add(viewContext);

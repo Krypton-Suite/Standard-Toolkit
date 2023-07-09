@@ -42,10 +42,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Remove any cached resources.
         /// </summary>
-        public void Dispose()
-        {
-            _shortTextFont?.Dispose();
-        }
+        public void Dispose() => _shortTextFont?.Dispose();
         #endregion
 
         #region IPaletteContent

@@ -45,10 +45,10 @@ namespace Krypton.Ribbon
         public override void KeyDown(Control c, KeyEventArgs e)
         {
             ViewBase newView = null;
-            KryptonRibbon ribbon = (KryptonRibbon)c;
+            var ribbon = (KryptonRibbon)c;
 
             // Get the button spec associated with this controller
-            ViewDrawButton viewButton = (ViewDrawButton)Target;
+            var viewButton = (ViewDrawButton)Target;
             ButtonSpec buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton);
 
             // Note if we are on the near edge

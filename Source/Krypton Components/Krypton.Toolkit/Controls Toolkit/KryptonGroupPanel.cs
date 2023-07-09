@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly PaletteBackInheritForced _forcedDisabled;
         private readonly PaletteBackInheritForced _forcedNormal;
-        private readonly NeedPaintHandler _layoutHandler;
+        private readonly NeedPaintHandler? _layoutHandler;
         #endregion
 
         #region Events
@@ -89,10 +89,10 @@ namespace Krypton.Toolkit
         /// <param name="stateNormal">Normal appearance state.</param>
         /// <param name="layoutHandler">Callback delegate for layout processing.</param>
         public KryptonGroupPanel(Control alignControl,
-                                 PaletteDoubleRedirect? stateCommon,
-                                 PaletteDouble? stateDisabled,
-                                 PaletteDouble? stateNormal,
-                                 NeedPaintHandler layoutHandler)
+            [DisallowNull] PaletteDoubleRedirect stateCommon,
+            [DisallowNull] PaletteDouble stateDisabled,
+            [DisallowNull] PaletteDouble stateNormal,
+                                 NeedPaintHandler? layoutHandler)
             : base(stateCommon, stateDisabled, stateNormal)
         {
             // Remember the delegate used to notify layouts

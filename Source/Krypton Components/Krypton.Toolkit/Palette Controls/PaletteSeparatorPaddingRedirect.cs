@@ -83,10 +83,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the Padding to the default value.
         /// </summary>
-        public void ResetPadding()
-        {
-            Padding = CommonHelper.InheritPadding;
-        }
+        public void ResetPadding() => Padding = CommonHelper.InheritPadding;
         #endregion
 
         #region IPaletteMetric

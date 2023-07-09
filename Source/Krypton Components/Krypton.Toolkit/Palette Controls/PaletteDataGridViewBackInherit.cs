@@ -59,15 +59,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor1(PaletteState state)
+        public override Color GetBackColor1(PaletteState state) => state switch
         {
-            return state switch
-            {
-                PaletteState.Normal => _cellStyle.BackColor,
-                PaletteState.CheckedNormal => _cellStyle.SelectionBackColor,
-                _ => _inherit.GetBackColor1(state)
-            };
-        }
+            PaletteState.Normal => _cellStyle.BackColor,
+            PaletteState.CheckedNormal => _cellStyle.SelectionBackColor,
+            _ => _inherit.GetBackColor1(state)
+        };
 
         /// <summary>
         /// Gets the second back color.

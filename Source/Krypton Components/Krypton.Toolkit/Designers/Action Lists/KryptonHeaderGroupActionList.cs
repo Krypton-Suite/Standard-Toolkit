@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
         private void OnVisibleClick(object sender, EventArgs e)
         {
             // Cast to the correct type
-            DesignerVerb verb = sender as DesignerVerb;
+            var verb = sender as DesignerVerb;
 
             // Find out if this is the first or second header verb
             var header1 = verb == _visible1;

@@ -401,14 +401,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-        public bool DesignerGetHitTest(Point pt)
-        {
+        public bool DesignerGetHitTest(Point pt) =>
             // Search all buttons for any that contain the provided point
-            return _specLookup.Values.Any(buttonView =>
+            _specLookup.Values.Any(buttonView =>
                 buttonView.ViewButton is { Visible: true, Enabled: true }
                 && buttonView.ViewButton.ClientRectangle.Contains(pt)
                 );
-        }
 
         /// <summary>
         /// Get a tool strip renderer appropriate for the hosting control.
@@ -436,29 +434,23 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="viewButton">View to use when searching.</param>
         /// <returns>ButtonSpec reference if found; otherwise null.</returns>
-        public virtual ButtonSpec? GetButtonSpecFromView(ViewDrawButton viewButton)
-        {
-            return (from specView in _specLookup.Values
-                    where specView.ViewButton == viewButton
-                    select specView.ButtonSpec
+        public virtual ButtonSpec? GetButtonSpecFromView(ViewDrawButton viewButton) => (from specView in _specLookup.Values
+                                                                                        where specView.ViewButton == viewButton
+                                                                                        select specView.ButtonSpec
                     )
                 .FirstOrDefault();
-        }
 
         /// <summary>
         /// Gets the view for the first visible and enabled button spec of the defined edge.
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align)
-        {
-            return (from specView in _specLookup.Values
-                    where specView.ViewCenter.Visible && specView.ViewButton.Enabled
-                    where specView.ButtonSpec.Edge == align
-                    select specView.ViewButton
+        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (from specView in _specLookup.Values
+                                                                                                     where specView.ViewCenter.Visible && specView.ViewButton.Enabled
+                                                                                                     where specView.ButtonSpec.Edge == align
+                                                                                                     select specView.ViewButton
                     )
                 .FirstOrDefault();
-        }
 
         /// <summary>
         /// Gets the view for the next visible and enabled button spec of the defined edge.
@@ -871,17 +863,14 @@ namespace Krypton.Toolkit
         private ViewDockStyle GetDockStyle(ButtonSpec spec) => spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
 
         private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
-                                                       ButtonOrientation buttonOrientation)
-        {
-            return buttonOrientation switch
-            {
-                ButtonOrientation.FixedBottom => VisualOrientation.Bottom,
-                ButtonOrientation.FixedLeft => VisualOrientation.Left,
-                ButtonOrientation.FixedRight => VisualOrientation.Right,
-                ButtonOrientation.FixedTop => VisualOrientation.Top,
-                _ => viewOrientation
-            };
-        }
+                                                       ButtonOrientation buttonOrientation) => buttonOrientation switch
+                                                       {
+                                                           ButtonOrientation.FixedBottom => VisualOrientation.Bottom,
+                                                           ButtonOrientation.FixedLeft => VisualOrientation.Left,
+                                                           ButtonOrientation.FixedRight => VisualOrientation.Right,
+                                                           ButtonOrientation.FixedTop => VisualOrientation.Top,
+                                                           _ => viewOrientation
+                                                       };
         #endregion
     }
 }

@@ -130,11 +130,9 @@ namespace Krypton.Ribbon
         /// Request a repaint and optional layout.
         /// </summary>
         /// <param name="needLayout">Is a layout required.</param>
-        public void CompNeedPaint(bool needLayout)
-        {
+        public void CompNeedPaint(bool needLayout) =>
             // Pass request onto the ribbon instance
             _needPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
         #endregion
 
         #region Layout

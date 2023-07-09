@@ -128,7 +128,7 @@ namespace Krypton.Docking
             }
 
             // Find the docked edge
-            KryptonDockingEdgeDocked? dockedEdge = dockingEdge?[@"Docked"] as KryptonDockingEdgeDocked;
+            var dockedEdge = dockingEdge?[@"Docked"] as KryptonDockingEdgeDocked;
             KryptonDockingManager? manager = dockedEdge?.DockingManager;
             if (manager != null)
             {

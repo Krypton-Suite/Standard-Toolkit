@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             {
 
                 // Default to returning an empty value
-                PaletteDrawBorders ret = PaletteDrawBorders.None;
+                var ret = PaletteDrawBorders.None;
 
                 // If inherit is in the string, we use only that value
                 if (conv.Contains(@"Inherit"))

@@ -106,10 +106,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextClose property to its default value.
         /// </summary>
-        public void ResetTextClose()
-        {
-            TextClose = DEFAULT_TEXT_CLOSE;
-        }
+        public void ResetTextClose() => TextClose = DEFAULT_TEXT_CLOSE;
         #endregion
 
         #region TextCloseAllButThis
@@ -126,10 +123,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextCloseAllButThis property to its default value.
         /// </summary>
-        public void ResetTextCloseAllButThis()
-        {
-            TextCloseAllButThis = DEFAULT_TEXT_CLOSE_ALL_BUT_THIS;
-        }
+        public void ResetTextCloseAllButThis() => TextCloseAllButThis = DEFAULT_TEXT_CLOSE_ALL_BUT_THIS;
         #endregion
 
         #region TextMoveNext
@@ -146,10 +140,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextMoveNext property to its default value.
         /// </summary>
-        public void ResetTextMoveNext()
-        {
-            TextMoveNext = DEFAULT_TEXT_MOVE_NEXT;
-        }
+        public void ResetTextMoveNext() => TextMoveNext = DEFAULT_TEXT_MOVE_NEXT;
         #endregion
 
         #region TextMovePrevious
@@ -166,10 +157,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextMovePrevious property to its default value.
         /// </summary>
-        public void ResetTextMovePrevious()
-        {
-            TextMovePrevious = DEFAULT_TEXT_MOVE_PREVIOUS;
-        }
+        public void ResetTextMovePrevious() => TextMovePrevious = DEFAULT_TEXT_MOVE_PREVIOUS;
         #endregion
 
         #region TextSplitVertical
@@ -186,10 +174,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextSplitVertical property to its default value.
         /// </summary>
-        public void ResetTextSplitVertical()
-        {
-            TextSplitVertical = DEFAULT_TEXT_SPLIT_VERTICAL;
-        }
+        public void ResetTextSplitVertical() => TextSplitVertical = DEFAULT_TEXT_SPLIT_VERTICAL;
         #endregion
 
         #region TextSplitHorizontal
@@ -206,10 +191,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextSplitHorizontal property to its default value.
         /// </summary>
-        public void ResetTextSplitHorizontal()
-        {
-            TextSplitHorizontal = DEFAULT_TEXT_SPLIT_HORIZONTAL;
-        }
+        public void ResetTextSplitHorizontal() => TextSplitHorizontal = DEFAULT_TEXT_SPLIT_HORIZONTAL;
         #endregion
 
         #region TextRebalance
@@ -226,10 +208,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextRebalance property to its default value.
         /// </summary>
-        public void ResetTextRebalance()
-        {
-            TextRebalance = DEFAULT_TEXT_REBALANCE;
-        }
+        public void ResetTextRebalance() => TextRebalance = DEFAULT_TEXT_REBALANCE;
         #endregion
 
         #region TextMaximize
@@ -246,10 +225,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextMaximize property to its default value.
         /// </summary>
-        public void ResetTextMaximize()
-        {
-            TextMaximize = DEFAULT_TEXT_MAXIMIZE;
-        }
+        public void ResetTextMaximize() => TextMaximize = DEFAULT_TEXT_MAXIMIZE;
         #endregion
 
         #region TextRestore
@@ -266,10 +242,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the TextRestore property to its default value.
         /// </summary>
-        public void ResetTextRestore()
-        {
-            TextRestore = DEFAULT_TEXT_RESTORE;
-        }
+        public void ResetTextRestore() => TextRestore = DEFAULT_TEXT_RESTORE;
         #endregion
 
         #region ShortcutClose
@@ -290,10 +263,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutClose property to its default value.
         /// </summary>
-        public void ResetShortcutClose()
-        {
-            ShortcutClose = DEFAULT_SHORTCUT_CLOSE;
-        }
+        public void ResetShortcutClose() => ShortcutClose = DEFAULT_SHORTCUT_CLOSE;
         #endregion
 
         #region ShortcutCloseAllButThis
@@ -314,10 +284,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutCloseAllButThis property to its default value.
         /// </summary>
-        public void ResetShortcutCloseAllButThis()
-        {
-            ShortcutCloseAllButThis = DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS;
-        }
+        public void ResetShortcutCloseAllButThis() => ShortcutCloseAllButThis = DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS;
         #endregion
 
         #region ShortcutMoveNext
@@ -338,10 +305,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutMoveNext property to its default value.
         /// </summary>
-        public void ResetShortcutMoveNext()
-        {
-            ShortcutMoveNext = DEFAULT_SHORTCUT_MOVE_NEXT;
-        }
+        public void ResetShortcutMoveNext() => ShortcutMoveNext = DEFAULT_SHORTCUT_MOVE_NEXT;
         #endregion
 
         #region ShortcutMovePrevious
@@ -362,10 +326,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutMovePrevious property to its default value.
         /// </summary>
-        public void ResetShortcutMovePrevious()
-        {
-            ShortcutMovePrevious = DEFAULT_SHORTCUT_MOVE_PREVIOUS;
-        }
+        public void ResetShortcutMovePrevious() => ShortcutMovePrevious = DEFAULT_SHORTCUT_MOVE_PREVIOUS;
         #endregion
 
         #region ShortcutSplitVertical
@@ -386,10 +347,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutSplitVertical property to its default value.
         /// </summary>
-        public void ResetShortcutSplitVertical()
-        {
-            ShortcutSplitVertical = DEFAULT_SHORTCUT_SPLIT_VERTICAL;
-        }
+        public void ResetShortcutSplitVertical() => ShortcutSplitVertical = DEFAULT_SHORTCUT_SPLIT_VERTICAL;
         #endregion
 
         #region ShortcutSplitHorizontal
@@ -410,10 +368,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutSplitHorizontal property to its default value.
         /// </summary>
-        public void ResetShortcutSplitHorizontal()
-        {
-            ShortcutSplitHorizontal = DEFAULT_SHORTCUT_SPLIT_HORIZONTAL;
-        }
+        public void ResetShortcutSplitHorizontal() => ShortcutSplitHorizontal = DEFAULT_SHORTCUT_SPLIT_HORIZONTAL;
         #endregion
 
         #region ShortcutRebalance
@@ -434,10 +389,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutRebalance property to its default value.
         /// </summary>
-        public void ResetShortcutRebalance()
-        {
-            ShortcutRebalance = DEFAULT_SHORTCUT_REBALANCE;
-        }
+        public void ResetShortcutRebalance() => ShortcutRebalance = DEFAULT_SHORTCUT_REBALANCE;
         #endregion
 
         #region ShortcutMaximizeRestore
@@ -458,10 +410,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the ShortcutMaximizeRestore property to its default value.
         /// </summary>
-        public void ResetShortcutMaximizeRestore()
-        {
-            ShortcutMaximizeRestore = DEFAULT_SHORTCUT_MAXIMIZE_RESTORE;
-        }
+        public void ResetShortcutMaximizeRestore() => ShortcutMaximizeRestore = DEFAULT_SHORTCUT_MAXIMIZE_RESTORE;
         #endregion
 
         #region ShowContextMenu

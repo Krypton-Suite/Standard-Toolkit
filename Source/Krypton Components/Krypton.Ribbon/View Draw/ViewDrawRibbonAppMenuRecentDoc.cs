@@ -64,14 +64,14 @@ namespace Krypton.Ribbon
                 recentDoc.ImageTransparentColor);
             var entryPalette = new RibbonRecentDocsEntryToContent(ribbon.StateCommon.RibbonGeneral,
                     ribbon.StateCommon.RibbonAppMenuDocsEntry);
-            ViewDrawContent entryDraw = new ViewDrawContent(entryPalette, entryContent, VisualOrientation.Top);
+            var entryDraw = new ViewDrawContent(entryPalette, entryContent, VisualOrientation.Top);
             docker.Add(entryDraw, ViewDockStyle.Fill);
 
             // Shortcut to Content gap
             docker.Add(new ViewLayoutSeparator(5), ViewDockStyle.Left);
 
             // Add the shortcut column
-            FixedContentValue shortcutContent = new FixedContentValue(ShortcutText, null, null, Color.Empty);
+            var shortcutContent = new FixedContentValue(ShortcutText, null, null, Color.Empty);
             var shortcutPalette = new RibbonRecentDocsShortcutToContent(ribbon.StateCommon.RibbonGeneral,
                     ribbon.StateCommon.RibbonAppMenuDocsEntry);
             var shortcutDraw = new ViewDrawRibbonRecentShortcut(shortcutPalette, shortcutContent);
@@ -139,19 +139,13 @@ namespace Krypton.Ribbon
         /// Raises the Closing event on the provider.
         /// </summary>
         /// <param name="cea">A CancelEventArgs containing the event data.</param>
-        public void Closing(CancelEventArgs cea)
-        {
-            Provider.OnClosing(cea);
-        }
+        public void Closing(CancelEventArgs cea) => Provider.OnClosing(cea);
 
         /// <summary>
         /// Raises the Close event on the provider.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        public void Close(CloseReasonEventArgs e)
-        {
-            Provider.OnClose(e);
-        }
+        public void Close(CloseReasonEventArgs e) => Provider.OnClose(e);
 
         /// <summary>
         /// Gets direct access to the context menu provider.

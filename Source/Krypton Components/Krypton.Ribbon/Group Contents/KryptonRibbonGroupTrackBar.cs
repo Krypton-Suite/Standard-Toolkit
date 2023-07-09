@@ -214,18 +214,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group track bar visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group track bar hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group track bar.
@@ -459,10 +453,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="minValue">The lower limit of the range of the track bar.</param>
         /// <param name="maxValue">The upper limit of the range of the track bar.</param>
-        public void SetRange(int minValue, int maxValue)
-        {
-            TrackBar.SetRange(minValue, maxValue);
-        }
+        public void SetRange(int minValue, int maxValue) => TrackBar.SetRange(minValue, maxValue);
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -542,28 +533,19 @@ namespace Krypton.Ribbon
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
@@ -573,10 +555,7 @@ namespace Krypton.Ribbon
 
         internal NeedPaintHandler ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData) => false;
 
@@ -595,41 +574,21 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnTrackBarGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnTrackBarGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnTrackBarLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnTrackBarLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnTrackBarValueChanged(object sender, EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        private void OnTrackBarValueChanged(object sender, EventArgs e) => ValueChanged?.Invoke(this, e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
-        {
-            TrackBar.Palette = Ribbon.GetResolvedPalette();
-        }
+        private void OnRibbonPaletteChanged(object sender, EventArgs e) => TrackBar.Palette = Ribbon.GetResolvedPalette();
         #endregion
     }
 }

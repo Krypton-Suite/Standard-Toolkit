@@ -53,10 +53,7 @@ namespace Krypton.Toolkit
         /// Updates the metrics source and metric to use.
         /// </summary>
         /// <param name="paletteMetric">Source for aquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric paletteMetric)
-        {
-            _paletteMetric = paletteMetric;
-        }
+        public void SetMetrics(IPaletteMetric paletteMetric) => _paletteMetric = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.

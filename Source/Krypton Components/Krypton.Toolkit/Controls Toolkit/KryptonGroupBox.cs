@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             StateNormal = new PaletteGroupBox(StateCommon, NeedPaintDelegate);
 
             // Create the internal panel used for containing content
-            Panel = new KryptonGroupBoxPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint)
+            Panel = new KryptonGroupBoxPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
 
                 // Make sure the panel back style always mimics our back style
@@ -117,13 +117,13 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Remove any cached obscurer
-                if (_obscurer != null)
+                if (_obscurer != null!)
                 {
                     try
                     {
                         _obscurer.Uncover();
                         _obscurer.Dispose();
-                        _obscurer = null;
+                        _obscurer = null!;
                     }
                     catch { }
                 }
@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonGroupBoxPanel Panel { get; }
+        public KryptonGroupBoxPanel? Panel { get; }
 
         /// <summary>
         /// Gets and the sets the percentage of overlap for the caption and group area.
@@ -293,10 +293,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetGroupBorderStyle()
-        {
-            GroupBorderStyle = PaletteBorderStyle.ControlGroupBox;
-        }
+        private void ResetGroupBorderStyle() => GroupBorderStyle = PaletteBorderStyle.ControlGroupBox;
 
         private bool ShouldSerializeGroupBorderStyle() => GroupBorderStyle != PaletteBorderStyle.ControlGroupBox;
 
@@ -596,7 +593,7 @@ namespace Krypton.Toolkit
         protected void ForceControlLayout()
         {
             // Usually the layout will not occur if currently initializing but
-            // we need to force the layout processing because overwise the size
+            // we need to force the layout processing because otherwise the size
             // of the panel controls will not have been calculated when controls
             // are added to the panels. That would then cause problems with
             // anchor controls as they would then resize incorrectly.
@@ -663,14 +660,17 @@ namespace Krypton.Toolkit
 
                 // Only use layout logic if control is fully initialized or if being forced
                 // to allow a relayout or if in design mode.
-                if (IsInitialized || _forcedLayout || (DesignMode && (Panel != null)))
+                if ((Panel != null))
                 {
-                    Rectangle fillRect = _layoutFill.FillRect;
+                    if (IsInitialized || _forcedLayout || DesignMode)
+                    {
+                        Rectangle fillRect = _layoutFill.FillRect;
 
-                    Panel.SetBounds(fillRect.X,
-                                     fillRect.Y,
-                                     fillRect.Width,
-                                     fillRect.Height);
+                        Panel.SetBounds(fillRect.X,
+                            fillRect.Y,
+                            fillRect.Width,
+                            fillRect.Height);
+                    }
                 }
             }
 
@@ -760,12 +760,16 @@ namespace Krypton.Toolkit
 
                     // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
                     // ensure the obscurer is removed using this async delegate call
-                    BeginInvoke(_removeObscurer);
+                    if (_removeObscurer != null)
+                    {
+                        BeginInvoke(_removeObscurer);
+                    }
+
                     break;
                 }
                 case PI.WM_.WINDOWPOSCHANGED:
                     // Uncover from the covered area
-                    _obscurer?.Uncover();
+                    _obscurer.Uncover();
                     break;
             }
 
@@ -774,9 +778,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal Component DesignerComponentFromPoint(Point pt) =>
+        internal Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         // Simulate the mouse leaving the control so that the tracking
@@ -786,7 +790,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer?.Uncover();
+        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer.Uncover();
 
         private void OnValuesTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 

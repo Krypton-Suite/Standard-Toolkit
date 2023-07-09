@@ -194,10 +194,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Force the mouse to leave the button.
         /// </summary>
-        public void ForceLeave()
-        {
-            _controller.ForceLeave();
-        }
+        public void ForceLeave() => _controller.ForceLeave();
         #endregion
 
         #region Implementation
@@ -305,10 +302,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        private void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
     }
 }

@@ -91,10 +91,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripText property to its default value.
         /// </summary>
-        public void ResetToolStripText()
-        {
-            ToolStripText = Color.Empty;
-        }
+        public void ResetToolStripText() => ToolStripText = Color.Empty;
         #endregion
 
         #region ToolStripFont
@@ -119,10 +116,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripFont property to its default value.
         /// </summary>
-        public void ResetToolStripFont()
-        {
-            ToolStripFont = null;
-        }
+        public void ResetToolStripFont() => ToolStripFont = null;
         #endregion
 
         #region ToolStripBorder
@@ -147,10 +141,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripBorder property to its default value.
         /// </summary>
-        public void ResetToolStripBorder()
-        {
-            ToolStripBorder = Color.Empty;
-        }
+        public void ResetToolStripBorder() => ToolStripBorder = Color.Empty;
         #endregion
 
         #region ToolStripContentPanelGradientBegin
@@ -175,10 +166,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripContentPanelGradientBegin property to its default value.
         /// </summary>
-        public void ResetToolStripContentPanelGradientBegin()
-        {
-            ToolStripContentPanelGradientBegin = Color.Empty;
-        }
+        public void ResetToolStripContentPanelGradientBegin() => ToolStripContentPanelGradientBegin = Color.Empty;
         #endregion
 
         #region ToolStripContentPanelGradientEnd
@@ -203,10 +191,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripContentPanelGradientEnd property to its default value.
         /// </summary>
-        public void ResetToolStripContentPanelGradientEnd()
-        {
-            ToolStripContentPanelGradientEnd = Color.Empty;
-        }
+        public void ResetToolStripContentPanelGradientEnd() => ToolStripContentPanelGradientEnd = Color.Empty;
         #endregion
 
         #region ToolStripDropDownBackground
@@ -231,10 +216,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripDropDownBackground property to its default value.
         /// </summary>
-        public void ResetToolStripDropDownBackground()
-        {
-            ToolStripDropDownBackground = Color.Empty;
-        }
+        public void ResetToolStripDropDownBackground() => ToolStripDropDownBackground = Color.Empty;
         #endregion
 
         #region ToolStripGradientBegin
@@ -259,10 +241,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripGradientBegin property to its default value.
         /// </summary>
-        public void ResetToolStripGradientBegin()
-        {
-            ToolStripGradientBegin = Color.Empty;
-        }
+        public void ResetToolStripGradientBegin() => ToolStripGradientBegin = Color.Empty;
         #endregion
 
         #region ToolStripGradientEnd
@@ -287,10 +266,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripGradientEnd property to its default value.
         /// </summary>
-        public void ResetToolStripGradientEnd()
-        {
-            ToolStripGradientEnd = Color.Empty;
-        }
+        public void ResetToolStripGradientEnd() => ToolStripGradientEnd = Color.Empty;
         #endregion
 
         #region ToolStripGradientMiddle
@@ -315,10 +291,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripGradientMiddle property to its default value.
         /// </summary>
-        public void ResetToolStripGradientMiddle()
-        {
-            ToolStripGradientMiddle = Color.Empty;
-        }
+        public void ResetToolStripGradientMiddle() => ToolStripGradientMiddle = Color.Empty;
         #endregion
 
         #region ToolStripPanelGradientBegin
@@ -343,10 +316,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripPanelGradientBegin property to its default value.
         /// </summary>
-        public void ResetToolStripPanelGradientBegin()
-        {
-            ToolStripPanelGradientBegin = Color.Empty;
-        }
+        public void ResetToolStripPanelGradientBegin() => ToolStripPanelGradientBegin = Color.Empty;
         #endregion
 
         #region ToolStripPanelGradientEnd
@@ -371,10 +341,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ToolStripPanelGradientEnd property to its default value.
         /// </summary>
-        public void ResetToolStripPanelGradientEnd()
-        {
-            ToolStripPanelGradientEnd = Color.Empty;
-        }
+        public void ResetToolStripPanelGradientEnd() => ToolStripPanelGradientEnd = Color.Empty;
         #endregion
     }
 }

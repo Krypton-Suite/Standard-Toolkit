@@ -266,10 +266,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Raises the Click event for the button.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(this, EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(this, EventArgs.Empty);
 
         /// <summary>
         /// Set the orientation of the background/border and content.
@@ -313,7 +310,7 @@ namespace Krypton.Navigator
             // We take on all the provided size
             ClientRectangle = context.DisplayRectangle;
 
-            Padding layoutPadding = Padding.Empty;
+            var layoutPadding = Padding.Empty;
 
             switch (_borderBackOrient)
             {
@@ -437,10 +434,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
-        {
-            _needPaint?.Invoke(this, e);
-        }
+        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e) => _needPaint?.Invoke(this, e);
         #endregion
 
         #region Implementation
@@ -597,35 +591,17 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e)
-        {
-            Navigator.InternalDragStart(e, Page);
-        }
+        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, Page);
 
-        private void OnDragMove(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragMove(e);
-        }
+        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragEnd(e);
-        }
+        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e)
-        {
-            Navigator.InternalDragQuit();
-        }
+        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e)
-        {
-            ButtonDragRectangle?.Invoke(this, e);
-        }
+        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
-        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
-        {
-            ButtonDragOffset?.Invoke(this, e);
-        }
+        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
         #endregion
     }
 }

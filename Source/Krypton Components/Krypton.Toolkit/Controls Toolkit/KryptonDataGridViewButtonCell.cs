@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <returns>New object instance.</returns>
         public override object Clone()
         {
-            KryptonDataGridViewButtonCell dataGridViewCell = base.Clone() as KryptonDataGridViewButtonCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewButtonCell;
             if (dataGridViewCell != null)
             {
                 dataGridViewCell._styleSet = _styleSet;
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                KryptonDataGridView kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = (KryptonDataGridView)DataGridView;
 
                 // Create the view elements and palette structure
                 CreateViewAndPalettes(kDGV);

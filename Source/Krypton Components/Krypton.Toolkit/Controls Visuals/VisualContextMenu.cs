@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
             }
 
             // Find the horizontal position relative to screen rectangle
-            Point screenPt = Point.Empty;
+            var screenPt = Point.Empty;
             screenPt.X = horz switch
             {
                 KryptonContextMenuPositionH.After => screenRect.Right,
@@ -500,11 +500,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
-        }
 
         private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 
@@ -513,7 +511,7 @@ namespace Krypton.Toolkit
         private void OnProviderClose(object sender, EventArgs e)
         {
             // Unhook from event source
-            ContextMenuProvider provider = (ContextMenuProvider)sender;
+            var provider = (ContextMenuProvider)sender;
             _provider.Dispose -= OnProviderClose;
 
             // Kill this poup window

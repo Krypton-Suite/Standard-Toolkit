@@ -200,10 +200,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Resets all properties to their default values.</summary>
-        public override void Reset()
-        {
-            _internalSaveFileDialog.Reset();
-        }
+        public override void Reset() => _internalSaveFileDialog.Reset();
 
         /// <inheritdoc />
         public override string ToString() => _internalSaveFileDialog.ToString();
@@ -212,10 +209,7 @@ namespace Krypton.Toolkit
         public override FileDialogCustomPlacesCollection CustomPlaces => _internalSaveFileDialog.CustomPlaces;
 
         /// <inheritdoc />
-        public void Dispose()
-        {
-            _internalSaveFileDialog.Dispose();
-        }
+        public void Dispose() => _internalSaveFileDialog.Dispose();
 
     }
 }

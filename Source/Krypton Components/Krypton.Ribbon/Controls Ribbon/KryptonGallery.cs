@@ -416,10 +416,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Bring the selected index into view.
         /// </summary>
-        public void BringIntoView()
-        {
-            BringIntoView(SelectedIndex);
-        }
+        public void BringIntoView() => BringIntoView(SelectedIndex);
 
         /// <summary>
         /// Bring the specified image index into view.
@@ -441,10 +438,7 @@ namespace Krypton.Ribbon
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets a value indicating if the input control is active.
@@ -473,19 +467,13 @@ namespace Krypton.Ribbon
         /// Raises the ImageListChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnImageListChanged(EventArgs e)
-        {
-            ImageListChanged?.Invoke(this, e);
-        }
+        protected virtual void OnImageListChanged(EventArgs e) => ImageListChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedIndexChanged(EventArgs e)
-        {
-            SelectedIndexChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedIndexChanged(EventArgs e) => SelectedIndexChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
@@ -501,10 +489,7 @@ namespace Krypton.Ribbon
         /// Raises the GalleryDropMenu event.
         /// </summary>
         /// <param name="e">An GalleryDropMenuEventArgs containing the event data.</param>
-        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e)
-        {
-            GalleryDropMenu?.Invoke(this, e);
-        }
+        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e) => GalleryDropMenu?.Invoke(this, e);
         #endregion
 
         #region Protected Overrides
@@ -751,12 +736,10 @@ namespace Krypton.Ribbon
             IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
-        internal void DesignerMouseLeave()
-        {
+        internal void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
 
         internal Size InternalPreferredItemSize
         {
@@ -764,16 +747,13 @@ namespace Krypton.Ribbon
             set => _preferredItemSize = value;
         }
 
-        internal KryptonRibbon Ribbon { get; set; }
+        internal KryptonRibbon? Ribbon { get; set; }
 
-        internal void OnDropButton()
-        {
-            ShownGalleryDropDown(RectangleToScreen(ClientRectangle),
+        internal void OnDropButton() => ShownGalleryDropDown(RectangleToScreen(ClientRectangle),
                                  KryptonContextMenuPositionH.Left,
                                  KryptonContextMenuPositionV.Top,
                                  null,
                                  _drawItems.ActualLineItems);
-        }
 
         internal void ShownGalleryDropDown(Rectangle screenRect,
                                            KryptonContextMenuPositionH hPosition,
@@ -787,7 +767,7 @@ namespace Krypton.Ribbon
             // Number of line items equals the number actually used
             var lineItems = Math.Max(DropMinItemWidth, Math.Min(DropMaxItemWidth, actualLineItems));
 
-            // If there are no ranges defined, just add a single entry showing all enties
+            // If there are no ranges defined, just add a single entry showing all entries
             if (DropButtonRanges.Count == 0)
             {
                 var imageSelect = new KryptonContextMenuImageSelect
@@ -873,15 +853,15 @@ namespace Krypton.Ribbon
                 TrackingIndex = -1;
 
                 // Unhook from events
-                _dropMenu.Closed -= OnDropMenuClosed!;
+                _dropMenu.Closed -= OnDropMenuClosed;
 
                 // Unhook from the image select events
                 foreach (KryptonContextMenuItemBase item in _dropMenu.Items)
                 {
                     if (item is KryptonContextMenuImageSelect itemSelect)
                     {
-                        itemSelect.SelectedIndexChanged -= OnDropImageSelect!;
-                        itemSelect.TrackingImage -= OnDropImageTracking!;
+                        itemSelect.SelectedIndexChanged -= OnDropImageSelect;
+                        itemSelect.TrackingImage -= OnDropImageTracking;
                     }
                 }
 
@@ -903,15 +883,13 @@ namespace Krypton.Ribbon
         #region Implementation
         private void OnDropImageSelect(object sender, EventArgs e)
         {
-            KryptonContextMenuImageSelect imageSelect = (KryptonContextMenuImageSelect)sender;
+            var imageSelect = (KryptonContextMenuImageSelect)sender;
             SelectedIndex = imageSelect.SelectedIndex;
         }
 
-        private void OnDropImageTracking(object sender, ImageSelectEventArgs e)
-        {
+        private void OnDropImageTracking(object sender, ImageSelectEventArgs e) =>
             //KryptonContextMenuImageSelect imageSelect = (KryptonContextMenuImageSelect)sender;
             TrackingIndex = e.ImageIndex;
-        }
 
         private void UpdateStateAndPalettes()
         {

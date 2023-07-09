@@ -920,8 +920,8 @@ namespace Krypton.Toolkit
         {
             // key handling is here - keys recognized by the control
             // Up&Down or Left&Right, PageUp, PageDown, Home, End
-            Keys keyUp = Keys.Up;
-            Keys keyDown = Keys.Down;
+            var keyUp = Keys.Up;
+            var keyDown = Keys.Down;
 
             if (_orientation == ScrollBarOrientation.Horizontal)
             {
@@ -1292,7 +1292,7 @@ namespace Krypton.Toolkit
         private void ProgressThumb(bool enableTimer)
         {
             var scrollOldValue = _value;
-            ScrollEventType type = ScrollEventType.First;
+            var type = ScrollEventType.First;
             int thumbSize, thumbPos;
 
             if (_orientation == ScrollBarOrientation.Vertical)
@@ -1568,60 +1568,42 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void TopClick(object sender, EventArgs e)
-        {
-            Value = _minimum;
-        }
+        private void TopClick(object sender, EventArgs e) => Value = _minimum;
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void BottomClick(object sender, EventArgs e)
-        {
-            Value = _maximum;
-        }
+        private void BottomClick(object sender, EventArgs e) => Value = _maximum;
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void LargeUpClick(object sender, EventArgs e)
-        {
-            Value = GetValue(false, true);
-        }
+        private void LargeUpClick(object sender, EventArgs e) => Value = GetValue(false, true);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void LargeDownClick(object sender, EventArgs e)
-        {
-            Value = GetValue(false, false);
-        }
+        private void LargeDownClick(object sender, EventArgs e) => Value = GetValue(false, false);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void SmallUpClick(object sender, EventArgs e)
-        {
-            Value = GetValue(true, true);
-        }
+        private void SmallUpClick(object sender, EventArgs e) => Value = GetValue(true, true);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void SmallDownClick(object sender, EventArgs e)
-        {
-            Value = GetValue(true, false);
-        }
+        private void SmallDownClick(object sender, EventArgs e) => Value = GetValue(true, false);
 
         #endregion
 

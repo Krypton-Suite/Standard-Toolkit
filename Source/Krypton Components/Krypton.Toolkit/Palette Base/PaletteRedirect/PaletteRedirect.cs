@@ -1085,10 +1085,7 @@ namespace Krypton.Toolkit
         #region ColorTable
 
         /// <inheritdoc />
-        protected override void DefineFonts()
-        {
-            throw new NotImplementedException();
-        }
+        protected override void DefineFonts() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets access to the color table instance.

@@ -119,7 +119,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             switch (action)
             {
@@ -198,10 +198,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Page to slide into view.</param>
         /// <param name="select">True to select the page; otherwise false.</param>
-        public void SlidePageOut(KryptonPage page, bool select)
-        {
-            SlidePageOut(page.UniqueName, select);
-        }
+        public void SlidePageOut(KryptonPage page, bool select) => SlidePageOut(page.UniqueName, select);
 
         /// <summary>
         /// Slide the specified page into view and optionally select.
@@ -303,7 +300,7 @@ namespace Krypton.Docking
         private void OnDockingAutoHiddenGroupDisposed(object sender, EventArgs e)
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
-            KryptonDockingAutoHiddenGroup groupElement = (KryptonDockingAutoHiddenGroup)sender;
+            var groupElement = (KryptonDockingAutoHiddenGroup)sender;
             groupElement.PageClicked -= OnDockingAutoHiddenGroupClicked!;
             groupElement.PageHoverStart -= OnDockingAutoHiddenGroupHoverStart!;
             groupElement.PageHoverEnd -= OnDockingAutoHiddenGroupHoverEnd!;
@@ -372,29 +369,24 @@ namespace Krypton.Docking
         private void OnDockingAutoHiddenGroupClicked(object sender, KryptonPageEventArgs e)
         {
             // Request the sliding panel slide itself into view with the provided page
-            KryptonDockingAutoHiddenGroup dockingGroup = (KryptonDockingAutoHiddenGroup)sender;
+            var dockingGroup = (KryptonDockingAutoHiddenGroup)sender;
             _slidePanel.SlideOut(e.Item, dockingGroup.AutoHiddenGroupControl, true);
         }
 
         private void OnDockingAutoHiddenGroupHoverStart(object sender, KryptonPageEventArgs e)
         {
             // Request the sliding panel slide itself into view with the provided page
-            KryptonDockingAutoHiddenGroup dockingGroup = (KryptonDockingAutoHiddenGroup)sender;
+            var dockingGroup = (KryptonDockingAutoHiddenGroup)sender;
             _slidePanel.SlideOut(e.Item, dockingGroup.AutoHiddenGroupControl, false);
         }
 
-        private void OnDockingAutoHiddenGroupHoverEnd(object sender, EventArgs e)
-        {
+        private void OnDockingAutoHiddenGroupHoverEnd(object sender, EventArgs e) =>
             // Request the sliding panel slide itself out of view when appropriate
             // (will not retract whilst the mouse is over the slide out dockspace)
             // (will not retract whilst slide out dockspace has the focus)
             _slidePanel.SlideIn();
-        }
 
-        private void OnSlidePanelSeparatorMoved(object sender, SplitterEventArgs e)
-        {
-            _slidePanel.UpdateSize(e.SplitX, e.SplitY);
-        }
+        private void OnSlidePanelSeparatorMoved(object sender, SplitterEventArgs e) => _slidePanel.UpdateSize(e.SplitX, e.SplitY);
 
         private void OnSlidePanelSeparatorMoving(object sender, SplitterCancelEventArgs e)
         {
@@ -403,7 +395,7 @@ namespace Krypton.Docking
         private void OnSlidePanelSeparatorMoveRect(object sender, SplitterMoveRectMenuArgs e)
         {
             // Cast to correct type and grab associated dockspace control
-            KryptonDockspaceSeparator separatorControl = (KryptonDockspaceSeparator)sender;
+            var separatorControl = (KryptonDockspaceSeparator)sender;
             KryptonDockspace dockspaceControl = _slidePanel.DockspaceControl;
             KryptonPage? page = _slidePanel.Page;
 
@@ -438,7 +430,7 @@ namespace Krypton.Docking
             // Generate event so that the appropriate context menu options are presented and actioned
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null
-                && e is { Page: { }, KryptonContextMenu: { } }
+                && e is { Page: not null, KryptonContextMenu: not null }
                 )
             {
                 e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
@@ -488,7 +480,7 @@ namespace Krypton.Docking
             var expandHeight = Math.Max(innerSize.Height - _slidePanel.Height, 0);
 
             // Create movement rectangle based on the initial rectangle and the allowed range
-            Rectangle retRect = Rectangle.Empty;
+            var retRect = Rectangle.Empty;
             switch (Edge)
             {
                 case DockingEdge.Left:

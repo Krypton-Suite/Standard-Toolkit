@@ -71,15 +71,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
-        {
+        public override void RenderBefore(RenderContext context) =>
             // Use renderer to draw the drop arrow in the provided space
-            context.Renderer.RenderGlyph.DrawRibbonDropArrow(_ribbon.RibbonShape, 
-                                                             context, 
-                                                             ClientRectangle, 
-                                                             _ribbon.StateCommon.RibbonGeneral, 
+            context.Renderer.RenderGlyph.DrawRibbonDropArrow(_ribbon.RibbonShape,
+                                                             context,
+                                                             ClientRectangle,
+                                                             _ribbon.StateCommon.RibbonGeneral,
                                                              State);
-        }
         #endregion
     }
 }

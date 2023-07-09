@@ -814,7 +814,7 @@ namespace Krypton.Navigator
         private void OnVisibleClick(object sender, EventArgs e)
         {
             // Cast to the correct type
-            DesignerVerb? verb = sender as DesignerVerb;
+            var verb = sender as DesignerVerb;
 
             // Find out which verb has been used
             var headerBar = (verb == _headerBarVisible);

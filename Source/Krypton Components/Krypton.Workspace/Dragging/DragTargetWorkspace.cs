@@ -84,7 +84,7 @@ namespace Krypton.Workspace
                     var e = new PageDropEventArgs(page);
                     workspace.OnPageDrop(e);
 
-                    if (e is { Cancel: false, Page: { } })
+                    if (e is { Cancel: false, Page: not null })
                     {
                         target.Pages.Add(e.Page);
                         ret = e.Page;

@@ -58,10 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteBack inherit)
-        {
-            Inherit = inherit;
-        }
+        public void SetInherit(IPaletteBack inherit) => Inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -69,11 +66,9 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">Palette state to use when populating.</param>
-        public virtual void PopulateFromBase(PaletteState state)
-        {
+        public virtual void PopulateFromBase(PaletteState state) =>
             // Get the values and set into storage
             Color1 = GetBackColor1(state);
-        }
         #endregion
 
         #region Draw

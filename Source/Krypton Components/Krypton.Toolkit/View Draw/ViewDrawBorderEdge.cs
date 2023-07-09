@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We have no preferred size by default
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Apply the border width in appropriate orientation
             if (Orientation == Orientation.Horizontal)

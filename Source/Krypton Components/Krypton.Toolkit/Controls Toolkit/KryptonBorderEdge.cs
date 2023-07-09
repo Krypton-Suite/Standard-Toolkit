@@ -201,10 +201,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBorderStyle()
-        {
-            BorderStyle = PaletteBorderStyle.ControlClient;
-        }
+        private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.ControlClient;
 
         private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.ControlClient;
 
@@ -288,11 +285,9 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawPanel.FixedState = state;
-        }
         #endregion
 
         #region Protected Overrides

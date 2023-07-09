@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
             _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
 
             // Hook into changes in selected component
-            IComponentChangeService service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
             if (service != null)
             {
                 service.ComponentChanged += OnComponentChanged;
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Get access to the component change service
-                    IComponentChangeService service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                    var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
 
                     // Must unhook our event from the service so we can be garbage collected
                     if (service != null)
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                PropertyDescriptor descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = (PropertyDescriptor)entry.Value;
 
                 // Is this the 'Name' we are searching for?
                 if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)

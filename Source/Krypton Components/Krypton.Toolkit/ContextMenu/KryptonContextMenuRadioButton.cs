@@ -459,10 +459,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void SetRadioButtonStyle(LabelStyle style)
-        {
-            _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        private void SetRadioButtonStyle(LabelStyle style) => _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
         #endregion
     }
 }

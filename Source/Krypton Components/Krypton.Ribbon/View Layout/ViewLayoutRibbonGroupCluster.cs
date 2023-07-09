@@ -317,7 +317,7 @@ namespace Krypton.Ribbon
 
             foreach (KryptonRibbonGroupItem item in _ribbonCluster.Items)
             {
-                IRibbonViewGroupItemView? viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
+                var viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
                 viewItemSize?.SetGroupItemSize(size);
             }
 
@@ -331,12 +331,12 @@ namespace Krypton.Ribbon
         {
             foreach (KryptonRibbonGroupItem item in _ribbonCluster.Items)
             {
-                IRibbonViewGroupItemView? viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
+                var viewItemSize = _itemToView[item] as IRibbonViewGroupItemView;
                 viewItemSize?.ResetGroupItemSize();
             }
 
             // Our current size is based on the parent one
-            ViewLayoutRibbonGroupLines? viewLines = (ViewLayoutRibbonGroupLines)Parent;
+            var viewLines = (ViewLayoutRibbonGroupLines)Parent;
             _currentSize = viewLines.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
         }
 
@@ -355,7 +355,7 @@ namespace Krypton.Ribbon
 
             viewToSize.Clear();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)

@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewDateTimePickerColumn cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn;
+            var cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn;
 
             cloned.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
             cloned.CalendarMonthlyBoldedDates = CalendarMonthlyBoldedDates;

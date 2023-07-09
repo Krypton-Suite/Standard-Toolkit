@@ -422,7 +422,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a button item
-                    KryptonRibbonGroupButton button = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
                     _ribbonTriple.Items.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -450,7 +450,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a button item
-                    KryptonRibbonGroupColorButton button = (KryptonRibbonGroupColorButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupColorButton));
+                    var button = (KryptonRibbonGroupColorButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupColorButton));
                     _ribbonTriple.Items.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -478,7 +478,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a check box item.
-                    KryptonRibbonGroupCheckBox checkBox = (KryptonRibbonGroupCheckBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCheckBox));
+                    var checkBox = (KryptonRibbonGroupCheckBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCheckBox));
                     _ribbonTriple.Items.Add(checkBox);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -506,7 +506,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a radio button item.
-                    KryptonRibbonGroupRadioButton radioButton = (KryptonRibbonGroupRadioButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRadioButton));
+                    var radioButton = (KryptonRibbonGroupRadioButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRadioButton));
                     _ribbonTriple.Items.Add(radioButton);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a label item
-                    KryptonRibbonGroupLabel label = (KryptonRibbonGroupLabel)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLabel));
+                    var label = (KryptonRibbonGroupLabel)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLabel));
                     _ribbonTriple.Items.Add(label);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -562,7 +562,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a custom control item
-                    KryptonRibbonGroupCustomControl cc = (KryptonRibbonGroupCustomControl)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCustomControl));
+                    var cc = (KryptonRibbonGroupCustomControl)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCustomControl));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -590,7 +590,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a textbox item
-                    KryptonRibbonGroupTextBox tb = (KryptonRibbonGroupTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTextBox));
+                    var tb = (KryptonRibbonGroupTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTextBox));
                     _ribbonTriple.Items.Add(tb);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -618,7 +618,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a trackbar item
-                    KryptonRibbonGroupTrackBar tb = (KryptonRibbonGroupTrackBar)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTrackBar));
+                    var tb = (KryptonRibbonGroupTrackBar)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTrackBar));
                     _ribbonTriple.Items.Add(tb);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -646,7 +646,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a textbox item
-                    KryptonRibbonGroupMaskedTextBox mtb = (KryptonRibbonGroupMaskedTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupMaskedTextBox));
+                    var mtb = (KryptonRibbonGroupMaskedTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupMaskedTextBox));
                     _ribbonTriple.Items.Add(mtb);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -674,7 +674,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a richtextbox item
-                    KryptonRibbonGroupRichTextBox rtb = (KryptonRibbonGroupRichTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRichTextBox));
+                    var rtb = (KryptonRibbonGroupRichTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRichTextBox));
                     _ribbonTriple.Items.Add(rtb);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -702,7 +702,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a combobox item
-                    KryptonRibbonGroupComboBox cc = (KryptonRibbonGroupComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupComboBox));
+                    var cc = (KryptonRibbonGroupComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupComboBox));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -730,7 +730,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a numeric up-down item
-                    KryptonRibbonGroupNumericUpDown cc = (KryptonRibbonGroupNumericUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupNumericUpDown));
+                    var cc = (KryptonRibbonGroupNumericUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupNumericUpDown));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -758,7 +758,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a domain up-down item
-                    KryptonRibbonGroupDomainUpDown cc = (KryptonRibbonGroupDomainUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDomainUpDown));
+                    var cc = (KryptonRibbonGroupDomainUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDomainUpDown));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -786,7 +786,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a domain up-down item
-                    KryptonRibbonGroupDateTimePicker cc = (KryptonRibbonGroupDateTimePicker)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDateTimePicker));
+                    var cc = (KryptonRibbonGroupDateTimePicker)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDateTimePicker));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -814,7 +814,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the items from the triple group
                     for (var i = _ribbonTriple.Items.Count - 1; i >= 0; i--)
@@ -930,10 +930,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -941,12 +938,12 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonTriple)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the triple group
                 for (var j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
                 {
-                    KryptonRibbonGroupItem item = _ribbonTriple.Items[j] as KryptonRibbonGroupItem;
+                    var item = _ribbonTriple.Items[j] as KryptonRibbonGroupItem;
                     _ribbonTriple.Items.Remove(item);
                     host.DestroyComponent(item);
                 }
@@ -1113,10 +1110,10 @@ namespace Krypton.Ribbon
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Cast to correct type
-                ToolStripMenuItem groupMenuItem = (ToolStripMenuItem)sender;
+                var groupMenuItem = (ToolStripMenuItem)sender;
 
                 // Get access to the destination tab
-                KryptonRibbonGroup destination = (KryptonRibbonGroup)groupMenuItem.Tag;
+                var destination = (KryptonRibbonGroup)groupMenuItem.Tag;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveTripleToGroup");

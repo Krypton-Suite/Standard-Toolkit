@@ -75,7 +75,7 @@ namespace Krypton.Navigator
         static ViewBuilderOutlookBase()
         {
             // Get the assembly that contains the bitmap resource
-            Assembly? myAssembly = Assembly.GetAssembly(typeof(ViewBuilderOutlookBase));
+            var myAssembly = Assembly.GetAssembly(typeof(ViewBuilderOutlookBase));
 
             // Get the resource streams containing the images
             Stream? streamBlueUp = myAssembly.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueUp.bmp");
@@ -228,7 +228,7 @@ namespace Krypton.Navigator
                         if (checkButton.Visible)
                         {
                             // Get the orientation specific test value
-                            int checkButtonPos = Navigator.Outlook.Orientation == Orientation.Vertical
+                            var checkButtonPos = Navigator.Outlook.Orientation == Orientation.Vertical
                                 ? checkButton.ClientHeight
                                 : checkButton.ClientWidth;
 
@@ -1210,11 +1210,9 @@ namespace Krypton.Navigator
         /// Gets the view element to use as the layout filler.
         /// </summary>
         /// <returns>ViewBase derived instance.</returns>
-        protected virtual void SetLayoutFiller(ViewLayoutDocker viewLayout)
-        {
+        protected virtual void SetLayoutFiller(ViewLayoutDocker viewLayout) =>
             // Put the old root as the filler inside stack elements
             viewLayout.Add(_oldRoot, ViewDockStyle.Fill);
-        }
 
         /// <summary>
         /// Create an overflow check button.
@@ -2054,22 +2052,18 @@ namespace Krypton.Navigator
         private VisualOrientation ResolveOverflowButtonOrientation() =>
             Navigator.Outlook.Orientation == Orientation.Vertical ? VisualOrientation.Top : VisualOrientation.Left;
 
-        private ViewDrawNavCheckButtonBase? GetShrinkStackItem()
-        {
+        private ViewDrawNavCheckButtonBase? GetShrinkStackItem() =>
             // If there is a visible stack item, then we can always shrink it away
-            return _pageStackLookup?.Values.FirstOrDefault(static checkButton => checkButton.Visible);
-        }
+            _pageStackLookup?.Values.FirstOrDefault(static checkButton => checkButton.Visible);
 
-        private ViewDrawNavCheckButtonBase? GetExpandOverflowItem()
-        {
+        private ViewDrawNavCheckButtonBase? GetExpandOverflowItem() =>
             // If there is a overflow stack item, then we can always show it
-            return _pageOverflowLookup?.Values.FirstOrDefault(static checkButton => checkButton.Visible);
-        }
+            _pageOverflowLookup?.Values.FirstOrDefault(static checkButton => checkButton.Visible);
 
         private bool PageInTheStack(KryptonPage page)
         {
             // Get the overflow check button for the page
-            ViewDrawNavOutlookOverflow checkButton = (ViewDrawNavOutlookOverflow)_pageOverflowLookup[page];
+            var checkButton = (ViewDrawNavOutlookOverflow)_pageOverflowLookup[page];
 
             // If not visible on the overflow bar then must be in the stack
             return !checkButton.Visible;
@@ -2082,16 +2076,11 @@ namespace Krypton.Navigator
             Navigator.Invalidate();
         }
 
-        private void OnAutoSizeChanged(object sender, EventArgs e)
-        {
+        private void OnAutoSizeChanged(object sender, EventArgs e) =>
             // Only use minimum instead of preferred if not using AutoSize
             _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
-        }
 
-        private void OnViewportAnimation(object sender, EventArgs e)
-        {
-            Navigator.PerformNeedPaint(true);
-        }
+        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 
         private bool AreFewerButtons()
         {
@@ -2228,7 +2217,7 @@ namespace Krypton.Navigator
         private void OnPageAddRemoveClick(object sender, EventArgs e)
         {
             // Cast to correct type
-            KryptonContextMenuItem? menuItem = sender as KryptonContextMenuItem;
+            var menuItem = sender as KryptonContextMenuItem;
 
             // Get the page this menu item is associated with
 
@@ -2251,7 +2240,7 @@ namespace Krypton.Navigator
         private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            ViewDrawNavOutlookStack reorderItem = (ViewDrawNavOutlookStack)sender;
+            var reorderItem = (ViewDrawNavOutlookStack)sender;
 
             e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
             Rectangle dragRect = Rectangle.Union(e.DragRect, _viewLayout.ClientRectangle);
@@ -2274,14 +2263,14 @@ namespace Krypton.Navigator
         private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            ViewDrawNavOutlookStack reorderView = (ViewDrawNavOutlookStack)sender;
+            var reorderView = (ViewDrawNavOutlookStack)sender;
 
             // Scan the collection of children
             var foundReorderView = false;
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // If the mouse is over this button
-                ViewDrawNavOutlookStack childView = (ViewDrawNavOutlookStack)_pageStackLookup[page];
+                var childView = (ViewDrawNavOutlookStack)_pageStackLookup[page];
                 if (childView.Visible && childView.ClientRectangle.Contains(e.PointOffset))
                 {
                     // Only interested if mouse over a different check button
@@ -2379,7 +2368,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // Grab the page associated view elements
-                ViewDrawNavOutlookStack? checkButton = _pageStackLookup?[page] as ViewDrawNavOutlookStack;
+                var checkButton = _pageStackLookup?[page] as ViewDrawNavOutlookStack;
                 ViewDrawBorderEdge? buttonEdge = _buttonEdgeLookup?[page];
 
                 // Add to the end of the collection

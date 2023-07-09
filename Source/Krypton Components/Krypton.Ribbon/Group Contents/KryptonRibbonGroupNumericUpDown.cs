@@ -198,10 +198,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Access to the actual embedded KryptonNumericUpDown instance.
@@ -409,18 +406,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group numeric up-down visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group numeric up-down hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group numeric up-down.
@@ -520,10 +511,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            NumericUpDown.Select(start, length);
-        }
+        public void Select(int start, int length) => NumericUpDown.Select(start, length);
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -603,73 +591,49 @@ namespace Krypton.Ribbon
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyDown event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyDown(KeyEventArgs e)
-        {
-            KeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnKeyDown(KeyEventArgs e) => KeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyUp event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyUp(KeyEventArgs e)
-        {
-            KeyUp?.Invoke(this, e);
-        }
+        protected virtual void OnKeyUp(KeyEventArgs e) => KeyUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyPress event.
         /// </summary>
         /// <param name="e">An KeyPressEventArgs containing the event data.</param>
-        protected virtual void OnKeyPress(KeyPressEventArgs e)
-        {
-            KeyPress?.Invoke(this, e);
-        }
+        protected virtual void OnKeyPress(KeyPressEventArgs e) => KeyPress?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PreviewKeyDown event.
         /// </summary>
         /// <param name="e">An PreviewKeyDownEventArgs containing the event data.</param>
-        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            PreviewKeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e) => PreviewKeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueChanged(EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueChanged(EventArgs e) => ValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
@@ -679,10 +643,7 @@ namespace Krypton.Ribbon
 
         internal NeedPaintHandler ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -729,61 +690,29 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnNumericUpDownValueChanged(object sender, EventArgs e)
-        {
-            OnValueChanged(e);
-        }
+        private void OnNumericUpDownValueChanged(object sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnNumericUpDownGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnNumericUpDownGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnNumericUpDownLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnNumericUpDownLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnNumericUpDownKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnNumericUpDownKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnNumericUpDownKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnNumericUpDownKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnNumericUpDownKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnNumericUpDownKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnNumericUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnNumericUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
-        {
-            NumericUpDown.Palette = Ribbon.GetResolvedPalette();
-        }
+        private void OnRibbonPaletteChanged(object sender, EventArgs e) => NumericUpDown.Palette = Ribbon.GetResolvedPalette();
         #endregion
     }
 }

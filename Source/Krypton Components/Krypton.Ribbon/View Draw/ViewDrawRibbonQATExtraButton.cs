@@ -49,14 +49,14 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Create delegate used to process end of click action
-            _finishDelegate = ClickFinished!;
+            _finishDelegate = ClickFinished;
 
             // Attach a controller to this element for the pressing of the button
             var controller = new QATExtraButtonController(ribbon, this, needPaint);
-            controller.Click += OnClick!;
+            controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -194,26 +194,28 @@ namespace Krypton.Ribbon
         private void ClickFinished(object sender, EventArgs e)
         {
             // Get access to our mouse controller
-            LeftDownButtonController controller = (LeftDownButtonController)MouseController;
+            var controller = (LeftDownButtonController)MouseController;
 
             // Remove the fixed pressed appearance
-            controller.RemoveFixed();
+            controller?.RemoveFixed();
         }
 
         private void OnClick(object sender, MouseEventArgs e)
         {
-            Form ownerForm = _ribbon.FindForm();
+            Form? ownerForm = _ribbon.FindForm();
 
             // Ensure the form we are inside is active
             ownerForm?.Activate();
-
-            if ((ClickAndFinish != null) && !_ribbon.InDesignMode)
+            if ((ClickAndFinish != null))
             {
-                ClickAndFinish(this, _finishDelegate);
-            }
-            else
-            {
-                ClickFinished(this, EventArgs.Empty);
+                if (!_ribbon.InDesignMode)
+                {
+                    ClickAndFinish(this, _finishDelegate);
+                }
+                else
+                {
+                    ClickFinished(this, EventArgs.Empty);
+                }
             }
         }
         #endregion

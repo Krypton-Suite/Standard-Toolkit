@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Height is the total height of all children, but width is just the widest found
             foreach (ViewBase child in this)

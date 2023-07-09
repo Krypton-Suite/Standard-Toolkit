@@ -50,11 +50,9 @@ namespace Krypton.Navigator
         /// Sets if the minimum size should be used instead of preferred.
         /// </summary>
         /// <param name="minimum">Should minimum be used instead of preferred.</param>
-        public void SetMinimumAsPreferred(bool minimum)
-        {
+        public void SetMinimumAsPreferred(bool minimum) =>
             // Update preferred calculation details
             _minimumAsPreferred = minimum;
-        }
         #endregion
 
         #region Layout
@@ -66,7 +64,7 @@ namespace Krypton.Navigator
         {
             Debug.Assert(context != null);
 
-            Size ret = Size.Empty;
+            var ret = Size.Empty;
 
             // Use the minimum size instead of preferred size?
             if (_minimumAsPreferred)

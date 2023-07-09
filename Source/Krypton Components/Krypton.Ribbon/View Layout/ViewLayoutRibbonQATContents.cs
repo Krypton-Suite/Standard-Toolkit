@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
             }
 
             // If integrated into the caption area then get the caption area height
-            Padding borders = Padding.Empty;
+            var borders = Padding.Empty;
             if (ownerForm is { ApplyComposition: false })
             {
                 borders = ownerForm.RealWindowBorders;
@@ -198,7 +198,7 @@ namespace Krypton.Ribbon
             // Sync to represent the current ribbon QAT buttons
             SyncChildren(false);
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
                 if (child != _extraButton)
                 {
                     // Cast child to correct type
-                    ViewDrawRibbonQATButton view = (ViewDrawRibbonQATButton)child;
+                    var view = (ViewDrawRibbonQATButton)child;
 
                     // If the quick access toolbar button wants to be visible
                     if (view.QATButton.GetVisible() || Ribbon.InDesignHelperMode)
@@ -320,7 +320,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Cast child to correct type
-                            ViewDrawRibbonQATButton view = (ViewDrawRibbonQATButton)child;
+                            var view = (ViewDrawRibbonQATButton)child;
 
                             // If the quick access toolbar button wants to be visible
                             if (view.QATButton.GetVisible() || Ribbon.InDesignHelperMode)
@@ -578,7 +578,7 @@ namespace Krypton.Ribbon
 
         private void OnExtraButtonClick(object sender, EventHandler? finishDelegate)
         {
-            ViewDrawRibbonQATExtraButton button = (ViewDrawRibbonQATExtraButton)sender;
+            var button = (ViewDrawRibbonQATExtraButton)sender;
 
             // Convert the button rectangle to screen coordinates
             Rectangle screenRect = ParentControl.RectangleToScreen(button.ClientRectangle);

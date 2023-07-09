@@ -68,10 +68,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteElementColor inheritElementColor)
-        {
-            _inheritElementColor = inheritElementColor;
-        }
+        public void SetInherit(IPaletteElementColor inheritElementColor) => _inheritElementColor = inheritElementColor;
         #endregion
 
         #region PopulateFromBase

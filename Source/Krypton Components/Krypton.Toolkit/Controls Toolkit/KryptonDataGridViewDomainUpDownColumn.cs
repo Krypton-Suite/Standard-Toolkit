@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewDomainUpDownColumn cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn;
+            var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn;
 
             // Convert collection of strings to an array
             var strings = new string[Items.Count];

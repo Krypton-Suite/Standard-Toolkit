@@ -321,10 +321,7 @@ namespace Krypton.Docking
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
 }

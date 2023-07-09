@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
                         if (IgnoreAltF4)
                         {
                             // Extract the keys being pressed
-                            Keys keys = (Keys)(int)m.WParam.ToInt64();
+                            var keys = (Keys)(int)m.WParam.ToInt64();
 
                             // If the user standard combination ALT + F4
                             if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
                 _panelMainRadio.Controls.Clear();
                 _panelMainRadio.Visible = true;
 
-                Size maxButtonSize = Size.Empty;
+                var maxButtonSize = Size.Empty;
                 foreach (KryptonTaskDialogCommand command in _radioButtons)
                 {
                     // Create and add a new radio button instance
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
                 _panelMainCommands.Controls.Clear();
                 _panelMainCommands.Visible = true;
 
-                Size maxButtonSize = Size.Empty;
+                var maxButtonSize = Size.Empty;
                 foreach (KryptonTaskDialogCommand command in _commandButtons)
                 {
                     // Create and add a new button instance
@@ -635,7 +635,7 @@ namespace Krypton.Toolkit
                 _messageText.UpdateFont();
                 _messageContent.UpdateFont();
                 _messageContentMultiline.Font = _messageContent.Font;
-                Size messageMainSize = g.MeasureString(_mainInstruction, _messageText.Font, 400).ToSize();
+                var messageMainSize = g.MeasureString(_mainInstruction, _messageText.Font, 400).ToSize();
                 messageContentSize = g.MeasureString(_content, _messageContent.Font, 400).ToSize();
 
                 // Get the display size and make sure that the content size is not greater than 0.6 of display size
@@ -712,7 +712,7 @@ namespace Krypton.Toolkit
         private Size UpdateButtonsSizing()
         {
             var numButtons = 0;
-            Size maxButtonSize = Size.Empty;
+            var maxButtonSize = Size.Empty;
 
             // Find the size of the largest button we need
             if ((_commonButtons & TaskDialogButtons.Close) == TaskDialogButtons.Close)
@@ -809,7 +809,7 @@ namespace Krypton.Toolkit
                 right -= maxButtonSize.Width + BUTTON_GAP;
             }
 
-            Size checkboxSize = Size.Empty;
+            var checkboxSize = Size.Empty;
             if (!string.IsNullOrEmpty(_checkboxText))
             {
                 checkboxSize = _checkBox.GetPreferredSize(Size.Empty);
@@ -853,8 +853,8 @@ namespace Krypton.Toolkit
             using Graphics g = CreateGraphics();
             // Find size of the labels when it has a maximum length of 400
             _footerLabel.UpdateFont();
-            Size footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
-            Size footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
+            var footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
+            var footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
 
             // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
             // character it contains, this ensures there is always definitely enough space for it all
@@ -864,7 +864,7 @@ namespace Krypton.Toolkit
             _linkLabelFooter.Size = footerHyperlinkSize;
 
             // Find required size of the footer panel
-            Size requiredSize = Size.Empty;
+            var requiredSize = Size.Empty;
 
             if (!string.IsNullOrEmpty(_footerText))
             {
@@ -926,7 +926,7 @@ namespace Krypton.Toolkit
 
         private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            KryptonRadioButton button = (KryptonRadioButton)sender;
+            var button = (KryptonRadioButton)sender;
             _defaultRadioButton = (KryptonTaskDialogCommand)button.Tag;
             if (_taskDialog != null)
             {
@@ -939,11 +939,11 @@ namespace Krypton.Toolkit
             Close();
 
             // Update the result code from the command button
-            KryptonButton button = (KryptonButton)sender;
+            var button = (KryptonButton)sender;
             DialogResult = button.DialogResult;
 
             // Invoke any event handlers from the command button
-            KryptonTaskDialogCommand command = (KryptonTaskDialogCommand)button.Tag;
+            var command = (KryptonTaskDialogCommand)button.Tag;
             command.PerformExecute();
         }
 

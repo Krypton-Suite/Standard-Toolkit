@@ -138,12 +138,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Tab for which view element is needed.</param>
         /// <returns>View element for tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab)
-        {
-            return ribbonTab == null 
-                ? null 
+        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab) => ribbonTab == null
+                ? null
                 : _tabCache.FirstOrDefault(viewTab => viewTab.RibbonTab == ribbonTab);
-        }
 
         /// <summary>
         /// Gets the view element for drawing the first visible ribbon tab.
@@ -349,7 +346,7 @@ namespace Krypton.Ribbon
             // Sync child elements to represent the current ribbon tabs collection setup
             SyncChildrenToRibbonTabs();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Reset cached variables
             _cachedSizes = new Size[Count];
@@ -496,7 +493,7 @@ namespace Krypton.Ribbon
             }
 
             // Fill remainder space with the tabs spare element
-            Rectangle customCaptionRect = Rectangle.Empty;
+            var customCaptionRect = Rectangle.Empty;
             if (GetViewForSpare != null)
             {
                 GetViewForSpare.Visible = false;

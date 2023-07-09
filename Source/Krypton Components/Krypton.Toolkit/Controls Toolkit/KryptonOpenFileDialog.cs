@@ -182,10 +182,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Resets all properties to their default values.</summary>
-        public override void Reset()
-        {
-            _internalOpenFileDialog.Reset();
-        }
+        public override void Reset() => _internalOpenFileDialog.Reset();
 
         /// <inheritdoc />
         public override string ToString() => _internalOpenFileDialog.ToString();
@@ -206,10 +203,7 @@ namespace Krypton.Toolkit
         public string[] SafeFileNames => _internalOpenFileDialog.SafeFileNames;
 
         /// <inheritdoc />
-        public void Dispose()
-        {
-            _internalOpenFileDialog.Dispose();
-        }
+        public void Dispose() => _internalOpenFileDialog.Dispose();
 
     }
 }

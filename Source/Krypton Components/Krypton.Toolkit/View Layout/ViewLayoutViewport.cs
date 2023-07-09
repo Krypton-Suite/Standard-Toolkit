@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private readonly System.Windows.Forms.Timer _animationTimer;
-        private IPaletteMetric? _paletteMetrics;
+        private IPaletteMetric _paletteMetrics;
         private PaletteMetricPadding _metricPadding;
         private PaletteMetricInt _metricOvers;
         private RightToLeft _rightToLeft;
@@ -117,10 +117,7 @@ namespace Krypton.Toolkit
         /// Updates the metrics source and metric to use.
         /// </summary>
         /// <param name="paletteMetric">Source for aquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric paletteMetric)
-        {
-            _paletteMetrics = paletteMetric;
-        }
+        public void SetMetrics(IPaletteMetric paletteMetric) => _paletteMetrics = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.
@@ -542,7 +539,7 @@ namespace Krypton.Toolkit
                 childOffsetY = CalculateAlignedOffset(AlignmentRTL, positionRectangle.Y, positionRectangle.Height, _offset.Y, _extent.Height, _limit.Y);
             }
 
-            var childOffset = new Point(childOffsetX, childOffsetY);
+            Point childOffset = new Point(childOffsetX, childOffsetY);
 
             // Ask each child to layout in turn
             foreach (ViewBase child in this)
@@ -554,7 +551,7 @@ namespace Krypton.Toolkit
                     context.DisplayRectangle = positionRectangle;
 
                     // Ask the child how much space they would like
-                    var childSize = child.GetPreferredSize(context);
+                    Size childSize = child.GetPreferredSize(context);
 
                     // Do we need to fill any remainder space?
                     if (FillSpace)
@@ -605,7 +602,7 @@ namespace Krypton.Toolkit
             }
 
             // New clipping region is at most our own client size
-            using var combineRegion = new Region(clipRectangle);
+            using Region combineRegion = new Region(clipRectangle);
             // Remember the current clipping region
             Region clipRegion = context.Graphics.Clip.Clone();
 

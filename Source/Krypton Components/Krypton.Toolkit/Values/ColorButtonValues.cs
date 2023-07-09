@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private Image _image;
         private Image _sourceImage;
-        private Image? _compositeImage;
+        private Image _compositeImage;
         private Color _transparent;
         private string? _text;
         private string _extraText;
@@ -111,10 +111,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Image property to its default value.
         /// </summary>
-        public void ResetImage()
-        {
-            Image = _defaultImage;
-        }
+        public void ResetImage() => Image = _defaultImage;
         #endregion
 
         #region ImageTransparentColor
@@ -145,10 +142,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor()
-        {
-            ImageTransparentColor = Color.Empty;
-        }
+        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -202,10 +196,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public void ResetText()
-        {
-            Text = _defaultText;
-        }
+        public void ResetText() => Text = _defaultText;
         #endregion
 
         #region ExtraText
@@ -237,10 +228,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Description property to its default value.
         /// </summary>
-        public void ResetExtraText()
-        {
-            ExtraText = _defaultExtraText;
-        }
+        public void ResetExtraText() => ExtraText = _defaultExtraText;
         #endregion
 
         #region SelectedColor
@@ -312,10 +300,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Description property to its default value.
         /// </summary>
-        public void ResetRoundedCorners()
-        {
-            RoundedCorners = 0;
-        }
+        public void ResetRoundedCorners() => RoundedCorners = 0;
 
         #endregion
 
@@ -364,7 +349,7 @@ namespace Krypton.Toolkit
                     // Create a copy of the source image
                     Size selectedRectSize = _selectedRect.Size;
                     Size imageSize = image.Size;
-                    var copyBitmap = new Bitmap(image, Math.Max(selectedRectSize.Width, imageSize.Width),
+                    Bitmap copyBitmap = new Bitmap(image, Math.Max(selectedRectSize.Width, imageSize.Width),
                         Math.Max(selectedRectSize.Height, imageSize.Height));
 
                     // Paint over the image with a color indicator
@@ -377,13 +362,13 @@ namespace Krypton.Toolkit
                             // Indicate the absence of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using var borderPen = new Pen(_emptyBorderColor);
+                            using Pen borderPen = new Pen(_emptyBorderColor);
                             DrawRoundedRectangle(g, borderPen, _selectedRect, _roundedCorners);
                         }
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using var colorBrush = new SolidBrush(_selectedColor);
+                            using SolidBrush colorBrush = new SolidBrush(_selectedColor);
                             FillRoundedRectangle(g, colorBrush, _selectedRect, _roundedCorners);
                         }
                     }

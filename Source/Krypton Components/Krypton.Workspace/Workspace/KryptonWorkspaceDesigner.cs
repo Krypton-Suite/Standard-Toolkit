@@ -108,28 +108,19 @@ namespace Krypton.Workspace
         /// Called when a drag-and-drop operation enters the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragEnter(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragEnter(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dragged over the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragOver(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragOver(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dropped onto the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragDrop(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragDrop(DragEventArgs de) => de.Effect = DragDropEffects.None;
         #endregion
 
         #region Implementation
@@ -143,18 +134,18 @@ namespace Krypton.Workspace
                 _workspace.SuspendLayout();
 
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all children from the workspace
                 for (var i = _workspace.Root.Children.Count - 1; i >= 0; i--)
                 {
-                    Component comp = _workspace.Root.Children[i] as Component;
+                    var comp = _workspace.Root.Children[i] as Component;
 
                     // If the component is a control...
                     if (comp is Control control)
                     {
                         // We need to manually remove it from the workspace controls collection
-                        KryptonReadOnlyControls readOnlyControls = (KryptonReadOnlyControls)_workspace.Controls;
+                        var readOnlyControls = (KryptonReadOnlyControls)_workspace.Controls;
                         readOnlyControls.RemoveInternal(control);
                     }
 

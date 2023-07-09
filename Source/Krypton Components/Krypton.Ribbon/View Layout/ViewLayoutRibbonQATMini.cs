@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
             if (_extraButton is {Overflow : true })
             {
                 // If integrated into the caption area then get the caption area height
-                Padding borders = Padding.Empty;
+                var borders = Padding.Empty;
                 if (OwnerForm is { ApplyComposition: false })
                 {
                     borders = OwnerForm.RealWindowBorders;
@@ -281,7 +281,7 @@ namespace Krypton.Ribbon
 
         private void OnExtraButtonClick(object sender, EventHandler? finishDelegate)
         {
-            ViewDrawRibbonQATExtraButton button = (ViewDrawRibbonQATExtraButton)sender;
+            var button = (ViewDrawRibbonQATExtraButton)sender;
 
             // Convert the button rectangle to screen coordinates
             Rectangle screenRect = _ribbon.RectangleToScreen(button.ClientRectangle);

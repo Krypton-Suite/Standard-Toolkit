@@ -77,10 +77,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripText property to its default value.
         /// </summary>
-        public void ResetMenuStripText()
-        {
-            MenuStripText = Color.Empty;
-        }
+        public void ResetMenuStripText() => MenuStripText = Color.Empty;
         #endregion
 
         #region MenuStripFont
@@ -105,10 +102,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripFont property to its default value.
         /// </summary>
-        public void ResetMenuStripFont()
-        {
-            MenuStripFont = null;
-        }
+        public void ResetMenuStripFont() => MenuStripFont = null;
         #endregion
 
         #region MenuStripGradientBegin
@@ -133,10 +127,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientBegin()
-        {
-            MenuStripGradientBegin = Color.Empty;
-        }
+        public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = Color.Empty;
         #endregion
 
         #region MenuStripGradientEnd
@@ -161,10 +152,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientEnd()
-        {
-            MenuStripGradientEnd = Color.Empty;
-        }
+        public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = Color.Empty;
         #endregion
     }
 }

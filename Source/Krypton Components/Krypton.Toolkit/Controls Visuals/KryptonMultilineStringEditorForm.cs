@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         {
             if (_useRichTextBox)
             {
-                foreach (string line in krtbContents.Lines)
+                foreach (var line in krtbContents.Lines)
                 {
                     // TODO: This is not right.. It will only have the last line it !
                     Contents = new string[]
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                foreach (string line in ktxtStringCollection.Lines)
+                foreach (var line in ktxtStringCollection.Lines)
                 {
                     // TODO: This is not right.. It will only have the last line it !
                     Contents = new string[]

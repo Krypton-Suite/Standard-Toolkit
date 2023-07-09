@@ -95,10 +95,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePanelBackStyle() => PanelBackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetPanelBackStyle()
-        {
-            PanelBackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetPanelBackStyle() => PanelBackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets access to the common panel appearance that other states can override.
@@ -134,11 +131,9 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             ViewDrawPanel.FixedState = state;
-        }
         #endregion
 
         #region Protected

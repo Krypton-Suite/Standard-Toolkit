@@ -215,10 +215,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeContainerBackStyle() => ContainerBackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetContainerBackStyle()
-        {
-            ContainerBackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetContainerBackStyle() => ContainerBackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets and sets the separator style.
@@ -243,10 +240,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeSeparatorStyle() => SeparatorStyle != SeparatorStyle.LowProfile;
 
-        private void ResetSeparatorStyle()
-        {
-            SeparatorStyle = SeparatorStyle.LowProfile;
-        }
+        private void ResetSeparatorStyle() => SeparatorStyle = SeparatorStyle.LowProfile;
 
         /// <summary>
         /// Gets access to the common split container appearance that other states can override.
@@ -1169,7 +1163,7 @@ namespace Krypton.Toolkit
         /// <param name="levent">A LayoutEventArgs that contains the event data.</param>
         protected override void OnLayout(LayoutEventArgs levent)
         {
-            Rectangle separatorRect = Rectangle.Empty;
+            var separatorRect = Rectangle.Empty;
 
             // Only use layout logic if control is fully initialized or if being forced
             // to allow a relayout or if in design mode.

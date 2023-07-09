@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewMaskedTextBoxColumn cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn;
 
             return cloned;
         }

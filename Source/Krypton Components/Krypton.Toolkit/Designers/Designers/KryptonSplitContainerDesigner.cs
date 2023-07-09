@@ -126,8 +126,9 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new DesignerActionListCollection
                 {
+
                     // Add the orientation list
                     new KryptonSplitContainerActionList(this)
                 };
@@ -142,11 +143,9 @@ namespace Krypton.Toolkit
         /// Raises the DragEnter event.
         /// </summary>
         /// <param name="de">A DragEventArgs that contains the event data.</param>
-        protected override void OnDragEnter(DragEventArgs de)
-        {
+        protected override void OnDragEnter(DragEventArgs de) =>
             // Prevent user dragging a toolbox control onto the control
             de.Effect = DragDropEffects.None;
-        }
         #endregion
     }
 }

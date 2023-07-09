@@ -576,10 +576,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
-        private void ResetButtonStyle()
-        {
-            ButtonStyle = ButtonStyle.Standalone;
-        }
+        private void ResetButtonStyle() => ButtonStyle = ButtonStyle.Standalone;
 
         /// <summary>
         /// Gets access to the color button content.
@@ -1197,7 +1194,7 @@ namespace Krypton.Toolkit
             OnDropDown(cpma);
 
             // If we still want to show a context menu
-            if (cpma is { Cancel: false, KryptonContextMenu: { } })
+            if (cpma is { Cancel: false, KryptonContextMenu: not null })
             {
                 // Convert the client rect to screen coords
                 Rectangle screenRect = RectangleToScreen(ClientRectangle);
@@ -1246,35 +1243,29 @@ namespace Krypton.Toolkit
             return showingContextMenu;
         }
 
-        private KryptonContextMenuPositionH GetPositionH()
+        private KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
         {
-            return DropDownOrientation switch
-            {
-                //VisualOrientation.Bottom => KryptonContextMenuPositionH.Left,
-                //VisualOrientation.Top => KryptonContextMenuPositionH.Left,
-                VisualOrientation.Left => KryptonContextMenuPositionH.Before,
-                VisualOrientation.Right => KryptonContextMenuPositionH.After,
-                _ => KryptonContextMenuPositionH.Left
-            };
-        }
+            //VisualOrientation.Bottom => KryptonContextMenuPositionH.Left,
+            //VisualOrientation.Top => KryptonContextMenuPositionH.Left,
+            VisualOrientation.Left => KryptonContextMenuPositionH.Before,
+            VisualOrientation.Right => KryptonContextMenuPositionH.After,
+            _ => KryptonContextMenuPositionH.Left
+        };
 
-        private KryptonContextMenuPositionV GetPositionV()
+        private KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
         {
-            return DropDownOrientation switch
-            {
-                //VisualOrientation.Bottom => KryptonContextMenuPositionV.Below,
-                VisualOrientation.Top => KryptonContextMenuPositionV.Above,
-                VisualOrientation.Left => KryptonContextMenuPositionV.Top,
-                VisualOrientation.Right => KryptonContextMenuPositionV.Top,
-                _ => KryptonContextMenuPositionV.Below
-            };
-        }
+            //VisualOrientation.Bottom => KryptonContextMenuPositionV.Below,
+            VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+            VisualOrientation.Left => KryptonContextMenuPositionV.Top,
+            VisualOrientation.Right => KryptonContextMenuPositionV.Top,
+            _ => KryptonContextMenuPositionV.Below
+        };
 
         private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
 
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
             ContextMenuClosed();
 

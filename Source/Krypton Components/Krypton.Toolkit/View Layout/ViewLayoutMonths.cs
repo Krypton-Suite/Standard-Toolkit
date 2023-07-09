@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            ViewDrawMonth target = (ViewDrawMonth)this[ptCol + (ptRow * cols) + 1];
+            var target = (ViewDrawMonth)this[ptCol + (ptRow * cols) + 1];
             return target.ViewDrawMonthDays.DayNearPoint(pt);
         }
 
@@ -511,7 +511,7 @@ namespace Krypton.Toolkit
             SyncData(context);
             SyncMonths();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Is there a today header to be measured?
             if (_drawHeader.Visible)
@@ -801,7 +801,7 @@ namespace Krypton.Toolkit
                     IContentValues? sourceContent = null;
                     var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = ButtonManager.ButtonSpecFromView(e.Target);
@@ -854,7 +854,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

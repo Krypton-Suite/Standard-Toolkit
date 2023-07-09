@@ -168,12 +168,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the dragging rect to prevent any dragging starting.
         /// </summary>
-        public void ClearDragRect()
-        {
-            _dragRect = Rectangle.Empty;
-        }
+        public void ClearDragRect() => _dragRect = Rectangle.Empty;
         #endregion
-        
+
         #region ClickOnDown
         /// <summary>
         /// Gets and sets if the press down should cause the click.

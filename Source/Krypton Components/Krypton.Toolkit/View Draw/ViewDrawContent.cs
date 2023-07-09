@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            Rectangle imageRect = Rectangle.Empty;
+            var imageRect = Rectangle.Empty;
 
             // If we have some content to investigate
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            Rectangle textRect = Rectangle.Empty;
+            var textRect = Rectangle.Empty;
 
             // If we have some content to investigate
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            Rectangle textRect = Rectangle.Empty;
+            var textRect = Rectangle.Empty;
 
             // If we have some content to investigate
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
@@ -317,7 +317,7 @@ namespace Krypton.Toolkit
             }
 
             // By default we take up no space at all
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // If we have some content to encompass
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)

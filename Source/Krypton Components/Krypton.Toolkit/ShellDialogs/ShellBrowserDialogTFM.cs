@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             _internalOpenFileDialog.CheckPathExists = true;
             _internalOpenFileDialog.FileName = "Folder Selection.";
             var options = _ofd.GetField(@"options", BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-            int value = (int)options.GetValue(_internalOpenFileDialog);
+            var value = (int)options.GetValue(_internalOpenFileDialog);
             options.SetValue(_internalOpenFileDialog, value | (int)(FOS_.FORCEFILESYSTEM | FOS_.PICKFOLDERS));
 
             return _internalOpenFileDialog.ShowDialog(owner);
@@ -107,18 +107,12 @@ namespace Krypton.Toolkit
         }
 
         /// <inheritdoc />
-        public override void Reset()
-        {
-            _internalOpenFileDialog.Reset();
-        }
+        public override void Reset() => _internalOpenFileDialog.Reset();
 
         /// <inheritdoc />
         public override string ToString() => _internalOpenFileDialog.ToString();
 
         /// <inheritdoc />
-        public void Dispose()
-        {
-            _internalOpenFileDialog.Dispose();
-        }
+        public void Dispose() => _internalOpenFileDialog.Dispose();
     }
 }

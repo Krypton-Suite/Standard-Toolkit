@@ -51,27 +51,19 @@ namespace Krypton.Docking
         /// Raises the CellPageInserting event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing the event data.</param>
-        protected virtual void OnCellPageInserting(KryptonPageEventArgs e)
-        {
-            CellPageInserting?.Invoke(this, e);
-        }
+        protected virtual void OnCellPageInserting(KryptonPageEventArgs e) => CellPageInserting?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageDropDownClicked event.
         /// </summary>
         /// <param name="e">An CancelDropDownEventArgs containing the event data.</param>
-        protected virtual void OnPageDropDownClicked(CancelDropDownEventArgs e)
-        {
-            PageDropDownClicked?.Invoke(this, e);
-        }
+        protected virtual void OnPageDropDownClicked(CancelDropDownEventArgs e) => PageDropDownClicked?.Invoke(this, e);
         #endregion
 
         #region Private
-        private void OnPagesInserting(object sender, TypedCollectionEventArgs<KryptonPage> e)
-        {
+        private void OnPagesInserting(object sender, TypedCollectionEventArgs<KryptonPage> e) =>
             // Generate event so the docking element can decide on extra actions to be taken
             OnCellPageInserting(new KryptonPageEventArgs(e.Item, e.Index));
-        }
 
         private void OnShowContextMenu(object sender, ShowContextMenuArgs e)
         {

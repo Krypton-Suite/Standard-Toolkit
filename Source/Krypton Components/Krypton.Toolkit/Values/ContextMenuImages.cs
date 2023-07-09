@@ -77,10 +77,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Checked property to its default value.
         /// </summary>
-        public void ResetChecked()
-        {
-            Checked = null;
-        }
+        public void ResetChecked() => Checked = null;
         #endregion
 
         #region Indeterminate
@@ -109,10 +106,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Indeterminate property to its default value.
         /// </summary>
-        public void ResetIndeterminate()
-        {
-            Indeterminate = null;
-        }
+        public void ResetIndeterminate() => Indeterminate = null;
         #endregion
 
         #region SubMenu
@@ -141,10 +135,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SubMenu property to its default value.
         /// </summary>
-        public void ResetSubMenu()
-        {
-            SubMenu = null;
-        }
+        public void ResetSubMenu() => SubMenu = null;
         #endregion
     }
 }

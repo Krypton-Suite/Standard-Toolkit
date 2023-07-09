@@ -59,10 +59,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteRibbonDoubleInheritOverride inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(PaletteRibbonDoubleInheritOverride inherit) => _inherit = inherit;
         #endregion
 
         #region BackColorStyle

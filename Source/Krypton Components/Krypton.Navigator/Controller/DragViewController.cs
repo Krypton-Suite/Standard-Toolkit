@@ -395,19 +395,13 @@ namespace Krypton.Navigator
         /// Raises the RightMouseDown event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightMouseDown(EventArgs e)
-        {
-            RightMouseDown?.Invoke(this, e);
-        }
+        protected virtual void OnRightMouseDown(EventArgs e) => RightMouseDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LeftDoubleClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLeftDoubleClick(EventArgs e)
-        {
-            LeftDoubleClick?.Invoke(this, e);
-        }
+        protected virtual void OnLeftDoubleClick(EventArgs e) => LeftDoubleClick?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DragStart event.

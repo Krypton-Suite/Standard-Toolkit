@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
                 // Determine the screen position of the key tip
-                Point screenPt = Point.Empty;
+                var screenPt = Point.Empty;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)
@@ -252,18 +252,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            _currentSize = size;
-        }
+        public void SetGroupItemSize(GroupItemSize size) => _currentSize = size;
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            _currentSize = GroupComboBox.ItemSizeCurrent;
-        }
+        public void ResetGroupItemSize() => _currentSize = GroupComboBox.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -271,7 +265,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
             UpdateParent(context.Control);
@@ -358,10 +352,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -383,10 +374,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupComboBox.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupComboBox.OnDesignTimeContextMenu(e);
 
         private void OnComboBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -554,8 +542,7 @@ namespace Krypton.Ribbon
                     else
                     {
                         // Check the owning group is visible
-                        if ((GroupComboBox.RibbonContainer?.RibbonGroup != null) 
-                            && !GroupComboBox.RibbonContainer.RibbonGroup.Visible 
+                        if (GroupComboBox.RibbonContainer?.RibbonGroup is { Visible: false } 
                             && !_ribbon.InDesignMode
                             )
                         {

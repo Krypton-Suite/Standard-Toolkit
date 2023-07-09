@@ -586,10 +586,7 @@ namespace Krypton.Toolkit
         /// Next time a layout occurs the min/max/close buttons need recreating.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RecreateMinMaxCloseButtons()
-        {
-            _recreateButtons = true;
-        }
+        public void RecreateMinMaxCloseButtons() => _recreateButtons = true;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -844,23 +841,20 @@ namespace Krypton.Toolkit
                 : base(palette) =>
                 _kryptonForm = kryptonForm;
 
-            public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
+            public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
             {
-                return style switch
-                {
-                    PaletteContentStyle.HeaderForm
-                        or PaletteContentStyle.HeaderPrimary
-                        or PaletteContentStyle.HeaderDockInactive
-                        or PaletteContentStyle.HeaderDockActive
-                        or PaletteContentStyle.HeaderSecondary
-                        or PaletteContentStyle.HeaderCustom1
-                        or PaletteContentStyle.HeaderCustom2
-                        or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
-                            ? _kryptonForm._formTitleAlign
-                            : base.GetContentShortTextH(style, state),
-                    _ => base.GetContentShortTextH(style, state)
-                };
-            }
+                PaletteContentStyle.HeaderForm
+                    or PaletteContentStyle.HeaderPrimary
+                    or PaletteContentStyle.HeaderDockInactive
+                    or PaletteContentStyle.HeaderDockActive
+                    or PaletteContentStyle.HeaderSecondary
+                    or PaletteContentStyle.HeaderCustom1
+                    or PaletteContentStyle.HeaderCustom2
+                    or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                        ? _kryptonForm._formTitleAlign
+                        : base.GetContentShortTextH(style, state),
+                _ => base.GetContentShortTextH(style, state)
+            };
         }
 
         /// <summary>
@@ -1235,7 +1229,7 @@ namespace Krypton.Toolkit
             var ret = base.WindowChromeLeftMouseDown(windowPoint);
 
             // Has pressing down made a view active and indicated it also wants to capture mouse?
-            if (ViewManager is { ActiveView: { }, MouseCaptured: true })
+            if (ViewManager is { ActiveView: not null, MouseCaptured: true })
             {
                 StartCapture(ViewManager.ActiveView);
                 ret = true;
@@ -1595,8 +1589,8 @@ namespace Krypton.Toolkit
                 if (!DesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    bool shadow = true;
+                    var toolTipStyle = LabelStyle.ToolTip;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
@@ -1650,7 +1644,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

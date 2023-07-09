@@ -124,7 +124,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             switch (action)
             {
@@ -145,6 +145,7 @@ namespace Krypton.Docking
                         */
                     }
                     break;
+
                 case DockingPropogateAction.EndUpdate:
                     // Only final matching 'EndUpdate' needs to reverse start action
                     if ((_updateCount > 0)
@@ -159,15 +160,15 @@ namespace Krypton.Docking
                         //_obscure.Visible = false;
                     }
                     break;
+
                 case DockingPropogateAction.ShowPages:
                 case DockingPropogateAction.ShowAllPages:
                     // Let base class perform actual requested actions
                     base.PropogateAction(action, uniqueNames);
-
                     // Ensure that showing extra pages does not trespass on the inner minimum
                     EnforceInnerMinimum();
-
                     break;
+
                 default:
                     // Let base class perform actual requested actions
                     base.PropogateAction(action, uniqueNames);
@@ -226,7 +227,7 @@ namespace Krypton.Docking
                         case null:
                             {
                                 // Find the inner rectangle after taking docked controls into account 
-                                Size tl = Size.Empty;
+                                var tl = Size.Empty;
                                 Size br = Control.ClientSize;
                                 foreach (Control c in Control.Controls.Cast<Control>().Where(static c => c.Visible))
                                 {
@@ -450,7 +451,7 @@ namespace Krypton.Docking
                     KryptonDockspace dockspace = controls[i];
 
                     // Find how much we can subtract from the dockspace without violating the minimum size
-                    int dockDelta = orientation == Orientation.Horizontal
+                    var dockDelta = orientation == Orientation.Horizontal
                         ? dockspace.Width - Math.Max(dockspace.MinimumSize.Width, dockspace.Width - delta)
                         : dockspace.Height - Math.Max(dockspace.MinimumSize.Height, dockspace.Height - delta);
 

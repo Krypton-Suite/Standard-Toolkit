@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private IPaletteBack? _inherit;
+        private IPaletteBack _inherit;
         private InternalStorage? _storage;
         #endregion
 
@@ -85,8 +85,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBack(IPaletteBack? inherit,
-                           NeedPaintHandler? needPaint)
+        public PaletteBack(IPaletteBack inherit,
+                           NeedPaintHandler needPaint)
         {
             // Remember inheritance
             _inherit = inherit;
@@ -109,10 +109,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteBack inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(IPaletteBack inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase

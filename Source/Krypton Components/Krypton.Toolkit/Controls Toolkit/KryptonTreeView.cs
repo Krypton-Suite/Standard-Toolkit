@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
                 var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
-                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
                 // No point drawing when one of the dimensions is zero
                 if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                    var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Replace given DC with the screen DC for base window proc drawing
-                                IntPtr beforeDC = m.WParam;
+                                var beforeDC = m.WParam;
                                 m.WParam = _screenDC;
                                 DefWndProc(ref m);
                                 m.WParam = beforeDC;
@@ -566,7 +566,7 @@ namespace Krypton.Toolkit
 
             // Create the check box image drawer and place inside element so it is always centered
             _drawCheckBox = new ViewDrawCheckBox(_redirectImages);
-            ViewLayoutCenter layoutCheckBox = new ViewLayoutCenter
+            var layoutCheckBox = new ViewLayoutCenter
             {
                 _drawCheckBox
             };
@@ -1895,7 +1895,7 @@ namespace Krypton.Toolkit
                 UpdateContentFromNode(null);
 
                 // Ask the view element to layout in given space, needs this before a render call
-                using ViewLayoutContext context = new ViewLayoutContext(this, Renderer);
+                using var context = new ViewLayoutContext(this, Renderer);
                 // For calculating the item height we always assume normal state
                 _drawButton.ElementState = PaletteState.Normal;
 
@@ -2021,7 +2021,7 @@ namespace Krypton.Toolkit
                 _layoutImageStack.Visible = false;
             }
 
-            KryptonTreeNode kryptonNode = e.Node as KryptonTreeNode;
+            var kryptonNode = e.Node as KryptonTreeNode;
 
             // Work out if we need to draw a state image
             Image drawStateImage = null;
@@ -2110,7 +2110,7 @@ namespace Krypton.Toolkit
             _drawButton.ElementState = buttonState;
 
             // Grab the raw device context for the graphics instance
-            IntPtr hdc = e.Graphics.GetHdc();
+            var hdc = e.Graphics.GetHdc();
 
             try
             {
@@ -2124,7 +2124,7 @@ namespace Krypton.Toolkit
                 bounds.Width -= nodeIndent;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
+                var hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
 
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)

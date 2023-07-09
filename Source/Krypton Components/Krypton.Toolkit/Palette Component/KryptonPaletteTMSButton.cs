@@ -115,10 +115,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedGradientBegin property to its default value.
         /// </summary>
-        public void ResetButtonCheckedGradientBegin()
-        {
-            ButtonCheckedGradientBegin = Color.Empty;
-        }
+        public void ResetButtonCheckedGradientBegin() => ButtonCheckedGradientBegin = Color.Empty;
         #endregion
 
         #region ButtonCheckedGradientEnd
@@ -143,10 +140,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedGradientEnd property to its default value.
         /// </summary>
-        public void ResetButtonCheckedGradientEnd()
-        {
-            ButtonCheckedGradientEnd = Color.Empty;
-        }
+        public void ResetButtonCheckedGradientEnd() => ButtonCheckedGradientEnd = Color.Empty;
         #endregion
 
         #region ButtonCheckedGradientMiddle
@@ -171,10 +165,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetButtonCheckedGradientMiddle()
-        {
-            ButtonCheckedGradientMiddle = Color.Empty;
-        }
+        public void ResetButtonCheckedGradientMiddle() => ButtonCheckedGradientMiddle = Color.Empty;
         #endregion
 
         #region ButtonCheckedHighlight
@@ -199,10 +190,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedHighlight property to its default value.
         /// </summary>
-        public void ResetButtonCheckedHighlight()
-        {
-            ButtonCheckedHighlight = Color.Empty;
-        }
+        public void ResetButtonCheckedHighlight() => ButtonCheckedHighlight = Color.Empty;
         #endregion
 
         #region ButtonCheckedHighlightBorder
@@ -227,10 +215,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedHighlightBorder property to its default value.
         /// </summary>
-        public void ResetButtonCheckedHighlightBorder()
-        {
-            ButtonCheckedHighlightBorder = Color.Empty;
-        }
+        public void ResetButtonCheckedHighlightBorder() => ButtonCheckedHighlightBorder = Color.Empty;
         #endregion
 
         #region ButtonPressedBorder
@@ -255,10 +240,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedBorder property to its default value.
         /// </summary>
-        public void ResetButtonPressedBorder()
-        {
-            ButtonPressedBorder = Color.Empty;
-        }
+        public void ResetButtonPressedBorder() => ButtonPressedBorder = Color.Empty;
         #endregion
 
         #region ButtonPressedGradientBegin
@@ -283,10 +265,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedGradientBegin property to its default value.
         /// </summary>
-        public void ResetButtonPressedGradientBegin()
-        {
-            ButtonPressedGradientBegin = Color.Empty;
-        }
+        public void ResetButtonPressedGradientBegin() => ButtonPressedGradientBegin = Color.Empty;
         #endregion
 
         #region ButtonPressedGradientEnd
@@ -311,10 +290,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedGradientEnd property to its default value.
         /// </summary>
-        public void ResetButtonPressedGradientEnd()
-        {
-            ButtonPressedGradientEnd = Color.Empty;
-        }
+        public void ResetButtonPressedGradientEnd() => ButtonPressedGradientEnd = Color.Empty;
         #endregion
 
         #region ButtonPressedGradientMiddle
@@ -339,10 +315,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetButtonPressedGradientMiddle()
-        {
-            ButtonPressedGradientMiddle = Color.Empty;
-        }
+        public void ResetButtonPressedGradientMiddle() => ButtonPressedGradientMiddle = Color.Empty;
         #endregion
 
         #region ButtonPressedHighlight
@@ -367,10 +340,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedHighlight property to its default value.
         /// </summary>
-        public void ResetButtonPressedHighlight()
-        {
-            ButtonPressedHighlight = Color.Empty;
-        }
+        public void ResetButtonPressedHighlight() => ButtonPressedHighlight = Color.Empty;
         #endregion
 
         #region ButtonPressedHighlightBorder
@@ -395,10 +365,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedHighlightBorder property to its default value.
         /// </summary>
-        public void ResetButtonPressedHighlightBorder()
-        {
-            ButtonPressedHighlightBorder = Color.Empty;
-        }
+        public void ResetButtonPressedHighlightBorder() => ButtonPressedHighlightBorder = Color.Empty;
         #endregion
 
         #region ButtonSelectedBorder
@@ -423,10 +390,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedBorder property to its default value.
         /// </summary>
-        public void ResetButtonSelectedBorder()
-        {
-            ButtonSelectedBorder = Color.Empty;
-        }
+        public void ResetButtonSelectedBorder() => ButtonSelectedBorder = Color.Empty;
         #endregion
 
         #region ButtonSelectedGradientBegin
@@ -451,10 +415,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedGradientBegin property to its default value.
         /// </summary>
-        public void ResetButtonSelectedGradientBegin()
-        {
-            ButtonSelectedGradientBegin = Color.Empty;
-        }
+        public void ResetButtonSelectedGradientBegin() => ButtonSelectedGradientBegin = Color.Empty;
         #endregion
 
         #region ButtonSelectedGradientEnd
@@ -479,10 +440,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedGradientEnd property to its default value.
         /// </summary>
-        public void ResetButtonSelectedGradientEnd()
-        {
-            ButtonSelectedGradientEnd = Color.Empty;
-        }
+        public void ResetButtonSelectedGradientEnd() => ButtonSelectedGradientEnd = Color.Empty;
         #endregion
 
         #region ButtonSelectedGradientMiddle
@@ -507,10 +465,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetButtonSelectedGradientMiddle()
-        {
-            ButtonSelectedGradientMiddle = Color.Empty;
-        }
+        public void ResetButtonSelectedGradientMiddle() => ButtonSelectedGradientMiddle = Color.Empty;
         #endregion
 
         #region ButtonSelectedHighlight
@@ -535,10 +490,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedHighlight property to its default value.
         /// </summary>
-        public void ResetButtonSelectedHighlight()
-        {
-            ButtonSelectedHighlight = Color.Empty;
-        }
+        public void ResetButtonSelectedHighlight() => ButtonSelectedHighlight = Color.Empty;
         #endregion
 
         #region ButtonSelectedHighlightBorder
@@ -563,10 +515,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedHighlightBorder property to its default value.
         /// </summary>
-        public void ResetButtonSelectedHighlightBorder()
-        {
-            ButtonSelectedHighlightBorder = Color.Empty;
-        }
+        public void ResetButtonSelectedHighlightBorder() => ButtonSelectedHighlightBorder = Color.Empty;
         #endregion
 
         #region CheckBackground
@@ -591,10 +540,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the CheckBackground property to its default value.
         /// </summary>
-        public void ResetCheckBackground()
-        {
-            CheckBackground = Color.Empty;
-        }
+        public void ResetCheckBackground() => CheckBackground = Color.Empty;
         #endregion
 
         #region CheckPressedBackground
@@ -619,10 +565,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the CheckPressedBackground property to its default value.
         /// </summary>
-        public void ResetCheckPressedBackground()
-        {
-            CheckPressedBackground = Color.Empty;
-        }
+        public void ResetCheckPressedBackground() => CheckPressedBackground = Color.Empty;
         #endregion
 
         #region CheckSelectedBackground
@@ -647,10 +590,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the CheckSelectedBackground property to its default value.
         /// </summary>
-        public void ResetCheckSelectedBackground()
-        {
-            CheckSelectedBackground = Color.Empty;
-        }
+        public void ResetCheckSelectedBackground() => CheckSelectedBackground = Color.Empty;
         #endregion
 
         #region OverflowButtonGradientBegin
@@ -675,10 +615,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the OverflowButtonGradientBegin property to its default value.
         /// </summary>
-        public void ResetOverflowButtonGradientBegin()
-        {
-            OverflowButtonGradientBegin = Color.Empty;
-        }
+        public void ResetOverflowButtonGradientBegin() => OverflowButtonGradientBegin = Color.Empty;
         #endregion
 
         #region OverflowButtonGradientEnd
@@ -703,10 +640,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the OverflowButtonGradientEnd property to its default value.
         /// </summary>
-        public void ResetOverflowButtonGradientEnd()
-        {
-            OverflowButtonGradientEnd = Color.Empty;
-        }
+        public void ResetOverflowButtonGradientEnd() => OverflowButtonGradientEnd = Color.Empty;
         #endregion
 
         #region OverflowButtonGradientMiddle
@@ -731,10 +665,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the OverflowButtonGradientMiddle property to its default value.
         /// </summary>
-        public void ResetOverflowButtonGradientMiddle()
-        {
-            OverflowButtonGradientMiddle = Color.Empty;
-        }
+        public void ResetOverflowButtonGradientMiddle() => OverflowButtonGradientMiddle = Color.Empty;
         #endregion
     }
 }

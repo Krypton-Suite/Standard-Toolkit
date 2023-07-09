@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
         {
             // This does mean that the app will not change it's dpi awareness until restarted !
             // Do not use the control dpi, as these values are being used to target the screen
-            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
+            var screenDc = PI.GetDC(IntPtr.Zero);
             if (screenDc != IntPtr.Zero)
             {
                 _factorDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;
@@ -767,11 +767,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Clear down the use of the fixed state
         /// </summary>
-        public virtual void ClearFixedState()
-        {
+        public virtual void ClearFixedState() =>
             // Clear down the fixed state
             _fixed = false;
-        }
 
         /// <summary>
         /// Gets a value indicating if view is using a fixed state.

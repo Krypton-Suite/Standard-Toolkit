@@ -65,9 +65,9 @@ namespace MsdnMag
 
         private void CbtHookInvoked(object sender, HookEventArgs e)
         {
-            CbtHookAction hookCode = (CbtHookAction)e.HookCode;
-            IntPtr wParam = e.wParam;
-            IntPtr lParam = e.lParam;
+            var hookCode = (CbtHookAction)e.HookCode;
+            var wParam = e.wParam;
+            var lParam = e.lParam;
             switch (hookCode)
             {
                 case CbtHookAction.HCBT_CREATEWND:

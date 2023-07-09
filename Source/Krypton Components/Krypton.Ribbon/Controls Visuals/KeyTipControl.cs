@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
             // Create a new list of key tip views
             _viewList = new List<ViewDrawRibbonKeyTip>();
 
-            Rectangle enclosingRect = Rectangle.Empty;
+            var enclosingRect = Rectangle.Empty;
 
             // Create a view per key tip definition
             foreach (KeyTipInfo keyTip in keyTips)
@@ -206,11 +206,9 @@ namespace Krypton.Ribbon
         /// Raises the PaintBackground event.
         /// </summary>
         /// <param name="pevent">An PaintEventArgs containing the event data.</param>
-        protected override void OnPaintBackground(PaintEventArgs pevent)
-        {
+        protected override void OnPaintBackground(PaintEventArgs pevent) =>
             // Magenta is the transparent color
             pevent.Graphics.FillRectangle(Brushes.Magenta, pevent.ClipRectangle);
-        }
 
         /// <summary>
         /// Raises the Paint event.

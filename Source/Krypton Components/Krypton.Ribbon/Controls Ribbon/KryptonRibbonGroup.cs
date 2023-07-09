@@ -335,18 +335,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the display of a dialog box launcher button.
@@ -466,10 +460,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
 
         /// <summary>
         /// Internal design time properties.

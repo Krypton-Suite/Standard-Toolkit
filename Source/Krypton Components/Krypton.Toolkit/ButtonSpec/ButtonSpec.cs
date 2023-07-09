@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         public virtual object Clone()
         {
             // ReSharper disable RedundantBaseQualifier
-            ButtonSpec clone = (ButtonSpec)Activator.CreateInstance(base.GetType())!;
+            var clone = (ButtonSpec)Activator.CreateInstance(base.GetType())!;
             // ReSharper restore RedundantBaseQualifier
             clone.Image = Image;
             clone.ImageTransparentColor = ImageTransparentColor;
@@ -936,37 +936,28 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Tooltip title string.</returns>
-        public virtual string GetToolTipTitle(PaletteBase? palette)
-        {
-            return !string.IsNullOrEmpty(ToolTipTitle)
+        public virtual string GetToolTipTitle(PaletteBase? palette) => !string.IsNullOrEmpty(ToolTipTitle)
                    || !AllowInheritToolTipTitle
                 ? ToolTipTitle
                 : palette?.GetButtonSpecToolTipTitle(ProtectedType) ?? string.Empty;
-        }
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetColorMap(PaletteBase? palette)
-        {
-            return ColorMap != Color.Empty
+        public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != Color.Empty
                 ? ColorMap
                 : palette?.GetButtonSpecColorMap(ProtectedType) ?? Color.Empty;
-        }
 
         /// <summary>
         /// Gets the button style.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public virtual ButtonStyle GetStyle(PaletteBase? palette)
-        {
-            return ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
+        public virtual ButtonStyle GetStyle(PaletteBase? palette) => ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
                 ? Style
                 : palette?.GetButtonSpecStyle(ProtectedType));
-        }
 
         /// <summary>
         /// Gets the button orientation.

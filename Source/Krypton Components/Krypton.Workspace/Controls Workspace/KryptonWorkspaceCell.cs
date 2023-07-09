@@ -28,7 +28,7 @@ namespace Krypton.Workspace
     {
         #region Instance Fields
 
-        private IWorkspaceItem _parent;
+        private IWorkspaceItem? _parent;
         private bool _disposeOnRemove;
         private bool _events;
         //seb
@@ -40,7 +40,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Occurs after a change has occurred to the collection.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
@@ -109,7 +109,7 @@ namespace Krypton.Workspace
                 // Must remove from parent workspace manually because the control collection is readonly
                 if (Parent != null)
                 {
-                    KryptonReadOnlyControls controls = (KryptonReadOnlyControls)Parent.Controls;
+                    var controls = (KryptonReadOnlyControls)Parent.Controls;
                     controls.RemoveInternal(this);
                 }
 
@@ -291,7 +291,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IWorkspaceItem WorkspaceParent
+        public IWorkspaceItem? WorkspaceParent
         {
             get => _parent;
 
@@ -596,7 +596,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the child panel used for displaying actual pages.
         /// </summary>
-        protected internal KryptonGroupPanel CellChildPanel => ChildPanel;
+        protected internal KryptonGroupPanel? CellChildPanel => ChildPanel;
 
         /// <summary>
         /// Called by the designer to hit test a point.
@@ -610,17 +610,14 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="pt">Point to be tested.</param>
         /// <returns>Component associated with point or null.</returns>
-        protected internal Component CellDesignerComponentFromPoint(Point pt) => DesignerComponentFromPoint(pt);
+        protected internal Component? CellDesignerComponentFromPoint(Point pt) => DesignerComponentFromPoint(pt);
 
         /// <summary>
         /// Called by the designer to indicate that the mouse has left the control.
         /// </summary>
-        protected internal void CellDesignerMouseLeave()
-        {
+        protected internal void CellDesignerMouseLeave() =>
             // ReSharper disable RedundantBaseQualifier
-            base.DesignerMouseLeave();
-            // ReSharper restore RedundantBaseQualifier
-        }
+            base.DesignerMouseLeave();// ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Raises the PropertyChanged event.

@@ -816,7 +816,7 @@ namespace Krypton.Toolkit
                 var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
-                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
@@ -824,7 +824,7 @@ namespace Krypton.Toolkit
                 // No point drawing when one of the dimensions is zero
                 if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                    var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
@@ -852,7 +852,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Replace given DC with the screen DC for base window proc drawing
-                                IntPtr beforeDC = m.WParam;
+                                var beforeDC = m.WParam;
                                 m.WParam = _screenDC;
                                 DefWndProc(ref m);
                                 m.WParam = beforeDC;
@@ -1423,10 +1423,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetItemStyle()
-        {
-            ItemStyle = ButtonStyle.ListItem;
-        }
+        private void ResetItemStyle() => ItemStyle = ButtonStyle.ListItem;
 
         private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
@@ -1576,10 +1573,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBackStyle()
-        {
-            BackStyle = PaletteBackStyle.InputControlStandalone;
-        }
+        private void ResetBackStyle() => BackStyle = PaletteBackStyle.InputControlStandalone;
 
         private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
@@ -1603,10 +1597,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBorderStyle()
-        {
-            BorderStyle = PaletteBorderStyle.InputControlStandalone;
-        }
+        private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.InputControlStandalone;
 
         private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
@@ -1898,10 +1889,7 @@ namespace Krypton.Toolkit
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets a value indicating if the input control is active.
@@ -2235,7 +2223,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // By default the button is in the normal state
-            PaletteState buttonState = PaletteState.Normal;
+            var buttonState = PaletteState.Normal;
 
             // Is this item disabled
             if ((e.State & DrawItemState.Disabled) == DrawItemState.Disabled)
@@ -2288,12 +2276,12 @@ namespace Krypton.Toolkit
             _drawCheckBox.CheckState = GetItemCheckState(e.Index);
 
             // Grab the raw device context for the graphics instance
-            IntPtr hdc = e.Graphics.GetHdc();
+            var hdc = e.Graphics.GetHdc();
 
             try
             {
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
+                var hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
 
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)

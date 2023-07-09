@@ -60,18 +60,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
@@ -97,10 +91,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Activate the item because of a mnemonic key press.
         /// </summary>
-        public void MnemonicActivate()
-        {
-            PressMenuItem();
-        }
+        public void MnemonicActivate() => PressMenuItem();
 
         /// <summary>
         /// Gets the view element that should be used when this target is active.
@@ -160,10 +151,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public virtual void MouseUp(Control c, Point pt, MouseButtons button)
-        {
-            PressMenuItem();
-        }
+        public virtual void MouseUp(Control c, Point pt, MouseButtons button) => PressMenuItem();
 
         /// <summary>
         /// Mouse has left the view.
@@ -334,10 +322,7 @@ namespace Krypton.Ribbon
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="layout">Does a layout need to occur.</param>
-        public void PerformNeedPaint(bool layout)
-        {
-            OnNeedPaint(layout);
-        }
+        public void PerformNeedPaint(bool layout) => OnNeedPaint(layout);
         #endregion
 
         #region Implementation
@@ -386,10 +371,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
         #endregion
     }
 }

@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
                     break;
             }
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             foreach (ViewBase child in this)
             {
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Cache the size for the current item
             switch (CurrentSize)
@@ -182,7 +182,7 @@ namespace Krypton.Ribbon
                 if (child.Visible)
                 {
                     // Get the cached size of the child
-                    Size childPreferred = Size.Empty;
+                    var childPreferred = Size.Empty;
                     
                     switch (CurrentSize)
                     {

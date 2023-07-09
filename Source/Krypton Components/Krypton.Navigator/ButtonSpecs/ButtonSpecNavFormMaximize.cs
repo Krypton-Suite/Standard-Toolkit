@@ -76,7 +76,7 @@ namespace Krypton.Navigator
                 if (!_navigator.Owner!.InertForm)
                 {
                     // Only if the mouse is still within the button bounds do we perform action
-                    MouseEventArgs mea = (MouseEventArgs)e;
+                    var mea = (MouseEventArgs)e;
                     if (GetView()!.ClientRectangle.Contains(mea.Location))
                     {
                         // Toggle between maximized and restored

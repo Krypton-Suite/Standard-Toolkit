@@ -55,8 +55,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Create a manager for handling the button specifications.
         /// </summary>
-        protected override void CreateButtonSpecManager()
-        {
+        protected override void CreateButtonSpecManager() =>
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutHeaderBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                                      new[] { _layoutBarDocker },
@@ -73,7 +72,6 @@ namespace Krypton.Navigator
                 // Hook up the tooltip manager so that tooltips can be generated
                 ToolTipManager = Navigator.ToolTipManager
             };
-        }
 
         /// <summary>
         /// Allow operations to occur after main construct actions.
@@ -243,7 +241,7 @@ namespace Krypton.Navigator
             if (_buttonManager != null)
             {
                 // Cast button manager to correct type
-                ButtonSpecNavManagerLayoutHeaderBar headerBarBM = (ButtonSpecNavManagerLayoutHeaderBar)_buttonManager;
+                var headerBarBM = (ButtonSpecNavManagerLayoutHeaderBar)_buttonManager;
 
                 // Update with newly calculated values
                 headerBarBM.UpdateRemapping(GetRemappingPaletteContent(),

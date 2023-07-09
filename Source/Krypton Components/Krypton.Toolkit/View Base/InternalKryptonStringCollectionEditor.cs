@@ -421,7 +421,7 @@ namespace Krypton.Toolkit
         {
             if (_useTextBox)
             {
-                foreach (string line in ktxtStringCollection.Lines)
+                foreach (var line in ktxtStringCollection.Lines)
                 {
                     List<string> list = new List<string>();
 
@@ -432,7 +432,7 @@ namespace Krypton.Toolkit
             }
             else if (_useRichTextBox)
             {
-                foreach (string line in krtbContents.Lines)
+                foreach (var line in krtbContents.Lines)
                 {
                     List<string> list = new List<string>();
 

@@ -113,10 +113,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetLinkBehavior()
-        {
-            LinkBehavior = KryptonLinkBehavior.AlwaysUnderline;
-        }
+        private void ResetLinkBehavior() => LinkBehavior = KryptonLinkBehavior.AlwaysUnderline;
 
         private bool ShouldSerializeLinkBehavior() => LinkBehavior != KryptonLinkBehavior.AlwaysUnderline;
 

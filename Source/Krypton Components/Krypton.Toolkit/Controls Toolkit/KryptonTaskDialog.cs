@@ -457,10 +457,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
 
         private bool ShouldSerializeTag() => Tag != null;
 

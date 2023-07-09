@@ -209,10 +209,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the Orientation property to its default value.
         /// </summary>
-        public void ResetOrientation()
-        {
-            Orientation = Orientation.Vertical;
-        }
+        public void ResetOrientation() => Orientation = Orientation.Vertical;
         #endregion
 
         #region ItemOrientation
@@ -240,10 +237,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ItemOrientation property to its default value.
         /// </summary>
-        public void ResetItemOrientation()
-        {
-            ItemOrientation = ButtonOrientation.Auto;
-        }
+        public void ResetItemOrientation() => ItemOrientation = ButtonOrientation.Auto;
         #endregion
 
         #region HeaderSecondaryVisible
@@ -271,10 +265,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the HeaderSecondaryVisible property to its default value.
         /// </summary>
-        public void ResetHeaderSecondaryVisible()
-        {
-            HeaderSecondaryVisible = InheritBool.False;
-        }
+        public void ResetHeaderSecondaryVisible() => HeaderSecondaryVisible = InheritBool.False;
         #endregion
 
         #region TextMoreButtons
@@ -291,10 +282,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextMoreButtons property to its default value.
         /// </summary>
-        public void ResetTextMoreButtons()
-        {
-            TextMoreButtons = DEFAULT_MORE_BUTTONS;
-        }
+        public void ResetTextMoreButtons() => TextMoreButtons = DEFAULT_MORE_BUTTONS;
         #endregion
 
         #region TextFewerButtons
@@ -311,10 +299,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextFewerButtons property to its default value.
         /// </summary>
-        public void ResetTextFewerButtons()
-        {
-            TextFewerButtons = DEFAULT_FEWER_BUTTONS;
-        }
+        public void ResetTextFewerButtons() => TextFewerButtons = DEFAULT_FEWER_BUTTONS;
         #endregion
 
         #region TextAddRemoveButtons
@@ -331,10 +316,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextAddRemoveButtons property to its default value.
         /// </summary>
-        public void ResetTextAddRemoveButtons()
-        {
-            TextAddRemoveButtons = DEFAULT_ADD_REMOVE_BUTTONS;
-        }
+        public void ResetTextAddRemoveButtons() => TextAddRemoveButtons = DEFAULT_ADD_REMOVE_BUTTONS;
         #endregion
 
         #region ShowDropDownButton
@@ -362,10 +344,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ShowDropDownButton property to its default value.
         /// </summary>
-        public void ResetShowDropDownButton()
-        {
-            ShowDropDownButton = true;
-        }
+        public void ResetShowDropDownButton() => ShowDropDownButton = true;
         #endregion
     }
 }

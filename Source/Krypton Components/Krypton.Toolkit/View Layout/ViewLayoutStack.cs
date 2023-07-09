@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Accumulate the stacked size
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             foreach (ViewBase child in this)
             {

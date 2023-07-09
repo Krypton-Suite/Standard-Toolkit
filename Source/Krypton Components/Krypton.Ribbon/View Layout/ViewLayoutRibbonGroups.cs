@@ -123,7 +123,7 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // Parent element should be a view layout
-            ViewLayoutControl layoutControl = (ViewLayoutControl)Parent;
+            var layoutControl = (ViewLayoutControl)Parent;
 
             // Get the location of the child control it contains
             Point layoutLocation = layoutControl.ChildControl.Location;
@@ -362,7 +362,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                Size retSize = Size.Empty;
+                var retSize = Size.Empty;
 
                 if (_ribbon != null)
                 {
@@ -448,7 +448,7 @@ namespace Krypton.Ribbon
             }
 
             // When in design time help mode
-            if (_ribbon != null && _ribbon.InDesignHelperMode)
+            if (_ribbon is { InDesignHelperMode: true })
             {
                 // Create the design time 'Add Group' first time it is needed
                 _viewAddGroup ??= new ViewDrawRibbonDesignGroup(_ribbon, _needPaint);

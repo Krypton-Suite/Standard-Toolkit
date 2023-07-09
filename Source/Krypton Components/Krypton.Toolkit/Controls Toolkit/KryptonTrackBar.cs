@@ -186,10 +186,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetBackStyle()
-        {
-            BackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetBackStyle() => BackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets access to the track bar appearance when it has focus.
@@ -557,14 +554,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">One of the Keys values.</param>
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
-        protected override bool IsInputKey(Keys keyData)
+        protected override bool IsInputKey(Keys keyData) => (keyData & ~Keys.Shift) switch
         {
-            return (keyData & ~Keys.Shift) switch
-            {
-                Keys.Left or Keys.Right or Keys.Up or Keys.Down or Keys.Home or Keys.End or Keys.PageDown or Keys.PageUp => true,
-                _ => base.IsInputKey(keyData)
-            };
-        }
+            Keys.Left or Keys.Right or Keys.Up or Keys.Down or Keys.Home or Keys.End or Keys.PageDown or Keys.PageUp => true,
+            _ => base.IsInputKey(keyData)
+        };
 
         /// <summary>
         /// Raises the MouseWheel event.

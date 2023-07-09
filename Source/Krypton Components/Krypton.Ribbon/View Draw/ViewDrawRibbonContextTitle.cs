@@ -424,8 +424,8 @@ namespace Krypton.Ribbon
             if (rectClip.IntersectsWith(ClientRectangle))
             {
                 // Get the hDC for the graphics instance and create a memory DC
-                IntPtr gDC = context.Graphics.GetHdc();
-                IntPtr mDC = PI.CreateCompatibleDC(gDC);
+                var gDC = context.Graphics.GetHdc();
+                var mDC = PI.CreateCompatibleDC(gDC);
 
                 var bmi = new PI.BITMAPINFO();
                 bmi.biSize = (uint)Marshal.SizeOf(bmi);
@@ -436,7 +436,7 @@ namespace Krypton.Ribbon
                 bmi.biPlanes = 1;
 
                 // Create a device independant bitmp and select into the memory DC
-                IntPtr hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
+                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
                 PI.SelectObject(mDC, hDIB);
 
                 // To call the renderer we need to convert from Win32 HDC to Graphics object
@@ -454,7 +454,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Select the font for use when drawing
-                IntPtr hFont = _contentProvider.GetContentShortTextFont(State).ToHfont();
+                var hFont = _contentProvider.GetContentShortTextFont(State).ToHfont();
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state

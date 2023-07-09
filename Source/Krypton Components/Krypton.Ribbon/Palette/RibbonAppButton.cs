@@ -329,10 +329,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
 
         #region AppButtonToolTipImage

@@ -342,14 +342,11 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
+        public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state) => style switch
         {
-            return style switch
-            {
-                PaletteBackStyle.HeaderForm => PaletteColorStyle.Rounding2,
-                _ => base.GetBackColorStyle(style, state)
-            };
-        }
+            PaletteBackStyle.HeaderForm => PaletteColorStyle.Rounding2,
+            _ => base.GetBackColorStyle(style, state)
+        };
         #endregion
 
         #region Images
@@ -375,48 +372,45 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
-        {
-            return style switch
-            {
-                PaletteButtonSpecStyle.FormClose => state switch
-                {
-                    PaletteState.Disabled => _silverCloseDisabled,
-                    PaletteState.Tracking => _silverCloseActive,
-                    PaletteState.Pressed => _silverClosePressed,
-                    _ => _silverCloseNormal
-                },
-                PaletteButtonSpecStyle.FormMin => state switch
-                {
-                    PaletteState.Disabled => _silverMinimiseDisabled,
-                    PaletteState.Tracking => _silverMinimiseActive,
-                    PaletteState.Pressed => _silverMinimisePressed,
-                    _ => _silverMinimiseNormal
-                },
-                PaletteButtonSpecStyle.FormMax => state switch
-                {
-                    PaletteState.Disabled => _silverMaximiseDisabled,
-                    PaletteState.Tracking => _silverMaximiseActive,
-                    PaletteState.Pressed => _silverMaximisePressed,
-                    _ => _silverMaximiseNormal
-                },
-                PaletteButtonSpecStyle.FormRestore => state switch
-                {
-                    PaletteState.Disabled => _silverRestoreDisabled,
-                    PaletteState.Tracking => _silverRestoreActive,
-                    PaletteState.Pressed => _silverRestorePressed,
-                    _ => _silverRestoreNormal
-                },
-                PaletteButtonSpecStyle.FormHelp => state switch
-                {
-                    PaletteState.Disabled => _silverHelpDisabled,
-                    PaletteState.Tracking => _silverHelpActive,
-                    PaletteState.Pressed => _silverHelpPressed,
-                    _ => _silverHelpNormal
-                },
-                _ => base.GetButtonSpecImage(style, state)
-            };
-        }
+                                                 PaletteState state) => style switch
+                                                 {
+                                                     PaletteButtonSpecStyle.FormClose => state switch
+                                                     {
+                                                         PaletteState.Disabled => _silverCloseDisabled,
+                                                         PaletteState.Tracking => _silverCloseActive,
+                                                         PaletteState.Pressed => _silverClosePressed,
+                                                         _ => _silverCloseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMin => state switch
+                                                     {
+                                                         PaletteState.Disabled => _silverMinimiseDisabled,
+                                                         PaletteState.Tracking => _silverMinimiseActive,
+                                                         PaletteState.Pressed => _silverMinimisePressed,
+                                                         _ => _silverMinimiseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMax => state switch
+                                                     {
+                                                         PaletteState.Disabled => _silverMaximiseDisabled,
+                                                         PaletteState.Tracking => _silverMaximiseActive,
+                                                         PaletteState.Pressed => _silverMaximisePressed,
+                                                         _ => _silverMaximiseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormRestore => state switch
+                                                     {
+                                                         PaletteState.Disabled => _silverRestoreDisabled,
+                                                         PaletteState.Tracking => _silverRestoreActive,
+                                                         PaletteState.Pressed => _silverRestorePressed,
+                                                         _ => _silverRestoreNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormHelp => state switch
+                                                     {
+                                                         PaletteState.Disabled => _silverHelpDisabled,
+                                                         PaletteState.Tracking => _silverHelpActive,
+                                                         PaletteState.Pressed => _silverHelpPressed,
+                                                         _ => _silverHelpNormal
+                                                     },
+                                                     _ => base.GetButtonSpecImage(style, state)
+                                                 };
         #endregion    
     }
     #endregion
@@ -4251,15 +4245,12 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
-            return button switch
-            {
-                PaletteRibbonGalleryButton.Up => _galleryButtonList.Images[1],
-                PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
-                _ => _galleryButtonList.Images[0]
-            };
-        }
+            PaletteRibbonGalleryButton.Up => _galleryButtonList.Images[1],
+            PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
+            _ => _galleryButtonList.Images[0]
+        };
         #endregion
 
         #region ButtonSpec

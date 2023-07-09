@@ -73,7 +73,7 @@ namespace Krypton.Docking
                 // Only interested in floating window elements
                 if (child is KryptonDockingFloatingWindow floatingWindow)
                 {
-                    bool? ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
+                    var ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
                     if (ret.HasValue && ret.Value)
                     {
                         return floatingWindow;
@@ -145,7 +145,7 @@ namespace Krypton.Docking
         private void OnDockingFloatingWindowDisposed(object sender, EventArgs e)
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
-            KryptonDockingFloatingWindow floatingWindowElement = (KryptonDockingFloatingWindow)sender;
+            var floatingWindowElement = (KryptonDockingFloatingWindow)sender;
             floatingWindowElement.Disposed -= OnDockingFloatingWindowDisposed;
 
             // Remove the element from our child collection as it is no longer valid

@@ -124,14 +124,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Method called by the grid on keystrokes to determine if the editing control is interested in the key or not.
         /// </summary>
-        public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
+        public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey) => (keyData & Keys.KeyCode) switch
         {
-            return (keyData & Keys.KeyCode) switch
-            {
-                Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
-                _ => !dataGridViewWantsInputKey
-            };
-        }
+            Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
+            _ => !dataGridViewWantsInputKey
+        };
 
         /// <summary>
         /// Returns the current value of the editing control.

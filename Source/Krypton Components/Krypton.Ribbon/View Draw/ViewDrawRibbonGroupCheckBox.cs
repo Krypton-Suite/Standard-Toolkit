@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText2;
         private GroupCheckBoxController? _viewMediumSmallController;
         private readonly EventHandler? _finishDelegateMediumSmall;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -101,14 +101,14 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (GroupCheckBox != null)
+                if (GroupCheckBox != null!)
                 {
                     // Must unhook to prevent memory leaks
                     GroupCheckBox.PropertyChanged -= OnCheckBoxPropertyChanged;
 
                     // Remove association with definition
-                    GroupCheckBox.CheckBoxView = null;
-                    GroupCheckBox = null;
+                    GroupCheckBox.CheckBoxView = null!;
+                    GroupCheckBox = null!;
                 }
             }
 
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
                 // Get the screen location of the check box
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
-                Point screenPt = Point.Empty;
+                var screenPt = Point.Empty;
                 GroupCheckBoxController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
@@ -234,18 +234,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -277,7 +271,7 @@ namespace Krypton.Ribbon
             UpdateItemSizeState();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
@@ -289,10 +283,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -321,7 +312,7 @@ namespace Krypton.Ribbon
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
+            var largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -360,7 +351,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
+            var imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -389,7 +380,7 @@ namespace Krypton.Ribbon
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
-        private void DefineRootView(ViewBase view)
+        private void DefineRootView([DisallowNull] ViewBase view)
         {
             // Remove any existing view
             Clear();
@@ -434,10 +425,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage.CheckState = newCheckState;
         }
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupCheckBox.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupCheckBox.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -455,37 +443,28 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeCheckBoxClick(object sender, EventArgs e)
-        {
-            GroupCheckBox.PerformClick(_finishDelegateLarge);
-        }
+        private void OnLargeCheckBoxClick(object sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateLarge);
 
-        private void OnMediumSmallCheckBoxClick(object sender, EventArgs e)
-        {
-            GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
-        }
+        private void OnMediumSmallCheckBoxClick(object sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupCheckBox.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupCheckBox.OnDesignTimeContextMenu(e);
 
         private void ActionFinishedLarge(object sender, EventArgs e)
         {
-            // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            // Remove any popups that result from an action occurring
+            _ribbon.ActionOccurred();
 
             // Remove the fixed pressed appearance
-            _viewLargeController.RemoveFixed();
+            _viewLargeController?.RemoveFixed();
         }
 
         private void ActionFinishedMediumSmall(object sender, EventArgs e)
         {
-            // Remove any popups that result from an action occuring
-            _ribbon?.ActionOccurred();
+            // Remove any popups that result from an action occurring
+            _ribbon.ActionOccurred();
 
             // Remove the fixed pressed appearance
-            _viewMediumSmallController.RemoveFixed();
+            _viewMediumSmallController?.RemoveFixed();
         }
 
         private void OnCheckBoxPropertyChanged(object sender, PropertyChangedEventArgs e)

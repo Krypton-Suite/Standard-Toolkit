@@ -238,10 +238,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Access to the actual embedded KryptonTextBox instance.
@@ -302,18 +299,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group textbox visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group textbox hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group text box.
@@ -713,92 +704,59 @@ namespace Krypton.Ribbon
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text)
-        {
-            TextBox.AppendText(text);
-        }
+        public void AppendText(string text) => TextBox.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear()
-        {
-            TextBox.Clear();
-        }
+        public void Clear() => TextBox.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo()
-        {
-            TextBox.ClearUndo();
-        }
+        public void ClearUndo() => TextBox.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy()
-        {
-            TextBox.Copy();
-        }
+        public void Copy() => TextBox.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut()
-        {
-            TextBox.Cut();
-        }
+        public void Cut() => TextBox.Cut();
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste()
-        {
-            TextBox.Paste();
-        }
+        public void Paste() => TextBox.Paste();
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret()
-        {
-            TextBox.ScrollToCaret();
-        }
+        public void ScrollToCaret() => TextBox.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            TextBox.Select(start, length);
-        }
+        public void Select(int start, int length) => TextBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll()
-        {
-            TextBox.SelectAll();
-        }
+        public void SelectAll() => TextBox.SelectAll();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo()
-        {
-            TextBox.Undo();
-        }
+        public void Undo() => TextBox.Undo();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll()
-        {
-            TextBox.DeselectAll();
-        }
+        public void DeselectAll() => TextBox.DeselectAll();
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
@@ -919,127 +877,85 @@ namespace Krypton.Ribbon
         /// Raises the TextChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextChanged(EventArgs e)
-        {
-            TextChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextChanged(EventArgs e) => TextChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyDown event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyDown(KeyEventArgs e)
-        {
-            KeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnKeyDown(KeyEventArgs e) => KeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyUp event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyUp(KeyEventArgs e)
-        {
-            KeyUp?.Invoke(this, e);
-        }
+        protected virtual void OnKeyUp(KeyEventArgs e) => KeyUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyPress event.
         /// </summary>
         /// <param name="e">An KeyPressEventArgs containing the event data.</param>
-        protected virtual void OnKeyPress(KeyPressEventArgs e)
-        {
-            KeyPress?.Invoke(this, e);
-        }
+        protected virtual void OnKeyPress(KeyPressEventArgs e) => KeyPress?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PreviewKeyDown event.
         /// </summary>
         /// <param name="e">An PreviewKeyDownEventArgs containing the event data.</param>
-        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            PreviewKeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e) => PreviewKeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AcceptsTabChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAcceptsTabChanged(EventArgs e)
-        {
-            AcceptsTabChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAcceptsTabChanged(EventArgs e) => AcceptsTabChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TextAlignChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextAlignChanged(EventArgs e)
-        {
-            TextAlignChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e)
-        {
-            HideSelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e)
-        {
-            ModifiedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MultilineChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMultilineChanged(EventArgs e)
-        {
-            MultilineChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMultilineChanged(EventArgs e) => MultilineChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e)
-        {
-            ReadOnlyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
@@ -1049,10 +965,7 @@ namespace Krypton.Ribbon
 
         internal NeedPaintHandler ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1098,91 +1011,41 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnTextBoxAcceptsTabChanged(object sender, EventArgs e)
-        {
-            OnAcceptsTabChanged(e);
-        }
+        private void OnTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnTextBoxTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(e);
-        }
+        private void OnTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnTextBoxTextAlignChanged(object sender, EventArgs e)
-        {
-            OnTextAlignChanged(e);
-        }
+        private void OnTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnTextBoxHideSelectionChanged(object sender, EventArgs e)
-        {
-            OnHideSelectionChanged(e);
-        }
+        private void OnTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnTextBoxModifiedChanged(object sender, EventArgs e)
-        {
-            OnModifiedChanged(e);
-        }
+        private void OnTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnTextBoxMultilineChanged(object sender, EventArgs e)
-        {
-            OnMultilineChanged(e);
-        }
+        private void OnTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnTextBoxReadOnlyChanged(object sender, EventArgs e)
-        {
-            OnReadOnlyChanged(e);
-        }
+        private void OnTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnTextBoxGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnTextBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnTextBoxLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnTextBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnTextBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
-        {
-            TextBox.Palette = Ribbon.GetResolvedPalette();
-        }
+        private void OnRibbonPaletteChanged(object sender, EventArgs e) => TextBox.Palette = Ribbon.GetResolvedPalette();
         #endregion
     }
 }

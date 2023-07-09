@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyGroups);
 
                     // Get designer to create the new group component
-                    KryptonRibbonGroup group = (KryptonRibbonGroup)_designerHost.CreateComponent(typeof(KryptonRibbonGroup));
+                    var group = (KryptonRibbonGroup)_designerHost.CreateComponent(typeof(KryptonRibbonGroup));
                     _ribbonTab.Groups.Add(group);
 
                     RaiseComponentChanged(propertyGroups, null, null);
@@ -356,7 +356,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyGroups);
 
                     // Need access to host in order to delete a component
-                    IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the groups from the tab
                     for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
@@ -418,10 +418,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -429,7 +426,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonTab)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the groups from the tab
                 for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)

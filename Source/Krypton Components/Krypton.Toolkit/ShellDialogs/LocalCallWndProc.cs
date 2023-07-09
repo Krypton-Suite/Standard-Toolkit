@@ -44,8 +44,8 @@ internal class LocalCallWndProc : LocalWindowsHook
             return CallNextHookEx(m_hHook, code, wParam, lParam);
         }
 
-        bool actioned = false;
-        CWPRETSTRUCT msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
+        var actioned = false;
+        var msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
         if (msg.hWnd == TargetWnd)
         {
             WindowMessage?.Invoke(this, msg, out actioned);

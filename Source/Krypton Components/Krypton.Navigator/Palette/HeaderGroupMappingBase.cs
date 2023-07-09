@@ -171,10 +171,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MapImage property to its default value.
         /// </summary>
-        public void ResetMapImage()
-        {
-            MapImage = GetMapImageDefault();
-        }
+        public void ResetMapImage() => MapImage = GetMapImageDefault();
         #endregion
 
         #region MapHeading
@@ -203,10 +200,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MapHeading property to its default value.
         /// </summary>
-        public void ResetMapHeading()
-        {
-            MapHeading = GetMapHeadingDefault();
-        }
+        public void ResetMapHeading() => MapHeading = GetMapHeadingDefault();
         #endregion
 
         #region MapDescription
@@ -235,10 +229,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MapDescription property to its default value.
         /// </summary>
-        public void ResetMapDescription()
-        {
-            MapDescription = GetMapDescriptionDefault();
-        }
+        public void ResetMapDescription() => MapDescription = GetMapDescriptionDefault();
         #endregion
     }
 }

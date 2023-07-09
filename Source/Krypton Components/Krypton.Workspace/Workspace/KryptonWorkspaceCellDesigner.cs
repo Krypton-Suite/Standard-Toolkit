@@ -34,9 +34,9 @@ namespace Krypton.Workspace
             if (e.Component == Navigator)
             {
                 // If this workspace cell is inside a parent
-                KryptonWorkspaceCell cell = (KryptonWorkspaceCell)Navigator;
+                var cell = (KryptonWorkspaceCell)Navigator;
                 // Cell an only be inside a workspace sequence
-                KryptonWorkspaceSequence sequence = (KryptonWorkspaceSequence)cell.WorkspaceParent;
+                var sequence = (KryptonWorkspaceSequence)cell.WorkspaceParent;
                 // Remove the cell from the parent
                 sequence?.Children.Remove(cell);
             }

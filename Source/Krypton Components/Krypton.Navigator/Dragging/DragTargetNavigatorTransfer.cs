@@ -99,7 +99,7 @@ namespace Krypton.Navigator
             if (page != null)
             {
                 // If the navigator is allowed to have a selected page then select it
-                if (_navigator != null && _navigator.AllowTabSelect)
+                if (_navigator is { AllowTabSelect: true })
                 {
                     _navigator.SelectedPage = page;
                 }

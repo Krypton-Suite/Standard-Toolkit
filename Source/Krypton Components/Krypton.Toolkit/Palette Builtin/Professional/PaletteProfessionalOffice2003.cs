@@ -3094,15 +3094,12 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
-            return button switch
-            {
-                PaletteRibbonGalleryButton.Down => _galleryImageDown ??= CreateGalleryDownImage(SystemColors.ControlText),
-                PaletteRibbonGalleryButton.DropDown => _galleryImageDropDown ??= CreateGalleryDropDownImage(SystemColors.ControlText),
-                _ => _galleryImageUp ??= CreateGalleryUpImage(SystemColors.ControlText)
-            };
-        }
+            PaletteRibbonGalleryButton.Down => _galleryImageDown ??= CreateGalleryDownImage(SystemColors.ControlText),
+            PaletteRibbonGalleryButton.DropDown => _galleryImageDropDown ??= CreateGalleryDropDownImage(SystemColors.ControlText),
+            _ => _galleryImageUp ??= CreateGalleryUpImage(SystemColors.ControlText)
+        };
         #endregion
 
         #region ButtonSpec
@@ -4585,7 +4582,7 @@ namespace Krypton.Toolkit
         internal virtual KryptonProfessionalKCT GenerateColorTable(bool useSystemColors)
         {
             // Create the color table to use as the base for getting krypton colors
-            KryptonColorTable kct = new KryptonColorTable(this)
+            var kct = new KryptonColorTable(this)
             {
 
                 // Always turn off the use of any theme specific colors
@@ -4951,13 +4948,13 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using (SolidBrush fill = new SolidBrush(color))
+            using (var fill = new SolidBrush(color))
             {
                 g.FillPolygon(fill, new Point[] { new Point(2, 3), new Point(4, 6), new Point(7, 3) });
             }
 
             // Draw semi-transparent outline around the arrow
-            using Pen outline = new Pen(Color.FromArgb(128, color));
+            using var outline = new Pen(Color.FromArgb(128, color));
             g.DrawLines(outline, new Point[] { new Point(1, 3), new Point(4, 6), new Point(7, 3) });
 
             return image;
@@ -4971,7 +4968,7 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using SolidBrush fill = new SolidBrush(color);
+            using var fill = new SolidBrush(color);
             g.FillPolygon(fill, new Point[] { new Point(3, 6), new Point(6, 2), new Point(9, 6) });
 
             return image;
@@ -4985,7 +4982,7 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using SolidBrush fill = new SolidBrush(color);
+            using var fill = new SolidBrush(color);
             g.FillPolygon(fill, new Point[] { new Point(4, 3), new Point(6, 6), new Point(9, 3) });
 
             return image;
@@ -4999,13 +4996,13 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using (SolidBrush fill = new SolidBrush(color))
+            using (var fill = new SolidBrush(color))
             {
                 g.FillPolygon(fill, new Point[] { new Point(4, 3), new Point(6, 6), new Point(9, 3) });
             }
 
             // Draw the line above the arrow
-            using Pen pen = new Pen(color);
+            using var pen = new Pen(color);
             g.DrawLine(pen, 4, 1, 8, 1);
 
             return image;

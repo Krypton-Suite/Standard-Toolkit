@@ -142,7 +142,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
+                var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 moveFirst = cluster.Items.IndexOf(_ribbonColorButton) > 0;
                 movePrev = cluster.Items.IndexOf(_ribbonColorButton) > 0;
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
+                var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MoveFirst");
@@ -202,7 +202,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
+                var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MovePrevious");
@@ -236,7 +236,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
+                var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MoveNext");
@@ -270,7 +270,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
+                var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton MoveLast");
@@ -302,7 +302,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
+                var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupColorClusterButton DeleteButton");
@@ -396,10 +396,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {

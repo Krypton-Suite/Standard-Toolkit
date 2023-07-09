@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                KryptonDataGridView kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = (KryptonDataGridView)DataGridView;
 
                 // Is this cell the currently active cell
                 var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    CheckState checkState = CheckState.Unchecked;
+                    var checkState = CheckState.Unchecked;
 
                     switch (formattedValue)
                     {

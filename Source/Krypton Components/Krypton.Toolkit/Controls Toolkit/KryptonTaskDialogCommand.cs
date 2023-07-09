@@ -142,10 +142,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetText()
-        {
-            Text = string.Empty;
-        }
+        private void ResetText() => Text = string.Empty;
 
         private bool ShouldSerializeText() => !string.IsNullOrEmpty(Text);
 
@@ -171,10 +168,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetExtraText()
-        {
-            ExtraText = string.Empty;
-        }
+        private void ResetExtraText() => ExtraText = string.Empty;
 
         private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(ExtraText);
 
@@ -199,10 +193,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetImage()
-        {
-            Image = null;
-        }
+        private void ResetImage() => Image = null;
 
         private bool ShouldSerializeImage() => Image != null;
 

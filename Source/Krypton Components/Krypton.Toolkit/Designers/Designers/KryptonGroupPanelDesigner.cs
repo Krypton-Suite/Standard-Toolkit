@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                PropertyDescriptor descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = (PropertyDescriptor)entry.Value;
 
                 // Is this the 'Name' we are searching for?
                 if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)

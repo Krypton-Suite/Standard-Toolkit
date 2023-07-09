@@ -132,28 +132,28 @@ namespace Krypton.Workspace
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when a new KryptonWorkspaceCell instance is about to be added to the workspace.")]
-        public event EventHandler<WorkspaceCellEventArgs> WorkspaceCellAdding;
+        public event EventHandler<WorkspaceCellEventArgs>? WorkspaceCellAdding;
 
         /// <summary>
         /// Occurs when an existing KryptonWorkspaceCell instance has been removed from the workspace.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when an existing KryptonWorkspaceCell instance has been removed from the workspace.")]
-        public event EventHandler<WorkspaceCellEventArgs> WorkspaceCellRemoved;
+        public event EventHandler<WorkspaceCellEventArgs>? WorkspaceCellRemoved;
 
         /// <summary>
         /// Occurs when the active cell value has changed.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when the active cell value has changed.")]
-        public event EventHandler<ActiveCellChangedEventArgs> ActiveCellChanged;
+        public event EventHandler<ActiveCellChangedEventArgs>? ActiveCellChanged;
 
         /// <summary>
         /// Occurs when the active page value has changed.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when the active page value has changed.")]
-        public event EventHandler<ActivePageChangedEventArgs> ActivePageChanged;
+        public event EventHandler<ActivePageChangedEventArgs>? ActivePageChanged;
 
         /// <summary>
         /// Occurs when the maximized cell value has changed.
@@ -167,63 +167,63 @@ namespace Krypton.Workspace
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when workspace layout information is saving.")]
-        public event EventHandler<XmlSavingEventArgs> GlobalSaving;
+        public event EventHandler<XmlSavingEventArgs>? GlobalSaving;
 
         /// <summary>
         /// Occurs when the workspace information is loading.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when workspace layout information is loading.")]
-        public event EventHandler<XmlLoadingEventArgs> GlobalLoading;
+        public event EventHandler<XmlLoadingEventArgs>? GlobalLoading;
 
         /// <summary>
         /// Occurs when the workspace cell page information is saving.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when workspace cell page information is saving.")]
-        public event EventHandler<PageSavingEventArgs> PageSaving;
+        public event EventHandler<PageSavingEventArgs>? PageSaving;
 
         /// <summary>
         /// Occurs when the workspace cell page information is loading.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when the workspace cell page information is loading.")]
-        public event EventHandler<PageLoadingEventArgs> PageLoading;
+        public event EventHandler<PageLoadingEventArgs>? PageLoading;
 
         /// <summary>
         /// Occurs when the workspace cell page is loading but there is no existing matching page.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when the workspace cell page is loading but there is no existing matching page.")]
-        public event EventHandler<RecreateLoadingPageEventArgs> RecreateLoadingPage;
+        public event EventHandler<RecreateLoadingPageEventArgs>? RecreateLoadingPage;
 
         /// <summary>
         /// Occurs when the loading process have completed and there are unmatched pages.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when the loading process have completed and there are unmatched pages.")]
-        public event EventHandler<PagesUnmatchedEventArgs> PagesUnmatched;
+        public event EventHandler<PagesUnmatchedEventArgs>? PagesUnmatched;
 
         /// <summary>
         /// Occurs just before a page drag operation is started.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs just before a page drag operation is started.")]
-        public event EventHandler<PageDragCancelEventArgs> BeforePageDrag;
+        public event EventHandler<PageDragCancelEventArgs>? BeforePageDrag;
 
         /// <summary>
         /// Occurs after a page drag operation has finished/aborted.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs after a page drag operation has finished/aborted.")]
-        public event EventHandler<PageDragEndEventArgs> AfterPageDrag;
+        public event EventHandler<PageDragEndEventArgs>? AfterPageDrag;
 
         /// <summary>
         /// Occurs when a page is being dropped.
         /// </summary>
         [Category(@"Workspace")]
         [Description(@"Occurs when a page is being dropped.")]
-        public event EventHandler<PageDropEventArgs> PageDrop;
+        public event EventHandler<PageDropEventArgs>? PageDrop;
         #endregion
 
         #region Identity
@@ -960,7 +960,7 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="uniqueName">Unique name to search for.</param>
         /// <returns>Cell containing unique name;otherwise null.</returns>
-        public KryptonWorkspaceCell? CellForUniqueName(string uniqueName)
+        public KryptonWorkspaceCell? CellForUniqueName(string? uniqueName)
         {
             // Do we have a valid string to search for?
             if (!string.IsNullOrEmpty(uniqueName))
@@ -1012,36 +1012,24 @@ namespace Krypton.Workspace
         /// <summary>
         /// Set the visible state of all the pages in the workspace to hidden.
         /// </summary>
-        public void HideAllPages()
-        {
-            UpdateAllPagesVisible(false, null);
-        }
+        public void HideAllPages() => UpdateAllPagesVisible(false, null);
 
         /// <summary>
         /// Set the visible state of all the pages in the workspace to hidden.
         /// </summary>
         /// <param name="excludeType">Pages of this type are excluded from being updated.</param>
-        public void HideAllPages(Type excludeType)
-        {
-            UpdateAllPagesVisible(false, excludeType);
-        }
+        public void HideAllPages(Type excludeType) => UpdateAllPagesVisible(false, excludeType);
 
         /// <summary>
         /// Set the visible state of all the pages in the workspace to showing.
         /// </summary>
-        public void ShowAllPages()
-        {
-            UpdateAllPagesVisible(true, null);
-        }
+        public void ShowAllPages() => UpdateAllPagesVisible(true, null);
 
         /// <summary>
         /// Set the visible state of all the pages in the workspace to showing.
         /// </summary>
         /// <param name="excludeType">Pages of this type are excluded from being updated.</param>
-        public void ShowAllPages(Type excludeType)
-        {
-            UpdateAllPagesVisible(true, excludeType);
-        }
+        public void ShowAllPages(Type excludeType) => UpdateAllPagesVisible(true, excludeType);
 
         /// <summary>
         /// Can the provided page be closed using the same logic as the close button on the cell.
@@ -1175,7 +1163,7 @@ namespace Krypton.Workspace
                 // If the cell that the page was moved from had the focus then set focus to follow the page
                 if (selectPage && nextCell.AllowTabSelect && hadFocus)
                 {
-                    CellForPage(page).Select();
+                    CellForPage(page)?.Select();
                 }
             }
         }
@@ -1221,7 +1209,7 @@ namespace Krypton.Workspace
                 // If the cell that the page was moved from had the focus then set focus to follow the page
                 if (selectPage && previousCell.AllowTabSelect && hadFocus)
                 {
-                    CellForPage(page).Select();
+                    CellForPage(page)?.Select();
                 }
             }
         }
@@ -1229,10 +1217,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Re-balance the star sized items by setting them all to the same 50*,50* value.
         /// </summary>
-        public void ApplyRebalance()
-        {
-            ApplyResizing(Root, @"50*", @"50*", true, false);
-        }
+        public void ApplyRebalance() => ApplyResizing(Root, @"50*", @"50*", true, false);
 
         /// <summary>
         /// Apply new sizing values to each cell and sequence in the workspace hierarchy.
@@ -1305,10 +1290,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Move all pages into a new single cell that occupies the entire client area.
         /// </summary>
-        public void ApplySingleCell()
-        {
-            ApplySingleCell(true);
-        }
+        public void ApplySingleCell() => ApplySingleCell(true);
 
         /// <summary>
         /// Move all pages into a new single cell that occupies the entire client area.
@@ -1374,19 +1356,13 @@ namespace Krypton.Workspace
         /// <summary>
         /// Arrange existing cells into a square like grid.
         /// </summary>
-        public void ApplyGridCells()
-        {
-            ApplyGridCells(true);
-        }
+        public void ApplyGridCells() => ApplyGridCells(true);
 
         /// <summary>
         /// Arrange existing cells into a square like grid.
         /// </summary>
         /// <param name="createCellIfEmpty">Create new cells to fill blank areas of grid.</param>
-        public void ApplyGridCells(bool createCellIfEmpty)
-        {
-            ApplyGridCells(createCellIfEmpty, Orientation.Vertical);
-        }
+        public void ApplyGridCells(bool createCellIfEmpty) => ApplyGridCells(createCellIfEmpty, Orientation.Vertical);
 
         /// <summary>
         /// Arrange existing cells into a square like grid.
@@ -1511,19 +1487,13 @@ namespace Krypton.Workspace
         /// <summary>
         /// Move each page into its own cell and arrange then in a square like grid.
         /// </summary>
-        public void ApplyGridPages()
-        {
-            ApplyGridPages(true);
-        }
+        public void ApplyGridPages() => ApplyGridPages(true);
 
         /// <summary>
         /// Move each page into its own cell and arrange then in a square like grid.
         /// </summary>
         /// <param name="createCellIfNoPages">If there are no pages found should a new root cell be created.</param>
-        public void ApplyGridPages(bool createCellIfNoPages)
-        {
-            ApplyGridPages(createCellIfNoPages, Orientation.Vertical);
-        }
+        public void ApplyGridPages(bool createCellIfNoPages) => ApplyGridPages(createCellIfNoPages, Orientation.Vertical);
 
         /// <summary>
         /// Move each page into its own cell and arrange then in a square like grid.
@@ -1775,10 +1745,7 @@ namespace Krypton.Workspace
         /// Saves workspace layout information into a named file using Unicode Encoding.
         /// </summary>
         /// <param name="filename">Name of file to save to.</param>
-        public void SaveLayoutToFile(string filename)
-        {
-            SaveLayoutToFile(filename, Encoding.Unicode);
-        }
+        public void SaveLayoutToFile(string filename) => SaveLayoutToFile(filename, Encoding.Unicode);
 
         /// <summary>
         /// Saves workspace layout information into a named file.
@@ -1836,7 +1803,7 @@ namespace Krypton.Workspace
                 xmlWriter.WriteAttributeString(@"V", @"1");
 
                 // Remember which page was the active one
-                xmlWriter.WriteAttributeString(@"A", ActivePage != null ? ActivePage.UniqueName : @"(null)");
+                xmlWriter.WriteAttributeString(@"A", ActivePage?.UniqueName ?? @"(null)");
 
                 // Give event handlers chance to embed custom data
                 xmlWriter.WriteStartElement(@"CGD");
@@ -1909,10 +1876,7 @@ namespace Krypton.Workspace
         /// Loads workspace layout information using the provided xml reader.
         /// </summary>
         /// <param name="xmlReader">Xml reader object.</param>
-        public void LoadLayoutFromXml(XmlReader xmlReader)
-        {
-            LoadLayoutFromXml(xmlReader, CopyToPageCollection());
-        }
+        public void LoadLayoutFromXml(XmlReader xmlReader) => LoadLayoutFromXml(xmlReader, CopyToPageCollection());
 
         /// <summary>
         /// Loads workspace layout information using the provided xml reader.
@@ -2268,64 +2232,43 @@ namespace Krypton.Workspace
         /// Raises the GlobalSaving event.
         /// </summary>
         /// <param name="e">Event data.</param>
-        public virtual void OnGlobalSaving(XmlSavingEventArgs e)
-        {
-            GlobalSaving?.Invoke(this, e);
-        }
+        public virtual void OnGlobalSaving(XmlSavingEventArgs e) => GlobalSaving?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GlobalLoading event.
         /// </summary>
         /// <param name="e">Event data.</param>
-        public virtual void OnGlobalLoading(XmlLoadingEventArgs e)
-        {
-            GlobalLoading?.Invoke(this, e);
-        }
+        public virtual void OnGlobalLoading(XmlLoadingEventArgs e) => GlobalLoading?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageSaving event.
         /// </summary>
         /// <param name="e">Event data.</param>
-        public virtual void OnPageSaving(PageSavingEventArgs e)
-        {
-            PageSaving?.Invoke(this, e);
-        }
+        public virtual void OnPageSaving(PageSavingEventArgs e) => PageSaving?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageLoading event.
         /// </summary>
         /// <param name="e">Event data.</param>
-        public virtual void OnPageLoading(PageLoadingEventArgs e)
-        {
-            PageLoading?.Invoke(this, e);
-        }
+        public virtual void OnPageLoading(PageLoadingEventArgs e) => PageLoading?.Invoke(this, e);
 
         /// <summary>
         /// Raises the RecreateLoadingPage event.
         /// </summary>
         /// <param name="e">Event data.</param>
-        public virtual void OnRecreateLoadingPage(RecreateLoadingPageEventArgs e)
-        {
-            RecreateLoadingPage?.Invoke(this, e);
-        }
+        public virtual void OnRecreateLoadingPage(RecreateLoadingPageEventArgs e) => RecreateLoadingPage?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PagesUnmatched event.
         /// </summary>
         /// <param name="e">Event data.</param>
-        public virtual void OnPagesUnmatched(PagesUnmatchedEventArgs e)
-        {
-            PagesUnmatched?.Invoke(this, e);
-        }
+        public virtual void OnPagesUnmatched(PagesUnmatchedEventArgs e) => PagesUnmatched?.Invoke(this, e);
 
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void SuspendWorkspaceLayout()
-        {
-            _suspendWorkspace++;
-        }
+        public void SuspendWorkspaceLayout() => _suspendWorkspace++;
 
         /// <summary>
         /// Internal design time method.
@@ -2345,10 +2288,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual void DebugOutput()
-        {
-            Root.DebugOutput(1);
-        }
+        public virtual void DebugOutput() => Root.DebugOutput(1);
         #endregion
 
         #region Protected
@@ -2357,10 +2297,7 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Arguments associated with the event.</param>
-        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            PerformNeedPaint(true);
-        }
+        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e) => PerformNeedPaint(true);
 
         /// <summary>
         /// Request to toggle the maximized state.
@@ -2702,19 +2639,13 @@ namespace Krypton.Workspace
         /// Raises the CellCountChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCellCountChanged(EventArgs e)
-        {
-            CellCountChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCellCountChanged(EventArgs e) => CellCountChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CellVisibleCountChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCellVisibleCountChanged(EventArgs e)
-        {
-            CellVisibleCountChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCellVisibleCountChanged(EventArgs e) => CellVisibleCountChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the WorkspaceCellAdding event.
@@ -2742,10 +2673,7 @@ namespace Krypton.Workspace
         /// Raises the ActiveCellChanged event.
         /// </summary>
         /// <param name="e">An ActiveCellChangedEventArgs containing the event data.</param>
-        protected virtual void OnActiveCellChanged(ActiveCellChangedEventArgs e)
-        {
-            ActiveCellChanged?.Invoke(this, e);
-        }
+        protected virtual void OnActiveCellChanged(ActiveCellChangedEventArgs e) => ActiveCellChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ActivePageChanged event.
@@ -2764,37 +2692,25 @@ namespace Krypton.Workspace
         /// Raises the MaximizedCellChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnMaximizedCellChanged(EventArgs e)
-        {
-            MaximizedCellChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMaximizedCellChanged(EventArgs e) => MaximizedCellChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BeforePageDrag event.
         /// </summary>
         /// <param name="de">A PageDragCancelEventArgs containing event details.</param>
-        protected virtual void OnBeforePageDrag(PageDragCancelEventArgs de)
-        {
-            BeforePageDrag?.Invoke(this, de);
-        }
+        protected virtual void OnBeforePageDrag(PageDragCancelEventArgs de) => BeforePageDrag?.Invoke(this, de);
 
         /// <summary>
         /// Raises the AfterPageDrag event.
         /// </summary>
         /// <param name="e">A PageDragEndEventArgs containing event details.</param>
-        protected virtual void OnAfterPageDrag(PageDragEndEventArgs e)
-        {
-            AfterPageDrag?.Invoke(this, e);
-        }
+        protected virtual void OnAfterPageDrag(PageDragEndEventArgs e) => AfterPageDrag?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageDrop event.
         /// </summary>
         /// <param name="e">A v containing event details.</param>
-        protected internal virtual void OnPageDrop(PageDropEventArgs e)
-        {
-            PageDrop?.Invoke(this, e);
-        }
+        protected internal virtual void OnPageDrop(PageDropEventArgs e) => PageDrop?.Invoke(this, e);
 
         /// <summary>
         /// Initialize a new cell.
@@ -2889,7 +2805,7 @@ namespace Krypton.Workspace
                                      Point splitter)
         {
             // Get the sequence that contains the items moved
-            KryptonWorkspaceSequence parentSequence = (KryptonWorkspaceSequence)separator.WorkspaceItem.WorkspaceParent;
+            var parentSequence = (KryptonWorkspaceSequence)separator.WorkspaceItem.WorkspaceParent;
             SeparatorToItems(separator, out IWorkspaceItem after, out IWorkspaceItem? before);
 
             // At design time we can get null references
@@ -3580,7 +3496,7 @@ namespace Krypton.Workspace
             after = separator.WorkspaceItem;
 
             // Workspace item before the separator (to the left or above)
-            KryptonWorkspaceSequence beforeSequence = (KryptonWorkspaceSequence)after.WorkspaceParent;
+            var beforeSequence = (KryptonWorkspaceSequence)after.WorkspaceParent;
 
             // Previous items might be invisible and so search till we find the visible one we expect
             before = null;
@@ -3809,7 +3725,7 @@ namespace Krypton.Workspace
 
         private void OnCellEnter(object sender, EventArgs e)
         {
-            KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
+            var cell = (KryptonWorkspaceCell)sender;
             ActiveCell = cell;
         }
 
@@ -3818,7 +3734,7 @@ namespace Krypton.Workspace
             if (!IsActivePageChangedEventSuspended)
             {
                 // If change occurred on the active cell
-                KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
+                var cell = (KryptonWorkspaceCell)sender;
                 if (cell == ActiveCell)
                 {
                     if (cell.SelectedPage != ActivePage)
@@ -3911,7 +3827,7 @@ namespace Krypton.Workspace
         private void OnCellClosedContextMenu(object sender, ToolStripDropDownClosedEventArgs e)
         {
             // Unhook from context menu
-            KryptonContextMenu contextMenu = (KryptonContextMenu)sender;
+            var contextMenu = (KryptonContextMenu)sender;
             contextMenu.Closed -= OnCellClosedContextMenu;
 
             // Remove our menu items as we only want them to be inside the currently showing context menu
@@ -3931,7 +3847,7 @@ namespace Krypton.Workspace
             e.Cancel = true;
 
             // Remember the starting cell for the search
-            KryptonWorkspaceCell? cell = sender as KryptonWorkspaceCell;
+            var cell = sender as KryptonWorkspaceCell;
             KryptonWorkspaceCell? next = cell;
 
             // There should always be a cell sending this event, but just in case!
@@ -3999,25 +3915,13 @@ namespace Krypton.Workspace
             ClearContextMenuCache();
         }
 
-        private void OnPageSplitVert(object sender, EventArgs e)
-        {
-            PageSplitDirection(_menuCell, _menuPage, Orientation.Vertical);
-        }
+        private void OnPageSplitVert(object sender, EventArgs e) => PageSplitDirection(_menuCell, _menuPage, Orientation.Vertical);
 
-        private void OnPageSplitHorz(object sender, EventArgs e)
-        {
-            PageSplitDirection(_menuCell, _menuPage, Orientation.Horizontal);
-        }
+        private void OnPageSplitHorz(object sender, EventArgs e) => PageSplitDirection(_menuCell, _menuPage, Orientation.Horizontal);
 
-        private void OnPageMaximizeRestore(object sender, EventArgs e)
-        {
-            MaximizedCell = MaximizedCell != null ? null : _menuCell;
-        }
+        private void OnPageMaximizeRestore(object sender, EventArgs e) => MaximizedCell = MaximizedCell != null ? null : _menuCell;
 
-        private void OnPageRebalance(object sender, EventArgs e)
-        {
-            ApplyRebalance();
-        }
+        private void OnPageRebalance(object sender, EventArgs e) => ApplyRebalance();
 
         private void PageSplitDirection(KryptonWorkspaceCell cell,
                                         KryptonPage page,
@@ -4084,24 +3988,15 @@ namespace Krypton.Workspace
             _menuCell = null;
         }
 
-        private void SuspendActivePageChangedEvent()
-        {
-            _suspendActivePageChangedEvent++;
-        }
+        private void SuspendActivePageChangedEvent() => _suspendActivePageChangedEvent++;
 
-        private void ResumeActivePageChangedEvent()
-        {
-            _suspendActivePageChangedEvent--;
-        }
+        private void ResumeActivePageChangedEvent() => _suspendActivePageChangedEvent--;
 
         private bool IsActivePageChangedEventSuspended => (_suspendActivePageChangedEvent > 0);
 
-        private Control? GetActiverPageControlWithFocus()
-        {
-            return ActivePage != null 
-                ? GetControlWithFocus(ActivePage) 
+        private Control? GetActiverPageControlWithFocus() => ActivePage != null
+                ? GetControlWithFocus(ActivePage)
                 : null;
-        }
 
         private Control? GetControlWithFocus(Control control)
         {

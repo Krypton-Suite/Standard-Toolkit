@@ -489,20 +489,14 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(_target, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(_target, e);
 
         /// <summary>
         /// Raises the ContextClick event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnContextClick(MouseEventArgs e)
-        {
-            ContextClick?.Invoke(_target, e);
-        }
-        
+        protected virtual void OnContextClick(MouseEventArgs e) => ContextClick?.Invoke(_target, e);
+
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>

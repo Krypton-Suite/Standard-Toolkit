@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                PaletteDrawBorders ret = PaletteDrawBorders.None;
+                var ret = PaletteDrawBorders.None;
 
                 if (checkBoxInherit.Checked)
                 {

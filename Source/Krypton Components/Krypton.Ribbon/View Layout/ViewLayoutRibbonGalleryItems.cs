@@ -365,7 +365,7 @@ namespace Krypton.Ribbon
             // Ensure that the correct number of children are created
             SyncChildren();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find size of the first item, if there is one
             if (Count > 0)
@@ -568,7 +568,7 @@ namespace Krypton.Ribbon
             // Tell each item the image it should be displaying
             for (var i = 0; i < required; i++)
             {
-                ViewDrawRibbonGalleryItem item = (ViewDrawRibbonGalleryItem)this[i];
+                var item = (ViewDrawRibbonGalleryItem)this[i];
                 item.ImageList = imageList;
                 item.ImageIndex = i;
                 item.Checked = selectedIndex == i;

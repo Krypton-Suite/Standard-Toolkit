@@ -166,7 +166,7 @@ namespace Krypton.Ribbon
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
             {
-                PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
+                var descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
                 {
                     properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(KryptonRibbonGroupGalleryDesigner), descrip, attributes);
@@ -183,17 +183,11 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void ResetVisible()
-        {
-            Visible = true;
-        }
+        private void ResetVisible() => Visible = true;
 
         private bool ShouldSerializeVisible() => !Visible;
 
-        private void ResetEnabled()
-        {
-            Enabled = true;
-        }
+        private void ResetEnabled() => Enabled = true;
 
         private bool ShouldSerializeEnabled() => !Enabled;
 
@@ -476,10 +470,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {

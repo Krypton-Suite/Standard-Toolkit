@@ -299,10 +299,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetButtonStyle()
-        {
-            ButtonStyle = ButtonStyle.Standalone;
-        }
+        private void ResetButtonStyle() => ButtonStyle = ButtonStyle.Standalone;
 
         private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
@@ -885,31 +882,25 @@ namespace Krypton.Toolkit
             return showingContextMenu;
         }
 
-        private KryptonContextMenuPositionH GetPositionH()
+        private KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
         {
-            return DropDownOrientation switch
-            {
-                VisualOrientation.Left => KryptonContextMenuPositionH.Before,
-                VisualOrientation.Right => KryptonContextMenuPositionH.After,
-                _ => KryptonContextMenuPositionH.Left
-            };
-        }
+            VisualOrientation.Left => KryptonContextMenuPositionH.Before,
+            VisualOrientation.Right => KryptonContextMenuPositionH.After,
+            _ => KryptonContextMenuPositionH.Left
+        };
 
-        private KryptonContextMenuPositionV GetPositionV()
+        private KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
         {
-            return DropDownOrientation switch
-            {
-                VisualOrientation.Top => KryptonContextMenuPositionV.Above,
-                VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,
-                _ => KryptonContextMenuPositionV.Below
-            };
-        }
+            VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+            VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,
+            _ => KryptonContextMenuPositionV.Below
+        };
 
         private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
 
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
             ContextMenuClosed();
         }

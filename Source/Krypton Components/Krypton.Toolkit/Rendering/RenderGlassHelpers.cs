@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
                                                       GraphicsPath path,
                                                       IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
                                                       GraphicsPath path,
                                                       IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
                                                     GraphicsPath path,
                                                     IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
@@ -456,7 +456,7 @@ namespace Krypton.Toolkit
                                                          GraphicsPath path,
                                                          IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             var generate = true;
             MementoBackGlassThreeEdge? cache;
 
@@ -528,7 +528,7 @@ namespace Krypton.Toolkit
                                                             GraphicsPath path, 
                                                             IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw the inside area
             return DrawBackGlassLinear(rect, rect,
                 backColor1, backColor2,
@@ -558,7 +558,7 @@ namespace Krypton.Toolkit
                                                               GraphicsPath path,
                                                               IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw the inside area as a glass effect
             return DrawBackGlassRadial(rect, backColor1, backColor2,
                 _glassColorTopL, _glassColorBottomL,
@@ -584,7 +584,7 @@ namespace Krypton.Toolkit
                                                              GraphicsPath path,
                                                              IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw the inside areas as a glass effect
             return DrawBackGlassRadial(rect, backColor1, backColor2,
                 _glassColorTopL, _glassColorBottomL,
@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
                                                                      GraphicsPath path,
                                                                      IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw the inside areas as a glass effect
             return DrawBackGlassRadial(rect, backColor1, backColor2,
                 _glassColorTopD, _glassColorBottomD,
@@ -636,7 +636,7 @@ namespace Krypton.Toolkit
                                                              GraphicsPath path,
                                                              IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             // Draw the inside areas as a glass effect
             return DrawBackGlassRadial(rect, backColor1, backColor2,
                 _glassColorTopD, _glassColorBottomD,
@@ -656,7 +656,7 @@ namespace Krypton.Toolkit
                                                               float glassPercent,
                                                               IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
@@ -672,7 +672,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the drawing rectangle for the path
-            var drawRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+            RectangleF drawRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
             // Draw the border as a lighter version of the inside
             cache.First = DrawBackGlassLinear(drawRect, drawRect,
@@ -712,7 +712,7 @@ namespace Krypton.Toolkit
                                                               float glassPercent,
                                                               IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
@@ -728,7 +728,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the drawing rectangle for the path
-            var drawRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+            RectangleF drawRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
             // Draw the border as a lighter version of the inside
             cache.First = DrawBackGlassLinear(drawRect, drawRect,
@@ -767,7 +767,7 @@ namespace Krypton.Toolkit
                                                                 float glassPercent,
                                                                 IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoDouble? cache;
 
             if (memento is MementoDouble mementoDouble)
@@ -811,7 +811,7 @@ namespace Krypton.Toolkit
                                                                float glassPercent,
                                                                IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoTriple? cache;
 
             if (memento is MementoTriple triple)
@@ -861,7 +861,7 @@ namespace Krypton.Toolkit
                                                                float glassPercent,
                                                                IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoTriple? cache;
 
             if (memento is MementoTriple triple)
@@ -913,7 +913,7 @@ namespace Krypton.Toolkit
                                                                        float glassPercent,
                                                                        IDisposable? memento)
         {
-            using var clip = new Clipping(context.Graphics, path);
+            using Clipping clip = new Clipping(context.Graphics, path);
             MementoTriple? cache;
 
             if (memento is MementoTriple triple)
@@ -1321,7 +1321,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // Create gradient rect from the drawing rect
-                    var gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
+                    RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
                         drawRect.Height + 2);
 
                     // Cannot draw a zero sized rectangle
@@ -1371,7 +1371,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create gradient rectangles
-                    var glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
+                    RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
                         glassRect.Height + 2);
 
                     // Cannot draw a zero sized rectangle
@@ -1479,9 +1479,9 @@ namespace Krypton.Toolkit
                     cache.MainRect = mainRect;
 
                     // Create gradient rectangles
-                    var glassGradientRect = new RectangleF(cache.GlassRect.X - 1, cache.GlassRect.Y - 1,
+                    RectangleF glassGradientRect = new RectangleF(cache.GlassRect.X - 1, cache.GlassRect.Y - 1,
                         cache.GlassRect.Width + 2, cache.GlassRect.Height + 2);
-                    var mainGradientRect = new RectangleF(cache.MainRect.X - 1, cache.MainRect.Y - 1,
+                    RectangleF mainGradientRect = new RectangleF(cache.MainRect.X - 1, cache.MainRect.Y - 1,
                         cache.MainRect.Width + 2, cache.MainRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
@@ -1498,7 +1498,7 @@ namespace Krypton.Toolkit
                 // Draw entire area in a solid color
                 g.FillRectangle(cache.TotalBrush, drawRect);
 
-                if (cache is { TopBrush: { }, BottomBrush: { } })
+                if (cache is { TopBrush: not null, BottomBrush: not null })
                 {
                     g.FillRectangle(cache.TopBrush, cache.GlassRect);
                     g.FillRectangle(cache.BottomBrush, cache.MainRect);
@@ -1575,7 +1575,7 @@ namespace Krypton.Toolkit
                     };
 
                     // Gradient rectangle is always a little bigger to prevent tiling at edges
-                    var glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
+                    RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
                         glassRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
@@ -1633,7 +1633,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // Create rectangle that covers the enter area
-                    var gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
+                    RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
                         drawRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
@@ -1731,7 +1731,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create rectangle that covers the enter area
-                        var gradientRect = new RectangleF(drawRect.X - 0.5f, drawRect.Y - 0.5f,
+                        RectangleF gradientRect = new RectangleF(drawRect.X - 0.5f, drawRect.Y - 0.5f,
                             drawRect.Width + 1, drawRect.Height + 1);
 
                         // Cannot draw a zero length rectangle
@@ -1757,17 +1757,14 @@ namespace Krypton.Toolkit
         private static bool VerticalOrientation(VisualOrientation orientation) =>
             orientation is VisualOrientation.Top or VisualOrientation.Bottom;
 
-        private static float AngleFromOrientation(VisualOrientation orientation)
+        private static float AngleFromOrientation(VisualOrientation orientation) => orientation switch
         {
-            return orientation switch
-            {
-                VisualOrientation.Bottom => 270f,
-                VisualOrientation.Left => 0f,
-                VisualOrientation.Right => 180,
-                VisualOrientation.Top => 90f,
-                _ => 90f
-            };
-        }
+            VisualOrientation.Bottom => 270f,
+            VisualOrientation.Left => 0f,
+            VisualOrientation.Right => 180,
+            VisualOrientation.Top => 90f,
+            _ => 90f
+        };
 
         private static void ModifyRectByEdges(ref Rectangle rect,
                                               int left,

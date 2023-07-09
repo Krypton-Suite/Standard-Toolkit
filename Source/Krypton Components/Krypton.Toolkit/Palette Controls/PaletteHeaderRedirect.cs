@@ -102,10 +102,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the ButtonEdgeInset to the default value.
         /// </summary>
-        public void ResetButtonEdgeInset()
-        {
-            ButtonEdgeInset = -1;
-        }
+        public void ResetButtonEdgeInset() => ButtonEdgeInset = -1;
         #endregion
 
         #region ButtonPadding
@@ -133,10 +130,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the ButtonPadding to the default value.
         /// </summary>
-        public void ResetButtonPadding()
-        {
-            ButtonPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetButtonPadding() => ButtonPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region IPaletteMetric

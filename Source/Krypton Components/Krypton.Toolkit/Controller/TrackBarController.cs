@@ -144,10 +144,7 @@ namespace Krypton.Toolkit
         /// Left mouse button double click.
         /// </summary>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void DoubleClick(Point pt)
-        {
-            _drawTB.ViewDrawTrackBar.ScrollValue = _drawTB.NearestValueFromPoint(pt);
-        }
+        public virtual void DoubleClick(Point pt) => _drawTB.ViewDrawTrackBar.ScrollValue = _drawTB.NearestValueFromPoint(pt);
 
         /// <summary>
         /// Should the left mouse down be ignored when present on a visual form border area.

@@ -55,10 +55,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PlacementMode property to its default value.
         /// </summary>
-        public void ResetPlacementMode()
-        {
-            PlacementMode = PlacementMode.Bottom;
-        }
+        public void ResetPlacementMode() => PlacementMode = PlacementMode.Bottom;
 
         /// <summary>
         /// 
@@ -71,10 +68,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PlacementTarget property to its default value.
         /// </summary>
-        public void ResetPlacementTarget()
-        {
-            PlacementTarget = null;
-        }
+        public void ResetPlacementTarget() => PlacementTarget = null;
 
         /// <summary>
         /// 
@@ -87,10 +81,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
         /// </summary>
-        public void ResetPlacementRectangle()
-        {
-            PlacementRectangle = new Rectangle();
-        }
+        public void ResetPlacementRectangle() => PlacementRectangle = new Rectangle();
 
         #region Default Values
         /// <summary>

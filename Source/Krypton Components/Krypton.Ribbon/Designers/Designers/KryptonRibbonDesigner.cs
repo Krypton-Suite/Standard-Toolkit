@@ -215,28 +215,19 @@ namespace Krypton.Ribbon
         /// Called when a drag-and-drop operation enters the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragEnter(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragEnter(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dragged over the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragOver(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragOver(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dropped onto the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragDrop(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragDrop(DragEventArgs de) => de.Effect = DragDropEffects.None;
         #endregion    
 
         #region Implementation
@@ -256,11 +247,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
-        {
+        private void OnToggleHelpers(object sender, EventArgs e) =>
             // Invert the current toggle helper mode
             _ribbon.InDesignHelperMode = !_ribbon.InDesignHelperMode;
-        }
 
         private void OnAddTab(object sender, EventArgs e)
         {
@@ -275,7 +264,7 @@ namespace Krypton.Ribbon
                 RaiseComponentChanging(propertyPages);
 
                 // Get designer to create the new tab component
-                KryptonRibbonTab page = (KryptonRibbonTab)_designerHost.CreateComponent(typeof(KryptonRibbonTab));
+                var page = (KryptonRibbonTab)_designerHost.CreateComponent(typeof(KryptonRibbonTab));
                 _ribbon.RibbonTabs.Add(page);
 
                 RaiseComponentChanged(propertyPages, null, null);
@@ -302,7 +291,7 @@ namespace Krypton.Ribbon
                 RaiseComponentChanging(propertyPages);
 
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the tabs from the ribbon
                 for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
@@ -358,10 +347,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -369,7 +355,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbon)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _ribbon.ButtonSpecs.Count - 1; i >= 0; i--)

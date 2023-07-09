@@ -56,20 +56,14 @@ namespace Krypton.Ribbon
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">The palette state to populate with.</param>
-        public virtual void PopulateFromBase(PaletteState state)
-        {
-            _ribbonTab.PopulateFromBase(state);
-        }
+        public virtual void PopulateFromBase(PaletteState state) => _ribbonTab.PopulateFromBase(state);
         #endregion
 
         #region SetInherit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public virtual void SetInherit(PaletteRibbonRedirect inherit)
-        {
-            _ribbonTab.SetInherit(inherit.RibbonTab, inherit.RibbonTab);
-        }
+        public virtual void SetInherit(PaletteRibbonRedirect inherit) => _ribbonTab.SetInherit(inherit.RibbonTab, inherit.RibbonTab);
         #endregion
 
         #region RibbonTab
@@ -91,11 +85,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object? sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
         #endregion
     }
 }
