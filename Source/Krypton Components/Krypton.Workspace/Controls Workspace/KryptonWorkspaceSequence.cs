@@ -37,7 +37,7 @@ namespace Krypton.Workspace
         /// Occurs after a change has occurred to the workspace.
         /// </summary>
         [Browsable(false)]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
@@ -65,8 +65,8 @@ namespace Krypton.Workspace
 
             // Create the child collection for holding items
             Children = new KryptonWorkspaceCollection(this);
-            Children.PropertyChanged += OnChildrenPropertyChanged!;
-            Children.MaximizeRestoreClicked += OnChildrenMaximizeRestoreClicked!;
+            Children.PropertyChanged += OnChildrenPropertyChanged;
+            Children.MaximizeRestoreClicked += OnChildrenMaximizeRestoreClicked;
 
             // Default properties
             _setVisible = true;
@@ -90,7 +90,7 @@ namespace Krypton.Workspace
                         Children[i].Dispose();
                     }
 
-                    Children.PropertyChanged -= OnChildrenPropertyChanged!;
+                    Children.PropertyChanged -= OnChildrenPropertyChanged;
                     Children.Clear();
                 }
             }
@@ -210,10 +210,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Resets the UniqueName property to its default value.
         /// </summary>
-        public void ResetUniqueName()
-        {
-            UniqueName = CommonHelper.UniqueString;
-        }
+        public void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
 
         /// <summary>
         /// Perform any compacting actions allowed by the flags.
@@ -265,7 +262,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                Size totalSize = Size.Empty;
+                var totalSize = Size.Empty;
 
                 // Search all the children to find the largest preferred size in each direction
                 if (Children != null)
@@ -319,7 +316,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                Size minSize = Size.Empty;
+                var minSize = Size.Empty;
 
                 // Search all the children to find the largest minimum/fixed size
                 if (Children != null)
@@ -616,38 +613,26 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(e);
-        }
+        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged(e);
 
         /// <summary>
         /// Handle a maximize/restore request from a child item.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildrenMaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            MaximizeRestoreClicked(sender, e);
-        }
+        protected void OnChildrenMaximizeRestoreClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(sender, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="property">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string property)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(property));
-        }
+        protected virtual void OnPropertyChanged(string property) => OnPropertyChanged(new PropertyChangedEventArgs(property));
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
         #endregion
 
         #region Implementation

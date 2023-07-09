@@ -100,11 +100,9 @@ namespace Krypton.Ribbon
         /// <returns>The current <see cref="PaletteMode"/>.</returns>
         public static PaletteMode GetPaletteMode(KryptonManager manager) => ReturnPaletteMode(manager.GlobalPaletteMode);
 
-        private static PaletteMode ReturnPaletteMode(string themeName)
-        {
+        private static PaletteMode ReturnPaletteMode(string themeName) =>
             // Note: Needs to be filled out
-            return PaletteMode.Custom;
-        }
+            PaletteMode.Custom;
 
         /// <summary>Returns the palette mode.</summary>
         /// <param name="paletteMode">The palette mode manager.</param>

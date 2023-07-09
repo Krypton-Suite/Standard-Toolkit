@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteBorderEdgeRedirect(IPaletteBorder inherit,
-                                         NeedPaintHandler? needPaint)
+                                         NeedPaintHandler needPaint)
             : base(null, needPaint)
         {
             // Remember inheritance
@@ -182,10 +182,7 @@ namespace Krypton.Toolkit
         /// Update the source palettes for drawing.
         /// </summary>
         /// <param name="paletteBorder">Palette source for the border.</param>
-        public virtual void SetPalette(IPaletteBorder paletteBorder)
-        {
-            _inherit = paletteBorder;
-        }
+        public virtual void SetPalette(IPaletteBorder paletteBorder) => _inherit = paletteBorder;
         #endregion
 
         #region IPaletteBorder

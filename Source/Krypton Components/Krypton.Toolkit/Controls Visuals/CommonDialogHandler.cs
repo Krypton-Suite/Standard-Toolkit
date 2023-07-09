@@ -533,9 +533,6 @@ namespace Krypton.Toolkit
             return true;
         }
 
-        public void SetResizable(bool isResizable)
-        {
-            _isResizable = isResizable;
-        }
+        public void SetResizable(bool isResizable) => _isResizable = isResizable;
     }
 }

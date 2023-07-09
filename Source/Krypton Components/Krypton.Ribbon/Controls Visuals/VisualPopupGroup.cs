@@ -246,10 +246,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Hide focus by giving it to the hidden control.
         /// </summary>
-        public void HideFocus()
-        {
-            _hiddenFocusTarget.Focus();
-        }
+        public void HideFocus() => _hiddenFocusTarget.Focus();
         #endregion
 
         #region Implementation

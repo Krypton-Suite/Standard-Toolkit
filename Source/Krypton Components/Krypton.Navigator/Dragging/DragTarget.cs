@@ -92,11 +92,9 @@ namespace Krypton.Navigator
         /// Release unmanaged and optionally managed resources.
         /// </summary>
         /// <param name="disposing">Called from Dispose method.</param>
-        protected virtual void Dispose(bool disposing)
-        {
+        protected virtual void Dispose(bool disposing) =>
             // Mark as disposed
             IsDisposed = true;
-        }
 
         /// <summary>
         /// Gets a value indicating if the view has been disposed.
@@ -175,7 +173,7 @@ namespace Krypton.Navigator
                         var e = new PageDropEventArgs(page);
                         target.OnPageDrop(e);
 
-                        if (e is { Cancel: false, Page: { } })
+                        if (e is { Cancel: false, Page: not null })
                         {
                             target.Pages.Add(e.Page);
                             ret = e.Page;

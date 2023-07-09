@@ -615,53 +615,50 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
-        {
-            return style switch
-            {
-                PaletteButtonSpecStyle.PendantClose => _buttonSpecPendantClose,
-                PaletteButtonSpecStyle.PendantMin => _buttonSpecPendantMin,
-                PaletteButtonSpecStyle.PendantRestore => _buttonSpecPendantRestore,
-                PaletteButtonSpecStyle.FormClose => state switch
-                {
-                    PaletteState.Tracking => _formCloseActive,
-                    PaletteState.Normal => _formCloseNormal,
-                    PaletteState.Pressed => _formClosePressed,
-                    _ => _formCloseDisabled
-                },
-                PaletteButtonSpecStyle.FormMin => state switch
-                {
-                    PaletteState.Normal => _formMinimiseNormal,
-                    PaletteState.Tracking => _formMinimiseActive,
-                    PaletteState.Pressed => _formMinimisePressed,
-                    _ => _formMinimiseDisabled
-                },
-                PaletteButtonSpecStyle.FormMax => state switch
-                {
-                    PaletteState.Normal => _formMaximiseNormal,
-                    PaletteState.Tracking => _formMaximiseActive,
-                    PaletteState.Pressed => _formMaximisePressed,
-                    _ => _formMaximiseDisabled
-                },
-                PaletteButtonSpecStyle.FormRestore => state switch
-                {
-                    PaletteState.Normal => _formRestoreNormal,
-                    PaletteState.Tracking => _formRestoreActive,
-                    PaletteState.Pressed => _formRestorePressed,
-                    _ => _formRestoreDisabled
-                },
-                PaletteButtonSpecStyle.FormHelp => state switch
-                {
-                    PaletteState.Tracking => _formHelpActive,
-                    PaletteState.Pressed => _formHelpPressed,
-                    PaletteState.Normal => _formHelpNormal,
-                    _ => _formHelpDisabled
-                },
-                PaletteButtonSpecStyle.RibbonMinimize => _buttonSpecRibbonMinimize,
-                PaletteButtonSpecStyle.RibbonExpand => _buttonSpecRibbonExpand,
-                _ => base.GetButtonSpecImage(style, state)
-            };
-        }
+                                                 PaletteState state) => style switch
+                                                 {
+                                                     PaletteButtonSpecStyle.PendantClose => _buttonSpecPendantClose,
+                                                     PaletteButtonSpecStyle.PendantMin => _buttonSpecPendantMin,
+                                                     PaletteButtonSpecStyle.PendantRestore => _buttonSpecPendantRestore,
+                                                     PaletteButtonSpecStyle.FormClose => state switch
+                                                     {
+                                                         PaletteState.Tracking => _formCloseActive,
+                                                         PaletteState.Normal => _formCloseNormal,
+                                                         PaletteState.Pressed => _formClosePressed,
+                                                         _ => _formCloseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMin => state switch
+                                                     {
+                                                         PaletteState.Normal => _formMinimiseNormal,
+                                                         PaletteState.Tracking => _formMinimiseActive,
+                                                         PaletteState.Pressed => _formMinimisePressed,
+                                                         _ => _formMinimiseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMax => state switch
+                                                     {
+                                                         PaletteState.Normal => _formMaximiseNormal,
+                                                         PaletteState.Tracking => _formMaximiseActive,
+                                                         PaletteState.Pressed => _formMaximisePressed,
+                                                         _ => _formMaximiseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormRestore => state switch
+                                                     {
+                                                         PaletteState.Normal => _formRestoreNormal,
+                                                         PaletteState.Tracking => _formRestoreActive,
+                                                         PaletteState.Pressed => _formRestorePressed,
+                                                         _ => _formRestoreDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormHelp => state switch
+                                                     {
+                                                         PaletteState.Tracking => _formHelpActive,
+                                                         PaletteState.Pressed => _formHelpPressed,
+                                                         PaletteState.Normal => _formHelpNormal,
+                                                         _ => _formHelpDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.RibbonMinimize => _buttonSpecRibbonMinimize,
+                                                     PaletteButtonSpecStyle.RibbonExpand => _buttonSpecRibbonExpand,
+                                                     _ => base.GetButtonSpecImage(style, state)
+                                                 };
         #endregion
 
         #region RibbonText
@@ -3972,15 +3969,12 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
-            return button switch
-            {
-                PaletteRibbonGalleryButton.Up => _galleryButtonList.Images[1],
-                PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
-                _ => _galleryButtonList.Images[0]
-            };
-        }
+            PaletteRibbonGalleryButton.Up => _galleryButtonList.Images[1],
+            PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
+            _ => _galleryButtonList.Images[0]
+        };
         #endregion
 
         #region ButtonSpec

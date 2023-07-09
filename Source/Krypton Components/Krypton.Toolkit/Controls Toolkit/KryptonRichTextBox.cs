@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                 rectPage.left = 0;
                 rectPage.right = (int)(gr.ClipBounds.Right * AN_INCH);
 
-                IntPtr hdc = gr.GetHdc();
+                var hdc = gr.GetHdc();
 
                 PI.FORMATRANGE fmtRange;
                 fmtRange.chrg.cpMax = charTo;
@@ -134,11 +134,11 @@ namespace Krypton.Toolkit
                 var wparam = new IntPtr(1);
 
                 //Get the pointer to the FORMATRANGE structure in memory
-                IntPtr lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
+                var lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
                 Marshal.StructureToPtr(fmtRange, lparam, false);
 
                 //Send the rendered data for printing 
-                IntPtr res = (IntPtr)PI.SendMessage(Handle, PI.EM_FORMATRANGE, wparam, lparam);
+                var res = (IntPtr)PI.SendMessage(Handle, PI.EM_FORMATRANGE, wparam, lparam);
 
                 //Free the block of memory allocated
                 Marshal.FreeCoTaskMem(lparam);
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
                         {
                             var ps = new PI.PAINTSTRUCT();
                             // Do we need to BeginPaint or just take the given HDC?
-                            IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                            var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
                             using (Graphics g = Graphics.FromHdc(hdc))
                             {
                                 // Grab the client area of the control
@@ -1315,10 +1315,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
-        private void ResetInputControlStyle()
-        {
-            InputControlStyle = InputControlStyle.Standalone;
-        }
+        private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -1603,10 +1600,7 @@ namespace Krypton.Toolkit
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1707,10 +1701,7 @@ namespace Krypton.Toolkit
         /// Override the display padding for the layout fill.
         /// </summary>
         /// <param name="padding">Display padding value.</param>
-        public void SetLayoutDisplayPadding(Padding padding)
-        {
-            _layoutFill.DisplayPadding = padding;
-        }
+        public void SetLayoutDisplayPadding(Padding padding) => _layoutFill.DisplayPadding = padding;
 
         /// <summary>
         /// Internal design time method.
@@ -2226,9 +2217,9 @@ namespace Krypton.Toolkit
                 if (!DesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
@@ -2285,7 +2276,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

@@ -572,7 +572,7 @@ namespace Krypton.Toolkit
             if (RemoveChildBorders)
             {
                 // Check if the view is a canvas
-                ViewDrawCanvas childCanvas = child as ViewDrawCanvas;
+                var childCanvas = child as ViewDrawCanvas;
 
                 // Docking edge determines calculation
                 switch (CalculateDock(GetDock(child), context.Control))

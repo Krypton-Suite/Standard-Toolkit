@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private void UpdateTargetState()
         {
-            PaletteState newState = PaletteState.Normal;
+            var newState = PaletteState.Normal;
             
             if (_mouseOver)
             {

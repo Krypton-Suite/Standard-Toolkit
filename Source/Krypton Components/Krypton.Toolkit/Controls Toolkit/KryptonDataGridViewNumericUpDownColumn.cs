@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewNumericUpDownColumn cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn;
+            var cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn;
 
             return cloned;
         }

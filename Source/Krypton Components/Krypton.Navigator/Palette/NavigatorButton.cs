@@ -80,7 +80,7 @@ namespace Krypton.Navigator
             FormMaximizeButton.Click += OnMaximizeButtonClick;
 
             // Add fixed buttons into the display collection
-            if (_navigator.Owner != null && !_navigator.ControlKryptonFormFeatures)
+            if (_navigator is { Owner: not null, ControlKryptonFormFeatures: false })
             {
                 FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton, FormMinimizeButton, FormMaximizeButton, FormCloseButton });
             }
@@ -215,10 +215,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the PreviousButtonShortcut property to its default value.
         /// </summary>
-        public void ResetPreviousButtonShortcut()
-        {
-            PreviousButtonShortcut = DEFAULT_SHORTCUT_PREVIOUS;
-        }
+        public void ResetPreviousButtonShortcut() => PreviousButtonShortcut = DEFAULT_SHORTCUT_PREVIOUS;
         #endregion
 
         #region NextButton
@@ -293,10 +290,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the NextButtonShortcut property to its default value.
         /// </summary>
-        public void ResetNextButtonShortcut()
-        {
-            NextButtonShortcut = DEFAULT_SHORTCUT_NEXT;
-        }
+        public void ResetNextButtonShortcut() => NextButtonShortcut = DEFAULT_SHORTCUT_NEXT;
         #endregion
 
         #region ContextButton
@@ -371,10 +365,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ContextButtonShortcut property to its default value.
         /// </summary>
-        public void ResetContextButtonShortcut()
-        {
-            ContextButtonShortcut = DEFAULT_SHORTCUT_CONTEXT;
-        }
+        public void ResetContextButtonShortcut() => ContextButtonShortcut = DEFAULT_SHORTCUT_CONTEXT;
         #endregion
 
         #region ContextMenuMapText
@@ -471,10 +462,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the CloseButtonShortcut property to its default value.
         /// </summary>
-        public void ResetCloseButtonShortcut()
-        {
-            CloseButtonShortcut = DEFAULT_SHORTCUT_CLOSE;
-        }
+        public void ResetCloseButtonShortcut() => CloseButtonShortcut = DEFAULT_SHORTCUT_CLOSE;
         #endregion
 
         #region FormCloseButton
@@ -543,10 +531,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ButtonDisplayLogic property to its default value.
         /// </summary>
-        public void ResetButtonDisplayLogic()
-        {
-            ButtonDisplayLogic = ButtonDisplayLogic.Context;
-        }
+        public void ResetButtonDisplayLogic() => ButtonDisplayLogic = ButtonDisplayLogic.Context;
         #endregion
 
         #region Internal
@@ -555,40 +540,19 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnPreviousClick(object sender, EventArgs e)
-        {
-            _navigator.PerformPreviousAction();
-        }
+        private void OnPreviousClick(object sender, EventArgs e) => _navigator.PerformPreviousAction();
 
-        private void OnNextClick(object sender, EventArgs e)
-        {
-            _navigator.PerformNextAction();
-        }
+        private void OnNextClick(object sender, EventArgs e) => _navigator.PerformNextAction();
 
-        private void OnContextClick(object sender, EventArgs e)
-        {
-            _navigator.PerformContextAction();
-        }
+        private void OnContextClick(object sender, EventArgs e) => _navigator.PerformContextAction();
 
-        private void OnCloseClick(object sender, EventArgs e)
-        {
-            _navigator.PerformCloseAction();
-        }
+        private void OnCloseClick(object sender, EventArgs e) => _navigator.PerformCloseAction();
 
-        private void OnMaximizeButtonClick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        private void OnMaximizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnMinimizeButtonClick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        private void OnMinimizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnCloseButtonClick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        private void OnCloseButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
         #endregion
     }
 }

@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         public override object Clone()
         {
             // Create a new instance
-            KryptonDataGridViewLinkColumn clone = base.Clone() as KryptonDataGridViewLinkColumn;
+            var clone = base.Clone() as KryptonDataGridViewLinkColumn;
             clone.Text = Text;
             clone.LabelStyle = LabelStyle;
             return clone;

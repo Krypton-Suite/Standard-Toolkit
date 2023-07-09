@@ -62,11 +62,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Show the window without taking activation.
         /// </summary>
-        public void ShowWithoutActivate()
-        {
+        public void ShowWithoutActivate() =>
             // Show the window without activating it (i.e. do not take focus)
             PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
-        }
 
         /// <summary>
         /// Gets and sets the new solid rectangle area.

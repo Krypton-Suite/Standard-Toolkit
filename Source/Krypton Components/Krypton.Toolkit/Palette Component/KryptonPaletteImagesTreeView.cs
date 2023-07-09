@@ -70,11 +70,9 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
-        {
+        public void SetRedirector(PaletteRedirect? redirect) =>
             // Update our cached reference
             _redirect = redirect;
-        }
         #endregion
 
         #region Plus
@@ -103,10 +101,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Plus property to its default value.
         /// </summary>
-        public void ResetPlus()
-        {
-            Plus = null;
-        }
+        public void ResetPlus() => Plus = null;
         #endregion
 
         #region Plus
@@ -135,10 +130,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Minus property to its default value.
         /// </summary>
-        public void ResetMinus()
-        {
-            Minus = null;
-        }
+        public void ResetMinus() => Minus = null;
         #endregion
     }
 }

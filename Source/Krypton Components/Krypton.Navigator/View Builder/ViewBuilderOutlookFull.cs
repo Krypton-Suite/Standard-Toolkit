@@ -268,10 +268,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnViewportAnimation(object sender, EventArgs e)
-        {
-            Navigator.PerformNeedPaint(true);
-        }
+        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
         #endregion
     }
 }

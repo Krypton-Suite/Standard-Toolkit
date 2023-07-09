@@ -43,10 +43,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
-        {
-            _redirect = redirect;
-        }
+        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
         #endregion
 
         #region StyleBack

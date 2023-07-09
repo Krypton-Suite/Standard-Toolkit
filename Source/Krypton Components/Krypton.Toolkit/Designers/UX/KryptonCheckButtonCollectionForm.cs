@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
             for(var i=0; i<checkedListBox.Items.Count; i++)
             {
                 // Get access to the encapsulated list box entry
-                ListEntry entry = (ListEntry)checkedListBox.Items[i];
+                var entry = (ListEntry)checkedListBox.Items[i];
 
                 // Is this entry checked in the list box?
                 if (checkedListBox.GetItemChecked(i))

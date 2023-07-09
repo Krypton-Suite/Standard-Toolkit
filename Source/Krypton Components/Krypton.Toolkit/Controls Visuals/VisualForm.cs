@@ -812,7 +812,7 @@ namespace Krypton.Toolkit
                 }
 
                 using Graphics g = Graphics.FromHwnd(Handle);
-                IntPtr hRgn = invalidRegion.GetHrgn(g);
+                var hRgn = invalidRegion.GetHrgn(g);
 
                 PI.RedrawWindow(Handle, IntPtr.Zero, hRgn,
                     PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
@@ -994,18 +994,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Suspend processing of non-client painting.
         /// </summary>
-        protected virtual void SuspendPaint()
-        {
-            _ignoreCount++;
-        }
+        protected virtual void SuspendPaint() => _ignoreCount++;
 
         /// <summary>
         /// Resume processing of non-client painting.
         /// </summary>
-        protected virtual void ResumePaint()
-        {
-            _ignoreCount--;
-        }
+        protected virtual void ResumePaint() => _ignoreCount--;
 
         /// <summary>
         /// Create the redirector instance.
@@ -1247,7 +1241,7 @@ namespace Krypton.Toolkit
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
             const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
-            IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+            var monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
 
             if (monitor != IntPtr.Zero)
             {
@@ -1365,7 +1359,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnCompWM_NCHITTEST(ref Message m)
         {
             // Let the desktop window manager process it first
-            PI.Dwm.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out IntPtr result);
+            PI.Dwm.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out var result);
             m.Result = result;
 
             // If no result returned then let the base window routine process it
@@ -1659,7 +1653,7 @@ namespace Krypton.Toolkit
             if (windowBounds is { Width: > 0, Height: > 0 })
             {
                 // Get the device context for this window
-                IntPtr hDC = PI.GetWindowDC(Handle);
+                var hDC = PI.GetWindowDC(Handle);
 
                 // If we managed to get a device context
                 if (hDC != IntPtr.Zero)
@@ -1685,7 +1679,7 @@ namespace Krypton.Toolkit
                             }
 
                             // Create one the correct size and cache for future drawing
-                            IntPtr hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
+                            var hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
 
                             // If we managed to get a compatible bitmap
                             if (hBitmap != IntPtr.Zero)
@@ -1950,25 +1944,19 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();
-            // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
-        }
+            Renderer = _palette.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
 
 #if !NET462
-        private void OnDpiChanged(object sender, DpiChangedEventArgs e)
-        {
-            UpdateDpiFactors();
-        }
+        private void OnDpiChanged(object sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
         #endregion
 
         private void UpdateDpiFactors()
         {
             // Do not use the control dpi, as these values are being used to target the screen
-            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
+            var screenDc = PI.GetDC(IntPtr.Zero);
             if (screenDc != IntPtr.Zero)
             {
                 FactorDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;

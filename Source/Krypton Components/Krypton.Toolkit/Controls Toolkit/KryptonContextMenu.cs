@@ -187,10 +187,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetTag()
-        {
-            Tag = null;
-        }
+        public void ResetTag() => Tag = null;
 
         /// <summary>
         /// Gets and sets if the context menu is enabled.
@@ -218,10 +215,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -239,10 +233,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets a reference to the caller that caused the context menu to be shown.
@@ -354,7 +345,7 @@ namespace Krypton.Toolkit
                 Caller = caller;
 
                 // Give event handler a change to cancel the open request
-                var cea = new CancelEventArgs();
+                CancelEventArgs cea = new CancelEventArgs();
                 OnOpening(cea);
 
                 if (!cea.Cancel)
@@ -470,7 +461,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
-        internal VisualContextMenu? VisualContextMenu { get; private set; }
+        internal VisualContextMenu VisualContextMenu { get; private set; }
 
         #endregion
 

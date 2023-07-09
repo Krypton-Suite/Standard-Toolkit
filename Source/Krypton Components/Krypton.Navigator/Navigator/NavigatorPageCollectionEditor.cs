@@ -26,10 +26,7 @@ namespace Krypton.Navigator
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes()
-        {
-            return new[] { typeof(KryptonPage) };
-        }
+        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonPage) };
 
         /// <summary>
         /// Sets the specified array as the items of the collection.
@@ -40,7 +37,7 @@ namespace Krypton.Navigator
         protected override object SetItems(object editValue, object[] value)
         {
             // Cast the context into the expected control type
-            KryptonNavigator navigator = (KryptonNavigator)Context.Instance;
+            var navigator = (KryptonNavigator)Context.Instance;
 
             // Suspend changes until collection has been updated
             navigator?.SuspendLayout();

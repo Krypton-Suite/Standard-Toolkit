@@ -205,7 +205,7 @@ namespace Krypton.Ribbon
                 // Get the screen location of the button
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
-                Point screenPt = Point.Empty;
+                var screenPt = Point.Empty;
                 GroupButtonController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
@@ -233,18 +233,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -313,10 +307,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -520,10 +511,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallText2Sep3.Visible = dropDown;
         }
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupColorButton.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupColorButton.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -546,30 +534,15 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeButtonClick(object sender, EventArgs e)
-        {
-            GroupColorButton.PerformClick(_viewLarge.FinishDelegate);
-        }
+        private void OnLargeButtonClick(object sender, EventArgs e) => GroupColorButton.PerformClick(_viewLarge.FinishDelegate);
 
-        private void OnLargeButtonDropDown(object sender, EventArgs e)
-        {
-            GroupColorButton.PerformDropDown(_viewLarge.FinishDelegate);
-        }
+        private void OnLargeButtonDropDown(object sender, EventArgs e) => GroupColorButton.PerformDropDown(_viewLarge.FinishDelegate);
 
-        private void OnMediumSmallButtonClick(object sender, EventArgs e)
-        {
-            GroupColorButton.PerformClick(_viewMediumSmall.FinishDelegate);
-        }
+        private void OnMediumSmallButtonClick(object sender, EventArgs e) => GroupColorButton.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnMediumSmallButtonDropDown(object sender, EventArgs e)
-        {
-            GroupColorButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
-        }
+        private void OnMediumSmallButtonDropDown(object sender, EventArgs e) => GroupColorButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupColorButton.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupColorButton.OnDesignTimeContextMenu(e);
 
         private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

@@ -134,10 +134,10 @@ namespace Krypton.Toolkit
             }
 
             // Get device contexts
-            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
-            IntPtr memDc = PI.CreateCompatibleDC(screenDc);
-            IntPtr hBitmap = IntPtr.Zero;
-            IntPtr hOldBitmap = IntPtr.Zero;
+            var screenDc = PI.GetDC(IntPtr.Zero);
+            var memDc = PI.CreateCompatibleDC(screenDc);
+            var hBitmap = IntPtr.Zero;
+            var hOldBitmap = IntPtr.Zero;
 
             try
             {

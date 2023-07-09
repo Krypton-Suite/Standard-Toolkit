@@ -73,10 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the RaftingContainerGradientBegin property to its default value.
         /// </summary>
-        public void ResetRaftingContainerGradientBegin()
-        {
-            RaftingContainerGradientBegin = Color.Empty;
-        }
+        public void ResetRaftingContainerGradientBegin() => RaftingContainerGradientBegin = Color.Empty;
         #endregion
 
         #region RaftingContainerGradientEnd
@@ -101,10 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the RaftingContainerGradientEnd property to its default value.
         /// </summary>
-        public void ResetRaftingContainerGradientEnd()
-        {
-            RaftingContainerGradientEnd = Color.Empty;
-        }
+        public void ResetRaftingContainerGradientEnd() => RaftingContainerGradientEnd = Color.Empty;
         #endregion
     }
 }

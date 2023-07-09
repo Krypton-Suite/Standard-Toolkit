@@ -122,11 +122,9 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
-        {
+        public override void Layout(ViewLayoutContext context) =>
             // Take on all the provided area
             ClientRectangle = context.DisplayRectangle;
-        }
         #endregion
 
         #region Paint

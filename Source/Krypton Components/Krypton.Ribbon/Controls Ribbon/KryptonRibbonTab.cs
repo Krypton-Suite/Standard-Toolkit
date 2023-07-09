@@ -214,10 +214,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the ContextName to the default value.
         /// </summary>
-        private void ResetContextName()
-        {
-            ContextName = string.Empty;
-        }
+        private void ResetContextName() => ContextName = string.Empty;
 
         /// <summary>
         /// Gets and sets the visible state of the ribbon tab.
@@ -255,18 +252,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon tab visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon tab hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets the collection of ribbon tab groups.
@@ -300,10 +291,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
 
         /// <summary>
         /// Internal design time properties.
@@ -320,22 +308,13 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
-        internal void OnDesignTimeAddGroup()
-        {
-            DesignTimeAddGroup?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddGroup() => DesignTimeAddGroup?.Invoke(this, EventArgs.Empty);
 
         internal bool ProcessCmdKey(ref Message msg, Keys keyData)
         {

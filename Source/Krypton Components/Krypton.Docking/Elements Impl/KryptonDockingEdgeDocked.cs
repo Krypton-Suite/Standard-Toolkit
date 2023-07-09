@@ -276,7 +276,7 @@ namespace Krypton.Docking
             if (_update)
             {
                 // Inform our owning control that the update has ended, allowing the client area to be drawn
-                KryptonDockingControl? c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
+                var c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
                 c?.PropogateAction(DockingPropogateAction.EndUpdate, null as string[]);
                 _update = false;
             }
@@ -287,7 +287,7 @@ namespace Krypton.Docking
             if (_update)
             {
                 // Inform our owning control that the update has ended, allowing the client area to be drawn
-                KryptonDockingControl? c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
+                var c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
                 c?.PropogateAction(DockingPropogateAction.EndUpdate, null as string[]);
                 _update = false;
             }
@@ -359,7 +359,7 @@ namespace Krypton.Docking
             var reduceHeight = Math.Max(dockspaceElement.DockspaceControl.Height - dockspaceMinimum.Height, 0);
 
             // Get the minimum size requested for the inner area of the control
-            Size innerMinimum = Size.Empty;
+            var innerMinimum = Size.Empty;
             if (GetParentType(typeof(KryptonDockingControl)) is KryptonDockingControl dockingControl)
             {
                 innerMinimum = dockingControl.InnerMinimum;

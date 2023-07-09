@@ -182,10 +182,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeOrientation()
         => _orientation != VisualOrientation.Top;
 
-        private void ResetOrientation()
-        {
-            _orientation = VisualOrientation.Top;
-        }
+        private void ResetOrientation() => _orientation = VisualOrientation.Top;
 
         /// <summary>
         /// Gets and sets the label style.
@@ -326,11 +323,9 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawContent.FixedState = state;
-        }
         #endregion
 
         #region IContentValues

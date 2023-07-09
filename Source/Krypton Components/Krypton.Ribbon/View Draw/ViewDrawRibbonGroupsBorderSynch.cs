@@ -70,10 +70,10 @@ namespace Krypton.Ribbon
                 ViewLayoutRibbonScrollPort viewScrollPort = _tabToView[Ribbon.SelectedTab];
 
                 // The first child of the scroll port is always the view control
-                ViewLayoutControl? viewControl = viewScrollPort[0] as ViewLayoutControl;
+                var viewControl = viewScrollPort[0] as ViewLayoutControl;
 
                 // The first child of the view control is always the ribbon groups
-                ViewLayoutRibbonGroups? viewGroups = viewControl?.ChildView as ViewLayoutRibbonGroups;
+                var viewGroups = viewControl?.ChildView as ViewLayoutRibbonGroups;
 
                 // Ask the view groups to find a matching group
                 return viewGroups?.ViewGroupFromPoint(pt);

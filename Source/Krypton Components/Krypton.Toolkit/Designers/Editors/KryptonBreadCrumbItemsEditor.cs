@@ -145,11 +145,9 @@ namespace Krypton.Toolkit
                 #endregion
 
                 #region Implementation
-                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-                {
+                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) =>
                     // Update with correct string for new state
                     Text = Item.ToString();
-                }
                 #endregion
             }
 
@@ -585,7 +583,7 @@ namespace Krypton.Toolkit
             private void buttonMoveUp_Click(object sender, EventArgs e)
             {
                 // If we have a selected node
-                MenuTreeNode? node = treeView1.SelectedNode as MenuTreeNode;
+                var node = treeView1.SelectedNode as MenuTreeNode;
                 if (node != null)
                 {
                     // Find the previous node using the currently selected node
@@ -595,7 +593,7 @@ namespace Krypton.Toolkit
                         var contained = ContainsNode(previousNode, node);
 
                         // Remove cell from parent collection
-                        MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
+                        var parentNode = (MenuTreeNode)node.Parent;
                         TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
                         parentNode?.Item.Items.Remove(node.Item);
                         parentCollection.Remove(node);
@@ -603,7 +601,7 @@ namespace Krypton.Toolkit
                         if (contained)
                         {
                             // Add cell to the parent of target node
-                            MenuTreeNode? previousParent = previousNode.Parent as MenuTreeNode;
+                            var previousParent = previousNode.Parent as MenuTreeNode;
                             parentCollection = previousNode.Parent == null ? treeView1.Nodes : previousNode.Parent.Nodes;
                             var pageIndex = parentCollection.IndexOf(previousNode);
 
@@ -642,7 +640,7 @@ namespace Krypton.Toolkit
             private void buttonMoveDown_Click(object sender, EventArgs e)
             {
                 // If we have a selected node
-                MenuTreeNode? node = treeView1.SelectedNode as MenuTreeNode;
+                var node = treeView1.SelectedNode as MenuTreeNode;
                 if (node != null)
                 {
                     // Find the next node using the currently selected node
@@ -652,7 +650,7 @@ namespace Krypton.Toolkit
                         var contained = ContainsNode(nextNode, node);
 
                         // Remove cell from parent collection
-                        MenuTreeNode? parentNode = node.Parent as MenuTreeNode;
+                        var parentNode = node.Parent as MenuTreeNode;
                         TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
                         parentNode?.Item.Items.Remove(node.Item);
                         parentCollection.Remove(node);
@@ -660,7 +658,7 @@ namespace Krypton.Toolkit
                         if (contained)
                         {
                             // Add cell to the parent sequence of target cell
-                            MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
+                            var previousParent = (MenuTreeNode)nextNode.Parent;
                             parentCollection = nextNode.Parent == null ? treeView1.Nodes : nextNode.Parent.Nodes;
                             var pageIndex = parentCollection.IndexOf(nextNode);
                             previousParent?.Item.Items.Insert(pageIndex + 1, node.Item);
@@ -684,7 +682,7 @@ namespace Krypton.Toolkit
 
             private void buttonAddSibling_Click(object sender, EventArgs e)
             {
-                KryptonBreadCrumbItem? item = CreateInstance(typeof(KryptonBreadCrumbItem)) as KryptonBreadCrumbItem;
+                var item = CreateInstance(typeof(KryptonBreadCrumbItem)) as KryptonBreadCrumbItem;
                 TreeNode newNode = new MenuTreeNode(item);
                 TreeNode selectedNode = treeView1.SelectedNode;
 
@@ -703,7 +701,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        MenuTreeNode parentMenu = (MenuTreeNode)parentNode;
+                        var parentMenu = (MenuTreeNode)parentNode;
                         parentMenu.Item.Items.Insert(parentNode.Nodes.IndexOf(selectedNode) + 1, item);
                         parentNode.Nodes.Insert(parentNode.Nodes.IndexOf(selectedNode) + 1, newNode);
                     }
@@ -722,7 +720,7 @@ namespace Krypton.Toolkit
 
             private void buttonAddChild_Click(object sender, EventArgs e)
             {
-                KryptonBreadCrumbItem item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
+                var item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
                 TreeNode newNode = new MenuTreeNode(item);
                 TreeNode selectedNode = treeView1.SelectedNode;
 
@@ -733,7 +731,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    MenuTreeNode selectedMenu = (MenuTreeNode)selectedNode;
+                    var selectedMenu = (MenuTreeNode)selectedNode;
                     selectedMenu.Item.Items.Add(item);
                     selectedNode.Nodes.Add(newNode);
                 }
@@ -756,7 +754,7 @@ namespace Krypton.Toolkit
                 // We should have a selected node!
                 if (node != null)
                 {
-                    MenuTreeNode treeNode = node as MenuTreeNode;
+                    var treeNode = node as MenuTreeNode;
 
                     // If at root level then remove from root, otherwise from the parent collection
                     if (node.Parent == null)
@@ -766,7 +764,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         TreeNode parentNode = node.Parent;
-                        MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
+                        var treeParentNode = parentNode as MenuTreeNode;
                         treeParentNode.Item.Items.Remove(treeNode.Item);
                         node.Parent.Nodes.Remove(node);
                     }
@@ -786,7 +784,7 @@ namespace Krypton.Toolkit
 
             private void UpdateButtons()
             {
-                MenuTreeNode node = treeView1.SelectedNode as MenuTreeNode;
+                var node = treeView1.SelectedNode as MenuTreeNode;
                 buttonMoveUp.Enabled = (node != null) && (PreviousNode(node) != null);
                 buttonMoveDown.Enabled = (node != null) && (NextNode(node) != null);
                 buttonDelete.Enabled = node != null;
@@ -868,7 +866,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                IComponentChangeService changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
                 if (changeService != null)
                 {
                     // Mark components as changed when not added or removed

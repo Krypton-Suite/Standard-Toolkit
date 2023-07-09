@@ -735,10 +735,7 @@ namespace Krypton.Toolkit
         /// Update the view elements based on the requested label style.
         /// </summary>
         /// <param name="style">New label style.</param>
-        protected virtual void SetLabelStyle(LabelStyle style)
-        {
-            _paletteCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        protected virtual void SetLabelStyle(LabelStyle style) => _paletteCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
 
         /// <summary>
         /// Processes a mnemonic character.

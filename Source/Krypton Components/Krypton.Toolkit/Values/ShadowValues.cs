@@ -88,10 +88,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetEnableShadows()
-        {
-            EnableShadows = false;
-        }
+        public void ResetEnableShadows() => EnableShadows = false;
 
 
         /// <summary>
@@ -114,10 +111,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetOffset()
-        {
-            _offset = _defaultOffset;
-        }
+        public void ResetOffset() => _offset = _defaultOffset;
 
         /// <summary>
         /// </summary>
@@ -139,10 +133,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetExtraWidth()
-        {
-            _extraWidth = 5;
-        }
+        public void ResetExtraWidth() => _extraWidth = 5;
 
 
 
@@ -169,10 +160,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetBlurDistance()
-        {
-            BlurDistance = 50;
-        }
+        public void ResetBlurDistance() => BlurDistance = 50;
 
 
         /// <summary>
@@ -196,10 +184,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PlacementMode property to its default value.
         /// </summary>
-        public void ResetColour()
-        {
-            Colour = SystemColors.ActiveBorder;
-        }
+        public void ResetColour() => Colour = SystemColors.ActiveBorder;
 
         /// <summary>
         /// </summary>
@@ -224,10 +209,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        public void ResetOpacity()
-        {
-            _opacity = 95;
-        }
+        public void ResetOpacity() => _opacity = 95;
 
 
         #region Default Values

@@ -263,10 +263,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeContainerBackStyle() => ContainerBackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetContainerBackStyle()
-        {
-            ContainerBackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetContainerBackStyle() => ContainerBackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets and sets the separator style.
@@ -291,10 +288,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeSeparatorStyle() => SeparatorStyle != SeparatorStyle.HighProfile;
 
-        private void ResetSeparatorStyle()
-        {
-            SeparatorStyle = SeparatorStyle.HighProfile;
-        }
+        private void ResetSeparatorStyle() => SeparatorStyle = SeparatorStyle.HighProfile;
 
         /// <summary>
         /// Gets access to the common separator appearance that other states can override.

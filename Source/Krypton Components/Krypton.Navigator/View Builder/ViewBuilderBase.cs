@@ -217,15 +217,13 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <returns>Enabled state of the button.</returns>
-        public virtual ButtonEnabled NextActionEnabled(DirectionButtonAction action)
-        {
+        public virtual ButtonEnabled NextActionEnabled(DirectionButtonAction action) =>
             // Process the requested action
-            return action switch
+            action switch
             {
                 DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.NextActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
                 _ => ButtonEnabled.False // Action not supported so disable button
             };
-        }
 
         /// <summary>
         /// Perform the next button action requested.
@@ -252,15 +250,13 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <returns>Enabled state of the button.</returns>
-        public virtual ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
-        {
+        public virtual ButtonEnabled PreviousActionEnabled(DirectionButtonAction action) =>
             // Process the requested action
-            return action switch
+            action switch
             {
                 DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.PreviousActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
                 _ => ButtonEnabled.False // Action not supported so disable button
             };
-        }
 
         /// <summary>
         /// Perform the previous button action requested.
@@ -670,41 +666,31 @@ namespace Krypton.Navigator
         /// Requests a need paint be performed on the navigator.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Requests a need page paint be performed on the navigator.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected void PerformNeedPagePaint(bool needLayout)
-        {
-            OnNeedPagePaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected void PerformNeedPagePaint(bool needLayout) => OnNeedPagePaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Perform a need paint on the navigator.
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
-        {
+        protected void OnNeedPaint(object? sender, NeedLayoutEventArgs e) =>
             // Pass paint request onto the navigator control itself
             Navigator.PerformNeedPaint(e.NeedLayout);
-        }
 
         /// <summary>
         /// Perform a need page paint on the navigator.
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected void OnNeedPagePaint(object sender, NeedLayoutEventArgs e)
-        {
+        protected void OnNeedPagePaint(object sender, NeedLayoutEventArgs e) =>
             // Pass paint request onto the navigator control itself
             Navigator.PerformNeedPagePaint(e.NeedLayout);
-        } 
 
         /// <summary>
         /// Process the change in a property that might effect the view builder.

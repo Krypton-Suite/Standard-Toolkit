@@ -61,10 +61,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TypeRestricted property to its default value.
         /// </summary>
-        public void ResetTypeRestricted()
-        {
-            TypeRestricted = PaletteNavButtonSpecStyle.Generic;
-        }
+        public void ResetTypeRestricted() => TypeRestricted = PaletteNavButtonSpecStyle.Generic;
         #endregion
 
         #region Implementation

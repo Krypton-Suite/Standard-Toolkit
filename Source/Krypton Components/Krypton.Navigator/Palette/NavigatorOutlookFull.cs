@@ -95,10 +95,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the OverflowMapImage property to its default value.
         /// </summary>
-        public void ResetOverflowMapImage()
-        {
-            OverflowMapImage = MapKryptonPageImage.Small;
-        }
+        public void ResetOverflowMapImage() => OverflowMapImage = MapKryptonPageImage.Small;
         #endregion
 
         #region OverflowMapText
@@ -126,10 +123,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the OverflowMapText property to its default value.
         /// </summary>
-        public void ResetOverflowMapText()
-        {
-            OverflowMapText = MapKryptonPageText.None;
-        }
+        public void ResetOverflowMapText() => OverflowMapText = MapKryptonPageText.None;
         #endregion
 
         #region OverflowMapExtraText
@@ -157,10 +151,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the OverflowMapExtraText property to its default value.
         /// </summary>
-        public void ResetOverflowMapExtraText()
-        {
-            OverflowMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetOverflowMapExtraText() => OverflowMapExtraText = MapKryptonPageText.None;
         #endregion
 
         #region StackMapImage
@@ -189,10 +180,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapImage property to its default value.
         /// </summary>
-        public void ResetStackMapImage()
-        {
-            StackMapImage = MapKryptonPageImage.MediumSmall;
-        }
+        public void ResetStackMapImage() => StackMapImage = MapKryptonPageImage.MediumSmall;
         #endregion
 
         #region StackMapText
@@ -220,10 +208,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapText property to its default value.
         /// </summary>
-        public void ResetStackMapText()
-        {
-            StackMapText = MapKryptonPageText.TextTitle;
-        }
+        public void ResetStackMapText() => StackMapText = MapKryptonPageText.TextTitle;
         #endregion
 
         #region StackMapExtraText
@@ -251,10 +236,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapExtraText property to its default value.
         /// </summary>
-        public void ResetStackMapExtraText()
-        {
-            StackMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetStackMapExtraText() => StackMapExtraText = MapKryptonPageText.None;
         #endregion
     }
 }

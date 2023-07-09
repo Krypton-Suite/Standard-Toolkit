@@ -30,7 +30,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Occurs after a change has occurred to the collection.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
@@ -182,38 +182,26 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(e);
-        }
+        protected void OnChildPropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged(e);
 
         /// <summary>
         /// Handle a maximize/restore request from a child item.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildMaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            MaximizeRestoreClicked?.Invoke(sender, e);
-        }
+        protected void OnChildMaximizeRestoreClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(sender, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="property">Name of the property that has changed.</param>
-        protected virtual void OnPropertyChanged(string property)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(property));
-        }
+        protected virtual void OnPropertyChanged(string property) => OnPropertyChanged(new PropertyChangedEventArgs(property));
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
         #endregion
     }
 }

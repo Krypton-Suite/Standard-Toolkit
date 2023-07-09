@@ -336,7 +336,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new triple component
-                    KryptonRibbonGroupTriple triple = (KryptonRibbonGroupTriple)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTriple));
+                    var triple = (KryptonRibbonGroupTriple)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTriple));
                     _ribbonGroup.Items.Add(triple);
 
                     // Get access to the Triple.Items property
@@ -345,9 +345,9 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyTripleItems);
 
                     // Get designer to create three new button components
-                    KryptonRibbonGroupButton button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
-                    KryptonRibbonGroupButton button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
-                    KryptonRibbonGroupButton button3 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button3 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
                     triple.Items.Add(button1);
                     triple.Items.Add(button2);
                     triple.Items.Add(button3);
@@ -378,7 +378,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new lines component
-                    KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines));
+                    var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines));
                     _ribbonGroup.Items.Add(lines);
 
                     // Get access to the Lines.Items property
@@ -387,8 +387,8 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyLinesItems);
 
                     // Get designer to create three new button components
-                    KryptonRibbonGroupButton button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
-                    KryptonRibbonGroupButton button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
                     lines.Items.Add(button1);
                     lines.Items.Add(button2);
 
@@ -418,7 +418,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new separator component
-                    KryptonRibbonGroupSeparator sep = (KryptonRibbonGroupSeparator)_designerHost.CreateComponent(typeof(KryptonRibbonGroupSeparator));
+                    var sep = (KryptonRibbonGroupSeparator)_designerHost.CreateComponent(typeof(KryptonRibbonGroupSeparator));
                     _ribbonGroup.Items.Add(sep);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -446,7 +446,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new gallery component
-                    KryptonRibbonGroupGallery gallery = (KryptonRibbonGroupGallery)_designerHost.CreateComponent(typeof(KryptonRibbonGroupGallery));
+                    var gallery = (KryptonRibbonGroupGallery)_designerHost.CreateComponent(typeof(KryptonRibbonGroupGallery));
                     _ribbonGroup.Items.Add(gallery);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the items from the tab
                     for (var i = _ribbonGroup.Items.Count - 1; i >= 0; i--)
@@ -554,10 +554,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -565,12 +562,12 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonGroup)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all containers from the group
                 for (var j = _ribbonGroup.Items.Count - 1; j >= 0; j--)
                 {
-                    KryptonRibbonGroupContainer item = _ribbonGroup.Items[j] as KryptonRibbonGroupContainer;
+                    var item = _ribbonGroup.Items[j] as KryptonRibbonGroupContainer;
                     _ribbonGroup.Items.Remove(item);
                     host.DestroyComponent(item);
                 }

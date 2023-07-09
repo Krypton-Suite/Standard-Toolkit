@@ -211,8 +211,8 @@ namespace Krypton.Toolkit
             }
 
             // If not in normal state, then need to adorn display
-            Color outside = Color.Empty;
-            Color inside = Color.Empty;
+            var outside = Color.Empty;
+            var inside = Color.Empty;
 
             // Is this element selected?
             var selected = (KryptonContextMenuColorColumns.SelectedColor != null) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
@@ -253,10 +253,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnClick(object sender, EventArgs e)
-        {
-            KryptonContextMenuColorColumns.SelectedColor = Color;
-        }
+        private void OnClick(object sender, EventArgs e) => KryptonContextMenuColorColumns.SelectedColor = Color;
         #endregion
     }
 }

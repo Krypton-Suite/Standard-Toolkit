@@ -348,20 +348,14 @@ namespace Krypton.Navigator
         /// <param name="sender">Source of the page drag; can be null.</param>
         /// <param name="navigator">Navigator instance associated with source; can be null.</param>
         /// <param name="e">Event arguments indicating list of pages being dragged.</param>
-        public virtual void PageDragStart(object sender, KryptonNavigator? navigator, PageDragCancelEventArgs e)
-        {
-            e.Cancel = !DragStart(e.ScreenPoint, new PageDragEndData(sender, navigator, e.Pages));
-        }
+        public virtual void PageDragStart(object sender, KryptonNavigator? navigator, PageDragCancelEventArgs e) => e.Cancel = !DragStart(e.ScreenPoint, new PageDragEndData(sender, navigator, e.Pages));
 
         /// <summary>
         /// Occurs when the mouse moves during the drag operation.
         /// </summary>
         /// <param name="sender">Source of the page drag; can be null.</param>
         /// <param name="e">Event arguments containing the new screen point of the mouse.</param>
-        public virtual void PageDragMove(object sender, PointEventArgs e)
-        {
-            DragMove(e.Point);
-        }
+        public virtual void PageDragMove(object sender, PointEventArgs e) => DragMove(e.Point);
 
         /// <summary>
         /// Occurs when drag operation completes with pages being dropped.
@@ -375,10 +369,7 @@ namespace Krypton.Navigator
         /// Occurs when dragging pages has been cancelled.
         /// </summary>
         /// <param name="sender">Source of the page drag; can be null.</param>
-        public virtual void PageDragQuit(object sender)
-        {
-            DragQuit();
-        }
+        public virtual void PageDragQuit(object sender) => DragQuit();
         #endregion
 
         #region Protected

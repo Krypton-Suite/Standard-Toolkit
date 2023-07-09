@@ -26,13 +26,11 @@ namespace Krypton.Ribbon
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes()
-        {
+        protected override Type[] CreateNewItemTypes() =>
             // Bug https://github.com/Krypton-Suite/Standard-Toolkit/issues/66
             // For some reason in .Net5 onwards, the following function is not called
-            return new[] { typeof(KryptonRibbonGroupLines),
+            new[] { typeof(KryptonRibbonGroupLines),
                 typeof(KryptonRibbonGroupTriple),
                 typeof(KryptonRibbonGroupSeparator) };
-        }
     }
 }

@@ -82,10 +82,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the collapse property to its default value.
         /// </summary>
-        public void ResetPlus()
-        {
-            Plus = null;
-        }
+        public void ResetPlus() => Plus = null;
         #endregion
 
         #region Minus
@@ -114,10 +111,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Minus property to its default value.
         /// </summary>
-        public void ResetMinus()
-        {
-            Minus = null;
-        }
+        public void ResetMinus() => Minus = null;
         #endregion
     }
 }

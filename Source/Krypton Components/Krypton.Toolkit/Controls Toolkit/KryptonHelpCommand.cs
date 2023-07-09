@@ -37,7 +37,6 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the help button.</summary>
         /// <value>The help button.</value>
         [DefaultValue(null), Description(@"Access to the help button spec.")]
-        [AllowNull]
         public ButtonSpecAny? HelpButton
         {
             get => _helpButtonSpec ?? new ButtonSpecAny();
@@ -904,10 +903,7 @@ namespace Krypton.Toolkit
 
         #region Overrides
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
-        }
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e) => base.OnPropertyChanged(e);
 
         #endregion
     }

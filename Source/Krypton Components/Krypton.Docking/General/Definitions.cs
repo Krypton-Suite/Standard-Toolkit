@@ -45,7 +45,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        void PropogateAction(DockingPropogateAction action, string?[] uniqueNames);
+        void PropogateAction(DockingPropogateAction action, string[]? uniqueNames);
 
         /// <summary>
         /// Propagates an action request down the hierarchy of docking elements.

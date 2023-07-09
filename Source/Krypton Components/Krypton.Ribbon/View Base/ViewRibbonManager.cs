@@ -58,10 +58,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Application we are inside has become active.
         /// </summary>
-        public void Active()
-        {
-            _active = true;
-        }
+        public void Active() => _active = true;
         #endregion
 
         #region Inactive
@@ -244,15 +241,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void PerformNeedPaint(bool needLayout)
-        {
-            PerformNeedPaint(needLayout, Rectangle.Empty);
-        }
+        private void PerformNeedPaint(bool needLayout) => PerformNeedPaint(needLayout, Rectangle.Empty);
 
-        private void PerformNeedPaint(bool needLayout, Rectangle invalidRect)
-        {
-            _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+        private void PerformNeedPaint(bool needLayout, Rectangle invalidRect) => _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
         #endregion
     }
 }

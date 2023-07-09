@@ -320,10 +320,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetTodayDate()
-        {
-            TodayDate = DateTime.Now.Date;
-        }
+        private void ResetTodayDate() => TodayDate = DateTime.Now.Date;
 
         private bool ShouldSerializeTodayDate() => TodayDate != DateTime.Now.Date;
 
@@ -359,10 +356,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetAnnuallyBoldedDates()
-        {
-            AnnuallyBoldedDates = null;
-        }
+        private void ResetAnnuallyBoldedDates() => AnnuallyBoldedDates = null;
 
         private bool ShouldSerializeAnnuallyBoldedDates() => _annualDates.Count > 0;
 
@@ -394,10 +388,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetMonthlyBoldedDates()
-        {
-            MonthlyBoldedDates = null;
-        }
+        private void ResetMonthlyBoldedDates() => MonthlyBoldedDates = null;
 
         private bool ShouldSerializeMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
@@ -421,10 +412,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBoldedDates()
-        {
-            BoldedDates = null;
-        }
+        private void ResetBoldedDates() => BoldedDates = null;
 
         private bool ShouldSerializeBoldedDates() => BoldedDatesList.Count > 0;
 
@@ -460,10 +448,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetMinDate()
-        {
-            MinDate = DateTimePicker.MinimumDateTime;
-        }
+        private void ResetMinDate() => MinDate = DateTimePicker.MinimumDateTime;
 
         private bool ShouldSerializeMinDate() => _minDate != DateTimePicker.MinimumDateTime;
 
@@ -499,10 +484,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetMaxDate()
-        {
-            MaxDate = DateTimePicker.MaximumDateTime;
-        }
+        private void ResetMaxDate() => MaxDate = DateTimePicker.MaximumDateTime;
 
         private bool ShouldSerializeMaxDate() => _maxDate != DateTimePicker.MaximumDateTime;
 
@@ -580,10 +562,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetSelectionStart()
-        {
-            SelectionStart = DateTime.Now.Date;
-        }
+        private void ResetSelectionStart() => SelectionStart = DateTime.Now.Date;
 
         private bool ShouldSerializeSelectionStart() => SelectionStart != DateTime.Now.Date;
 
@@ -633,10 +612,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetSelectionEnd()
-        {
-            SelectionEnd = DateTime.Now.Date;
-        }
+        private void ResetSelectionEnd() => SelectionEnd = DateTime.Now.Date;
 
         private bool ShouldSerializeSelectionEnd() => SelectionStart != DateTime.Now.Date;
 
@@ -706,10 +682,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetTodayText()
-        {
-            TodayText = DEFAULT_TODAY;
-        }
+        private void ResetTodayText() => TodayText = DEFAULT_TODAY;
 
         /// <summary>
         /// Gets or sets the number of columns and rows of months Displayed. 
@@ -764,10 +737,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetFirstDayOfWeek()
-        {
-            FirstDayOfWeek = Day.Default;
-        }
+        private void ResetFirstDayOfWeek() => FirstDayOfWeek = Day.Default;
 
         private bool ShouldSerializeFirstDayOfWeek() => FirstDayOfWeek != Day.Default;
 
@@ -885,10 +855,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeDayStyle() => _dayStyle != ButtonStyle.CalendarDay;
 
-        private void ResetDayStyle()
-        {
-            DayStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetDayStyle() => DayStyle = ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets and sets the content style for the day of week labels.
@@ -914,10 +881,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeDayOfWeekStyle() => _dayOfWeekStyle != ButtonStyle.CalendarDay;
 
-        private void ResetDayOfWeekStyle()
-        {
-            DayOfWeekStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetDayOfWeekStyle() => DayOfWeekStyle = ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets access to the day appearance when it has focus.

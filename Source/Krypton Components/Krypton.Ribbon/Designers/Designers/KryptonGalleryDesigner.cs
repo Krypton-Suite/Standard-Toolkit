@@ -130,7 +130,7 @@ namespace Krypton.Ribbon
             if (e.Component == _gallery)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the range instances
                 for (var i = _gallery.DropButtonRanges.Count - 1; i >= 0; i--)

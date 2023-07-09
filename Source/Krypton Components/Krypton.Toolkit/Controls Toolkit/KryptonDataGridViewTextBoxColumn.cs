@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewTextBoxColumn cloned = base.Clone() as KryptonDataGridViewTextBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn;
 
             cloned.Multiline = Multiline;
             cloned.MultilineStringEditor = MultilineStringEditor;

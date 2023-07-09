@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             if (destinationType == typeof(string))
             {
                 // Cast to correct type
-                ButtonSpecFormFixed? buttonSpec = value as ButtonSpecFormFixed;
+                var buttonSpec = value as ButtonSpecFormFixed;
 
                 // Ask the button spec for the correct string
                 return buttonSpec?.ToString() ?? string.Empty;

@@ -462,7 +462,7 @@ namespace Krypton.Toolkit
         {
             // Best match found so far
             IContextMenuTarget? topLeftTarget = null;
-            Rectangle topLeftRect = Rectangle.Empty;
+            var topLeftRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -496,7 +496,7 @@ namespace Krypton.Toolkit
         {
             // Best match found so far
             IContextMenuTarget? topRightTarget = null;
-            Rectangle topRightRect = Rectangle.Empty;
+            var topRightRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -530,7 +530,7 @@ namespace Krypton.Toolkit
         {
             // Best match found so far
             IContextMenuTarget? bottomLeftTarget = null;
-            Rectangle bottomLeftRect = Rectangle.Empty;
+            var bottomLeftRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -588,7 +588,7 @@ namespace Krypton.Toolkit
 
             // Best match found so far
             IContextMenuTarget? nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -650,7 +650,7 @@ namespace Krypton.Toolkit
 
             // Best match found so far
             IContextMenuTarget? nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -713,7 +713,7 @@ namespace Krypton.Toolkit
 
             // Best match found so far
             IContextMenuTarget? nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -785,7 +785,7 @@ namespace Krypton.Toolkit
 
             // Best match found so far
             IContextMenuTarget? nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)

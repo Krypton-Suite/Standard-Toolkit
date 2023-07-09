@@ -555,7 +555,7 @@ namespace Krypton.Toolkit
             _drawButton.ElementState = buttonState;
 
             // Grab the raw device context for the graphics instance
-            IntPtr hdc = e.Graphics.GetHdc();
+            var hdc = e.Graphics.GetHdc();
 
             try
             {
@@ -578,7 +578,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
+                var hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
 
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
@@ -840,10 +840,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBackStyle()
-        {
-            BackStyle = PaletteBackStyle.InputControlStandalone;
-        }
+        private void ResetBackStyle() => BackStyle = PaletteBackStyle.InputControlStandalone;
 
         private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
@@ -866,10 +863,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBorderStyle()
-        {
-            BorderStyle = PaletteBorderStyle.InputControlStandalone;
-        }
+        private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.InputControlStandalone;
 
         private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
@@ -1074,10 +1068,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
@@ -1230,13 +1221,11 @@ namespace Krypton.Toolkit
             cms.Renderer = Renderer.RenderToolStrip(_palette);
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 

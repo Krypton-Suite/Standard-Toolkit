@@ -211,10 +211,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the UseRoundedEdges property to its default value.
         /// </summary>
-        public void ResetUseRoundedEdges()
-        {
-            UseRoundedEdges = InheritBool.Inherit;
-        }
+        public void ResetUseRoundedEdges() => UseRoundedEdges = InheritBool.Inherit;
         #endregion
 
         #region Internal

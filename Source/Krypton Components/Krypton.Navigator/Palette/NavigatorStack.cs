@@ -146,10 +146,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackAnimation property to its default value.
         /// </summary>
-        public void ResetStackAnimation()
-        {
-            StackAnimation = true;
-        }
+        public void ResetStackAnimation() => StackAnimation = true;
         #endregion
 
         #region StackOrientation
@@ -177,10 +174,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackOrientation property to its default value.
         /// </summary>
-        public void ResetStackOrientation()
-        {
-            StackOrientation = Orientation.Vertical;
-        }
+        public void ResetStackOrientation() => StackOrientation = Orientation.Vertical;
         #endregion
 
         #region StackAlignment
@@ -208,10 +202,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackAlignment property to its default value.
         /// </summary>
-        public void ResetStackAlignment()
-        {
-            StackAlignment = RelativePositionAlign.Center;
-        }
+        public void ResetStackAlignment() => StackAlignment = RelativePositionAlign.Center;
         #endregion
 
         #region ItemOrientation
@@ -239,10 +230,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ItemOrientation property to its default value.
         /// </summary>
-        public void ResetItemOrientation()
-        {
-            ItemOrientation = ButtonOrientation.Auto;
-        }
+        public void ResetItemOrientation() => ItemOrientation = ButtonOrientation.Auto;
         #endregion
 
         #region StackMapImage
@@ -271,10 +259,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapImage property to its default value.
         /// </summary>
-        public void ResetStackMapImage()
-        {
-            StackMapImage = MapKryptonPageImage.Small;
-        }
+        public void ResetStackMapImage() => StackMapImage = MapKryptonPageImage.Small;
         #endregion
 
         #region StackMapText
@@ -302,10 +287,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapText property to its default value.
         /// </summary>
-        public void ResetStackMapText()
-        {
-            StackMapText = MapKryptonPageText.TextTitle;
-        }
+        public void ResetStackMapText() => StackMapText = MapKryptonPageText.TextTitle;
         #endregion
 
         #region MapExtraText
@@ -333,10 +315,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapExtraText property to its default value.
         /// </summary>
-        public void ResetStackMapExtraText()
-        {
-            StackMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetStackMapExtraText() => StackMapExtraText = MapKryptonPageText.None;
         #endregion
     }
 }

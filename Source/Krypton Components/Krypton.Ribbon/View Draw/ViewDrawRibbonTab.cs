@@ -712,10 +712,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTabPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            MakeDirty();
-        }
+        private void OnTabPropertyChanged(object sender, PropertyChangedEventArgs e) => MakeDirty();
 
         private void OnTabClicked(object sender, MouseEventArgs e)
         {

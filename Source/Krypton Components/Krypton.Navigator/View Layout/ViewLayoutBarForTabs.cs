@@ -127,8 +127,8 @@ namespace Krypton.Navigator
                 if (child.Visible && child.ClientRectangle.IntersectsWith(context.ClipRect))
                 {
                     // If this is a page representation that can overlap group border
-                    ViewDrawNavCheckButtonBar buttonBar = child as ViewDrawNavCheckButtonBar;
-                    ViewDrawNavRibbonTab tab = child as ViewDrawNavRibbonTab;
+                    var buttonBar = child as ViewDrawNavCheckButtonBar;
+                    var tab = child as ViewDrawNavRibbonTab;
                     if ((buttonBar != null) ||
                         (tab != null))
                     {

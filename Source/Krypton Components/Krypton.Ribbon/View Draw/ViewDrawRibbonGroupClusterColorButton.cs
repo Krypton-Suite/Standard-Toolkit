@@ -258,18 +258,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -321,10 +315,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -409,10 +400,7 @@ namespace Krypton.Ribbon
             Add(_viewMediumSmall);
         }
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupClusterColorButton.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupClusterColorButton.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -464,20 +452,11 @@ namespace Krypton.Ribbon
 
         }
 
-        private void OnSmallButtonClick(object sender, EventArgs e)
-        {
-            GroupClusterColorButton.PerformClick(_viewMediumSmall.FinishDelegate);
-        }
+        private void OnSmallButtonClick(object sender, EventArgs e) => GroupClusterColorButton.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnSmallButtonDropDown(object sender, EventArgs e)
-        {
-            GroupClusterColorButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
-        }
+        private void OnSmallButtonDropDown(object sender, EventArgs e) => GroupClusterColorButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupClusterColorButton.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupClusterColorButton.OnDesignTimeContextMenu(e);
 
         private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

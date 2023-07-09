@@ -52,10 +52,7 @@ namespace Krypton.Ribbon
             /// <summary>
             /// Hide focus by giving it to the hidden control.
             /// </summary>
-            public void HideFocus()
-            {
-                _hiddenFocusTarget.Focus();
-            }
+            public void HideFocus() => _hiddenFocusTarget.Focus();
             #endregion
 
             #region Protected
@@ -76,13 +73,13 @@ namespace Krypton.Ribbon
                 {
                     case VisualPopupGroup popGroup:
                     {
-                        ViewRibbonPopupGroupManager manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
+                        var manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
                         focusView = manager.FocusView;
                         break;
                     }
                     case VisualPopupMinimized minimized:
                     {
-                        ViewRibbonMinimizedManager manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
+                        var manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
                         focusView = manager.FocusView;
                         break;
                     }
@@ -770,10 +767,7 @@ namespace Krypton.Ribbon
             _needPaintDelegate(this, new NeedLayoutEventArgs(true));
         }
 
-        private void OnViewControlPaintBackground(object sender, PaintEventArgs e)
-        {
-            PaintBackground?.Invoke(sender, e);
-        }
+        private void OnViewControlPaintBackground(object sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
         #endregion
     }
 }

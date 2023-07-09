@@ -575,7 +575,7 @@ namespace Krypton.Ribbon
             // Sync child elements to the current group items
             SyncChildrenToRibbonGroupItems();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
             for (int i = 0, j = 0; i < Count; i++)

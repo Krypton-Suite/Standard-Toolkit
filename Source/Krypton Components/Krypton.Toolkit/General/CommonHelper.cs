@@ -101,12 +101,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a string that is guaranteed to be unique.
         /// </summary>
-        public static string? UniqueString
+        public static string UniqueString
         {
             get
             {
                 // Generate a GUID that is guaranteed to be unique
-                Guid guid = Guid.NewGuid();
+                var guid = Guid.NewGuid();
                 // Return as a hex formatted string.
                 return guid.ToString(@"N");
             }
@@ -148,8 +148,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Get any menu item from context strip that matches the shortcut key combination
-                Hashtable shortcuts = (Hashtable)_cachedShortcutPI!.GetValue(cms, null);
-                ToolStripMenuItem? menuItem = (ToolStripMenuItem)shortcuts[keyData];
+                var shortcuts = (Hashtable)_cachedShortcutPI!.GetValue(cms, null);
+                var menuItem = (ToolStripMenuItem)shortcuts[keyData];
 
                 // If we found a match...
                 if (menuItem != null)
@@ -360,10 +360,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="rect">Rectangle to modify.</param>
         [DebuggerStepThrough]
-        public static void SwapRectangleSizes(ref Rectangle rect)
-        {
-            (rect.Width, rect.Height) = (rect.Height, rect.Width);
-        }
+        public static void SwapRectangleSizes(ref Rectangle rect) => (rect.Width, rect.Height) = (rect.Height, rect.Width);
 
         /// <summary>
         /// Gets the form level right to left setting.
@@ -377,7 +374,7 @@ namespace Krypton.Toolkit
 
             // We need a valid control to find a top level form
             // Search for a top level form associated with the control
-            Form? topForm = control?.FindForm();
+            Form? topForm = control.FindForm();
 
             // If can find an owning form
             if (topForm != null)
@@ -558,7 +555,7 @@ namespace Krypton.Toolkit
                 return borders;
             }
 
-            PaletteDrawBorders ret = PaletteDrawBorders.None;
+            var ret = PaletteDrawBorders.None;
 
             // Apply orientation change to each side in turn
             switch (orientation)
@@ -662,7 +659,7 @@ namespace Krypton.Toolkit
                 return borders;
             }
 
-            PaletteDrawBorders ret = PaletteDrawBorders.None;
+            var ret = PaletteDrawBorders.None;
 
             // Apply orientation change to each side in turn
             switch (orientation)
@@ -1050,7 +1047,7 @@ namespace Krypton.Toolkit
         public static int ColorDepth()
         {
             // Get access to the desktop DC
-            IntPtr desktopDC = PI.GetDC(IntPtr.Zero);
+            var desktopDC = PI.GetDC(IntPtr.Zero);
 
             // Find raw values that define the color depth
             var planes = PI.GetDeviceCaps(desktopDC, PI.DeviceCap.PLANES);
@@ -1124,14 +1121,14 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c.Parent != null)
+            if (c!.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent.Controls is KryptonControlCollection cc)
+            if (parent!.Controls is KryptonControlCollection cc)
             {
                 cc.AddInternal(c);
             }
@@ -1151,7 +1148,7 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is inside a parent collection
-            if (c.Parent != null)
+            if (c!.Parent != null)
             {
                 // Then must use the internal method for adding a new instance
                 // If the control collection is one of our internal collections...
@@ -1466,7 +1463,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string? SizeToString(Size s) => _sc.ConvertToInvariantString(s);
+        public static string SizeToString(Size s) => _sc.ConvertToInvariantString(s);
 
         /// <summary>
         /// Convert a culture invariant string value to a Size.
@@ -1494,21 +1491,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="b">Boolean to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string? BoolToString(bool b) => _bc.ConvertToInvariantString(b);
+        public static string BoolToString(bool b) => _bc.ConvertToInvariantString(b);
 
         /// <summary>
         /// Convert a culture invariant string value to a Boolean.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Boolean value.</returns>
-        public static bool StringToBool(string? s) => (bool)_bc.ConvertFromInvariantString(s);
+        public static bool StringToBool(string s) => (bool)_bc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Color to a culture invariant string value.
         /// </summary>
         /// <param name="c">Color to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string? ColorToString(Color c) => _cc.ConvertToInvariantString(c);
+        public static string ColorToString(Color c) => _cc.ConvertToInvariantString(c);
 
         /// <summary>
         /// Convert a culture invariant string value to a Color.

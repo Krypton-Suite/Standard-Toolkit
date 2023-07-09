@@ -196,11 +196,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Recreate the buttons to reflect a change in selected page.
         /// </summary>
-        public void UpdateButtons()
-        {
+        public void UpdateButtons() =>
             // Ensure buttons are recreated to reflect different page
             _buttonManager.RecreateButtons();
-        }
         #endregion
 
         #region Protected
@@ -477,9 +475,8 @@ namespace Krypton.Navigator
             controller.RightMouseDown += OnRightMouseDown;
             controller.LeftDoubleClick += OnLeftDoubleClick;
         }
-        
-        protected override void CreateButtonSpecManager()
-        {
+
+        protected override void CreateButtonSpecManager() =>
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                        new[] { _viewHeadingPrimary, _viewHeadingSecondary },
@@ -493,7 +490,6 @@ namespace Krypton.Navigator
                 // Hook up the tooltip manager so that tooltips can be generated
                 ToolTipManager = Navigator.ToolTipManager
             };
-        }
 
         private void UpdateHeaders()
         {
@@ -614,40 +610,19 @@ namespace Krypton.Navigator
             _buttonManager.RecreateButtons();
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e)
-        {
-            Navigator.InternalDragStart(e, null);
-        }
+        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);
 
-        private void OnDragMove(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragMove(e);
-        }
+        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragEnd(e);
-        }
+        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e)
-        {
-            Navigator.InternalDragQuit();
-        }
+        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnLeftMouseDown(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderLeftClicked(e);
-        }
+        private void OnLeftMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderLeftClicked(e);
 
-        private void OnRightMouseDown(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderRightClicked(e);
-        }
+        private void OnRightMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderRightClicked(e);
 
-        private void OnLeftDoubleClick(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderDoubleClicked(e);
-        }
+        private void OnLeftDoubleClick(object sender, EventArgs e) => Navigator.OnPrimaryHeaderDoubleClicked(e);
         #endregion
     }
 }

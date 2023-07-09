@@ -101,9 +101,9 @@ namespace Krypton.Docking
         #region Implementation
         private void OnCellCloseAction(object sender, CloseActionEventArgs e)
         {
-            if (e.Item?.UniqueName != null)
+            if (!string.IsNullOrWhiteSpace(e.Item?.UniqueName))
             {
-                OnPageCloseClicked(new UniqueNameEventArgs(e.Item.UniqueName));
+                OnPageCloseClicked(new UniqueNameEventArgs(e.Item!.UniqueName));
             }
         }
         #endregion

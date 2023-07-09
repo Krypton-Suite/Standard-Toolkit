@@ -91,10 +91,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the HeaderLocation property to its default value.
         /// </summary>
-        public void ResetHeaderLocation()
-        {
-            HeaderLocation = HeaderLocation.PrimaryHeader;
-        }
+        public void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
         #endregion
 
         #region IButtonSpecValues

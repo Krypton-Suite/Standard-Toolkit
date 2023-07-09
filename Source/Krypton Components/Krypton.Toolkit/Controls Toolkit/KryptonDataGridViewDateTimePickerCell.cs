@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            KryptonDataGridViewDateTimePickerCell dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell;
+            var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell;
             if (dateTimeCell != null)
             {
                 dateTimeCell.AutoShift = AutoShift;
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    DateTime dt = (DateTime)_dtc.ConvertFromInvariantString(initialFormattedValueStr);
+                    var dt = (DateTime)_dtc.ConvertFromInvariantString(initialFormattedValueStr);
                     if (dt != null)
                     {
                         dateTime.Value = dt;
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                DateTime dt = (DateTime)value;
+                var dt = (DateTime)value;
                 if (dt != null)
                 {
                     return _dtc.ConvertToInvariantString(dt);

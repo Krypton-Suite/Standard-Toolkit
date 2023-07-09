@@ -56,8 +56,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if ((_maskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) 
-                && _maskedTextBox.LastMaskedTextBox.MaskedTextBox.CanFocus)
+            if (_maskedTextBox.LastMaskedTextBox?.MaskedTextBox is { CanFocus: true })
             {
                 _ribbon.LostFocusLosesKeyboard = false;
                 _maskedTextBox.LastMaskedTextBox.MaskedTextBox.Focus();

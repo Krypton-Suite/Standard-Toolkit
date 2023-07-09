@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         public override object Clone()
         {
             // Create a new instance
-            KryptonDataGridViewButtonColumn clone = base.Clone() as KryptonDataGridViewButtonColumn;
+            var clone = base.Clone() as KryptonDataGridViewButtonColumn;
             clone.Text = Text;
             return clone;
         }

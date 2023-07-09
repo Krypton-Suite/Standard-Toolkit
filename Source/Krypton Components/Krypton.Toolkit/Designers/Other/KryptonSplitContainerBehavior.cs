@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         private static Point PointToSplitContainer(Glyph g, Point pt)
         {
             // Cast the correct type
-            KryptonSplitContainerGlyph splitGlyph = (KryptonSplitContainerGlyph)g;
+            var splitGlyph = (KryptonSplitContainerGlyph)g;
 
             // Gets the bounds of the glyph in adorner coordinates
             Rectangle bounds = splitGlyph.Bounds;

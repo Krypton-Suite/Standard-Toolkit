@@ -67,10 +67,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ToggleMinimizeMode property to its default value.
         /// </summary>
-        public void ResetToggleMinimizeMode()
-        {
-            ToggleMinimizeMode = DEFAULT_TOGGLE_MINIMIZE_MODE;
-        }
+        public void ResetToggleMinimizeMode() => ToggleMinimizeMode = DEFAULT_TOGGLE_MINIMIZE_MODE;
         #endregion
 
         #region ToggleKeyboardAccess1
@@ -89,10 +86,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ToggleKeyboardAccess1 property to its default value.
         /// </summary>
-        public void ResetToggleKeyboardAccess1()
-        {
-            ToggleKeyboardAccess1 = DEFAULT_TOGGLE_KEYBOARD_ACCESS1;
-        }
+        public void ResetToggleKeyboardAccess1() => ToggleKeyboardAccess1 = DEFAULT_TOGGLE_KEYBOARD_ACCESS1;
         #endregion
 
         #region ToggleKeyboardAccess2
@@ -111,10 +105,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ToggleKeyboardAccess2 property to its default value.
         /// </summary>
-        public void ResetToggleKeyboardAccess2()
-        {
-            ToggleKeyboardAccess2 = DEFAULT_TOGGLE_KEYBOARD_ACCESS2;
-        }
+        public void ResetToggleKeyboardAccess2() => ToggleKeyboardAccess2 = DEFAULT_TOGGLE_KEYBOARD_ACCESS2;
         #endregion
     }
 }

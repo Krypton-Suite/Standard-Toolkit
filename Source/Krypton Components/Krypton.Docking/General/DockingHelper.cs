@@ -48,14 +48,11 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="edge">DockEdge value to convert.</param>
         /// <returns>Orientation value.</returns>
-        public static Orientation OrientationFromDockEdge(DockingEdge edge)
+        public static Orientation OrientationFromDockEdge(DockingEdge edge) => edge switch
         {
-            return edge switch
-            {
-                DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
-                _ => Orientation.Horizontal
-            };
-        }
+            DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
+            _ => Orientation.Horizontal
+        };
 
         /// <summary>
         /// Find the inner space that occupied by the edge docking controls.

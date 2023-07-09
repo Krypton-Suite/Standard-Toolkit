@@ -50,7 +50,7 @@ namespace Krypton.Navigator
             _page = page;
 
             // Always var the layout that positions the actual page
-            ViewLayoutPopupPage layoutPage = new ViewLayoutPopupPage(_navigator, _page);
+            var layoutPage = new ViewLayoutPopupPage(_navigator, _page);
 
             // Create the internal panel used for containing content
             if (_navigator.StateNormal?.HeaderGroup != null)
@@ -107,7 +107,7 @@ namespace Krypton.Navigator
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (_navigator is { IsChildPanelBorrowed: true, ChildPanel: { } })
+            if (_navigator is { IsChildPanelBorrowed: true, ChildPanel: not null })
             {
                 // Remove the child panel from ourself and return it 
                 // back to the navigator that it was borrowed from
@@ -172,7 +172,7 @@ namespace Krypton.Navigator
                 Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
 
                 // Get the resolved position for the popup page
-                PopupPagePosition? position = _navigator.ResolvePopupPagePosition();
+                var position = _navigator.ResolvePopupPagePosition();
 
                 // Find the size and position relative to the parent screen rect
                 switch (position)
@@ -250,7 +250,7 @@ namespace Krypton.Navigator
                 if (e.KeyData is Keys.Tab or (Keys.Tab | Keys.Shift))
                 {
                     // If we do not currently contain the focus
-                    if (_page != null && !_page.ContainsFocus)
+                    if (_page is { ContainsFocus: false })
                     {
                         // Select the appropriate control on the page
                         TabToNextControl(null, (e.KeyData == Keys.Tab));

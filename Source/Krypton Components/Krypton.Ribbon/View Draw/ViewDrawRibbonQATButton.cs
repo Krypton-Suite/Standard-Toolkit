@@ -204,17 +204,12 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnRibbonEnableChanged(object sender, EventArgs e)
-        {
-            UpdateEnabled();
-        }
+        private void OnRibbonEnableChanged(object sender, EventArgs e) => UpdateEnabled();
 
-        private void UpdateEnabled()
-        {
+        private void UpdateEnabled() =>
             // Content is only enabled if the QAT button is enabled
             // and the owning ribbon control is also enabled
             _drawContent.Enabled = base.Enabled && _ribbon.Enabled;
-        }
 
         private void OnClick(object sender, MouseEventArgs e)
         {

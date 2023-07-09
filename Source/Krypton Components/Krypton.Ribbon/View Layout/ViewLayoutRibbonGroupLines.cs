@@ -672,7 +672,7 @@ namespace Krypton.Ribbon
         private void ApplySize(GroupItemSize size)
         {
             CurrentSize = size;
-            GroupItemSize itemSize = GroupItemSize.Medium;
+            var itemSize = GroupItemSize.Medium;
 
             switch (size)
             {
@@ -785,7 +785,7 @@ namespace Krypton.Ribbon
 
         private Size LargeMediumPreferredSize(int totalWidth, ref int split1)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Default to not splitting anywhere
             split1 = int.MaxValue;
@@ -853,7 +853,7 @@ namespace Krypton.Ribbon
 
         private Size SmallPreferredSize(int totalWidth)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Default to not splitting anywhere
             _split1Small = int.MaxValue;

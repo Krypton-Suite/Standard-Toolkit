@@ -276,10 +276,7 @@ namespace Krypton.Navigator
         /// Updates the metrics source and metric to use.
         /// </summary>
         /// <param name="paletteMetric">Source for acquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric? paletteMetric)
-        {
-            _paletteMetric = paletteMetric;
-        }
+        public void SetMetrics(IPaletteMetric? paletteMetric) => _paletteMetric = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.
@@ -333,7 +330,7 @@ namespace Krypton.Navigator
                 {
                     // Get access to the indexed child
                     ViewBase child = this[reversed ? (Count - i - 1) : i];
-                    INavCheckItem checkItem = (INavCheckItem)child;
+                    var checkItem = (INavCheckItem)child;
 
                     // Only examine visible children
                     if (child.Visible)

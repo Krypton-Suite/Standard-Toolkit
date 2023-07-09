@@ -96,11 +96,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void CreateButtonSpecView()
-        {
+        private void CreateButtonSpecView() =>
             // Layout docker used to contain the generated button specs
             _viewButtonSpecDocker = new ViewLayoutDocker();
-        }
 
         private void CreateContextMenuView(RibbonAppButton appButton)
         {
@@ -176,9 +174,7 @@ namespace Krypton.Ribbon
             return mainBackground;
         }
 
-        private void CreateInnerBacking(ViewBase fillElement)
-        {
-            _drawInnerBacking = new ViewDrawRibbonAppMenuInner(_ribbon)
+        private void CreateInnerBacking(ViewBase fillElement) => _drawInnerBacking = new ViewDrawRibbonAppMenuInner(_ribbon)
             {
                 { new ViewLayoutSeparator(2), ViewDockStyle.Top },
                 { new ViewLayoutSeparator(2), ViewDockStyle.Bottom },
@@ -186,11 +182,8 @@ namespace Krypton.Ribbon
                 { new ViewLayoutSeparator(2), ViewDockStyle.Right },
                 { fillElement, ViewDockStyle.Fill }
             };
-        }
 
-        private void CreateOuterBacking()
-        {
-            _drawOutsideBacking = new ViewDrawRibbonAppMenuOuter(_ribbon)
+        private void CreateOuterBacking() => _drawOutsideBacking = new ViewDrawRibbonAppMenuOuter(_ribbon)
             {
                 { _drawInnerBacking, ViewDockStyle.Fill },
                 { new ViewLayoutSeparator( _rectAppButtonBottomHalf.Height-2), ViewDockStyle.Top },
@@ -200,16 +193,12 @@ namespace Krypton.Ribbon
                 { _viewButtonSpecDocker, ViewDockStyle.Bottom },
                 { new ViewLayoutSeparator(2), ViewDockStyle.Bottom }
             };
-        }
 
-        private void CreateAppButtonBottom()
+        private void CreateAppButtonBottom() => _appButtonBottom = new ViewDrawRibbonAppButton(_ribbon, true)
         {
-            _appButtonBottom = new ViewDrawRibbonAppButton(_ribbon, true)
-            {
-                ElementState = PaletteState.Pressed,
-                Visible = _ribbon.RibbonShape != PaletteRibbonShape.Office2010
-            };
-        }
+            ElementState = PaletteState.Pressed,
+            Visible = _ribbon.RibbonShape != PaletteRibbonShape.Office2010
+        };
 
         private void CreateOutsideDocker()
         {
@@ -287,7 +276,7 @@ namespace Krypton.Ribbon
             preferredSize.Width = Math.Min(workingArea.Width, preferredSize.Width);
             preferredSize.Height = Math.Min(workingArea.Height, preferredSize.Height);
 
-            Point screenPt = Point.Empty;
+            var screenPt = Point.Empty;
 
             // Find the horizontal position relative to screen rectangle
             screenPt.X = screenRect.Left;
@@ -470,11 +459,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Need to recalculate anything relying on the palette
             OnNeedPaint(sender, e);
-        }
         #endregion
 
         #region Implementation
@@ -527,32 +514,22 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
-        }
 
-        private void OnButtonSpecPaint(object sender, NeedLayoutEventArgs e)
-        {
-            OnNeedPaint(sender, new NeedLayoutEventArgs(false));
-        }
+        private void OnButtonSpecPaint(object sender, NeedLayoutEventArgs e) => OnNeedPaint(sender, new NeedLayoutEventArgs(false));
 
-        private void OnProviderClosing(object sender, CancelEventArgs e)
-        {
-            _ribbon?.OnAppButtonMenuClosing(e);
-        }
+        private void OnProviderClosing(object sender, CancelEventArgs e) => _ribbon?.OnAppButtonMenuClosing(e);
 
-        private void OnProviderClose(object sender, CloseReasonEventArgs e)
-        {
+        private void OnProviderClose(object sender, CloseReasonEventArgs e) =>
             // Remove ourself from being shown
             VisualPopupManager.Singleton.EndPopupTracking(this);
-        }
 
         private void OnProviderClose(object sender, EventArgs e)
         {
             // Unhook from event source
-            IContextMenuProvider provider = (IContextMenuProvider)sender;
+            var provider = (IContextMenuProvider)sender;
             _provider.Dispose -= OnProviderClose!;
 
             // Kill this poup window

@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             if (this[0].Visible)
             {
                 // The first and only child is the caption content
-                ViewDrawContent caption = (ViewDrawContent)this[0];
+                var caption = (ViewDrawContent)this[0];
 
                 // Cache the origina client rectangle before we modify it
                 _cacheClientRect = ClientRectangle;
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
         public override void RenderBorder(RenderContext context)
         {
             // The first and only child is the caption content
-            ViewDrawContent caption = (ViewDrawContent)this[0];
+            var caption = (ViewDrawContent)this[0];
 
             // Remember current clipping region so we can put it back later
             Region clipRegion = context.Graphics.Clip.Clone();

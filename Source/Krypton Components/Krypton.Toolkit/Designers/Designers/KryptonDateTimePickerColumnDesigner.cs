@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             if ((_dateTimePicker != null) && (e.Component == _dateTimePicker))
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
             }
         }
         #endregion

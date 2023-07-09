@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
             if ((_comboBox != null) && (e.Component == _comboBox))
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _comboBox.ButtonSpecs.Count - 1; i >= 0; i--)

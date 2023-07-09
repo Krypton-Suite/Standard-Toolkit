@@ -63,15 +63,13 @@ namespace Krypton.Toolkit
     internal sealed class SafeModuleHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
         // A default constructor is required for P/Invoke to instantiate the class
+        // ReSharper disable once ConvertToPrimaryConstructor
         public SafeModuleHandle()
             : base(true)
         {
         }
 
-        protected override bool ReleaseHandle()
-        {
-            return PI.FreeLibrary(handle);
-        }
+        protected override bool ReleaseHandle() => PI.FreeLibrary(handle);
     }
 
     internal partial class PI

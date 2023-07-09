@@ -66,10 +66,7 @@ namespace Krypton.Toolkit
                 BorderStyle = BorderStyle.None;
             }
 
-            public void SetChangingText(bool value)
-            {
-                ChangingText = value;
-            }
+            public void SetChangingText(bool value) => ChangingText = value;
 
             #endregion
 
@@ -347,7 +344,7 @@ namespace Krypton.Toolkit
                             var ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
-                            IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                            var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Paint the entire area in the background color
                             using (Graphics g = Graphics.FromHdc(hdc))
@@ -563,7 +560,7 @@ namespace Krypton.Toolkit
                             var ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
-                            IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                            var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
@@ -573,7 +570,7 @@ namespace Krypton.Toolkit
                             try
                             {
                                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, clientRect.Right, clientRect.Bottom);
+                                var hBitmap = PI.CreateCompatibleBitmap(hdc, clientRect.Right, clientRect.Bottom);
 
                                 // If we managed to get a compatible bitmap
                                 if (hBitmap != IntPtr.Zero)
@@ -2080,9 +2077,9 @@ namespace Krypton.Toolkit
                 if (!DesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
@@ -2139,7 +2136,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

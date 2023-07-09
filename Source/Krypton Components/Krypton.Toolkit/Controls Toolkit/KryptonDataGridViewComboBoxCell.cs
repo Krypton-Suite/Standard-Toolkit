@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            KryptonDataGridViewComboBoxCell dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell;
             if (dataGridViewCell != null)
             {
                 dataGridViewCell.DropDownStyle = DropDownStyle;

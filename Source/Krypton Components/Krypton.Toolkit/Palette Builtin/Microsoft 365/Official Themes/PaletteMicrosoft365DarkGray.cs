@@ -420,132 +420,129 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
-        {
-            return style switch
-            {
-                PaletteButtonSpecStyle.FormClose => state switch
-                {
-                    PaletteState.Tracking => _formCloseActive,
-                    PaletteState.Normal => _formCloseNormal,
-                    PaletteState.Pressed => _formClosePressed,
-                    _ => _formCloseDisabled
-                },
-                PaletteButtonSpecStyle.FormMin => state switch
-                {
-                    PaletteState.Normal => _formMinimiseNormal,
-                    PaletteState.Tracking => _formMinimiseActive,
-                    PaletteState.Pressed => _formMinimisePressed,
-                    _ => _formMinimiseDisabled
-                },
-                PaletteButtonSpecStyle.FormMax => state switch
-                {
-                    PaletteState.Normal => _formMaximiseNormal,
-                    PaletteState.Tracking => _formMaximiseActive,
-                    PaletteState.Pressed => _formMaximisePressed,
-                    _ => _formMaximiseDisabled
-                },
-                PaletteButtonSpecStyle.FormRestore => state switch
-                {
-                    PaletteState.Normal => _formRestoreNormal,
-                    PaletteState.Tracking => _formRestoreActive,
-                    PaletteState.Pressed => _formRestorePressed,
-                    _ => _formRestoreDisabled
-                },
-                PaletteButtonSpecStyle.FormHelp => state switch
-                {
-                    PaletteState.Tracking => _formHelpActive,
-                    PaletteState.Pressed => _formHelpPressed,
-                    PaletteState.Normal => _formHelpNormal,
-                    _ => _formHelpDisabled
-                },
-                PaletteButtonSpecStyle.New => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarNewNormal,
-                    PaletteState.Disabled => _integratedToolbarNewDisabled,
-                    _ => _integratedToolbarNewDisabled
-                },
-                PaletteButtonSpecStyle.Open => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarOpenNormal,
-                    PaletteState.Disabled => _integratedToolbarOpenDisabled,
-                    _ => _integratedToolbarOpenDisabled
-                },
-                PaletteButtonSpecStyle.SaveAll => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarSaveAllNormal,
-                    PaletteState.Disabled => _integratedToolbarSaveAllDisabled,
-                    _ => _integratedToolbarSaveAllDisabled
-                },
-                PaletteButtonSpecStyle.SaveAs => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarSaveAsNormal,
-                    PaletteState.Disabled => _integratedToolbarSaveAsDisabled,
-                    _ => _integratedToolbarSaveAsDisabled
-                },
-                PaletteButtonSpecStyle.Save => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarSaveNormal,
-                    PaletteState.Disabled => _integratedToolbarSaveDisabled,
-                    _ => _integratedToolbarSaveDisabled
-                },
-                PaletteButtonSpecStyle.Cut => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarCutNormal,
-                    PaletteState.Disabled => _integratedToolbarCutDisabled,
-                    _ => _integratedToolbarCutDisabled
-                },
-                PaletteButtonSpecStyle.Copy => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarCopyNormal,
-                    PaletteState.Disabled => _integratedToolbarCopyDisabled,
-                    _ => _integratedToolbarCopyDisabled
-                },
-                PaletteButtonSpecStyle.Paste => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarPasteNormal,
-                    PaletteState.Disabled => _integratedToolbarPasteDisabled,
-                    _ => _integratedToolbarPasteDisabled
-                },
-                PaletteButtonSpecStyle.Undo => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarUndoNormal,
-                    PaletteState.Disabled => _integratedToolbarUndoDisabled,
-                    _ => _integratedToolbarUndoDisabled
-                },
-                PaletteButtonSpecStyle.Redo => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarRedoNormal,
-                    PaletteState.Disabled => _integratedToolbarRedoDisabled,
-                    _ => _integratedToolbarRedoDisabled
-                },
-                PaletteButtonSpecStyle.PageSetup => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarPageSetupNormal,
-                    PaletteState.Disabled => _integratedToolbarPageSetupDisabled,
-                    _ => _integratedToolbarPageSetupDisabled
-                },
-                PaletteButtonSpecStyle.PrintPreview => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarPrintPreviewNormal,
-                    PaletteState.Disabled => _integratedToolbarPrintPreviewDisabled,
-                    _ => _integratedToolbarPrintPreviewDisabled
-                },
-                PaletteButtonSpecStyle.Print => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarPrintNormal,
-                    PaletteState.Disabled => _integratedToolbarPrintDisabled,
-                    _ => _integratedToolbarPrintDisabled
-                },
-                PaletteButtonSpecStyle.QuickPrint => state switch
-                {
-                    PaletteState.Normal => _integratedToolbarQuickPrintNormal,
-                    PaletteState.Disabled => _integratedToolbarQuickPrintDisabled,
-                    _ => _integratedToolbarQuickPrintDisabled
-                },
-                _ => base.GetButtonSpecImage(style, state)
-            };
-        }
+                                                 PaletteState state) => style switch
+                                                 {
+                                                     PaletteButtonSpecStyle.FormClose => state switch
+                                                     {
+                                                         PaletteState.Tracking => _formCloseActive,
+                                                         PaletteState.Normal => _formCloseNormal,
+                                                         PaletteState.Pressed => _formClosePressed,
+                                                         _ => _formCloseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMin => state switch
+                                                     {
+                                                         PaletteState.Normal => _formMinimiseNormal,
+                                                         PaletteState.Tracking => _formMinimiseActive,
+                                                         PaletteState.Pressed => _formMinimisePressed,
+                                                         _ => _formMinimiseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMax => state switch
+                                                     {
+                                                         PaletteState.Normal => _formMaximiseNormal,
+                                                         PaletteState.Tracking => _formMaximiseActive,
+                                                         PaletteState.Pressed => _formMaximisePressed,
+                                                         _ => _formMaximiseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormRestore => state switch
+                                                     {
+                                                         PaletteState.Normal => _formRestoreNormal,
+                                                         PaletteState.Tracking => _formRestoreActive,
+                                                         PaletteState.Pressed => _formRestorePressed,
+                                                         _ => _formRestoreDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormHelp => state switch
+                                                     {
+                                                         PaletteState.Tracking => _formHelpActive,
+                                                         PaletteState.Pressed => _formHelpPressed,
+                                                         PaletteState.Normal => _formHelpNormal,
+                                                         _ => _formHelpDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.New => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarNewNormal,
+                                                         PaletteState.Disabled => _integratedToolbarNewDisabled,
+                                                         _ => _integratedToolbarNewDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Open => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarOpenNormal,
+                                                         PaletteState.Disabled => _integratedToolbarOpenDisabled,
+                                                         _ => _integratedToolbarOpenDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.SaveAll => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarSaveAllNormal,
+                                                         PaletteState.Disabled => _integratedToolbarSaveAllDisabled,
+                                                         _ => _integratedToolbarSaveAllDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.SaveAs => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarSaveAsNormal,
+                                                         PaletteState.Disabled => _integratedToolbarSaveAsDisabled,
+                                                         _ => _integratedToolbarSaveAsDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Save => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarSaveNormal,
+                                                         PaletteState.Disabled => _integratedToolbarSaveDisabled,
+                                                         _ => _integratedToolbarSaveDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Cut => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarCutNormal,
+                                                         PaletteState.Disabled => _integratedToolbarCutDisabled,
+                                                         _ => _integratedToolbarCutDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Copy => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarCopyNormal,
+                                                         PaletteState.Disabled => _integratedToolbarCopyDisabled,
+                                                         _ => _integratedToolbarCopyDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Paste => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarPasteNormal,
+                                                         PaletteState.Disabled => _integratedToolbarPasteDisabled,
+                                                         _ => _integratedToolbarPasteDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Undo => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarUndoNormal,
+                                                         PaletteState.Disabled => _integratedToolbarUndoDisabled,
+                                                         _ => _integratedToolbarUndoDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Redo => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarRedoNormal,
+                                                         PaletteState.Disabled => _integratedToolbarRedoDisabled,
+                                                         _ => _integratedToolbarRedoDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.PageSetup => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarPageSetupNormal,
+                                                         PaletteState.Disabled => _integratedToolbarPageSetupDisabled,
+                                                         _ => _integratedToolbarPageSetupDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.PrintPreview => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarPrintPreviewNormal,
+                                                         PaletteState.Disabled => _integratedToolbarPrintPreviewDisabled,
+                                                         _ => _integratedToolbarPrintPreviewDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.Print => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarPrintNormal,
+                                                         PaletteState.Disabled => _integratedToolbarPrintDisabled,
+                                                         _ => _integratedToolbarPrintDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.QuickPrint => state switch
+                                                     {
+                                                         PaletteState.Normal => _integratedToolbarQuickPrintNormal,
+                                                         PaletteState.Disabled => _integratedToolbarQuickPrintDisabled,
+                                                         _ => _integratedToolbarQuickPrintDisabled
+                                                     },
+                                                     _ => base.GetButtonSpecImage(style, state)
+                                                 };
         #endregion
     }
 }

@@ -99,7 +99,7 @@ namespace Krypton.Navigator
             // Make sure only the selected page is checked
             foreach (ViewBase child in _layoutBar)
             {
-                INavCheckItem checkItem = (INavCheckItem)child;
+                var checkItem = (INavCheckItem)child;
 
                 // Should this check button be selected
                 if (Navigator.SelectedPage == checkItem.Page)
@@ -137,11 +137,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Change has occurred to the collection of pages.
         /// </summary>
-        public override void PageCollectionChanged()
-        {
+        public override void PageCollectionChanged() =>
             // Let base class do standard work
             base.PageCollectionChanged();
-        }
 
         /// <summary>
         /// Process a change in the visible state for a page.
@@ -484,10 +482,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Perform post layout operations.
         /// </summary>
-        public override void PostLayout()
-        {
-            RefreshButtons();
-        }
+        public override void PostLayout() => RefreshButtons();
 
         /// <summary>
         /// Gets a value indicating if the view can accept the focus.
@@ -690,17 +685,14 @@ namespace Krypton.Navigator
         /// <summary>
         /// Create the view hierarchy for this view mode.
         /// </summary>
-        protected virtual void CreateCheckItemView()
-        {
+        protected virtual void CreateCheckItemView() =>
             // Hook into the events from created view elements
             _layoutBarViewport.AnimateStep += OnViewportAnimation;
-        }
 
         /// <summary>
         /// Create a manager for handling the button specifications.
         /// </summary>
-        protected virtual void CreateButtonSpecManager()
-        {
+        protected virtual void CreateButtonSpecManager() =>
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                                new[] { _layoutBarDocker },
@@ -715,7 +707,6 @@ namespace Krypton.Navigator
                 // Hook up the tooltip manager so that tooltips can be generated
                 ToolTipManager = Navigator.ToolTipManager
             };
-        }
 
         /// <summary>
         /// Perform post create tasks.
@@ -1045,7 +1036,7 @@ namespace Krypton.Navigator
             // Must tell each check button it is no longer required
             foreach (ViewBase child in _layoutBar)
             {
-                INavCheckItem checkItem = (INavCheckItem)child;
+                var checkItem = (INavCheckItem)child;
 
                 // Must unhook from events
                 checkItem.ButtonDragRectangle -= OnCheckButtonDragRect;
@@ -1084,7 +1075,7 @@ namespace Krypton.Navigator
             // Make sure only the selected page is checked
             foreach (ViewBase child in _layoutBar)
             {
-                INavCheckItem checkItem = (INavCheckItem)child;
+                var checkItem = (INavCheckItem)child;
 
                 // Should this check button be selected
                 if (Navigator.SelectedPage == checkItem.Page)
@@ -1171,26 +1162,17 @@ namespace Krypton.Navigator
                 Navigator.PerformNeedPaint(true);
             }
         }
-        
-        private void OnNavigatorEnabledChanged(object sender, EventArgs e)
-        {
-            UpdateStatePalettes();
-        }
 
-        private void OnNavigatorRightToLeftChanged(object sender, EventArgs e)
-        {
-            UpdateItemOrientation();
-        }
+        private void OnNavigatorEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
 
-        private void OnViewportAnimation(object sender, EventArgs e)
-        {
-            Navigator.PerformNeedPaint(true);
-        }
+        private void OnNavigatorRightToLeftChanged(object sender, EventArgs e) => UpdateItemOrientation();
+
+        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 
         private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual button view
-            INavCheckItem reorderItem = (INavCheckItem)sender;
+            var reorderItem = (INavCheckItem)sender;
 
             e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
             Rectangle dragRect = Rectangle.Union(e.DragRect, _layoutBarViewport.ClientRectangle);
@@ -1201,7 +1183,7 @@ namespace Krypton.Navigator
         private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual button view
-            INavCheckItem reorderItem = (INavCheckItem)sender;
+            var reorderItem = (INavCheckItem)sender;
             ViewBase reorderView = reorderItem.View;
 
             // Scan the collection of children

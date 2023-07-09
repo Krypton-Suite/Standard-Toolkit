@@ -90,11 +90,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
-        {
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Check each page level button spec
-            return _pageLookup?.Select(pair => pair.Value.ButtonSpecFromView(element)).FirstOrDefault(static bs => bs != null);
-        }
+            _pageLookup?.Select(pair => pair.Value.ButtonSpecFromView(element)).FirstOrDefault(static bs => bs != null);
 
         /// <summary>
         /// Process a change in the selected page
@@ -525,11 +523,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Destruct the mode specific view hierarchy.
         /// </summary>
-        protected virtual void DestructStackCheckButtonView()
-        {
+        protected virtual void DestructStackCheckButtonView() =>
             // Reset the preferred direction handling to original setting
             _oldRoot.SetMinimumAsPreferred(false);
-        }
 
         /// <summary>
         /// Allow operations to occur after main construct actions.
@@ -944,21 +940,16 @@ namespace Krypton.Navigator
             Navigator.Invalidate();
         }
 
-        private void OnAutoSizeChanged(object sender, EventArgs e)
-        {
+        private void OnAutoSizeChanged(object sender, EventArgs e) =>
             // Only use minimum instead of preferred if not using AutoSize
             _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
-        }
 
-        private void OnViewportAnimation(object sender, EventArgs e)
-        {
-            Navigator.PerformNeedPaint(true);
-        }
+        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 
         private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            ViewDrawNavCheckButtonStack reorderItem = (ViewDrawNavCheckButtonStack)sender;
+            var reorderItem = (ViewDrawNavCheckButtonStack)sender;
 
             e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
             Rectangle dragRect = Rectangle.Union(e.DragRect, _viewScrollViewport.ClientRectangle);
@@ -969,7 +960,7 @@ namespace Krypton.Navigator
         private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            ViewDrawNavCheckButtonStack reorderView = (ViewDrawNavCheckButtonStack)sender;
+            var reorderView = (ViewDrawNavCheckButtonStack)sender;
 
             // Scan the collection of children
             var foundReorderView = false;
@@ -977,7 +968,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // If the mouse is over this button
-                ViewDrawNavCheckButtonStack childView = (ViewDrawNavCheckButtonStack)_pageLookup[page];
+                var childView = (ViewDrawNavCheckButtonStack)_pageLookup[page];
                 if (childView.ClientRectangle.Contains(e.PointOffset))
                 {
                     // Only interested if mouse over a different check button
@@ -1078,7 +1069,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // Grab the page associated view elements
-                ViewDrawNavCheckButtonStack checkButton = (ViewDrawNavCheckButtonStack)_pageLookup[page];
+                var checkButton = (ViewDrawNavCheckButtonStack)_pageLookup[page];
                 ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[page];
 
                 // Add to the child collection with the correct docking style

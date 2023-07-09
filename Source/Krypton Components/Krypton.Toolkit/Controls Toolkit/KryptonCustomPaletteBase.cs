@@ -1167,23 +1167,20 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
+        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric) => metric switch
         {
-            return metric switch
-            {
-                PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(state, metric),
-                PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(state, metric),
-                // Otherwise use base instance for the value instead
-                _ => _redirector.GetMetricInt(state, metric)
-            };
-        }
+            PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(state, metric),
+            // Otherwise use base instance for the value instead
+            _ => _redirector.GetMetricInt(state, metric)
+        };
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -3012,7 +3009,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Try and grab the root element
-                XmlElement? root = doc.SelectSingleNode("KryptonPalette") as XmlElement;
+                var root = doc.SelectSingleNode("KryptonPalette") as XmlElement;
 
                 // We insist the root is always present
                 if (root == null)
@@ -3035,8 +3032,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the properties and images elements
-                XmlElement? props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
-                XmlElement? images = root.SelectSingleNode(nameof(Images)) as XmlElement;
+                var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
+                var images = root.SelectSingleNode(nameof(Images)) as XmlElement;
 
                 // There must be both properties and images elements present
                 if (props == null)
@@ -3075,7 +3072,7 @@ namespace Krypton.Toolkit
             var info = new FileInfo(filename);
 
             // Check the target directory actually exists
-            if (info.Directory != null && !info.Directory.Exists)
+            if (info.Directory is { Exists: false })
             {
                 throw new ArgumentException("Provided directory does not exist.");
             }
@@ -3095,7 +3092,7 @@ namespace Krypton.Toolkit
             var parameters = (object[])parameter;
 
             // Extract the two provided parameters
-            Stream stream = (Stream)parameters[0];
+            var stream = (Stream)parameters[0];
             var ignoreDefaults = (bool)parameters[1];
 
             // Create an XmlDocument containing palette settings
@@ -3201,7 +3198,7 @@ namespace Krypton.Toolkit
                             // Cast attribute to the correct type
 
                             // Check if there is an element matching the property
-                            XmlElement? childElement = element?.SelectSingleNode(prop.Name) as XmlElement;
+                            var childElement = element?.SelectSingleNode(prop.Name) as XmlElement;
 
                             // Can only import if a matching XML element is found
                             if (childElement != null)
@@ -3288,7 +3285,7 @@ namespace Krypton.Toolkit
                 foreach (XmlNode image in images)
                 {
                     // Cast to the expected type
-                    XmlElement imageElement = (XmlElement)image;
+                    var imageElement = (XmlElement)image;
 
                     // Check the element is the expected type and has the required data
                     if (imageElement != null &&
@@ -3302,7 +3299,7 @@ namespace Krypton.Toolkit
                             var name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
-                            XmlCDataSection cdata = (XmlCDataSection)imageElement.ChildNodes[0];
+                            var cdata = (XmlCDataSection)imageElement.ChildNodes[0];
 
                             // Convert to back from a string to bytes
                             var bytes = Convert.FromBase64String(cdata.Value);
@@ -3412,7 +3409,7 @@ namespace Krypton.Toolkit
                                     if (defaultAttribs.Length == 1)
                                     {
                                         // Cast to correct type
-                                        DefaultValueAttribute defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
+                                        var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
 
                                         // Decide if the property value matches the default described by the attribute
                                         if (defaultAttrib.Value == null)
@@ -3582,7 +3579,7 @@ namespace Krypton.Toolkit
                                     if (defaultAttribs.Length == 1)
                                     {
                                         // Cast to correct type
-                                        DefaultValueAttribute defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
+                                        var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
 
                                         // Grab the actual property value
                                         var childObj = prop.GetValue(obj, null);

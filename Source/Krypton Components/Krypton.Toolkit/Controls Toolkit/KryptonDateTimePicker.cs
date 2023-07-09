@@ -438,10 +438,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the value of the CalendarTodayText property.
         /// </summary>
-        public void ResetCalendarTodayText()
-        {
-            CalendarTodayText = DEFAULT_TODAY;
-        }
+        public void ResetCalendarTodayText() => CalendarTodayText = DEFAULT_TODAY;
 
         /// <summary>
         /// First day of the week.
@@ -504,10 +501,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetCalendarTodayDate()
-        {
-            CalendarTodayDate = DateTime.Now.Date;
-        }
+        private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
 
         private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
@@ -536,10 +530,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeCalendarAnnuallyBoldedDates() => _annualDates.Count > 0;
 
-        private void ResetCalendarAnnuallyBoldedDates()
-        {
-            CalendarAnnuallyBoldedDates = null;
-        }
+        private void ResetCalendarAnnuallyBoldedDates() => CalendarAnnuallyBoldedDates = null;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
@@ -566,10 +557,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeCalendarMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
-        private void ResetCalendarMonthlyBoldedDates()
-        {
-            CalendarMonthlyBoldedDates = null;
-        }
+        private void ResetCalendarMonthlyBoldedDates() => CalendarMonthlyBoldedDates = null;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are Displayed in bold.
@@ -596,10 +584,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeCalendarBoldedDates() => _dates.Count > 0;
 
-        private void ResetCalendarBoldedDates()
-        {
-            CalendarBoldedDates = null;
-        }
+        private void ResetCalendarBoldedDates() => CalendarBoldedDates = null;
 
         /// <summary>
         /// Gets or sets the alignment of the drop-down calendar on the DateTimePicker control.
@@ -909,10 +894,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeMaxDate() => (_maxDateTime != DateTimePicker.MaximumDateTime) && (_maxDateTime != DateTime.MaxValue);
 
-        private void ResetMaxDate()
-        {
-            MaxDate = DateTime.MaxValue;
-        }
+        private void ResetMaxDate() => MaxDate = DateTime.MaxValue;
 
         /// <summary>
         /// Gets or sets the minimum date and time that can be selected in the control.
@@ -962,10 +944,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeMinDate() => (_minDateTime != DateTimePicker.MinimumDateTime) && (_minDateTime != DateTime.MinValue);
 
-        private void ResetMinDate()
-        {
-            MinDate = DateTime.MinValue;
-        }
+        private void ResetMinDate() => MinDate = DateTime.MinValue;
 
         /// <summary>
         /// Gets or sets a value indicating if the check box is checked and if the ValueNullable is DBNull or a DateTime value.
@@ -1063,10 +1042,7 @@ namespace Krypton.Toolkit
         [Description(@"Header style for the month calendar.")]
         public HeaderStyle CalendarHeaderStyle { get; set; }
 
-        private void ResetCalendarHeaderStyle()
-        {
-            CalendarHeaderStyle = HeaderStyle.Calendar;
-        }
+        private void ResetCalendarHeaderStyle() => CalendarHeaderStyle = HeaderStyle.Calendar;
 
         private bool ShouldSerializeCalendarHeaderStyle() => CalendarHeaderStyle != HeaderStyle.Calendar;
 
@@ -1077,10 +1053,7 @@ namespace Krypton.Toolkit
         [Description(@"Content style for the day entries.")]
         public ButtonStyle CalendarDayStyle { get; set; }
 
-        private void ResetCalendarDayStyle()
-        {
-            CalendarDayStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetCalendarDayStyle() => CalendarDayStyle = ButtonStyle.CalendarDay;
 
         private bool ShouldSerializeCalendarDayStyle() => CalendarDayStyle != ButtonStyle.CalendarDay;
 
@@ -1091,10 +1064,7 @@ namespace Krypton.Toolkit
         [Description(@"Content style for the day of week labels.")]
         public ButtonStyle CalendarDayOfWeekStyle { get; set; }
 
-        private void ResetCalendarDayOfWeekStyle()
-        {
-            CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
 
         private bool ShouldSerializeCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle != ButtonStyle.CalendarDay;
 
@@ -1172,10 +1142,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetInputControlStyle()
-        {
-            InputControlStyle = InputControlStyle.Standalone;
-        }
+        private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
         private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
@@ -1199,10 +1166,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetUpDownButtonStyle()
-        {
-            UpDownButtonStyle = ButtonStyle.InputControl;
-        }
+        private void ResetUpDownButtonStyle() => UpDownButtonStyle = ButtonStyle.InputControl;
 
         private bool ShouldSerializeUpDownButtonStyle() => UpDownButtonStyle != ButtonStyle.InputControl;
 
@@ -1226,10 +1190,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetDropButtonStyle()
-        {
-            DropButtonStyle = ButtonStyle.InputControl;
-        }
+        private void ResetDropButtonStyle() => DropButtonStyle = ButtonStyle.InputControl;
 
         private bool ShouldSerializeDropButtonStyle() => DropButtonStyle != ButtonStyle.InputControl;
 
@@ -1364,10 +1325,7 @@ namespace Krypton.Toolkit
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1645,14 +1603,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">One of the Keys values.</param>
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
-        protected override bool IsInputKey(Keys keyData)
+        protected override bool IsInputKey(Keys keyData) => (keyData & ~Keys.Shift) switch
         {
-            return (keyData & ~Keys.Shift) switch
-            {
-                Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
-                _ => base.IsInputKey(keyData)
-            };
-        }
+            Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
+            _ => base.IsInputKey(keyData)
+        };
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -1988,10 +1943,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
         /// <returns></returns>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-        }
+        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
 
         #endregion
 
@@ -2087,9 +2039,9 @@ namespace Krypton.Toolkit
                 if (!DesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
@@ -2139,11 +2091,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCheckBoxClick(object sender, EventArgs e)
-        {
+        private void OnCheckBoxClick(object sender, EventArgs e) =>
             // Invert the current checked state
             Checked = !Checked;
-        }
 
         private void OnDropDownClick(object sender, EventArgs e)
         {
@@ -2204,7 +2154,7 @@ namespace Krypton.Toolkit
                 OnDropDown(dtpda);
 
                 // If we still want to show a context menu
-                if (dtpda is { Cancel: false, KryptonContextMenu: { } })
+                if (dtpda is { Cancel: false, KryptonContextMenu: not null })
                 {
                     // If showing a menu then we automatically ensure the control is checked
                     Checked = true;
@@ -2276,7 +2226,7 @@ namespace Krypton.Toolkit
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
             // Must unhook from menu so it can be garbage collected
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Unhook from month calendar events
@@ -2332,7 +2282,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

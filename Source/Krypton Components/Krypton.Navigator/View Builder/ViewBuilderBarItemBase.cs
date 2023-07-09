@@ -28,16 +28,13 @@ namespace Krypton.Navigator
         /// Gets the appropriate popup page position for the current mode.
         /// </summary>
         /// <returns>Calculated PopupPagePosition</returns>
-        public override PopupPagePosition GetPopupPagePosition()
+        public override PopupPagePosition GetPopupPagePosition() => Navigator.Bar.BarOrientation switch
         {
-            return Navigator.Bar.BarOrientation switch
-            {
-                VisualOrientation.Bottom => PopupPagePosition.AboveNear,
-                VisualOrientation.Left => PopupPagePosition.FarTop,
-                VisualOrientation.Right => PopupPagePosition.NearTop,
-                _ => PopupPagePosition.BelowNear
-            };
-        }
+            VisualOrientation.Bottom => PopupPagePosition.AboveNear,
+            VisualOrientation.Left => PopupPagePosition.FarTop,
+            VisualOrientation.Right => PopupPagePosition.NearTop,
+            _ => PopupPagePosition.BelowNear
+        };
         #endregion
 
         #region Protected

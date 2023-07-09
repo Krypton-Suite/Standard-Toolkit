@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public override Size GetPreferredSize(Size proposedSize)
             {
-                Size maxSize = Size.Empty;
+                var maxSize = Size.Empty;
 
                 // Find the largest size of any child control
                 foreach (Control c in Controls)
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
                             var ps = new PI.PAINTSTRUCT();
 
                             // Do we need to BeginPaint or just take the given HDC?
-                            IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                            var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             //////////////////////////////////////////////////////
                             // Following removed to allow the Draw to always happen, to allow centering etc  
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
 
                                 // Exclude border from being drawn, we need to take off another 2 pixels from all edges
                                 PI.IntersectClipRect(hdc, rect.left + 2, rect.top + 2, rect.right - 2, rect.bottom - 2);
-                                string displayText = _kryptonComboBox.Text;
+                                var displayText = _kryptonComboBox.Text;
                                 if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                                     && string.IsNullOrEmpty(displayText)
                                 )
@@ -1211,11 +1211,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Signals the object that initialization is starting.
         /// </summary>
-        public virtual void BeginInit()
-        {
+        public virtual void BeginInit() =>
             // Remember that fact we are inside a BeginInit/EndInit pair
             IsInitializing = true;
-        }
 
         /// <summary>
         /// Signals the object that initialization is complete.
@@ -1714,10 +1712,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetInputControlStyle()
-        {
-            InputControlStyle = InputControlStyle.Standalone;
-        }
+        private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
         private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
@@ -1741,10 +1736,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetItemStyle()
-        {
-            ItemStyle = ButtonStyle.ListItem;
-        }
+        private void ResetItemStyle() => ItemStyle = ButtonStyle.ListItem;
 
         private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
@@ -1767,10 +1759,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetDropButtonStyle()
-        {
-            DropButtonStyle = ButtonStyle.InputControl;
-        }
+        private void ResetDropButtonStyle() => DropButtonStyle = ButtonStyle.InputControl;
 
         private bool ShouldSerializeDropButtonStyle() => DropButtonStyle != ButtonStyle.InputControl;
 
@@ -1794,10 +1783,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetDropBackStyle()
-        {
-            DropBackStyle = PaletteBackStyle.ControlClient;
-        }
+        private void ResetDropBackStyle() => DropBackStyle = PaletteBackStyle.ControlClient;
 
         private bool ShouldSerializeDropBackStyle() => DropBackStyle != PaletteBackStyle.ControlClient;
 
@@ -2012,10 +1998,7 @@ namespace Krypton.Toolkit
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets a value indicating if the input control is active.
@@ -2123,10 +2106,7 @@ namespace Krypton.Toolkit
         /// Override the display padding for the layout fill.
         /// </summary>
         /// <param name="padding">Display padding value.</param>
-        public void SetLayoutDisplayPadding(Padding padding)
-        {
-            _layoutPadding = padding;
-        }
+        public void SetLayoutDisplayPadding(Padding padding) => _layoutPadding = padding;
 
         /// <summary>
         /// Internal designing mode method.
@@ -2677,7 +2657,7 @@ namespace Krypton.Toolkit
                 if (_subclassEdit == null)
                 {
                     // Find the first child
-                    IntPtr childPtr = PI.GetWindow(_comboBox.Handle, PI.GetWindowType.GW_CHILD);
+                    var childPtr = PI.GetWindow(_comboBox.Handle, PI.GetWindowType.GW_CHILD);
 
                     // If we found a child then it is the edit class
                     if (childPtr != IntPtr.Zero)
@@ -2801,7 +2781,7 @@ namespace Krypton.Toolkit
                     UpdateContentFromItemIndex(e.Index);
 
                     // By default the button is in the normal state
-                    PaletteState buttonState = PaletteState.Normal;
+                    var buttonState = PaletteState.Normal;
 
                     // Is this item disabled
                     if ((e.State & DrawItemState.Disabled) == DrawItemState.Disabled)
@@ -2828,12 +2808,12 @@ namespace Krypton.Toolkit
                     _drawButton.ElementState = buttonState;
 
                     // Grab the raw device context for the graphics instance
-                    IntPtr hdc = e.Graphics.GetHdc();
+                    var hdc = e.Graphics.GetHdc();
 
                     try
                     {
                         // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                        IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, drawBounds.Right, drawBounds.Bottom);
+                        var hBitmap = PI.CreateCompatibleBitmap(hdc, drawBounds.Right, drawBounds.Bottom);
 
                         // If we managed to get a compatible bitmap
                         if (hBitmap != IntPtr.Zero)
@@ -3053,9 +3033,9 @@ namespace Krypton.Toolkit
                 if (!DesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
@@ -3111,7 +3091,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

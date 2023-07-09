@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
                     _monthCalendar.PerformLayout();
 
                     // Select the component
-                    ArrayList? selectionList = new ArrayList
+                    var selectionList = new ArrayList
                     {
                         component
                     };
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
             if (e.Component == _monthCalendar)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _monthCalendar.ButtonSpecs.Count - 1; i >= 0; i--)

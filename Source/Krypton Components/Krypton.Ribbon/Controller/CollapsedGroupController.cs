@@ -71,11 +71,9 @@ namespace Krypton.Ribbon
         /// Mouse has entered the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void MouseEnter(Control c)
-        {
+        public virtual void MouseEnter(Control c) =>
             // Mouse is over the target
             _mouseOver = true;
-        }
 
         /// <summary>
         /// Mouse has moved inside the view.
@@ -119,12 +117,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase? next)
-        {
+        public virtual void MouseLeave(Control c, ViewBase? next) =>
             // Mouse is no longer over the target
             _mouseOver = false;
-
-        }
 
         /// <summary>
         /// Left mouse button double click.
@@ -237,19 +232,13 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+                                           Rectangle invalidRect) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
 
         #region Implementation

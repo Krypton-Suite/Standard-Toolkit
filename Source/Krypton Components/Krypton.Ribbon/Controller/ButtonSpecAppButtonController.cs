@@ -160,10 +160,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Activate the item because of a mnemonic key press.
         /// </summary>
-        public void MnemonicActivate()
-        {
-            OnClick(new MouseEventArgs(MouseButtons.None, 1, 0, 0, 0));
-        }
+        public void MnemonicActivate() => OnClick(new MouseEventArgs(MouseButtons.None, 1, 0, 0, 0));
 
         /// <summary>
         /// Gets the view element that should be used when this target is active.

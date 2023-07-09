@@ -35,11 +35,9 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">Palette state to use when populating.</param>
-        public new void PopulateFromBase(PaletteState state)
-        {
+        public new void PopulateFromBase(PaletteState state) =>
             // Get the values and set into storage
             Color1 = GetBackColor1(state);
-        }
         #endregion
 
         #region Draw

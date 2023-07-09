@@ -240,6 +240,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the unique name of the page.
         /// </summary>
+        [DisallowNull]
         public override string UniqueName
         {
             get => Page?.UniqueName ?? string.Empty;

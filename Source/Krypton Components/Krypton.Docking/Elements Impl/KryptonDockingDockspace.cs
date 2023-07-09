@@ -157,11 +157,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="state">Integer state that is requested to be recovered.</param>
         /// <param name="value">Value discovered from matching </param>
-        public override void PropogateIntState(DockingPropogateIntState state, ref int value)
-        {
+        public override void PropogateIntState(DockingPropogateIntState state, ref int value) =>
             // User our value if it is the largest encountered so far
             value = Math.Max(value, Order);
-        }
 
         /// <summary>
         /// Propagates a request for drag targets down the hierarchy of docking elements.
@@ -332,19 +330,13 @@ namespace Krypton.Docking
         /// Raises the HasVisibleCells event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnHasVisibleCells(EventArgs e)
-        {
-            HasVisibleCells?.Invoke(this, e);
-        }
+        protected virtual void OnHasVisibleCells(EventArgs e) => HasVisibleCells?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HasNoVisibleCells event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnHasNoVisibleCells(EventArgs e)
-        {
-            HasNoVisibleCells?.Invoke(this, e);
-        }
+        protected virtual void OnHasNoVisibleCells(EventArgs e) => HasNoVisibleCells?.Invoke(this, e);
 
         /// <summary>
         /// Gets the xml element name to use when saving.

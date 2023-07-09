@@ -73,10 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SeparatorDark property to its default value.
         /// </summary>
-        public void ResetSeparatorDark()
-        {
-            SeparatorDark = Color.Empty;
-        }
+        public void ResetSeparatorDark() => SeparatorDark = Color.Empty;
         #endregion
 
         #region SeparatorLight
@@ -101,10 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SeparatorLight property to its default value.
         /// </summary>
-        public void ResetSeparatorLight()
-        {
-            SeparatorLight = Color.Empty;
-        }
+        public void ResetSeparatorLight() => SeparatorLight = Color.Empty;
         #endregion
     }
 }

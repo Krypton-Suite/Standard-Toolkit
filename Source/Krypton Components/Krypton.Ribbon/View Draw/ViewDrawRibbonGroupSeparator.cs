@@ -193,11 +193,9 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Value for the container.</param>
-        public void SetSolutionSize(ItemSizeWidth size)
-        {
+        public void SetSolutionSize(ItemSizeWidth size) =>
             // Solution should always be the large, the only size we can be
             Debug.Assert(size.GroupItemSize == GroupItemSize.Large);
-        }
 
         /// <summary>
         /// Reset the container back to its requested size.
@@ -230,14 +228,11 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
-        {
-            context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape, 
-                                                                  context, 
-                                                                  ClientRectangle, 
-                                                                  _ribbon.StateCommon.RibbonGeneral, 
+        public override void RenderBefore(RenderContext context) => context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape,
+                                                                  context,
+                                                                  ClientRectangle,
+                                                                  _ribbon.StateCommon.RibbonGeneral,
                                                                   State);
-        }
         #endregion
 
         #region Protected
@@ -260,10 +255,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            _ribbonSeparator.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonSeparator.OnDesignTimeContextMenu(e);
 
         private void OnSeparatorPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

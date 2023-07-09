@@ -185,13 +185,11 @@ namespace Krypton.Toolkit
         }
 
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         #endregion MenuStrip Overrides
 
@@ -228,11 +226,9 @@ namespace Krypton.Toolkit
         /// <summary>Called when there is a change in base renderer or base palette.</summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             _renderer = _palette.GetRenderer();
-        }
 
 
         /// <summary>

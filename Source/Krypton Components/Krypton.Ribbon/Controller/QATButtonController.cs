@@ -48,10 +48,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool IgnoreVisualFormLeftButtonDown => true;
 
-        public override void MouseEnter(Control c)
-        {
-            base.MouseEnter(c);
-        }
+        public override void MouseEnter(Control c) => base.MouseEnter(c);
         #endregion
 
         #region Focus Notifications

@@ -138,10 +138,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Hide the window from display.
         /// </summary>
-        public void Hide()
-        {
-            PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_HIDE);
-        }
+        public void Hide() => PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_HIDE);
 
         /// <summary>
         /// Perform mouse hit testing against a screen point.
@@ -227,16 +224,16 @@ namespace Krypton.Navigator
                 }
 
                 // Get hold of the screen DC
-                IntPtr hDC = PI.GetDC(IntPtr.Zero);
+                var hDC = PI.GetDC(IntPtr.Zero);
 
                 // Create a memory based DC compatible with the screen DC
-                IntPtr memoryDC = PI.CreateCompatibleDC(hDC);
+                var memoryDC = PI.CreateCompatibleDC(hDC);
 
                 // Get access to the bitmap handle contained in the Bitmap object
-                IntPtr hBitmap = memoryBitmap.GetHbitmap(Color.FromArgb(0));
+                var hBitmap = memoryBitmap.GetHbitmap(Color.FromArgb(0));
 
                 // Select this bitmap for updating the window presentation
-                IntPtr oldBitmap = PI.SelectObject(memoryDC, hBitmap);
+                var oldBitmap = PI.SelectObject(memoryDC, hBitmap);
 
                 // New window size
                 PI.SIZE ulwsize;

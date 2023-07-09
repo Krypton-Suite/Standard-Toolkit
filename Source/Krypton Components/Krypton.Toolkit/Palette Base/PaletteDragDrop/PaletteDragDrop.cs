@@ -77,10 +77,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteBase? inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(PaletteBase? inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -126,21 +123,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Feedback property to its default value.
         /// </summary>
-        public void ResetFeedback()
-        {
-            Feedback = PaletteDragFeedback.Inherit;
-        }
+        public void ResetFeedback() => Feedback = PaletteDragFeedback.Inherit;
 
         /// <summary>
         /// Gets the feedback drawing method used.
         /// </summary>
         /// <returns>Color value.</returns>
-        public PaletteDragFeedback GetDragDropFeedback()
-        {
-            return Feedback != PaletteDragFeedback.Inherit 
-                ? Feedback 
+        public PaletteDragFeedback GetDragDropFeedback() => Feedback != PaletteDragFeedback.Inherit
+                ? Feedback
                 : _inherit?.GetDragDropFeedback() ?? PaletteDragFeedback.Rounded;
-        }
 
         #endregion
 
@@ -176,12 +167,9 @@ namespace Krypton.Toolkit
         /// Gets the background color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropSolidBack()
-        {
-            return SolidBack != Color.Empty 
-                ? SolidBack 
+        public Color GetDragDropSolidBack() => SolidBack != Color.Empty
+                ? SolidBack
                 : _inherit?.GetDragDropSolidBack() ?? SystemColors.ActiveCaption;
-        }
 
         #endregion
 
@@ -217,12 +205,9 @@ namespace Krypton.Toolkit
         /// Gets the border color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropSolidBorder()
-        {
-            return SolidBorder != Color.Empty 
-                ? SolidBorder 
+        public Color GetDragDropSolidBorder() => SolidBorder != Color.Empty
+                ? SolidBorder
                 : _inherit?.GetDragDropSolidBorder() ?? SystemColors.Control;
-        }
 
         #endregion
 
@@ -258,12 +243,9 @@ namespace Krypton.Toolkit
         /// Gets the opacity of the solid area.
         /// </summary>
         /// <returns>Opacity ranging from 0 to 1.</returns>
-        public virtual float GetDragDropSolidOpacity()
-        {
-            return SolidOpacity >= 0.0f 
-                ? SolidOpacity 
+        public virtual float GetDragDropSolidOpacity() => SolidOpacity >= 0.0f
+                ? SolidOpacity
                 : _inherit?.GetDragDropSolidOpacity() ?? 0.37f;
-        }
 
         #endregion
 
@@ -300,12 +282,9 @@ namespace Krypton.Toolkit
         /// Gets the background color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockBack()
-        {
-            return DropDockBack != Color.Empty 
-                ? DropDockBack 
+        public Color GetDragDropDockBack() => DropDockBack != Color.Empty
+                ? DropDockBack
                 : _inherit?.GetDragDropDockBack() ?? Color.FromArgb(228, 228, 228);
-        }
 
         #endregion
 
@@ -341,12 +320,9 @@ namespace Krypton.Toolkit
         /// Gets the border color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockBorder()
-        {
-            return DropDockBorder != Color.Empty 
-                ? DropDockBorder 
+        public Color GetDragDropDockBorder() => DropDockBorder != Color.Empty
+                ? DropDockBorder
                 : _inherit?.GetDragDropDockBorder() ?? Color.FromArgb(181, 181, 181);
-        }
 
         #endregion
 
@@ -382,12 +358,9 @@ namespace Krypton.Toolkit
         /// Gets the active color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockActive()
-        {
-            return DropDockActive != Color.Empty 
-                ? DropDockActive 
+        public Color GetDragDropDockActive() => DropDockActive != Color.Empty
+                ? DropDockActive
                 : _inherit?.GetDragDropDockActive() ?? SystemColors.ActiveCaption;
-        }
 
         #endregion
 
@@ -423,12 +396,9 @@ namespace Krypton.Toolkit
         /// Gets the inactive color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockInactive()
-        {
-            return DropDockInactive != Color.Empty 
-                ? DropDockInactive 
+        public Color GetDragDropDockInactive() => DropDockInactive != Color.Empty
+                ? DropDockInactive
                 : _inherit?.GetDragDropDockInactive() ?? SystemColors.InactiveCaption;
-        }
 
         #endregion
     }

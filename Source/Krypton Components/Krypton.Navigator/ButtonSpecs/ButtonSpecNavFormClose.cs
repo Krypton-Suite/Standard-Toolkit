@@ -46,7 +46,7 @@ namespace Krypton.Navigator
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    IntPtr hSystemMenu = PI.GetSystemMenu(_navigator.Owner!.Handle, false);
+                    var hSystemMenu = PI.GetSystemMenu(_navigator.Owner!.Handle, false);
                     if (hSystemMenu != IntPtr.Zero)
                     {
                         PI.EnableMenuItem(hSystemMenu, PI.SC_.CLOSE, _enabled ? PI.MF_.ENABLED : PI.MF_.DISABLED);
@@ -84,9 +84,9 @@ namespace Krypton.Navigator
         {
             if (GetViewEnabled())
             {
-                if (_navigator.Owner != null && !_navigator.Owner.InertForm)
+                if (_navigator.Owner is { InertForm: false })
                 {
-                    MouseEventArgs mea = (MouseEventArgs)e;
+                    var mea = (MouseEventArgs)e;
 
                     if (GetView()!.ClientRectangle.Contains(mea.Location))
                     {
@@ -100,7 +100,7 @@ namespace Krypton.Navigator
 
                         Point screenPosition = Control.MousePosition;
 
-                        IntPtr lParam = (IntPtr)(PI.MAKELOWORD(screenPosition.X) | PI.MAKEHIWORD(screenPosition.Y));
+                        var lParam = (IntPtr)(PI.MAKELOWORD(screenPosition.X) | PI.MAKEHIWORD(screenPosition.Y));
 
                         // Note: Do I need to make 'SC_' public?
                         //? Navigator.Owner.SendSysCommand(PI.SC_.CLOSE, lParam);

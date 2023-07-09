@@ -65,10 +65,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageNormal property to its default value.
         /// </summary>
-        public void ResetImageNormal()
-        {
-            ImageNormal = null;
-        }
+        public void ResetImageNormal() => ImageNormal = null;
         #endregion
 
         #region ImageDisabled
@@ -100,10 +97,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageDisabled property to its default value.
         /// </summary>
-        public void ResetImageDisabled()
-        {
-            ImageDisabled = null;
-        }
+        public void ResetImageDisabled() => ImageDisabled = null;
         #endregion
 
         #region ImagePressed
@@ -135,10 +129,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImagePressed property to its default value.
         /// </summary>
-        public void ResetImagePressed()
-        {
-            ImagePressed = null;
-        }
+        public void ResetImagePressed() => ImagePressed = null;
         #endregion
 
         #region ImageTracking
@@ -170,10 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTracking property to its default value.
         /// </summary>
-        public void ResetImageTracking()
-        {
-            ImageTracking = null;
-        }
+        public void ResetImageTracking() => ImageTracking = null;
         #endregion
 
         #region ImageCheckedNormal

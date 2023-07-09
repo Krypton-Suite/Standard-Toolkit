@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
 
         public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
         {
-            IWindowsFormsEditorService? svc = (IWindowsFormsEditorService)provider?.GetService(typeof(IWindowsFormsEditorService));
+            var svc = (IWindowsFormsEditorService)provider?.GetService(typeof(IWindowsFormsEditorService));
             if (svc != null)
             {
                 var ctrl = new UserControl();

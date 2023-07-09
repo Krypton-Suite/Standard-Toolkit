@@ -70,10 +70,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Application we are inside has become active.
         /// </summary>
-        public void Active()
-        {
-            _active = true;
-        }
+        public void Active() => _active = true;
         #endregion
 
         #region Inactive
@@ -244,11 +241,9 @@ namespace Krypton.Ribbon
         /// Perform key press handling.
         /// </summary>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        public override void KeyPress(KeyPressEventArgs e)
-        {
+        public override void KeyPress(KeyPressEventArgs e) =>
             // Tell current view of key event
             FocusView?.KeyPress(e);
-        }
 
         /// <summary>
         /// Perform key up handling.
@@ -316,15 +311,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void PerformNeedPaint(bool needLayout)
-        {
-            PerformNeedPaint(needLayout, Rectangle.Empty);
-        }
+        private void PerformNeedPaint(bool needLayout) => PerformNeedPaint(needLayout, Rectangle.Empty);
 
-        private void PerformNeedPaint(bool needLayout, Rectangle invalidRect)
-        {
-            _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+        private void PerformNeedPaint(bool needLayout, Rectangle invalidRect) => _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
         #endregion
     }
 }

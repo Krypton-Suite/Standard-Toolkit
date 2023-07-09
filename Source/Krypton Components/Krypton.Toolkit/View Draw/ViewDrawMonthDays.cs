@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
                     }
 
                     var skip = false;
-                    PaletteState paletteState = PaletteState.Normal;
+                    var paletteState = PaletteState.Normal;
                     IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
                     // If the display date is not within the allowed range, do not draw it
@@ -391,7 +391,7 @@ namespace Krypton.Toolkit
                     if (_dayMementos[index] != null)
                     {
                         var skip = false;
-                        PaletteState paletteState = PaletteState.Normal;
+                        var paletteState = PaletteState.Normal;
                         IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
                         // If the display date is not within the allowed range, do not draw it

@@ -77,10 +77,7 @@ namespace Krypton.Ribbon
         /// Perform actual selection of the item.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public void KeyTipSelect(KryptonRibbon ribbon)
-        {
-            _target?.KeyTipSelect(ribbon);
-        }
+        public void KeyTipSelect(KryptonRibbon ribbon) => _target?.KeyTipSelect(ribbon);
         #endregion
     }
 }

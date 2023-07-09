@@ -118,9 +118,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
-        {
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+        public override void RenderBefore(RenderContext context) => _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
                                                                     context,
                                                                     ClientRectangle,
                                                                     PaletteState.Normal,
@@ -128,7 +126,6 @@ namespace Krypton.Ribbon
                                                                     VisualOrientation.Top,
                                                                     false,
                                                                     _memento);
-        }
         #endregion
     }
 }

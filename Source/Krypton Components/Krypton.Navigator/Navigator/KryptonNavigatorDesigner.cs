@@ -203,26 +203,17 @@ namespace Krypton.Navigator
         /// <summary>
         /// Add a new page to the navigator.
         /// </summary>
-        public void AddPage()
-        {
-            OnAddPage(this, EventArgs.Empty);
-        }
+        public void AddPage() => OnAddPage(this, EventArgs.Empty);
 
         /// <summary>
         /// Remove the current page from the navigator.
         /// </summary>
-        public void RemovePage()
-        {
-            OnRemovePage(this, EventArgs.Empty);
-        }
+        public void RemovePage() => OnRemovePage(this, EventArgs.Empty);
 
         /// <summary>
         /// Remove all pages from the navigator.
         /// </summary>
-        public void ClearPages()
-        {
-            OnClearPages(this, EventArgs.Empty);
-        }
+        public void ClearPages() => OnClearPages(this, EventArgs.Empty);
         #endregion
 
         #region Protected Overrides
@@ -294,28 +285,19 @@ namespace Krypton.Navigator
         /// Called when a drag-and-drop operation enters the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragEnter(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragEnter(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dragged over the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragOver(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragOver(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dropped onto the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragDrop(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragDrop(DragEventArgs de) => de.Effect = DragDropEffects.None;
         #endregion
 
         #region Protected Virtual
@@ -336,7 +318,7 @@ namespace Krypton.Navigator
             if (e.Component == Navigator)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 if (Navigator != null)
@@ -385,7 +367,7 @@ namespace Krypton.Navigator
                     }
 
                     // Get designer to create the new page component
-                    KryptonPage page = (KryptonPage)_designerHost.CreateComponent(typeof(KryptonPage));
+                    var page = (KryptonPage)_designerHost.CreateComponent(typeof(KryptonPage));
 
                     // Get access to the Name and Text propertues of the new page
                     PropertyDescriptor? propertyName = TypeDescriptor.GetProperties(page)[@"Name"];

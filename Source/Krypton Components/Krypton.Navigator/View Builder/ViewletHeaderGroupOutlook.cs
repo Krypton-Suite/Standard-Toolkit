@@ -62,16 +62,14 @@ namespace Krypton.Navigator
         /// Gets the visible state of the secondary header.
         /// </summary>
         /// <returns>Boolean value.</returns>
-        protected override bool GetHeaderSecondaryVisible()
-        {
+        protected override bool GetHeaderSecondaryVisible() =>
             // Work out the correct visiblity value to use
-            return Navigator.Outlook.HeaderSecondaryVisible switch
+            Navigator.Outlook.HeaderSecondaryVisible switch
             {
                 InheritBool.Inherit => Navigator.Header.HeaderVisibleSecondary,
                 InheritBool.True => true,
                 _ => false
             };
-        }
 
         /// <summary>
         /// Gets the source of the primary header values.

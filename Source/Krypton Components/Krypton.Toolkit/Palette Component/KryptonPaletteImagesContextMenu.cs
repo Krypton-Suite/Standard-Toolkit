@@ -74,11 +74,9 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
-        {
+        public void SetRedirector(PaletteRedirect? redirect) =>
             // Update our cached reference
             _redirect = redirect;
-        }
         #endregion
 
         #region Checked
@@ -107,10 +105,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Checked property to its default value.
         /// </summary>
-        public void ResetChecked()
-        {
-            Checked = null;
-        }
+        public void ResetChecked() => Checked = null;
         #endregion
 
         #region Indeterminate
@@ -139,10 +134,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Indeterminate property to its default value.
         /// </summary>
-        public void ResetIndeterminate()
-        {
-            Indeterminate = null;
-        }
+        public void ResetIndeterminate() => Indeterminate = null;
         #endregion
 
         #region SubMenu
@@ -171,10 +163,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SubMenu property to its default value.
         /// </summary>
-        public void ResetSubMenu()
-        {
-            SubMenu = null;
-        }
+        public void ResetSubMenu() => SubMenu = null;
         #endregion
     }
 }

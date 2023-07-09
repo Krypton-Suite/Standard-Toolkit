@@ -1284,7 +1284,7 @@ namespace Krypton.Toolkit
         public static Color FadedColor(Color baseColor)
         {
             // Convert to HSL space
-            var hsl = new ColorHSL(baseColor)
+            ColorHSL hsl = new ColorHSL(baseColor)
             {
 
                 // Remove saturation and fix luminance
@@ -1307,7 +1307,7 @@ namespace Krypton.Toolkit
                 if (!_inputControlPadding.HasValue)
                 {
                     // Find size of a input control with and without a border
-                    var tb = new TextBox
+                    TextBox tb = new TextBox
                     {
                         BorderStyle = BorderStyle.None
                     };
@@ -1316,7 +1316,7 @@ namespace Krypton.Toolkit
                     Size ss = tb.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
                     // Always subtract one from top and bottom edges to account for border placed there later by Krypton
-                    var inputControlPadding = new Padding(0);
+                    Padding inputControlPadding = new Padding(0);
                     var xDiff = Math.Max(0, ss.Width - sn.Width);
                     var yDiff = Math.Max(0, ss.Height - sn.Height - 2);
 
@@ -1378,11 +1378,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaletteLayoutEventArgs containing event data.</param>
-        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
-        {
+        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) =>
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023#issuecomment-1588810368
             PalettePaint?.Invoke(this, e);
-        }
 
         #endregion
 
@@ -1393,10 +1391,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e)
-        {
-            AllowFormChromeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
 
         #endregion
 
@@ -1407,10 +1402,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBasePaletteChanged(object sender, EventArgs e)
-        {
-            BasePaletteChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBasePaletteChanged(object sender, EventArgs e) => BasePaletteChanged?.Invoke(this, e);
 
         #endregion
 
@@ -1420,10 +1412,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBaseRendererChanged(object sender, EventArgs e)
-        {
-            BaseRendererChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBaseRendererChanged(object sender, EventArgs e) => BaseRendererChanged?.Invoke(this, e);
 
         #endregion
 
@@ -1433,10 +1422,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
-        {
-            ButtonSpecChanged?.Invoke(this, e);
-        }
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
 
         #endregion
     }

@@ -108,21 +108,17 @@ namespace Krypton.Ribbon
         /// Perform key down handling.
         /// </summary>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public override void KeyDown(KeyEventArgs e)
-        {
+        public override void KeyDown(KeyEventArgs e) =>
             // Tell current view of key event
             FocusView?.KeyDown(e);
-        }
 
         /// <summary>
         /// Perform key press handling.
         /// </summary>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        public override void KeyPress(KeyPressEventArgs e)
-        {
+        public override void KeyPress(KeyPressEventArgs e) =>
             // Tell current view of key event
             FocusView?.KeyPress(e);
-        }
 
         /// <summary>
         /// Perform key up handling.

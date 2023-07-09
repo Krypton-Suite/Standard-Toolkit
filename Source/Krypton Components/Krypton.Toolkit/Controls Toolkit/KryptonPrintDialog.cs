@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
 
         private PD GetFlags()
         {
-            PD flags = PD.ALLPAGES;
+            var flags = PD.ALLPAGES;
 
             // Only set this flag when using PRINTDLG and PrintDlg,
             // and not when using PrintDlgEx and PRINTDLGEX.

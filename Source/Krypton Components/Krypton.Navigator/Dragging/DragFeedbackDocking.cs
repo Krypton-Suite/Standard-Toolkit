@@ -63,7 +63,7 @@ namespace Krypton.Navigator
 
                 if (_indicators != null)
                 {
-                    IDisposable? dispose = _indicators as IDisposable;
+                    var dispose = _indicators as IDisposable;
                     dispose?.Dispose();
                     _indicators = null;
                 }
@@ -313,10 +313,7 @@ namespace Krypton.Navigator
             _clusters.Clear();
         }
 
-        private DockCluster? FindTargetCluster(DragTarget target)
-        {
-            return _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster != null && cluster.ScreenRect.Equals(target.ScreenRect));
-        }
+        private DockCluster? FindTargetCluster(DragTarget target) => _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster != null && cluster.ScreenRect.Equals(target.ScreenRect));
 
         private DragTarget? FindTarget(Point screenPt, PageDragEndData dragEndData) =>
             // Nothing matches

@@ -137,25 +137,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddTriple(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddTriple();
-        }
+        private void OnAddTriple(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddTriple();
 
-        private void OnAddLines(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddLines();
-        }
+        private void OnAddLines(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddLines();
 
-        private void OnAddSeparator(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddSeparator();
-        }
+        private void OnAddSeparator(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddSeparator();
 
-        private void OnAddGallery(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddGallery();
-        }
+        private void OnAddGallery(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddGallery();
         #endregion
     }
 }

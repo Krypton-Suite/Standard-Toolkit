@@ -60,9 +60,6 @@ namespace Krypton.Ribbon
             return first;
         }
 
-        public ICollection<TFirst> GetAllFirsts()
-        {
-            return _firstToSecond.Keys;
-        }
+        public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;
     }
 }

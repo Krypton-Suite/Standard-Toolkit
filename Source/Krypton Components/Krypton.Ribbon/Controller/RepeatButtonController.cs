@@ -87,10 +87,7 @@ namespace Krypton.Ribbon
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
         #endregion
 
         #region Mouse Notifications
@@ -294,10 +291,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Raises the Click event.
@@ -339,11 +333,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRepeatTick(object sender, EventArgs e)
-        {
+        private void OnRepeatTick(object sender, EventArgs e) =>
             // Keep generating clicks
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
-        }
         #endregion
     }
 }

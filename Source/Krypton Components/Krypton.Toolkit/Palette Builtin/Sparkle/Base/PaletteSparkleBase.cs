@@ -3087,15 +3087,12 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
-            return button switch
-            {
-                PaletteRibbonGalleryButton.Up => state == PaletteState.Disabled ? _disabledDropUp : _sparkleDropUpButton,
-                PaletteRibbonGalleryButton.DropDown => state == PaletteState.Disabled ? _disabledGalleryDrop : _sparkleGalleryDropButton,
-                _ => state == PaletteState.Disabled ? _disabledDropDown : _sparkleDropDownButton
-            };
-        }
+            PaletteRibbonGalleryButton.Up => state == PaletteState.Disabled ? _disabledDropUp : _sparkleDropUpButton,
+            PaletteRibbonGalleryButton.DropDown => state == PaletteState.Disabled ? _disabledGalleryDrop : _sparkleGalleryDropButton,
+            _ => state == PaletteState.Disabled ? _disabledDropDown : _sparkleDropDownButton
+        };
         #endregion
 
         #region ButtonSpec

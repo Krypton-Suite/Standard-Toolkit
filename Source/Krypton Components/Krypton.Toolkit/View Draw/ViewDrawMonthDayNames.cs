@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Width is 7 days times the width of a day name
             preferredSize.Width = _months.SizeDays.Width * 7;

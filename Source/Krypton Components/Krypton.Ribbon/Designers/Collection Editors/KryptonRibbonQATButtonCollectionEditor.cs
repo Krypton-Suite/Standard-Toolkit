@@ -28,10 +28,7 @@ namespace Krypton.Ribbon
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes()
-        {
-            return new[] { typeof(KryptonRibbonQATButton) };
-        }
+        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonRibbonQATButton) };
 
         /// <summary>
         /// Sets the specified array as the items of the collection.
@@ -42,7 +39,7 @@ namespace Krypton.Ribbon
         protected override object SetItems(object editValue, object[] value)
         {
             // Cast the context into the expected control type
-            KryptonRibbon ribbon = (KryptonRibbon)Context.Instance;
+            var ribbon = (KryptonRibbon)Context.Instance;
 
             // Suspend changes until collection has been updated
             ribbon?.SuspendLayout();

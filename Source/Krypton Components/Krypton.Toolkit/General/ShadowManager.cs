@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
 
                 Point desktopLocation = _parentForm.DesktopLocation;
 
-                IntPtr hWinPosInfo = PI.BeginDeferWindowPos(_shadowForms.Length);
+                var hWinPosInfo = PI.BeginDeferWindowPos(_shadowForms.Length);
 
                 foreach (VisualShadowBase shadowForm in _shadowForms)
                 {

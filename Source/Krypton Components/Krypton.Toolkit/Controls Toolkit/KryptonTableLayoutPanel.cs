@@ -158,10 +158,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -197,10 +194,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePanelBackStyle() => PanelBackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetPanelBackStyle()
-        {
-            PanelBackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetPanelBackStyle() => PanelBackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets access to the common panel appearance that other states can override.

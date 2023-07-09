@@ -188,10 +188,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetText()
-        {
-            Text = string.Empty;
-        }
+        private void ResetText() => Text = string.Empty;
 
         private bool ShouldSerializeText() => !string.IsNullOrEmpty(Text);
 
@@ -217,10 +214,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetExtraText()
-        {
-            ExtraText = string.Empty;
-        }
+        private void ResetExtraText() => ExtraText = string.Empty;
 
         private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(ExtraText);
 
@@ -245,10 +239,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetTextLine1()
-        {
-            TextLine1 = string.Empty;
-        }
+        private void ResetTextLine1() => TextLine1 = string.Empty;
 
         private bool ShouldSerializeTextLine1() => !string.IsNullOrEmpty(TextLine1);
 
@@ -273,10 +264,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetTextLine2()
-        {
-            TextLine2 = string.Empty;
-        }
+        private void ResetTextLine2() => TextLine2 = string.Empty;
 
         private bool ShouldSerializeTextLine2() => !string.IsNullOrEmpty(TextLine2);
 
@@ -301,10 +289,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetImageSmall()
-        {
-            ImageSmall = null;
-        }
+        private void ResetImageSmall() => ImageSmall = null;
 
         private bool ShouldSerializeImageSmall() => ImageSmall != null;
 
@@ -329,10 +314,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetImageLarge()
-        {
-            ImageLarge = null;
-        }
+        private void ResetImageLarge() => ImageLarge = null;
 
         private bool ShouldSerializeImageLarge() => ImageLarge != null;
 

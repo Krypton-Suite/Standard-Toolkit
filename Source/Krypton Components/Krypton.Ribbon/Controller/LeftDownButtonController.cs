@@ -99,11 +99,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Fix the display of the button.
         /// </summary>
-        public void SetFixed()
-        {
+        public void SetFixed() =>
             // Show the button as pressed, until told otherwise
             IsFixed = true;
-        }
         #endregion
 
         #region RemoveFixed
@@ -249,7 +247,7 @@ namespace Krypton.Ribbon
         protected virtual void UpdateTargetState()
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled
             if (Ribbon.Enabled)
@@ -296,19 +294,13 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+                                           Rectangle invalidRect) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
 
         #region Implementation

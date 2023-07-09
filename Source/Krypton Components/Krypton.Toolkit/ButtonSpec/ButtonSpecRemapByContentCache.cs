@@ -40,10 +40,7 @@ namespace Krypton.Toolkit
         /// Set the palette content to use for remapping.
         /// </summary>
         /// <param name="paletteContent">Palette for requesting foreground colors.</param>
-        public void SetPaletteContent(IPaletteContent? paletteContent)
-        {
-            _paletteContent = paletteContent;
-        }
+        public void SetPaletteContent(IPaletteContent? paletteContent) => _paletteContent = paletteContent;
         #endregion
 
         #region SetPaletteState
@@ -51,10 +48,7 @@ namespace Krypton.Toolkit
         /// Set the palette state of the remapping element.
         /// </summary>
         /// <param name="paletteState">Palette state.</param>
-        public void SetPaletteState(PaletteState paletteState)
-        {
-            _paletteState = paletteState;
-        }
+        public void SetPaletteState(PaletteState paletteState) => _paletteState = paletteState;
         #endregion
 
         #region PaletteContent

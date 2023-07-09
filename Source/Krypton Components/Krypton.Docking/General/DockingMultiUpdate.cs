@@ -31,7 +31,7 @@ namespace Krypton.Docking
 
             // Inform docking elements that a multi-part update is starting
             _dockingElement = dockingElement ?? throw new ArgumentNullException(nameof(dockingElement));
-            _dockingElement.PropogateAction(DockingPropogateAction.StartUpdate, (string[])null);
+            _dockingElement.PropogateAction(DockingPropogateAction.StartUpdate, null as string[]);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Krypton.Docking
         public void Dispose()
         {
             // Inform docking elements that a multi-part update has ended
-            _dockingElement.PropogateAction(DockingPropogateAction.EndUpdate, (string[])null);
+            _dockingElement.PropogateAction(DockingPropogateAction.EndUpdate, null as string[]);
             GC.SuppressFinalize(this);
         }
         #endregion

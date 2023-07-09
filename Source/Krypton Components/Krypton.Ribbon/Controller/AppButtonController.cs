@@ -251,7 +251,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             ViewBase newView = null;
-            KryptonRibbon ribbon = (KryptonRibbon)c;
+            var ribbon = (KryptonRibbon)c;
 
             switch (e.KeyData)
             {
@@ -398,7 +398,7 @@ namespace Krypton.Ribbon
         protected void UpdateTargetState()
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled
             if (_ribbon.Enabled)
@@ -473,10 +473,7 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect)
-        {
-            NeedPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+                                           Rectangle invalidRect) => NeedPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
 
         /// <summary>
         /// Raises the Click event.
@@ -493,10 +490,7 @@ namespace Krypton.Ribbon
         /// Raises the MouseReleased event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnMouseReleased(MouseEventArgs e)
-        {
-            MouseReleased?.Invoke(this, e);
-        }
+        protected virtual void OnMouseReleased(MouseEventArgs e) => MouseReleased?.Invoke(this, e);
         #endregion
 
         #region Implementation

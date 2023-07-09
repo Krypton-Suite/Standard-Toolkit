@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewIconColumn cloned = base.Clone() as KryptonDataGridViewIconColumn;
+            var cloned = base.Clone() as KryptonDataGridViewIconColumn;
 
             foreach (IconSpec sp in IconSpecs)
             {

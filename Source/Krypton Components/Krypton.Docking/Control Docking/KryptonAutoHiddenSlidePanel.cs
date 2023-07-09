@@ -41,8 +41,8 @@ namespace Krypton.Docking
         private readonly KryptonAutoHiddenPanel _panel;
         private KryptonAutoHiddenGroup? _group;
         private readonly KryptonDockspaceSlide _dockspaceSlide;
-        private readonly EventHandler _checkMakeHidden;
-        private readonly KryptonPanel _inner;
+        private readonly EventHandler? _checkMakeHidden;
+        private readonly KryptonPanel? _inner;
         private readonly Button _dummyTarget;
         private DockingAutoHiddenShowState _state;
         private Rectangle _startRect;
@@ -587,7 +587,9 @@ namespace Krypton.Docking
             // during its operation. Doing so can cause problems with the mouse down not working when
             // that is the cause of the leave event. Plus the focus might enter here again before the
             // next windows message.
-            if (IsHandleCreated)
+            if (IsHandleCreated
+                && _checkMakeHidden != null
+                )
             {
                 BeginInvoke(_checkMakeHidden);
             }
@@ -913,6 +915,7 @@ namespace Krypton.Docking
                 case DockingAutoHiddenShowState.SlidingIn:
                     // No sliding required, nothing to do
                     break;
+
                 case DockingAutoHiddenShowState.SlidingOut:
                 case DockingAutoHiddenShowState.Showing:
                     MakeSlideIn();
@@ -920,21 +923,13 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnControlSizeChanged(object sender, EventArgs e)
-        {
+        private void OnControlSizeChanged(object sender, EventArgs e) =>
             // Change in parent control size means we always hide
             MakeHidden();
-        }
 
-        private void OnDockspaceSeparatorMoving(object sender, SplitterCancelEventArgs e)
-        {
-            SplitterMoving?.Invoke(sender, e);
-        }
+        private void OnDockspaceSeparatorMoving(object sender, SplitterCancelEventArgs e) => SplitterMoving?.Invoke(sender, e);
 
-        private void OnDockspaceSeparatorMoved(object sender, SplitterEventArgs e)
-        {
-            SplitterMoved?.Invoke(sender, e);
-        }
+        private void OnDockspaceSeparatorMoved(object sender, SplitterEventArgs e) => SplitterMoved?.Invoke(sender, e);
 
         private void OnDockspaceSeparatorMoveRect(object sender, SplitterMoveRectMenuArgs e)
         {
@@ -947,15 +942,9 @@ namespace Krypton.Docking
             SplitterMoveRect?.Invoke(sender, e);
         }
 
-        private void OnDockspacePageCloseClicked(object sender, UniqueNameEventArgs e)
-        {
-            PageCloseClicked?.Invoke(sender, e);
-        }
+        private void OnDockspacePageCloseClicked(object sender, UniqueNameEventArgs e) => PageCloseClicked?.Invoke(sender, e);
 
-        private void OnDockspacePageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
-        {
-            PageAutoHiddenClicked?.Invoke(sender, e);
-        }
+        private void OnDockspacePageAutoHiddenClicked(object sender, UniqueNameEventArgs e) => PageAutoHiddenClicked?.Invoke(sender, e);
 
         private void OnDockspacePageDropDownClicked(object sender, CancelDropDownEventArgs e)
         {
@@ -966,10 +955,7 @@ namespace Krypton.Docking
             PageDropDownClicked?.Invoke(sender, e);
         }
 
-        private void OnAutoHiddenShowingStateChanged(AutoHiddenShowingStateEventArgs e)
-        {
-            AutoHiddenShowingStateChanged?.Invoke(this, e);
-        }
+        private void OnAutoHiddenShowingStateChanged(AutoHiddenShowingStateEventArgs e) => AutoHiddenShowingStateChanged?.Invoke(this, e);
         #endregion
     }
 }

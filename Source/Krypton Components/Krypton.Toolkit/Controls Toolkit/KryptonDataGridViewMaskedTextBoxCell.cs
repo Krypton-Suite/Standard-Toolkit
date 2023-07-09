@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            KryptonDataGridViewMaskedTextBoxCell dataGridViewCell = base.Clone() as KryptonDataGridViewMaskedTextBoxCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewMaskedTextBoxCell;
             if (dataGridViewCell != null)
             {
                 dataGridViewCell.PromptChar = PromptChar;
@@ -744,14 +744,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align)
-        {
-            return ANY_RIGHT.HasFlag(align) 
-                ? HorizontalAlignment.Right 
-                : ANY_CENTER.HasFlag(align) 
-                    ? HorizontalAlignment.Center 
+        internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align) => ANY_RIGHT.HasFlag(align)
+                ? HorizontalAlignment.Right
+                : ANY_CENTER.HasFlag(align)
+                    ? HorizontalAlignment.Center
                     : HorizontalAlignment.Left;
-        }
         #endregion
 
     }

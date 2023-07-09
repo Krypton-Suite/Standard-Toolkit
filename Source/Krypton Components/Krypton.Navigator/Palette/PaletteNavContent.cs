@@ -94,10 +94,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteContent? inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(IPaletteContent? inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -663,10 +660,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the Padding to the default value.
         /// </summary>
-        public void ResetPadding()
-        {
-            Padding = CommonHelper.InheritPadding;
-        }
+        public void ResetPadding() => Padding = CommonHelper.InheritPadding;
 
         /// <summary>
         /// Gets the actual padding between the border and content drawing.
@@ -741,10 +735,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the AdjacentGap to the default value.
         /// </summary>
-        public void ResetAdjacentGap()
-        {
-            AdjacentGap = -1;
-        }
+        public void ResetAdjacentGap() => AdjacentGap = -1;
 
         /// <summary>
         /// Gets the actual padding between adjacent content items.

@@ -599,7 +599,7 @@ namespace Krypton.Ribbon
         private void OnRibbonMdiChildActivate(object sender, EventArgs e)
         {
             // Cast to correct type
-            Form? topForm = sender as Form;
+            var topForm = sender as Form;
 
             // Unhook from watching any previous mdi child
             if (_activeMdiChild != null)
@@ -645,7 +645,7 @@ namespace Krypton.Ribbon
         {
             _invalidateTimer.Stop();
 
-            if (_captionArea is { KryptonForm: { }, UsingCustomChrome: true })
+            if (_captionArea is { KryptonForm: not null, UsingCustomChrome: true })
             {
                 if (_captionArea.KryptonForm.PaintCount == _paintCount)
                 {
@@ -756,7 +756,7 @@ namespace Krypton.Ribbon
                 _appMenu.Disposed -= OnAppMenuDisposed;
 
                 // Discover the reason for the menu close
-                ToolStripDropDownCloseReason closeReason = ToolStripDropDownCloseReason.AppFocusChange;
+                var closeReason = ToolStripDropDownCloseReason.AppFocusChange;
                 if (_appMenu.CloseReason.HasValue)
                 {
                     closeReason = _appMenu.CloseReason.Value;
@@ -793,8 +793,8 @@ namespace Krypton.Ribbon
                 if (!_ribbon.InDesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.SuperTip;
-                    bool shadow = true;
+                    var toolTipStyle = LabelStyle.SuperTip;
+                    var shadow = true;
                     var screenRect = new Rectangle(e.ControlMousePosition, new Size(1, 1));
 
                     // If the target is the application button
@@ -926,7 +926,7 @@ namespace Krypton.Ribbon
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
 
             // Not showing a popup page any more

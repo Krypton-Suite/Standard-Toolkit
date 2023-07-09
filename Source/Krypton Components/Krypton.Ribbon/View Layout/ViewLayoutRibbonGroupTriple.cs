@@ -352,12 +352,10 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Value for the container.</param>
-        public void SetSolutionSize(ItemSizeWidth size)
-        {
+        public void SetSolutionSize(ItemSizeWidth size) =>
             // Update the container definition, which itself will then
             // update all the child items inside the container for us
             _ribbonTriple.ItemSizeCurrent = size.GroupItemSize;
-        }
 
         /// <summary>
         /// Reset the container back to its requested size.
@@ -394,7 +392,7 @@ namespace Krypton.Ribbon
             // Sync child elements to the current group items
             SyncChildrenToRibbonGroupItems();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Are we sizing horizontal or vertical?
             var horizontal = _currentSize == GroupItemSize.Large;
@@ -497,7 +495,7 @@ namespace Krypton.Ribbon
                     if (child.Visible)
                     {
                         // Get the cached size of this view
-                        Size childSize = Size.Empty;
+                        var childSize = Size.Empty;
                         switch (_currentSize)
                         {
                             case GroupItemSize.Small:

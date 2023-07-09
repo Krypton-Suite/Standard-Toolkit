@@ -97,7 +97,7 @@ namespace Krypton.Workspace
             if (e.Component == _sequence)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // Climb the workspace item tree to get the top most sequence
                 KryptonWorkspace workspace = null;
@@ -116,13 +116,13 @@ namespace Krypton.Workspace
                 // We need to remove all children from the sequence
                 for (var j = _sequence.Children.Count - 1; j >= 0; j--)
                 {
-                    Component comp = _sequence.Children[j] as Component;
+                    var comp = _sequence.Children[j] as Component;
 
                     // If the component is a control...
                     if ((comp is Control control) && (workspace != null))
                     {
                         // We need to manually remove it from the workspace controls collection
-                        KryptonReadOnlyControls readOnlyControls = (KryptonReadOnlyControls)workspace.Controls;
+                        var readOnlyControls = (KryptonReadOnlyControls)workspace.Controls;
                         readOnlyControls.RemoveInternal(control);
                     }
 

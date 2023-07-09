@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             if ((context != null) && (provider != null) && (value != null))
             {
                 // Grab the service needed to show the drop down
-                IWindowsFormsEditorService? service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                var service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
 
                 if (service != null)
                 {

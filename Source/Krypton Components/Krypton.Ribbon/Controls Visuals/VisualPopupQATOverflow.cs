@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Ensure the manager believes the mouse has left the area
-                ViewManager.MouseLeave(EventArgs.Empty);
+                ViewManager?.MouseLeave(EventArgs.Empty);
 
                 // Remove all child controls so they do not become disposed
                 for (var i = Controls.Count - 1; i >= 0; i--)
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
+            ViewBase? view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
 
             // Rotate around to the first item
             if (view == null)
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
         /// <param name="levent">An EventArgs that contains the event data.</param>
         protected override void OnLayout(LayoutEventArgs levent)
         {
-            // Let base class calulcate fill rectangle
+            // Let base class calculate fill rectangle
             base.OnLayout(levent);
             var borderRounding = _ribbon.RibbonShape switch
             {

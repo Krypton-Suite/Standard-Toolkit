@@ -142,7 +142,7 @@ namespace Krypton.Navigator
             {
                 foreach (var pair in PageLookup)
                 {
-                    ViewDrawNavCheckButtonTab tabHeader = (ViewDrawNavCheckButtonTab)pair.Value;
+                    var tabHeader = (ViewDrawNavCheckButtonTab)pair.Value;
                     tabHeader.ButtonSpecManager?.SetRemapTarget(Navigator.Bar.TabStyle);
                 }
             }

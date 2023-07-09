@@ -163,7 +163,7 @@ namespace Krypton.Navigator
             {
                 _selectionService.SetSelectedComponents(new object[] { ParentNavigator }, SelectionTypes.Primary);
             }
-            else if (_page != null && _page.Parent != null)
+            else if (_page is { Parent: not null })
             {
                 _selectionService.SetSelectedComponents(new object[] { _page.Parent }, SelectionTypes.Primary);
             }
@@ -280,7 +280,7 @@ namespace Krypton.Navigator
             if ((_page != null) && (e.Component == _page))
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _page.ButtonSpecs.Count - 1; i >= 0; i--)

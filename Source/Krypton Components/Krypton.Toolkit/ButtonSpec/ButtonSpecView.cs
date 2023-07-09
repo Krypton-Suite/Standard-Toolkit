@@ -46,8 +46,8 @@ namespace Krypton.Toolkit
 
             // Remember references
             _redirector = redirector;
-            Manager = manager;
-            ButtonSpec = buttonSpec;
+            Manager = manager!;
+            ButtonSpec = buttonSpec!;
             _finishDelegate = OnFinishDelegate;
 
             // Create delegate for paint notifications
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the owning manager.
         /// </summary>
-        public ButtonSpecManagerBase? Manager { get; }
+        public ButtonSpecManagerBase Manager { get; }
 
         /// <summary>
         /// Gets access to the monitored button spec
@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
         private void OnKryptonContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             // Unhook from context menu event so it could garbage collected in the future
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Remove the fixed button appearance

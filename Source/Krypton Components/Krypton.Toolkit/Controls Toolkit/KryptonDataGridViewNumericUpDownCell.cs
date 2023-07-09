@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            KryptonDataGridViewNumericUpDownCell dataGridViewCell = base.Clone() as KryptonDataGridViewNumericUpDownCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewNumericUpDownCell;
             if (dataGridViewCell != null)
             {
                 dataGridViewCell.DecimalPlaces = DecimalPlaces;
@@ -310,7 +310,7 @@ namespace Krypton.Toolkit
         public override bool KeyEntersEditMode(KeyEventArgs e)
         {
             NumberFormatInfo numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
-            Keys negativeSignKey = Keys.None;
+            var negativeSignKey = Keys.None;
             var negativeSignStr = numberFormatInfo.NegativeSign;
             if (!string.IsNullOrEmpty(negativeSignStr) && (negativeSignStr.Length == 1))
             {
@@ -594,15 +594,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align)
+        internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align) => align switch
         {
-            return align switch
-            {
-                ANY_RIGHT => HorizontalAlignment.Right,
-                ANY_CENTER => HorizontalAlignment.Center,
-                _ => HorizontalAlignment.Left
-            };
-        }
+            ANY_RIGHT => HorizontalAlignment.Right,
+            ANY_CENTER => HorizontalAlignment.Center,
+            _ => HorizontalAlignment.Left
+        };
         #endregion
     }
 }

@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// <returns>Render instance.</returns>
         public IRenderer GetRenderer()
         {
-            VisualContextMenu contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
+            var contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
             return contextMenu.Renderer;
         }
 
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         {
             get 
             {
-                VisualContextMenu contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
+                var contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
                 return contextMenu.CreateToolStripRenderer;
             }
         }

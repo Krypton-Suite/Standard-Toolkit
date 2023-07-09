@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
                     X = screenPt.X,
                     Y = screenPt.Y
                 };
-                IntPtr hWnd = PI.WindowFromPoint(screenPIPt);
+                var hWnd = PI.WindowFromPoint(screenPIPt);
 
                 // Assuming we got back a valid window handle
                 if (hWnd != IntPtr.Zero)

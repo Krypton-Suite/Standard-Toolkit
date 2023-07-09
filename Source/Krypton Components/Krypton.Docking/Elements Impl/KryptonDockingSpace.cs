@@ -47,11 +47,9 @@ namespace Krypton.Docking
         /// Add a KryptonPage to the currently active cell or create a new cell is no cell is currently active.
         /// </summary>
         /// <param name="page">KryptonPage to be added.</param>
-        public void Append(KryptonPage page)
-        {
+        public void Append(KryptonPage page) =>
             // Use existing array adding method to prevent duplication of code
             Append(new[] { page });
-        }
 
         /// <summary>
         /// Add a KryptonPage array to the currently active cell or create a new cell is no cell is currently active.
@@ -112,11 +110,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="cell">Reference to existing workspace cell.</param>
         /// <param name="page">KryptonPage instance to be added.</param>
-        public void CellAppend(KryptonWorkspaceCell cell, KryptonPage page)
-        {
+        public void CellAppend(KryptonWorkspaceCell cell, KryptonPage page) =>
             // Use existing array adding method to prevent duplication of code
             CellAppend(cell, new[] { page });
-        }
 
         /// <summary>
         /// Add a KryptonPage array into an existing cell.
@@ -165,11 +161,9 @@ namespace Krypton.Docking
         /// <param name="cell">Reference to existing workspace cell.</param>
         /// <param name="index">Index for inserting new pages.</param>
         /// <param name="page">KryptonPage instance to be added.</param>
-        public void CellInsert(KryptonWorkspaceCell cell, int index, KryptonPage page)
-        {
+        public void CellInsert(KryptonWorkspaceCell cell, int index, KryptonPage page) =>
             // Use existing array adding method to prevent duplication of code
             CellInsert(cell, index, new[] { page });
-        }
 
         /// <summary>
         /// Add a KryptonPage array into an existing cell starting at the provided index.
@@ -244,7 +238,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             if (SpaceControl == null)
             {
@@ -277,7 +271,7 @@ namespace Krypton.Docking
                         }
                         foreach (KryptonPage? page in uniqueNames
                                      .Select(uniqueName => SpaceControl.PageForUniqueName(uniqueName))
-                                     .Where(static page => page is { } and not KryptonStorePage))
+                                     .Where(static page => page is not null and not KryptonStorePage))
                         {
                             page!.Visible = newVisible;
                         }
@@ -299,7 +293,7 @@ namespace Krypton.Docking
                     {
                         // If the named page exists and is not placeholder then remove it
                         KryptonPage? removePage = SpaceControl.PageForUniqueName(uniqueName);
-                        if (removePage is { } and not KryptonStorePage)
+                        if (removePage is not null and not KryptonStorePage)
                         {
                             // Find the cell that contains the target so we can remove the page
                             KryptonWorkspaceCell? cell = SpaceControl.CellForPage(removePage);
@@ -328,7 +322,7 @@ namespace Krypton.Docking
                             {
                                 // Only remove the actual page and not placeholders
                                 KryptonPage? page = cell.Pages[i];
-                                if (page is { } and not KryptonStorePage)
+                                if (page is not null and not KryptonStorePage)
                                 {
                                     cell.Pages.RemoveAt(i);
 
@@ -355,7 +349,7 @@ namespace Krypton.Docking
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage? page = SpaceControl.PageForUniqueName(uniqueName);
-                        if (page is { } and not KryptonStorePage)
+                        if (page is not null and not KryptonStorePage)
                         {
                             // Replace the existing page with a placeholder that has the same unique name
                             KryptonWorkspaceCell? cell = SpaceControl.CellForPage(page);
@@ -379,7 +373,7 @@ namespace Krypton.Docking
                             {
                                 // Swap pages that are not placeholders to become placeholders
                                 KryptonPage? page = cell.Pages[i];
-                                if (page is { } and not KryptonStorePage)
+                                if (page is not null and not KryptonStorePage)
                                 {
                                     // Replace the existing page with a placeholder that has the same unique name
                                     var placeholder = new KryptonStorePage(page.UniqueName, _storeName);
@@ -493,7 +487,7 @@ namespace Krypton.Docking
                     {
                         // Return the definitive answer 'true' if the control contains the named page
                         KryptonPage? page = SpaceControl?.PageForUniqueName(uniqueName);
-                        if (page is { } and not KryptonStorePage)
+                        if (page is not null and not KryptonStorePage)
                         {
                             return true;
                         }
@@ -513,7 +507,7 @@ namespace Krypton.Docking
                     {
                         // If we have the requested page then return the visible state of the page
                         KryptonPage? page = SpaceControl?.PageForUniqueName(uniqueName);
-                        if (page is { } and not KryptonStorePage)
+                        if (page is not null and not KryptonStorePage)
                         {
                             return page.LastVisibleSet;
                         }
@@ -539,7 +533,7 @@ namespace Krypton.Docking
                     {
                         // If we have the requested name page and it is not a placeholder then we have found it
                         KryptonPage? page = SpaceControl?.PageForUniqueName(uniqueName);
-                        if (page is { } and not KryptonStorePage)
+                        if (page is not null and not KryptonStorePage)
                         {
                             return page;
                         }
@@ -579,7 +573,7 @@ namespace Krypton.Docking
                     {
                         // Only add real pages and not placeholders
                         KryptonPage? page = cell.Pages[i];
-                        if (page is { } and not KryptonStorePage)
+                        if (page is not null and not KryptonStorePage)
                         {
                             pages.Add(page);
                         }
@@ -937,7 +931,7 @@ namespace Krypton.Docking
         private void OnSpaceCellRemoved(object sender, EventArgs e)
         {
             // Remove event hooks so cell can be garbage collected
-            KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
+            var cell = (KryptonWorkspaceCell)sender;
             cell.Disposed -= OnSpaceCellRemoved;
 
             RaiseCellRemoved(cell);

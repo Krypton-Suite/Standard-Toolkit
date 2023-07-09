@@ -539,10 +539,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void SetCheckBoxStyle(LabelStyle style)
-        {
-            _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        private void SetCheckBoxStyle(LabelStyle style) => _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
         #endregion
     }
 }

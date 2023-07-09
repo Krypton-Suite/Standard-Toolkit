@@ -110,7 +110,7 @@ namespace Krypton.Docking
             {
                 // If a matching page exists and it is not a store placeholder already
                 KryptonPage? page = Pages[uniqueName];
-                if ((page is { } and not KryptonStorePage))
+                if ((page is not null and not KryptonStorePage))
                 {
                     // Notify that we are storing a page, so handlers can ensure it will be unique to the auto hidden location
                     OnStoringPage(new UniqueNameEventArgs(page.UniqueName));
@@ -132,7 +132,7 @@ namespace Krypton.Docking
             foreach (KryptonPage page in pages)
             {
                 // If a matching page exists and it is not a store placeholder already
-                if (page.UniqueName != null)
+                if (!string.IsNullOrWhiteSpace(page.UniqueName))
                 {
                     KryptonPage? storePage = Pages[page.UniqueName];
                     if (storePage is KryptonStorePage)
@@ -151,10 +151,7 @@ namespace Krypton.Docking
         /// Raises the StoringPage event.
         /// </summary>
         /// <param name="e">An StorePageEventArgs containing the event data.</param>
-        protected virtual void OnStoringPage(UniqueNameEventArgs e)
-        {
-            StoringPage?.Invoke(this, e);
-        }
+        protected virtual void OnStoringPage(UniqueNameEventArgs e) => StoringPage?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabCountChanged event.

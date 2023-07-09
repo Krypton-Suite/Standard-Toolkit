@@ -30,12 +30,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Instance to test.</param>
         /// <returns>True if allowed; otherwise false.</returns>
-        protected bool IsTypeAllowed(object value)
-        {
+        protected bool IsTypeAllowed(object value) =>
             // Check if incoming instance derives from an allowed type
 
-            return RestrictTypes.Any(t => t.IsInstanceOfType(value));
-        }
+            RestrictTypes.Any(t => t.IsInstanceOfType(value));
 
         /// <summary>
         /// Append an item to the collection.

@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
 
         private protected virtual void WndMessage(object sender, CWPRETSTRUCT e, out bool actioned)
         {
-            (bool handled, IntPtr retValue) = _commonDialogHandler.HookProc(e.hWnd, e.message, e.wParam, e.lParam);
+            (var handled, var retValue) = _commonDialogHandler.HookProc(e.hWnd, e.message, e.wParam, e.lParam);
             e.retValue = retValue;
             actioned = handled;
 

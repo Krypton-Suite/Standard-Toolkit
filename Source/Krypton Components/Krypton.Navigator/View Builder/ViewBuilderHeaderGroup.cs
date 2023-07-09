@@ -348,10 +348,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEnabledChanged(object sender, EventArgs e)
-        {
-            UpdateStatePalettes();
-        }
+        private void OnEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
         #endregion
     }
 }

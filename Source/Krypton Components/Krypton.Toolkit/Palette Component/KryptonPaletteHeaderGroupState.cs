@@ -106,10 +106,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the PrimaryHeaderPadding to the default value.
         /// </summary>
-        public void ResetPrimaryHeaderPadding()
-        {
-            PrimaryHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetPrimaryHeaderPadding() => PrimaryHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region SecondaryHeaderPadding
@@ -138,10 +135,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the SecondaryHeaderPadding to the default value.
         /// </summary>
-        public void ResetSecondaryHeaderPadding()
-        {
-            SecondaryHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetSecondaryHeaderPadding() => SecondaryHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region DockInactiveHeaderPadding
@@ -170,10 +164,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the DockInactiveHeaderPadding to the default value.
         /// </summary>
-        public void ResetDockInactiveHeaderPadding()
-        {
-            DockInactiveHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetDockInactiveHeaderPadding() => DockInactiveHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region DockActiveHeaderPadding
@@ -202,10 +193,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the DockActiveHeaderPadding to the default value.
         /// </summary>
-        public void ResetDockActiveHeaderPadding()
-        {
-            DockActiveHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetDockActiveHeaderPadding() => DockActiveHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region OverlayHeaders
@@ -234,10 +222,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the OverlayHeaders property to its default value.
         /// </summary>
-        public void ResetOverlayHeaders()
-        {
-            OverlayHeaders = InheritBool.Inherit;
-        }
+        public void ResetOverlayHeaders() => OverlayHeaders = InheritBool.Inherit;
         #endregion
 
         #region IPaletteMetric

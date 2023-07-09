@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private bool _checked;
         private string _textLine;
         private string _keyTip;
-        private Image _imageSmall;
+        private Image? _imageSmall;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "B";
+                    value = @"B";
                 }
 
                 _keyTip = value.ToUpper();
@@ -199,18 +199,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group entry.
@@ -288,12 +282,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
-        
+
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
@@ -474,36 +465,24 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(null);
-        }
+        public void PerformClick() => PerformClick(null);
 
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler finishDelegate)
-        {
-            OnClick(finishDelegate);
-        }
+        public void PerformClick(EventHandler? finishDelegate) => OnClick(finishDelegate);
 
         /// <summary>
         /// Generates a DropDown event for a button.
         /// </summary>
-        public void PerformDropDown()
-        {
-            PerformDropDown(null);
-        }
+        public void PerformDropDown() => PerformDropDown(null);
 
         /// <summary>
         /// Generates a DropDown event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformDropDown(EventHandler finishDelegate)
-        {
-            OnDropDown(finishDelegate);
-        }
+        public void PerformDropDown(EventHandler? finishDelegate) => OnDropDown(finishDelegate);
 
         /// <summary>
         /// Internal design time properties.
@@ -511,7 +490,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase ClusterButtonView { get; set; }
+        public ViewBase? ClusterButtonView { get; set; }
 
         #endregion
 
@@ -546,7 +525,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler finishDelegate)
+        protected virtual void OnClick(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -602,7 +581,7 @@ namespace Krypton.Ribbon
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnDropDown(EventHandler finishDelegate)
+        protected virtual void OnDropDown(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -622,7 +601,7 @@ namespace Krypton.Ribbon
                             DropDown?.Invoke(this, contextArgs);
 
                             // If user did not cancel and there is still a krypton context menu strip to show
-                            if (contextArgs is { Cancel: false, KryptonContextMenu: { } })
+                            if (contextArgs is { Cancel: false, KryptonContextMenu: not null })
                             {
                                 var screenRect = Rectangle.Empty;
 
@@ -655,7 +634,7 @@ namespace Krypton.Ribbon
                             DropDown?.Invoke(this, contextArgs);
 
                             // If user did not cancel and there is still a context menu strip to show
-                            if (contextArgs is { Cancel: false, ContextMenuStrip: { } })
+                            if (contextArgs is { Cancel: false, ContextMenuStrip: not null })
                             {
                                 var screenRect = Rectangle.Empty;
 
@@ -692,17 +671,11 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -766,7 +739,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Fire any associated finish delegate

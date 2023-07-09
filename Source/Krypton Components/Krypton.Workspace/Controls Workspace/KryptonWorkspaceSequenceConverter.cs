@@ -51,7 +51,7 @@ namespace Krypton.Workspace
             // Can always convert to a string representation
             if (destinationType == typeof(string))
             {
-                KryptonWorkspaceSequence? sequence = value as KryptonWorkspaceSequence;
+                var sequence = value as KryptonWorkspaceSequence;
                 return sequence?.ToString();
             }
             

@@ -291,7 +291,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                if (e.Page != null && e.KryptonContextMenu != null)
+                if (e is { Page: not null, KryptonContextMenu: not null })
                 {
                     e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
                 }

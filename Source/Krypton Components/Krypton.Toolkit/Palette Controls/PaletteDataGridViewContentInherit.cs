@@ -136,32 +136,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => _cellStyle.Alignment switch
         {
-            return _cellStyle.Alignment switch
-            {
-                DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
-                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
-                DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
-                _ => _inherit.GetContentShortTextH(state)
-            };
-        }
+            DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
+            DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
+            DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+            _ => _inherit.GetContentShortTextH(state)
+        };
 
         /// <summary>
         /// Gets the vertical relative alignment of the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state)
+        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _cellStyle.Alignment switch
         {
-            return _cellStyle.Alignment switch
-            {
-                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.TopRight => PaletteRelativeAlign.Near,
-                DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.MiddleRight => PaletteRelativeAlign.Center,
-                DataGridViewContentAlignment.BottomCenter or DataGridViewContentAlignment.BottomLeft or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
-                _ => _inherit.GetContentShortTextV(state)
-            };
-        }
+            DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.TopRight => PaletteRelativeAlign.Near,
+            DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.MiddleRight => PaletteRelativeAlign.Center,
+            DataGridViewContentAlignment.BottomCenter or DataGridViewContentAlignment.BottomLeft or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+            _ => _inherit.GetContentShortTextV(state)
+        };
 
         /// <summary>
         /// Gets the vertical relative alignment of the short text.
@@ -175,15 +169,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteState state)
+        public override Color GetContentShortTextColor1(PaletteState state) => state switch
         {
-            return state switch
-            {
-                PaletteState.Normal => _cellStyle.ForeColor,
-                PaletteState.CheckedNormal => _cellStyle.SelectionForeColor,
-                _ => _inherit.GetContentShortTextColor1(state)
-            };
-        }
+            PaletteState.Normal => _cellStyle.ForeColor,
+            PaletteState.CheckedNormal => _cellStyle.SelectionForeColor,
+            _ => _inherit.GetContentShortTextColor1(state)
+        };
 
         /// <summary>
         /// Gets the second back color for the short text.
@@ -281,32 +272,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentLongTextH(PaletteState state)
+        public override PaletteRelativeAlign GetContentLongTextH(PaletteState state) => _cellStyle.Alignment switch
         {
-            return _cellStyle.Alignment switch
-            {
-                DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
-                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
-                DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
-                _ => _inherit.GetContentLongTextH(state)
-            };
-        }
+            DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
+            DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
+            DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+            _ => _inherit.GetContentLongTextH(state)
+        };
 
         /// <summary>
         /// Gets the vertical relative alignment of the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentLongTextV(PaletteState state)
+        public override PaletteRelativeAlign GetContentLongTextV(PaletteState state) => _cellStyle.Alignment switch
         {
-            return _cellStyle.Alignment switch
-            {
-                DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
-                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
-                DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
-                _ => _inherit.GetContentLongTextV(state)
-            };
-        }
+            DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
+            DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
+            DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+            _ => _inherit.GetContentLongTextV(state)
+        };
 
         /// <summary>
         /// Gets the vertical relative alignment of the long text.

@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <returns>New instance.</returns>
         public override object Clone()
         {
-            ButtonSpecAny clone = (ButtonSpecAny)base.Clone();
+            var clone = (ButtonSpecAny)base.Clone();
             clone.Visible = Visible;
             clone.Enabled = Enabled;
             clone.Checked = Checked;
@@ -93,10 +93,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Visible property to its default value.
         /// </summary>
-        public void ResetVisible()
-        {
-            Visible = true;
-        }
+        public void ResetVisible() => Visible = true;
         #endregion
 
         #region Enabled

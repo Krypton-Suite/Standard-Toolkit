@@ -52,10 +52,7 @@ namespace Krypton.Navigator
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
-        {
-            _inherit.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect? redirect) => _inherit.SetRedirector(redirect);
         #endregion
 
         #region IsDefault
@@ -251,10 +248,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the TextFont to the default value.
         /// </summary>
-        public void ResetTextFont()
-        {
-            TextFont = null;
-        }
+        public void ResetTextFont() => TextFont = null;
 
         /// <summary>
         /// Gets the font for the ribbon text.
@@ -290,10 +284,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the TextHint to the default value.
         /// </summary>
-        public void ResetTextHint()
-        {
-            TextHint = PaletteTextHint.Inherit;
-        }
+        public void ResetTextHint() => TextHint = PaletteTextHint.Inherit;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.

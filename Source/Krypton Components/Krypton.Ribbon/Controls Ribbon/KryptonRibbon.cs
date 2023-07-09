@@ -651,11 +651,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the SelectedTab to the default value.
         /// </summary>
-        public void ResetSelectedTab()
-        {
+        public void ResetSelectedTab() =>
             // Update selection to match ribbon settings
             ValidateSelectedTab();
-        }
 
         /// <summary>
         /// Gets and sets the common separated list of selected context names.
@@ -690,10 +688,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the SelectedContext to the default value.
         /// </summary>
-        private void ResetSelectedContext()
-        {
-            SelectedContext = string.Empty;
-        }
+        private void ResetSelectedContext() => SelectedContext = string.Empty;
 
         /// <summary>
         /// Gets the collection of ribbon context definitions.
@@ -777,10 +772,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the HideRibbonSize to the default value.
         /// </summary>
-        private void ResetHideRibbonSize()
-        {
-            HideRibbonSize = new Size(300, 250);
-        }
+        private void ResetHideRibbonSize() => HideRibbonSize = new Size(300, 250);
 
         /// <summary>
         /// Gets and sets a value indicating if the ribbon is in minimized mode.
@@ -884,10 +876,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the MinimizedMode property to its default value.
         /// </summary>
-        public void ResetMinimizedMode()
-        {
-            MinimizedMode = false;
-        }
+        public void ResetMinimizedMode() => MinimizedMode = false;
 
         /// <summary>
         /// Gets and sets the display method for the quick access toolbar.
@@ -927,10 +916,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the QATLocation property to its default value.
         /// </summary>
-        public void ResetQATLocation()
-        {
-            QATLocation = QATLocation.Above;
-        }
+        public void ResetQATLocation() => QATLocation = QATLocation.Above;
 
         /// <summary>
         /// Gets and sets a value indicating if user is allowed to change the QAT entries.
@@ -943,10 +929,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the QATUserChange property to its default value.
         /// </summary>
-        public void ResetQATUserChange()
-        {
-            QATUserChange = true;
-        }
+        public void ResetQATUserChange() => QATUserChange = true;
 
         /// <summary>
         /// Gets and sets a value indicating if a minimize/expand button appears on the ribbon tab ara.
@@ -972,10 +955,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShowMinimizeButton property to its default value.
         /// </summary>
-        public void ResetShowMinimizeButton()
-        {
-            ShowMinimizeButton = true;
-        }
+        public void ResetShowMinimizeButton() => ShowMinimizeButton = true;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1118,7 +1098,7 @@ namespace Krypton.Ribbon
                             if (ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                             {
                                 // Extract the keys being pressed
-                                Keys keys = (Keys)(int)m.WParam.ToInt64();
+                                var keys = (Keys)(int)m.WParam.ToInt64();
 
                                 // If the user standard combination ALT + F4
                                 if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))
@@ -1199,12 +1179,10 @@ namespace Krypton.Ribbon
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
 
         /// <summary>
         /// Internal design time method.
@@ -1805,10 +1783,7 @@ namespace Krypton.Ribbon
         /// Raises the AppButtonMenuClosing event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        protected internal virtual void OnAppButtonMenuClosing(CancelEventArgs e)
-        {
-            AppButtonMenuClosing?.Invoke(this, e);
-        }
+        protected internal virtual void OnAppButtonMenuClosing(CancelEventArgs e) => AppButtonMenuClosing?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AppButtonMenuClosed event.
@@ -1827,10 +1802,7 @@ namespace Krypton.Ribbon
         #region Internal
         internal bool IgnoreDoubleClickClose { get; set; }
 
-        internal void OnDesignTimeAddTab()
-        {
-            DesignTimeAddTab?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddTab() => DesignTimeAddTab?.Invoke(this, EventArgs.Empty);
 
         internal bool RealMinimizedMode => MinimizedMode && !InDesignMode;
 
@@ -2003,10 +1975,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal void TestForAppButtonDoubleClick()
-        {
-            TabsArea.TestForAppButtonDoubleClick();
-        }
+        internal void TestForAppButtonDoubleClick() => TabsArea.TestForAppButtonDoubleClick();
 
         internal void HideFocus(Control c)
         {
@@ -2151,7 +2120,7 @@ namespace Krypton.Ribbon
             OnShowQATCustomizeMenu(args);
 
             // If not cancelled, then show it
-            if (args is { Cancel: false, KryptonContextMenu: { } } && CommonHelper.ValidKryptonContextMenu(_kcm))
+            if (args is { Cancel: false, KryptonContextMenu: not null } && CommonHelper.ValidKryptonContextMenu(_kcm))
             {
                 // Cache the finish delegate to call when the menu is closed
                 _kcmFinishDelegate = finishDelegate;
@@ -2222,7 +2191,7 @@ namespace Krypton.Ribbon
             OnShowRibbonContextMenu(args);
 
             // If not cancelled, then show it
-            if (args is { Cancel: false, KryptonContextMenu: { } } && CommonHelper.ValidKryptonContextMenu(_kcm))
+            if (args is { Cancel: false, KryptonContextMenu: not null } && CommonHelper.ValidKryptonContextMenu(_kcm))
             {
                 // Show at location we were provided, but need to convert to screen coordinates
                 VisualPopupManager.Singleton.EndAllTracking();
@@ -2432,10 +2401,7 @@ namespace Krypton.Ribbon
             KillKeyboardMode();
         }
 
-        internal void UpdateQAT()
-        {
-            CaptionArea?.UpdateQAT();
-        }
+        internal void UpdateQAT() => CaptionArea?.UpdateQAT();
 
         internal KeyTipMode KeyTipMode
         {
@@ -2709,10 +2675,7 @@ namespace Krypton.Ribbon
             QATButtons.Removed += OnRibbonQATButtonsRemoved;
         }
 
-        private void CreateButtonSpecs()
-        {
-            ButtonSpecs = new RibbonButtonSpecAnyCollection(this);
-        }
+        private void CreateButtonSpecs() => ButtonSpecs = new RibbonButtonSpecAnyCollection(this);
 
         private void CreateStorageObjects()
         {
@@ -3065,11 +3028,9 @@ namespace Krypton.Ribbon
             PerformNeedPaint(true);
         }
 
-        private void OnContextPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
+        private void OnContextPropertyChanged(object sender, PropertyChangedEventArgs e) =>
             // Layout to show the context change
             PerformNeedPaint(true);
-        }
 
         private void OnRibbonTabsClearing(object sender, EventArgs e)
         {
@@ -3168,7 +3129,7 @@ namespace Krypton.Ribbon
 
         private void OnRibbonQATButtonsInserted(object sender, TypedCollectionEventArgs<Component> e)
         {
-            IQuickAccessToolbarButton? qatButton = e.Item as IQuickAccessToolbarButton;
+            var qatButton = e.Item as IQuickAccessToolbarButton;
             Debug.Assert(qatButton != null);
 
             // Setup the back reference from tab to ribbon control
@@ -3188,7 +3149,7 @@ namespace Krypton.Ribbon
 
         private void OnRibbonQATButtonsRemoved(object sender, TypedCollectionEventArgs<Component> e)
         {
-            IQuickAccessToolbarButton? qatButton = e.Item as IQuickAccessToolbarButton;
+            var qatButton = e.Item as IQuickAccessToolbarButton;
             Debug.Assert(qatButton != null);
 
             // Stop tracking changes in button properties
@@ -3269,11 +3230,9 @@ namespace Krypton.Ribbon
             _minimizedPopup.Show(TabsArea, _drawMinimizedPanel);
         }
 
-        private void UpdateMinimizedPopup()
-        {
+        private void UpdateMinimizedPopup() =>
             // Update the screen location of popup to reflect a change in selected tab
             _minimizedPopup?.Show(TabsArea, _drawMinimizedPanel);
-        }
 
         private void OnMinimizedPopupDisposed(object sender, EventArgs e)
         {
@@ -3297,7 +3256,7 @@ namespace Krypton.Ribbon
             KillKeyboardMode();
 
             // Cast to correct type
-            KryptonContextMenuItem menuItem = (KryptonContextMenuItem)sender;
+            var menuItem = (KryptonContextMenuItem)sender;
 
             // Find index of the item to toggle
             var index = (int)(menuItem.Tag ?? -1);
@@ -3306,7 +3265,7 @@ namespace Krypton.Ribbon
             if ((index >= 0) && (index < QATButtons.Count))
             {
                 // Get access to the indexed entry
-                IQuickAccessToolbarButton qatButton = (IQuickAccessToolbarButton)QATButtons[index];
+                var qatButton = (IQuickAccessToolbarButton)QATButtons[index];
 
                 // Invert the visible state
                 qatButton.SetVisible(!qatButton.GetVisible());
@@ -3340,10 +3299,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTabsAreaPaintBackground(object sender, PaintEventArgs e)
-        {
-            MainPanel.PaintRectangle(e.Graphics, e.ClipRectangle, false, sender as Control);
-        }
+        private void OnTabsAreaPaintBackground(object sender, PaintEventArgs e) => MainPanel.PaintRectangle(e.Graphics, e.ClipRectangle, false, sender as Control);
         #endregion
     }
 }

@@ -266,10 +266,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
-        private void ResetButtonStyle()
-        {
-            ButtonStyle = ButtonStyle.Standalone;
-        }
+        private void ResetButtonStyle() => ButtonStyle = ButtonStyle.Standalone;
 
         [DefaultValue(false),
          Description(@"If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
@@ -824,7 +821,7 @@ namespace Krypton.Toolkit
 
             _dropDownRectangle = new Rectangle(bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, BORDER_SIZE, DEFAULT_PUSH_BUTTON_WIDTH, bounds.Height - BORDER_SIZE * 2);
 
-            int internalBorder = BORDER_SIZE;
+            var internalBorder = BORDER_SIZE;
 
             var focusRectangle = new Rectangle(internalBorder, internalBorder,
                 bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
@@ -1163,7 +1160,7 @@ namespace Krypton.Toolkit
 
         private void KryptonContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            KryptonContextMenu? kcm = sender as KryptonContextMenu;
+            var kcm = sender as KryptonContextMenu;
             if (kcm != null)
             {
                 kcm.Closed -= KryptonContextMenu_Closed;
@@ -1177,7 +1174,7 @@ namespace Krypton.Toolkit
 
         private void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
-            ContextMenuStrip? cms = sender as ContextMenuStrip;
+            var cms = sender as ContextMenuStrip;
             if (cms != null)
             {
                 cms.Closing -= ContextMenuStrip_Closing;

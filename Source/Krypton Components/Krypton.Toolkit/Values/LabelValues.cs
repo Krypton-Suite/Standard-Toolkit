@@ -94,10 +94,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Image property to its default value.
         /// </summary>
-        public void ResetImage()
-        {
-            Image = null;
-        }
+        public void ResetImage() => Image = null;
 
         /// <summary>
         /// Gets the content image.
@@ -136,10 +133,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor()
-        {
-            ImageTransparentColor = Color.Empty;
-        }
+        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -180,10 +174,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public void ResetText()
-        {
-            Text = _defaultText;
-        }
+        public void ResetText() => Text = _defaultText;
 
         /// <summary>
         /// Gets the content short text.
@@ -221,10 +212,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Description property to its default value.
         /// </summary>
-        public void ResetExtraText()
-        {
-            ExtraText = _defaultExtraText;
-        }
+        public void ResetExtraText() => ExtraText = _defaultExtraText;
 
         /// <summary>
         /// Gets the content long text.

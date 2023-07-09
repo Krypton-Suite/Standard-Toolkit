@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
                     {
                         kryptonColorButton1.Values.Text = e.Color.Name;
                         Color = e.Color;
-                        IntPtr stringColor = Marshal.StringToHGlobalUni(e.Color.Name);
+                        var stringColor = Marshal.StringToHGlobalUni(e.Color.Name);
                         var curIndex = PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_FINDSTRING, IntPtr.Zero, stringColor);
                         if (curIndex.ToInt32() == -1)
                         {

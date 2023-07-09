@@ -58,8 +58,8 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _drawContent2;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ButtonSpecManagerDraw _buttonManager;
-        private VisualPopupToolTip _visualPopupToolTip;
-        private ScreenObscurer _obscurer;
+        private VisualPopupToolTip? _visualPopupToolTip;
+        private ScreenObscurer? _obscurer;
         private readonly EventHandler? _removeObscurer;
         private bool _forcedLayout;
         private bool _visiblePrimary;
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
             StateNormal = new PaletteHeaderGroup(StateCommon, StateCommon.HeaderPrimary, StateCommon.HeaderSecondary, NeedPaintDelegate);
 
             // Create the internal panel used for containing content
-            Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint)
+            Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
 
                 // Make sure the panel back style always mimics our back style
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
                                              PaletteMetricBool.HeaderGroupOverlay)
             {
 
-                // Layout child view ontop of the border space
+                // Layout child view on top of the border space
                 IgnoreBorderSpace = true,
 
                 // Prevent adjacent headers from having two borders
@@ -218,13 +218,13 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Remove any cached obscurer
-                if (_obscurer != null)
+                if (_obscurer != null!)
                 {
                     try
                     {
                         _obscurer.Uncover();
                         _obscurer.Dispose();
-                        _obscurer = null;
+                        _obscurer = null!;
                     }
                     catch
                     {
@@ -401,7 +401,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonGroupPanel Panel { get; }
+        public KryptonGroupPanel? Panel { get; }
 
         /// <summary>
         /// Gets or sets a value indicating if collapsed mode is auto toggled by arrow button specs.
@@ -681,7 +681,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderGroupRedirect? StateCommon { get; }
+        public PaletteHeaderGroupRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -691,7 +691,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderGroup? StateDisabled { get; }
+        public PaletteHeaderGroup StateDisabled { get; }
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -701,7 +701,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderGroup? StateNormal { get; }
+        public PaletteHeaderGroup StateNormal { get; }
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
@@ -817,7 +817,7 @@ namespace Krypton.Toolkit
             }
 
             // Check if any of the button specs want the point
-            return (_buttonManager != null) && _buttonManager.DesignerGetHitTest(pt);
+            return _buttonManager.DesignerGetHitTest(pt);
         }
 
         /// <summary>
@@ -826,9 +826,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -925,14 +925,17 @@ namespace Krypton.Toolkit
 
                 // Only use layout logic if control is fully initialized or if being forced
                 // to allow a relayout or if in design mode.
-                if (IsInitialized || _forcedLayout || (DesignMode && (Panel != null)))
+                if (Panel != null)
                 {
-                    Rectangle fillRect = _layoutFill.FillRect;
+                    if (IsInitialized || _forcedLayout || DesignMode )
+                    {
+                        Rectangle fillRect = _layoutFill.FillRect;
 
-                    Panel.SetBounds(fillRect.X,
-                                     fillRect.Y,
-                                     fillRect.Width,
-                                     fillRect.Height);
+                        Panel.SetBounds(fillRect.X,
+                            fillRect.Y,
+                            fillRect.Width,
+                            fillRect.Height);
+                    }
                 }
             }
 
@@ -1123,12 +1126,12 @@ namespace Krypton.Toolkit
                 if (!DesignMode)
                 {
                     IContentValues? sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -1181,7 +1184,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
@@ -1200,7 +1203,7 @@ namespace Krypton.Toolkit
             if (AutoCollapseArrow)
             {
                 // Cast to correct type
-                ButtonSpecHeaderGroup buttonSpec = (ButtonSpecHeaderGroup)sender;
+                var buttonSpec = (ButtonSpecHeaderGroup)sender;
 
                 // Action depends on the arrow
                 switch (buttonSpec.Type)
@@ -1396,7 +1399,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Then we need only the extra space between the client and the
-                // padding edge, as the rest is overlaped by the children
+                // padding edge, as the rest is overlapped by the children
                 return padding - client;
             }
         }

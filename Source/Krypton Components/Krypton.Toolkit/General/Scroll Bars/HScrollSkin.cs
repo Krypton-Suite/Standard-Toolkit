@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
                 _win = e.Control;
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     dgv.Scroll += dgv_Scroll;
 
                     foreach (Control control in dgv.Controls)
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
         {
             if (_win.GetType() == typeof(ListView))
             {
-                ListView listView1 = (ListView)_win;
+                var listView1 = (ListView)_win;
 
                 var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
                 var nShouldBeAt = (int)e.NewValue;
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
             {
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     if (GetDGVScrollbar(ref dgv, out HSB))
                     {
                         foreach (Control control in dgv.Controls)
@@ -317,7 +317,7 @@ namespace Krypton.Toolkit
 
         private void HorizontalScrollBar_VisibleChanged(object sender, EventArgs e)
         {
-            HScrollBar hscroll = (HScrollBar)sender;
+            var hscroll = (HScrollBar)sender;
             if (hscroll.Visible)
             {
                 _HScrollBar1.Visible = true;
@@ -330,7 +330,7 @@ namespace Krypton.Toolkit
 
         private void VerticalScrollBar_VisibleChanged(object sender, EventArgs e)
         {
-            VScrollBar vscroll = (VScrollBar)sender;
+            var vscroll = (VScrollBar)sender;
             if (vscroll.Visible)
             {
                 _VScrollBar1.Visible = true;
@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
 
         private void dgv_Scroll(object sender, ScrollEventArgs e)
         {
-            DataGridView dgv = (DataGridView)sender;
+            var dgv = (DataGridView)sender;
             if (GetDGVScrollbar(ref dgv, out HSB))
             {
                 if (HSB.Visible == true)

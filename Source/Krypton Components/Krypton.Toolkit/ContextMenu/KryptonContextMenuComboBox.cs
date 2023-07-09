@@ -24,15 +24,9 @@ namespace Krypton.Toolkit
 
         public override KryptonContextMenuItemBase? this[int index] => throw new NotImplementedException();
 
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            throw new NotImplementedException();
-        }
+        public override bool ProcessShortcut(Keys keyData) => throw new NotImplementedException();
 
         public override ViewBase GenerateView(IContextMenuProvider provider, object parent, ViewLayoutStack columns, bool standardStyle,
-            bool imageColumn)
-        {
-            throw new NotImplementedException();
-        }
+            bool imageColumn) => throw new NotImplementedException();
     }
 }

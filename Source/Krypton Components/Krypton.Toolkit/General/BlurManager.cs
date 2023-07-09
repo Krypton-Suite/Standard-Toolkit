@@ -93,13 +93,13 @@ namespace Krypton.Toolkit
                 return false;
             }
 
-            IntPtr hWnd = _parentForm.Handle;
+            var hWnd = _parentForm.Handle;
             // The set is used to make calling GetWindow in a loop stable by checking if we have already
             //  visited the window returned by GetWindow. This avoids the possibility of an infinite loop.
             var visited = new HashSet<IntPtr> { hWnd };
             try
             {
-                Form? activeForm = Form.ActiveForm;
+                var activeForm = Form.ActiveForm;
                 if (activeForm != null)
                 {
                     visited.Add(activeForm.Handle);

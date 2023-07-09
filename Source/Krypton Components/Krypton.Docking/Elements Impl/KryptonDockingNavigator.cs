@@ -88,11 +88,9 @@ namespace Krypton.Docking
         /// Add a KryptonPage to the navigator.
         /// </summary>
         /// <param name="page">KryptonPage to be added.</param>
-        public void Append(KryptonPage page)
-        {
+        public void Append(KryptonPage page) =>
             // Use existing array adding method to prevent duplication of code
             Append(new[] { page });
-        }
 
         /// <summary>
         /// Add a KryptonPage array to the navigator.
@@ -108,7 +106,7 @@ namespace Krypton.Docking
                 DockableNavigatorControl.Pages.AddRange(pages);
             }
 
-            Size childMinSize = Size.Empty;
+            var childMinSize = Size.Empty;
             foreach (var page in DockableNavigatorControl.Pages)
             {
                 if (childMinSize.Height < page.MinimumSize.Height)
@@ -154,10 +152,10 @@ namespace Krypton.Docking
         /// Show all display elements of the provided page.
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be shown.</param>
-        public void ShowPage(string uniqueName)
+        public void ShowPage([DisallowNull] string uniqueName)
         {
             // Cannot show a null reference
-            if (uniqueName == null)
+            if (string.IsNullOrWhiteSpace(uniqueName))
             {
                 throw new ArgumentNullException(nameof(uniqueName));
             }
@@ -199,7 +197,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be shown.</param>
-        public void ShowPages(string[] uniqueNames)
+        public void ShowPages([DisallowNull] string[] uniqueNames)
         {
             // Cannot show a null reference
             if (uniqueNames == null)
@@ -448,7 +446,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[] uniqueNames)
         {
             KryptonPageCollection pageCollection = DockableNavigatorControl.Pages;
             switch (action)
@@ -487,7 +485,7 @@ namespace Krypton.Docking
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage? page = pageCollection[i];
-                        if (page is { } and not KryptonStorePage)
+                        if (page is not null and not KryptonStorePage)
                         {
                             // Replace the existing page with a placeholder that has the same unique name
                             var placeholder = new KryptonStorePage(page.UniqueName, _storeName);
@@ -622,7 +620,7 @@ namespace Krypton.Docking
                             {
                                 // Only add real pages and not placeholders
                                 KryptonPage? page = DockableNavigatorControl.Pages[i];
-                                if (page is { } and not KryptonStorePage)
+                                if (page is not null and not KryptonStorePage)
                                 {
                                     pages.Add(page);
                                 }
@@ -797,7 +795,7 @@ namespace Krypton.Docking
 
             // Grab the element attributes
             var elementName = xmlReader.GetAttribute(@"N");
-            string elementCount = xmlReader.GetAttribute(@"C") ?? string.Empty;
+            var elementCount = xmlReader.GetAttribute(@"C") ?? string.Empty;
 
             // Check the name matches up
             if (elementName != Name)
@@ -851,7 +849,7 @@ namespace Krypton.Docking
 
                             manager.RaiseRecreateLoadingPage(args);
 
-                            if (args is { Cancel: false, Page: { } })
+                            if (args is { Cancel: false, Page: not null })
                             {
                                 page = args.Page;
                             }

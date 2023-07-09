@@ -187,18 +187,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -241,10 +235,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -380,15 +371,9 @@ namespace Krypton.Ribbon
             _viewMediumSmallText2.Enabled = enabled;
         }
 
-        private void UpdateImageSmallState()
-        {
-            _viewMediumSmallImage.Visible = GroupLabel.ImageSmall != null;
-        }
+        private void UpdateImageSmallState() => _viewMediumSmallImage.Visible = GroupLabel.ImageSmall != null;
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupLabel.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupLabel.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -410,10 +395,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupLabel.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupLabel.OnDesignTimeContextMenu(e);
 
         private void OnLabelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

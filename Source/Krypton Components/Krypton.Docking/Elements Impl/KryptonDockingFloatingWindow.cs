@@ -97,7 +97,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string?[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             switch (action)
             {
@@ -106,7 +106,7 @@ namespace Krypton.Docking
                     if (_updateCount++ == 0)
                     {
                         // Do not layout the floatspace until all changes have been made
-                        FloatingWindow.FloatspaceControl.SuspendWorkspaceLayout();
+                        FloatingWindow.FloatspaceControl?.SuspendWorkspaceLayout();
 
                         // Place the obscuring control at the top of the z-order
                         FloatingWindow.Controls.SetChildIndex(_obscure, 0);
@@ -118,14 +118,16 @@ namespace Krypton.Docking
                         _obscure.Visible = true;
                     }
                     break;
+
                 case DockingPropogateAction.EndUpdate:
                     // Only final matching 'EndUpdate' needs to reverse start action
                     if ((_updateCount > 0) && (_updateCount-- == 1))
                     {
-                        FloatingWindow.FloatspaceControl.ResumeWorkspaceLayout();
+                        FloatingWindow.FloatspaceControl?.ResumeWorkspaceLayout();
                         _obscure.Visible = false;
                     }
                     break;
+
                 default:
                     // Let base class perform actual requested actions
                     base.PropogateAction(action, uniqueNames);

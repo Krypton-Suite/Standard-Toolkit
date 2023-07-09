@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
         private KryptonContextMenu? _kryptonContextMenu;
-        protected VisualPopupToolTip visualBasePopupToolTip;
+        protected VisualPopupToolTip? visualBasePopupToolTip;
         private readonly ToolTipManager _toolTipManager;
         #endregion
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
 
             // Setup the need paint delegate
             NeedPaintDelegate = OnNeedPaint;
-            NeedPaintPaletteDelegate = OnPaletteNeedPaint;
+            NeedPaintPaletteDelegate = OnPaletteNeedPaint!;
 
             // Must layout before first draw attempt
             _layoutDirty = true;
@@ -314,10 +314,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -374,10 +371,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -385,7 +379,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer
+        public IRenderer Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -587,10 +581,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Mark the layout as being dirty and needing to be performed.
         /// </summary>
-        protected void MarkLayoutDirty()
-        {
-            _layoutDirty = true;
-        }
+        protected void MarkLayoutDirty() => _layoutDirty = true;
 
         /// <summary>
         /// Gets a value indicating if transparent paint is needed
@@ -1200,16 +1191,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
-        }
 
         private void PaintTransparentBackground(PaintEventArgs e)
         {
             // Get the parent control for transparent drawing purposes
-            Control parent = TransparentParent;
+            Control? parent = TransparentParent;
 
             // Do we have a parent control and we need to paint background?
             if ((parent != null) && NeedTransparentPaint)
@@ -1278,13 +1267,11 @@ namespace Krypton.Toolkit
             cms.Renderer = CreateToolStripRenderer();
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
@@ -1330,7 +1317,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
@@ -1344,7 +1331,6 @@ namespace Krypton.Toolkit
             base.OnHandleCreated(e);
         }
         #endregion
-
 
     }
 }

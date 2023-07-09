@@ -306,13 +306,13 @@ namespace Krypton.Toolkit
             Rectangle displayRect = context.DisplayRectangle;
 
             // Border size that is not applied to preferred size
-            Size borderSize = Size.Empty;
+            var borderSize = Size.Empty;
 
             // Accumulate the size that must be provided by docking edges and then filler
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Track the minimize size needed to satisfy the docking edges only
-            Size minimumSize = Size.Empty;
+            var minimumSize = Size.Empty;
 
             if (!IgnoreAllBorderAndPadding)
             {
@@ -365,13 +365,13 @@ namespace Krypton.Toolkit
             Rectangle displayRect = context.DisplayRectangle;
 
             // Border size that is not applied to preferred size
-            Size borderSize = Size.Empty;
+            var borderSize = Size.Empty;
 
             // Accumulate the size that must be provided by docking edges and then filler
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Track the minimize size needed to satisfy the docking edges only
-            Size minimumSize = Size.Empty;
+            var minimumSize = Size.Empty;
 
             if (!IgnoreAllBorderAndPadding)
             {
@@ -397,11 +397,11 @@ namespace Krypton.Toolkit
                 }
             }
 
-            PaletteDrawBorders leftEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders rightEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders topEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders bottomEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
+            var leftEdges = PaletteDrawBorders.All;
+            var rightEdges = PaletteDrawBorders.All;
+            var topEdges = PaletteDrawBorders.All;
+            var bottomEdges = PaletteDrawBorders.All;
+            var fillEdges = PaletteDrawBorders.All;
 
             // Check for edge docking children
             foreach (ViewBase child in Reverse())
@@ -531,11 +531,11 @@ namespace Krypton.Toolkit
             context.DisplayRectangle = fillerRect;
 
             // By default all the children need to draw all their borders
-            PaletteDrawBorders leftEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders rightEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders topEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders bottomEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
+            var leftEdges = PaletteDrawBorders.All;
+            var rightEdges = PaletteDrawBorders.All;
+            var topEdges = PaletteDrawBorders.All;
+            var bottomEdges = PaletteDrawBorders.All;
+            var fillEdges = PaletteDrawBorders.All;
 
             // Position all except the filler
             foreach (ViewBase child in Reverse())
@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
             }
 
             Rectangle borderRect = ClientRectangle;
-            Padding padding = Padding.Empty;
+            var padding = Padding.Empty;
 
             if (!IgnoreAllBorderAndPadding)
             {
@@ -661,7 +661,7 @@ namespace Krypton.Toolkit
             if (RemoveChildBorders)
             {
                 // Check if the view is a canvas
-                ViewDrawCanvas childCanvas = child as ViewDrawCanvas;
+                var childCanvas = child as ViewDrawCanvas;
 
                 // Docking edge determines calculation
                 switch (CalculateDock(GetDock(child), context.Control))

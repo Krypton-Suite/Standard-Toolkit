@@ -81,10 +81,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make dirty so cached values are not used.
         /// </summary>
-        public void MakeDirty()
-        {
-            _dirtyPaletteLayout = 0;
-        }
+        public void MakeDirty() => _dirtyPaletteLayout = 0;
         #endregion
 
         #region PaletteRibbonGroup
