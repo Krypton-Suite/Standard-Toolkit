@@ -108,6 +108,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_TAB_CUSTOM1 = @"Tab - Custom1";
         private const string DEFAULT_TAB_CUSTOM2 = @"Tab - Custom2";
         private const string DEFAULT_TAB_CUSTOM3 = @"Tab - Custom3";
+        private const string DEFAULT_CONTROL = @"System - Control";
 
         #endregion
 
@@ -216,7 +217,8 @@ namespace Krypton.Toolkit
                                  TabDockAutoHidden.Equals(DEFAULT_TAB_DOCK_AUTO_HIDDEN) &&
                                  TabCustom1.Equals(DEFAULT_TAB_CUSTOM1) &&
                                  TabCustom2.Equals(DEFAULT_TAB_CUSTOM2) &&
-                                 TabCustom3.Equals(DEFAULT_TAB_CUSTOM3);
+                                 TabCustom3.Equals(DEFAULT_TAB_CUSTOM3) &&
+                                 Control.Equals(DEFAULT_CONTROL);
 
         public void Reset()
         {
@@ -403,6 +405,8 @@ namespace Krypton.Toolkit
             TabCustom2 = DEFAULT_TAB_CUSTOM2;
 
             TabCustom3 = DEFAULT_TAB_CUSTOM3;
+
+            Control = DEFAULT_CONTROL;
         }
 
         /// <summary>Gets or sets the button standalone palette back style string.</summary>
@@ -973,6 +977,12 @@ namespace Krypton.Toolkit
         [Description(@"The tab custom 3 back style.")]
         [DefaultValue(DEFAULT_TAB_CUSTOM3)]
         public string TabCustom3 { get; set; }
+
+        /// <summary>Gets or sets the control.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The control back style string.")]
+        [DefaultValue(DEFAULT_CONTROL)]
+        public string Control { get; set; }
 
         #endregion
     }

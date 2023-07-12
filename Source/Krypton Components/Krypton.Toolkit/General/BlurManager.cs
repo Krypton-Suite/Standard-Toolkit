@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
 
         private void RemoveBlur()
         {
-            if (_parentForm is { IsDisposed: false, Disposing: false } 
+            if (_parentForm is { IsDisposed: false, Disposing: false }
                 && _parentBeforeOpacity.HasValue
                )
             {
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
             // Set parent form opacity afterwards to prevent flicker
             _parentBeforeOpacity ??= _parentForm.Opacity;
 
-            _parentForm.Opacity =_blurValues.Opacity / 100.0;
+            _parentForm.Opacity = _blurValues.Opacity / 100.0;
             _detectIsActiveTimer.Enabled = true;
 
         }

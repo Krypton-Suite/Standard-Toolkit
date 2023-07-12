@@ -12,6 +12,7 @@
 
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -26,6 +27,8 @@ namespace Krypton.Toolkit
 
         private const int DEFAULT_COMPOSITION_HEIGHT = 30;
         private static readonly bool _themedApp;
+        private readonly PaletteDoubleRedirect? _stateCommon;
+
         #endregion
 
         #region Instance Fields
@@ -49,7 +52,6 @@ namespace Krypton.Toolkit
         private ShadowValues _shadowValues;
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
-        private KryptonPanel kpnlBackground;
         private BlurManager _blurManager;
         #endregion
 
@@ -104,6 +106,9 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
 
+            _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ButtonCustom1,
+                PaletteBorderStyle.ButtonCustom1, NeedPaintDelegate);
+
             // Automatically redraw whenever the size of the window changes
             SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -142,9 +147,6 @@ namespace Krypton.Toolkit
             UpdateDpiFactors();
 
             _useSystemBackColor = true;
-
-            // Temp
-            kpnlBackground.Visible = false;
         }
 
 
@@ -202,7 +204,20 @@ namespace Krypton.Toolkit
             }
         }
 
-        public KryptonPanel BackgroundPanel => kpnlBackground;
+        public PaletteBackStyle BackStyle
+        {
+            get => _stateCommon.BackStyle;
+
+            set
+            {
+                if (_stateCommon.BackStyle != value)
+                {
+                    _stateCommon.BackStyle = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the DpiX of the view.
@@ -982,8 +997,6 @@ namespace Krypton.Toolkit
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            kpnlBackground.Visible = !_useSystemBackColor;
-
             base.OnPaint(e);
         }
 
@@ -1976,24 +1989,12 @@ namespace Krypton.Toolkit
 
         private void InitializeComponent()
         {
-            this.kpnlBackground = new Krypton.Toolkit.KryptonPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.kpnlBackground)).BeginInit();
             this.SuspendLayout();
-            // 
-            // kpnlBackground
-            // 
-            this.kpnlBackground.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpnlBackground.Location = new System.Drawing.Point(0, 0);
-            this.kpnlBackground.Name = "kpnlBackground";
-            this.kpnlBackground.Size = new System.Drawing.Size(284, 261);
-            this.kpnlBackground.TabIndex = 0;
             // 
             // VisualForm
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.kpnlBackground);
             this.Name = "VisualForm";
-            ((System.ComponentModel.ISupportInitialize)(this.kpnlBackground)).EndInit();
             this.ResumeLayout(false);
 
         }

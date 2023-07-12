@@ -272,8 +272,8 @@ namespace Krypton.Toolkit
             {
                 return new double[,]
                 {
-                    { 2, 04, 05, 04, 2 }, 
-                    { 4, 09, 12, 09, 4 }, 
+                    { 2, 04, 05, 04, 2 },
+                    { 4, 09, 12, 09, 4 },
                     { 5, 12, 15, 12, 5 },
                     { 4, 09, 12, 09, 4 },
                     { 2, 04, 05, 04, 2 }
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
             { 26, 41, 26 },
             { 16, 26, 16 }
         };
-            
+
         /// <summary>
         /// GAUSSIAN BLUR 3X3
         /// </summary>
@@ -300,8 +300,8 @@ namespace Krypton.Toolkit
             {
                 return new double[,]
                 {
-                    { 1, 2, 1 }, 
-                    { 2, 4, 2 }, 
+                    { 1, 2, 1 },
+                    { 2, 4, 2 },
                     { 1, 2, 1 }
                 };
             }
@@ -330,7 +330,7 @@ namespace Krypton.Toolkit
             var filterOffset = (filterWidth - 1) / 2;
 
             //Parallel.For(filterOffset, sourceBitmap.Height - filterOffset, offsetY =>
-                for (var offsetY = filterOffset; offsetY < sourceBitmap.Height - filterOffset; offsetY++)
+            for (var offsetY = filterOffset; offsetY < sourceBitmap.Height - filterOffset; offsetY++)
             {
                 Parallel.For(filterOffset, sourceBitmap.Width - filterOffset, offsetX =>
                 //for (var offsetX = filterOffset; offsetX < sourceBitmap.Width - filterOffset; offsetX++)
@@ -374,7 +374,7 @@ namespace Krypton.Toolkit
                 }
                 );
             }
-                //);
+            //);
 
             var targetBitmap = new Bitmap(sourceBitmap.Width, sourceBitmap.Height);
 

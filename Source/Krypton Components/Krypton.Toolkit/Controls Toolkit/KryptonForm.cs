@@ -92,14 +92,14 @@ namespace Krypton.Toolkit
         private bool _firstCheckView;
         private bool _lastNotNormal;
         private bool _useDropShadow;
-        private bool _showIntegratedToolBar;
         private StatusStrip? _statusStrip;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
         private float _cornerRoundingRadius;
         private Control? _activeControl;
-        private ButtonSpecAny[]? _integratedToolBarItems;
         private KryptonFormTitleStyle _titleStyle;
+        //private IntegratedToolBarValues _integratedToolBarValues;
+        //private IntegratedToolbarManager _integratedToolbarManager;
 
         #endregion
 
@@ -200,9 +200,7 @@ namespace Krypton.Toolkit
             _useDropShadow = false;
 #pragma warning restore CS0618
 
-            _showIntegratedToolBar = false;
-
-            _integratedToolBarItems = null;
+            //_integratedToolBarValues = new IntegratedToolBarValues();
         }
 
         /// <summary>
@@ -308,13 +306,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        [Category(@"Visuals")]
-        [Description(@"")]
-        [DefaultValue(false)]
-        public bool ShowIntegratedToolBar { get => _showIntegratedToolBar; set { _showIntegratedToolBar = value; SetupIntegratedToolBar(value); } }
-
-        public ButtonSpecAny[]? IntegratedToolBarItems { get => _integratedToolBarItems; set => _integratedToolBarItems = value; }
 
         /// <summary>
         /// Gets and sets the header style for a main form.
@@ -649,6 +640,29 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"),
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
+
+        /*/// <summary>Gets or sets the integrated tool bar values.</summary>
+        /// <value>The integrated tool bar values.</value>
+        [Category(@"Visuals")]
+        [Description(@"Handles the integrated toolbar.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public IntegratedToolBarValues IntegratedToolBarValues
+        {
+            [DebuggerStepThrough]
+            get => _integratedToolBarValues;
+
+            set
+            {
+                _integratedToolBarValues = value;
+
+                _integratedToolbarManager = new IntegratedToolbarManager(this, _integratedToolBarValues);
+            }
+        }
+
+        private bool ShouldSerializeIntegratedToolBarValues() => !_integratedToolBarValues.IsDefault;
+
+        /// <summary>Resets the integrated tool bar values.</summary>
+        public void ResetIntegratedToolBarValues() => _integratedToolBarValues.Reset();*/
 
         #endregion
 
@@ -1851,102 +1865,6 @@ namespace Krypton.Toolkit
 
             return form.IsInAdministratorMode;
         }
-        #endregion
-
-        #region Integrated Toolbar
-
-        /// <summary>Setup the integrated tool bar.</summary>
-        /// <param name="showToolBar">if set to <c>true</c> [show tool bar].</param>
-        private void SetupIntegratedToolBar(bool showToolBar)
-        {
-            if (showToolBar)
-            {
-                _integratedToolBarItems = new ButtonSpecAny[14];
-
-                SetupIntegratedToolBarButtons();
-
-                foreach (ButtonSpecAny item in _integratedToolBarItems)
-                {
-                    ButtonSpecs.Add(item);
-                }
-            }
-            else
-            {
-                _integratedToolBarItems = null;
-
-                try
-                {
-                    foreach (ButtonSpecAny item in ButtonSpecs)
-                    {
-                        ButtonSpecs.Remove(item);
-                    }
-                }
-                catch (Exception e)
-                {
-                    ExceptionHandler.CaptureException(e);
-                }
-            }
-        }
-
-        /// <summary>Setup the integrated tool bar buttons.</summary>
-        private void SetupIntegratedToolBarButtons()
-        {
-            if (_integratedToolBarItems != null)
-            {
-                var newButtonSpec = new ButtonSpecAny();
-                var openButtonSpecAny = new ButtonSpecAny();
-                var saveButtonSpecAny = new ButtonSpecAny();
-                var saveAsButtonSpecAny = new ButtonSpecAny();
-                var saveAllButtonSpecAny = new ButtonSpecAny();
-                var cutButtonSpecAny = new ButtonSpecAny();
-                var copyButtonSpecAny = new ButtonSpecAny();
-                var pasteButtonSpecAny = new ButtonSpecAny();
-                var undoButtonSpecAny = new ButtonSpecAny();
-                var redoButtonSpecAny = new ButtonSpecAny();
-                var pageSetupButtonSpecAny = new ButtonSpecAny();
-                var printPreviewButtonSpecAny = new ButtonSpecAny();
-                var printButtonSpecAny = new ButtonSpecAny();
-                var quickPrintButtonSpecAny = new ButtonSpecAny();
-
-                // Set up buttons
-                newButtonSpec.Type = PaletteButtonSpecStyle.New;
-                openButtonSpecAny.Type = PaletteButtonSpecStyle.Open;
-                saveAllButtonSpecAny.Type = PaletteButtonSpecStyle.SaveAll;
-                saveAsButtonSpecAny.Type = PaletteButtonSpecStyle.SaveAs;
-                saveButtonSpecAny.Type = PaletteButtonSpecStyle.Save;
-                cutButtonSpecAny.Type = PaletteButtonSpecStyle.Cut;
-                copyButtonSpecAny.Type = PaletteButtonSpecStyle.Copy;
-                pasteButtonSpecAny.Type = PaletteButtonSpecStyle.Paste;
-                undoButtonSpecAny.Type = PaletteButtonSpecStyle.Undo;
-                redoButtonSpecAny.Type = PaletteButtonSpecStyle.Redo;
-                pageSetupButtonSpecAny.Type = PaletteButtonSpecStyle.PageSetup;
-                printPreviewButtonSpecAny.Type = PaletteButtonSpecStyle.PrintPreview;
-                printButtonSpecAny.Type = PaletteButtonSpecStyle.Print;
-                quickPrintButtonSpecAny.Type = PaletteButtonSpecStyle.QuickPrint;
-
-                // TODO: Remove usage of "Magic Numbers"
-                // Add configured buttons to array...
-                _integratedToolBarItems[0] = newButtonSpec;
-                _integratedToolBarItems[1] = openButtonSpecAny;
-                _integratedToolBarItems[2] = saveButtonSpecAny;
-                _integratedToolBarItems[3] = saveAsButtonSpecAny;
-                _integratedToolBarItems[4] = saveAllButtonSpecAny;
-                _integratedToolBarItems[5] = cutButtonSpecAny;
-                _integratedToolBarItems[6] = copyButtonSpecAny;
-                _integratedToolBarItems[7] = pasteButtonSpecAny;
-                _integratedToolBarItems[8] = undoButtonSpecAny;
-                _integratedToolBarItems[9] = redoButtonSpecAny;
-                _integratedToolBarItems[10] = pageSetupButtonSpecAny;
-                _integratedToolBarItems[11] = printPreviewButtonSpecAny;
-                _integratedToolBarItems[12] = printPreviewButtonSpecAny;
-                _integratedToolBarItems[13] = quickPrintButtonSpecAny;
-            }
-        }
-
-        /// <summary>Returns the integrated tool bar.</summary>
-        /// <returns>Returns the integrated tool bar.</returns>
-        private ButtonSpecAny[]? ReturnIntegratedToolBar() => _integratedToolBarItems;
-
         #endregion
     }
 }

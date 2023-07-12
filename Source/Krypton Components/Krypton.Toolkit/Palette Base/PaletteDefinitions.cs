@@ -1917,7 +1917,8 @@ namespace Krypton.Toolkit
         /// </summary>
         FormCustom1,
         FormCustom2,
-        FormCustom3
+        FormCustom3,
+        Control
     }
     #endregion
 

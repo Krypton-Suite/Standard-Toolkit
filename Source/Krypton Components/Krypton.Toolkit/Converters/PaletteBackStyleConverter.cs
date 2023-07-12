@@ -235,7 +235,8 @@ namespace Krypton.Toolkit
             new Pair(PaletteBackStyle.TabDockAutoHidden, KryptonLanguageManager.BackStyleStrings.TabDockAutoHidden),
             new Pair(PaletteBackStyle.TabCustom1, KryptonLanguageManager.BackStyleStrings.TabCustom1),
             new Pair(PaletteBackStyle.TabCustom2, KryptonLanguageManager.BackStyleStrings.TabCustom2),
-            new Pair(PaletteBackStyle.TabCustom3, KryptonLanguageManager.BackStyleStrings.TabCustom3)
+            new Pair(PaletteBackStyle.TabCustom3, KryptonLanguageManager.BackStyleStrings.TabCustom3),
+            new Pair(PaletteBackStyle.Control, KryptonLanguageManager.BackStyleStrings.Control)
         };
 
         #endregion

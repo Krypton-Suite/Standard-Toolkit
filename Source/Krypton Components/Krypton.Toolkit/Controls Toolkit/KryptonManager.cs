@@ -116,6 +116,12 @@ namespace Krypton.Toolkit
         private static KryptonCustomPaletteManager? _customPaletteManager;
         #endregion
 
+        #region Instance Fields
+
+        private ToolkitStringValues _toolkitStringValues;
+
+        #endregion
+
         #region Static Events
         /// <summary>
         /// Occurs when the palette changes.
@@ -166,6 +172,8 @@ namespace Krypton.Toolkit
             }
 
             container.Add(this);
+
+            _toolkitStringValues = new ToolkitStringValues();
         }
 
         /// <summary> 
@@ -189,11 +197,11 @@ namespace Krypton.Toolkit
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool IsDefault => !(ShouldSerializeGlobalPaletteMode()
-                                   || ShouldSerializeGlobalPalette()
-                                   || ShouldSerializeGlobalApplyToolstrips()
-                                   || ShouldSerializeGlobalAllowFormChrome()
-                                );
+        public bool IsDefault => !(ShouldSerializeGlobalPaletteMode() ||
+                                   ShouldSerializeGlobalPalette() ||
+                                   ShouldSerializeGlobalApplyToolstrips() ||
+                                   ShouldSerializeGlobalAllowFormChrome() ||
+                                   ShouldSerializeToolkitStringValues());
 
         /// <summary>
         /// Reset All values
@@ -204,6 +212,7 @@ namespace Krypton.Toolkit
             ResetGlobalPalette();
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
+            ResetToolkitStringValues();
 
             _customPalette = null;
 
@@ -396,6 +405,20 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public KryptonLanguageManager? LanguageManager { get => _languageManager; set => _languageManager = value; }
 
+        /// <summary>Gets the global toolkit strings.</summary>
+        /// <value>The global toolkit strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of toolkit strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public ToolkitStringValues ToolkitStringValues => _toolkitStringValues;
+
+        private bool ShouldSerializeToolkitStringValues() => !_toolkitStringValues.IsDefault;
+
+        /// <summary>Resets the toolkit string values.</summary>
+        public void ResetToolkitStringValues() => _toolkitStringValues.Reset();
+
         #endregion
 
         #region Static ApplyToolstrips
@@ -450,7 +473,6 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
-
 
         #region Static Palette
         /// <summary>
