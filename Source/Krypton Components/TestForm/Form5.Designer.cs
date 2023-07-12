@@ -28,36 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonIntegratedToolBarManager1 = new Krypton.Toolkit.KryptonIntegratedToolBarManager();
             this.kryptonLanguageManager1 = new Krypton.Toolkit.KryptonLanguageManager();
+            this.kryptonIntegratedToolBarManager1 = new Krypton.Toolkit.KryptonIntegratedToolBarManager();
             this.SuspendLayout();
-            // 
-            // kryptonIntegratedToolBarManager1
-            // 
-            this.kryptonIntegratedToolBarManager1.ParentForm = this;
-            this.kryptonIntegratedToolBarManager1.ShowIntegratedToolBar = true;
-            this.kryptonIntegratedToolBarManager1.ShowStandardIntegratedToolBarItems = false;
-            this.kryptonIntegratedToolBarManager1.ToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
-            this.kryptonIntegratedToolBarManager1.ToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.Auto;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.CopyButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.CutButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.NewButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.OpenButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.PageSetupButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.PasteButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.PrintButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.PrintPreviewButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.QuickPrintButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.RedoButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.SaveAllButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.SaveAsButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.SaveButtonCommand = null;
-            this.kryptonIntegratedToolBarManager1.ToolBarCommands.UndoButtonCommand = null;
             // 
             // kryptonLanguageManager1
             // 
             this.kryptonLanguageManager1.PaletteContentStyleStrings.ButtonGallery = null;
             this.kryptonLanguageManager1.PaletteContentStyleStrings.GridHeaderRowList = "Grid - RowColumn - List";
+            // 
+            // kryptonIntegratedToolBarManager1
+            // 
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Near;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.Auto;
+            this.kryptonIntegratedToolBarManager1.ParentForm = null;
+            this.kryptonIntegratedToolBarManager1.ShowIntegratedToolBar = false;
             // 
             // Form5
             // 
@@ -73,7 +58,7 @@
 
         #endregion
 
-        private Krypton.Toolkit.KryptonIntegratedToolBarManager kryptonIntegratedToolBarManager1;
         private Krypton.Toolkit.KryptonLanguageManager kryptonLanguageManager1;
+        private Krypton.Toolkit.KryptonIntegratedToolBarManager kryptonIntegratedToolBarManager1;
     }
 }
