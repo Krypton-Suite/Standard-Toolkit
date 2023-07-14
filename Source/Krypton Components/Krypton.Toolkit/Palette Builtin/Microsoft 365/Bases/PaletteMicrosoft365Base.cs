@@ -3405,33 +3405,33 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return string.Empty;
                 case PaletteButtonSpecStyle.New:
-                    return @"New";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Open:
-                    return @"Open";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.SaveAll:
-                    return @"Save All";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.SaveAs:
-                    return @"Save As";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Save:
-                    return @"Save";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Cut:
-                    return @"Cut";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Copy:
-                    return @"Copy";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Paste:
-                    return @"Paste";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Undo:
-                    return @"Undo";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Redo:
-                    return @"Redo";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.PageSetup:
-                    return @"Page Setup";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.PrintPreview:
-                    return @"Print Preview";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Print:
-                    return @"Print";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return @"Quick Print";
+                    return string.Empty;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

@@ -100,7 +100,9 @@ namespace Krypton.Toolkit
 
                 if (_parentForm != null)
                 {
-                    ShowIntegrateToolBar(value, _parentForm);
+                    //ShowIntegrateToolBar(value, _parentForm);
+
+                    UpdateButtonVisibility(value);
                 }
             }
         }
@@ -234,31 +236,61 @@ namespace Krypton.Toolkit
 
             newToolbarButton.Type = PaletteButtonSpecStyle.New;
 
+            newToolbarButton.Visible = true;
+
+            openToolbarButton.Visible = true;
+
             openToolbarButton.Type = PaletteButtonSpecStyle.Open;
+
+            saveAllToolbarButton.Visible = true;
 
             saveAllToolbarButton.Type = PaletteButtonSpecStyle.SaveAll;
 
+            saveAsToolbarButton.Visible = true;
+
             saveAsToolbarButton.Type = PaletteButtonSpecStyle.SaveAs;
+
+            saveToolbarButton.Visible = true;
 
             saveToolbarButton.Type = PaletteButtonSpecStyle.Save;
 
+            cutToolbarButton.Visible = true;
+
             cutToolbarButton.Type = PaletteButtonSpecStyle.Cut;
+
+            copyToolbarButton.Visible = true;
 
             copyToolbarButton.Type = PaletteButtonSpecStyle.Copy;
 
+            pasteToolbarButton.Visible = true;
+
             pasteToolbarButton.Type = PaletteButtonSpecStyle.Paste;
+
+            undoToolbarButton.Visible = true;
 
             undoToolbarButton.Type = PaletteButtonSpecStyle.Undo;
 
+            redoToolbarButton.Visible = true;
+
             redoToolbarButton.Type = PaletteButtonSpecStyle.Redo;
+
+            pageSetupToolbarButton.Visible = true;
 
             pageSetupToolbarButton.Type = PaletteButtonSpecStyle.PageSetup;
 
+            printPreviewToolbarButton.Visible = true;
+
             printPreviewToolbarButton.Type = PaletteButtonSpecStyle.PrintPreview;
+
+            printToolbarButton.Visible = true;
 
             printToolbarButton.Type = PaletteButtonSpecStyle.Print;
 
+            quickPrintToolbarButton.Visible = true;
+
             quickPrintToolbarButton.Type = PaletteButtonSpecStyle.QuickPrint;
+
+            quickPrintToolbarButton.Visible = true;
 
             _integratedToolBarButtons[0] = newToolbarButton;
 
@@ -329,6 +361,8 @@ namespace Krypton.Toolkit
                     {
                         parentForm.ButtonSpecs.Add(button);
                     }
+
+                    UpdateButtonVisibility(true);
                 }
             }
             catch (Exception e)
@@ -342,22 +376,56 @@ namespace Krypton.Toolkit
         /// <exception cref="System.ArgumentOutOfRangeException">buttonOrientation - null</exception>
         public void UpdateButtonOrientation(PaletteButtonOrientation buttonOrientation)
         {
-            switch (buttonOrientation)
+            try
             {
-                case PaletteButtonOrientation.Inherit:
-                    break;
-                case PaletteButtonOrientation.Auto:
-                    break;
-                case PaletteButtonOrientation.FixedTop:
-                    break;
-                case PaletteButtonOrientation.FixedBottom:
-                    break;
-                case PaletteButtonOrientation.FixedLeft:
-                    break;
-                case PaletteButtonOrientation.FixedRight:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                if (_parentForm != null)
+                {
+                    switch (buttonOrientation)
+                    {
+                        case PaletteButtonOrientation.Inherit:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Orientation = PaletteButtonOrientation.Inherit;
+                            }
+                            break;
+                        case PaletteButtonOrientation.Auto:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Orientation = PaletteButtonOrientation.Auto;
+                            }
+                            break;
+                        case PaletteButtonOrientation.FixedTop:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Orientation = PaletteButtonOrientation.FixedTop;
+                            }
+                            break;
+                        case PaletteButtonOrientation.FixedBottom:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Orientation = PaletteButtonOrientation.FixedBottom;
+                            }
+                            break;
+                        case PaletteButtonOrientation.FixedLeft:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Orientation = PaletteButtonOrientation.FixedLeft;
+                            }
+                            break;
+                        case PaletteButtonOrientation.FixedRight:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Orientation = PaletteButtonOrientation.FixedRight;
+                            }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
             }
         }
 
@@ -366,17 +434,72 @@ namespace Krypton.Toolkit
         /// <exception cref="System.ArgumentOutOfRangeException">buttonAlignment - null</exception>
         public void UpdateButtonAlignment(PaletteRelativeEdgeAlign buttonAlignment)
         {
-            switch (buttonAlignment)
+            try
             {
-                case PaletteRelativeEdgeAlign.Inherit:
-                    break;
-                case PaletteRelativeEdgeAlign.Near:
-                    break;
-                case PaletteRelativeEdgeAlign.Far:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                if (_parentForm != null)
+                {
+                    switch (buttonAlignment)
+                    {
+                        case PaletteRelativeEdgeAlign.Inherit:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Edge = PaletteRelativeEdgeAlign.Inherit;
+                            }
+                            break;
+                        case PaletteRelativeEdgeAlign.Near:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Edge = PaletteRelativeEdgeAlign.Near;
+                            }
+                            break;
+                        case PaletteRelativeEdgeAlign.Far:
+                            foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                            {
+                                button.Edge = PaletteRelativeEdgeAlign.Far;
+                            }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                    }
+                }
             }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+            }
+        }
+
+        /// <summary>Updates the button visibility.</summary>
+        /// <param name="buttonVisibility">if set to <c>true</c> [button visibility].</param>
+        private void UpdateButtonVisibility(bool buttonVisibility)
+        {
+            ToggleNewButton(buttonVisibility);
+
+            ToggleOpenButton(buttonVisibility);
+
+            ToggleSaveButton(buttonVisibility);
+
+            ToggleSaveAsButton(buttonVisibility);
+
+            ToggleSaveAllButton(buttonVisibility);
+
+            ToggleCutButton(buttonVisibility);
+
+            ToggleCopyButton(buttonVisibility);
+
+            TogglePasteButton(buttonVisibility);
+
+            ToggleUndoButton(buttonVisibility);
+
+            ToggleRedoButton(buttonVisibility);
+
+            TogglePageSetupButton(buttonVisibility);
+
+            TogglePrintPreviewButton(buttonVisibility);
+
+            TogglePrintButton(buttonVisibility);
+
+            ToggleQuickPrintButton(buttonVisibility);
         }
 
         /// <summary>Returns the integrated tool bar button array.</summary>
@@ -403,47 +526,159 @@ namespace Krypton.Toolkit
 
         private void ToggleOpenButton(bool value)
         {
-
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[1].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[12].Visible = value;
+            }
         }
 
         private void ToggleSaveButton(bool value)
         {
-
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[2].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[11].Visible = value;
+            }
         }
 
         private void ToggleSaveAllButton(bool value)
         {
-
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[3].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[10].Visible = value;
+            }
         }
 
         private void ToggleSaveAsButton(bool value)
         {
-
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[4].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[9].Visible = value;
+            }
         }
 
         private void ToggleCutButton(bool value)
         {
-
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[5].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[8].Visible = value;
+            }
         }
 
         private void ToggleCopyButton(bool value)
         {
-
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[6].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[7].Visible = value;
+            }
         }
 
-        private void TogglePasteButton(bool value) { }
+        private void TogglePasteButton(bool value)
+        {
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[7].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[6].Visible = value;
+            }
+        }
 
-        private void ToggleUndoButton(bool value) { }
+        private void ToggleUndoButton(bool value)
+        {
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[8].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[5].Visible = value;
+            }
+        }
 
-        private void ToggleRedoButton(bool value) { }
+        private void ToggleRedoButton(bool value)
+        {
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[9].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[4].Visible = value;
+            }
+        }
 
-        private void TogglePageSetupButton(bool value) { }
+        private void TogglePageSetupButton(bool value)
+        {
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[10].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[3].Visible = value;
+            }
+        }
 
-        private void TogglePrintPreviewButton(bool value) { }
+        private void TogglePrintPreviewButton(bool value)
+        {
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[11].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[2].Visible = value;
+            }
+        }
 
-        private void TogglePrintButton(bool value) { }
+        private void TogglePrintButton(bool value)
+        {
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[12].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[1].Visible = value;
+            }
+        }
 
-        private void ToggleQuickPrintButton(bool value) { }
+        private void ToggleQuickPrintButton(bool value)
+        {
+            if (!ReturnIsButtonArrayFlipped())
+            {
+                ReturnIntegratedToolBarButtonArray()[13].Visible = value;
+            }
+            else
+            {
+                ReturnIntegratedToolBarButtonArray()[0].Visible = value;
+            }
+        }
 
         #endregion
 
