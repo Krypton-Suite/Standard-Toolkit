@@ -79,6 +79,66 @@ namespace Krypton.Toolkit
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
+        #region Integrated Tool Bar Images
+
+        private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
+
+        private static readonly Image _integratedToolbarNewDisabled = Office2019ToolbarImageResources.Office2019ToolbarNewDisabled;
+
+        private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
+
+        private static readonly Image _integratedToolbarOpenDisabled = Office2019ToolbarImageResources.Office2019ToolbarOpenDisabled;
+
+        private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
+
+        private static readonly Image _integratedToolbarSaveAllDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAllDisabled;
+
+        private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
+
+        private static readonly Image _integratedToolbarSaveAsDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAsDisabled;
+
+        private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
+
+        private static readonly Image _integratedToolbarSaveDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveDisabled;
+
+        private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
+
+        private static readonly Image _integratedToolbarCutDisabled = Office2019ToolbarImageResources.Office2019ToolbarCutDisabled;
+
+        private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
+
+        private static readonly Image _integratedToolbarCopyDisabled = Office2019ToolbarImageResources.Office2019ToolbarCopyDisabled;
+
+        private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
+
+        private static readonly Image _integratedToolbarPasteDisabled = Office2019ToolbarImageResources.Office2019ToolbarPasteDisabled;
+
+        private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
+
+        private static readonly Image _integratedToolbarUndoDisabled = Office2019ToolbarImageResources.Office2019ToolbarUndoDisabled;
+
+        private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
+
+        private static readonly Image _integratedToolbarRedoDisabled = Office2019ToolbarImageResources.Office2019ToolbarRedoDisabled;
+
+        private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
+
+        private static readonly Image _integratedToolbarPageSetupDisabled = Office2019ToolbarImageResources.Office2019ToolbarPageSetupDisabled;
+
+        private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
+
+        private static readonly Image _integratedToolbarPrintPreviewDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled;
+
+        private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
+
+        private static readonly Image _integratedToolbarPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintDisabled;
+
+        private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
+
+        private static readonly Image _integratedToolbarQuickPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintDisabled;
+
+        #endregion
+
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _disabledText3 = Color.GhostWhite; // For Black themes
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
@@ -3203,6 +3263,34 @@ namespace Krypton.Toolkit
                     return _buttonSpecRibbonMinimize;
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return _buttonSpecRibbonExpand;
+                case PaletteButtonSpecStyle.New:
+                    return _integratedToolbarNewNormal;
+                case PaletteButtonSpecStyle.Open:
+                    return _integratedToolbarOpenNormal;
+                case PaletteButtonSpecStyle.Save:
+                    return _integratedToolbarSaveNormal;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return _integratedToolbarSaveAsNormal;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return _integratedToolbarSaveAllNormal;
+                case PaletteButtonSpecStyle.Cut:
+                    return _integratedToolbarCutNormal;
+                case PaletteButtonSpecStyle.Copy:
+                    return _integratedToolbarCopyNormal;
+                case PaletteButtonSpecStyle.Paste:
+                    return _integratedToolbarPasteNormal;
+                case PaletteButtonSpecStyle.Undo:
+                    return _integratedToolbarUndoNormal;
+                case PaletteButtonSpecStyle.Redo:
+                    return _integratedToolbarRedoNormal;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return _integratedToolbarPageSetupNormal;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return _integratedToolbarPrintPreviewNormal;
+                case PaletteButtonSpecStyle.Print:
+                    return _integratedToolbarPrintNormal;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return _integratedToolbarQuickPrintNormal;
                 case PaletteButtonSpecStyle.Generic:
                     return null;
                 default:
@@ -3456,19 +3544,33 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return Color.Black;
                 case PaletteButtonSpecStyle.New:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Open:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.SaveAll:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.SaveAs:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Save:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Cut:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Copy:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Paste:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Undo:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Redo:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.PageSetup:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.PrintPreview:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.Print:
+                    return Color.Empty;
                 case PaletteButtonSpecStyle.QuickPrint:
+                    return Color.Empty;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

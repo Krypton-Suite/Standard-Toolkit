@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
 
                 if (_parentForm != null)
                 {
-                    IntegrateToolBarIntoParentForm(value, _parentForm);
+                    ShowIntegrateToolBar(value, _parentForm);
                 }
             }
         }
@@ -111,20 +111,7 @@ namespace Krypton.Toolkit
 
         public PaletteRelativeEdgeAlign IntegratedToolBarButtonAlignment { get => _integratedToolBarButtonAlignment; set { _integratedToolBarButtonAlignment = value; UpdateButtonAlignment(value); } }
 
-        public KryptonForm? ParentForm
-        {
-            get => _parentForm;
-
-            set
-            {
-                _parentForm = value;
-
-                if (value != null)
-                {
-                    //IntegrateToolBarIntoParentForm(_showIntegratedToolBar, value);
-                }
-            }
-        }
+        public KryptonForm? ParentForm { get => _parentForm; set { _parentForm = value; AttachIntegratedToolBarToParent(value); } }
 
         #region Tool Bar Buttons
 
@@ -302,10 +289,10 @@ namespace Krypton.Toolkit
             _integratedToolBarButtons[13] = quickPrintToolbarButton;
         }
 
-        /// <summary>Integrates the tool bar into parent form.</summary>
+        /// <summary>Shows the tool bar into parent form.</summary>
         /// <param name="showIntegratedToolBar">if set to <c>true</c> [show integrated tool bar].</param>
         /// <param name="parentForm">The parent form.</param>
-        public void IntegrateToolBarIntoParentForm(bool showIntegratedToolBar, KryptonForm parentForm)
+        public void ShowIntegrateToolBar(bool showIntegratedToolBar, KryptonForm parentForm)
         {
             try
             {
@@ -326,7 +313,27 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"IntegrateToolBarIntoParentForm(bool showIntegratedToolBar, KryptonForm parentForm)");
+            }
+        }
+
+        /// <summary>Attaches the integrated tool bar to parent.</summary>
+        /// <param name="parentForm">The parent form.</param>
+        public void AttachIntegratedToolBarToParent(KryptonForm? parentForm)
+        {
+            try
+            {
+                if (parentForm != null)
+                {
+                    foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                    {
+                        parentForm.ButtonSpecs.Add(button);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"AttachIntegratedToolBarToParent(KryptonForm parentForm)");
             }
         }
 

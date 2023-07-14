@@ -41,8 +41,22 @@
             // 
             this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Near;
             this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.Auto;
-            this.kryptonIntegratedToolBarManager1.ParentForm = null;
-            this.kryptonIntegratedToolBarManager1.ShowIntegratedToolBar = false;
+            this.kryptonIntegratedToolBarManager1.ParentForm = this;
+            this.kryptonIntegratedToolBarManager1.ShowCopyButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowCutButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowIntegratedToolBar = true;
+            this.kryptonIntegratedToolBarManager1.ShowNewButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowOpenButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowPageSetupButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowPasteButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowPrintButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowPrintPreviewButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowQuickPrintButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowRedoButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowSaveAllButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowSaveAsButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowSaveButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowUndoButton = false;
             // 
             // Form5
             // 
