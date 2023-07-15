@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colorPalette)
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase? colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -2325,7 +2325,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetCheckBoxPreferredSize([DisallowNull] ViewLayoutContext context,
-            [DisallowNull] PaletteBase palette,
+            [DisallowNull] PaletteBase? palette,
                                                       bool enabled,
                                                       CheckState checkState,
                                                       bool tracking,
@@ -2376,7 +2376,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawCheckBox([DisallowNull] RenderContext context,
                                           Rectangle displayRect,
-                                          [DisallowNull] PaletteBase palette,
+                                          [DisallowNull] PaletteBase? palette,
                                           bool enabled,
                                           CheckState checkState,
                                           bool tracking,
@@ -2520,7 +2520,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public override Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            [DisallowNull] PaletteBase palette,
+                                                            [DisallowNull] PaletteBase? palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation)
         {
@@ -2555,7 +2555,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawDropDownButton([DisallowNull] RenderContext context,
                                                 Rectangle displayRect,
-                                                [DisallowNull] PaletteBase palette,
+                                                [DisallowNull] PaletteBase? palette,
                                                 PaletteState state,
                                                 VisualOrientation orientation)
         {
@@ -2593,7 +2593,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
                                                             Rectangle cellRect,
-                                                            [DisallowNull] IPaletteContent paletteContent,
+                                                            [DisallowNull] IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2636,7 +2636,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericDownGlyph([DisallowNull] RenderContext context,
                                                               Rectangle cellRect,
-                                                              [DisallowNull] IPaletteContent paletteContent,
+                                                              [DisallowNull] IPaletteContent? paletteContent,
                                                               PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2679,7 +2679,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
                                                            Rectangle cellRect,
-                                                           [DisallowNull] IPaletteContent paletteContent,
+                                                           [DisallowNull] IPaletteContent? paletteContent,
                                                            PaletteState state)
         {
             Debug.Assert(context != null);
@@ -3044,7 +3044,7 @@ namespace Krypton.Toolkit
         public override Rectangle DrawGridSortGlyph([DisallowNull] RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    [DisallowNull] IPaletteContent paletteContent,
+                                                    [DisallowNull] IPaletteContent? paletteContent,
                                                     PaletteState state,
                                                     bool rtl)
         {
@@ -3106,7 +3106,7 @@ namespace Krypton.Toolkit
         public override Rectangle DrawGridRowGlyph([DisallowNull] RenderContext context,
                                                    GridRowGlyph rowGlyph,
                                                    Rectangle cellRect,
-                                                   [DisallowNull] IPaletteContent paletteContent,
+                                                   [DisallowNull] IPaletteContent? paletteContent,
                                                    PaletteState state,
                                                    bool rtl)
         {
@@ -3342,7 +3342,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         public override bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                                  [DisallowNull] IPaletteBorder paletteBorder,
+                                                  [DisallowNull] IPaletteBorder? paletteBorder,
                                                   PaletteState state)
         {
             // If the border takes up some visual space

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler? _needPaintDelegate;
         private bool _viewportVertical;
         #endregion
 
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
             Debug.Assert(needPaintDelegate != null);
 
             // We need a way to notify changes in layout
-            _needPaintDelegate = needPaintDelegate;
+            _needPaintDelegate = needPaintDelegate!;
 
             // By default we are showing the contained viewport in vertical scrolling
             _viewportVertical = vertical;
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             };
 
             // Put the provided element inside the viewport
-            Viewport.Add(viewportFiller);
+            Viewport.Add(viewportFiller!);
 
             // Hook into animation step events
             Viewport.AnimateStep += OnAnimateStep;
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
             // To prevent the contents of the viewport from being able to draw outside
             // the viewport (such as having child controls) we use a ViewLayoutControl
             // that uses a child control to restrict the drawing region.
-            ViewControl = new ViewLayoutControl(rootControl, Viewport)
+            ViewControl = new ViewLayoutControl(rootControl!, Viewport)
             {
                 InDesignMode = rootControl.InDesignMode
             };
@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets access to the horizontl scrollbar view.
+        /// Gets access to the horizontal scrollbar view.
         /// </summary>
         public ViewDrawScrollBar ScrollbarH
         {

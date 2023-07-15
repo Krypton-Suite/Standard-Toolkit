@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private bool _enabled;
         private string _text;
         private string? _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
         private KryptonCommand _command;
@@ -235,6 +235,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Radio button image color to make transparent.")]
         [Localizable(true)]
+        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -249,7 +250,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets and sets the radio button label style.
@@ -401,6 +402,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
+        [AllowNull]
         public virtual KryptonCommand? KryptonCommand
         {
             get => _command;

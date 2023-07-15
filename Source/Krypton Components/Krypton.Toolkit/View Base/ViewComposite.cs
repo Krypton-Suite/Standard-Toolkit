@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public abstract class ViewComposite : ViewBase
     {
         #region Instance Fields
-        private readonly List<ViewBase> _views;
+        private readonly List<ViewBase>? _views;
 
         #endregion
 
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
             {
                 while (Count > 0)
                 {
-                    this[0].Dispose();
+                    this[0]?.Dispose();
                     RemoveAt(0);
                 }
 
-                _views.Clear();
+                _views?.Clear();
             }
 
             // Must call base class to finish disposing
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Any child that returns 'true' completes the process
-                    if (child.EvalTransparentPaint(context))
+                    if (child.EvalTransparentPaint(context!))
                     {
                         return true;
                     }
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Ask child for it's own preferred size
-                    Size childPreferred = child.GetPreferredSize(context);
+                    Size childPreferred = child.GetPreferredSize(context!);
 
                     // As a composite we need to be big enough to encompass the largest child
                     if (childPreferred.Width > preferredSize.Width)
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
             // Ask each child to layout in turn
             foreach (ViewBase child in this.Where(static child => child.Visible))
             {
-                child.Layout(context);
+                child.Layout(context!);
             }
         }
         #endregion
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Perform rendering before any children
-            RenderBefore(context);
+            RenderBefore(context!);
 
             var ordering = ReverseRenderOrder ? Reverse() : this;
 
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Add(ViewBase item)
+        public override void Add(ViewBase? item)
         {
             // We do not allow null references in the collection
             if (item == null)
@@ -270,10 +270,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase item)
+        public override bool Remove(ViewBase? item)
         {
             // Let type safe collection perform operation
-            var ret = _views?.Remove(item) ?? false;
+            var ret = _views?.Remove(item!) ?? false;
 
             // Remove back reference only when remove completed with success
             if (ret && item != null)
@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase this[int index] 
+        public override ViewBase? this[int index] 
         { 
             get => _views?[index];
 
@@ -491,7 +491,7 @@ namespace Krypton.Toolkit
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
         public override ViewBase? ViewFromPoint(Point pt)
         {
-            ViewBase ret = null;
+            ViewBase? ret = null;
 
             // Do we contain the point?
             if (ClientRectangle.Contains(pt))

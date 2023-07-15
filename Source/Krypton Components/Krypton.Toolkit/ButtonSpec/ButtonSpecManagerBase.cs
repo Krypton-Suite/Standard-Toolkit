@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         protected ButtonSpecManagerBase([DisallowNull] Control control,
-                                     [DisallowNull] PaletteRedirect redirector,
+                                     [DisallowNull] PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
                                      IPaletteMetric[] viewMetrics,
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer;
+            _getRenderer = getRenderer!;
 
             if (_viewMetrics != null)
             {

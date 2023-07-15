@@ -413,7 +413,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public abstract ViewBase this[int index] { get; set; }
+        public abstract ViewBase? this[int index] { get; set; }
 
         /// <summary>
         /// Shallow enumerate forward over children of the element.

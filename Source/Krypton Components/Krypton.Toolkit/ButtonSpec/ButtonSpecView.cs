@@ -303,7 +303,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnFinishDelegate(object sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
-            _controller.RemoveFixed();
+            _controller?.RemoveFixed();
 
         #endregion
 

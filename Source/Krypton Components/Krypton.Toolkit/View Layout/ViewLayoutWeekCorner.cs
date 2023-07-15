@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
     
             // Put back the original display value now we have finished
             context.DisplayRectangle = ClientRectangle;
