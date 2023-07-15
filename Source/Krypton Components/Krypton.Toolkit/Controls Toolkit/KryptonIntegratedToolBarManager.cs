@@ -90,6 +90,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [Category(@"Visuals"), DefaultValue(false), Description(@"")]
         public bool ShowIntegratedToolBar
         {
             get => _showIntegratedToolBar;
@@ -107,12 +108,16 @@ namespace Krypton.Toolkit
             }
         }
 
+        [Category(@"Visuals"), DefaultValue(null), Description(@"")]
         public ButtonSpecAny[] IntegratedToolBarButtons => _integratedToolBarButtons;
 
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteButtonOrientation), @"PaletteButtonOrientation.FixedTop"), Description(@"")]
         public PaletteButtonOrientation IntegratedToolBarButtonOrientation { get => _integratedToolBarButtonOrientation; set { _integratedToolBarButtonOrientation = value; UpdateButtonOrientation(value); } }
 
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteRelativeEdgeAlign), @"PaletteRelativeEdgeAlign.Far"), Description(@"")]
         public PaletteRelativeEdgeAlign IntegratedToolBarButtonAlignment { get => _integratedToolBarButtonAlignment; set { _integratedToolBarButtonAlignment = value; UpdateButtonAlignment(value); } }
 
+        [Category(@"Visuals"), DefaultValue(null), Description(@"")]
         public KryptonForm? ParentForm { get => _parentForm; set { _parentForm = value; AttachIntegratedToolBarToParent(value); } }
 
         #region Tool Bar Buttons
@@ -203,9 +208,9 @@ namespace Krypton.Toolkit
 
             SetupToolBar();
 
-            _integratedToolBarButtonOrientation = PaletteButtonOrientation.Auto;
+            _integratedToolBarButtonOrientation = PaletteButtonOrientation.FixedTop;
 
-            _integratedToolBarButtonAlignment = PaletteRelativeEdgeAlign.Near;
+            _integratedToolBarButtonAlignment = PaletteRelativeEdgeAlign.Far;
 
             _parentForm = null;
 
@@ -512,7 +517,7 @@ namespace Krypton.Toolkit
 
         #region Tool Bar Buttons
 
-        private void ToggleNewButton(bool value)
+        public void ToggleNewButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -524,7 +529,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleOpenButton(bool value)
+        public void ToggleOpenButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -536,7 +541,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleSaveButton(bool value)
+        public void ToggleSaveButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -548,7 +553,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleSaveAllButton(bool value)
+        public void ToggleSaveAllButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -560,7 +565,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleSaveAsButton(bool value)
+        public void ToggleSaveAsButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -572,7 +577,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleCutButton(bool value)
+        public void ToggleCutButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -584,7 +589,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleCopyButton(bool value)
+        public void ToggleCopyButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {

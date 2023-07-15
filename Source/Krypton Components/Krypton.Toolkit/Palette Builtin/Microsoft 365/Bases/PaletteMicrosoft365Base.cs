@@ -19,6 +19,9 @@ namespace Krypton.Toolkit
     public abstract class PaletteMicrosoft365Base : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new Padding(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new Padding(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
@@ -54,6 +57,11 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarTabs = new Padding(0);
         private static readonly Padding _metricPaddingBarOutside = new Padding(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new Padding(1, 3, 1, 3);
+
+        #endregion
+
+        #region Images
+
         private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
@@ -83,61 +91,37 @@ namespace Krypton.Toolkit
 
         private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
 
-        private static readonly Image _integratedToolbarNewDisabled = Office2019ToolbarImageResources.Office2019ToolbarNewDisabled;
-
         private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
-
-        private static readonly Image _integratedToolbarOpenDisabled = Office2019ToolbarImageResources.Office2019ToolbarOpenDisabled;
 
         private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
 
-        private static readonly Image _integratedToolbarSaveAllDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAllDisabled;
-
         private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
-
-        private static readonly Image _integratedToolbarSaveAsDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAsDisabled;
 
         private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
 
-        private static readonly Image _integratedToolbarSaveDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveDisabled;
-
         private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
-
-        private static readonly Image _integratedToolbarCutDisabled = Office2019ToolbarImageResources.Office2019ToolbarCutDisabled;
 
         private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
 
-        private static readonly Image _integratedToolbarCopyDisabled = Office2019ToolbarImageResources.Office2019ToolbarCopyDisabled;
-
         private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
-
-        private static readonly Image _integratedToolbarPasteDisabled = Office2019ToolbarImageResources.Office2019ToolbarPasteDisabled;
 
         private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
 
-        private static readonly Image _integratedToolbarUndoDisabled = Office2019ToolbarImageResources.Office2019ToolbarUndoDisabled;
-
         private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
-
-        private static readonly Image _integratedToolbarRedoDisabled = Office2019ToolbarImageResources.Office2019ToolbarRedoDisabled;
 
         private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
 
-        private static readonly Image _integratedToolbarPageSetupDisabled = Office2019ToolbarImageResources.Office2019ToolbarPageSetupDisabled;
-
         private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
-
-        private static readonly Image _integratedToolbarPrintPreviewDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled;
 
         private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
 
-        private static readonly Image _integratedToolbarPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintDisabled;
-
         private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
 
-        private static readonly Image _integratedToolbarQuickPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintDisabled;
+        #endregion
 
         #endregion
+
+        #region Colors
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _disabledText3 = Color.GhostWhite; // For Black themes
@@ -174,46 +158,62 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
-                                                             Color.FromArgb(214, 220, 231),
-                                                             Color.FromArgb(188, 198, 211),
-                                                             Color.FromArgb(254, 254, 255),
-                                                             Color.FromArgb(206, 213, 225)
-                                                            };
 
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230),
-                                                            Color.FromArgb(248, 230, 143),
-                                                            Color.FromArgb(238, 213, 126),
-                                                            Color.FromArgb(254, 247, 129),
-                                                            Color.FromArgb(240, 201, 41)
-                                                          };
+        #endregion
 
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
-                                                              Color.FromArgb(228, 198, 149),
-                                                              Color.FromArgb(166, 97, 7),
-                                                              Color.FromArgb(242, 155, 57),
-                                                              Color.FromArgb(236, 136, 9)
-                                                            };
+        #region Color Arrays
 
-        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
-                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
-                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
-                                                                Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
-                                                                           Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
-                                                                         };
-        private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                                         Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                                         Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
-                                                                         Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
-                                                                         Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
-                                                                         Color.FromArgb(194, 118, 43),  // Button, Pressed, Back 2
-                                                                         Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
-                                                                         Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
-                                                                         Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                                         Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                                       };
+        private static readonly Color[] _appButtonNormal =
+        {
+            Color.FromArgb(243, 245, 248),
+            Color.FromArgb(214, 220, 231),
+            Color.FromArgb(188, 198, 211),
+            Color.FromArgb(254, 254, 255),
+            Color.FromArgb(206, 213, 225)
+        };
+
+        private static readonly Color[] _appButtonTrack =
+        {
+            Color.FromArgb(255, 251, 230),
+            Color.FromArgb(248, 230, 143),
+            Color.FromArgb(238, 213, 126),
+            Color.FromArgb(254, 247, 129),
+            Color.FromArgb(240, 201, 41)
+        };
+
+        private static readonly Color[] _appButtonPressed =
+        {
+            Color.FromArgb(235, 227, 196),
+            Color.FromArgb(228, 198, 149),
+            Color.FromArgb(166, 97, 7),
+            Color.FromArgb(242, 155, 57),
+            Color.FromArgb(236, 136, 9)
+        };
+
+        private static readonly Color[] _buttonBorderColors =
+        {
+            Color.FromArgb(180, 180, 180), // Button, Disabled, Border
+            Color.FromArgb(237, 201, 88), // Button, Tracking, Border 1
+            Color.FromArgb(243, 213, 73), // Button, Tracking, Border 2
+            Color.FromArgb(194, 118, 43), // Button, Pressed, Border 1
+            Color.FromArgb(194, 158, 71), // Button, Pressed, Border 2
+            Color.FromArgb(194, 138, 48), // Button, Checked, Border 1
+            Color.FromArgb(194, 164, 77) // Button, Checked, Border 2
+        };
+
+        private static readonly Color[] _buttonBackColors =
+        {
+            Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
+            Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
+            Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
+            Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
+            Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
+            Color.FromArgb(194, 118, 43), // Button, Pressed, Back 2
+            Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
+            Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
+            Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
+            Color.FromArgb(255, 249, 196) // Button, Checked Tracking, Back 2
+        };
         /*private static readonly Color[] _appButtonNormal = new Color[] { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
         private static readonly Color[] _appButtonTrack = new Color[] { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = new Color[] { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
@@ -236,6 +236,8 @@ namespace Krypton.Toolkit
                                                                          Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
                                                                          Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
                                                                        };*/
+
+        #endregion
         #endregion
 
         #region Variables
@@ -3474,33 +3476,33 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return string.Empty;
                 case PaletteButtonSpecStyle.New:
-                    return @"New";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Open:
-                    return @"Open";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.SaveAll:
-                    return @"Save All";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.SaveAs:
-                    return @"Save As";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Save:
-                    return @"Save";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Cut:
-                    return @"Cut";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Copy:
-                    return @"Copy";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Paste:
-                    return @"Paste";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Undo:
-                    return @"Undo";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Redo:
-                    return @"Redo";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.PageSetup:
-                    return @"Page Setup";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.PrintPreview:
-                    return @"Print Preview";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.Print:
-                    return @"Print";
+                    return string.Empty;
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return @"Quick Print";
+                    return string.Empty;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

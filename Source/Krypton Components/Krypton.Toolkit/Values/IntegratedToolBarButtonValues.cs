@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public bool IsDefault => false;
 
-        public bool ShowNewButton { get => _showNewButton; set { _showNewButton = value; ToggleNewButton(value); } }
+        public bool ShowNewButton { get => _showNewButton; set { _showNewButton = value; _toolBarManager.ToggleNewButton(value); } }
 
         public bool ShowOpenButton { get => _showOpenButton; set { _showOpenButton = value; ToggleOpenButton(value); } }
 

@@ -200,8 +200,8 @@ namespace Krypton.Toolkit
         public bool IsDefault => !(ShouldSerializeGlobalPaletteMode() ||
                                    ShouldSerializeGlobalPalette() ||
                                    ShouldSerializeGlobalApplyToolstrips() ||
-                                   ShouldSerializeGlobalAllowFormChrome() ||
-                                   ShouldSerializeToolkitStringValues());
+                                   ShouldSerializeGlobalAllowFormChrome() /*||
+                                   ShouldSerializeToolkitStringValues() */);
 
         /// <summary>
         /// Reset All values
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             ResetGlobalPalette();
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
-            ResetToolkitStringValues();
+            //ResetToolkitStringValues();
 
             _customPalette = null;
 
@@ -405,7 +405,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public KryptonLanguageManager? LanguageManager { get => _languageManager; set => _languageManager = value; }
 
-        /// <summary>Gets the global toolkit strings.</summary>
+        /*/// <summary>Gets the global toolkit strings.</summary>
         /// <value>The global toolkit strings.</value>
         [Category(@"Visuals")]
         [Description(@"Collection of toolkit strings.")]
@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeToolkitStringValues() => !_toolkitStringValues.IsDefault;
 
         /// <summary>Resets the toolkit string values.</summary>
-        public void ResetToolkitStringValues() => _toolkitStringValues.Reset();
+        public void ResetToolkitStringValues() => _toolkitStringValues.Reset();*/
 
         #endregion
 
