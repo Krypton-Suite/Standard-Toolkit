@@ -70,35 +70,48 @@ namespace Krypton.Toolkit
         #region Public
 
         [Browsable(false)]
-        public bool IsDefault => false;
+        public bool IsDefault => ShowNewButton.Equals(DEFAULT_SHOW_NEW_BUTTON) &&
+                                 ShowOpenButton.Equals(DEFAULT_SHOW_OPEN_BUTTON) &&
+                                 ShowSaveButton.Equals(DEFAULT_SHOW_SAVE_BUTTON) &&
+                                 ShowSaveAllButton.Equals(DEFAULT_SHOW_SAVE_ALL_BUTTON) &&
+                                 ShowSaveAsButton.Equals(DEFAULT_SHOW_SAVE_AS_BUTTON) &&
+                                 ShowCutButton.Equals(DEFAULT_SHOW_CUT_BUTTON) &&
+                                 ShowCopyButton.Equals(DEFAULT_SHOW_COPY_BUTTON) &&
+                                 ShowPasteButton.Equals(DEFAULT_SHOW_PASTE_BUTTON) &&
+                                 ShowUndoButton.Equals(DEFAULT_SHOW_UNDO_BUTTON) &&
+                                 ShowRedoButton.Equals(DEFAULT_SHOW_REDO_BUTTON) &&
+                                 ShowPageSetupButton.Equals(DEFAULT_SHOW_PAGE_SETUP_BUTTON) &&
+                                 ShowPrintPreviewButton.Equals(DEFAULT_SHOW_PRINT_PREVIEW_BUTTON) &&
+                                 ShowPrintButton.Equals(DEFAULT_SHOW_PRINT_BUTTON) &&
+                                 ShowQuickPrintButton.Equals(DEFAULT_SHOW_QUICK_PRINT_BUTTON);
 
         public bool ShowNewButton { get => _showNewButton; set { _showNewButton = value; _toolBarManager.ToggleNewButton(value); } }
 
-        public bool ShowOpenButton { get => _showOpenButton; set { _showOpenButton = value; ToggleOpenButton(value); } }
+        public bool ShowOpenButton { get => _showOpenButton; set { _showOpenButton = value; _toolBarManager.ToggleOpenButton(value); } }
 
-        public bool ShowSaveButton { get => _showSaveButton; set { _showSaveButton = value; ToggleSaveButton(value); } }
+        public bool ShowSaveButton { get => _showSaveButton; set { _showSaveButton = value; _toolBarManager.ToggleSaveButton(value); } }
 
-        public bool ShowSaveAllButton { get => _showSaveAllButton; set { _showSaveAllButton = value; ToggleSaveAllButton(value); } }
+        public bool ShowSaveAllButton { get => _showSaveAllButton; set { _showSaveAllButton = value; _toolBarManager.ToggleSaveAllButton(value); } }
 
-        public bool ShowSaveAsButton { get => _showSaveAsButton; set { _showSaveAsButton = value; ToggleSaveAsButton(value); } }
+        public bool ShowSaveAsButton { get => _showSaveAsButton; set { _showSaveAsButton = value; _toolBarManager.ToggleSaveAsButton(value); } }
 
-        public bool ShowCutButton { get => _showCutButton; set { _showCutButton = value; ToggleCutButton(value); } }
+        public bool ShowCutButton { get => _showCutButton; set { _showCutButton = value; _toolBarManager.ToggleCutButton(value); } }
 
-        public bool ShowCopyButton { get => _showCopyButton; set { _showCopyButton = value; ToggleCopyButton(value); } }
+        public bool ShowCopyButton { get => _showCopyButton; set { _showCopyButton = value; _toolBarManager.ToggleCopyButton(value); } }
 
-        public bool ShowPasteButton { get => _showPasteButton; set { _showPasteButton = value; TogglePasteButton(value); } }
+        public bool ShowPasteButton { get => _showPasteButton; set { _showPasteButton = value; _toolBarManager.TogglePasteButton(value); } }
 
-        public bool ShowUndoButton { get => _showUndoButton; set { _showUndoButton = value; ToggleUndoButton(value); } }
+        public bool ShowUndoButton { get => _showUndoButton; set { _showUndoButton = value; _toolBarManager.ToggleUndoButton(value); } }
 
-        public bool ShowRedoButton { get => _showRedoButton; set { _showRedoButton = value; ToggleRedoButton(value); } }
+        public bool ShowRedoButton { get => _showRedoButton; set { _showRedoButton = value; _toolBarManager.ToggleRedoButton(value); } }
 
-        public bool ShowPageSetupButton { get => _showPageSetupButton; set { _showPageSetupButton = value; TogglePageSetupButton(value); } }
+        public bool ShowPageSetupButton { get => _showPageSetupButton; set { _showPageSetupButton = value; _toolBarManager.TogglePageSetupButton(value); } }
 
-        public bool ShowPrintPreviewButton { get => _showPrintPreviewButton; set { _showPrintPreviewButton = value; TogglePrintPreviewButton(value); } }
+        public bool ShowPrintPreviewButton { get => _showPrintPreviewButton; set { _showPrintPreviewButton = value; _toolBarManager.TogglePrintPreviewButton(value); } }
 
-        public bool ShowPrintButton { get => _showPrintButton; set { _showPrintButton = value; TogglePrintButton(value); } }
+        public bool ShowPrintButton { get => _showPrintButton; set { _showPrintButton = value; _toolBarManager.TogglePrintButton(value); } }
 
-        public bool ShowQuickPrintButton { get => _showQuickPrintButton; set { _showQuickPrintButton = value; ToggleQuickPrintButton(value); } }
+        public bool ShowQuickPrintButton { get => _showQuickPrintButton; set { _showQuickPrintButton = value; _toolBarManager.ToggleQuickPrintButton(value); } }
 
         #endregion
 
@@ -107,7 +120,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="IntegratedToolBarButtonValues" /> class.</summary>
         public IntegratedToolBarButtonValues()
         {
-            Reset();
+            _toolBarManager.Reset();
         }
 
         /// <summary>Converts to string.</summary>
@@ -148,55 +161,6 @@ namespace Krypton.Toolkit
 
             ShowQuickPrintButton = DEFAULT_SHOW_QUICK_PRINT_BUTTON;
         }
-
-        private void ToggleNewButton(bool value)
-        {
-
-        }
-
-        private void ToggleOpenButton(bool value)
-        {
-
-        }
-
-        private void ToggleSaveButton(bool value)
-        {
-
-        }
-
-        private void ToggleSaveAllButton(bool value)
-        {
-
-        }
-
-        private void ToggleSaveAsButton(bool value)
-        {
-
-        }
-
-        private void ToggleCutButton(bool value)
-        {
-
-        }
-
-        private void ToggleCopyButton(bool value)
-        {
-
-        }
-
-        private void TogglePasteButton(bool value) { }
-
-        private void ToggleUndoButton(bool value) { }
-
-        private void ToggleRedoButton(bool value) { }
-
-        private void TogglePageSetupButton(bool value) { }
-
-        private void TogglePrintPreviewButton(bool value) { }
-
-        private void TogglePrintButton(bool value) { }
-
-        private void ToggleQuickPrintButton(bool value) { }
 
         #endregion
     }

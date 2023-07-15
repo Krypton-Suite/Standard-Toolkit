@@ -517,7 +517,7 @@ namespace Krypton.Toolkit
 
         #region Tool Bar Buttons
 
-        public void ToggleNewButton(bool value)
+        internal void ToggleNewButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -529,7 +529,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public void ToggleOpenButton(bool value)
+        internal void ToggleOpenButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -541,7 +541,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public void ToggleSaveButton(bool value)
+        internal void ToggleSaveButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -553,7 +553,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public void ToggleSaveAllButton(bool value)
+        internal void ToggleSaveAllButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -565,7 +565,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public void ToggleSaveAsButton(bool value)
+        internal void ToggleSaveAsButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -577,7 +577,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public void ToggleCutButton(bool value)
+        internal void ToggleCutButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -589,7 +589,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public void ToggleCopyButton(bool value)
+        internal void ToggleCopyButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void TogglePasteButton(bool value)
+        internal void TogglePasteButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -613,7 +613,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleUndoButton(bool value)
+        internal void ToggleUndoButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -625,7 +625,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleRedoButton(bool value)
+        internal void ToggleRedoButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -637,7 +637,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void TogglePageSetupButton(bool value)
+        internal void TogglePageSetupButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -649,7 +649,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void TogglePrintPreviewButton(bool value)
+        internal void TogglePrintPreviewButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -661,7 +661,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void TogglePrintButton(bool value)
+        internal void TogglePrintButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {
@@ -673,7 +673,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ToggleQuickPrintButton(bool value)
+        internal void ToggleQuickPrintButton(bool value)
         {
             if (!ReturnIsButtonArrayFlipped())
             {

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonLanguageManager1 = new Krypton.Toolkit.KryptonLanguageManager();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
@@ -37,11 +36,6 @@
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // kryptonLanguageManager1
-            // 
-            this.kryptonLanguageManager1.PaletteContentStyleStrings.ButtonGallery = null;
-            this.kryptonLanguageManager1.PaletteContentStyleStrings.GridHeaderRowList = "Grid - RowColumn - List";
             // 
             // kryptonPanel1
             // 
@@ -65,7 +59,6 @@
             this.kryptonPropertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(196)))), ((int)(((byte)(216)))));
             this.kryptonPropertyGrid1.Location = new System.Drawing.Point(13, 41);
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
-            this.kryptonPropertyGrid1.SelectedObject = this.kryptonIntegratedToolBarManager1;
             this.kryptonPropertyGrid1.Size = new System.Drawing.Size(344, 397);
             this.kryptonPropertyGrid1.TabIndex = 1;
             this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -83,14 +76,13 @@
             // 
             // kryptonIntegratedToolBarManager1
             // 
-            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Near;
-            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.FixedTop;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.Auto;
             this.kryptonIntegratedToolBarManager1.ParentForm = this;
             this.kryptonIntegratedToolBarManager1.ShowCopyButton = false;
             this.kryptonIntegratedToolBarManager1.ShowCutButton = false;
-            this.kryptonIntegratedToolBarManager1.ShowIntegratedToolBar = false;
-            this.kryptonIntegratedToolBarManager1.ShowNewButton = false;
-            this.kryptonIntegratedToolBarManager1.ShowOpenButton = false;
+            this.kryptonIntegratedToolBarManager1.ShowNewButton = true;
+            this.kryptonIntegratedToolBarManager1.ShowOpenButton = true;
             this.kryptonIntegratedToolBarManager1.ShowPageSetupButton = false;
             this.kryptonIntegratedToolBarManager1.ShowPasteButton = false;
             this.kryptonIntegratedToolBarManager1.ShowPrintButton = false;
@@ -119,8 +111,6 @@
         }
 
         #endregion
-
-        private Krypton.Toolkit.KryptonLanguageManager kryptonLanguageManager1;
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private Krypton.Toolkit.KryptonPropertyGrid kryptonPropertyGrid1;
