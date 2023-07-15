@@ -100,7 +100,6 @@
             this.ClientSize = new System.Drawing.Size(1096, 624);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "Form2";
-            this.ShowIntegratedToolBar = false;
             this.Text = "Form2";
             this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();

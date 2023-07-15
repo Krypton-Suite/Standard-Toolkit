@@ -85,5 +85,12 @@ namespace TestForm
                 MessageBox.Show(exception.ToString());
             }
         }
+
+        private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
+        {
+            Form5 integratedToolBar = new();
+
+            integratedToolBar.Show();
+        }
     }
 }

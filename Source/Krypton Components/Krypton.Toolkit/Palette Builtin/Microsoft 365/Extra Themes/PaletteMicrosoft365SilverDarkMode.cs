@@ -594,7 +594,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Image
+        #region Images
 
         private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
@@ -620,6 +620,38 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
+
+        #region Integrated Tool Bar Images
+
+        private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
+
+        private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
+
+        private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
+
+        private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
+
+        private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
+
+        private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
+
+        private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
+
+        private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
+
+        private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
+
+        private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
+
+        private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
+
+        private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
+
+        private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
+
+        private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
+
+        #endregion
 
         #endregion
 
@@ -3749,6 +3781,20 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return null;
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -3803,6 +3849,34 @@ namespace Krypton.Toolkit
                     return _buttonSpecRibbonMinimize;
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return _buttonSpecRibbonExpand;
+                case PaletteButtonSpecStyle.New:
+                    return _integratedToolbarNewNormal;
+                case PaletteButtonSpecStyle.Open:
+                    return _integratedToolbarOpenNormal;
+                case PaletteButtonSpecStyle.Save:
+                    return _integratedToolbarSaveNormal;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return _integratedToolbarSaveAsNormal;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return _integratedToolbarSaveAllNormal;
+                case PaletteButtonSpecStyle.Cut:
+                    return _integratedToolbarCutNormal;
+                case PaletteButtonSpecStyle.Copy:
+                    return _integratedToolbarCopyNormal;
+                case PaletteButtonSpecStyle.Paste:
+                    return _integratedToolbarPasteNormal;
+                case PaletteButtonSpecStyle.Undo:
+                    return _integratedToolbarUndoNormal;
+                case PaletteButtonSpecStyle.Redo:
+                    return _integratedToolbarRedoNormal;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return _integratedToolbarPageSetupNormal;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return _integratedToolbarPrintPreviewNormal;
+                case PaletteButtonSpecStyle.Print:
+                    return _integratedToolbarPrintNormal;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return _integratedToolbarQuickPrintNormal;
                 case PaletteButtonSpecStyle.Generic:
                     return null;
                 default:
@@ -3847,6 +3921,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return Color.Magenta;
+                case PaletteButtonSpecStyle.New:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Open:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Save:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Cut:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Copy:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Paste:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Undo:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Redo:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Print:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return Color.Empty;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -3888,6 +3990,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return string.Empty;
+                case PaletteButtonSpecStyle.New:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Open:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Save:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Cut:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Copy:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Paste:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Undo:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Redo:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Print:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return string.Empty;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -3928,6 +4058,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.WorkspaceRestore:
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.New:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Open:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Save:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Cut:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Copy:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Paste:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Undo:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Redo:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.Print:
+                    return string.Empty;
+                case PaletteButtonSpecStyle.QuickPrint:
                     return string.Empty;
                 default:
                     // Should never happen!
@@ -3971,6 +4129,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return Color.Black;
+                case PaletteButtonSpecStyle.New:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Open:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Save:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Cut:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Copy:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Paste:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Undo:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Redo:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Print:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return Color.Empty;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -4012,6 +4198,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return Color.Magenta;
+                case PaletteButtonSpecStyle.New:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Open:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Save:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Cut:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Copy:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Paste:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Undo:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Redo:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Print:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return Color.Empty;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -4054,6 +4268,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.WorkspaceRestore:
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.New:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Open:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Save:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Cut:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Copy:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Paste:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Undo:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Redo:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.Print:
+                    return PaletteButtonStyle.ButtonSpec;
+                case PaletteButtonSpecStyle.QuickPrint:
                     return PaletteButtonStyle.ButtonSpec;
                 default:
                     // Should never happen!
@@ -4137,6 +4379,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return PaletteRelativeEdgeAlign.Far;
+                case PaletteButtonSpecStyle.New:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Open:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Save:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Cut:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Copy:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Paste:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Undo:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Redo:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.Print:
+                    return PaletteRelativeEdgeAlign.Near;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return PaletteRelativeEdgeAlign.Near;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -4179,6 +4449,34 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.Next:
                 case PaletteButtonSpecStyle.Previous:
                     return PaletteButtonOrientation.Auto;
+                case PaletteButtonSpecStyle.New:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Open:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Save:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Cut:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Copy:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Paste:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Undo:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Redo:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.Print:
+                    return PaletteButtonOrientation.FixedLeft;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return PaletteButtonOrientation.FixedLeft;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
