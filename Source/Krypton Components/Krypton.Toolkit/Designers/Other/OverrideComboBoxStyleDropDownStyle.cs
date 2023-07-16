@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// <remarks>
         /// We show a drop down for editing the PaletteDrawBorders value.
         /// </remarks>
-        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) => context?.Instance != null
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) => context?.Instance != null
             ? UITypeEditorEditStyle.DropDown
             : base.GetEditStyle(context);
 

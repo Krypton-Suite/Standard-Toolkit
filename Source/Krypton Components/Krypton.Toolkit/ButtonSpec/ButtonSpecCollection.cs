@@ -124,9 +124,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
         public ButtonSpecCollection(object owner)
-            : base(owner) =>
+            : base(owner)
+        {
             // Create internal storage
             _specs = new List<T>(6);
+        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
