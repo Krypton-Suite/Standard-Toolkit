@@ -1,12 +1,51 @@
+
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit
 
-=======
 
-- Skip to [NuGet Information](#NuGet-Information)
-- Skip to [Version History](#version-history)
-- Skip to [Supporters](#Supporters)
+<!-- Start Document Outline -->
 
-=======
+
+* [NuGet Information](#nuget-information)
+	* [Nightly](#nightly)
+	* [Canary](#canary)
+	* [Stable](#stable)
+	* [Documentation](#documentation)
+	* [Package Support Information](#package-support-information)
+		* [Release Cadence](#release-cadence)
+		* [Package Descriptions](#package-descriptions)
+		* [Installing Pre-Release Versions](#installing-pre-release-versions)
+	* [Supporters](#supporters)
+	* [Toolkit Example images](#toolkit-example-images)
+* [Discord Server](#discord-server)
+* [Version History](#version-history)
+* [Breaking Changes](#breaking-changes)
+	* [V80.## (2023-11-xx - Build 2311 - November 2023)](#v80-2023-11-xx---build-2311---november-2023)
+		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
+		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
+		* [Palette usages](#palette-usages)
+		* [Depreciation of `KryptonManager.Strings`](#depreciation-of-kryptonmanagerstrings)
+	* [V70.## (2022-11-08 - Build 2211 - November 2022)](#v70-2022-11-08---build-2211---november-2022)
+		* [Ribbon Tooltips](#ribbon-tooltips)
+		* [`dpiAware`](#dpiaware)
+	* [`KryptonTaskDialog`](#kryptontaskdialog)
+	* [`KryptonPalette`](#kryptonpalette)
+	* [`KryptonMessageBox`](#kryptonmessagebox)
+	* [Strong Named Assemblies](#strong-named-assemblies)
+	* [Management of `using` Statements](#management-of-using-statements)
+* [Known Issues & Workarounds](#known-issues--workarounds)
+	* [Introduction](#introduction)
+	* [What is this Repository About?](#what-is-this-repository-about)
+	* [Individual Components](#individual-components)
+		* [Krypton Toolkit](#krypton-toolkit)
+		* [Krypton Ribbon](#krypton-ribbon)
+		* [Krypton Navigator](#krypton-navigator)
+		* [Krypton Workspace](#krypton-workspace)
+		* [Krypton Docking](#krypton-docking)
+
+<!-- End Document Outline -->
+
+<hr/>
+
 
 # NuGet Information
 

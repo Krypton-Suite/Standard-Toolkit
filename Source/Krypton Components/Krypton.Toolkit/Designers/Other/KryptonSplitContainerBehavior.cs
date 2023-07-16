@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerBehavior : Behavior
     {
         #region Instance Fields
-        private readonly KryptonSplitContainer _splitContainer;
+        private readonly KryptonSplitContainer? _splitContainer;
         #endregion
 
         #region Identity
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="g">A Glyph.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseEnter(Glyph g)
+        public override bool OnMouseEnter(Glyph? g)
         {
             // Notify the split container so it can track mouse message
             _splitContainer?.DesignMouseEnter();
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
         /// <param name="pt">The location at which the click occurred.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseDown(Glyph g, MouseButtons button, Point pt)
+        public override bool OnMouseDown(Glyph? g, MouseButtons button, Point pt)
         {
             if (_splitContainer != null)
             {
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
         /// <param name="pt">The location at which the move occurred.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseMove(Glyph g, MouseButtons button, Point pt)
+        public override bool OnMouseMove(Glyph? g, MouseButtons button, Point pt)
         {
             if (_splitContainer != null)
             {
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// <param name="g">A Glyph.</param>
         /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseUp(Glyph g, MouseButtons button)
+        public override bool OnMouseUp(Glyph? g, MouseButtons button)
         {
             // Notify the split container so it can track mouse message
             _splitContainer?.DesignMouseUp(button);
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="g">A Glyph.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseLeave(Glyph g)
+        public override bool OnMouseLeave(Glyph? g)
         {
             // Notify the split container so it can track mouse message
             _splitContainer?.DesignMouseLeave();

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">An ITypeDescriptorContext that can be used to gain additional context information.</param>
         /// <returns>A UITypeEditorEditStyle enumeration value that indicates the style of editor.</returns>
-        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) =>
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) =>
             context?.Instance != null ? UITypeEditorEditStyle.Modal : base.GetEditStyle(context);
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="provider">An IServiceProvider that this editor can use to obtain services.</param>
         /// <param name="value">The object to edit.</param>
         /// <returns></returns>
-        public override object EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object value)
+        public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
         {
             if ((context?.Instance != null) && (provider != null))
             {
