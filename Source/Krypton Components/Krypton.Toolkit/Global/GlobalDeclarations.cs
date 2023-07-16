@@ -42,6 +42,7 @@ global using System.Windows.Forms.Design;
 global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
+global using System.Xml.Xsl;
 
 global using Krypton.Toolkit.ResourceFiles.Arrows;
 global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
@@ -54,6 +55,7 @@ global using Krypton.Toolkit.ResourceFiles.Generic;
 global using Krypton.Toolkit.ResourceFiles.Grid;
 global using Krypton.Toolkit.ResourceFiles.MDI;
 global using Krypton.Toolkit.ResourceFiles.MessageBox;
+global using Krypton.Toolkit.ResourceFiles.PaletteSchemas;
 global using Krypton.Toolkit.ResourceFiles.Pendants;
 global using Krypton.Toolkit.ResourceFiles.Pin;
 global using Krypton.Toolkit.ResourceFiles.RadioButtons;

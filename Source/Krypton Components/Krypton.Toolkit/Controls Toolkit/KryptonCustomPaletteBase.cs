@@ -10,8 +10,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -48,6 +46,8 @@ namespace Krypton.Toolkit
         private readonly PaletteRedirect? _redirector;
         private readonly PaletteRedirectCommon? _redirectCommon;
         private readonly NeedPaintHandler _needPaintDelegate;
+
+        private string _paletteFilePath;
 
         #endregion
 
@@ -116,6 +116,8 @@ namespace Krypton.Toolkit
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged += OnBaseRendererChanged;
             }
+
+            _paletteFilePath = string.Empty;
         }
 
         /// <summary>
@@ -2130,11 +2132,15 @@ namespace Krypton.Toolkit
                 if (silent)
                 {
                     ret = (string)ImportFromFile(filename);
+
+                    _paletteFilePath = filename;
                 }
                 else
                 {
                     // Perform the import operation on a separate worker thread
                     ret = CommonHelper.PerformOperation(ImportFromFile, filename) as string;
+
+                    _paletteFilePath = filename;
 
                     KryptonMessageBox.Show($"Import from file '{filename}' completed.",
                                     @"Palette Import",
@@ -3028,7 +3034,25 @@ namespace Krypton.Toolkit
 
                 if (version < CURRENT_PALETTE_VERSION)
                 {
-                    throw new ArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                    //throw new ArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+
+                    DialogResult result = KryptonMessageBox.Show(
+                        $@"Unfortunately, the palette that you have chosen to import has the version: {version}, which is incompatible with {CURRENT_PALETTE_VERSION}.\nHowever, we can upgrade it now. Would you like to continue?",
+                        @"Incompatible Palette", KryptonMessageBoxButtons.YesNo, KryptonMessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        KryptonSaveFileDialog saveFileDialog = new()
+                        {
+                            Title = @"Save Krypton Palette File:",
+                            Filter = @"Krypton Palette XML Files (*.xml)|*.xml"
+                        };
+
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            PaletteUpgradeUtility.UpgradePaletteFile(_paletteFilePath, Path.GetFullPath(saveFileDialog.FileName));
+                        }
+                    }
                 }
 
                 // Grab the properties and images elements
