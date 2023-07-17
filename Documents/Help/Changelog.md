@@ -3,6 +3,9 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#1050](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1050), Put the 'Palette Upgrade Tool' directly into the toolkit
+    - If a custom palette is deemed to be incompatible, it'll prompt you to upgrade it from the palette designer
+    - If you need to install the palette designer, you can download it straight from the prompt
 * Implemented [#981](https://github.com/Krypton-Suite/Standard-Toolkit/issues/981), "ReadMe.md" landing page could do with a "Table of contents" at the beginning
 * New `KryptonLanguageManager.Strings` is now `KryptonLanguageManager.GeneralToolkitStrings`
 * New `ShowSplitOption` for `KryptonButton`, allows a krypton/context menu to be shown

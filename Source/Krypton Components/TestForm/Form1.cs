@@ -92,5 +92,10 @@ namespace TestForm
 
             integratedToolBar.Show();
         }
+
+        private void kbtnImportPalette_Click(object sender, EventArgs e)
+        {
+            kryptonCustomPaletteBase1.Import();
+        }
     }
 }
