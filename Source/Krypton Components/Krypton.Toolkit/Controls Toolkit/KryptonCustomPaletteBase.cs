@@ -3034,6 +3034,9 @@ namespace Krypton.Toolkit
                 {
                     //throw new ArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
 
+                    string messageBody =
+                        $@"Unfortunately, the palette that you have chosen to import has the version: {version}, which is incompatible with {CURRENT_PALETTE_VERSION}. If you have the Palette Designer installed, you can convert it from within that application. Alternatively, you can download it from here.";
+
                     if (version < 10)
                     {
 
@@ -3041,10 +3044,10 @@ namespace Krypton.Toolkit
                     else
                     {
                         DialogResult result = KryptonMessageBox.Show(
-                            $@"Unfortunately, the palette that you have chosen to import has the version: {version}, which is incompatible with {CURRENT_PALETTE_VERSION}. If you have the Palette Designer installed, you can convert it from within that application. Alternatively, you can download it from here.",
+                            messageBody,
                             @"Incompatible Palette", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Question,
                             contentAreaType: MessageBoxContentAreaType.LinkLabel,
-                            linkAreaCommand: _downloadPaletteDesignerCommand, linkAreaStart: 243, linkAreaEnd: 246);
+                            linkAreaCommand: _downloadPaletteDesignerCommand, linkAreaStart: 243, linkAreaEnd: messageBody.Length - 1);
                     }
                 }
 
