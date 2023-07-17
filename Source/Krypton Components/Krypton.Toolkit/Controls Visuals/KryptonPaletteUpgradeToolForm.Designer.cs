@@ -54,9 +54,10 @@ namespace Krypton.Toolkit
             // 
             // kryptonPanel2
             // 
-            this.kryptonPanel2.Location = new System.Drawing.Point(179, 256);
+            this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(100, 100);
+            this.kryptonPanel2.Size = new System.Drawing.Size(800, 400);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // KryptonPaletteUpgradeToolForm
