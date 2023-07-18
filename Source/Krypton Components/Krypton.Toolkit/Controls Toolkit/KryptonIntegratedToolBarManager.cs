@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
         private bool _flipButtonArray;
 
-        private bool _showIntegratedToolBar;
+        private bool? _allowFormIntegration;
 
         private ButtonSpecAny[] _integratedToolBarButtons;
 
@@ -50,9 +50,9 @@ namespace Krypton.Toolkit
 
         private KryptonForm? _parentForm;
 
-        private IntegratedToolBarCommandValues _toolBarCommandValues;
+        //private IntegratedToolBarCommandValues _toolBarCommandValues;
 
-        private IntegratedToolBarButtonValues _toolBarButtonValues;
+        //private IntegratedToolBarButtonValues _toolBarButtonValues;
 
         #region Tool Bar Buttons
 
@@ -90,67 +90,55 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        [Category(@"Visuals"), DefaultValue(false), Description(@"")]
-        public bool ShowIntegratedToolBar
+        /// <summary>Gets or sets a value indicating whether [allow form integration].</summary>
+        /// <value><c>true</c> if [allow form integration]; otherwise, <c>false</c>.</value>
+        /// <exception cref="ArgumentNullException">@"The 'ParentForm' property cannot be null.</exception>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Add/remove the integrated tool bar buttons to the parent form. (Note: Existing buttonspecs will not be affected.)")]
+        public bool AllowFormIntegration
         {
-            get => _showIntegratedToolBar;
+            get => _allowFormIntegration ?? false;
 
             set
             {
-                _showIntegratedToolBar = value;
+                _allowFormIntegration = value;
 
                 if (_parentForm != null)
                 {
-                    //ShowIntegrateToolBar(value, _parentForm);
-
-                    UpdateButtonVisibility(value);
+                    if (value)
+                    {
+                        AttachIntegratedToolBarToParent(_parentForm);
+                    }
+                    else
+                    {
+                        DetachIntegratedToolBarFromParent(_parentForm);
+                    }
+                }
+                else
+                {
+                    throw new ArgumentNullException($@"The 'ParentForm' property cannot be null.");
                 }
             }
         }
 
-        [Category(@"Visuals"), DefaultValue(null), Description(@"")]
+        /// <summary>Gets the integrated tool bar buttons.</summary>
+        /// <value>The integrated tool bar buttons.</value>
+        [Category(@"Visuals"), DefaultValue(null), Description(@"Contains all the integrated tool bar buttons.")]
         public ButtonSpecAny[] IntegratedToolBarButtons => _integratedToolBarButtons;
 
-        [Category(@"Visuals"), DefaultValue(typeof(PaletteButtonOrientation), @"PaletteButtonOrientation.FixedTop"), Description(@"")]
+        /// <summary>Gets or sets the integrated tool bar button orientation.</summary>
+        /// <value>The integrated tool bar button orientation.</value>
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteButtonOrientation), @"PaletteButtonOrientation.FixedTop"), Description(@"Gets or sets the integrated tool bar button orientation.")]
         public PaletteButtonOrientation IntegratedToolBarButtonOrientation { get => _integratedToolBarButtonOrientation; set { _integratedToolBarButtonOrientation = value; UpdateButtonOrientation(value); } }
 
-        [Category(@"Visuals"), DefaultValue(typeof(PaletteRelativeEdgeAlign), @"PaletteRelativeEdgeAlign.Far"), Description(@"")]
+        /// <summary>Gets or sets the integrated tool bar button alignment.</summary>
+        /// <value>The integrated tool bar button alignment.</value>
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteRelativeEdgeAlign), @"PaletteRelativeEdgeAlign.Far"), Description(@"Gets or sets the integrated tool bar button alignment.")]
         public PaletteRelativeEdgeAlign IntegratedToolBarButtonAlignment { get => _integratedToolBarButtonAlignment; set { _integratedToolBarButtonAlignment = value; UpdateButtonAlignment(value); } }
 
-        [Category(@"Visuals"), DefaultValue(null), Description(@"")]
-        public KryptonForm? ParentForm { get => _parentForm; set { _parentForm = value; AttachIntegratedToolBarToParent(value); } }
-
-        #region Tool Bar Buttons
-
-        public bool ShowNewButton { get => _showNewButton; set { _showNewButton = value; ToggleNewButton(value); } }
-
-        public bool ShowOpenButton { get => _showOpenButton; set { _showOpenButton = value; ToggleOpenButton(value); } }
-
-        public bool ShowSaveButton { get => _showSaveButton; set { _showSaveButton = value; ToggleSaveButton(value); } }
-
-        public bool ShowSaveAllButton { get => _showSaveAllButton; set { _showSaveAllButton = value; ToggleSaveAllButton(value); } }
-
-        public bool ShowSaveAsButton { get => _showSaveAsButton; set { _showSaveAsButton = value; ToggleSaveAsButton(value); } }
-
-        public bool ShowCutButton { get => _showCutButton; set { _showCutButton = value; ToggleCutButton(value); } }
-
-        public bool ShowCopyButton { get => _showCopyButton; set { _showCopyButton = value; ToggleCopyButton(value); } }
-
-        public bool ShowPasteButton { get => _showPasteButton; set { _showPasteButton = value; TogglePasteButton(value); } }
-
-        public bool ShowUndoButton { get => _showUndoButton; set { _showUndoButton = value; ToggleUndoButton(value); } }
-
-        public bool ShowRedoButton { get => _showRedoButton; set { _showRedoButton = value; ToggleRedoButton(value); } }
-
-        public bool ShowPageSetupButton { get => _showPageSetupButton; set { _showPageSetupButton = value; TogglePageSetupButton(value); } }
-
-        public bool ShowPrintPreviewButton { get => _showPrintPreviewButton; set { _showPrintPreviewButton = value; TogglePrintPreviewButton(value); } }
-
-        public bool ShowPrintButton { get => _showPrintButton; set { _showPrintButton = value; TogglePrintButton(value); } }
-
-        public bool ShowQuickPrintButton { get => _showQuickPrintButton; set { _showQuickPrintButton = value; ToggleQuickPrintButton(value); } }
-
-        #endregion
+        /// <summary>Gets or sets the parent form.</summary>
+        /// <value>The parent form.</value>
+        [Category(@"Visuals"), DefaultValue(null), Description(@"Gets or sets the parent form.")]
+        public KryptonForm? ParentForm { get => _parentForm; set => _parentForm = value; }
 
         /*[Category(@"Visuals")]
         [Description(@"Handles the toolbar buttons.")]
@@ -171,6 +159,80 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeToolBarCommands() => !IntegratedToolBarCommandValues.IsDefault;
 
         private void ResetToolBarCommands() => IntegratedToolBarCommandValues.Reset();*/
+
+        #region Tool Bar Buttons
+
+        /// <summary>Gets or sets a value indicating whether [show new button].</summary>
+        /// <value><c>true</c> if [show new button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'New' button.")]
+        public bool ShowNewButton { get => _showNewButton; set { _showNewButton = value; ToggleNewButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show open button].</summary>
+        /// <value><c>true</c> if [show open button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Open' button.")]
+        public bool ShowOpenButton { get => _showOpenButton; set { _showOpenButton = value; ToggleOpenButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show save button].</summary>
+        /// <value><c>true</c> if [show save button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Save' button.")]
+        public bool ShowSaveButton { get => _showSaveButton; set { _showSaveButton = value; ToggleSaveButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show save all button].</summary>
+        /// <value><c>true</c> if [show save all button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Save All' button.")]
+        public bool ShowSaveAllButton { get => _showSaveAllButton; set { _showSaveAllButton = value; ToggleSaveAllButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show save as button].</summary>
+        /// <value><c>true</c> if [show save as button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Save As' button.")]
+        public bool ShowSaveAsButton { get => _showSaveAsButton; set { _showSaveAsButton = value; ToggleSaveAsButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show cut button].</summary>
+        /// <value><c>true</c> if [show cut button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Cut' button.")]
+        public bool ShowCutButton { get => _showCutButton; set { _showCutButton = value; ToggleCutButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show copy button].</summary>
+        /// <value><c>true</c> if [show copy button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Copy' button.")]
+        public bool ShowCopyButton { get => _showCopyButton; set { _showCopyButton = value; ToggleCopyButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show paste button].</summary>
+        /// <value><c>true</c> if [show paste button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Paste' button.")]
+        public bool ShowPasteButton { get => _showPasteButton; set { _showPasteButton = value; TogglePasteButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show undo button].</summary>
+        /// <value><c>true</c> if [show undo button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Undo' button.")]
+        public bool ShowUndoButton { get => _showUndoButton; set { _showUndoButton = value; ToggleUndoButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show redo button].</summary>
+        /// <value><c>true</c> if [show redo button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Redo' button.")]
+        public bool ShowRedoButton { get => _showRedoButton; set { _showRedoButton = value; ToggleRedoButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show page setup button].</summary>
+        /// <value><c>true</c> if [show page setup button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Page Setup' button.")]
+        public bool ShowPageSetupButton { get => _showPageSetupButton; set { _showPageSetupButton = value; TogglePageSetupButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show print preview button].</summary>
+        /// <value><c>true</c> if [show print preview button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Print Preview' button.")]
+        public bool ShowPrintPreviewButton { get => _showPrintPreviewButton; set { _showPrintPreviewButton = value; TogglePrintPreviewButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show print button].</summary>
+        /// <value><c>true</c> if [show print button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Print' button.")]
+        public bool ShowPrintButton { get => _showPrintButton; set { _showPrintButton = value; TogglePrintButton(value); } }
+
+        /// <summary>Gets or sets a value indicating whether [show quick print button].</summary>
+        /// <value><c>true</c> if [show quick print button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Show or hide the 'Quick Print' button.")]
+        public bool ShowQuickPrintButton { get => _showQuickPrintButton; set { _showQuickPrintButton = value; ToggleQuickPrintButton(value); } }
+
+        #endregion
 
         #endregion
 
@@ -204,7 +266,7 @@ namespace Krypton.Toolkit
         {
             _flipButtonArray = false;
 
-            _showIntegratedToolBar = false;
+            _allowFormIntegration = false;
 
             SetupToolBar();
 
@@ -369,6 +431,37 @@ namespace Krypton.Toolkit
 
                     UpdateButtonVisibility(true);
                 }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"AttachIntegratedToolBarToParent(KryptonForm parentForm)");
+            }
+        }
+
+        /// <summary>Detaches the integrated tool bar from parent.</summary>
+        /// <param name="parentForm">The parent form.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void DetachIntegratedToolBarFromParent(KryptonForm? parentForm)
+        {
+            try
+            {
+                if (parentForm != null)
+                {
+                    foreach (ButtonSpecAny button in ReturnIntegratedToolBarButtonArray())
+                    {
+                        parentForm.ButtonSpecs.Remove(button);
+                    }
+
+                    UpdateButtonVisibility(false);
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
             }
             catch (Exception e)
             {
@@ -436,7 +529,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Updates the button alignment.</summary>
         /// <param name="buttonAlignment">The button alignment.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">buttonAlignment - null</exception>
+        /// <exception cref="ArgumentOutOfRangeException">buttonAlignment - null</exception>
         public void UpdateButtonAlignment(PaletteRelativeEdgeAlign buttonAlignment)
         {
             try
@@ -689,10 +782,5 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Protected
-
-
-
-        #endregion
     }
 }
