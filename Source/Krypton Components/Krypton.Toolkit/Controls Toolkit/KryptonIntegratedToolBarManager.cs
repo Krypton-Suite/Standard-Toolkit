@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
         private bool _flipButtonArray;
 
-        private bool? _allowFormIntegration;
+        private bool _allowFormIntegration;
 
         private ButtonSpecAny[] _integratedToolBarButtons;
 
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals"), DefaultValue(false), Description(@"Add/remove the integrated tool bar buttons to the parent form. (Note: Existing buttonspecs will not be affected.)")]
         public bool AllowFormIntegration
         {
-            get => _allowFormIntegration ?? false;
+            get => _allowFormIntegration;
 
             set
             {
