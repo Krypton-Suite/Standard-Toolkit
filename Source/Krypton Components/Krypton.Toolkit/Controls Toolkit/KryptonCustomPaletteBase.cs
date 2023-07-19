@@ -2121,6 +2121,7 @@ namespace Krypton.Toolkit
         public string? Import(string filename, bool silent)
         {
             string? ret;
+            string outputPath = $@"{Application.ExecutablePath}\\{filename}_Upgraded.xml";
 
             try
             {
