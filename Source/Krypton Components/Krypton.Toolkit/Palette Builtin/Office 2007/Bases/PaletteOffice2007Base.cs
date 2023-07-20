@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonColorTable2007? _table;
+        private KryptonColorTable2007 _table;
         private readonly Color[] _ribbonColors;
         private readonly Color[] _trackBarColors;
         private readonly ImageList _checkBoxList;
@@ -619,7 +619,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        return state == PaletteState.Tracking || style == PaletteBackStyle.InputControlStandalone
+                        return (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
                             ? _ribbonColors[(int)SchemeOfficeColors.InputControlBackNormal]
                             : _ribbonColors[(int)SchemeOfficeColors.InputControlBackInactive];
                     }
@@ -871,7 +871,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        return state == PaletteState.Tracking || style == PaletteBackStyle.InputControlStandalone
+                        return (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
                             ? _ribbonColors[(int)SchemeOfficeColors.InputControlBackNormal]
                             : _ribbonColors[(int)SchemeOfficeColors.InputControlBackInactive];
                     }
@@ -2428,9 +2428,7 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return state == PaletteState.BoldedOverride && style == PaletteContentStyle.ButtonCalendarDay
-                    ? _calendarBoldFont
-                    : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
             }
 
             return style switch
@@ -2674,17 +2672,17 @@ namespace Krypton.Toolkit
                         : _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortActive];
             }
 
-            if (state == PaletteState.Disabled &&
-                style != PaletteContentStyle.LabelToolTip &&
-                style != PaletteContentStyle.LabelSuperTip &&
-                style != PaletteContentStyle.LabelKeyTip &&
-                style != PaletteContentStyle.InputControlStandalone &&
-                style != PaletteContentStyle.InputControlRibbon &&
-                style != PaletteContentStyle.InputControlCustom1 &&
-                style != PaletteContentStyle.InputControlCustom2 &&
-                style != PaletteContentStyle.InputControlCustom3 &&
-                style != PaletteContentStyle.ButtonInputControl &&
-                style != PaletteContentStyle.ButtonCalendarDay)
+            if ((state == PaletteState.Disabled) &&
+                (style != PaletteContentStyle.LabelToolTip) &&
+                (style != PaletteContentStyle.LabelSuperTip) &&
+                (style != PaletteContentStyle.LabelKeyTip) &&
+                (style != PaletteContentStyle.InputControlStandalone) &&
+                (style != PaletteContentStyle.InputControlRibbon) &&
+                (style != PaletteContentStyle.InputControlCustom1) &&
+                (style != PaletteContentStyle.InputControlCustom2) &&
+                (style != PaletteContentStyle.InputControlCustom3) &&
+                (style != PaletteContentStyle.ButtonInputControl) &&
+                (style != PaletteContentStyle.ButtonCalendarDay))
             {
                 return _disabledText;
             }
@@ -2750,17 +2748,17 @@ namespace Krypton.Toolkit
                         : _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortActive];
             }
 
-            if (state == PaletteState.Disabled &&
-                style != PaletteContentStyle.LabelToolTip &&
-                style != PaletteContentStyle.LabelSuperTip &&
-                style != PaletteContentStyle.LabelKeyTip &&
-                style != PaletteContentStyle.InputControlStandalone &&
-                style != PaletteContentStyle.InputControlRibbon &&
-                style != PaletteContentStyle.InputControlCustom1 &&
-                style != PaletteContentStyle.InputControlCustom2 &&
-                style != PaletteContentStyle.InputControlCustom3 &&
-                style != PaletteContentStyle.ButtonInputControl &&
-                style != PaletteContentStyle.ButtonCalendarDay)
+            if ((state == PaletteState.Disabled) &&
+                (style != PaletteContentStyle.LabelToolTip) &&
+                (style != PaletteContentStyle.LabelSuperTip) &&
+                (style != PaletteContentStyle.LabelKeyTip) &&
+                (style != PaletteContentStyle.InputControlStandalone) &&
+                (style != PaletteContentStyle.InputControlRibbon) &&
+                (style != PaletteContentStyle.InputControlCustom1) &&
+                (style != PaletteContentStyle.InputControlCustom2) &&
+                (style != PaletteContentStyle.InputControlCustom3) &&
+                (style != PaletteContentStyle.ButtonInputControl) &&
+                (style != PaletteContentStyle.ButtonCalendarDay))
             {
                 return _disabledText;
             }
@@ -2946,7 +2944,7 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return state == PaletteState.BoldedOverride && style == PaletteContentStyle.ButtonCalendarDay ? _calendarBoldFont : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
             }
 
             return style switch
@@ -3162,16 +3160,16 @@ namespace Krypton.Toolkit
                         : _ribbonColors[(int)SchemeOfficeColors.FormHeaderLongActive];
             }
 
-            if (state == PaletteState.Disabled &&
-                style != PaletteContentStyle.LabelToolTip &&
-                style != PaletteContentStyle.LabelSuperTip &&
-                style != PaletteContentStyle.LabelKeyTip &&
-                style != PaletteContentStyle.InputControlStandalone &&
-                style != PaletteContentStyle.InputControlRibbon &&
-                style != PaletteContentStyle.InputControlCustom1 &&
-                style != PaletteContentStyle.InputControlCustom2 &&
-                style != PaletteContentStyle.InputControlCustom3 &&
-                style != PaletteContentStyle.ButtonInputControl)
+            if ((state == PaletteState.Disabled) &&
+                (style != PaletteContentStyle.LabelToolTip) &&
+                (style != PaletteContentStyle.LabelSuperTip) &&
+                (style != PaletteContentStyle.LabelKeyTip) &&
+                (style != PaletteContentStyle.InputControlStandalone) &&
+                (style != PaletteContentStyle.InputControlRibbon) &&
+                (style != PaletteContentStyle.InputControlCustom1) &&
+                (style != PaletteContentStyle.InputControlCustom2) &&
+                (style != PaletteContentStyle.InputControlCustom3) &&
+                (style != PaletteContentStyle.ButtonInputControl))
             {
                 return _disabledText;
             }
@@ -3236,16 +3234,16 @@ namespace Krypton.Toolkit
                         : _ribbonColors[(int)SchemeOfficeColors.FormHeaderLongActive];
             }
 
-            if (state == PaletteState.Disabled &&
-                style != PaletteContentStyle.LabelToolTip &&
-                style != PaletteContentStyle.LabelSuperTip &&
-                style != PaletteContentStyle.LabelKeyTip &&
-                style != PaletteContentStyle.InputControlStandalone &&
-                style != PaletteContentStyle.InputControlRibbon &&
-                style != PaletteContentStyle.InputControlCustom1 &&
-                style != PaletteContentStyle.InputControlCustom2 &&
-                style != PaletteContentStyle.InputControlCustom3 &&
-                style != PaletteContentStyle.ButtonInputControl)
+            if ((state == PaletteState.Disabled) &&
+                (style != PaletteContentStyle.LabelToolTip) &&
+                (style != PaletteContentStyle.LabelSuperTip) &&
+                (style != PaletteContentStyle.LabelKeyTip) &&
+                (style != PaletteContentStyle.InputControlStandalone) &&
+                (style != PaletteContentStyle.InputControlRibbon) &&
+                (style != PaletteContentStyle.InputControlCustom1) &&
+                (style != PaletteContentStyle.InputControlCustom2) &&
+                (style != PaletteContentStyle.InputControlCustom3) &&
+                (style != PaletteContentStyle.ButtonInputControl))
             {
                 return _disabledText;
             }

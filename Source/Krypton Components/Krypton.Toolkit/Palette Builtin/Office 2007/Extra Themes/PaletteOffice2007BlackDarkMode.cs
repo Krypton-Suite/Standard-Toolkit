@@ -798,7 +798,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonColorTable2007BlackDarkMode? _table;
+        private KryptonColorTable2007BlackDarkMode _table;
         private readonly Color[] _ribbonColours;
         private readonly Color[] _trackBarColours;
         private readonly ImageList _checkBoxList;
