@@ -5489,41 +5489,41 @@ namespace Krypton.Toolkit
         protected override void DefineFonts()
         {
             // Release existing resources
-            _header1ShortFont.Dispose();
+            _header1ShortFont?.Dispose();
 
-            _header2ShortFont.Dispose();
+            _header2ShortFont?.Dispose();
 
-            _headerFormFont.Dispose();
+            _headerFormFont?.Dispose();
 
-            _header1LongFont.Dispose();
+            _header1LongFont?.Dispose();
 
-            _header2LongFont.Dispose();
+            _header2LongFont?.Dispose();
 
-            _buttonFont.Dispose();
+            _buttonFont?.Dispose();
 
-            _buttonFontNavigatorStack.Dispose();
+            _buttonFontNavigatorStack?.Dispose();
 
-            _buttonFontNavigatorMini.Dispose();
+            _buttonFontNavigatorMini?.Dispose();
 
-            _tabFontSelected.Dispose();
+            _tabFontSelected?.Dispose();
 
-            _tabFontNormal.Dispose();
+            _tabFontNormal?.Dispose();
 
-            _ribbonTabFont.Dispose();
+            _ribbonTabFont?.Dispose();
 
-            _ribbonTabContextFont.Dispose();
+            _ribbonTabContextFont?.Dispose();
 
-            _gridFont.Dispose();
+            _gridFont?.Dispose();
 
-            _calendarFont.Dispose();
+            _calendarFont?.Dispose();
 
-            _calendarBoldFont.Dispose();
+            _calendarBoldFont?.Dispose();
 
-            _superToolFont.Dispose();
+            _superToolFont?.Dispose();
 
-            _boldFont.Dispose();
+            _boldFont?.Dispose();
 
-            _italicFont.Dispose();
+            _italicFont?.Dispose();
 
             var baseFontSize = BaseFontSize;
             var baseFontName = BaseFontName;
@@ -6195,9 +6195,9 @@ namespace Krypton.Toolkit
         private static void DefineFonts()
         {
             // Release existing resources
-            _menuToolFont.Dispose();
+            _menuToolFont?.Dispose();
 
-            _statusFont.Dispose();
+            _statusFont?.Dispose();
 
             // Create new font using system information
             _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
