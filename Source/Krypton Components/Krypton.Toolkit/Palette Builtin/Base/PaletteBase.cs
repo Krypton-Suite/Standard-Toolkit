@@ -1229,7 +1229,7 @@ namespace Krypton.Toolkit
 
         public virtual Font? BaseFont
         {
-            get => _baseFont ?? new("Segoe UI", 11f, FontStyle.Regular);
+            get => _baseFont ?? new("Segoe UI", BaseFontSize, FontStyle.Regular);
 
             set => _baseFont = value;
         }
