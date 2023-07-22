@@ -1231,7 +1231,15 @@ namespace Krypton.Toolkit
         {
             get => _baseFont ?? new("Segoe UI", BaseFontSize, FontStyle.Regular);
 
-            set => _baseFont = value;
+            set
+            {
+                _baseFont = value;
+
+                if (value == null)
+                {
+                    _baseFont = new("Segoe UI", BaseFontSize, FontStyle.Regular);
+                }
+            }
         }
 
         public virtual string? ThemeName { get => _themeName; set => _themeName = value; }
